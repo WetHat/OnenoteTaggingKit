@@ -1,0 +1,81 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:TaggingKit="clr-namespace:WetHatLab.OneNote.TaggingKit"
+        xmlns:local="clr-namespace:WetHatLab.OneNote.TaggingKit.manage"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:TagManagerDesignerModel}}"
+        xmlns:prop="clr-namespace:WetHatLab.OneNote.TaggingKit.Properties"
+        x:Class="WetHatLab.OneNote.TaggingKit.manage.TagManager"
+        WindowStartupLocation="CenterOwner"
+        MinWidth="350"
+        MinHeight="250"
+        WindowStyle="ToolWindow"
+        Title="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_Window_Title}}"
+        Height="{Binding Source={x:Static prop:Settings.Default},Path=TagManagerWindow_Height,Mode=TwoWay}"
+        Width="{Binding Source={x:Static prop:Settings.Default},Path=TagManagerWindow_Width,Mode=TwoWay}" Closing="Window_Closing">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+            <GradientStop Color="Ivory" Offset="0.497"/>
+            <GradientStop Color="#FFF3DEF2" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0"  Background="Transparent">
+            <TabItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_TagSuggestionsTab_Header}}" IsSelected="True" BorderThickness="0" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_TagSuggestionsTab_Tooltip}}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TaggingKit:TagsPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" Tags="{Binding SuggestedTags}" Margin="5,5,5,0" />
+                    <TextBox Name="newTag" Grid.Row="1" Grid.Column="0" Margin="5,10,10,10" KeyUp="newTag_KeyUp" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_NewTagTextbox_Tooltip}}"/>
+                    <Button x:Name="newTagButton" Grid.Row="1" Grid.Column="2" Width="20" Height="20" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_NewTagButton_Tooltip}}" Click="NewTagButton_Click" Margin="0,0,5,0">
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF00FF00" Offset="0"/>
+                                <GradientStop Color="#FFB0ADAD" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                        <TextBlock FontFamily="Segoe UI Symbol" Text="✙" FontSize="16" FontWeight="ExtraBold" TextAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.357,-1.587" Height="23" />
+                    </Button>
+                </Grid>
+            </TabItem>
+            <TabItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_AboutTab_Header}}">
+                <RichTextBox IsReadOnly="True" IsDocumentEnabled="True"  Background="Transparent" Margin="5,5,5,0" BorderThickness="0" >
+                    <FlowDocument >
+                        <Paragraph >
+                            <Image Source="/OneNoteTaggingKit;component/Resources/tag 32x32.png" Height="32" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <Run BaselineAlignment="Center" Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Appname}}" FontWeight="Bold" FontSize="16" Foreground="LightSeaGreen"/>
+                            <Run BaselineAlignment="Center" Text="{Binding AddinVersion, Mode=OneTime}"/>
+                        </Paragraph>
+                        <Paragraph>
+                            <Run Text ="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Description}}"/>
+                        </Paragraph>
+                        <Paragraph>
+                            <Run Text ="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Copyright}}"/>
+                        </Paragraph>
+                        <Paragraph>
+                            <Hyperlink NavigateUri="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_AddIn_Website}}" RequestNavigate="Hyperlink_RequestNavigate">
+                                <Run Text ="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_AddIn_Website}}"/>
+                            </Hyperlink>
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
+            </TabItem>
+        </TabControl>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Button x:Name="doneButton" Grid.Column="0" Content="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_SaveButton_Text}}" Width="80" HorizontalAlignment="Center" Margin="10,10,0,5" Click="SaveButton_Click" />
+            <Button x:Name="cancelButton" Grid.Column="1" Content="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_CancelButton_Text}}" Width="80" HorizontalAlignment="Center" Margin="10,10,0,5" IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</Window>
