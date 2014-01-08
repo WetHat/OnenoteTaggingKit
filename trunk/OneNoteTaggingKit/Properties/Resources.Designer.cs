@@ -119,7 +119,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to add tag to page.
+        ///   Looks up a localized string similar to Press to add tag to note.
         /// </summary>
         public static string TagEditor_Tag_AddButton_Tooltip {
             get {
@@ -182,7 +182,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to OneNote Add-In for flexible tagging of OneNote pages..
+        ///   Looks up a localized string similar to OneNote Add-In for flexible tagging of OneNote pages.
         /// </summary>
         public static string TaggingKit_About_Description {
             get {
@@ -282,7 +282,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pages.
+        ///   Looks up a localized string similar to Found Pages.
         /// </summary>
         public static string TagSearch_Pages_GroupBox_Title {
             get {
@@ -318,7 +318,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pick a scope to look for tagged pages..
+        ///   Looks up a localized string similar to Pick a scope to look for tagged pages.
         /// </summary>
         public static string TagSearch_Scope_ComboBox_Tooltip {
             get {
@@ -363,7 +363,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select tags to filter pages.
+        ///   Looks up a localized string similar to Select tags to filter found pages.
         /// </summary>
         public static string TagSearch_Tags_GroupBox_Tooltip {
             get {
@@ -372,7 +372,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Find Tagged Pages.
+        ///   Looks up a localized string similar to Find Tagged pages.
         /// </summary>
         public static string TagSearch_Window_Title {
             get {

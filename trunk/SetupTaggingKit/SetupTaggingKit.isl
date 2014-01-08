@@ -2363,6 +2363,7 @@
 		<col key="yes" def="s72">ISProductConfiguration_</col>
 		<col key="yes" def="s72">Property</col>
 		<col def="L255">Value</col>
+		<row><td>Express</td><td>SetupFileName</td><td>SetupOneNoteTaggingKit</td></row>
 	</table>
 
 	<table name="ISRelease">
@@ -3989,7 +3990,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{5A64C551-CE88-4CB4-AE66-86E30B8FFA14}</td></row>
 		<row><td>ISUSSignature</td><td>{6DAD3626-0036-4BA7-91F1-F3F03B172F43}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewAppV,viewProject,viewAppFiles,viewFeatureFiles,viewInstallScriptStd,viewSystemSearch,viewISToday,viewRegistry,viewCustomActions,viewUI,viewSetupTypes,viewRelease</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewAppV,viewProject,viewAppFiles,viewFeatureFiles,viewInstallScriptStd,viewSystemSearch,viewISToday,viewRegistry,viewCustomActions,viewUI,viewSetupTypes,viewRelease,viewSupportFiles</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>

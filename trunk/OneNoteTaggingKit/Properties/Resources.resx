@@ -158,7 +158,7 @@
     <value>Copyright (c) 2013 WetHat Lab</value>
   </data>
   <data name="TaggingKit_About_Description" xml:space="preserve">
-    <value>OneNote Add-In for flexible tagging of OneNote pages.</value>
+    <value>OneNote Add-In for flexible tagging of OneNote pages</value>
   </data>
   <data name="TagManager_AboutTab_Header" xml:space="preserve">
     <value>About</value>
@@ -191,7 +191,7 @@
     <value>This Section</value>
   </data>
   <data name="TagSearch_Pages_GroupBox_Title" xml:space="preserve">
-    <value>Pages</value>
+    <value>Found Pages</value>
   </data>
   <data name="TagSearch_Pages_GroupBox_Tooltip" xml:space="preserve">
     <value>Pages marked with all selected tags </value>
@@ -200,7 +200,7 @@
     <value>Refinement Tags</value>
   </data>
   <data name="TagSearch_Tags_GroupBox_Tooltip" xml:space="preserve">
-    <value>Select tags to filter pages</value>
+    <value>Select tags to filter found pages</value>
   </data>
   <data name="TagSearch_Window_Title" xml:space="preserve">
     <value>Find Tagged Pages</value>
@@ -212,7 +212,7 @@
     <value>Tap to clear tag selection</value>
   </data>
   <data name="TagSearch_Scope_ComboBox_Tooltip" xml:space="preserve">
-    <value>Pick a scope to look for tagged pages.</value>
+    <value>Pick a scope to look for tagged pages</value>
   </data>
   <data name="TagSearch_Query_ComboBox_Tooltip" xml:space="preserve">
     <value>Enter query and press enter to start search.</value>

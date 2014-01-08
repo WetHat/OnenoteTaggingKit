@@ -11,7 +11,7 @@
                   onAction="editTags"
                   image="pageTags.png"/>
           <button id="buttonSearchTags"
-                  label="Find Tags"
+                  label="Find Notes"
                   size="large"
                   screentip="Find Pages By Tags"
                   onAction="findTags"
