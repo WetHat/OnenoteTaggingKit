@@ -2,11 +2,14 @@
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.OneNote;
 using System;
+using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
+using System.Linq;
+using System.Windows;
 using System.Windows.Interop;
 using WetHatLab.OneNote.TaggingKit.edit;
 using WetHatLab.OneNote.TaggingKit.find;
@@ -24,7 +27,9 @@ namespace WetHatLab.OneNote.TaggingKit
     [Guid("C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF"), ProgId("WetHatLab.OneNote.TaggingKitAddin")]
     public class TaggingKitAddin : IDTExtensibility2, IRibbonExtensibility
     {
-        private Application _OneNoteApp;
+        private Microsoft.Office.Interop.OneNote.Application _OneNoteApp;
+
+        private XMLSchema _schema = XMLSchema.xsCurrent;
 
         #region IDTExtensibility2
         /// <summary>
@@ -64,6 +69,29 @@ namespace WetHatLab.OneNote.TaggingKit
                 Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.UpdateRequired = false;
             }
+
+            try
+            {
+                // determine version of OneNote running
+                Process OneNoteProcess = (from p in Process.GetProcesses()
+                                          where "ONENOTE".Equals(p.ProcessName,StringComparison.InvariantCultureIgnoreCase)
+                                          select p).Single();
+                int onVersion = OneNoteProcess.Modules[0].FileVersionInfo.ProductMajorPart;
+                switch (onVersion)
+                {
+                    case 15:
+                        _schema = XMLSchema.xs2013;
+                        break;
+                    case 14:
+                        _schema = XMLSchema.xs2010;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format(Properties.Resources.Adding_ErrorBox_ConnectionError, ex), string.Format(Properties.Resources.Addin_ErrorBox_Title, Properties.Resources.TaggingKit_About_Appname));
+            }
+
         }
 
         /// <summary>
@@ -105,10 +133,17 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="ribbon">OneNote ribbon bar</param>
         public void editTags(IRibbonControl ribbon)
         {
-            Microsoft.Office.Interop.OneNote.Window currentWindow = _OneNoteApp.Windows.CurrentWindow;
+            try
+            {
+                Microsoft.Office.Interop.OneNote.Window currentWindow = _OneNoteApp.Windows.CurrentWindow;
 
-            TagEditorModel viewModel = new TagEditorModel(_OneNoteApp, currentWindow.CurrentPageId);
+            TagEditorModel viewModel = new TagEditorModel(_OneNoteApp, currentWindow.CurrentPageId,_schema);
             ShowDialog<TagEditor, TagEditorModel>(currentWindow, viewModel);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format(Properties.Resources.TagEditor_OpenDialogError, ex), Properties.Resources.TagEditor_ErrorBox_Title);
+            }
         }
 
         /// <summary>
@@ -118,7 +153,7 @@ namespace WetHatLab.OneNote.TaggingKit
         public void findTags(IRibbonControl ribbon)
         {
             Microsoft.Office.Interop.OneNote.Window currentWindow = _OneNoteApp.Windows.CurrentWindow;
-            Show<FindTaggedPages, FindTaggedPagesModel>(currentWindow, () => new FindTaggedPagesModel(_OneNoteApp, currentWindow));
+            Show<FindTaggedPages, FindTaggedPagesModel>(currentWindow, () => new FindTaggedPagesModel(_OneNoteApp, currentWindow, _schema));
         }
 
         /// <summary>

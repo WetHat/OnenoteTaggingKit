@@ -61,6 +61,24 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} Add-in Error.
+        /// </summary>
+        public static string Addin_ErrorBox_Title {
+            get {
+                return ResourceManager.GetString("Addin_ErrorBox_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to determine OneNote version! Caught exception: {0}.
+        /// </summary>
+        public static string Adding_ErrorBox_ConnectionError {
+            get {
+                return ResourceManager.GetString("Adding_ErrorBox_ConnectionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;customUI xmlns=&quot;http://schemas.microsoft.com/office/2006/01/customui&quot; loadImage=&quot;GetImage&quot;&gt;
         ///  &lt;ribbon&gt;
@@ -110,6 +128,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The tag editor dialog failed to open: {0}.
+        /// </summary>
+        public static string TagEditor_OpenDialogError {
+            get {
+                return ResourceManager.GetString("TagEditor_OpenDialogError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tags could not be applied to page: {0}.
         /// </summary>
         public static string TagEditor_Save_Error {
@@ -119,7 +146,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to add tag to note.
+        ///   Looks up a localized string similar to Press to add tag to page.
         /// </summary>
         public static string TagEditor_Tag_AddButton_Tooltip {
             get {
@@ -372,7 +399,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Find Tagged pages.
+        ///   Looks up a localized string similar to Find Tagged Pages.
         /// </summary>
         public static string TagSearch_Window_Title {
             get {

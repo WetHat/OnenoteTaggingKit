@@ -20,11 +20,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private OneNotePageProxy _page;
 
-        internal TagEditorModel(Application onenote, string pageID)
+        internal TagEditorModel(Application onenote, string pageID,XMLSchema schema)
         {
             _OneNote = onenote;
 
-            _page = new OneNotePageProxy(_OneNote, _OneNote.Windows.CurrentWindow.CurrentPageId);
+            _page = new OneNotePageProxy(_OneNote, _OneNote.Windows.CurrentWindow.CurrentPageId,schema);
 
             _pageTags = new ObservableCollection<string>(_page.PageTags);
 

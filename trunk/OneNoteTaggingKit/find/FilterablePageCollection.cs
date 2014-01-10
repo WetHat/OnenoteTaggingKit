@@ -257,6 +257,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
     {
         private Application _onenote;
 
+        XMLSchema _schema;
+
         private Dictionary<string, TagPageSet> _tags = new Dictionary<string, TagPageSet>();
         private HashSet<TaggedPage> _searchResult;
 
@@ -265,9 +267,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private HashSet<TagPageSet> _filterTags = new HashSet<TagPageSet>();
 
-        internal FilterablePageCollection(Application onenote)
+        internal FilterablePageCollection(Application onenote, XMLSchema schema)
         {
             _onenote = onenote;
+            _schema = schema;
         }
 
         internal event NotifyCollectionChangedEventHandler TagCollectionChanged
@@ -300,13 +303,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
             if (string.IsNullOrEmpty(query))
             {
                 // collect all tags used somewhere on a page
-                _onenote.FindMeta(scopeID, OneNotePageProxy.META_NAME, out strXml);
+                _onenote.FindMeta(scopeID, OneNotePageProxy.META_NAME, out strXml,false,_schema);
                 _searchResult = null;
             }
             else
             {
                 // run a text search
-                _onenote.FindPages(scopeID, query, out strXml);
+                _onenote.FindPages(scopeID, query, out strXml,false,false,_schema);
                 _searchResult = new HashSet<TaggedPage>();
             }
 

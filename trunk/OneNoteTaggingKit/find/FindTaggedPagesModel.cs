@@ -206,7 +206,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
 
-        internal FindTaggedPagesModel(Application onenote, Window currentWindow)
+        internal FindTaggedPagesModel(Application onenote, Window currentWindow, XMLSchema schema)
         {
             _onenote = onenote;
             _currentWindow = currentWindow;
@@ -229,7 +229,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                                             };
 
             _selectedScope = _scopes[Properties.Settings.Default.DefaultScope];
-            _searchResult = new FilterablePageCollection(_onenote);
+            _searchResult = new FilterablePageCollection(_onenote,schema);
             _searchResult.TagCollectionChanged += ForwardTagCollectionChanges;
             _searchResult.PageCollectionChanged += HandlePageCollectionChanges;
 
