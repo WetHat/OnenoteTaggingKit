@@ -33,7 +33,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         internal static readonly String META_NAME = "TaggingKit.PageTags";
 
         private bool _updateRequired = false;
-
+        private XMLSchema _schema;
         // the OneNote page document
         private XDocument _pageDoc;
 
@@ -46,13 +46,13 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         XElement _page;
         XNamespace _one;
 
-        internal OneNotePageProxy(Application onenoteApp, string pageID)
+        internal OneNotePageProxy(Application onenoteApp, string pageID, XMLSchema schema)
         {
             _onenote = onenoteApp;
-
+            _schema = schema;
             // Get the page XML
             string strPageContent;
-            _onenote.GetPageContent(pageID, out strPageContent);
+            _onenote.GetPageContent(pageID, out strPageContent, PageInfo.piBasic, schema);
 
             _pageDoc = XDocument.Parse(strPageContent);
             _one = _pageDoc.Root.GetNamespaceOfPrefix("one");
@@ -367,7 +367,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             if (_updateRequired)
             {
-                _onenote.UpdatePageContent(_pageDoc.ToString());
+                _onenote.UpdatePageContent(_pageDoc.ToString(),default(DateTime),_schema);
             }
             _onenote = null;
         }

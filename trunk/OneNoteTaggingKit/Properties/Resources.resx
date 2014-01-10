@@ -226,4 +226,13 @@
   <data name="TagSelector_Tooltip" xml:space="preserve">
     <value>Tap to show only pages which have this tag.</value>
   </data>
+  <data name="TagEditor_OpenDialogError" xml:space="preserve">
+    <value>The tag editor dialog failed to open: {0}</value>
+  </data>
+  <data name="Adding_ErrorBox_ConnectionError" xml:space="preserve">
+    <value>Unable to determine OneNote version! Caught exception: {0}</value>
+  </data>
+  <data name="Addin_ErrorBox_Title" xml:space="preserve">
+    <value>{0} Add-in Error</value>
+  </data>
 </root>
