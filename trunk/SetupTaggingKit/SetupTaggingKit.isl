@@ -3747,8 +3747,10 @@
 		<row><td>IDS__TargetReq_DESC_PROCESSOR</td><td>1033</td><td>The processor is not adequate for running [ProductName].</td><td>0</td><td/><td>639701961</td></row>
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>639701961</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1033</td><td>The screen resolution is not adequate for running [ProductName].</td><td>0</td><td/><td>639701961</td></row>
-		<row><td>ID_STRING1</td><td>1033</td><td>http://www.WetHatLab.com</td><td>0</td><td/><td>1310828651</td></row>
+		<row><td>ID_STRING1</td><td>1033</td><td>https://onenotetaggingkit.codeplex.com/</td><td>0</td><td/><td>1352807697</td></row>
 		<row><td>ID_STRING2</td><td>1033</td><td>WetHat Lab</td><td>0</td><td/><td>1310828651</td></row>
+		<row><td>ID_STRING3</td><td>1033</td><td>https://onenotetaggingkit.codeplex.com/</td><td>0</td><td/><td>1352811761</td></row>
+		<row><td>ID_STRING4</td><td>1033</td><td>https://onenotetaggingkit.codeplex.com/</td><td>0</td><td/><td>1352819953</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>639701961</td></row>
 	</table>
 
@@ -3990,7 +3992,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{5A64C551-CE88-4CB4-AE66-86E30B8FFA14}</td></row>
 		<row><td>ISUSSignature</td><td>{6DAD3626-0036-4BA7-91F1-F3F03B172F43}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewAppV,viewProject,viewAppFiles,viewFeatureFiles,viewInstallScriptStd,viewSystemSearch,viewISToday,viewRegistry,viewCustomActions,viewUI,viewSetupTypes,viewRelease,viewSupportFiles</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewAppV,viewProject,viewAppFiles,viewFeatureFiles,viewInstallScriptStd,viewSystemSearch,viewISToday,viewRegistry,viewCustomActions,viewUI,viewSetupTypes,viewRelease,viewSupportFiles,viewRealSetupDesign</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
@@ -4299,10 +4301,13 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="L0">Value</col>
 		<col def="S255">ISComments</col>
 		<row><td>ALLUSERS</td><td>1</td><td/></row>
+		<row><td>ARPHELPLINK</td><td>##ID_STRING4##</td><td/></row>
 		<row><td>ARPINSTALLLOCATION</td><td/><td/></row>
+		<row><td>ARPNOMODIFY</td><td>1</td><td/></row>
 		<row><td>ARPPRODUCTICON</td><td>ARPPRODUCTICON.exe</td><td/></row>
 		<row><td>ARPSIZE</td><td/><td/></row>
 		<row><td>ARPURLINFOABOUT</td><td>##ID_STRING1##</td><td/></row>
+		<row><td>ARPURLUPDATEINFO</td><td>##ID_STRING3##</td><td/></row>
 		<row><td>AgreeToLicense</td><td>No</td><td/></row>
 		<row><td>ApplicationUsers</td><td>AllUsers</td><td/></row>
 		<row><td>DWUSINTERVAL</td><td>30</td><td/></row>
@@ -4368,7 +4373,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>ProductCode</td><td>{6C83BAF2-A01A-49E9-9049-FACA24910694}</td><td/></row>
 		<row><td>ProductName</td><td>OneNoteTaggingKit</td><td/></row>
-		<row><td>ProductVersion</td><td>1.1.0.0</td><td/></row>
+		<row><td>ProductVersion</td><td>1.2.0.0</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
