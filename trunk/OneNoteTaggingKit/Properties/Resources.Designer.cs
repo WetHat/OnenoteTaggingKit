@@ -182,7 +182,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://www.wethat.de.
+        ///   Looks up a localized string similar to https://onenotetaggingkit.codeplex.com/.
         /// </summary>
         public static string TaggingKit_About_AddIn_Website {
             get {
