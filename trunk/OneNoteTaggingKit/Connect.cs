@@ -31,6 +31,8 @@ namespace WetHatLab.OneNote.TaggingKit
 
         private XMLSchema _schema = XMLSchema.xsCurrent;
 
+        private Thread findTagsUI;
+
         #region IDTExtensibility2
         /// <summary>
         /// Occurs whenever an add-in is loaded or unloaded.
@@ -152,8 +154,11 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="ribbon">OneNote ribbon bar</param>
         public void findTags(IRibbonControl ribbon)
         {
-            Microsoft.Office.Interop.OneNote.Window currentWindow = _OneNoteApp.Windows.CurrentWindow;
-            Show<FindTaggedPages, FindTaggedPagesModel>(currentWindow, () => new FindTaggedPagesModel(_OneNoteApp, currentWindow, _schema));
+            if (findTagsUI == null || !findTagsUI.IsAlive)
+            {
+                Microsoft.Office.Interop.OneNote.Window currentWindow = _OneNoteApp.Windows.CurrentWindow;
+                findTagsUI = Show<FindTaggedPages, FindTaggedPagesModel>(currentWindow, () => new FindTaggedPagesModel(_OneNoteApp, currentWindow, _schema));
+            }
         }
 
         /// <summary>
@@ -232,7 +237,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <typeparam name="M">view model type</typeparam>
         /// <param name="window">current OneNote window</param>
         /// <param name="viewModelFactory">factory method to generate the view model in the UI thread of the WPF window</param>
-        internal static void Show<T, M>(Microsoft.Office.Interop.OneNote.Window window, Func<M> viewModelFactory) where T : System.Windows.Window, IOneNotePageWindow<M>, new()
+        internal static Thread Show<T, M>(Microsoft.Office.Interop.OneNote.Window window, Func<M> viewModelFactory) where T : System.Windows.Window, IOneNotePageWindow<M>, new()
         {
             var thread = new Thread(() =>
             {
@@ -249,6 +254,7 @@ namespace WetHatLab.OneNote.TaggingKit
             thread.SetApartmentState(ApartmentState.STA);
             thread.IsBackground = true;
             thread.Start();
+            return thread;
         }
     }
 }
