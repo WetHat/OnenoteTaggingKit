@@ -149,7 +149,7 @@
     <value>..\resources\tag 32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TaggingKit_About_AddIn_Website" xml:space="preserve">
-    <value>http://www.wethat.de</value>
+    <value>https://onenotetaggingkit.codeplex.com/</value>
   </data>
   <data name="TaggingKit_About_Appname" xml:space="preserve">
     <value>OneNote Tagging Kit</value>
