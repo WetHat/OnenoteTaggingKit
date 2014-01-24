@@ -79,6 +79,16 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap copy_26 {
+            get {
+                object obj = ResourceManager.GetObject("copy_26", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;customUI xmlns=&quot;http://schemas.microsoft.com/office/2006/01/customui&quot; loadImage=&quot;GetImage&quot;&gt;
         ///  &lt;ribbon&gt;
@@ -241,6 +251,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TagManager_AboutTab_Header {
             get {
                 return ResourceManager.GetString("TagManager_AboutTab_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy Tags.
+        /// </summary>
+        public static string TagManager_ContextMenu_Copy {
+            get {
+                return ResourceManager.GetString("TagManager_ContextMenu_Copy", resourceCulture);
             }
         }
         

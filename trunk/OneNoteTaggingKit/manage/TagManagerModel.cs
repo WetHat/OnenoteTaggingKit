@@ -46,6 +46,23 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         }
         #endregion
 
+        public string TagList
+        {
+            get
+            {
+                StringBuilder tags = new StringBuilder();
+                foreach (var t in _suggestedTags)
+                {
+                    if (tags.Length > 0)
+                    {
+                        tags.Append(',');
+                    }
+                    tags.Append(t);
+                }
+                return tags.ToString();
+            }
+        }
+
         internal void SaveChanges()
         {
             string[] t = _suggestedTags.ToArray();
