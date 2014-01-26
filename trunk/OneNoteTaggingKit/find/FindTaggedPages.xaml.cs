@@ -37,19 +37,16 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private void UpdateTags()
         {
-            if (tagsPanel.Children.Count > 0 )
+            if (_showingProgress)
             {
-                if (_showingProgress)
+                tagsPanel.Children.Clear();
+                _showingProgress = false;
+            }
+            else
+            {
+                foreach (TagSelector s in tagsPanel.Children)
                 {
-                    tagsPanel.Children.Clear();
-                    _showingProgress = false;
-                }
-                else
-                {
-                    foreach (TagSelector s in tagsPanel.Children)
-                    {
-                        s.UpdateTag();
-                    }
+                    s.UpdateTag();
                 }
             }
         }
@@ -171,7 +168,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             {
                 // turn off (un)checked events
                 _isClearTagFilterInProgress = true;
-                if (tagsPanel.Children.Count > 0 && !_showingProgress)
+                if (!_showingProgress)
                 {
                     foreach (TagSelector s in tagsPanel.Children)
                     {
