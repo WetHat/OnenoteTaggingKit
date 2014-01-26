@@ -25,6 +25,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private bool _isClearTagFilterInProgress = false;
 
+        private bool _showingProgress = false;
+
         /// <summary>
         /// Create a new instance of the find tags window
         /// </summary>
@@ -65,6 +67,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private void HandleTagCollectionChanges(object sender, NotifyCollectionChangedEventArgs e)
         {
+            if (_showingProgress)
+            {
+                tagsPanel.Children.Clear();
+                _showingProgress = false;
+            }
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
@@ -82,6 +89,15 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     tagsPanel.Children.Clear();
+                    ProgressBar pb = new ProgressBar()
+                    {
+                        IsIndeterminate = true,
+                        Width=100,
+                        Height=10,
+                        Margin = new Thickness(10,10,0,0)
+                    };
+                    tagsPanel.Children.Insert(0, pb);
+                    _showingProgress = true;
                     break;
             }
         }
