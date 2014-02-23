@@ -25,7 +25,7 @@ namespace WetHatLab.OneNote.TaggingKit
     /// <para>This addin implements a simple but flexible tagging system for OneNote pages</para>
     /// </remarks>
     [Guid("C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF"), ProgId("WetHatLab.OneNote.TaggingKitAddin")]
-    public class TaggingKitAddin : IDTExtensibility2, IRibbonExtensibility
+    public class ConnectTaggingKitAddin : IDTExtensibility2, IRibbonExtensibility
     {
         private Microsoft.Office.Interop.OneNote.Application _OneNoteApp;
 
