@@ -68,7 +68,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             if (!string.IsNullOrEmpty(TagComboBox.Text))
             {
                 _model.PageTags.AddAll(from t in (from tag in OneNotePageProxy.ParseTags(TagComboBox.Text) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(tag))
-                                       where !_model.PageTags.ContainsKey(t) select new SimpleTag(t) );
+                                       where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(t) );
                 TagComboBox.Text = string.Empty;
             }
             if (e != null)

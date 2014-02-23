@@ -9,32 +9,6 @@ using System.Text;
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
     /// <summary>
-    /// A simple tag consisting just of a name (key)
-    /// </summary>
-    public class SimpleTag : IKeyedItem
-    {
-        private string _tag;
-
-        /// <summary>
-        /// Create a new instance of a <see cref="SimpleTag"/> object
-        /// </summary>
-        /// <param name="tag"></param>
-        public SimpleTag(string tag)
-        {
-            _tag = tag;
-        }
-
-        #region IKeyedItem
-        /// <summary>
-        /// Get the key (name) of this tag
-        /// </summary>
-        public string Key
-        {
-            get { return _tag; }
-        }
-        #endregion IKeyedItem
-    }
-    /// <summary>
     /// Contract used by the tag editor view model
     /// </summary>
     /// <seealso cref="WetHatLab.OneNote.TaggingKit.edit.TagEditor"/>
@@ -43,7 +17,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <summary>
         /// Get the collection of tags on current OneNote page.
         /// </summary>
-        ObservableSortedList<SimpleTag> PageTags { get; }
+        ObservableSortedList<SimpleTagButtonModel> PageTags { get; }
 
         /// <summary>
         /// Get the collection of all knows tags.
@@ -63,7 +37,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     {
         private Application _OneNote;
 
-        private ObservableSortedList<SimpleTag> _pageTags;
+        private ObservableSortedList<SimpleTagButtonModel> _pageTags = new ObservableSortedList<SimpleTagButtonModel>();
         private ObservableCollection<string> _knownTags;
 
         private OneNotePageProxy _page;
@@ -74,8 +48,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
             _page = new OneNotePageProxy(_OneNote, _OneNote.Windows.CurrentWindow.CurrentPageId,schema);
 
-            _pageTags = new ObservableSortedList<SimpleTag>();
-            _pageTags.AddAll(from t in _page.PageTags select new SimpleTag(t));
+            _pageTags.AddAll(from t in _page.PageTags select new SimpleTagButtonModel(t));
 
             _knownTags = new ObservableCollection<string>(OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags));  
         }
@@ -84,7 +57,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <summary>
         /// Get the collection of page tags.
         /// </summary>
-        public ObservableSortedList<SimpleTag> PageTags
+        public ObservableSortedList<SimpleTagButtonModel> PageTags
         {
             get { return _pageTags; }
         }
