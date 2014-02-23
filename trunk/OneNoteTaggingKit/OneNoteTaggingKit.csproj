@@ -78,6 +78,7 @@
     <Compile Include="edit\SimpleTagButton.xaml.cs">
       <DependentUpon>SimpleTagButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="edit\SimpleTagButtonModel.cs" />
     <Compile Include="edit\SimpleTagsPanel.xaml.cs">
       <DependentUpon>SimpleTagsPanel.xaml</DependentUpon>
     </Compile>
@@ -90,6 +91,10 @@
     <Compile Include="find\TagSelector.xaml.cs">
       <DependentUpon>TagSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="manage\RemovableTag.xaml.cs">
+      <DependentUpon>RemovableTag.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="manage\RemovableTagModel.cs" />
     <Compile Include="manage\TagManager.xaml.cs">
       <DependentUpon>TagManager.xaml</DependentUpon>
     </Compile>
@@ -215,6 +220,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="find\TagSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="manage\RemovableTag.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

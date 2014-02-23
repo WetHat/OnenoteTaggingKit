@@ -14,16 +14,12 @@ using System.Windows.Shapes;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
+
     /// <summary>
     ///  A simple Tag Button.
     /// </summary>
     public partial class SimpleTagButton : UserControl
     {
-        /// <summary>
-        /// Dependency property for the collection of tags this panel displays.
-        /// </summary>
-        public static readonly DependencyProperty TagNameProperty = DependencyProperty.Register("TagName", typeof(SimpleTag), typeof(SimpleTagButton));
- 
         /// <summary>
         /// Click event for this button.
         /// </summary>
@@ -35,15 +31,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         public SimpleTagButton()
         {
             InitializeComponent();
-        }
-
-        /// <summary>
-        /// Get or set the TagName dependency property;
-        /// </summary>
-        internal SimpleTag TagName
-        {
-            get { return (SimpleTag)GetValue(TagNameProperty); }
-            set { SetValue(TagNameProperty, value); }
         }
 
         /// <summary>

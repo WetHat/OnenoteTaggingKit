@@ -24,15 +24,15 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <summary>
         /// Dependecy property for the collection of tags this panel displays.
         /// </summary>
-        public static readonly DependencyProperty TagsProperty = DependencyProperty.Register("Tags", typeof(ObservableSortedList<SimpleTag>), typeof(SimpleTagsPanel), new PropertyMetadata(null, OnTagsPropertyChanged));
+        public static readonly DependencyProperty TagsProperty = DependencyProperty.Register("Tags", typeof(ObservableSortedList<SimpleTagButtonModel>), typeof(SimpleTagsPanel), new PropertyMetadata(null, OnTagsPropertyChanged));
 
         /// <summary>
         /// Get or set the Collection of tags this panel should display
         /// </summary>
         /// <remarks>clr wrapper of the <see cref="TagsProperty"/> dependency property</remarks>
-        internal ObservableSortedList<SimpleTag> Tags
+        internal ObservableSortedList<SimpleTagButtonModel> Tags
         {
-            get { return (ObservableSortedList<SimpleTag>)GetValue(TagsProperty); }
+            get { return (ObservableSortedList<SimpleTagButtonModel>)GetValue(TagsProperty); }
             set { SetValue(TagsProperty, value); }
         }
 
@@ -50,20 +50,20 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
             if (e.OldValue != null)
             {
-                ((ObservableSortedList<SimpleTag>)e.OldValue).CollectionChanged -= panel.OnTagCollectionChanged;
+                ((ObservableSortedList<SimpleTagButtonModel>)e.OldValue).CollectionChanged -= panel.OnTagCollectionChanged;
             }
             if (e.NewValue != null)
             {
-                ((ObservableSortedList<SimpleTag>)e.NewValue).CollectionChanged += panel.OnTagCollectionChanged;
+                ((ObservableSortedList<SimpleTagButtonModel>)e.NewValue).CollectionChanged += panel.OnTagCollectionChanged;
                 panel.OnTagCollectionChanged(panel, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             }
         }
 
-        private SimpleTagButton createTagButton(SimpleTag tag)
+        private SimpleTagButton createTagButton(SimpleTagButtonModel tag)
         {
             SimpleTagButton btn = new SimpleTagButton()
             {
-                TagName = tag,
+                DataContext = tag,
                 Margin = new Thickness(0,5,5,0)
             };
 
@@ -74,7 +74,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         void TagButton_Click(object sender, RoutedEventArgs e)
         {
             SimpleTagButton btn = sender as SimpleTagButton;
-            Tags.RemoveAll(new SimpleTag[] { btn.TagName });
+            Tags.RemoveAll(new SimpleTagButtonModel[] { (SimpleTagButtonModel)btn.DataContext });
         }
 
         /// <summary>
@@ -84,27 +84,27 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <param name="e">event details</param>
         private void OnTagCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            ObservableSortedList<SimpleTag> sortedTags = sender as ObservableSortedList<SimpleTag>;
+            ObservableSortedList<SimpleTagButtonModel> sortedTags = sender as ObservableSortedList<SimpleTagButtonModel>;
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
 
                     int newitemIndex = e.NewStartingIndex;
-                    foreach (SimpleTag t in e.NewItems)
+                    foreach (SimpleTagButtonModel t in e.NewItems)
                     {
                         tagsPanel.Children.Insert(newitemIndex++, createTagButton(t));
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     int removedItemIndex = e.OldStartingIndex;
-                    foreach (SimpleTag t in e.OldItems)
+                    foreach (SimpleTagButtonModel t in e.OldItems)
                     {
                         tagsPanel.Children.RemoveAt(removedItemIndex++);
                     }
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     tagsPanel.Children.Clear();
-                    foreach (SimpleTag t in Tags.Values)
+                    foreach (SimpleTagButtonModel t in Tags.Values)
                     {
                         tagsPanel.Children.Add(createTagButton(t));
                     }
