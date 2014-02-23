@@ -96,9 +96,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
         {
             TagSelector s = new TagSelector()
             {
-                PageTag = tps
+                PageTag = tps,
+                Margin = new Thickness(3,3,0,0)
             };
-            s.Margin = new Thickness(3,3,0,0);
             s.Checked += TagChecked;
             s.UnChecked += TagUnChecked;
             return s;
