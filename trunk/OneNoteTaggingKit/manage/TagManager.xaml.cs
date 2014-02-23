@@ -102,7 +102,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             e.Handled = true;
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void Copy_MenuItem_Click(object sender, RoutedEventArgs e)
         {
             Clipboard.SetData(DataFormats.Text, _model.TagList);
         }
