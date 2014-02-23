@@ -241,4 +241,7 @@
   <data name="TagManager_ContextMenu_Copy" xml:space="preserve">
     <value>Copy Tags</value>
   </data>
+  <data name="RemoveTag_Button_Tooltip" xml:space="preserve">
+    <value>Press to remove this tag.</value>
+  </data>
 </root>

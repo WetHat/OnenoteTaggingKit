@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Diagnostics;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
@@ -65,15 +67,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             if (!string.IsNullOrEmpty(TagComboBox.Text))
             {
-                foreach (string itm in OneNotePageProxy.ParseTags(TagComboBox.Text))
-                {
-                    string titlecased = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itm);
-                    if (!_model.PageTags.Contains(titlecased))
-                    {
-                        _model.PageTags.Add(titlecased);
-                    }
-                }
-               
+                _model.PageTags.AddAll(from t in (from tag in OneNotePageProxy.ParseTags(TagComboBox.Text) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(tag))
+                                       where !_model.PageTags.ContainsKey(t) select new SimpleTag(t) );
                 TagComboBox.Text = string.Empty;
             }
             if (e != null)
