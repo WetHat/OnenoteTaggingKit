@@ -169,7 +169,7 @@ namespace WetHatLab.OneNote.TaggingKit
         {
             Microsoft.Office.Interop.OneNote.Window currentWindow = _OneNoteApp.Windows.CurrentWindow;
 
-            TagManagerModel viewModel = new TagManagerModel();
+            TagManagerModel viewModel = new TagManagerModel(_OneNoteApp, _schema);
             ShowDialog<TagManager, TagManagerModel>(currentWindow, viewModel);
         }
 

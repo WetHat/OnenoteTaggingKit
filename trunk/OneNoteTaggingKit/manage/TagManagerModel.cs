@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Office.Interop.OneNote;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,14 +10,31 @@ using WetHatLab.OneNote.TaggingKit.edit;
 namespace WetHatLab.OneNote.TaggingKit.manage
 {
     /// <summary>
+    ///  Contract for view models of the <see cref="WetHatLab.OneNote.TaggingKit.manage.TagManager"/> dialog
+    /// </summary>
+    /// <seealso cref="WetHatLab.OneNote.TaggingKit.manage.TagManager"/>
+
+    internal interface ITagManagerModel
+    {
+        /// <summary>
+        /// Get the collection of all tags used for suggestions.
+        /// </summary>
+        ObservableCollection<string> SuggestedTags { get; }
+
+        /// <summary>
+        /// Get the addin version.
+        /// </summary>
+        string AddinVersion { get; }
+    }
+
+    /// <summary>
     /// View model for the <see cref="TagManager"/> dialog.
     /// </summary>
     public class TagManagerModel : ITagManagerModel
     {
         private ObservableCollection<string> _suggestedTags;
 
-
-        internal TagManagerModel()
+        internal TagManagerModel(Application onenote, XMLSchema schema)
         {
             _suggestedTags = new ObservableCollection<string>(OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags));
         }
@@ -46,6 +64,9 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         }
         #endregion
 
+        /// <summary>
+        /// Get comma separated list of suggested tags.
+        /// </summary>
         public string TagList
         {
             get
