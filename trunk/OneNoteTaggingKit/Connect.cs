@@ -139,8 +139,7 @@ namespace WetHatLab.OneNote.TaggingKit
             {
                 Microsoft.Office.Interop.OneNote.Window currentWindow = _OneNoteApp.Windows.CurrentWindow;
 
-            TagEditorModel viewModel = new TagEditorModel(_OneNoteApp, currentWindow.CurrentPageId,_schema);
-            ShowDialog<TagEditor, TagEditorModel>(currentWindow, viewModel);
+                ShowDialog<TagEditor, TagEditorModel>(currentWindow, () => new TagEditorModel(_OneNoteApp, currentWindow.CurrentPageId,_schema));
             }
             catch (Exception ex)
             {
@@ -168,9 +167,7 @@ namespace WetHatLab.OneNote.TaggingKit
         public void manageTags(IRibbonControl ribbon)
         {
             Microsoft.Office.Interop.OneNote.Window currentWindow = _OneNoteApp.Windows.CurrentWindow;
-
-            TagManagerModel viewModel = new TagManagerModel(_OneNoteApp, _schema);
-            ShowDialog<TagManager, TagManagerModel>(currentWindow, viewModel);
+            ShowDialog<TagManager, TagManagerModel>(currentWindow, () => new TagManagerModel(_OneNoteApp, _schema));
         }
 
         /// <summary>
@@ -209,7 +206,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="window">current OneNote windows</param>
         /// <param name="viewModel">view model instance</param>
         /// <returns>dialog result</returns>
-        internal static bool? ShowDialog<T,M>( Microsoft.Office.Interop.OneNote.Window window, M viewModel) where T : System.Windows.Window, IOneNotePageWindow<M>, new()
+        internal static bool? ShowDialog<T, M>(Microsoft.Office.Interop.OneNote.Window window, Func<M> viewModelFactory) where T : System.Windows.Window, IOneNotePageWindow<M>, new()
         {
             bool? retval = null;
             var thread = new Thread(() =>
@@ -217,7 +214,7 @@ namespace WetHatLab.OneNote.TaggingKit
                 System.Windows.Window w = new T();
                 w.Closed += (s, e) => w.Dispatcher.InvokeShutdown();
                 w.Topmost = true;
-                ((IOneNotePageWindow<M>)w).ViewModel = viewModel;
+                ((IOneNotePageWindow<M>)w).ViewModel = viewModelFactory();
                 var helper = new WindowInteropHelper(w);
                 helper.Owner = (IntPtr)window.WindowHandle;
                 retval = w.ShowDialog();
