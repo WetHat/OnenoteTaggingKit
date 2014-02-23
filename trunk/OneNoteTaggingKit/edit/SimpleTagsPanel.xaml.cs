@@ -63,7 +63,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             SimpleTagButton btn = new SimpleTagButton()
             {
-                TagName = tag
+                TagName = tag,
+                Margin = new Thickness(0,5,5,0)
             };
 
             btn.Click += TagButton_Click;
