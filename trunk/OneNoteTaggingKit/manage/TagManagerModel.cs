@@ -30,7 +30,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     /// <summary>
     /// View model for the <see cref="TagManager"/> dialog.
     /// </summary>
-    public class TagManagerModel : ITagManagerModel
+    public class TagManagerModel : System.Windows.DependencyObject, ITagManagerModel
     {
         private ObservableCollection<string> _suggestedTags;
 
