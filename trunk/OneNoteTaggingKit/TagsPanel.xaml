@@ -6,13 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="134" d:DesignWidth="300">
     <ScrollViewer VerticalScrollBarVisibility="Auto" CanContentScroll="True">
-        <WrapPanel x:Name="tagsPanel" >
-            <Button x:Name="RemoveTagButton" Background="White" Click="RemoveTagButton_Click" BorderBrush="LightBlue" ToolTip="Remove Tag" Margin="3,3,0,0">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Background="White" Text="tag" Margin="0,0,5,0"/>
-                    <TextBlock FontFamily="Segoe UI Symbol" Background="White" Foreground="Red" Text="❌" Width="10" Height="10" FontSize="8" TextAlignment="Center"/>
-                </StackPanel>
-            </Button>
-        </WrapPanel>
+        <WrapPanel x:Name="tagsPanel" />
     </ScrollViewer>
 </UserControl>
