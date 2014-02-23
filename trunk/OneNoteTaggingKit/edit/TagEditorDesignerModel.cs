@@ -11,7 +11,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     /// </summary>
     public class TagEditorDesignerModel : ITagEditorModel
     {
-        private ObservableCollection<string> _pageTags = new ObservableCollection<string>();
+        private ObservableSortedList<SimpleTag> _pageTags = new ObservableSortedList<SimpleTag>();
         private ObservableCollection<string> _knownTags = new ObservableCollection<string>();
 
         /// <summary>
@@ -22,12 +22,14 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             _knownTags.Add("Known Tag 1");
             _knownTags.Add("Known Tag 2");
             _knownTags.Add("Known Tag 3");
+
+            _pageTags.AddAll(new SimpleTag[] { new SimpleTag("tag 1"), new SimpleTag("tag 2") });
         }
 
         /// <summary>
         /// get the collection of page tags.
         /// </summary>
-        public ObservableCollection<string> PageTags
+        public ObservableSortedList<SimpleTag> PageTags
         {
             get { return _pageTags; }
         }
