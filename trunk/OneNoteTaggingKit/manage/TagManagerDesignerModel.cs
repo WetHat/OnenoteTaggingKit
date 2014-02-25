@@ -3,29 +3,29 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using WetHatLab.OneNote.TaggingKit.find;
 
 namespace WetHatLab.OneNote.TaggingKit.manage
 {
     /// <summary>
-    /// View model to support design mode for the <see cref="TagManager"/> dialog
+    /// View model to support the design mode for the <see cref="TagManager"/> dialog
     /// </summary>
     public class TagManagerDesignerModel : ITagManagerModel
     {
-        private ObservableCollection<string> _tags = new ObservableCollection<string>();
+        ObservableSortedList<RemovableTagModel> _tags = new ObservableSortedList<RemovableTagModel>();
 
         /// <summary>
         /// Create a new instance of the view model including some dummy data.
         /// </summary>
         public TagManagerDesignerModel()
         {
-            _tags.Add("Tag 1");
-            _tags.Add("Tag 2");
+            _tags.AddAll(new RemovableTagModel[] { new RemovableTagModel(new TagPageSet("suggested tag 1")),new RemovableTagModel(new TagPageSet("suggested tag 2"))});
         }
 
         /// <summary>
         /// Get the collection of tags used for suggestions.
         /// </summary>
-        public ObservableCollection<string> SuggestedTags
+        public ObservableSortedList<RemovableTagModel> SuggestedTags
         {
             get
             {

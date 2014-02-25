@@ -95,6 +95,9 @@
       <DependentUpon>RemovableTag.xaml</DependentUpon>
     </Compile>
     <Compile Include="manage\RemovableTagModel.cs" />
+    <Compile Include="manage\RemovableTagsPanel.xaml.cs">
+      <DependentUpon>RemovableTagsPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="manage\TagManager.xaml.cs">
       <DependentUpon>TagManager.xaml</DependentUpon>
     </Compile>
@@ -224,6 +227,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="manage\RemovableTag.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="manage\RemovableTagsPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
