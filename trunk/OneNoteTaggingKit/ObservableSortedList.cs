@@ -68,7 +68,10 @@ namespace WetHatLab.OneNote.TaggingKit
         {
             _sortedList.Clear();
             NotifyCollectionChangedEventArgs args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
-            CollectionChanged(this, args);
+            if (CollectionChanged != null)
+            {
+                CollectionChanged(this, args);
+            }
         }
 
         /// <summary>
