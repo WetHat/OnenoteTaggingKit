@@ -142,6 +142,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
+        /// get dictionary of tags.
+        /// </summary>
+        internal IDictionary<string, TagPageSet> Tags
+        {
+            get { return _tags;}
+        }
+
+        /// <summary>
         /// Undo all tag filters
         /// </summary>
         internal void ClearTagFilter()
