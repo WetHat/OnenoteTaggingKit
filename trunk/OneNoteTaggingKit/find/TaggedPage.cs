@@ -89,6 +89,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
             if (!string.IsNullOrEmpty(query))
             {
                 string[] words = query.Split(new char[] { ',', ' ', ':', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < words.Length; i++ )
+                {
+                    words[i] = words[i].Replace("'","").Replace("\"","");
+                }
+
                 string pattern = string.Join("|", words);
                 _titleHits = Regex.Matches(_title, pattern, RegexOptions.IgnoreCase);
                 rank = (1000 - _titleHits.Count).ToString("D4");
