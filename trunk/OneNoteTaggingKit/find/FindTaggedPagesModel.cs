@@ -85,7 +85,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 int afterLastHighlight = 0;
                 foreach (Match m in _page.TitleHits)
                 {
-                    // reate a plain run between the last highlight anf this highlight
+                    // create a plain run between the last highlight and this highlight
                     if (m.Index > afterLastHighlight)
                     {
                         _hithighlightedTitel.Inlines.Add(new Run(Title.Substring(afterLastHighlight, m.Index - afterLastHighlight)));
