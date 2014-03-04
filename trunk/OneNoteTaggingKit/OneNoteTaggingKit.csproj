@@ -87,7 +87,7 @@
     </Compile>
     <Compile Include="edit\TagEditorDesignerModel.cs" />
     <Compile Include="edit\TagEditorModel.cs" />
-    <Compile Include="find\FilterablePageCollection.cs" />
+    <Compile Include="collections\FilterablePageCollection.cs" />
     <Compile Include="find\TagSelector.xaml.cs">
       <DependentUpon>TagSelector.xaml</DependentUpon>
     </Compile>
@@ -103,15 +103,15 @@
     </Compile>
     <Compile Include="manage\TagManagerDesignerModel.cs" />
     <Compile Include="manage\TagManagerModel.cs" />
-    <Compile Include="ObservableSortedList.cs" />
+    <Compile Include="collections\ObservableSortedList.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Connect.cs" />
-    <Compile Include="find\TaggedPage.cs" />
-    <Compile Include="find\TagPageSet.cs" />
+    <Compile Include="collections\TaggedPage.cs" />
+    <Compile Include="collections\TagPageSet.cs" />
     <Compile Include="find\FindTaggedPages.xaml.cs">
       <DependentUpon>FindTaggedPages.xaml</DependentUpon>
     </Compile>
