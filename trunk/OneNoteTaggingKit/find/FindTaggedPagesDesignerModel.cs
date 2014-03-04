@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Windows;
 using WetHatLab.OneNote.TaggingKit.collections;
 
 namespace WetHatLab.OneNote.TaggingKit.find
@@ -40,7 +36,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
             IDictionary<string, TagPageSet> tags = new Dictionary<string, TagPageSet>();
             FilterablePageCollection.buildTagAndPagesList("Cool", _strXml, tags, taggedpages);
 
-            MessageBox.Show(taggedpages.Count.ToString());
             foreach (TaggedPage p in taggedpages)
             {
                 _pages.Add(new HitHighlightedPage(p));
