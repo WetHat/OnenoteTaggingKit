@@ -56,7 +56,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             _onenote = onenoteApp;
             _pageID = pageID;
-
+            _schema = schema;
             LoadOneNotePage();
             _tags = _pageTagsOE != null ? ParseTags(_pageTagsOE.Value) : new string[0];
         }
