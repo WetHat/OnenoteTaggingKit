@@ -27,7 +27,7 @@ namespace WetHatLab.OneNote.TaggingKit.collections
 
         XMLSchema _schema;
 
-        private Dictionary<string, TagPageSet> _tags = new Dictionary<string, TagPageSet>();
+        private IDictionary<string, TagPageSet> _tags = new Dictionary<string, TagPageSet>();
 
         /// <summary>
         /// Set of Pages returned from a full text search.
@@ -86,35 +86,8 @@ namespace WetHatLab.OneNote.TaggingKit.collections
                 _searchResult = new HashSet<TaggedPage>();
             }
 
-            // process result
-            try
-            {
-                XDocument result = XDocument.Parse(strXml);
-                XNamespace one = result.Root.GetNamespaceOfPrefix("one");
+            _tags = buildTagAndPagesList(query, strXml,_tags,_searchResult);
 
-                foreach (XElement page in result.Descendants(one.GetName("Page")))
-                {
-                    TaggedPage tp = new TaggedPage(page, query);
-                    foreach (string tag in tp.Tags)
-                    {
-                        TagPageSet t;
-                        if (!_tags.TryGetValue(tag, out t))
-                        {
-                            t = new TagPageSet(tag);
-                            _tags.Add(tag, t);
-                        }
-                        t.AddPage(tp);
-                    }
-                    if (_searchResult != null)
-                    {
-                        _searchResult.Add(tp);
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                // unable to parse tags
-            }
             _filteredTags.AddAll(_tags.Values);
             if (_searchResult != null)
             {
@@ -139,6 +112,40 @@ namespace WetHatLab.OneNote.TaggingKit.collections
                     Properties.Settings.Default.KnownTags = string.Join(",", sortedTags);
                 }
             }
+        }
+
+        internal static IDictionary<string, TagPageSet> buildTagAndPagesList(string query, string strXml, IDictionary<string, TagPageSet> tags, HashSet<TaggedPage> searchResult)
+        {
+            // process result
+            try
+            {
+                XDocument result = XDocument.Parse(strXml);
+                XNamespace one = result.Root.GetNamespaceOfPrefix("one");
+
+                foreach (XElement page in result.Descendants(one.GetName("Page")))
+                {
+                    TaggedPage tp = new TaggedPage(page, query);
+                    foreach (string tag in tp.Tags)
+                    {
+                        TagPageSet t;
+                        if (!tags.TryGetValue(tag, out t))
+                        {
+                            t = new TagPageSet(tag);
+                            tags.Add(tag, t);
+                        }
+                        t.AddPage(tp);
+                    }
+                    if (searchResult != null)
+                    {
+                        searchResult.Add(tp);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // unable to parse tags
+            }
+           return tags;
         }
 
         /// <summary>
