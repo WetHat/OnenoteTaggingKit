@@ -17,7 +17,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// Observable collections of tags and OneNote pages satisfying a search criterion.
     /// </summary>
     /// <remarks>
-    /// Provides a refineable set of tags and pages. The page collection is
+    /// Provides a refineable unordered set of tags and pages. The page collection is
     /// built by calling <see cref="Find"/> and can be progressively refined (filtered)
     /// by adding filter tags (<see cref="ApplyTagFilter"/>)
     /// </remarks>
