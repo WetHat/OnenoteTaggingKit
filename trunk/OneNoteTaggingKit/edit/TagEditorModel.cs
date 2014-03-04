@@ -1,10 +1,8 @@
 ﻿using Microsoft.Office.Interop.OneNote;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
-using System.Text;
+using WetHatLab.OneNote.TaggingKit.collections;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
