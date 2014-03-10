@@ -131,9 +131,9 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <summary>
         /// Action to open a tag editor dialog.
         /// </summary>
-        /// <remarks>Opens the page tag editor</remarks>
+        /// <remarks>Opens the page tag explorer</remarks>
         /// <param name="ribbon">OneNote ribbon bar</param>
-        public void editTags(IRibbonControl ribbon)
+        public void exploreTags(IRibbonControl ribbon)
         {
             try
             {

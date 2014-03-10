@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
-using WetHatLab.OneNote.TaggingKit.collections;
+using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.edit;
 
 namespace WetHatLab.OneNote.TaggingKit.manage

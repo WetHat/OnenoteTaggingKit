@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.edit;
 
-namespace WetHatLab.OneNote.TaggingKit.collections
+namespace WetHatLab.OneNote.TaggingKit.common
 {
     /// <summary>
     /// Representation of a OneNote page which has page tags.

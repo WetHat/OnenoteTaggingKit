@@ -11,7 +11,7 @@ using System.Windows.Threading;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.edit;
 
-namespace WetHatLab.OneNote.TaggingKit.collections
+namespace WetHatLab.OneNote.TaggingKit.common
 {
     /// <summary>
     /// Observable collections of tags and OneNote pages satisfying a search criterion.

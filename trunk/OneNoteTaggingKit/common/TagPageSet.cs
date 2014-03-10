@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 
-namespace WetHatLab.OneNote.TaggingKit.collections
+namespace WetHatLab.OneNote.TaggingKit.common
 {
     /// <summary>
     /// The set of pages which have a specified tag in the &lt;one:Meta name="TaggingKit.PageTags" ...&gt; element

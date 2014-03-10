@@ -73,6 +73,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="common\FilterablePageCollection.cs" />
+    <Compile Include="common\ObservableSortedList.cs" />
+    <Compile Include="common\TaggedPage.cs" />
+    <Compile Include="common\TagPageSet.cs" />
     <Compile Include="COMReadonlyStreamAdapter.cs" />
     <Compile Include="edit\OneNotePageProxy.cs" />
     <Compile Include="edit\SimpleTagButton.xaml.cs">
@@ -87,7 +91,7 @@
     </Compile>
     <Compile Include="edit\TagEditorDesignerModel.cs" />
     <Compile Include="edit\TagEditorModel.cs" />
-    <Compile Include="collections\FilterablePageCollection.cs" />
+    <Compile Include="find\FindTaggedPagesDesignerModel.cs" />
     <Compile Include="find\TagSelector.xaml.cs">
       <DependentUpon>TagSelector.xaml</DependentUpon>
     </Compile>
@@ -103,15 +107,12 @@
     </Compile>
     <Compile Include="manage\TagManagerDesignerModel.cs" />
     <Compile Include="manage\TagManagerModel.cs" />
-    <Compile Include="collections\ObservableSortedList.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Connect.cs" />
-    <Compile Include="collections\TaggedPage.cs" />
-    <Compile Include="collections\TagPageSet.cs" />
     <Compile Include="find\FindTaggedPages.xaml.cs">
       <DependentUpon>FindTaggedPages.xaml</DependentUpon>
     </Compile>
@@ -258,6 +259,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\copy-26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Add Tag 26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\refresh-32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

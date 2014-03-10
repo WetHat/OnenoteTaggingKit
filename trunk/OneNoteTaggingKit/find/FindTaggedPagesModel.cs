@@ -14,7 +14,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Threading;
-using WetHatLab.OneNote.TaggingKit.collections;
+using WetHatLab.OneNote.TaggingKit.common;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {

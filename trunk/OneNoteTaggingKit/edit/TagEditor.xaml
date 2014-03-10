@@ -7,17 +7,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:TaggingKit="clr-namespace:WetHatLab.OneNote.TaggingKit"
         x:Class="WetHatLab.OneNote.TaggingKit.edit.TagEditor"
-        Height="{Binding Source={x:Static prop:Settings.Default},Path=TagEditorWindow_Height,Mode=TwoWay}"
+        Height="447"
         Width="{Binding Source={x:Static prop:Settings.Default},Path=TagEditorWindow_Width,Mode=TwoWay}"
-        MinWidth="350"
-        MinHeight="200"
-        WindowStartupLocation="CenterOwner"
+        MinWidth="200"
+        MinHeight="350"
         x:Name="editTags"
         mc:Ignorable="d"
-        ShowInTaskbar="False"
+        ShowInTaskbar="True"
         d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:TagEditorDesignerModel}}"
-        WindowStyle="None" Loaded="Window_Loaded"
-        Icon="/OneNoteTaggingKit;component/Resources/tag 32x32.png" Closing="editTags_Closing">
+        WindowStyle="ToolWindow"
+        Title="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Windows_Title}}"
+        Icon="/OneNoteTaggingKit;component/Resources/tag 32x32.png"
+        Loaded="Window_Loaded" Closing="editTags_Closing">
     <Window.Resources>
         <CollectionViewSource Source="{Binding KnownTags}" x:Key="knownTags">
             <CollectionViewSource.SortDescriptions>
@@ -35,43 +36,96 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition  Height="Auto"/>
+            <RowDefinition Height="*" MinHeight="100"/>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="2*" MinHeight="100" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <GroupBox Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="10,0,10,0" Background="White" Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tags_GroupBox_Title}}"  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tags_GroupBox_ToolTip}}">
-            <local:SimpleTagsPanel Tags="{Binding PageTags}" />
+        <GroupBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  Margin="5,0,5,0"
+                  Background="White"
+                  Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tags_GroupBox_Title}}"
+                  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tags_GroupBox_ToolTip}}">
+            <local:SimpleTagsPanel Tags="{Binding PageTags}" VerticalAlignment="Stretch"/>
         </GroupBox>
-        <ComboBox x:Name="TagComboBox" Grid.Row="1"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Center"
-			Margin="10,10,5,10"
+
+        <ProgressBar Name="pBar"
+                     Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                     IsIndeterminate="True"
+                     Width="100" Height="20"
+                     HorizontalAlignment="Center" VerticalAlignment="Center"
+                     Foreground="LightBlue" Background="WhiteSmoke"/>
+        <Button Grid.Row="0" Grid.ColumnSpan="2"
+                Width="26"
+                Margin="0,0,25,0"
+                Background="Transparent"
+                VerticalAlignment="Top" HorizontalAlignment="Right"
+                BorderThickness="0" BorderBrush="LightBlue"
+                ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_RefreshButton_Tooltip}}"
+                Click="AddTagButton_Click" >
+            <Image Source="/OneNoteTaggingKit;component/Resources/refresh-32.png"/>
+        </Button>
+        <ComboBox Name="tagComboBox" Grid.Row="1" Grid.Column="0"
+                  Margin="5,5,0,10"
+			HorizontalAlignment="Stretch" VerticalAlignment="Center"
 			IsEditable="True" StaysOpenOnEdit="True"
 			IsTextSearchEnabled="True"
 			ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_ComboBox_Tooltip}}"
 			ItemsSource="{Binding Source={StaticResource ResourceKey=knownTags}}" KeyUp="TagDropDown_KeyUp"/>
-        <Button x:Name="AddTagButton" Grid.Row="1" Grid.Column="2" Width="20" Height="20" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_AddButton_Tooltip}}" Click="AddTagButton_Click" Margin="0,0,5,0">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF00FF00" Offset="0"/>
-                    <GradientStop Color="#FFB0ADAD" Offset="1"/>
-                </LinearGradientBrush>
-            </Button.Background>
-            <TextBlock FontFamily="Segoe UI Symbol" Text="✙" FontSize="16" FontWeight="ExtraBold" TextAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.357,-1.587" Height="23" />
+        <Button Grid.Row="1" Grid.Column="1"
+                Background="Transparent"
+                Height="26"
+                BorderBrush="LightBlue"
+                ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_AddButton_Tooltip}}"
+                Click="AddTagButton_Click" Margin="5,5,5,10">
+            <Image Source="/OneNoteTaggingKit;component/Resources/Add Tag 26.png"/>
         </Button>
-        <Grid Grid.Row="2" Grid.ColumnSpan="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Button x:Name="doneButton" Grid.Column="0" Content="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_SaveButton_Text}}" Width="80" HorizontalAlignment="Center" Margin="10,0,0,5" Click="DoneButton_Click" />
-            <Button x:Name="cancelButton" Grid.Column="1" Content="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_CancelButton_Text}}" Width="80" HorizontalAlignment="Center" Margin="10,0,0,5" IsCancel="True"/>
-            <Label x:Name="addinVersion" Grid.Column="2" HorizontalAlignment="Right"  VerticalAlignment="Bottom" VerticalContentAlignment="Bottom" Foreground="LightSeaGreen" FontSize="9" Content="{Binding AddinVersion, Mode=OneTime}" />
-        </Grid>
+        <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                      ResizeBehavior="PreviousAndNext"
+                      ResizeDirection="Rows"
+                      VerticalAlignment="Bottom"
+                      HorizontalAlignment="Stretch"
+                      Height="5" >
+            <GridSplitter.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FFE2EDF7" Offset="0.67"/>
+                </LinearGradientBrush>
+            </GridSplitter.Background>
+        </GridSplitter>
+        <GroupBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" 
+                  HorizontalAlignment="Stretch" 
+                  Margin="5,0,5,0" Background="Transparent"
+                  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Pages_GroupBox_Tooltip}}"
+                  Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Pages_GroupBox_Title}}">
+            <ListBox Background="Transparent"
+                     BorderThickness="0"
+                     ItemsSource="{Binding Pages, Mode=OneWay}"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Width="1">
+                            <TextBlock >
+                          
+                            <!--
+                            <Hyperlink Tag="{Binding ID, Mode=OneWay}"
+                                       Click="Page_Hyperlink_Click"
+                                       ToolTip="{Binding HitHighlightedTooltip, Mode=OneWay}">
+                                <ContentControl Content="{Binding HitHighlightedTitle, Mode=OneWay}"/>
+                            </Hyperlink>
+                            -->
+                            </TextBlock>
+                        </Border>
+
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </GroupBox>
     </Grid>
 </Window>
