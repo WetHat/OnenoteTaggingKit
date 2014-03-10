@@ -7,8 +7,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:TaggingKit="clr-namespace:WetHatLab.OneNote.TaggingKit"
         x:Class="WetHatLab.OneNote.TaggingKit.edit.TagEditor"
-        Height="447"
+        Height="{Binding Source={x:Static prop:Settings.Default},Path=TagEditorWindow_Height,Mode=TwoWay}"
         Width="{Binding Source={x:Static prop:Settings.Default},Path=TagEditorWindow_Width,Mode=TwoWay}"
+        Left="{Binding Source={x:Static prop:Settings.Default},Path=TagEditorWindow_Left,Mode=TwoWay}"
+        Top="{Binding Source={x:Static prop:Settings.Default},Path=TagEditorWindow_Top,Mode=TwoWay}"
         MinWidth="200"
         MinHeight="350"
         x:Name="editTags"
@@ -67,22 +69,22 @@
                 VerticalAlignment="Top" HorizontalAlignment="Right"
                 BorderThickness="0" BorderBrush="LightBlue"
                 ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_RefreshButton_Tooltip}}"
-                Click="AddTagButton_Click" >
+                Click="RefreshButton_Click" >
             <Image Source="/OneNoteTaggingKit;component/Resources/refresh-32.png"/>
         </Button>
         <ComboBox Name="tagComboBox" Grid.Row="1" Grid.Column="0"
                   Margin="5,5,0,10"
-			HorizontalAlignment="Stretch" VerticalAlignment="Center"
-			IsEditable="True" StaysOpenOnEdit="True"
-			IsTextSearchEnabled="True"
-			ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_ComboBox_Tooltip}}"
-			ItemsSource="{Binding Source={StaticResource ResourceKey=knownTags}}" KeyUp="TagDropDown_KeyUp"/>
+			    HorizontalAlignment="Stretch" VerticalAlignment="Center"
+			    IsEditable="True" StaysOpenOnEdit="True"
+			    IsTextSearchEnabled="True"
+			    ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_ComboBox_Tooltip}}"
+			    ItemsSource="{Binding Source={StaticResource ResourceKey=knownTags}}" KeyUp="TagDropDown_KeyUp"/>
         <Button Grid.Row="1" Grid.Column="1"
                 Background="Transparent"
                 Height="26"
                 BorderBrush="LightBlue"
                 ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_AddButton_Tooltip}}"
-                Click="AddTagButton_Click" Margin="5,5,5,10">
+                Click="AddTagsToPageButton_Click" Margin="5,5,5,10">
             <Image Source="/OneNoteTaggingKit;component/Resources/Add Tag 26.png"/>
         </Button>
         <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"

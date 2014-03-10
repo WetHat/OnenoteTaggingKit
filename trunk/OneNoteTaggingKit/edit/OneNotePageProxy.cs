@@ -386,8 +386,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <summary>
         /// Save all changes to the page to OneNote
         /// </summary>
-        /// <remarks>This method can only be called once. To further edit the page
-        /// a new instance of the page proxy must be created</remarks>
         internal void Update()
         {
             ApplyTagsToPage();

@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
@@ -43,14 +44,14 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
         #endregion
 
-        private void DoneButton_Click(object sender, RoutedEventArgs e)
+        private void AddTagsToPageButton_Click(object sender, RoutedEventArgs e)
         {
             // Make sure any tag stuck in the combo box is added too.
- 
-            AddTagButton_Click(sender, null);
+
+            AddTagsToModel();
             try
             {
-                _model.SaveChanges();
+                _model.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -60,22 +61,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             {
                 e.Handled = true;
             }
-            DialogResult = true;
         }
 
-        private void AddTagButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(tagComboBox.Text))
-            {
-                _model.PageTags.AddAll(from t in (from tag in OneNotePageProxy.ParseTags(tagComboBox.Text) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(tag))
-                                       where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(t) );
-                tagComboBox.Text = string.Empty;
-            }
-            if (e != null)
-            {
-                e.Handled = true;
-            }
-        }
 
         private void TagDropDown_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -83,13 +70,25 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             {
                 if (string.IsNullOrEmpty(tagComboBox.Text))
                 {
-                    DoneButton_Click(sender, null);
+                    AddTagsToPageButton_Click(sender, null);
                 }
                 else
                 {
-                    AddTagButton_Click(sender, null);
+                    AddTagsToModel();
                 }
                 e.Handled = true;
+            }
+        }
+
+        private void AddTagsToModel()
+        {
+            if (!string.IsNullOrEmpty(tagComboBox.Text))
+            {
+                _model.PageTags.AddAll(from t in
+                                           (from tag in OneNotePageProxy.ParseTags(tagComboBox.Text) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(tag))
+                                       where !_model.PageTags.ContainsKey(t)
+                                       select new SimpleTagButtonModel(t));
+                tagComboBox.Text = string.Empty;
             }
         }
 
@@ -98,11 +97,22 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             tagComboBox.Focus();
             tagComboBox.SelectedItem = null;
             tagComboBox.Text = "";
+            RefreshButton_Click(sender, e);
         }
 
         private void editTags_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Properties.Settings.Default.Save();
+        }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            pBar.Visibility = System.Windows.Visibility.Visible;
+            if (_model != null)
+            {
+                Task t = _model.RefreshPageTagsAsync();
+                t.ContinueWith((tsk) => { pBar.Visibility = System.Windows.Visibility.Collapsed; }, TaskScheduler.FromCurrentSynchronizationContext());
+            }
         }
     }
 }

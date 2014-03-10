@@ -139,7 +139,7 @@ namespace WetHatLab.OneNote.TaggingKit
             {
                 Microsoft.Office.Interop.OneNote.Window currentWindow = _OneNoteApp.Windows.CurrentWindow;
 
-                ShowDialog<TagEditor, TagEditorModel>(currentWindow, () => new TagEditorModel(_OneNoteApp, currentWindow.CurrentPageId,_schema));
+                Show<TagEditor, TagEditorModel>(currentWindow, () => new TagEditorModel(_OneNoteApp, currentWindow.CurrentPageId,_schema));
             }
             catch (Exception ex)
             {
