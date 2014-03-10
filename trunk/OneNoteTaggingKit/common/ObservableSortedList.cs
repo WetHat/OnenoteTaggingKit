@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 
-namespace WetHatLab.OneNote.TaggingKit.collections
+namespace WetHatLab.OneNote.TaggingKit.common
 {
     // Contract for class which want to provide a unique Key suitable for sorting
     public interface IKeyedItem

@@ -61,6 +61,16 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Add_Tag_26 {
+            get {
+                object obj = ResourceManager.GetObject("Add_Tag_26", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} Add-in Error.
         /// </summary>
         public static string Addin_ErrorBox_Title {
@@ -89,6 +99,16 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap refresh_32 {
+            get {
+                object obj = ResourceManager.GetObject("refresh_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Press to remove this tag..
         /// </summary>
         public static string RemoveTag_Button_Tooltip {
@@ -105,11 +125,11 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         ///      &lt;tab idMso=&quot;TabHome&quot;&gt;
         ///        &lt;group id=&quot;PageTagging&quot; label=&quot;Page Tags&quot; insertAfterMso=&quot;GroupTagging&quot;&gt;
         ///          &lt;button id=&quot;buttonTagPage&quot;
-        ///                  label=&quot;Edit Page Tags&quot;
+        ///                  label=&quot;Tag and Explore&quot;
         ///                  size=&quot;large&quot;
-        ///                  screentip=&quot;Add/Remove OneNote Page Tags&quot;
-        ///                  onAction=&quot;editTags&quot;
-        ///                  image=&quot;pageTa [rest of string was truncated]&quot;;.
+        ///                  screentip=&quot;Explore Similar Pages and Tag OneNote Pages&quot;
+        ///                  onAction=&quot;exploreTags&quot;
+        ///             [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ribbon {
             get {
@@ -156,6 +176,24 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Related Notes.
+        /// </summary>
+        public static string TagEditor_Pages_GroupBox_Title {
+            get {
+                return ResourceManager.GetString("TagEditor_Pages_GroupBox_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes tagged with one or more tags from the current collection of tags.
+        /// </summary>
+        public static string TagEditor_Pages_GroupBox_Tooltip {
+            get {
+                return ResourceManager.GetString("TagEditor_Pages_GroupBox_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tags could not be applied to page: {0}.
         /// </summary>
         public static string TagEditor_Save_Error {
@@ -183,7 +221,16 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Page Tags.
+        ///   Looks up a localized string similar to Tap to load tags from current page.
+        /// </summary>
+        public static string TagEditor_Tag_RefreshButton_Tooltip {
+            get {
+                return ResourceManager.GetString("TagEditor_Tag_RefreshButton_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Page Tag Collection.
         /// </summary>
         public static string TagEditor_Tags_GroupBox_Title {
             get {
@@ -197,6 +244,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TagEditor_Tags_GroupBox_ToolTip {
             get {
                 return ResourceManager.GetString("TagEditor_Tags_GroupBox_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tag Explorer.
+        /// </summary>
+        public static string TagEditor_Windows_Title {
+            get {
+                return ResourceManager.GetString("TagEditor_Windows_Title", resourceCulture);
             }
         }
         

@@ -65,11 +65,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private void AddTagButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(TagComboBox.Text))
+            if (!string.IsNullOrEmpty(tagComboBox.Text))
             {
-                _model.PageTags.AddAll(from t in (from tag in OneNotePageProxy.ParseTags(TagComboBox.Text) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(tag))
+                _model.PageTags.AddAll(from t in (from tag in OneNotePageProxy.ParseTags(tagComboBox.Text) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(tag))
                                        where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(t) );
-                TagComboBox.Text = string.Empty;
+                tagComboBox.Text = string.Empty;
             }
             if (e != null)
             {
@@ -81,7 +81,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             if (e.Key == System.Windows.Input.Key.Enter)
             {
-                if (string.IsNullOrEmpty(TagComboBox.Text))
+                if (string.IsNullOrEmpty(tagComboBox.Text))
                 {
                     DoneButton_Click(sender, null);
                 }
@@ -95,9 +95,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            TagComboBox.Focus();
-            TagComboBox.SelectedItem = null;
-            TagComboBox.Text = "";
+            tagComboBox.Focus();
+            tagComboBox.SelectedItem = null;
+            tagComboBox.Text = "";
         }
 
         private void editTags_Closing(object sender, System.ComponentModel.CancelEventArgs e)

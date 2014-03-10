@@ -131,7 +131,7 @@
     <value>Save</value>
   </data>
   <data name="TagEditor_Tags_GroupBox_Title" xml:space="preserve">
-    <value>Page Tags</value>
+    <value>Page Tag Collection</value>
   </data>
   <data name="TagEditor_Tags_GroupBox_ToolTip" xml:space="preserve">
     <value>The current OneNote page will be tagged with these tags. Add or remove tags as needed.</value>
@@ -243,5 +243,23 @@
   </data>
   <data name="RemoveTag_Button_Tooltip" xml:space="preserve">
     <value>Press to remove this tag.</value>
+  </data>
+  <data name="TagEditor_Pages_GroupBox_Title" xml:space="preserve">
+    <value>Related Notes</value>
+  </data>
+  <data name="TagEditor_Pages_GroupBox_Tooltip" xml:space="preserve">
+    <value>Notes tagged with one or more tags from the current collection of tags</value>
+  </data>
+  <data name="Add_Tag_26" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\add tag 26.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\refresh-32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TagEditor_Tag_RefreshButton_Tooltip" xml:space="preserve">
+    <value>Tap to load tags from current page</value>
+  </data>
+  <data name="TagEditor_Windows_Title" xml:space="preserve">
+    <value>Tag Explorer</value>
   </data>
 </root>

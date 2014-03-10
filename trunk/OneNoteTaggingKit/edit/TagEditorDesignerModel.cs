@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using WetHatLab.OneNote.TaggingKit.collections;
+using WetHatLab.OneNote.TaggingKit.common;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
