@@ -395,11 +395,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     case NotifyCollectionChangedAction.Remove:
                         for (int i = 0; i < e.OldItems.Count; i++)
                         {
+#if DEBUG
                             Debug.Assert(_pages[e.OldStartingIndex].Title.Equals(((TaggedPage)e.OldItems[i]).Title),
                                         string.Format("Removing wrong page at {0}! Want to remove {1}. Actually removed {2}",
                                                       e.OldStartingIndex,
                                                       _pages[e.OldStartingIndex].Title,
                                                       ((TaggedPage)e.OldItems[i]).Title));
+#endif
                             _pages.RemoveAt(e.OldStartingIndex);
                         }
                         break;

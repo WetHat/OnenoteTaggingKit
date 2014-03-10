@@ -1,7 +1,11 @@
 ﻿using Microsoft.Office.Interop.OneNote;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 using WetHatLab.OneNote.TaggingKit.common;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
@@ -29,26 +33,37 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     }
 
     /// <summary>
-    /// View Model to support the tag editor dialog
+    /// View Model to support the tag editor dialog.
     /// </summary>
-    public class TagEditorModel : ITagEditorModel
+    /// <remarks>Maintains a data models for:
+    /// <list type="bullet">
+    ///   <item>Tags on the current page</item>
+    ///   <item>similar pages (based on the tags they share with the current page)</item>
+    /// </list>
+    /// </remarks>
+    public class TagEditorModel : DependencyObject, ITagEditorModel
     {
-        private Application _OneNote;
+        private Microsoft.Office.Interop.OneNote.Application _OneNote;
+        private XMLSchema _schema;
+
+        private TaskFactory _taskFactory = new TaskFactory();
 
         private ObservableSortedList<SimpleTagButtonModel> _pageTags = new ObservableSortedList<SimpleTagButtonModel>();
-        private ObservableCollection<string> _knownTags;
+        private ObservableCollection<string> _knownTags = new ObservableCollection<string>();
 
-        private OneNotePageProxy _page;
+        private OneNotePageProxy _currentPage;
 
-        internal TagEditorModel(Application onenote, string pageID,XMLSchema schema)
+        /// <summary>
+        /// Cancellation token souce for all workers
+        /// </summary>
+        private CancellationTokenSource _cancelWorker = new CancellationTokenSource();
+
+        private Task _tagLoader;
+ 
+        internal TagEditorModel(Microsoft.Office.Interop.OneNote.Application onenote, string pageID,XMLSchema schema)
         {
             _OneNote = onenote;
-
-            _page = new OneNotePageProxy(_OneNote, _OneNote.Windows.CurrentWindow.CurrentPageId,schema);
-
-            _pageTags.AddAll(from t in _page.PageTags select new SimpleTagButtonModel(t));
-
-            _knownTags = new ObservableCollection<string>(OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags));  
+            _schema = schema;
         }
 
         #region ITagEditorModel
@@ -81,15 +96,60 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
         #endregion ITagEditorModel
 
-        internal void SaveChanges()
+        internal Task RefreshPageTagsAsync()
         {
-            string[] tags = (from st in _pageTags.Values select st.Key).ToArray();
+            if (_tagLoader != null  && _tagLoader.Status == TaskStatus.Running)
+            {
+                if (_currentPage == null || !_currentPage.PageID.Equals(_OneNote.Windows.CurrentWindow.CurrentPageId))
+                {
+                    // abandon previous load request
+                    _cancelWorker.Cancel();
+                }
+            }
+            SaveChangesAsync(); // persist any pending changes
+            _tagLoader = _taskFactory.StartNew(LoadPageWorker, _cancelWorker.Token);
+            return _tagLoader;
+        }
 
-            _page.PageTags = tags;
-            _page.Update();
+        private void LoadPageWorker()
+        {
+            if (_currentPage == null || !_currentPage.PageID.Equals(_OneNote.Windows.CurrentWindow.CurrentPageId))
+            {
+                _currentPage = new OneNotePageProxy(_OneNote, _OneNote.Windows.CurrentWindow.CurrentPageId, _schema);
+            }
+            
+            string[] tagsuggestions = OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags);
+            Dispatcher.Invoke(new Action(() =>
+            {
+                _pageTags.Clear();
+                _pageTags.AddAll(from t in _currentPage.PageTags select new SimpleTagButtonModel(t));
+                _knownTags.Clear();
+                foreach (string t in tagsuggestions)
+                {
+                    _knownTags.Add(t);
+                }
+            }));
+        }
 
-            Properties.Settings.Default.KnownTags = string.Join(",", _knownTags.Union(tags));
-            Properties.Settings.Default.Save();
+        internal Task SaveChangesAsync()
+        {
+            // pass tags and current page as parameters so that the undelying objects can further be modified in the foreground
+            return _taskFactory.StartNew(() => SaveChangesWorker(_currentPage, (from st in _pageTags.Values select st.Key).ToArray()));
+        }
+
+        private void SaveChangesWorker(OneNotePageProxy page, string[] tags)
+        {
+            if (page != null)
+            {
+                page.PageTags = tags;
+                page.Update();
+
+                // update suggestions
+                if (tags != null)
+                {
+                    Properties.Settings.Default.KnownTags = string.Join(",", _knownTags.Union(tags));
+                }
+            }
         }
     }
 }

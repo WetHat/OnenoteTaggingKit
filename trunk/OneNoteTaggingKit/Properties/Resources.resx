@@ -136,9 +136,6 @@
   <data name="TagEditor_Tags_GroupBox_ToolTip" xml:space="preserve">
     <value>The current OneNote page will be tagged with these tags. Add or remove tags as needed.</value>
   </data>
-  <data name="TagEditor_Tag_AddButton_Tooltip" xml:space="preserve">
-    <value>Press to add tag to page</value>
-  </data>
   <data name="TagEditor_Tag_ComboBox_Tooltip" xml:space="preserve">
     <value>Type or select tag. Press 'Enter' to add tag</value>
   </data>
@@ -261,5 +258,8 @@
   </data>
   <data name="TagEditor_Windows_Title" xml:space="preserve">
     <value>Tag Explorer</value>
+  </data>
+  <data name="TagEditor_Tag_AddButton_Tooltip" xml:space="preserve">
+    <value>Press to add tag to page</value>
   </data>
 </root>
