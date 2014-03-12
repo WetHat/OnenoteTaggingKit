@@ -14,28 +14,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
     {
         private FindTaggedPagesModel _model;
 
-        private bool _isClearTagFilterInProgress = false;
-
         /// <summary>
         /// Create a new instance of the find tags window
         /// </summary>
         public FindTaggedPages()
         {
             InitializeComponent();
-        }
-
-        private void UpdateTagsHideProgress()
-        {
-            pBar.Visibility = System.Windows.Visibility.Hidden;
-            UpdateTags();
-        }
-
-        private void UpdateTags()
-        {
-            foreach (TagSelector s in tagsPanel.Children)
-            {
-                s.UpdateTag();
-            }
         }
 
         #region IOneNotePageWindow<TagSearchModel>
@@ -54,7 +38,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 _model = value;
                 
                 DataContext = _model;
-                _model.TagCollectionChanged += HandleTagCollectionChanges;
+                _model.Tags.CollectionChanged += HandleTagCollectionChanges;
             }
         }
 
@@ -67,7 +51,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 case NotifyCollectionChangedAction.Add:
                     for (int i = 0; i < e.NewItems.Count; i++)
                     {
-                        TagSelector btn = createTagSelectorButton((TagPageSet)e.NewItems[i]);
+                        TagSelector btn = createTagSelectorButton((TagSelectorModel)e.NewItems[i]);
                         tagsPanel.Children.Insert(i + e.NewStartingIndex, btn);
                     }
                     break;
@@ -83,42 +67,15 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
 
-        private TagSelector createTagSelectorButton(TagPageSet tps)
+        private TagSelector createTagSelectorButton(TagSelectorModel mdl)
         {
             TagSelector s = new TagSelector()
             {
-                PageTag = tps,
+                DataContext = mdl,
                 Margin = new Thickness(3,3,0,0)
             };
-            s.Checked += TagChecked;
-            s.UnChecked += TagUnChecked;
+  
             return s;
-        }
-
-        private void TagUnChecked(object sender, RoutedEventArgs e)
-        {
-            if (!_isClearTagFilterInProgress)
-            {
-                TagSelector selector = sender as TagSelector;
-                if (selector != null)
-                {
-                    selector.IsChecked = false;
-                    _model.RemoveTagFromFilterAsync(selector.PageTag, UpdateTags);
-                }
-            }
-        }
-
-        private void TagChecked(object sender, RoutedEventArgs e)
-        {
-            if (!_isClearTagFilterInProgress)
-            {
-                TagSelector selector = sender as TagSelector;
-                if (selector != null)
-                {
-                    selector.IsChecked = true;
-                    _model.AddTagToFilterAsync(selector.PageTag, UpdateTags);
-                }
-            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -132,31 +89,31 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-           _model.NavigateTo((string)((Hyperlink)sender).Tag);
+            HitHighlightedPageLink l = sender as HitHighlightedPageLink;
+            if (l != null)
+            {
+                HitHighlightedPageLinkModel model = l.DataContext as HitHighlightedPageLinkModel;
+                _model.NavigateTo(model.PageID);
+                e.Handled = true;
+            }
         }
 
         private void ClearSelectionButton_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                // turn off (un)checked events
-                _isClearTagFilterInProgress = true;
-                foreach (TagSelector s in tagsPanel.Children)
-                {
-                    s.IsChecked = false;
-                }
-            }
-            finally
-            {
-                _isClearTagFilterInProgress = false;
-            }
-            _model.ClearTagFilterAsync(UpdateTags);
+            pBar.Visibility = System.Windows.Visibility.Visible;
+            _model.ClearTagFilterAsync(() => { pBar.Visibility = System.Windows.Visibility.Hidden;
+                                               foreach (var t in _model.Tags.Values)
+                                               {
+                                                   t.IsChecked = false;
+                                               }
+                                             });
+            e.Handled = true;
         }
 
         private void ScopeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             pBar.Visibility = System.Windows.Visibility.Visible;
-            _model.FindPagesAsync(searchComboBox.Text, UpdateTagsHideProgress);
+            _model.FindPagesAsync(searchComboBox.Text, () => pBar.Visibility = System.Windows.Visibility.Hidden);
             e.Handled = true;
         }
 
@@ -164,7 +121,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         {
             string query = searchComboBox.Text;
             pBar.Visibility = System.Windows.Visibility.Visible;
-            _model.FindPagesAsync(query, UpdateTagsHideProgress);
+            _model.FindPagesAsync(query, () => pBar.Visibility = System.Windows.Visibility.Hidden);
             searchComboBox.SelectedValue = query;
             e.Handled = true;
         }
@@ -175,7 +132,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             {
                 string query = searchComboBox.Text;
                 pBar.Visibility = System.Windows.Visibility.Visible;
-                _model.FindPagesAsync(query, UpdateTagsHideProgress);
+                _model.FindPagesAsync(query, () => pBar.Visibility = System.Windows.Visibility.Hidden);
                 searchComboBox.SelectedValue = query;
             }
             e.Handled = true;

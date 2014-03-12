@@ -74,9 +74,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="common\FilterablePageCollection.cs" />
+    <Compile Include="common\KeyedItems.cs" />
+    <Compile Include="common\ObservableDictionary.cs" />
     <Compile Include="common\ObservableSortedList.cs" />
     <Compile Include="common\TaggedPage.cs" />
     <Compile Include="common\TagPageSet.cs" />
+    <Compile Include="common\ui\TagModelKey.cs" />
     <Compile Include="COMReadonlyStreamAdapter.cs" />
     <Compile Include="edit\OneNotePageProxy.cs" />
     <Compile Include="edit\SimpleTagButton.xaml.cs">
@@ -92,9 +95,16 @@
     <Compile Include="edit\TagEditorDesignerModel.cs" />
     <Compile Include="edit\TagEditorModel.cs" />
     <Compile Include="find\FindTaggedPagesDesignerModel.cs" />
+    <Compile Include="find\HitHighlightedPageLink.xaml.cs">
+      <DependentUpon>HitHighlightedPageLink.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="find\HitHighlightedPageLinkDesignerModel.cs" />
+    <Compile Include="find\HitHighlightedPageLinkModel.cs" />
     <Compile Include="find\TagSelector.xaml.cs">
       <DependentUpon>TagSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="find\TagSelectorDesignerModel.cs" />
+    <Compile Include="find\TagSelectorModel.cs" />
     <Compile Include="manage\RemovableTag.xaml.cs">
       <DependentUpon>RemovableTag.xaml</DependentUpon>
     </Compile>
@@ -222,6 +232,10 @@
     <Page Include="edit\TagEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="find\HitHighlightedPageLink.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="find\TagSelector.xaml">
       <SubType>Designer</SubType>

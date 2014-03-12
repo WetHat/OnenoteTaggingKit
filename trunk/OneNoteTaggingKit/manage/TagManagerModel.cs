@@ -21,7 +21,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <summary>
         /// Get the collection of all tags used for suggestions.
         /// </summary>
-        ObservableSortedList<RemovableTagModel> SuggestedTags { get; }
+        ObservableSortedList<string,RemovableTagModel> SuggestedTags { get; }
 
         /// <summary>
         /// Get the add-in version.
@@ -34,7 +34,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     /// </summary>
     public class TagManagerModel : System.Windows.DependencyObject, ITagManagerModel, IDisposable
     {
-        private ObservableSortedList<RemovableTagModel> _suggestedTags = new ObservableSortedList<RemovableTagModel>();
+        private ObservableSortedList<string,RemovableTagModel> _suggestedTags = new ObservableSortedList<string,RemovableTagModel>();
         private FilterablePageCollection _pages;
         private CancellationTokenSource _cancelFinder = new CancellationTokenSource();
 
@@ -58,7 +58,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             _pages.Find(String.Empty, String.Empty);
 
             IEnumerable<RemovableTagModel> suggestions = from s in OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags)
-                                                         where !_pages.Tags.ContainsKey(s)
+                                                         where !_pages.Tags.Contains(s)
                                                          select new RemovableTagModel(new TagPageSet(s));
 
             IEnumerable<RemovableTagModel> tagsInUse = from t in _pages.Tags.Values select new RemovableTagModel(t);
@@ -87,7 +87,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// </summary>
         /// <remarks>This collection includes all tags used on any OneNote pages and additional tags suggestions
         /// which were added manually</remarks>
-        public ObservableSortedList<RemovableTagModel> SuggestedTags
+        public ObservableSortedList<string,RemovableTagModel> SuggestedTags
         {
             get
             {
@@ -145,7 +145,6 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         {
             if (_pages != null)
             {
-                _pages.Dispose();
                 _pages = null;
             }
             _cancelFinder.Cancel();

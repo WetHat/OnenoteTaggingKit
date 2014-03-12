@@ -108,13 +108,7 @@
             <ListBox Background="Transparent" ItemsSource="{Binding Pages, Mode=OneWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock>
-                            <Hyperlink Tag="{Binding ID, Mode=OneWay}"
-                                       Click="Hyperlink_Click"
-                                       ToolTip="{Binding HitHighlightedTooltip, Mode=OneWay}">
-                                <ContentControl Content="{Binding HitHighlightedTitle, Mode=OneWay}"/>
-                            </Hyperlink>
-                        </TextBlock>
+                        <local:HitHighlightedPageLink Click="Hyperlink_Click" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

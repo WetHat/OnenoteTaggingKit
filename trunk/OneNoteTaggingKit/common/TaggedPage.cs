@@ -11,11 +11,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// <summary>
     /// Representation of a OneNote page which has page tags.
     /// </summary>
-    public class TaggedPage : IKeyedItem
+    public class TaggedPage : IKeyedItem<string>
     {
         private string _title;
-        private MatchCollection _titleHits;
-        private string _key;
 
         /// <summary>
         /// get the page's ID
@@ -35,15 +33,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
         }
 
-        internal MatchCollection TitleHits
-        {
-            get
-            {
-                return _titleHits;
-            }
-        }
-
-
         #region IKeyedItem
         /// <summary>
         /// Get a unique key suitable for sorting
@@ -52,7 +41,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         {
             get
             {
-                return  _key;
+                return  ID;
             }
         }
         #endregion IKeyedItem
@@ -66,8 +55,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// Create an internal representation of a page returned from FindMeta
         /// </summary>
         /// <param name="page">&lt;one:Page&gt; element</param>
-        /// <param name="query">the query string used to find this page. Can be null if no query was used to find the item</param>
-        internal TaggedPage(XElement page, string query)
+        internal TaggedPage(XElement page)
         {
             XNamespace one = page.GetNamespaceOfPrefix("one");
             ID = page.Attribute("ID").Value;
@@ -83,27 +71,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
             {
                 Tags = new string[0];
             }
-
-            string rank;
-            // compute ranking
-            if (!string.IsNullOrEmpty(query))
-            {
-                string[] words = query.Split(new char[] { ',', ' ', ':', ';' }, StringSplitOptions.RemoveEmptyEntries);
-                for (int i = 0; i < words.Length; i++ )
-                {
-                    words[i] = words[i].Replace("'","").Replace("\"","");
-                }
-
-                string pattern = string.Join("|", words);
-                _titleHits = Regex.Matches(_title, pattern, RegexOptions.IgnoreCase);
-                rank = (1000 - _titleHits.Count).ToString("D4");
-            }
-            else
-            {
-                rank = "1000";
-            }
-
-            _key = rank + Title.ToLower() + ID;
         }
 
         /// <summary>
@@ -116,7 +83,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         /// <summary>
-        /// Check two page objects for quality
+        /// Check two page objects for equality
         /// </summary>
         /// <param name="obj">other page object</param>
         /// <returns>true if equal; false otherwise</returns>
