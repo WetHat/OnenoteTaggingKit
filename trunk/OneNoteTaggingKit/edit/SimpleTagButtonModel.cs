@@ -5,7 +5,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     /// <summary>
     /// A simple view model for a tag consisting of just a name (key)
     /// </summary>
-    public class SimpleTagButtonModel : IKeyedItem
+    public class SimpleTagButtonModel : ISortableKeyedItem<string>
     {
         private string _tag;
 

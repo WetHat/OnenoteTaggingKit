@@ -6,32 +6,39 @@ using System.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.common
 {
-    // Contract for class which want to provide a unique Key suitable for sorting
-    public interface IKeyedItem
-    {
-        /// <summary>
-        /// Get a sortable key
-        /// </summary>
-        string Key { get; }
-    }
     /// <summary>
     /// A observable, sorted collection of items having sortable keys.
     /// </summary>
     /// <remarks>
     /// Instances of this class provide change notification through <see cref="INotifyCollectionChanged"/>. This
-    /// class is optimized for batch updates (item collections). Single items cannot be added. Batch updates are
-    /// usefull to optimize UI updates by allowing update of larger chunks of data, rather than individual items
+    /// class is optimized for batch updates (item collections). Single items cannot be added. 
     /// </remarks>
     /// <typeparam name="Tvalue">item type providing sortable keys</typeparam>
-    public class ObservableSortedList<Tvalue> : INotifyCollectionChanged, IDisposable where Tvalue : IKeyedItem
+    public class ObservableSortedList<TKey, TValue> : INotifyCollectionChanged, IEnumerable<TValue>, IDisposable
+        where TValue : ISortableKeyedItem<TKey>
+        where TKey   : IComparable<TKey>, IEquatable<TKey>
     {
         /// <summary>
         /// Event to notify about changes to this collection.
         /// </summary>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
-        private SortedList<string, Tvalue> _sortedList = new SortedList<string, Tvalue>();
+        private SortedList<TKey, TValue> _sortedList;
 
+        private class KeyComparer: IComparer<TKey>
+        {
+            #region IComparer<TKey>
+            public int Compare(TKey x, TKey y)
+            {
+                return x.CompareTo(y);
+            }
+            #endregion IComparer<TKey>
+        };
+
+        public ObservableSortedList()
+        {
+            _sortedList = new SortedList<TKey, TValue>(new KeyComparer());
+        }
         /// <summary>
         /// Get the number of items in the collection.
         /// </summary>
@@ -43,7 +50,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Get all items in the collection.
         /// </summary>
-        public IList<Tvalue> Values
+        public IList<TValue> Values
         {
             get { return _sortedList.Values; }
         }
@@ -53,7 +60,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </summary>
         /// <param name="key">key to check</param>
         /// <returns>true if the given item is contained in the list; false otherwise</returns>
-        public bool ContainsKey(string key)
+        public bool ContainsKey(TKey key)
         {
             return _sortedList.ContainsKey(key);
         }
@@ -84,12 +91,12 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="batch">items to remove</param>
         /// <param name="startindex">start index of contiguous range of items</param>
         /// <returns>true, if batch was non empty</returns>
-        private bool processRemoveBatch(LinkedList<Tvalue> batch, int startindex)
+        private bool processRemoveBatch(LinkedList<TValue> batch, int startindex)
         {
             if (batch.Count > 0)
             {
                 // remove this batch from the sorted list
-                foreach (Tvalue dead in batch)
+                foreach (TValue dead in batch)
                 {
                     bool removed = _sortedList.Remove(dead.Key);
 #if DEBUG
@@ -118,15 +125,15 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// each batch at once, firing one change notification per batch.
         /// </remarks>
         /// <param name="items">items to remove</param>
-        internal void RemoveAll(IEnumerable<Tvalue> items)
+        internal void RemoveAll(IEnumerable<TKey> keys)
         {
-            SortedList<int, Tvalue> toDelete = new SortedList<int, Tvalue>();
-            foreach (Tvalue item in items)
+            SortedList<int, TValue> toDelete = new SortedList<int, TValue>();
+            foreach (TKey key in keys)
             {
-                int index = _sortedList.IndexOfKey(item.Key);
+                int index = _sortedList.IndexOfKey(key);
                 if (index >= 0)
                 {
-                    toDelete.Add(index, item);
+                    toDelete.Add(index, _sortedList[key]);
                 }
             }
 
@@ -134,8 +141,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
             int n = 0;
             int batchStartIndex = -1;
             int batchLastIndex = -2;
-            LinkedList<Tvalue> batch = new LinkedList<Tvalue>();
-            foreach (KeyValuePair<int, Tvalue> item in toDelete)
+            LinkedList<TValue> batch = new LinkedList<TValue>();
+            foreach (KeyValuePair<int, TValue> item in toDelete)
             {
                 if (item.Key > batchLastIndex + 1)
                 {   // finish current batch
@@ -169,10 +176,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="batch">collection of items to add</param>
         /// <param name="startindex">start index of the contiguous range of items</param>
         /// <returns>true, if items were added</returns>
-        private bool processAddBatch(LinkedList<Tvalue> batch, int startindex)
+        private bool processAddBatch(LinkedList<TValue> batch, int startindex)
         {
 #if DEBUG
-            foreach (Tvalue itm in batch)
+            foreach (TValue itm in batch)
             {
                 Debug.Assert(_sortedList.ContainsKey(itm.Key), string.Format("Item '{0}' not found in the collection!", itm.Key));
             }
@@ -200,10 +207,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// each batch at once, firing one change notification per batch.
         /// </remarks>
         /// <param name="items">items to add</param>
-        internal void AddAll(IEnumerable<Tvalue> items)
+        internal void AddAll(IEnumerable<TValue> items)
         {
-            LinkedList<Tvalue> addedItems = new LinkedList<Tvalue>();
-            foreach (Tvalue item in items)
+            LinkedList<TValue> addedItems = new LinkedList<TValue>();
+            foreach (TValue item in items)
             {
                 if (!_sortedList.ContainsKey(item.Key))
                 {
@@ -213,8 +220,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
 
             // build a sorted list of added items
-            SortedList<int, Tvalue> sortedAdds = new SortedList<int, Tvalue>();
-            foreach (Tvalue a in addedItems)
+            SortedList<int, TValue> sortedAdds = new SortedList<int, TValue>();
+            foreach (TValue a in addedItems)
             {
                 int index = _sortedList.IndexOfKey(a.Key);
 #if DEBUG
@@ -228,7 +235,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             int batchLastIndex = -2;
             addedItems.Clear();
 
-            foreach (KeyValuePair<int, Tvalue> item in sortedAdds)
+            foreach (KeyValuePair<int, TValue> item in sortedAdds)
             {
                 if (item.Key > batchLastIndex + 1)
                 {
@@ -257,6 +264,19 @@ namespace WetHatLab.OneNote.TaggingKit.common
             CollectionChanged = null;
         }
         #endregion
+
+        #region IEnumeable<TValue>
+        public IEnumerator<TValue> GetEnumerator()
+        {
+            return _sortedList.Values.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return _sortedList.Values.GetEnumerator();
+        }
+
+        #endregion IEnumeable<TValue>
 
     }
 }
