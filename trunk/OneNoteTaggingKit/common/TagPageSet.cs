@@ -14,7 +14,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
         private HashSet<TaggedPage> _pages = new HashSet<TaggedPage>();
 
-        private HashSet<TaggedPage> _filtered;
+        private HashSet<TaggedPage> _filteredPages;
 
         /// <summary>
         /// get name of the tag.
@@ -38,7 +38,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         {
             get
             {
-                return _filtered != null ?_filtered : _pages;
+                return _filteredPages != null ?_filteredPages : _pages;
             }
         }
 
@@ -51,23 +51,28 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
         internal bool AddPage(TaggedPage pg)
         {
-            return _pages.Add(pg);
+            bool added = _pages.Add(pg);
+
+            if (added)
+            {
+                firePropertyChanged(PAGE_COUNT);
+            }
+            return added;
         }
 
+        internal void ClearFilter()
+        {
+            if (_filteredPages != null)
+            {
+                _filteredPages = null;
+                firePropertyChanged(PAGE_COUNT);
+            }
+        }
         internal void IntersectWith(IEnumerable<TaggedPage> filter)
         {
             int countBefore = PageCount;
-            if (filter != null)
-            {
-                
-
-                _filtered = new HashSet<TaggedPage>(_pages);
-                _filtered.IntersectWith(filter);
-            }
-            else
-            {
-                _filtered = null;
-            }
+            _filteredPages = new HashSet<TaggedPage>(_pages);
+            _filteredPages.IntersectWith(filter);
 
             if (countBefore != PageCount)
             {

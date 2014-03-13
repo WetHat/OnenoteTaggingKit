@@ -58,7 +58,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             _pages.Find(String.Empty, String.Empty);
 
             IEnumerable<RemovableTagModel> suggestions = from s in OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags)
-                                                         where !_pages.Tags.Contains(s)
+                                                         where !_pages.Tags.ContainsKey(s)
                                                          select new RemovableTagModel(new TagPageSet(s));
 
             IEnumerable<RemovableTagModel> tagsInUse = from t in _pages.Tags.Values select new RemovableTagModel(t);

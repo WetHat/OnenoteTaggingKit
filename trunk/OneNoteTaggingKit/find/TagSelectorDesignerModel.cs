@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Windows;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {
@@ -29,5 +27,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
             get { return "A Tag"; }
         }
         #endregion
+
+
+        public Visibility Visibility
+        {
+            get { return System.Windows.Visibility.Visible; }
+        }
     }
 }
