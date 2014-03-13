@@ -38,8 +38,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
         where TValue : IKeyedItem<TKey>
         where TKey : IEquatable<TKey>;
 
-    public class ObservableDictionary<TKey,TValue> where TValue : IKeyedItem<TKey>
-                                                   where TKey   : IEquatable<TKey>
+    public class ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
+        where TValue : IKeyedItem<TKey>
+        where TKey : IEquatable<TKey>
     {
         private IDictionary<TKey, TValue> _dictionary = new Dictionary<TKey,TValue>();
 
@@ -51,25 +52,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
             {
                 CollectionChanged(this, e);
             }
-        }
-
-        public ICollection<TValue> Values
-        {
-            get
-            {
-                return _dictionary.Values;
-            }
-        }
-
-        public bool Add(TValue value)
-        {
-            TValue found;
-            bool added;
-            if (!(added = _dictionary.TryGetValue(value.Key,out found)))
-            {
-                fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey,TValue>(value,NotifyDictionaryChangedAction.Add));
-            }
-            return added;
         }
 
         public void UnionWith(IEnumerable<TValue> items)
@@ -134,14 +116,37 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
         }
 
-        public bool Contains(TKey key)
+        private bool Add(TValue value)
+        {
+            TValue found;
+            bool added = false;
+            if (!_dictionary.TryGetValue(value.Key, out found))
+            {
+                _dictionary.Add(value.Key, value);
+                added = true;
+                fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey, TValue>(value, NotifyDictionaryChangedAction.Add));
+            }
+            return added;
+        }
+
+        #region IDictionary<TKey,TValue>
+
+        public bool ContainsKey(TKey key)
         {
             return _dictionary.ContainsKey(key);
         }
 
-        public bool Contains(TValue value)
+        public ICollection<TValue> Values
         {
-            return _dictionary.ContainsKey(value.Key);
+            get
+            {
+                return _dictionary.Values;
+            }
+        }
+
+        public ICollection<TKey> Keys
+        {
+            get { return _dictionary.Keys; }
         }
 
         public bool Remove(TKey key)
@@ -172,5 +177,63 @@ namespace WetHatLab.OneNote.TaggingKit.common
         {
             return _dictionary.GetEnumerator();
         }
+
+        public void Add(TKey key, TValue value)
+        {
+            Add(value);
+        }
+
+        public bool TryGetValue(TKey key, out TValue value)
+        {
+            return _dictionary.TryGetValue(key, out value);
+        }
+
+        public TValue this[TKey key]
+        {
+            get
+            {
+                return _dictionary[key];
+            }
+            set
+            {
+                Add(value);
+            }
+        }
+
+        public void Add(KeyValuePair<TKey, TValue> item)
+        {
+            Add(item);
+        }
+
+        public bool Contains(KeyValuePair<TKey, TValue> item)
+        {
+            return ContainsKey(item.Key);
+        }
+
+        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+        {
+            _dictionary.CopyTo(array, arrayIndex);
+        }
+
+        public bool IsReadOnly
+        {
+            get { return false; }
+        }
+
+        public bool Remove(KeyValuePair<TKey, TValue> item)
+        {
+            bool removed = _dictionary.Remove(item);
+            if (removed)
+            {
+                fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey,TValue>(item.Value,NotifyDictionaryChangedAction.Remove));
+            }
+            return removed;
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return _dictionary.GetEnumerator();
+        }
+        #endregion IDictionary<TKey,TValue>
     }
 }
