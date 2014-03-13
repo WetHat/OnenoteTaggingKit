@@ -32,9 +32,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <remarks>May be null if no full text query was used to retrieve tags</remarks>
         private ISet<TaggedPage> _searchResult;
         private ISet<TagPageSet> _filterTags = new HashSet<TagPageSet>();
-        private IDictionary<string,TagPageSet> _allTags = new Dictionary<string,TagPageSet>();
 
-        private ObservableDictionary<string, TagPageSet> _filteredTags = new ObservableDictionary<string,TagPageSet>();
+        private ObservableDictionary<string, TagPageSet> _tags = new ObservableDictionary<string,TagPageSet>();
         private ObservableDictionary<string, TaggedPage> _filteredPages = new ObservableDictionary<string,TaggedPage>();
 
         internal FilterablePageCollection(Application onenote, XMLSchema schema)
@@ -68,8 +67,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
             parseSearchResult(query, strXml);
 
-            _filteredTags.UnionWith(_allTags.Values);
-
             if (_searchResult != null)
             {
                 // announce the search result
@@ -82,7 +79,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 int countBefore = knownTags.Count;
 
                 // add tags from search result
-                foreach (KeyValuePair<string,TagPageSet> t in _allTags)
+                foreach (KeyValuePair<string,TagPageSet> t in _tags)
                 {
                     knownTags.Add(t.Key);
                 }
@@ -99,8 +96,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         internal void parseSearchResult(string query, string strXml)
         {
             _filterTags.Clear();
-            _allTags.Clear();
-            _filteredTags.Clear();
+            _tags.Clear();
             _filteredPages.Clear();
             // process result
             try
@@ -115,10 +111,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     {
                         TagPageSet t;
 
-                        if (!_allTags.TryGetValue(tag, out t))
+                        if (!_tags.TryGetValue(tag, out t))
                         {
                             t = new TagPageSet(tag);
-                            _allTags.Add(tag, t);
+                            _tags.Add(tag, t);
                         }
                         t.AddPage(tp);
                     }
@@ -139,7 +135,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </summary>
         internal ObservableDictionary<string,TagPageSet> Tags
         {
-            get { return _filteredTags;}
+            get { return _tags;}
         }
 
         /// <summary>
@@ -193,7 +189,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
             else if (_filterTags.Add(tag))
             {
                 // remove pages which are not in this tag's page set
-                ISet<TaggedPage> pagesInTag = tag.Pages;
                 _filteredPages.IntersectWith(tag.Pages);
                 ApplyFilterToTags();
             }
@@ -226,7 +221,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     HashSet<TaggedPage> filteredPages = _searchResult != null ? new HashSet<TaggedPage>(_searchResult) : null;
                     foreach ( TagPageSet tps in _filterTags)
                     {
-                        tps.IntersectWith(null);
+                        tps.ClearFilter();
                         if (filteredPages != null)
                         {
                             filteredPages.IntersectWith(tps.Pages);
@@ -247,30 +242,24 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         /// <summary>
-        /// Apply the current page filter add tags with a page count > 0 and remove tags with page count == 0
-        /// form the set of tags
+        /// Apply the current page filter
         /// </summary>
         private void ApplyFilterToTags()
         {      
-            var pages = _searchResult == null && _filterTags.Count == 0 ? null:_filteredPages.Values;
-
-            LinkedList<TagPageSet> toAdd = new LinkedList<TagPageSet>();
-            LinkedList<TagPageSet> toRemove = new LinkedList<TagPageSet>();
-            foreach (TagPageSet tag in _allTags.Values)
+            if (_searchResult == null && _filterTags.Count == 0)
             {
-                tag.IntersectWith(pages);
-                if (tag.Pages.Count > 0)
+                foreach (TagPageSet tag in _tags.Values)
                 {
-                    toAdd.AddLast(tag);
-                }
-                else
-                {
-                    toRemove.AddLast(tag);
+                    tag.ClearFilter();
                 }
             }
-
-            _filteredTags.ExceptWith(toRemove);
-            _filteredTags.UnionWith(toAdd);
+            else
+            {
+                foreach (TagPageSet tag in _tags.Values)
+                {
+                    tag.IntersectWith(_filteredPages.Values);
+                }
+            }
         }
     }
 }

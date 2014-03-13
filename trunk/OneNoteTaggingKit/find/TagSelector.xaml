@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:WetHatLab.OneNote.TaggingKit.find"
              xmlns:prop="clr-namespace:WetHatLab.OneNote.TaggingKit.Properties"
+             Visibility="{Binding Visibility, Mode=OneWay}"
              d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:TagSelectorDesignerModel}}"
              mc:Ignorable="d">
     <ToggleButton Background="White"
