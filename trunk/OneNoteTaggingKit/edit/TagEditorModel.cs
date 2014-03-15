@@ -3,11 +3,11 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using WetHatLab.OneNote.TaggingKit.common;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
@@ -20,7 +20,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <summary>
         /// Get the collection of tags on current OneNote page.
         /// </summary>
-        ObservableSortedList<string,string,SimpleTagButtonModel> PageTags { get; }
+        ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> PageTags { get; }
 
         /// <summary>
         /// Get the collection of all knows tags.
@@ -51,7 +51,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private TaskFactory _taskFactory = new TaskFactory();
 
-        private ObservableSortedList<string,string,SimpleTagButtonModel> _pageTags = new ObservableSortedList<string,string,SimpleTagButtonModel>();
+        private ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> _pageTags = new ObservableSortedList<TagModelKey, string, SimpleTagButtonModel>();
         private ObservableCollection<string> _knownTags = new ObservableCollection<string>();
 
         private OneNotePageProxy _currentPage;
@@ -73,7 +73,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <summary>
         /// Get the collection of page tags.
         /// </summary>
-        public ObservableSortedList<string,string,SimpleTagButtonModel> PageTags
+        public ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> PageTags
         {
             get { return _pageTags; }
         }

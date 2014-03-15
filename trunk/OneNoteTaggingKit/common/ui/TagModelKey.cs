@@ -14,24 +14,17 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             _tagKey = tagname.ToLower();
         }
 
-        internal string TagKey
-        {
-            get
-            {
-                return _tagKey;
-            }
-        }
         #region IComparable<TagModelKey>
         public int CompareTo(TagModelKey other)
         {
-            return _tagKey.CompareTo(other.TagKey);
+            return _tagKey.CompareTo(other._tagKey);
         }
         #endregion IComparable<string>
 
         #region IEquatable<TagModelKey>
         public bool Equals(TagModelKey other)
         {
-            return _tagKey.Equals(other.TagKey);
+            return _tagKey.Equals(other._tagKey);
         }
         #endregion
 
@@ -47,7 +40,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             {
                 return false;
             }
-            return _tagKey.Equals(otherkey.TagKey);
+            return _tagKey.Equals(otherkey._tagKey);
         } 
     }
 }
