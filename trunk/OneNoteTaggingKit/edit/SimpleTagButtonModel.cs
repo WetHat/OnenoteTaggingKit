@@ -1,21 +1,25 @@
 ﻿using WetHatLab.OneNote.TaggingKit.common;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
     /// <summary>
     /// A simple view model for a tag consisting of just a name (key)
     /// </summary>
-    public class SimpleTagButtonModel : ISortableKeyedItem<string,string>
+    public class SimpleTagButtonModel : ISortableKeyedItem<TagModelKey,string>
     {
         private string _tag;
+
+        private TagModelKey _sortKey;
 
         /// <summary>
         /// Create a new instance of a <see cref="SimpleTag"/> object
         /// </summary>
-        /// <param name="tag"></param>
+        /// <param name="tag">tag name</param>
         public SimpleTagButtonModel(string tag)
         {
             _tag = tag;
+            _sortKey = new TagModelKey(tag);
         }
 
         /// <summary>
@@ -26,7 +30,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             get { return _tag; }
         }
 
-        #region ISortableKeyedItem<string,string>
+        #region ISortableKeyedItem<TagModelKey,string>
         /// <summary>
         /// Get the key (name) of this tag
         /// </summary>
@@ -34,12 +38,13 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             get { return _tag; }
         }
-
-        public string SortKey
+        public TagModelKey SortKey
         {
-            get { return _tag; }
+            get { return _sortKey; }
         }
+        #endregion ISortableKeyedItem<TagModelKey,string>
 
-        #endregion ISortableKeyedItem<string,string>
+
+        
     }
 }
