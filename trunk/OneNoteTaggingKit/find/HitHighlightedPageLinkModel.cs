@@ -67,7 +67,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         MatchCollection Matches { get;}
     }
 
-    public class HitHighlightedPageLinkModel : HitHighlightedPageLinkKey, ISortableKeyedItem<HitHighlightedPageLinkKey>, IHitHighlightedPageLinkModel
+    public class HitHighlightedPageLinkModel : HitHighlightedPageLinkKey, ISortableKeyedItem<HitHighlightedPageLinkKey,string>, IHitHighlightedPageLinkModel
     {
         private TaggedPage _page;
 
@@ -101,11 +101,17 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
         #endregion
 
-        #region ISortableKeyedItem<HitHighlightedPageLinkKey>
-        public HitHighlightedPageLinkKey Key
+        #region ISortableKeyedItem<HitHighlightedPageLinkKey,string>
+        public string Key
         {
-            get { return this; }
+            get { return PageID; }
         }
-        #endregion ISortableKeyedItem<HitHighlightedPageLinkKey>
+
+        public HitHighlightedPageLinkKey SortKey
+        {
+            get { return this;  }
+        }
+
+        #endregion ISortableKeyedItem<HitHighlightedPageLinkKey,string>
     }
 }

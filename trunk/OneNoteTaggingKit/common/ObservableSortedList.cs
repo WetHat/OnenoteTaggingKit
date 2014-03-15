@@ -14,31 +14,35 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// class is optimized for batch updates (item collections). Single items cannot be added. 
     /// </remarks>
     /// <typeparam name="Tvalue">item type providing sortable keys</typeparam>
-    public class ObservableSortedList<TKey, TValue> : INotifyCollectionChanged, IEnumerable<TValue>, IDisposable
-        where TValue : ISortableKeyedItem<TKey>
-        where TKey   : IComparable<TKey>, IEquatable<TKey>
+    public class ObservableSortedList<TSort, TKey, TValue> : INotifyCollectionChanged, IEnumerable<TValue>
+        where TValue : ISortableKeyedItem<TSort,TKey>
+        where TKey : IEquatable<TKey>
+        where TSort  : IComparable<TSort>
     {
         /// <summary>
         /// Event to notify about changes to this collection.
         /// </summary>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
-        private SortedList<TKey, TValue> _sortedList;
+        const int INITIAL_CAPACITY = 200;
+        private List<KeyValuePair<TSort, TValue>> _sortedList = new List<KeyValuePair<TSort, TValue>>(INITIAL_CAPACITY);
+        private Dictionary<TKey, TValue> _dictionary = new Dictionary<TKey, TValue>(INITIAL_CAPACITY);
 
-        private class KeyComparer: IComparer<TKey>
+        private class Comparer<TSort, TValue> : IComparer<KeyValuePair<TSort, TValue>>
+                                                where TSort : IComparable<TSort>
         {
-            #region IComparer<TKey>
-            public int Compare(TKey x, TKey y)
+            #region IComparer<KeyValuePair<TSort, TValue>>
+            public int Compare(KeyValuePair<TSort, TValue> x, KeyValuePair<TSort, TValue> y)
             {
-                return x.CompareTo(y);
+                return x.Key.CompareTo(y.Key);
             }
-            #endregion IComparer<TKey>
+            #endregion IComparer<KeyValuePair<TSort, TValue>>
         };
 
-        public ObservableSortedList()
-        {
-            _sortedList = new SortedList<TKey, TValue>(new KeyComparer());
-        }
+        private static IComparer<KeyValuePair<TSort, TValue>> _comparer = new Comparer<TSort, TValue>();
+
+        private static IComparer<KeyValuePair<int, TValue>> _indexComparer = new Comparer<int, TValue>();
+
         /// <summary>
         /// Get the number of items in the collection.
         /// </summary>
@@ -50,9 +54,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Get all items in the collection.
         /// </summary>
-        public IList<TValue> Values
+        public IEnumerable<TValue> Values
         {
-            get { return _sortedList.Values; }
+            get { return from e in _sortedList select e.Value; }
         }
 
         /// <summary>
@@ -62,7 +66,20 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <returns>true if the given item is contained in the list; false otherwise</returns>
         public bool ContainsKey(TKey key)
         {
-            return _sortedList.ContainsKey(key);
+            return _dictionary.ContainsKey(key);
+        }
+
+        private int IndexOfKey(TKey key)
+        {
+            int index = -1;
+            TValue found;
+            if (_dictionary.TryGetValue(key, out found))
+            {
+                // lookup the index in the sorted list
+                index = _sortedList.BinarySearch(new KeyValuePair<TSort,TValue>(found.SortKey,found),_comparer);
+            }
+
+            return index;
         }
 
         /// <summary>
@@ -74,47 +91,12 @@ namespace WetHatLab.OneNote.TaggingKit.common
         public void Clear()
         {
             _sortedList.Clear();
+            _dictionary.Clear();
             NotifyCollectionChangedEventArgs args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
             if (CollectionChanged != null)
             {
                 CollectionChanged(this, args);
             }
-        }
-
-        /// <summary>
-        /// Inform listeners to change notifications about removal of a contiguous range of items.
-        /// </summary>
-        /// <remarks>
-        /// This method in addition also removes the items from the sorted collection. Hence it expects
-        /// all given items to be still present in the sorted collection
-        /// </remarks>
-        /// <param name="batch">items to remove</param>
-        /// <param name="startindex">start index of contiguous range of items</param>
-        /// <returns>true, if batch was non empty</returns>
-        private bool processRemoveBatch(LinkedList<TValue> batch, int startindex)
-        {
-            if (batch.Count > 0)
-            {
-                // remove this batch from the sorted list
-                foreach (TValue dead in batch)
-                {
-                    bool removed = _sortedList.Remove(dead.Key);
-#if DEBUG
-                    Debug.Assert(removed, string.Format("Item with key '{0}' could not be removed!", dead.Key));
-#endif
-                }
-
-                // fire event for this batch
-                NotifyCollectionChangedEventArgs args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove,
-                                                                                             batch.ToArray(),
-                                                                                             startindex);
-                if (CollectionChanged != null)
-                {
-                    CollectionChanged(this, args);
-                }
-                return true;
-            }
-            return false;
         }
 
         /// <summary>
@@ -127,76 +109,59 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="items">items to remove</param>
         internal void RemoveAll(IEnumerable<TKey> keys)
         {
-            SortedList<int, TValue> toDelete = new SortedList<int, TValue>();
+            List<KeyValuePair<int, TValue>> toDelete = new List<KeyValuePair<int, TValue>>();
             foreach (TKey key in keys)
             {
-                int index = _sortedList.IndexOfKey(key);
+                int index = IndexOfKey(key);
                 if (index >= 0)
                 {
-                    toDelete.Add(index, _sortedList[key]);
+                    toDelete.Add(new KeyValuePair<int, TValue>(index,_dictionary[key]));
                 }
             }
+            toDelete.Sort(_indexComparer);
 
-            // fire event in batches
-            int n = 0;
-            int batchStartIndex = -1;
-            int batchLastIndex = -2;
-            LinkedList<TValue> batch = new LinkedList<TValue>();
-            foreach (KeyValuePair<int, TValue> item in toDelete)
+            while (toDelete.Count > 0)
             {
-                if (item.Key > batchLastIndex + 1)
-                {   // finish current batch
-                    if (processRemoveBatch(batch, batchStartIndex - n))
-                    {
-                        n += batch.Count;
-                        batch.Clear();
-                    }
-
-                    // ... and start new batch with this item
-                    batchStartIndex = item.Key;
-                    batchLastIndex = batchStartIndex - 1;
+                LinkedList<KeyValuePair<int, TValue>> batch = new LinkedList<KeyValuePair<int, TValue>>();
+                int lastElementIndex = toDelete.Count-1;
+                batch.AddFirst(toDelete[lastElementIndex]);
+                toDelete.RemoveAt(lastElementIndex);
+                int n = 1;
+                // keep adding elements with contiguous indices
+                lastElementIndex = toDelete.Count-1;
+                while ( lastElementIndex >= 0 && toDelete[lastElementIndex].Key == (batch.First.Value.Key - 1))
+                {
+                    batch.AddFirst(toDelete[lastElementIndex]);
+                    toDelete.RemoveAt(lastElementIndex);
+                    lastElementIndex = toDelete.Count-1;
+                    n++;
                 }
-#if DEBUG
-                Debug.Assert(item.Key == batchLastIndex + 1);
-#endif
-                batchLastIndex = item.Key;
-                batch.AddLast(item.Value);
-            }
 
-            // fire event for last batch
-            processRemoveBatch(batch, batchStartIndex - n);
-        }
-
-        /// <summary>
-        /// Inform listeners to change notifications about addition of a contiguous range of items.
-        /// </summary>
-        /// <remarks>
-        /// It is assumed that all items in the provided batch are already present in the sorted collection.
-        /// </remarks>
-        /// <param name="batch">collection of items to add</param>
-        /// <param name="startindex">start index of the contiguous range of items</param>
-        /// <returns>true, if items were added</returns>
-        private bool processAddBatch(LinkedList<TValue> batch, int startindex)
-        {
+                int startindex = batch.First.Value.Key;
+                
+                List<TValue> olditems = new List<TValue>(n);
+                foreach (var dead in batch)
+                {
+                    olditems.Add(dead.Value);
+                    bool removed = _dictionary.Remove(dead.Value.Key);
 #if DEBUG
-            foreach (TValue itm in batch)
-            {
-                Debug.Assert(_sortedList.ContainsKey(itm.Key), string.Format("Item '{0}' not found in the collection!", itm.Key));
-            }
+                    Debug.Assert(removed, string.Format("Failed to remove item with key {0}",dead.Value.Key));
 #endif
-            if (batch.Count > 0)
-            {
-                // fire event for this batch
-                NotifyCollectionChangedEventArgs args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add,
-                                                                                             batch.ToArray(),
-                                                                                             startindex);
+                }
+
+                // remove this batch from the list
+                _sortedList.RemoveRange(startindex,n);
+
+                // fire the event to inform listeners
                 if (CollectionChanged != null)
                 {
+                    // fire event for this batch
+                    NotifyCollectionChangedEventArgs args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove,
+                                                                                                 olditems,
+                                                                                                 startindex);
                     CollectionChanged(this, args);
                 }
-                return true;
             }
-            return false;
         }
 
         /// <summary>
@@ -209,74 +174,73 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="items">items to add</param>
         internal void AddAll(IEnumerable<TValue> items)
         {
-            LinkedList<TValue> addedItems = new LinkedList<TValue>();
+            List<KeyValuePair<int,TValue>> toAdd = new List<KeyValuePair<int,TValue>>();
             foreach (TValue item in items)
             {
-                if (!_sortedList.ContainsKey(item.Key))
+                if (!_dictionary.ContainsKey(item.Key))
                 {
-                    addedItems.AddLast(item);
-                    _sortedList.Add(item.Key, item);
+                    // lookup insertion point
+                    int insertionPoint = _sortedList.BinarySearch(new KeyValuePair<TSort,TValue>(item.SortKey,item),_comparer);
+#if DEBUG
+                    Debug.Assert(insertionPoint < 0, string.Format("Item with key {0} already present in list at index {1}",item.Key, insertionPoint));
+#endif
+                    _dictionary.Add(item.Key,item);
+                    toAdd.Add(new KeyValuePair<int, TValue>(~insertionPoint, item));                 
                 }
             }
+            toAdd.Sort(_indexComparer);
 
-            // build a sorted list of added items
-            SortedList<int, TValue> sortedAdds = new SortedList<int, TValue>();
-            foreach (TValue a in addedItems)
+            // process the sorted list of items to add in reverse order so that we do not
+            // have to correct indices
+
+            while (toAdd.Count > 0)
             {
-                int index = _sortedList.IndexOfKey(a.Key);
-#if DEBUG
-                Debug.Assert(index >= 0, string.Format("previously added item not found: {0}", a.Key));
-#endif
-                sortedAdds.Add(index, a);
-            }
+                List<KeyValuePair<TSort, TValue>> batch = new List<KeyValuePair<TSort, TValue>>();
 
-            // fire event in batches
-            int batchStartIndex = -1;
-            int batchLastIndex = -2;
-            addedItems.Clear();
+                int lastItemIndex = toAdd.Count - 1;
+                KeyValuePair<int, TValue> itemToAdd = toAdd[lastItemIndex];
 
-            foreach (KeyValuePair<int, TValue> item in sortedAdds)
-            {
-                if (item.Key > batchLastIndex + 1)
+                int insertionPoint = itemToAdd.Key;
+                batch.Add(new KeyValuePair<TSort,TValue>(itemToAdd.Value.SortKey,itemToAdd.Value));
+
+                toAdd.RemoveAt(lastItemIndex);
+                lastItemIndex = toAdd.Count - 1;
+
+                while (lastItemIndex >= 0 && toAdd[lastItemIndex].Key == insertionPoint)
                 {
-                    // process current batch
-                    if (processAddBatch(addedItems, batchStartIndex))
-                    {
-                        addedItems.Clear();
-                    }
-                    // ... and start a new batch with this item
-                    batchStartIndex = item.Key;
-                    batchLastIndex = batchStartIndex - 1;
+                    itemToAdd = toAdd[lastItemIndex];
+                    batch.Add(new KeyValuePair<TSort, TValue>(itemToAdd.Value.SortKey, itemToAdd.Value));
+                     
+                    toAdd.RemoveAt(lastItemIndex);
+                    lastItemIndex = toAdd.Count - 1;
                 }
-#if DEBUG
-                Debug.Assert(item.Key == batchLastIndex + 1);
-#endif
-                batchLastIndex = item.Key;
-                addedItems.AddLast(item.Value);
+
+                batch.Sort(_comparer);
+
+                _sortedList.InsertRange(insertionPoint, batch);
+
+                if (CollectionChanged != null)
+                {
+                    NotifyCollectionChangedEventArgs args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add,
+                                                                                          (from b in batch select b.Value).ToList(),
+                                                                                          insertionPoint);
+             
+                    CollectionChanged(this, args);
+                }
             }
-
-            // fire event for last batch
-            processAddBatch(addedItems, batchStartIndex);
         }
-        #region IDisposable
-        public void Dispose()
-        {
-            CollectionChanged = null;
-        }
-        #endregion
 
-        #region IEnumeable<TValue>
+        #region IEnumerable<TValue>
         public IEnumerator<TValue> GetEnumerator()
         {
-            return _sortedList.Values.GetEnumerator();
+            return Values.GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return _sortedList.Values.GetEnumerator();
+            return Values.GetEnumerator();
         }
 
-        #endregion IEnumeable<TValue>
-
+        #endregion IEnumerable<TValue>
     }
 }

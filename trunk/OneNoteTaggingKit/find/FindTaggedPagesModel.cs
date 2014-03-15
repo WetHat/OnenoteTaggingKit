@@ -33,8 +33,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Get the collection of pages with particular tags
         /// </summary>
-        ObservableSortedList <HitHighlightedPageLinkKey, HitHighlightedPageLinkModel> Pages { get; }
-        ObservableSortedList <TagModelKey, TagSelectorModel> Tags { get; }
+        ObservableSortedList <HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel> Pages { get; }
+        ObservableSortedList <TagModelKey, string, TagSelectorModel> Tags { get; }
 
         int PageCount { get; }
         int TagCount { get; }
@@ -99,8 +99,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
         private FilterablePageCollection _searchResult ;
 
         // pages in the search result exposed to the UI
-        private ObservableSortedList<HitHighlightedPageLinkKey, HitHighlightedPageLinkModel> _pages = new ObservableSortedList<HitHighlightedPageLinkKey, HitHighlightedPageLinkModel>();
-        private ObservableSortedList<TagModelKey, TagSelectorModel> _tags = new ObservableSortedList<TagModelKey, TagSelectorModel>();
+        private ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel> _pages = new ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel>();
+        private ObservableSortedList<TagModelKey, string, TagSelectorModel> _tags = new ObservableSortedList<TagModelKey, string, TagSelectorModel>();
         
         private CancellationTokenSource _cancelWorker = new CancellationTokenSource();
         private BlockingCollection<Action> _actions;
@@ -319,10 +319,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     a = () => _tags.AddAll(from i in e.Items select new TagSelectorModel(i, OnModelPropertyChanged));;
                     break;
                 case NotifyDictionaryChangedAction.Remove:
-                    a = () =>_tags.RemoveAll(from i in e.Items select new TagModelKey(i.TagName));
+                    a = () =>_tags.RemoveAll(from i in e.Items select i.Key);
                     break;
                 case NotifyDictionaryChangedAction.Reset:
-                    a = () => _pages.Clear();
+                    a = () => _tags.Clear();
                     break;
             }
            if (a != null)
@@ -340,7 +340,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     a = () => _pages.AddAll(from i in e.Items select new HitHighlightedPageLinkModel(i,_queryPattern));
                     break;
                 case NotifyDictionaryChangedAction.Remove:
-                    a = () => _pages.RemoveAll(from i in e.Items select new HitHighlightedPageLinkKey(i.Title, i.ID));
+                    a = () => _pages.RemoveAll(from i in e.Items select i.Key);
                     break;
                 case NotifyDictionaryChangedAction.Reset:
                     a = () => _pages.Clear();
@@ -355,7 +355,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// get the collection of pages having specific tag
         /// </summary>
-        public ObservableSortedList <HitHighlightedPageLinkKey, HitHighlightedPageLinkModel> Pages
+        public ObservableSortedList <HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel> Pages
         {
             get { return _pages; }
         }
@@ -363,7 +363,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// get the collection of tags 
         /// </summary>
-        public ObservableSortedList <TagModelKey, TagSelectorModel> Tags
+        public ObservableSortedList <TagModelKey, string, TagSelectorModel> Tags
         {
             get { return _tags; }
         }

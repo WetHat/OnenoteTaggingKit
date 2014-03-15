@@ -6,7 +6,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     /// View model backing a <see cref="RemovableTag"/> user control.
     /// </summary>
     /// <remarks>Provides properties to enable/disable a tag for removal and to adjust the presentation of the corresponding UI element.</remarks>
-    public class RemovableTagModel : ISortableKeyedItem<string>
+    public class RemovableTagModel : ISortableKeyedItem<string,string>
     {
         private TagPageSet _tag;
 
@@ -55,6 +55,11 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         {
             get { return _tag.Key; }
         }
+        public string SortKey
+        {
+            get { return _tag.Key; }
+        }
+
         #endregion IKeyedItem
     }
 }
