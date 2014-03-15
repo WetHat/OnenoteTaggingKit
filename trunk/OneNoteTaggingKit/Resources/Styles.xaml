@@ -9,4 +9,21 @@
         <Setter Property="Foreground"          Value="LightBlue" />
         <Setter Property="Background"          Value="WhiteSmoke" />
     </Style>
+
+    <Style TargetType="{x:Type ToolTip}">
+        <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="BorderBrush" Value="Gold"/>
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Mode=OneWay}"
+                               MaxWidth="300"
+                               ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                               TextWrapping="Wrap"
+                               TextTrimming="WordEllipsis"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
