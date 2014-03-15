@@ -104,6 +104,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 XDocument result = XDocument.Parse(strXml);
                 XNamespace one = result.Root.GetNamespaceOfPrefix("one");
 
+                Dictionary<string, TagPageSet> tags = new Dictionary<string, TagPageSet>();
                 foreach (XElement page in result.Descendants(one.GetName("Page")))
                 {
                     TaggedPage tp = new TaggedPage(page);
@@ -111,10 +112,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     {
                         TagPageSet t;
 
-                        if (!_tags.TryGetValue(tag, out t))
+                        if (!tags.TryGetValue(tag, out t))
                         {
                             t = new TagPageSet(tag);
-                            _tags.Add(tag, t);
+                            tags.Add(tag, t);
                         }
                         t.AddPage(tp);
                     }
@@ -123,6 +124,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                         _searchResult.Add(tp);
                     }
                 }
+                _tags.UnionWith(tags.Values);
             }
             catch (Exception)
             {

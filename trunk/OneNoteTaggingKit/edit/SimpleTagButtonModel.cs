@@ -5,7 +5,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     /// <summary>
     /// A simple view model for a tag consisting of just a name (key)
     /// </summary>
-    public class SimpleTagButtonModel : ISortableKeyedItem<string>
+    public class SimpleTagButtonModel : ISortableKeyedItem<string,string>
     {
         private string _tag;
 
@@ -26,7 +26,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             get { return _tag; }
         }
 
-        #region IKeyedItem
+        #region ISortableKeyedItem<string,string>
         /// <summary>
         /// Get the key (name) of this tag
         /// </summary>
@@ -34,6 +34,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             get { return _tag; }
         }
-        #endregion IKeyedItem
+
+        public string SortKey
+        {
+            get { return _tag; }
+        }
+
+        #endregion ISortableKeyedItem<string,string>
     }
 }

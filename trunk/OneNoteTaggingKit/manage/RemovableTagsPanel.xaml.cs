@@ -13,15 +13,15 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <summary>
         /// Dependecy property for the collection of tags this panel displays.
         /// </summary>
-        public static readonly DependencyProperty TagsProperty = DependencyProperty.Register("Tags", typeof(ObservableSortedList<string,RemovableTagModel>), typeof(RemovableTagsPanel), new PropertyMetadata(null, OnTagsPropertyChanged));
+        public static readonly DependencyProperty TagsProperty = DependencyProperty.Register("Tags", typeof(ObservableSortedList<string,string,RemovableTagModel>), typeof(RemovableTagsPanel), new PropertyMetadata(null, OnTagsPropertyChanged));
 
         /// <summary>
         /// Get or set the Collection of tags this panel should display
         /// </summary>
         /// <remarks>clr wrapper of the <see cref="TagsProperty"/> dependency property</remarks>
-        internal ObservableSortedList<string,RemovableTagModel> Tags
+        internal ObservableSortedList<string,string,RemovableTagModel> Tags
         {
-            get { return (ObservableSortedList<string,RemovableTagModel>)GetValue(TagsProperty); }
+            get { return (ObservableSortedList<string,string,RemovableTagModel>)GetValue(TagsProperty); }
             set { SetValue(TagsProperty, value); }
         }
 
@@ -45,11 +45,11 @@ namespace WetHatLab.OneNote.TaggingKit.manage
 
             if (e.OldValue != null)
             {
-                ((ObservableSortedList<string,RemovableTagModel>)e.OldValue).CollectionChanged -= panel.OnTagCollectionChanged;
+                ((ObservableSortedList<string,string,RemovableTagModel>)e.OldValue).CollectionChanged -= panel.OnTagCollectionChanged;
             }
             if (e.NewValue != null)
             {
-                ((ObservableSortedList<string,RemovableTagModel>)e.NewValue).CollectionChanged += panel.OnTagCollectionChanged;
+                ((ObservableSortedList<string,string,RemovableTagModel>)e.NewValue).CollectionChanged += panel.OnTagCollectionChanged;
                 panel.OnTagCollectionChanged(panel, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             }
         }
@@ -89,7 +89,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <param name="e">event details</param>
         private void OnTagCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            ObservableSortedList<string,RemovableTagModel> sortedTags = sender as ObservableSortedList<string,RemovableTagModel>;
+            ObservableSortedList<string,string,RemovableTagModel> sortedTags = sender as ObservableSortedList<string,string,RemovableTagModel>;
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:

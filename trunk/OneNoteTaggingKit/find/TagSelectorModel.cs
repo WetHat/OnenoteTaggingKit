@@ -17,7 +17,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         Visibility Visibility { get; }
     }
 
-    public class TagSelectorModel : DependencyObject, ISortableKeyedItem<TagModelKey>, ITagSelectorModel, INotifyPropertyChanged
+    public class TagSelectorModel : DependencyObject, ISortableKeyedItem<TagModelKey,string>, ITagSelectorModel, INotifyPropertyChanged
     {
         private static readonly PropertyChangedEventArgs PAGE_COUNT = new PropertyChangedEventArgs("PageCount");
         private static readonly PropertyChangedEventArgs IS_CHECKED = new PropertyChangedEventArgs("IsChecked");
@@ -126,16 +126,20 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         #endregion ITagSelectorModel
 
-        #region ISortableKeyedItem<TagModelKey>
-        public TagModelKey Key
+        #region ISortableKeyedItem<TagModelKey,string>
+        public TagModelKey SortKey
         {
             get { return _key; }
         }
-        #endregion ISortableKeyedItem<TagModelKey>
+
+        public string Key
+        {
+            get { return TagName; }
+        }
+        #endregion ISortableKeyedItem<TagModelKey,string>
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion INotifyPropertyChanged
-
     }
 }

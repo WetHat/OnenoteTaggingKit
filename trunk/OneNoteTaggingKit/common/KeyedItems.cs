@@ -21,7 +21,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// Contract for class which want to provide a unique key suitable for hashing and sorting
     /// </summary>
     /// <typeparam name="T">Type of the sortable unique key</typeparam>
-    public interface ISortableKeyedItem<T> : IKeyedItem<T> where T : IComparable<T>, IEquatable<T>
+    public interface ISortableKeyedItem<TSort,TKey> : IKeyedItem<TKey> where TSort : IComparable<TSort>
+                                                                       where TKey  : IEquatable<TKey>
     {
+        TSort SortKey { get;  }
     }
 }
