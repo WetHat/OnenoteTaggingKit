@@ -22,12 +22,19 @@
         Icon="/OneNoteTaggingKit;component/Resources/tag 32x32.png"
         Loaded="Window_Loaded" Closing="editTags_Closing">
     <Window.Resources>
-        <CollectionViewSource Source="{Binding KnownTags}" x:Key="knownTags">
-            <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription Direction="Ascending" />
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
-
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/OneNoteTaggingKit;component/Resources/Styles.xaml"/>
+                <ResourceDictionary>
+                    <CollectionViewSource Source="{Binding KnownTags}" x:Key="knownTags">
+                        <CollectionViewSource.SortDescriptions>
+                            <scm:SortDescription Direction="Ascending" />
+                        </CollectionViewSource.SortDescriptions>
+                    </CollectionViewSource>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        
     </Window.Resources>
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
@@ -56,12 +63,7 @@
             <local:SimpleTagsPanel Tags="{Binding PageTags}" VerticalAlignment="Stretch"/>
         </GroupBox>
 
-        <ProgressBar Name="pBar"
-                     Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
-                     IsIndeterminate="True"
-                     Width="100" Height="20"
-                     HorizontalAlignment="Center" VerticalAlignment="Center"
-                     Foreground="LightBlue" Background="WhiteSmoke"/>
+        <ProgressBar Name="pBar" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"/>
         <Button Grid.Row="0" Grid.ColumnSpan="2"
                 Width="26"
                 Margin="0,0,25,0"

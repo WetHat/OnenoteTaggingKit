@@ -17,7 +17,13 @@
         MinWidth="300"
         MinHeight="250"
         Closing="Window_Closing" Icon="/OneNoteTaggingKit;component/Resources/tagSearch 32x32.png" Loaded="Window_Loaded">
-
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/OneNoteTaggingKit;component/Resources/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
             <GradientStop Color="Ivory" Offset="0.497"/>
@@ -78,8 +84,7 @@
         </GroupBox>
         <ProgressBar Name="pBar"
                      Grid.Row="1"
-                     Grid.ColumnSpan="3"
-                     IsIndeterminate="True" Width="100" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="LightBlue" Background="WhiteSmoke"/>
+                     Grid.ColumnSpan="3"/>
         <Button Name="clearSelectionButton"  Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Top"  HorizontalAlignment="Right" Click="ClearSelectionButton_Click" BorderThickness="0" BorderBrush="LightBlue" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_ClearSelection_Button_Tooltip}}" Background="Transparent" Margin="0,0,25,0">
             <Image  MaxWidth="32" Height="24" HorizontalAlignment="Center" VerticalAlignment="Bottom" Source="/OneNoteTaggingKit;component/Resources/clear selection.png"/>
         </Button>
