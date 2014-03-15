@@ -39,12 +39,10 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             get { return _knownTags; }
         }
 
-        /// <summary>
-        /// Get the version of the addin
-        /// </summary>
-        public string AddinVersion
+
+        public string PageTitle
         {
-            get { return "1.2.3.4"; }
+            get { return "Designer Page"; }
         }
     }
 }

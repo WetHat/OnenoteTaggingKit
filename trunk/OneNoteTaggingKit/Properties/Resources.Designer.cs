@@ -230,7 +230,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Page Tag Collection.
+        ///   Looks up a localized string similar to Tags.
         /// </summary>
         public static string TagEditor_Tags_GroupBox_Title {
             get {
@@ -248,7 +248,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tag Explorer.
+        ///   Looks up a localized string similar to Untitled Note.
         /// </summary>
         public static string TagEditor_Windows_Title {
             get {
