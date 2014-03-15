@@ -1,4 +1,5 @@
 ﻿using WetHatLab.OneNote.TaggingKit.common;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.manage
 {
@@ -7,7 +8,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     /// </summary>
     public class TagManagerDesignerModel : ITagManagerModel
     {
-        ObservableSortedList<string,string,RemovableTagModel> _tags = new ObservableSortedList<string,string,RemovableTagModel>();
+        ObservableSortedList<TagModelKey, string, RemovableTagModel> _tags = new ObservableSortedList<TagModelKey, string, RemovableTagModel>();
 
         /// <summary>
         /// Create a new instance of the view model including some dummy data.
@@ -20,7 +21,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <summary>
         /// Get the collection of tags used for suggestions.
         /// </summary>
-        public ObservableSortedList<string,string,RemovableTagModel> SuggestedTags
+        public ObservableSortedList<TagModelKey, string, RemovableTagModel> SuggestedTags
         {
             get
             {

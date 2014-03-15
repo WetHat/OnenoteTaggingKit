@@ -1,4 +1,5 @@
 ﻿using WetHatLab.OneNote.TaggingKit.common;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.manage
 {
@@ -6,13 +7,17 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     /// View model backing a <see cref="RemovableTag"/> user control.
     /// </summary>
     /// <remarks>Provides properties to enable/disable a tag for removal and to adjust the presentation of the corresponding UI element.</remarks>
-    public class RemovableTagModel : ISortableKeyedItem<string,string>
+    public class RemovableTagModel : ISortableKeyedItem<TagModelKey,string>
     {
         private TagPageSet _tag;
+
+        private TagModelKey _sortKey;
 
         internal RemovableTagModel(TagPageSet tag)
         {
             _tag = tag;
+
+            _sortKey = new TagModelKey(tag.TagName);
         }
 
         /// <summary>
@@ -47,7 +52,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             get { return CanRemove ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed; }
         }
 
-        #region IKeyedItem
+        #region ISortableKeyedItem<TagModelKey,string>
         /// <summary>
         /// Get the name (key) of this tag
         /// </summary>
@@ -55,11 +60,11 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         {
             get { return _tag.Key; }
         }
-        public string SortKey
+        public TagModelKey SortKey
         {
-            get { return _tag.Key; }
+            get { return _sortKey; }
         }
 
-        #endregion IKeyedItem
+        #endregion ISortableKeyedItem<TagModelKey,string>
     }
 }
