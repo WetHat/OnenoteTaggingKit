@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WetHatLab.OneNote.TaggingKit.common;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.edit;
 
 namespace WetHatLab.OneNote.TaggingKit.manage
@@ -21,7 +22,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <summary>
         /// Get the collection of all tags used for suggestions.
         /// </summary>
-        ObservableSortedList<string,string,RemovableTagModel> SuggestedTags { get; }
+        ObservableSortedList<TagModelKey, string, RemovableTagModel> SuggestedTags { get; }
 
         /// <summary>
         /// Get the add-in version.
@@ -34,7 +35,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     /// </summary>
     public class TagManagerModel : System.Windows.DependencyObject, ITagManagerModel, IDisposable
     {
-        private ObservableSortedList<string,string,RemovableTagModel> _suggestedTags = new ObservableSortedList<string,string,RemovableTagModel>();
+        private ObservableSortedList<TagModelKey, string, RemovableTagModel> _suggestedTags = new ObservableSortedList<TagModelKey, string, RemovableTagModel>();
         private FilterablePageCollection _pages;
         private CancellationTokenSource _cancelFinder = new CancellationTokenSource();
 
@@ -87,7 +88,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// </summary>
         /// <remarks>This collection includes all tags used on any OneNote pages and additional tags suggestions
         /// which were added manually</remarks>
-        public ObservableSortedList<string,string,RemovableTagModel> SuggestedTags
+        public ObservableSortedList<TagModelKey, string, RemovableTagModel> SuggestedTags
         {
             get
             {
