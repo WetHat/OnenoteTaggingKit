@@ -33,7 +33,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         internal static readonly String META_NAME = "TaggingKit.PageTags";
 
-        private bool _updateRequired = false;
+        private bool _pageContentsChanged = false;
         private XMLSchema _schema;
         // the OneNote page document
         private XDocument _pageDoc;
@@ -46,15 +46,16 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private XElement _page;
         private XNamespace _one;
+        private XElement _titleOE;
 
         private string[] _tags;
-
+        private string[] _originalTags;
         private DateTime _lastModified;
 
         /// <summary>
         /// Get or set the unique ID of the OneNote Page
         /// </summary>
-        internal string PageID { get; set; }
+        internal string PageID { get; private set; }
 
         internal OneNotePageProxy(Application onenoteApp, string pageID, XMLSchema schema)
         {
@@ -62,7 +63,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             PageID = pageID;
             _schema = schema;
             LoadOneNotePage();
-            _tags = _pageTagsOE != null ? ParseTags(_pageTagsOE.Value) : new string[0];
+            _originalTags = _pageTagsOE != null ? ParseTags(_pageTagsOE.Value) : new string[0];
         }
 
         private void LoadOneNotePage()
@@ -148,6 +149,17 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             {
                 outline.Remove();
             }
+
+            XName titleName = _one.GetName("Title");
+            XElement title = _page.Elements(titleName).FirstOrDefault();
+            if (title == null)
+            {
+                _pageContentsChanged = true;
+                title = new XElement(titleName, new XElement(_one.GetName("OE")));
+                addElementToPage(title, TITLE_IDX);
+            }
+
+            _titleOE = title.Elements(_one.GetName("OE")).FirstOrDefault();
         }
 
         internal static string[] ParseTags(string tags)
@@ -174,7 +186,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <param name="sequence">index of element name in the schema sequence</param>
         private void addElementToPage(XElement element, int sequence)
         {
-            _updateRequired = true;
+            _pageContentsChanged = true;
             // locate a successor
             for (int i = sequence; i < ELEMENT_SEQUENCE.Length; i++)
             {
@@ -192,7 +204,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             get
             {
-                return _tags;
+                return _tags ?? _originalTags;
             }
 
             set
@@ -213,7 +225,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
             if (_pageTagsOE == null)
             {
-                _updateRequired = true;
+                _pageContentsChanged = true;
 
                 // Create a style for the tags - if needed
                 // <one:QuickStyleDef index="1" name="cite" fontColor="#595959" highlightColor="automatic" font="Calibri" fontSize="9"
@@ -289,16 +301,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             //    <one:T><![CDATA[Test Addin ]]></one:T>
             //  </one:OE>
             //</one:Title>
-            XName titleName = _one.GetName("Title");
-            XElement title = _page.Elements(titleName).FirstOrDefault();
-            if (title == null)
-            {
-                _updateRequired = true;
-                title = new XElement(titleName, new XElement(_one.GetName("OE")));
-                addElementToPage(title, TITLE_IDX);
-            }
-
-            XElement titleOE = title.Elements(_one.GetName("OE")).FirstOrDefault();
 
             // create or locate tag definitions for existing page tags and record their indices  
             // <one:TagDef index="0" name="Test Tag 1" type="0" symbol="0" />
@@ -319,7 +321,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 string strIndex;
                 if (!tagToIndexMap.TryGetValue(tag, out strIndex))
                 { // create a new definition for this tag
-                    _updateRequired = true;
+                    _pageContentsChanged = true;
                     strIndex = (nextTagDefIndex++).ToString();
                     XElement tagdef = new XElement(tagdefName,
                                                    new XAttribute("index", strIndex),
@@ -330,12 +332,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     _page.AddFirst(tagdef);
                 }
 
-                XElement titleTag = titleOE.Elements(tagName).FirstOrDefault(t => t.Attribute("index").Value == strIndex);
+                XElement titleTag = _titleOE.Elements(tagName).FirstOrDefault(t => t.Attribute("index").Value == strIndex);
 
                 if (titleTag == null)
                 {
-                    _updateRequired = true;
-                    titleOE.AddFirst(new XElement(_one.GetName("Tag"),
+                    _pageContentsChanged = true;
+                    _titleOE.AddFirst(new XElement(_one.GetName("Tag"),
                                                   new XAttribute("index", strIndex),
                                                   new XAttribute("completed", "true")));
                 }
@@ -346,10 +348,10 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             // remove unused tags from the title
             foreach (string strIndex in tagToIndexMap.Values)
             {
-                XElement tag = titleOE.Elements(tagName).FirstOrDefault(t => t.Attribute("index").Value == strIndex);
+                XElement tag = _titleOE.Elements(tagName).FirstOrDefault(t => t.Attribute("index").Value == strIndex);
                 if (tag != null)
                 {
-                    _updateRequired = true;
+                    _pageContentsChanged = true;
                     tag.Remove();
                 }
             }
@@ -370,7 +372,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
             if (!strTags.Equals(_pageTagsOE.Value))
             {
-                _updateRequired = true;
+                _pageContentsChanged = true;
                 // remove all old <one:T> tags
                 XName tName = _one.GetName("T");
                 foreach (XElement t in _pageTagsOE.Elements(tName).ToArray())
@@ -388,10 +390,33 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// </summary>
         internal void Update()
         {
+            // determine if tags have actually changed
+            if (_tags == null)
+            {
+                return;
+            }
+
+            if (_tags.Length == _originalTags.Length)
+            {
+                bool tagsChanged = false;
+                for (int i = 0; i < _originalTags.Length; i++)
+                {
+                    if (!_originalTags[i].Equals(_tags[i]))
+                    {
+                        tagsChanged = true;
+                        break;
+                    }
+                }
+                if (!tagsChanged)
+                {
+                    return;
+                }
+            }
+
             ApplyTagsToPage();
             try
             {
-                if (_updateRequired)
+                if (_pageContentsChanged)
                 {
                     _onenote.UpdatePageContent(_pageDoc.ToString(), _lastModified.ToUniversalTime(), _schema);
                 }
@@ -412,7 +437,15 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     }
                 }
             }
-            _updateRequired = false;
+            _pageContentsChanged = false;
+        }
+
+        internal string Title
+        {
+            get
+            {
+                return _titleOE != null ?  Regex.Replace(_titleOE.Value,"<[^<>]*>","") : "Untitled page";
+            }
         }
     }
 }

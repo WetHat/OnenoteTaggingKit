@@ -1,6 +1,7 @@
 ﻿using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -27,9 +28,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         ObservableCollection<string> KnownTags { get; }
 
         /// <summary>
-        /// Get the addin version.
+        /// Get the title of the currently loaded page
         /// </summary>
-        string AddinVersion { get; }
+        string PageTitle { get;  }
     }
 
     /// <summary>
@@ -41,8 +42,10 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     ///   <item>similar pages (based on the tags they share with the current page)</item>
     /// </list>
     /// </remarks>
-    public class TagEditorModel : DependencyObject, ITagEditorModel
+    public class TagEditorModel : DependencyObject, ITagEditorModel, INotifyPropertyChanged
     {
+        private static readonly PropertyChangedEventArgs PAGE_TITLE = new PropertyChangedEventArgs("PageTitle");
+
         private Microsoft.Office.Interop.OneNote.Application _OneNote;
         private XMLSchema _schema;
 
@@ -84,16 +87,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             get { return _knownTags; }
         }
 
-        /// <summary>
-        /// Get the version of the addin.
-        /// </summary>
-        public string AddinVersion
+        public string PageTitle
         {
-            get
-            {
-                return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            }
+            get { return _currentPage != null ? _currentPage.Title :  Properties.Resources.TagEditor_Windows_Title;}
         }
+
         #endregion ITagEditorModel
 
         internal Task RefreshPageTagsAsync()
@@ -108,6 +106,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
             SaveChangesAsync(); // persist any pending changes
             _tagLoader = _taskFactory.StartNew(LoadPageWorker, _cancelWorker.Token);
+            _tagLoader.ContinueWith((tsk) => firePropertyChangedEvent(PAGE_TITLE), TaskScheduler.FromCurrentSynchronizationContext());
             return _tagLoader;
         }
 
@@ -151,5 +150,16 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 }
             }
         }
+
+        private void firePropertyChangedEvent(PropertyChangedEventArgs args)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, args);
+            }
+        }
+#region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+#endregion
     }
 }
