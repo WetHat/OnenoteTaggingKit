@@ -53,6 +53,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             {
                 // run a text search
                 _onenote.FindPages(scopeID, query, out strXml,false,false,_schema);
+                _filteredPages.Clear();
                 parseOneNoteFindResult(strXml);
             }
             ClearTagFilter();
