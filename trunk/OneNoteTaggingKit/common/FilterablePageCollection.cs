@@ -21,25 +21,17 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// built by calling <see cref="Find"/> and can be progressively refined (filtered)
     /// by adding filter tags (<see cref="AddTagToFilter"/>)
     /// </remarks>
-    public class FilterablePageCollection
+    public class FilterablePageCollection : TagCollection
     {
-        private Application _onenote;
-        private XMLSchema _schema;
-
-        /// <summary>
-        /// Set of Pages returned from a full text search.
-        /// </summary>
-        /// <remarks>May be null if no full text query was used to retrieve tags</remarks>
-        private ISet<TaggedPage> _searchResult;
         private ISet<TagPageSet> _filterTags = new HashSet<TagPageSet>();
+ 
+        /// <summary>
+        /// Set of pages after tag filters have been applied.
+        /// </summary>
+        private ObservableDictionary<string, TaggedPage> _filteredPages = new ObservableDictionary<string, TaggedPage>();
 
-        private ObservableDictionary<string, TagPageSet> _tags = new ObservableDictionary<string,TagPageSet>();
-        private ObservableDictionary<string, TaggedPage> _filteredPages = new ObservableDictionary<string,TaggedPage>();
-
-        internal FilterablePageCollection(Application onenote, XMLSchema schema)
+        internal FilterablePageCollection(Application onenote, XMLSchema schema) : base (onenote,schema)
         {
-            _onenote = onenote;
-            _schema = schema;
         }
 
         /// <summary>
@@ -55,95 +47,21 @@ namespace WetHatLab.OneNote.TaggingKit.common
             if (string.IsNullOrEmpty(query))
             {
                 // collect all tags used somewhere on a page
-                _onenote.FindMeta(scopeID, OneNotePageProxy.META_NAME, out strXml,false,_schema);
-                _searchResult = null;
+                Find(scopeID);
             }
             else
             {
                 // run a text search
                 _onenote.FindPages(scopeID, query, out strXml,false,false,_schema);
-                _searchResult = new HashSet<TaggedPage>();
+                parseOneNoteFindResult(strXml);
             }
-
-            parseSearchResult(query, strXml);
-
-            if (_searchResult != null)
-            {
-                // announce the search result
-                _filteredPages.UnionWith(_searchResult);
-
-            }
-            else
-            {  // attempt to automatically update the tag suggestion list, if we have collected all used tags
-                HashSet<string> knownTags = new HashSet<String>(OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags));
-                int countBefore = knownTags.Count;
-
-                // add tags from search result
-                foreach (KeyValuePair<string,TagPageSet> t in _tags)
-                {
-                    knownTags.Add(t.Key);
-                }
-
-                if (countBefore != knownTags.Count)
-                { // updated tag suggestions
-                    string[] sortedTags = knownTags.ToArray();
-                    Array.Sort(sortedTags);
-                    Properties.Settings.Default.KnownTags = string.Join(",", sortedTags);
-                }
-            }
-        }
-
-        internal void parseSearchResult(string query, string strXml)
-        {
-            _filterTags.Clear();
-            _tags.Clear();
-            _filteredPages.Clear();
-            // process result
-            try
-            {
-                XDocument result = XDocument.Parse(strXml);
-                XNamespace one = result.Root.GetNamespaceOfPrefix("one");
-
-                Dictionary<string, TagPageSet> tags = new Dictionary<string, TagPageSet>();
-                foreach (XElement page in result.Descendants(one.GetName("Page")))
-                {
-                    TaggedPage tp = new TaggedPage(page);
-                    foreach (string tag in tp.Tags)
-                    {
-                        TagPageSet t;
-
-                        if (!tags.TryGetValue(tag, out t))
-                        {
-                            t = new TagPageSet(tag);
-                            tags.Add(tag, t);
-                        }
-                        t.AddPage(tp);
-                    }
-                    if (_searchResult != null)
-                    {
-                        _searchResult.Add(tp);
-                    }
-                }
-                _tags.UnionWith(tags.Values);
-            }
-            catch (Exception)
-            {
-                // unable to parse tags
-            }
-        }
-
-        /// <summary>
-        /// get dictionary of tags.
-        /// </summary>
-        internal ObservableDictionary<string,TagPageSet> Tags
-        {
-            get { return _tags;}
+            ClearTagFilter();
         }
 
         /// <summary>
         /// Get the dictionary of pages
         /// </summary>
-        internal ObservableDictionary<string, TaggedPage> Pages
+        internal ObservableDictionary<string, TaggedPage> FilteredPages
         {
             get { return _filteredPages; }
         }
@@ -153,19 +71,11 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </summary>
         internal void ClearTagFilter()
         {
-            if (_filterTags.Count > 0)
+            _filterTags.Clear();
+            _filteredPages.UnionWith(Pages.Values);
+            foreach (TagPageSet tag in Tags.Values)
             {
-                _filterTags.Clear();
-                if (_searchResult != null)
-                {
-                    // reset filtered pages to search result
-                    _filteredPages.UnionWith(_searchResult);
-                }
-                else
-                {
-                    _filteredPages.Clear();
-                }
-                ApplyFilterToTags();
+                tag.ClearFilter();
             }
         }
 
@@ -179,16 +89,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="tag">tag to filter on</param>
         internal void AddTagToFilter(TagPageSet tag)
         {
-            if (_searchResult == null && _filterTags.Count == 0)
-            {
-#if DEBUG
-                Debug.Assert(_filteredPages.Count == 0, "Collection of filtered pages expected to be empty");
-#endif
-                _filterTags.Add(tag);
-                _filteredPages.UnionWith(tag.Pages);
-                ApplyFilterToTags();
-            }
-            else if (_filterTags.Add(tag))
+            if (_filterTags.Add(tag))
             {
                 // remove pages which are not in this tag's page set
                 _filteredPages.IntersectWith(tag.Pages);
@@ -206,40 +107,22 @@ namespace WetHatLab.OneNote.TaggingKit.common
             {
                 if (_filterTags.Count == 0)
                 {
-                    if (_searchResult == null)
-                    {
-                        _filteredPages.Clear();
-                    }
-                    else
-                    {
-                        // reset filtered pages to search result
-                        _filteredPages.UnionWith(_searchResult);
-                    }
+                    ClearTagFilter();
                 }
                 else
                 {
-                    // recompute filtered pages locally
+                    // recompute filtered pages from scratch
+                    _filteredPages.UnionWith(Pages.Values);
 
-                    HashSet<TaggedPage> filteredPages = _searchResult != null ? new HashSet<TaggedPage>(_searchResult) : null;
                     foreach ( TagPageSet tps in _filterTags)
                     {
                         tps.ClearFilter();
-                        if (filteredPages != null)
-                        {
-                            filteredPages.IntersectWith(tps.Pages);
-                        }
-                        else
-                        {
-                            // initialize the set of filtered pages
-                            filteredPages= new HashSet<TaggedPage>(tps.Pages);
-                        }
+                        _filteredPages.IntersectWith(tps.Pages);
                     }
-
-                    // Since we removed a filter the just need to add missing pages
-                    _filteredPages.UnionWith(filteredPages);
+                    ApplyFilterToTags();
                 }
 
-                ApplyFilterToTags();
+                
             }
         }
 
@@ -247,17 +130,17 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// Apply the current page filter
         /// </summary>
         private void ApplyFilterToTags()
-        {      
-            if (_searchResult == null && _filterTags.Count == 0)
+        {
+            if (_filterTags.Count == 0)
             {
-                foreach (TagPageSet tag in _tags.Values)
+                foreach (TagPageSet tag in Tags.Values)
                 {
                     tag.ClearFilter();
                 }
             }
             else
             {
-                foreach (TagPageSet tag in _tags.Values)
+                foreach (TagPageSet tag in Tags.Values)
                 {
                     tag.IntersectWith(_filteredPages.Values);
                 }

@@ -36,7 +36,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     public class TagManagerModel : System.Windows.DependencyObject, ITagManagerModel, IDisposable
     {
         private ObservableSortedList<TagModelKey, string, RemovableTagModel> _suggestedTags = new ObservableSortedList<TagModelKey, string, RemovableTagModel>();
-        private FilterablePageCollection _pages;
+        private TagCollection _tags;
         private CancellationTokenSource _cancelFinder = new CancellationTokenSource();
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <param name="schema">current schema version</param>
         internal TagManagerModel(Application onenote, XMLSchema schema)
         {
-            _pages = new FilterablePageCollection(onenote, schema);
+            _tags = new TagCollection(onenote, schema);
         }
 
         /// <summary>
@@ -56,13 +56,13 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <param name="continuation"></param>
         private void LoadTagSuggestionsWorker(Action continuation)
         {
-            _pages.Find(String.Empty, String.Empty);
+            _tags.Find(String.Empty);
 
             IEnumerable<RemovableTagModel> suggestions = from s in OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags)
-                                                         where !_pages.Tags.ContainsKey(s)
+                                                         where !_tags.Tags.ContainsKey(s)
                                                          select new RemovableTagModel(new TagPageSet(s));
 
-            IEnumerable<RemovableTagModel> tagsInUse = from t in _pages.Tags.Values select new RemovableTagModel(t);
+            IEnumerable<RemovableTagModel> tagsInUse = from t in _tags.Tags.Values select new RemovableTagModel(t);
             Dispatcher.Invoke(new Action(() =>
             {
                 _suggestedTags.AddAll(tagsInUse);
@@ -144,9 +144,9 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// </summary>
         public void Dispose()
         {
-            if (_pages != null)
+            if (_tags != null)
             {
-                _pages = null;
+                _tags = null;
             }
             _cancelFinder.Cancel();
         }
