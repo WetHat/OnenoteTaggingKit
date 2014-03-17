@@ -32,6 +32,7 @@ namespace WetHatLab.OneNote.TaggingKit
         private XMLSchema _schema = XMLSchema.xsCurrent;
 
         private Thread findTagsUI;
+        private Thread exploreTagsUI;
 
         #region IDTExtensibility2
         /// <summary>
@@ -137,9 +138,13 @@ namespace WetHatLab.OneNote.TaggingKit
         {
             try
             {
-                Microsoft.Office.Interop.OneNote.Window currentWindow = _OneNoteApp.Windows.CurrentWindow;
 
-                Show<TagEditor, TagEditorModel>(currentWindow, () => new TagEditorModel(_OneNoteApp, currentWindow.CurrentPageId,_schema));
+                if (exploreTagsUI == null || !exploreTagsUI.IsAlive)
+                {
+                    Microsoft.Office.Interop.OneNote.Window currentWindow = _OneNoteApp.Windows.CurrentWindow;
+
+                    exploreTagsUI = Show<TagEditor, TagEditorModel>(currentWindow, () => new TagEditorModel(_OneNoteApp, currentWindow.CurrentPageId, _schema));
+                }
             }
             catch (Exception ex)
             {
