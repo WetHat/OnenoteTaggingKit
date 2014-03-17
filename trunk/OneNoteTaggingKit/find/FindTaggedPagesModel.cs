@@ -244,12 +244,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         internal void AddTagToFilterAsync(TagPageSet tag)
         {
-            _actions.Add(() => _searchResult.ApplyTagFilter(tag));
+            _actions.Add(() => _searchResult.AddTagToFilter(tag));
         }
 
         internal void RemoveTagFromFilterAsync(TagPageSet tag)
         {
-            _actions.Add(() => _searchResult.UnapplyTagFilter(tag));
+            _actions.Add(() => _searchResult.RemoveTagFromFilter(tag));
         }
 
         #region ITagSearchModel
