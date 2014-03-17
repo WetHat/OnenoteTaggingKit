@@ -36,9 +36,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 };
 
              _selectedScope = _scopes[0];
-           
-            FilterablePageCollection c = new FilterablePageCollection(null,Microsoft.Office.Interop.OneNote.XMLSchema.xs2013);
-            c.parseSearchResult("Lab",_strXml);
+
+             TagCollection c = new TagCollection(null, Microsoft.Office.Interop.OneNote.XMLSchema.xs2013);
+            c.parseOneNoteFindResult(_strXml);
 
             Regex pattern = new Regex("Cool",RegexOptions.IgnoreCase);
 

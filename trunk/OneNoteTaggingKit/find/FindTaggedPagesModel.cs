@@ -154,8 +154,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
             _selectedScope = _scopes[Properties.Settings.Default.DefaultScope];
             _searchResult = new FilterablePageCollection(_onenote,schema);
-            _searchResult.Tags.CollectionChanged += HandleTagCollectionChanges;
-            _searchResult.Pages.CollectionChanged += HandlePageCollectionChanges;
+            _searchResult.Tags.CollectionChanged          += HandleTagCollectionChanges;
+            _searchResult.FilteredPages.CollectionChanged += HandlePageCollectionChanges;
 
             // load the search history
             if (!string.IsNullOrEmpty(Properties.Settings.Default.SearchHistory))
