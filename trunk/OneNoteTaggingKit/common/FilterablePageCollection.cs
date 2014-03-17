@@ -19,7 +19,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// <remarks>
     /// Provides a refineable unordered set of tags and pages. The page collection is
     /// built by calling <see cref="Find"/> and can be progressively refined (filtered)
-    /// by adding filter tags (<see cref="ApplyTagFilter"/>)
+    /// by adding filter tags (<see cref="AddTagToFilter"/>)
     /// </remarks>
     public class FilterablePageCollection
     {
@@ -177,7 +177,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         ///   calls to this method.
         /// </remarks>
         /// <param name="tag">tag to filter on</param>
-        internal void ApplyTagFilter(TagPageSet tag)
+        internal void AddTagToFilter(TagPageSet tag)
         {
             if (_searchResult == null && _filterTags.Count == 0)
             {
@@ -200,7 +200,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// Remove tag from the filter
         /// </summary>
         /// <param name="tag">tag to remove</param>
-        internal void UnapplyTagFilter(TagPageSet tag)
+        internal void RemoveTagFromFilter(TagPageSet tag)
         {
             if (_filterTags.Remove(tag))
             {
