@@ -1,17 +1,8 @@
 ﻿using Microsoft.Office.Interop.OneNote;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Threading;
-using System.Xml.Linq;
-using WetHatLab.OneNote.TaggingKit.edit;
+using WetHatLab.OneNote.TaggingKit.common;
 
-namespace WetHatLab.OneNote.TaggingKit.common
+namespace WetHatLab.OneNote.TaggingKit.find
 {
     /// <summary>
     /// Observable collections of tags and OneNote pages satisfying a search criterion.
