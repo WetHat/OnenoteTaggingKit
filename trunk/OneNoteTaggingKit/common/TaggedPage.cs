@@ -15,6 +15,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
     {
         private string _title;
 
+        private ISet<TagPageSet> _tags = new HashSet<TagPageSet>();
+
         /// <summary>
         /// get the page's ID
         /// </summary>
@@ -27,7 +29,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             {
                 return _title;
             }
-            private set
+            set
             {
                 _title = value ?? String.Empty;
             }
@@ -47,9 +49,16 @@ namespace WetHatLab.OneNote.TaggingKit.common
         #endregion IKeyedItem
 
         /// <summary>
-        /// 
+        /// Get or set the collection of tags on this page
         /// </summary>
-        internal string[] Tags {get; private set;}
+        internal ISet<TagPageSet> Tags
+        {
+            get
+            {
+                return _tags;
+            }
+        }
+
 
         /// <summary>
         /// Create an internal representation of a page returned from FindMeta
@@ -62,17 +71,13 @@ namespace WetHatLab.OneNote.TaggingKit.common
             Title = page.Attribute("name").Value;
 
             XElement meta = page.Elements(one.GetName("Meta")).FirstOrDefault( m =>  OneNotePageProxy.META_NAME.Equals(m.Attribute("name").Value) );
-
-            if (meta != null)
-            {
-                Tags = OneNotePageProxy.ParseTags(meta.Attribute("content").Value);
-            }
-            else
-            {
-                Tags = new string[0];
-            }
         }
 
+        internal TaggedPage(string id, string title)
+        {
+            ID = id;
+            Title = title;
+        }
         /// <summary>
         /// Compute the hashcode
         /// </summary>

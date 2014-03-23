@@ -49,6 +49,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 return Pages.Count;
             }
         }
+
         internal bool AddPage(TaggedPage pg)
         {
             bool added = _pages.Add(pg);
@@ -58,6 +59,17 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 firePropertyChanged(PAGE_COUNT);
             }
             return added;
+        }
+
+        internal bool RemovePage(TaggedPage pg)
+        {
+            bool removed = _pages.Remove(pg);
+
+            if (removed)
+            {
+                firePropertyChanged(PAGE_COUNT);
+            }
+            return removed;
         }
 
         internal void ClearFilter()

@@ -6,6 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="300">
     <ScrollViewer VerticalScrollBarVisibility="Auto" CanContentScroll="True">
-        <WrapPanel x:Name="tagsPanel" />
+        <WrapPanel x:Name="tagsPanel"/>
     </ScrollViewer>
 </UserControl>

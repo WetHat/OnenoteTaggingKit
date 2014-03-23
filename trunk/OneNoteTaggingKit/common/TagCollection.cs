@@ -17,9 +17,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// Observable collections of tags and OneNote pages satisfying a search criterion.
     /// </summary>
     /// <remarks>
-    /// Provides a refineable unordered set of tags and pages. The page collection is
-    /// built by calling <see cref="Find"/> and can be progressively refined (filtered)
-    /// by adding filter tags (<see cref="AddTagToFilter"/>)
+    /// Provides an unordered set of tags and pages. The page collection is
+    /// built by calling <see cref="Find"/>.
     /// </remarks>
     public class TagCollection
     {
@@ -29,7 +28,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         private ObservableDictionary<string, TagPageSet> _tags = new ObservableDictionary<string, TagPageSet>();
         private ObservableDictionary<string, TaggedPage> _pages = new ObservableDictionary<string, TaggedPage>();
 
-        internal TagCollection(Application onenote, XMLSchema schema)
+        public TagCollection(Application onenote, XMLSchema schema)
         {
             _onenote = onenote;
             _schema = schema;
@@ -41,7 +40,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="scopeID">OneNote id of the scope to search for pages. This is the element ID of a notebook, section group, or section.
         ///                       If given as null or empty string scope is the entire set of notebooks open in OneNote.
         /// </param>
-        internal void Find(string scopeID)
+        public void Find(string scopeID)
         {
             string strXml;
             // collect all tags used somewhere on a page
@@ -80,17 +79,20 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 Dictionary<string, TagPageSet> tags = new Dictionary<string, TagPageSet>();
                 foreach (XElement page in result.Descendants(one.GetName("Page")))
                 {
+                    XElement meta = page.Elements(one.GetName("Meta")).FirstOrDefault(m => OneNotePageProxy.META_NAME.Equals(m.Attribute("name").Value));
                     TaggedPage tp = new TaggedPage(page);
-                    foreach (string tag in tp.Tags)
+                    // assign Tags
+                    foreach (string tagname in OneNotePageProxy.ParseTags(meta.Attribute("content").Value))
                     {
                         TagPageSet t;
 
-                        if (!tags.TryGetValue(tag, out t))
+                        if (!tags.TryGetValue(tagname, out t))
                         {
-                            t = new TagPageSet(tag);
-                            tags.Add(tag, t);
+                            t = new TagPageSet(tagname);
+                            tags.Add(tagname, t);
                         }
                         t.AddPage(tp);
+                        tp.Tags.Add(t);
                     }
                     _pages.Add(tp.Key, tp);
                 }
@@ -102,7 +104,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 // unable to parse tags
             }
         }
-
 
         /// <summary>
         /// get dictionary of tags.
