@@ -60,7 +60,7 @@
                   Background="White"
                   Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tags_GroupBox_Title}}"
                   ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tags_GroupBox_ToolTip}}">
-            <local:SimpleTagsPanel Tags="{Binding PageTags}" VerticalAlignment="Stretch"/>
+            <local:SimpleTagsPanel Tags="{Binding PageTags}" VerticalAlignment="Stretch" Click="RemoveTagButton_Click"/>
         </GroupBox>
 
         <ProgressBar Name="pBar" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"/>

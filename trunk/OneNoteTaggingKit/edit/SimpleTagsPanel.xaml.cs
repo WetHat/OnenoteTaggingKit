@@ -18,6 +18,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         public static readonly DependencyProperty TagsProperty = DependencyProperty.Register("Tags", typeof(ObservableSortedList<TagModelKey, string, SimpleTagButtonModel>), typeof(SimpleTagsPanel), new PropertyMetadata(null, OnTagsPropertyChanged));
 
         /// <summary>
+        /// Click event for this button.
+        /// </summary>
+        public static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SimpleTagsPanel));
+
+        /// <summary>
         /// Get or set the Collection of tags this panel should display
         /// </summary>
         /// <remarks>clr wrapper of the <see cref="TagsProperty"/> dependency property</remarks>
@@ -62,16 +67,30 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             return btn;
         }
 
+        /// <summary>
+        /// Add or remove the click handler.
+        /// </summary>
+        /// <remarks>clr wrapper for routed event</remarks>
+        internal event RoutedEventHandler Click
+        {
+            add { AddHandler(ClickEvent, value); }
+
+            remove { RemoveHandler(ClickEvent, value); }
+        }
+
         void TagButton_Click(object sender, RoutedEventArgs e)
         {
-            SimpleTagButton btn = sender as SimpleTagButton;
-            Tags.RemoveAll(new string[] { ((SimpleTagButtonModel)btn.DataContext).Key });
+            
+            if (!e.Handled)
+            {
+                RaiseEvent(new RoutedEventArgs(ClickEvent,sender));
+            }
         }
 
         /// <summary>
         /// Handle changes to the collection of tags in the underlying model
         /// </summary>
-        /// <param name="sender"><see cref="ObservableSortedList&lt;Tvalue&gt;"/> maintaining the listof tags</param>
+        /// <param name="sender"><see cref="ObservableSortedList&lt;TKey,TValue&gt;"/> maintaining the listof tags</param>
         /// <param name="e">event details</param>
         private void OnTagCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -87,10 +106,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    int removedItemIndex = e.OldStartingIndex;
                     foreach (SimpleTagButtonModel t in e.OldItems)
                     {
-                        tagsPanel.Children.RemoveAt(removedItemIndex++);
+                        tagsPanel.Children.RemoveAt(e.OldStartingIndex);
                     }
                     break;
                 case NotifyCollectionChangedAction.Reset:

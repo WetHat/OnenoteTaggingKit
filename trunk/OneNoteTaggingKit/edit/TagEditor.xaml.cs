@@ -63,7 +63,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
-
         private void TagDropDown_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == System.Windows.Input.Key.Enter)
@@ -84,10 +83,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             if (!string.IsNullOrEmpty(tagComboBox.Text))
             {
-                _model.PageTags.AddAll(from t in
-                                           (from tag in OneNotePageProxy.ParseTags(tagComboBox.Text) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(tag))
-                                       where !_model.PageTags.ContainsKey(t)
-                                       select new SimpleTagButtonModel(t));
+                _model.ApplyPageTags(from t in OneNotePageProxy.ParseTags(tagComboBox.Text) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(t));
                 tagComboBox.Text = string.Empty;
             }
         }
@@ -97,7 +93,14 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             tagComboBox.Focus();
             tagComboBox.SelectedItem = null;
             tagComboBox.Text = "";
-            RefreshButton_Click(sender, e);
+            if (_model != null)
+            {
+                Task t = _model.LoadTagAndPageDatabaseAsync();
+                t.ContinueWith((tsk) => {
+                    pBar.Visibility = System.Windows.Visibility.Hidden;
+                    _model.UpdatePageAsync(false);
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+            }
         }
 
         private void editTags_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -107,11 +110,24 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            pBar.Visibility = System.Windows.Visibility.Visible;
             if (_model != null)
             {
-                Task t = _model.RefreshPageTagsAsync();
-                t.ContinueWith((tsk) => { pBar.Visibility = System.Windows.Visibility.Collapsed; }, TaskScheduler.FromCurrentSynchronizationContext());
+                pBar.Visibility = System.Windows.Visibility.Visible;
+                Task t = _model.UpdatePageAsync(true);
+                t.ContinueWith((tsk) => { pBar.Visibility = System.Windows.Visibility.Hidden; }, TaskScheduler.FromCurrentSynchronizationContext());
+            }
+        }
+
+        private void RemoveTagButton_Click(object sender, RoutedEventArgs e)
+        {
+            SimpleTagButton btn = e.OriginalSource as SimpleTagButton;
+            if (btn != null)
+            {
+                SimpleTagButtonModel mdl = btn.DataContext as SimpleTagButtonModel;
+                if (mdl != null)
+                {
+                    _model.UnapplyPageTag(mdl.TagName);
+                }
             }
         }
     }
