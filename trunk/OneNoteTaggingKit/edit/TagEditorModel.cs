@@ -266,12 +266,21 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 _pageAggregation.Find(String.Empty);
             }
 
-            string[] tagsuggestions = OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags);
+            List<string> sortedSuggestions = new List<string>();
+
+            foreach (string t in OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags))
+            {
+                int index = sortedSuggestions.BinarySearch(t);
+                if (index < 0)
+                {
+                    sortedSuggestions.Insert(~index, t);
+                }
+            }
 
             Dispatcher.Invoke(new Action(() =>
             {
                 _knownTags.Clear();
-                foreach (string t in tagsuggestions)
+                foreach (string t in sortedSuggestions)
                 {
                     _knownTags.Add(t);
                 }
