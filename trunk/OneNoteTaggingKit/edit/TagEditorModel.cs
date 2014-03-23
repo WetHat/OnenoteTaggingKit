@@ -224,10 +224,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             {
                 IEnumerable<TagPageSet> applied = _pageAggregation.TagPage(tags, _currentPage);
                 _pageAggregation.AggregationTags.UnionWith(applied);
-                foreach (var t in applied)
-                {
-                    _knownTags.Add(t.TagName);
-                }
             }
         }
 
@@ -291,12 +287,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     _tagsChanged = false;
                     // pass tags and current page as parameters so that the undelying objects can further be modified in the foreground
                     string[] tags = (from t in _pageTags.Values select t.TagName).ToArray();
-                    _taskFactory.StartNew(() => SaveChangesWorker(_currentActualPage, _currentPageID, tags));
+                    _taskFactory.StartNew(() => SaveChangesAction(_currentActualPage, _currentPageID, tags));
                 }
             }
         }
 
-        private void SaveChangesWorker(OneNotePageProxy page, string pageID, string[] tags)
+        private void SaveChangesAction(OneNotePageProxy page, string pageID, string[] tags)
         {
             if (page == null)
             {
@@ -307,11 +303,25 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             page.PageTags = tags;
             page.Update();
 
-            // update suggestions
-            if (tags != null)
+            Dispatcher.Invoke(() =>
             {
-                Properties.Settings.Default.KnownTags = string.Join(",", _knownTags.Union(tags));
-            }
+                // update suggestions
+                if (tags != null && tags.Length > 0)
+                {
+                    List<string> sortedSuggestions = new List<string>(_knownTags);
+                    foreach (var t in tags)
+                    {
+                        int index = sortedSuggestions.BinarySearch(t);
+                        if (index < 0)
+                        {
+                            sortedSuggestions.Insert(~index, t);
+                            _knownTags.Insert(~index, t);
+                        }
+                    }
+
+                    Properties.Settings.Default.KnownTags = string.Join(",", sortedSuggestions);
+                }
+            });
         }
 
         private void firePropertyChangedEvent(PropertyChangedEventArgs args)
