@@ -79,20 +79,23 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 Dictionary<string, TagPageSet> tags = new Dictionary<string, TagPageSet>();
                 foreach (XElement page in result.Descendants(one.GetName("Page")))
                 {
-                    XElement meta = page.Elements(one.GetName("Meta")).FirstOrDefault(m => OneNotePageProxy.META_NAME.Equals(m.Attribute("name").Value));
                     TaggedPage tp = new TaggedPage(page);
                     // assign Tags
-                    foreach (string tagname in OneNotePageProxy.ParseTags(meta.Attribute("content").Value))
+                    XElement meta = page.Elements(one.GetName("Meta")).FirstOrDefault(m => OneNotePageProxy.META_NAME.Equals(m.Attribute("name").Value));
+                    if (meta != null)
                     {
-                        TagPageSet t;
-
-                        if (!tags.TryGetValue(tagname, out t))
+                        foreach (string tagname in OneNotePageProxy.ParseTags(meta.Attribute("content").Value))
                         {
-                            t = new TagPageSet(tagname);
-                            tags.Add(tagname, t);
+                            TagPageSet t;
+
+                            if (!tags.TryGetValue(tagname, out t))
+                            {
+                                t = new TagPageSet(tagname);
+                                tags.Add(tagname, t);
+                            }
+                            t.AddPage(tp);
+                            tp.Tags.Add(t);
                         }
-                        t.AddPage(tp);
-                        tp.Tags.Add(t);
                     }
                     _pages.Add(tp.Key, tp);
                 }
