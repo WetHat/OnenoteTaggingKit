@@ -37,7 +37,9 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     {
         private ObservableSortedList<TagModelKey, string, RemovableTagModel> _suggestedTags = new ObservableSortedList<TagModelKey, string, RemovableTagModel>();
         private TagCollection _tags;
-        private CancellationTokenSource _cancelFinder = new CancellationTokenSource();
+
+        CancellationTokenSource _cancelFinderToken = new CancellationTokenSource();
+        private Task<Tuple<IEnumerable<RemovableTagModel>, IEnumerable<RemovableTagModel>>> _finderAction;
 
         /// <summary>
         /// Create a new instance of the view model backing the <see cref="TagManager"/> dialog.
@@ -53,8 +55,8 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// Background worker method to collect the suggested tags by running a search
         /// against all open OneNote notebooks
         /// </summary>
-        /// <param name="continuation"></param>
-        private void LoadTagSuggestionsWorker(Action continuation)
+
+        private Tuple<IEnumerable<RemovableTagModel>,IEnumerable<RemovableTagModel>> LoadTagSuggestionsAction()
         {
             _tags.Find(String.Empty);
 
@@ -63,12 +65,8 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                                                          select new RemovableTagModel(new TagPageSet(s));
 
             IEnumerable<RemovableTagModel> tagsInUse = from t in _tags.Tags.Values select new RemovableTagModel(t);
-            Dispatcher.Invoke(new Action(() =>
-            {
-                _suggestedTags.AddAll(tagsInUse);
-                _suggestedTags.AddAll(suggestions);
-                continuation();
-            }));
+
+            return new Tuple<IEnumerable<RemovableTagModel>, IEnumerable<RemovableTagModel>>(suggestions, tagsInUse);
         }
 
         /// <summary>
@@ -76,11 +74,19 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// </summary>
         /// <remarks>Runs a search for tags over all notebooks open in OneNote to collect tags in use.</remarks>
         /// <param name="continuation">continuation action to be run in the UI thread</param>
-        internal void LoadTagSuggestionsAsync(Action continuation)
+        internal async Task LoadTagSuggestionsAsync()
         {
-            TaskFactory tf = new TaskFactory();
-            tf.StartNew(() => LoadTagSuggestionsWorker(continuation), _cancelFinder.Token);
+            if (_finderAction != null && _finderAction.Status == TaskStatus.Running)
+            {
+                _cancelFinderToken.Cancel();
+            }
+            _finderAction = Task.Run(() => LoadTagSuggestionsAction(), _cancelFinderToken.Token);
+            Tuple<IEnumerable<RemovableTagModel>, IEnumerable<RemovableTagModel>> tagModels = await _finderAction; 
+
+            _suggestedTags.AddAll(tagModels.Item1);
+            _suggestedTags.AddAll(tagModels.Item2);
         }
+
         #region ITagManagerModel
 
         /// <summary>
@@ -148,7 +154,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             {
                 _tags = null;
             }
-            _cancelFinder.Cancel();
+            _cancelFinderToken.Cancel();
         }
         #endregion IDisposable
     }

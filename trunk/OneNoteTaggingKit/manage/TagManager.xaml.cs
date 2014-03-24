@@ -111,11 +111,12 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             Clipboard.SetData(DataFormats.Text, _model.TagList);
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             if (_model != null)
             {
-                _model.LoadTagSuggestionsAsync(() => pBar.Visibility = System.Windows.Visibility.Collapsed);
+                await _model.LoadTagSuggestionsAsync();
+                pBar.Visibility = System.Windows.Visibility.Hidden;
             }
         }
     }
