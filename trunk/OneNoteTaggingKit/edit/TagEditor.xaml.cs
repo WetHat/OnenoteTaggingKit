@@ -44,8 +44,27 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
         #endregion
 
-        private void AddTagsToPageButton_Click(object sender, RoutedEventArgs e)
+
+        private void CheckForUnsavedChanges()
         {
+            if (!_model.InSync && _model.HasUnsavedChanges)
+            {
+                Task t = null;
+                MessageBoxResult answer = MessageBox.Show(string.Format("You have navigated away from a page you started to tag.\nTap Ok to save changes, or cancel to discard"), "Unsaved Changes", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                if (answer == MessageBoxResult.OK)
+                {
+                    _model.SaveChangesAsync();
+                }
+            }
+        }
+        private async void AddTagsToPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            CheckForUnsavedChanges();
+
+            if (!_model.InSync)
+            {
+                await _model.UpdatePageAsync(false);
+            }
             // Make sure any tag stuck in the combo box is added too.
 
             AddTagsToModel();
@@ -63,10 +82,15 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
-        private void TagDropDown_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        private async void TagDropDown_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == System.Windows.Input.Key.Enter)
             {
+                CheckForUnsavedChanges();
+                if (!_model.InSync)
+                {
+                    await _model.UpdatePageAsync(false);
+                }
                 if (string.IsNullOrEmpty(tagComboBox.Text))
                 {
                     AddTagsToPageButton_Click(sender, null);
@@ -88,18 +112,16 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             tagComboBox.Focus();
             tagComboBox.SelectedItem = null;
             tagComboBox.Text = "";
             if (_model != null)
             {
-                Task t = _model.LoadTagAndPageDatabaseAsync();
-                t.ContinueWith((tsk) => {
-                    pBar.Visibility = System.Windows.Visibility.Hidden;
-                    _model.UpdatePageAsync(false);
-                }, TaskScheduler.FromCurrentSynchronizationContext());
+                await _model.LoadTagAndPageDatabaseAsync();
+                pBar.Visibility = System.Windows.Visibility.Hidden;
+                await _model.UpdatePageAsync(false);
             }
         }
 
@@ -108,13 +130,21 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             Properties.Settings.Default.Save();
         }
 
-        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        private async void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             if (_model != null)
             {
                 pBar.Visibility = System.Windows.Visibility.Visible;
-                Task t = _model.UpdatePageAsync(true);
-                t.ContinueWith((tsk) => { pBar.Visibility = System.Windows.Visibility.Hidden; }, TaskScheduler.FromCurrentSynchronizationContext());
+                if (_model.InSync)
+                {
+                    await _model.UpdatePageAsync(true);
+                }
+                else
+                {
+                    CheckForUnsavedChanges();
+                    await _model.UpdatePageAsync(false);
+                }
+                pBar.Visibility = System.Windows.Visibility.Hidden;
             }
         }
 

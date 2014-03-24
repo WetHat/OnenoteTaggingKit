@@ -106,21 +106,17 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             return tp;
         }
 
-        internal IEnumerable<TagPageSet> UntagPage(string tagName,string pageID)
+        internal IEnumerable<TagPageSet> UntagPage(string tagName,TaggedPage page)
         {
             LinkedList<TagPageSet> removed = new LinkedList<TagPageSet>();
-            TaggedPage tp;
-            if (Pages.TryGetValue(pageID, out tp))
+            TagPageSet t;
+            if (Tags.TryGetValue(tagName, out t))
             {
-                TagPageSet t;
-                if (Tags.TryGetValue(tagName, out t))
+                if (page.Tags.Remove(t))
                 {
-                    if (tp.Tags.Remove(t))
-                    {
-                        removed.AddLast(t);
-                    }
-                    t.RemovePage(tp);
+                    removed.AddLast(t);
                 }
+                t.RemovePage(page);
             }
             return removed;
         }
