@@ -50,8 +50,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private Microsoft.Office.Interop.OneNote.Application _OneNote;
         private XMLSchema _schema;
 
-        private TaskFactory _taskFactory = new TaskFactory();
-
         private ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> _pageTags = new ObservableSortedList<TagModelKey, string, SimpleTagButtonModel>();
         
         private ObservableCollection<string> _knownTags = new ObservableCollection<string>();
@@ -66,10 +64,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// page from the database creted by 'find'
         /// </summary>
         private TaggedPage _currentPage;
-        /// <summary>
-        /// Unique id of the current page
-        /// </summary>
-        private string _currentPageID;
 
         /// <summary>
         /// True if the tags on the current page were changed.
@@ -79,9 +73,10 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <summary>
         /// Cancellation token souce for all workers
         /// </summary>
-        private CancellationTokenSource _cancelWorker = new CancellationTokenSource();
+        private CancellationTokenSource _cancelTagDatabaseLoader = new CancellationTokenSource();
+        private Task<IList<String>> _tagDatabaseLoader;
 
-        private Task _tagDatabaseLoader;
+        private CancellationTokenSource _cancelPageUpdater = new CancellationTokenSource();
         private Task _pageUpdater;
 
         internal TagEditorModel(Microsoft.Office.Interop.OneNote.Application onenote,XMLSchema schema)
@@ -92,26 +87,45 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             _pageAggregation.AggregationTags.CollectionChanged += OnPageTagsChanged;
         }
 
-        internal Task UpdatePageAsync(bool force)
+        /// <summary>
+        /// Determine if the currently loaded page is the same as the current OneNote page.
+        /// </summary>
+        internal bool InSync
+        {
+            get
+            {
+                return _currentPage != null && _OneNote.Windows.CurrentWindow.CurrentPageId.Equals(_currentPage.ID);
+            }
+        }
+
+        /// <summary>
+        /// Determine if the currently loaded page has unsaved changes to tags.
+        /// </summary>
+        internal bool HasUnsavedChanges
+        {
+            get { return _tagsChanged; }
+        }
+
+        internal async Task UpdatePageAsync(bool force)
         {
             string id = _OneNote.Windows.CurrentWindow.CurrentPageId;
             
             // terminate any running workers
             if (_pageUpdater != null && _pageUpdater.Status == TaskStatus.Running)
             {
-                _cancelWorker.Cancel();
+                _cancelPageUpdater.Cancel();
             }
 
-            _pageUpdater = _taskFactory.StartNew( (x) => UpdatePageAction(id,force) ,_cancelWorker);
+            _pageUpdater = Task.Run(() => UpdatePageAction(id, force), _cancelPageUpdater.Token);
+            await _pageUpdater;
 
-            return _pageUpdater;
+            firePropertyChangedEvent(PAGE_TITLE);
         }
 
         private void UpdatePageAction(string pageID, bool force)
         {
-            if (!pageID.Equals(_currentPageID) || force)
+            if (!InSync || force)
             {
-                _currentPageID = pageID;
                 _currentActualPage = null;
                 _currentPage = null;
                 _tagsChanged = false;
@@ -131,7 +145,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     }
 
                     // update the aggregation
-                    firePropertyChangedEvent(PAGE_TITLE);
                     _pageAggregation.AggregationTags.IntersectWith(_currentPage.Tags);
                     _pageAggregation.AggregationTags.UnionWith(_currentPage.Tags);
                 }
@@ -148,7 +161,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private void OnPageTagsChanged(object sender, NotifyDictionaryChangedEventArgs<string, TagPageSet> e)
         {
             Action uiAction = null;
-            _tagsChanged = true;
             switch (e.Action)
             {
                 case NotifyDictionaryChangedAction.Add:
@@ -223,6 +235,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             lock (_pageAggregation)
             {
                 IEnumerable<TagPageSet> applied = _pageAggregation.TagPage(tags, _currentPage);
+                _tagsChanged = true;
                 _pageAggregation.AggregationTags.UnionWith(applied);
             }
         }
@@ -235,7 +248,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             lock (_pageAggregation)
             {
-                IEnumerable<TagPageSet> removed = _pageAggregation.UntagPage(tagname, _currentPageID);
+                IEnumerable<TagPageSet> removed = _pageAggregation.UntagPage(tagname, _currentPage);
+                _tagsChanged = true;
                 _pageAggregation.AggregationTags.ExceptWith(removed);
             }
         }
@@ -244,22 +258,25 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// Asnchronously load all tags used anywhere on OneNote pages.
         /// </summary>
         /// <returns>task object</returns>
-        internal Task LoadTagAndPageDatabaseAsync()
+        internal async Task LoadTagAndPageDatabaseAsync()
         {
             if (_tagDatabaseLoader != null && _tagDatabaseLoader.Status == TaskStatus.Running)
             {
-                _cancelWorker.Cancel();
+                _cancelTagDatabaseLoader.Cancel();
             }
-
-            _tagDatabaseLoader = _taskFactory.StartNew(TagDatabaseLoaderAction);
-            return _tagDatabaseLoader;
-
+            _tagDatabaseLoader = Task.Run(() => TagDatabaseLoaderAction(), _cancelTagDatabaseLoader.Token);
+            IList<string> sortedSuggestions = await _tagDatabaseLoader; ;
+            _knownTags.Clear();
+            foreach (string t in sortedSuggestions)
+            {
+                _knownTags.Add(t);
+            }
         }
 
         /// <summary>
         /// Load the tag database in the background
         /// </summary>
-        private void TagDatabaseLoaderAction()
+        private IList<string> TagDatabaseLoaderAction()
         {
             lock (_pageAggregation)
             {
@@ -276,49 +293,23 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     sortedSuggestions.Insert(~index, t);
                 }
             }
-
-            Dispatcher.Invoke(new Action(() =>
-            {
-                _knownTags.Clear();
-                foreach (string t in sortedSuggestions)
-                {
-                    _knownTags.Add(t);
-                }
-            }));
+            return sortedSuggestions;
         }
 
-        internal void SaveChangesAsync()
+        internal async void SaveChangesAsync()
         {
-            lock (this)
+            if (HasUnsavedChanges)
             {
-                if (_tagsChanged)
-                {
-                    _tagsChanged = false;
-                    // pass tags and current page as parameters so that the undelying objects can further be modified in the foreground
-                    string[] tags = (from t in _pageTags.Values select t.TagName).ToArray();
-                    _taskFactory.StartNew(() => SaveChangesAction(_currentActualPage, _currentPageID, tags));
-                }
-            }
-        }
+                _tagsChanged = false;
+                // pass tags and current page as parameters so that the undelying objects can further be modified in the foreground
 
-        private void SaveChangesAction(OneNotePageProxy page, string pageID, string[] tags)
-        {
-            if (page == null)
-            {
-                // load the real page
-                page = new OneNotePageProxy(_OneNote, pageID, _schema);
-            }
+                string[] pageTags = await Task.Run(() => SaveChangesAction());
 
-            page.PageTags = tags;
-            page.Update();
-
-            Dispatcher.Invoke(() =>
-            {
                 // update suggestions
-                if (tags != null && tags.Length > 0)
+                if (pageTags != null && pageTags.Length > 0)
                 {
                     List<string> sortedSuggestions = new List<string>(_knownTags);
-                    foreach (var t in tags)
+                    foreach (var t in pageTags)
                     {
                         int index = sortedSuggestions.BinarySearch(t);
                         if (index < 0)
@@ -330,15 +321,29 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
                     Properties.Settings.Default.KnownTags = string.Join(",", sortedSuggestions);
                 }
-            });
+            }
+        }
+
+        private string[] SaveChangesAction()
+        {
+            string[] tags = (from t in _pageTags.Values select t.TagName).ToArray();
+
+            OneNotePageProxy page = _currentActualPage;
+            if ( page == null)
+            {
+                // load the real page
+                page = new OneNotePageProxy(_OneNote, _currentPage.ID, _schema);
+            }
+
+            page.PageTags = tags;
+            page.Update();
+
+            return tags;
         }
 
         private void firePropertyChangedEvent(PropertyChangedEventArgs args)
         {
-            if (PropertyChanged != null)
-            {
-                Dispatcher.Invoke(() => PropertyChanged(this, args));
-            }
+            PropertyChanged(this, args);
         }
 #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
