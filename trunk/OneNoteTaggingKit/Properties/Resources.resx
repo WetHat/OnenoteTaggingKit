@@ -262,4 +262,13 @@
   <data name="TagEditor_Tag_AddButton_Tooltip" xml:space="preserve">
     <value>Press to add tag to page</value>
   </data>
+  <data name="TagEditor_MessageBox_UnsavedChanges_Message" xml:space="preserve">
+    <value>You have navigated away form a page with unsaved tag changes.
+
+Tap or click OK to save changes now.
+Tap or click CANCEL to discard the changes</value>
+  </data>
+  <data name="TagEditor_MessageBox_UnsavedChanges_Title" xml:space="preserve">
+    <value>Unsaved Changes</value>
+  </data>
 </root>
