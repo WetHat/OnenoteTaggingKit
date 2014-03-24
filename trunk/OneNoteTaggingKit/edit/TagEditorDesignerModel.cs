@@ -45,5 +45,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             get { return "Designer Page"; }
         }
+
+
+        public string ModificationMarker
+        {
+            get { return " *"; }
+        }
     }
 }
