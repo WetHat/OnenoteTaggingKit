@@ -107,7 +107,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             if (!string.IsNullOrEmpty(tagComboBox.Text))
             {
-                _model.ApplyPageTags(from t in OneNotePageProxy.ParseTags(tagComboBox.Text) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(t));
+                _model.ApplyPageTagsAsync(from t in OneNotePageProxy.ParseTags(tagComboBox.Text) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(t));
                 tagComboBox.Text = string.Empty;
             }
         }
@@ -121,7 +121,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             {
                 await _model.LoadTagAndPageDatabaseAsync();
                 pBar.Visibility = System.Windows.Visibility.Hidden;
-                await _model.UpdatePageAsync(false);
+                _model.UpdatePageAsync(false);
             }
         }
 
@@ -156,7 +156,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 SimpleTagButtonModel mdl = btn.DataContext as SimpleTagButtonModel;
                 if (mdl != null)
                 {
-                    _model.UnapplyPageTag(mdl.TagName);
+                    _model.UnapplyPageTagAsync(mdl.TagName);
                 }
             }
         }

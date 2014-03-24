@@ -230,28 +230,34 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// Associate a tag with the current page
         /// </summary>
         /// <param name="tags">tags to apply</param>
-        internal void ApplyPageTags(IEnumerable<string> tags)
+        internal Task ApplyPageTagsAsync(IEnumerable<string> tags)
         {
-            lock (_pageAggregation)
+            return Task.Run(() =>
             {
-                IEnumerable<TagPageSet> applied = _pageAggregation.TagPage(tags, _currentPage);
-                _tagsChanged = true;
-                _pageAggregation.AggregationTags.UnionWith(applied);
-            }
+                lock (_pageAggregation)
+                {
+                    IEnumerable<TagPageSet> applied = _pageAggregation.TagPage(tags, _currentPage);
+                    _tagsChanged = true;
+                    _pageAggregation.AggregationTags.UnionWith(applied);
+                }
+            });
         }
 
         /// <summary>
         /// Dissassociate a tag with the current page.
         /// </summary>
         /// <param name="tagname">name of the tag</param>
-        internal void UnapplyPageTag(string tagname)
+        internal Task UnapplyPageTagAsync(string tagname)
         {
-            lock (_pageAggregation)
-            {
-                IEnumerable<TagPageSet> removed = _pageAggregation.UntagPage(tagname, _currentPage);
-                _tagsChanged = true;
-                _pageAggregation.AggregationTags.ExceptWith(removed);
-            }
+            return Task.Run(() =>
+                {
+                    lock (_pageAggregation)
+                    {
+                        IEnumerable<TagPageSet> removed = _pageAggregation.UntagPage(tagname, _currentPage);
+                        _tagsChanged = true;
+                        _pageAggregation.AggregationTags.ExceptWith(removed);
+                    }
+                });
         }
 
         /// <summary>
@@ -265,7 +271,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 _cancelTagDatabaseLoader.Cancel();
             }
             _tagDatabaseLoader = Task.Run(() => TagDatabaseLoaderAction(), _cancelTagDatabaseLoader.Token);
-            IList<string> sortedSuggestions = await _tagDatabaseLoader; ;
+            IList<string> sortedSuggestions = await _tagDatabaseLoader;
             _knownTags.Clear();
             foreach (string t in sortedSuggestions)
             {
@@ -296,14 +302,15 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             return sortedSuggestions;
         }
 
-        internal async void SaveChangesAsync()
+        internal async Task SaveChangesAsync()
         {
             if (HasUnsavedChanges)
             {
                 _tagsChanged = false;
                 // pass tags and current page as parameters so that the undelying objects can further be modified in the foreground
 
-                string[] pageTags = await Task.Run(() => SaveChangesAction());
+                string[] pageTags = (from t in _pageTags.Values select t.TagName).ToArray();
+                await Task.Run(() => SaveChangesAction(pageTags));
 
                 // update suggestions
                 if (pageTags != null && pageTags.Length > 0)
@@ -324,10 +331,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
-        private string[] SaveChangesAction()
+        private void SaveChangesAction(string[] tags)
         {
-            string[] tags = (from t in _pageTags.Values select t.TagName).ToArray();
-
             OneNotePageProxy page = _currentActualPage;
             if ( page == null)
             {
@@ -337,8 +342,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
             page.PageTags = tags;
             page.Update();
-
-            return tags;
         }
 
         private void firePropertyChangedEvent(PropertyChangedEventArgs args)
