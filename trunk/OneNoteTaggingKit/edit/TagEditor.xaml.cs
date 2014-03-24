@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
@@ -17,6 +18,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     public partial class TagEditor : Window, IOneNotePageWindow<TagEditorModel>
     {
         private TagEditorModel _model;
+
+        private Timer _updater;
 
         /// <summary>
         /// Create a new instance of the tag editor 
@@ -45,17 +48,18 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         #endregion
 
 
-        private void CheckForUnsavedChanges()
+        private Task CheckForUnsavedChanges()
         {
             if (!_model.InSync && _model.HasUnsavedChanges)
             {
                 Task t = null;
-                MessageBoxResult answer = MessageBox.Show(string.Format("You have navigated away from a page you started to tag.\nTap Ok to save changes, or cancel to discard"), "Unsaved Changes", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                MessageBoxResult answer = MessageBox.Show(Properties.Resources.TagEditor_MessageBox_UnsavedChanges_Message, Properties.Resources.TagEditor_MessageBox_UnsavedChanges_Title, MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                 if (answer == MessageBoxResult.OK)
                 {
-                    _model.SaveChangesAsync();
+                   return _model.SaveChangesAsync();
                 }
             }
+            return null;
         }
         private async void AddTagsToPageButton_Click(object sender, RoutedEventArgs e)
         {
@@ -121,12 +125,34 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             {
                 await _model.LoadTagAndPageDatabaseAsync();
                 pBar.Visibility = System.Windows.Visibility.Hidden;
+
+                // track changes to the page
                 _model.UpdatePageAsync(false);
+
+                bool operationInProgress = false;
+                _updater = new Timer(async (s) =>
+                {
+                    if (!operationInProgress)
+                    {
+                        operationInProgress = true;
+                        await Dispatcher.InvokeAsync(() => CheckForUnsavedChanges());
+
+                        if (!_model.InSync)
+                        {
+                            await _model.UpdatePageAsync(false);
+                        }
+                        operationInProgress = false;
+                    }
+                }, null, 0, 1000);
             }
         }
 
         private void editTags_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (_updater != null)
+            {
+                _updater.Dispose();
+            }
             Properties.Settings.Default.Save();
         }
 

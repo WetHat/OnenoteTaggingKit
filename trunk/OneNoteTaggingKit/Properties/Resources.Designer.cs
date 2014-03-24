@@ -167,6 +167,27 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have navigated away form a page with unsaved tag changes.
+        ///
+        ///Tap or click OK to save changes now.
+        ///Tap or click CANCEL to discard the changes.
+        /// </summary>
+        public static string TagEditor_MessageBox_UnsavedChanges_Message {
+            get {
+                return ResourceManager.GetString("TagEditor_MessageBox_UnsavedChanges_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unsaved Changes.
+        /// </summary>
+        public static string TagEditor_MessageBox_UnsavedChanges_Title {
+            get {
+                return ResourceManager.GetString("TagEditor_MessageBox_UnsavedChanges_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The tag editor dialog failed to open: {0}.
         /// </summary>
         public static string TagEditor_OpenDialogError {
