@@ -126,6 +126,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             await _pageUpdater;
 
             firePropertyChangedEvent(PAGE_TITLE);
+            firePropertyChangedEvent(MODIFICATION_MARKER);
         }
 
         private void UpdatePageAction(string pageID, bool force)
@@ -135,7 +136,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 _currentActualPage = null;
                 _currentPage = null;
                 _tagsChanged = false;
-                firePropertyChangedEvent(MODIFICATION_MARKER);
                 lock (_pageAggregation)
                 {
                     // lookup page from database
