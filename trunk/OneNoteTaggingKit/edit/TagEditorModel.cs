@@ -32,6 +32,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// Get the title of the currently loaded page
         /// </summary>
         string PageTitle { get;  }
+
+        /// <summary>
+        /// Get a marker to indicate unsaved changes
+        /// </summary>
+        string ModificationMarker { get; }
     }
 
     /// <summary>
@@ -46,6 +51,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     public class TagEditorModel : DependencyObject, ITagEditorModel, INotifyPropertyChanged
     {
         private static readonly PropertyChangedEventArgs PAGE_TITLE = new PropertyChangedEventArgs("PageTitle");
+        private static readonly PropertyChangedEventArgs MODIFICATION_MARKER = new PropertyChangedEventArgs("ModificationMarker");
 
         private Microsoft.Office.Interop.OneNote.Application _OneNote;
         private XMLSchema _schema;
@@ -129,6 +135,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 _currentActualPage = null;
                 _currentPage = null;
                 _tagsChanged = false;
+                firePropertyChangedEvent(MODIFICATION_MARKER);
                 lock (_pageAggregation)
                 {
                     // lookup page from database
@@ -224,6 +231,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
+        public string ModificationMarker
+        {
+            get { return HasUnsavedChanges ? " *" : String.Empty; }
+        }
+
         #endregion ITagEditorModel
 
         /// <summary>
@@ -240,7 +252,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     _tagsChanged = true;
                     _pageAggregation.AggregationTags.UnionWith(applied);
                 }
-            });
+            }).ContinueWith((x) => firePropertyChangedEvent(MODIFICATION_MARKER), TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         /// <summary>
@@ -257,7 +269,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                         _tagsChanged = true;
                         _pageAggregation.AggregationTags.ExceptWith(removed);
                     }
-                });
+                }).ContinueWith((x) => firePropertyChangedEvent(MODIFICATION_MARKER), TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         /// <summary>
@@ -307,6 +319,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             if (HasUnsavedChanges)
             {
                 _tagsChanged = false;
+                firePropertyChangedEvent(MODIFICATION_MARKER);
+
                 // pass tags and current page as parameters so that the undelying objects can further be modified in the foreground
 
                 string[] pageTags = (from t in _pageTags.Values select t.TagName).ToArray();

@@ -58,8 +58,12 @@
                   VerticalAlignment="Stretch"
                   Margin="5,0,5,0"
                   Background="White"
-                  Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tags_GroupBox_Title}}"
                   ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tags_GroupBox_ToolTip}}">
+            <GroupBox.Header>
+                <TextBlock>
+                  <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tags_GroupBox_Title}}"/><Run FontWeight="ExtraBold" Text="{Binding ModificationMarker, Mode=OneWay}" />
+                </TextBlock>
+            </GroupBox.Header>
             <local:SimpleTagsPanel Tags="{Binding PageTags}" VerticalAlignment="Stretch" Click="RemoveTagButton_Click"/>
         </GroupBox>
 
