@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui" loadImage="GetImage">
+  <ribbon>
+    <tabs>
+      <tab idMso="TabHome">
+        <group id="PageTagging" label="Page Tags" insertAfterMso="GroupTagging">
+          <button id="buttonTagPage"
+                  label="Edit Page Tags"
+                  size="large"
+                  screentip="Add/Remove OneNote Page Tags"
+                  onAction="editTags"
+                  image="pageTags.png"/>
+          <button id="buttonSearchTags"
+                  label="Find Notes"
+                  size="large"
+                  screentip="Find Pages By Tags"
+                  onAction="findTags"
+                  image="findPageTags.png"/>
+          <button id="buttonManageTags"
+                  label="Manage Tags"
+                  size="large"
+                  screentip="Manage OneNote Page Tags"
+                  onAction="manageTags"
+                  image="managePageTags.png"/>
+        </group>
+      </tab>
+    </tabs>
+  </ribbon>
+</customUI>
