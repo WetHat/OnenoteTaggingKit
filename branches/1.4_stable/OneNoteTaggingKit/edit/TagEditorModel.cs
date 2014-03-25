@@ -9,13 +9,35 @@ using System.Text;
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
     /// <summary>
+    /// Contract used by the tag editor view model
+    /// </summary>
+    /// <seealso cref="WetHatLab.OneNote.TaggingKit.edit.TagEditor"/>
+    internal interface ITagEditorModel
+    {
+        /// <summary>
+        /// Get the collection of tags on current OneNote page.
+        /// </summary>
+        ObservableSortedList<SimpleTagButtonModel> PageTags { get; }
+
+        /// <summary>
+        /// Get the collection of all knows tags.
+        /// </summary>
+        ObservableCollection<string> KnownTags { get; }
+
+        /// <summary>
+        /// Get the addin version.
+        /// </summary>
+        string AddinVersion { get; }
+    }
+
+    /// <summary>
     /// View Model to support the tag editor dialog
     /// </summary>
     public class TagEditorModel : ITagEditorModel
     {
         private Application _OneNote;
 
-        private ObservableCollection<string> _pageTags;
+        private ObservableSortedList<SimpleTagButtonModel> _pageTags = new ObservableSortedList<SimpleTagButtonModel>();
         private ObservableCollection<string> _knownTags;
 
         private OneNotePageProxy _page;
@@ -26,7 +48,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
             _page = new OneNotePageProxy(_OneNote, _OneNote.Windows.CurrentWindow.CurrentPageId,schema);
 
-            _pageTags = new ObservableCollection<string>(_page.PageTags);
+            _pageTags.AddAll(from t in _page.PageTags select new SimpleTagButtonModel(t));
 
             _knownTags = new ObservableCollection<string>(OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags));  
         }
@@ -35,7 +57,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <summary>
         /// Get the collection of page tags.
         /// </summary>
-        public ObservableCollection<string> PageTags
+        public ObservableSortedList<SimpleTagButtonModel> PageTags
         {
             get { return _pageTags; }
         }
@@ -63,12 +85,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         internal void SaveChanges()
         {
-            string[] tags = _pageTags.ToArray();
-            Array.Sort(tags);
+            string[] tags = (from st in _pageTags.Values select st.Key).ToArray();
+
             _page.PageTags = tags;
             _page.Update();
 
-            Properties.Settings.Default.KnownTags = string.Join(",", _knownTags.Union(_pageTags));
+            Properties.Settings.Default.KnownTags = string.Join(",", _knownTags.Union(tags));
             Properties.Settings.Default.Save();
         }
     }

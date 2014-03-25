@@ -71,6 +71,10 @@
                 <WrapPanel Name="tagsPanel" />
             </ScrollViewer>
         </GroupBox>
+        <ProgressBar Name="pBar"
+                     Grid.Row="1"
+                     Grid.ColumnSpan="3"
+                     IsIndeterminate="True" Width="100" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="LightBlue" Background="WhiteSmoke"/>
         <Button Name="clearSelectionButton"  Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Top"  HorizontalAlignment="Right" Click="ClearSelectionButton_Click" BorderThickness="0" BorderBrush="LightBlue" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_ClearSelection_Button_Tooltip}}" Background="Transparent" Margin="0,0,25,0">
             <Image  MaxWidth="32" Height="24" HorizontalAlignment="Center" VerticalAlignment="Bottom" Source="/OneNoteTaggingKit;component/Resources/clear selection.png"/>
         </Button>

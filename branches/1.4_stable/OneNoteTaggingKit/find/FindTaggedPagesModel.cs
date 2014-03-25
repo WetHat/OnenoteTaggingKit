@@ -18,6 +18,29 @@ using System.Windows.Threading;
 namespace WetHatLab.OneNote.TaggingKit.find
 {
     /// <summary>
+    /// Contract for view models of the <see cref="WetHatLab.OneNote.TaggingKit.find.FindTaggedPages"/> windows
+    /// </summary>
+    internal interface ITagSearchModel
+    {
+        /// <summary>
+        /// Get a list of scopes available for finding tagged pages.
+        /// </summary>
+        IList<TagSearchScope> Scopes { get; }
+        /// <summary>
+        /// Get or set the scope to use
+        /// </summary>
+        TagSearchScope SelectedScope { get; set; }
+        /// <summary>
+        /// Fired when the collection of tags foud in a scope changes
+        /// </summary>
+        event NotifyCollectionChangedEventHandler TagCollectionChanged;
+        /// <summary>
+        /// Get the collection of pages with particular tags
+        /// </summary>
+        ObservableCollection<HitHighlightedPage> Pages { get; }
+    }
+
+    /// <summary>
     /// Enumeration of scopes to search for tagged pages
     /// </summary>
     public enum SearchScope
@@ -62,7 +85,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 int afterLastHighlight = 0;
                 foreach (Match m in _page.TitleHits)
                 {
-                    // reate a plain run between the last highlight anf this highlight
+                    // create a plain run between the last highlight and this highlight
                     if (m.Index > afterLastHighlight)
                     {
                         _hithighlightedTitel.Inlines.Add(new Run(Title.Substring(afterLastHighlight, m.Index - afterLastHighlight)));
@@ -158,17 +181,22 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// <summary>
     /// View model backing the UI to find tagged pages.
     /// </summary>
+    /// <remarks>Search queries are run in the background</remarks>
     public class FindTaggedPagesModel : System.Windows.DependencyObject, ITagSearchModel, IDisposable
     {
+        /// <summary>
+        /// Number of pages in a search result
+        /// </summary>
         public static readonly System.Windows.DependencyProperty PageCountProperty = System.Windows.DependencyProperty.Register("PageCount", typeof(int), typeof(FindTaggedPagesModel), new System.Windows.PropertyMetadata(0));
 
+        /// <summary>
+        /// Number of Tags in a search result.
+        /// </summary>
         public static readonly System.Windows.DependencyProperty TagCountProperty = System.Windows.DependencyProperty.Register("TagCount", typeof(int), typeof(FindTaggedPagesModel), new System.Windows.PropertyMetadata(0));
         
         private Application _onenote;
 
         private Window _currentWindow;
-
-        private Dispatcher _dispatcher;
 
         private IList<TagSearchScope> _scopes;
 
@@ -201,7 +229,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 catch (Exception e)
                 {
                     Debug.Assert(false, e.ToString());
-                    return; // that's it
+                    return; // that's it! We have to give up.
                 }
             }
         }
@@ -311,7 +339,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         #region ITagSearchModel
         /// <summary>
-        /// Get the list of scopes available for collecing tagged pages.
+        /// Get the list of scopes available for collecting tagged pages.
         /// </summary>
         public IList<TagSearchScope> Scopes
         {

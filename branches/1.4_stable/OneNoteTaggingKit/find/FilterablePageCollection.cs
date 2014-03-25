@@ -14,238 +14,6 @@ using WetHatLab.OneNote.TaggingKit.edit;
 namespace WetHatLab.OneNote.TaggingKit.find
 {
     /// <summary>
-    /// A observable, sorted collection of items having sortable keys.
-    /// </summary>
-    /// <remarks>
-    /// Instances of this class provide change notification through <see cref="INotifyCollectionChanged"/>. This
-    /// class is optimized for batch updates (item collections). Single items cannot be added. Batch updates are
-    /// usefull to optimize UI updates by allowing update of larger chunks of data, rather than individual items
-    /// </remarks>
-    /// <typeparam name="Tvalue">item type providing sortable keys</typeparam>
-    class ObservableSortedList<Tvalue> : INotifyCollectionChanged, IDisposable where Tvalue : IKeyedItem
-    {
-        /// <summary>
-        /// Event to notify about changes to this collection.
-        /// </summary>
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
-
-        private SortedList<string,Tvalue> _sortedList = new SortedList<string,Tvalue>();
-
-        /// <summary>
-        /// Get the number of items in the collection.
-        /// </summary>
-        internal int Count
-        {
-            get { return _sortedList.Count;  }
-        }
-
-        /// <summary>
-        /// Get all items in the collection.
-        /// </summary>
-        internal IList<Tvalue> Values
-        {
-            get { return _sortedList.Values; }
-        }
-
-        /// <summary>
-        /// Clear all items from the collection.
-        /// </summary>
-        /// <remarks>
-        /// Notifies all listeners about the change
-        /// </remarks>
-        internal void Clear()
-        {
-            _sortedList.Clear();
-            NotifyCollectionChangedEventArgs args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
-            CollectionChanged(this, args);
-        }
-
-        /// <summary>
-        /// Inform listeners to change notifications about removal of a contiguous range of items.
-        /// </summary>
-        /// <remarks>
-        /// This method in addition also removes the items from the sorted collection. Hence it expects
-        /// all given items to be still present in the sorted collection
-        /// </remarks>
-        /// <param name="batch">items to remove</param>
-        /// <param name="startindex">start index of contiguous range of items</param>
-        /// <returns>true, if batch was non empty</returns>
-        private bool processRemoveBatch(LinkedList<Tvalue> batch, int startindex)
-        {
-            if (batch.Count > 0)
-            {
-                // remove this batch from the sorted list
-                foreach (Tvalue dead in batch)
-                {
-                    bool removed =_sortedList.Remove(dead.Key);
-#if DEBUG
-                    Debug.Assert(removed, string.Format("Item with key '{0}' could not be removed!",dead.Key));
-#endif
-                }
-
-                // fire event for this batch
-                NotifyCollectionChangedEventArgs args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove,
-                                                                                             batch.ToArray(),
-                                                                                             startindex);
-                if (CollectionChanged != null)
-                {
-                    CollectionChanged(this, args);
-                }
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Remove items from the collection in batches. 
-        /// </summary>
-        /// <remarks>
-        /// Groups the given items into contiguous ranges of batches and removes
-        /// each batch at once, firing one change notification per batch.
-        /// </remarks>
-        /// <param name="items">items to remove</param>
-        internal void RemoveAll(IEnumerable<Tvalue> items)
-        {
-            SortedList<int, Tvalue> toDelete = new SortedList<int, Tvalue>();
-            foreach (Tvalue item in items)
-            {
-                int index = _sortedList.IndexOfKey(item.Key);
-                if (index >= 0)
-                {
-                    toDelete.Add(index, item);
-                }
-            }
-
-            // fire event in batches
-            int n = 0;
-            int batchStartIndex = -1;
-            int batchLastIndex = -2;
-            LinkedList<Tvalue> batch = new LinkedList<Tvalue>();
-            foreach (KeyValuePair<int,Tvalue> item in toDelete)
-            {
-                if (item.Key > batchLastIndex +1)
-                {   // finish current batch
-                    if (processRemoveBatch(batch,batchStartIndex - n))
-                    {
-                        n += batch.Count;
-                        batch.Clear();
-                    }
-
-                    // ... and start new batch with this item
-                    batchStartIndex = item.Key;
-                    batchLastIndex = batchStartIndex - 1;
-                }
-#if DEBUG
-                Debug.Assert(item.Key == batchLastIndex + 1);
-#endif
-                batchLastIndex = item.Key;
-                batch.AddLast(item.Value);
-            }
-
-            // fire event for last batch
-            processRemoveBatch(batch, batchStartIndex - n);
-        }
-
-        /// <summary>
-        /// Inform listeners to change notifications about addition of a contiguous range of items.
-        /// </summary>
-        /// <remarks>
-        /// It is assumed that all items in the provided batch are already present in the sorted collection.
-        /// </remarks>
-        /// <param name="batch">collection of items to add</param>
-        /// <param name="startindex">start index of the contiguous range of items</param>
-        /// <returns>true, if items were added</returns>
-        private bool processAddBatch(LinkedList<Tvalue> batch, int startindex)
-        {
-#if DEBUG
-            foreach (Tvalue itm in batch)
-            {
-                Debug.Assert(_sortedList.ContainsKey(itm.Key),string.Format("Item '{0}' not found in the collection!",itm.Key));
-            }
-#endif
-            if (batch.Count > 0)
-            {
-                // fire event for this batch
-                NotifyCollectionChangedEventArgs args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add,
-                                                                                             batch.ToArray(),
-                                                                                             startindex);
-                if (CollectionChanged != null)
-                {
-                    CollectionChanged(this, args);
-                }
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Add items to the sorted collection in batches.
-        /// </summary>
-        /// <remarks>
-        /// Groups the given items into contiguous ranges of batches and adds
-        /// each batch at once, firing one change notification per batch.
-        /// </remarks>
-        /// <param name="items">items to add</param>
-        internal void AddAll(IEnumerable<Tvalue> items)
-        {
-            LinkedList<Tvalue> addedItems = new LinkedList<Tvalue>();
-            foreach (Tvalue item in items)
-            {
-                if (!_sortedList.ContainsKey(item.Key))
-                {
-                    addedItems.AddLast(item);
-                    _sortedList.Add(item.Key, item);
-                }
-            }
-
-            // build a sorted list of added items
-            SortedList<int, Tvalue> sortedAdds = new SortedList<int, Tvalue>();
-            foreach (Tvalue a in addedItems)
-            {
-                int index = _sortedList.IndexOfKey(a.Key);
-#if DEBUG
-                Debug.Assert(index >= 0, string.Format("previously added item not found: {0}",a.Key));
-#endif
-                sortedAdds.Add(index, a);
-            }
-
-            // fire event in batches
-            int batchStartIndex = -1;
-            int batchLastIndex = -2;
-            addedItems.Clear();
-
-            foreach (KeyValuePair<int, Tvalue> item in sortedAdds)
-            {
-                if (item.Key > batchLastIndex + 1)
-                {
-                    // process current batch
-                    if (processAddBatch(addedItems, batchStartIndex))
-                    {
-                        addedItems.Clear();
-                    }
-                    // ... and start a new batch with this item
-                    batchStartIndex = item.Key;
-                    batchLastIndex = batchStartIndex-1;
-                }
-#if DEBUG
-                Debug.Assert(item.Key == batchLastIndex + 1);
-#endif
-                batchLastIndex = item.Key;
-                addedItems.AddLast(item.Value);
-            }
-
-            // fire event for last batch
-            processAddBatch(addedItems, batchStartIndex);
-        }
-        #region IDisposable
-        public void Dispose()
-        {
-            CollectionChanged = null;
-        }
-        #endregion
-
-    }
-    /// <summary>
     /// Observable collections of tags and OneNote pages satisfying a search criterion.
     /// </summary>
     /// <remarks>
@@ -260,6 +28,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
         XMLSchema _schema;
 
         private Dictionary<string, TagPageSet> _tags = new Dictionary<string, TagPageSet>();
+
+        /// <summary>
+        /// Set of Pages returned from a full text search.
+        /// </summary>
+        /// <remarks>May be null if no full text query was used to retrieve tags</remarks>
         private HashSet<TaggedPage> _searchResult;
 
         private ObservableSortedList<TagPageSet> _filteredTags  = new ObservableSortedList<TagPageSet>();
@@ -289,7 +62,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// Find OneNote pages.
         /// </summary>
         /// <param name="query">query string. if null or empty just the tags are provided</param>
-        /// <param name="scopeID">id if the scope to search for pages. This is the element ID of a notebook, section group, or section.
+        /// <param name="scopeID">OneNote id of the scope to search for pages. This is the element ID of a notebook, section group, or section.
         ///                       If given as null or empty string scope is the entire set of notebooks open in OneNote.
         /// </param>
         internal void Find(string query, string scopeID)
@@ -314,34 +87,66 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
 
             // process result
-            XDocument result = XDocument.Parse(strXml);
-            XNamespace one = result.Root.GetNamespaceOfPrefix("one");
-            
-            foreach (XElement page in result.Descendants(one.GetName("Page")))
+            try
             {
-                TaggedPage tp = new TaggedPage(page,query);
-                foreach (string tag in tp.Tags)
+                XDocument result = XDocument.Parse(strXml);
+                XNamespace one = result.Root.GetNamespaceOfPrefix("one");
+
+                foreach (XElement page in result.Descendants(one.GetName("Page")))
                 {
-                    TagPageSet t;
-                    if (!_tags.TryGetValue(tag, out t))
+                    TaggedPage tp = new TaggedPage(page, query);
+                    foreach (string tag in tp.Tags)
                     {
-                        t = new TagPageSet(tag);
-                        _tags.Add(tag, t);
+                        TagPageSet t;
+                        if (!_tags.TryGetValue(tag, out t))
+                        {
+                            t = new TagPageSet(tag);
+                            _tags.Add(tag, t);
+                        }
+                        t.AddPage(tp);
                     }
-                    t.AddPage(tp);   
-                }
-                if (_searchResult != null)
-                {
-                    _searchResult.Add(tp);
+                    if (_searchResult != null)
+                    {
+                        _searchResult.Add(tp);
+                    }
                 }
             }
-
+            catch (Exception)
+            {
+                // unable to parse tags
+            }
             _filteredTags.AddAll(_tags.Values);
             if (_searchResult != null)
             {
                 // announce the search result
                 _filteredPages.AddAll(_searchResult);
             }
+            else
+            {  // attempt to automatically update the tag suggestion list, if we have collected all used tags
+                HashSet<string> knownTags = new HashSet<String>(OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags));
+                int countBefore = knownTags.Count;
+
+                // add tags from search result
+                foreach (string t in _tags.Keys)
+                {
+                    knownTags.Add(t);
+                }
+
+                if (countBefore != knownTags.Count)
+                { // updated tag suggestions
+                    string[] sortedTags = knownTags.ToArray();
+                    Array.Sort(sortedTags);
+                    Properties.Settings.Default.KnownTags = string.Join(",", sortedTags);
+                }
+            }
+        }
+
+        /// <summary>
+        /// get dictionary of tags.
+        /// </summary>
+        internal IDictionary<string, TagPageSet> Tags
+        {
+            get { return _tags;}
         }
 
         /// <summary>
@@ -465,13 +270,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
             _filteredTags.AddAll(toAdd);
         }
 
-        #region
+        #region IDisposable
         public void Dispose()
         {
             _filteredPages.Dispose();
             _filteredTags.Dispose();
         }
-        #endregion
+        #endregion IDisposable
 
     }
 }

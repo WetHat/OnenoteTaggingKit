@@ -5,10 +5,10 @@ using System;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
-using System.Linq;
 using System.Windows;
 using System.Windows.Interop;
 using WetHatLab.OneNote.TaggingKit.edit;
@@ -25,7 +25,7 @@ namespace WetHatLab.OneNote.TaggingKit
     /// <para>This addin implements a simple but flexible tagging system for OneNote pages</para>
     /// </remarks>
     [Guid("C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF"), ProgId("WetHatLab.OneNote.TaggingKitAddin")]
-    public class TaggingKitAddin : IDTExtensibility2, IRibbonExtensibility
+    public class ConnectTaggingKitAddin : IDTExtensibility2, IRibbonExtensibility
     {
         private Microsoft.Office.Interop.OneNote.Application _OneNoteApp;
 
@@ -75,10 +75,11 @@ namespace WetHatLab.OneNote.TaggingKit
             try
             {
                 // determine version of OneNote running
-                Process OneNoteProcess = (from p in Process.GetProcesses()
-                                          where "ONENOTE".Equals(p.ProcessName,StringComparison.InvariantCultureIgnoreCase)
-                                          select p).Single();
-                int onVersion = OneNoteProcess.Modules[0].FileVersionInfo.ProductMajorPart;
+                // determine version of OneNote running
+                ProcessModule onenoteModule = (from p in Process.GetProcesses()
+                                               where "ONENOTE".Equals(p.ProcessName, StringComparison.InvariantCultureIgnoreCase) && p.MainModule.FileName.EndsWith("ONENOTE.EXE", StringComparison.InvariantCulture)
+                                               select p.MainModule).First();
+                int onVersion = onenoteModule.FileVersionInfo.ProductMajorPart;
                 switch (onVersion)
                 {
                     case 15:
@@ -139,8 +140,7 @@ namespace WetHatLab.OneNote.TaggingKit
             {
                 Microsoft.Office.Interop.OneNote.Window currentWindow = _OneNoteApp.Windows.CurrentWindow;
 
-            TagEditorModel viewModel = new TagEditorModel(_OneNoteApp, currentWindow.CurrentPageId,_schema);
-            ShowDialog<TagEditor, TagEditorModel>(currentWindow, viewModel);
+                ShowDialog<TagEditor, TagEditorModel>(currentWindow, () => new TagEditorModel(_OneNoteApp, currentWindow.CurrentPageId,_schema));
             }
             catch (Exception ex)
             {
@@ -168,9 +168,7 @@ namespace WetHatLab.OneNote.TaggingKit
         public void manageTags(IRibbonControl ribbon)
         {
             Microsoft.Office.Interop.OneNote.Window currentWindow = _OneNoteApp.Windows.CurrentWindow;
-
-            TagManagerModel viewModel = new TagManagerModel();
-            ShowDialog<TagManager, TagManagerModel>(currentWindow, viewModel);
+            ShowDialog<TagManager, TagManagerModel>(currentWindow, () => new TagManagerModel(_OneNoteApp, _schema));
         }
 
         /// <summary>
@@ -209,7 +207,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="window">current OneNote windows</param>
         /// <param name="viewModel">view model instance</param>
         /// <returns>dialog result</returns>
-        internal static bool? ShowDialog<T,M>( Microsoft.Office.Interop.OneNote.Window window, M viewModel) where T : System.Windows.Window, IOneNotePageWindow<M>, new()
+        internal static bool? ShowDialog<T, M>(Microsoft.Office.Interop.OneNote.Window window, Func<M> viewModelFactory) where T : System.Windows.Window, IOneNotePageWindow<M>, new()
         {
             bool? retval = null;
             var thread = new Thread(() =>
@@ -217,7 +215,7 @@ namespace WetHatLab.OneNote.TaggingKit
                 System.Windows.Window w = new T();
                 w.Closed += (s, e) => w.Dispatcher.InvokeShutdown();
                 w.Topmost = true;
-                ((IOneNotePageWindow<M>)w).ViewModel = viewModel;
+                ((IOneNotePageWindow<M>)w).ViewModel = viewModelFactory();
                 var helper = new WindowInteropHelper(w);
                 helper.Owner = (IntPtr)window.WindowHandle;
                 retval = w.ShowDialog();

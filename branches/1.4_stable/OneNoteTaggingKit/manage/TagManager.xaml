@@ -14,10 +14,10 @@
         WindowStyle="ToolWindow"
         Title="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_Window_Title}}"
         Height="{Binding Source={x:Static prop:Settings.Default},Path=TagManagerWindow_Height,Mode=TwoWay}"
-        Width="{Binding Source={x:Static prop:Settings.Default},Path=TagManagerWindow_Width,Mode=TwoWay}" Closing="Window_Closing" Icon="/OneNoteTaggingKit;component/Resources/settings 32x32.png">
+        Width="{Binding Source={x:Static prop:Settings.Default},Path=TagManagerWindow_Width,Mode=TwoWay}" Closing="Window_Closing" Icon="/OneNoteTaggingKit;component/Resources/settings 32x32.png" Loaded="Window_Loaded">
     <Window.Resources>
         <ContextMenu x:Key="contextMenu">
-            <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_ContextMenu_Copy}}" Click="MenuItem_Click">
+            <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_ContextMenu_Copy}}" Click="Copy_MenuItem_Click">
                 <MenuItem.Icon>
                     <Image Source="/OneNoteTaggingKit;component/Resources/copy-26.png" />
                 </MenuItem.Icon>
@@ -39,6 +39,7 @@
             <TabItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_TagSuggestionsTab_Header}}" IsSelected="True" BorderThickness="0" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_TagSuggestionsTab_Tooltip}}">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
@@ -46,11 +47,19 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TaggingKit:TagsPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                                          ContextMenu="{DynamicResource contextMenu}"
-                                          BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" Tags="{Binding SuggestedTags}" Margin="5,5,5,0" />
-                    <TextBox Name="newTag" Grid.Row="1" Grid.Column="0" Margin="5,10,10,10" KeyUp="newTag_KeyUp" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_NewTagTextbox_Tooltip}}"/>
-                    <Button x:Name="newTagButton" Grid.Row="1" Grid.Column="2" Width="20" Height="20" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_NewTagButton_Tooltip}}" Click="NewTagButton_Click" Margin="0,0,5,0">
+                    <local:RemovableTagsPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                              ContextMenu="{DynamicResource contextMenu}"
+                                              BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
+                                              Tags="{Binding SuggestedTags}"
+                                              Margin="5,5,5,0" />
+                    <ProgressBar Name="pBar" Visibility="Visible"
+                                 Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                 IsIndeterminate="True"
+                                 Width="100" Height="20"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center"
+                                 Foreground="LightBlue" Background="WhiteSmoke"/>
+                    <TextBox Name="newTag" Grid.Row="2" Grid.Column="0" Margin="5,10,10,10" KeyUp="newTag_KeyUp" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_NewTagTextbox_Tooltip}}"/>
+                    <Button x:Name="newTagButton" Grid.Row="2" Grid.Column="2" Width="20" Height="20" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_NewTagButton_Tooltip}}" Click="NewTagButton_Click" Margin="0,0,5,0">
                         <Button.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="#FF00FF00" Offset="0"/>
