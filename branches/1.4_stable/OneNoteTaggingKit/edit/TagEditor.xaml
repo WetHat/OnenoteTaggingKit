@@ -42,10 +42,9 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto" />
-
         </Grid.ColumnDefinitions>
         <GroupBox Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="10,0,10,0" Background="White" Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tags_GroupBox_Title}}"  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tags_GroupBox_ToolTip}}">
-            <TaggingKit:TagsPanel  VerticalAlignment="Top" HorizontalAlignment="Left" Tags="{Binding PageTags}"/>
+            <local:SimpleTagsPanel Tags="{Binding PageTags}" />
         </GroupBox>
         <ComboBox x:Name="TagComboBox" Grid.Row="1"
 			HorizontalAlignment="Stretch"

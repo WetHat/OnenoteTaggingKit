@@ -75,21 +75,35 @@
   <ItemGroup>
     <Compile Include="COMReadonlyStreamAdapter.cs" />
     <Compile Include="edit\OneNotePageProxy.cs" />
+    <Compile Include="edit\SimpleTagButton.xaml.cs">
+      <DependentUpon>SimpleTagButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="edit\SimpleTagButtonModel.cs" />
+    <Compile Include="edit\SimpleTagsPanel.xaml.cs">
+      <DependentUpon>SimpleTagsPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="edit\TagEditor.xaml.cs">
       <DependentUpon>TagEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="edit\TagEditorDesignerModel.cs" />
     <Compile Include="edit\TagEditorModel.cs" />
     <Compile Include="find\FilterablePageCollection.cs" />
-    <Compile Include="find\KeyedItemInterface.cs" />
     <Compile Include="find\TagSelector.xaml.cs">
       <DependentUpon>TagSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="manage\RemovableTag.xaml.cs">
+      <DependentUpon>RemovableTag.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="manage\RemovableTagModel.cs" />
+    <Compile Include="manage\RemovableTagsPanel.xaml.cs">
+      <DependentUpon>RemovableTagsPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="manage\TagManager.xaml.cs">
       <DependentUpon>TagManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="manage\TagManagerDesignerModel.cs" />
     <Compile Include="manage\TagManagerModel.cs" />
+    <Compile Include="ObservableSortedList.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -196,11 +210,27 @@
     <Resource Include="Resources\tagSearch 32x32.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="edit\SimpleTagButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="edit\SimpleTagsPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="edit\TagEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="find\TagSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="manage\RemovableTag.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="manage\RemovableTagsPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

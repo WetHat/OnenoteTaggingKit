@@ -25,8 +25,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private bool _isClearTagFilterInProgress = false;
 
-        private bool _showingProgress = false;
-
         /// <summary>
         /// Create a new instance of the find tags window
         /// </summary>
@@ -35,19 +33,17 @@ namespace WetHatLab.OneNote.TaggingKit.find
             InitializeComponent();
         }
 
+        private void UpdateTagsHideProgress()
+        {
+            pBar.Visibility = System.Windows.Visibility.Hidden;
+            UpdateTags();
+        }
+
         private void UpdateTags()
         {
-            if (_showingProgress)
+            foreach (TagSelector s in tagsPanel.Children)
             {
-                tagsPanel.Children.Clear();
-                _showingProgress = false;
-            }
-            else
-            {
-                foreach (TagSelector s in tagsPanel.Children)
-                {
-                    s.UpdateTag();
-                }
+                s.UpdateTag();
             }
         }
 
@@ -75,11 +71,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private void HandleTagCollectionChanges(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (_showingProgress)
-            {
-                tagsPanel.Children.Clear();
-                _showingProgress = false;
-            }
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
@@ -97,15 +88,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     tagsPanel.Children.Clear();
-                    ProgressBar pb = new ProgressBar()
-                    {
-                        IsIndeterminate = true,
-                        Width=100,
-                        Height=10,
-                        Margin = new Thickness(10,10,0,0)
-                    };
-                    tagsPanel.Children.Insert(0, pb);
-                    _showingProgress = true;
                     break;
             }
         }
@@ -114,9 +96,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
         {
             TagSelector s = new TagSelector()
             {
-                PageTag = tps
+                PageTag = tps,
+                Margin = new Thickness(3,3,0,0)
             };
-            s.Margin = new Thickness(3,3,0,0);
             s.Checked += TagChecked;
             s.UnChecked += TagUnChecked;
             return s;
@@ -168,12 +150,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
             {
                 // turn off (un)checked events
                 _isClearTagFilterInProgress = true;
-                if (!_showingProgress)
+                foreach (TagSelector s in tagsPanel.Children)
                 {
-                    foreach (TagSelector s in tagsPanel.Children)
-                    {
-                        s.IsChecked = false;
-                    }
+                    s.IsChecked = false;
                 }
             }
             finally
@@ -185,14 +164,16 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private void ScopeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _model.FindPagesAsync(searchComboBox.Text, UpdateTags);
+            pBar.Visibility = System.Windows.Visibility.Visible;
+            _model.FindPagesAsync(searchComboBox.Text, UpdateTagsHideProgress);
             e.Handled = true;
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             string query = searchComboBox.Text;
-            _model.FindPagesAsync(query, UpdateTags);
+            pBar.Visibility = System.Windows.Visibility.Visible;
+            _model.FindPagesAsync(query, UpdateTagsHideProgress);
             searchComboBox.SelectedValue = query;
             e.Handled = true;
         }
@@ -202,7 +183,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
             if (e.Key == System.Windows.Input.Key.Enter)
             {
                 string query = searchComboBox.Text;
-                _model.FindPagesAsync(query, UpdateTags);
+                pBar.Visibility = System.Windows.Visibility.Visible;
+                _model.FindPagesAsync(query, UpdateTagsHideProgress);
                 searchComboBox.SelectedValue = query;
             }
             e.Handled = true;

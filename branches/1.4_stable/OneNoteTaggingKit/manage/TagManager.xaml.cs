@@ -13,13 +13,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WetHatLab.OneNote.TaggingKit.edit;
+using WetHatLab.OneNote.TaggingKit.find;
 
 namespace WetHatLab.OneNote.TaggingKit.manage
 {
     /// <summary>
-    /// Interaction logic for TagManager.xaml
+    /// Interaction logic for TagManager.xaml user control
     /// </summary>
-    /// <remarks>Implements a tag management dialog</remarks>
+    /// <remarks>Implements the tag management dialog logic</remarks>
     public partial class TagManager : Window, IOneNotePageWindow<TagManagerModel>
     {
         private TagManagerModel _model;
@@ -32,6 +33,11 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Add a new tag to the list of suggestions when the button is pressed
+        /// </summary>
+        /// <param name="sender">control emitting the event</param>
+        /// <param name="e">event details</param>
         private void NewTagButton_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(newTag.Text))
@@ -39,9 +45,9 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                 foreach (string tag in OneNotePageProxy.ParseTags(newTag.Text))
                 {
                     string titlecased = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(tag);
-                    if (!_model.SuggestedTags.Contains(titlecased))
+                    if (!_model.SuggestedTags.ContainsKey(titlecased))
                     {
-                        _model.SuggestedTags.Add(titlecased);
+                        _model.SuggestedTags.AddAll(new RemovableTagModel[] {new RemovableTagModel(new TagPageSet(titlecased))});
                     }
                 }
                 newTag.Text = String.Empty;
@@ -72,6 +78,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <summary>
         /// Get or set the dialog's view model.
         /// </summary>
+        /// <remarks>As soon as the view model is defined a background collection of tags is started</remarks>
         public TagManagerModel ViewModel
         {
             get
@@ -84,11 +91,16 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                 DataContext = _model;
             }
         }
+
         #endregion
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Properties.Settings.Default.Save();
+            if (_model != null)
+            {
+                _model.Dispose();
+            }
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
@@ -102,9 +114,17 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             e.Handled = true;
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void Copy_MenuItem_Click(object sender, RoutedEventArgs e)
         {
             Clipboard.SetData(DataFormats.Text, _model.TagList);
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (_model != null)
+            {
+                _model.LoadTagSuggestionsAsync(() => pBar.Visibility = System.Windows.Visibility.Collapsed);
+            }
         }
     }
 }
