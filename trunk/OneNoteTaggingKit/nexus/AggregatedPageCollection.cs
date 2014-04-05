@@ -66,59 +66,18 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
-        internal IEnumerable<TagPageSet> TagPage(IEnumerable<string> tags, TaggedPage page)
+        internal IEnumerable<TagPageSet>GetOrCreateTags(IEnumerable<string> tagNames)
         {
-            LinkedList<TagPageSet> appliedTags = new LinkedList<TagPageSet>();
-            foreach (string tag in tags)
+            foreach (string t in tagNames)
             {
-                // get the tag from the pool or create one.
                 TagPageSet tps;
-                if (!Tags.TryGetValue(tag, out tps))
+                if (!Tags.TryGetValue(t, out tps))
                 {
-                    tps = new TagPageSet(tag);
-                    Tags.Add(tag, tps);
+                    tps = new TagPageSet(t);
+                    Tags.Add(t, tps);
                 }
-
-                if (tps.AddPage(page))
-                {
-                    appliedTags.AddLast(tps);
-                }
-                page.Tags.Add(tps);
+                yield return tps;
             }
-            return appliedTags;
-        }
-
-        internal TaggedPage TagPage(IEnumerable<string> tags, string pageID, string pageTitle)
-        {
-            // get the page from the pool or create one
-            TaggedPage tp;
-            if (!Pages.TryGetValue(pageID, out tp))
-            {
-                tp = new TaggedPage(pageID, pageTitle);
-                Pages.Add(pageID, tp);
-            }
-            else
-            {
-                tp.Title = pageTitle;
-            }
-            TagPage(tags, tp);
-
-            return tp;
-        }
-
-        internal IEnumerable<TagPageSet> UntagPage(string tagName,TaggedPage page)
-        {
-            LinkedList<TagPageSet> removed = new LinkedList<TagPageSet>();
-            TagPageSet t;
-            if (Tags.TryGetValue(tagName, out t))
-            {
-                if (page.Tags.Remove(t))
-                {
-                    removed.AddLast(t);
-                }
-                t.RemovePage(page);
-            }
-            return removed;
         }
     }
 }
