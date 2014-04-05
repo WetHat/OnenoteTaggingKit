@@ -17,9 +17,9 @@
                   onAction="findTags"
                   image="findPageTags.png"/>
           <button id="buttonManageTags"
-                  label="Manage Tags"
+                  label="Settings"
                   size="large"
-                  screentip="Manage OneNote Page Tags"
+                  screentip="Manage Add-In Settings"
                   onAction="manageTags"
                   image="managePageTags.png"/>
         </group>
