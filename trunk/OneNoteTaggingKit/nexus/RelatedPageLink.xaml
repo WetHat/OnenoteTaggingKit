@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="WetHatLab.OneNote.TaggingKit.nexus.RelatedPageLink"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WetHatLab.OneNote.TaggingKit.nexus"
+             DataContextChanged="OnDataContextChanged"
+             d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:RelatedPageLinkDesignerModel}}"
+             mc:Ignorable="d" d:DesignHeight="52.674" d:DesignWidth="334.062">
+    <Button BorderThickness="0"
+            Background="Transparent"
+            HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+            Click="Button_Click">
+        <Grid Margin="-4,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="?"  VerticalAlignment="Top" FontSize="16" FontWeight="ExtraBold"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+                       TextTrimming="CharacterEllipsis"
+                       TextWrapping="NoWrap"
+                       FontSize="14">
+            <Hyperlink>
+                <Run Text="{Binding PageTitle, Mode=OneWay}"/>
+            </Hyperlink>
+            </TextBlock>
+            <Border Grid.Row="1" Grid.Column="1"
+                    BorderBrush="LightGray"
+                    BorderThickness="0,0,0,1">
+                <TextBlock 
+                           Name="highlightedTags"
+                           FontSize="10"
+                           TextTrimming="CharacterEllipsis"
+                           TextWrapping="NoWrap"
+                           Foreground="Gray" />
+            </Border>
+        </Grid>
+    </Button>
+</UserControl>
