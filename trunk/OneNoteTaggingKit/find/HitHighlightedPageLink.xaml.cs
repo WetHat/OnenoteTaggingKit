@@ -73,7 +73,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            RaiseEvent( new RoutedEventArgs(HitHighlightedPageLink.ClickEvent));
+            RaiseEvent( new RoutedEventArgs(ClickEvent));
         }
     }
 }

@@ -134,7 +134,7 @@
     <value>Tags</value>
   </data>
   <data name="TagEditor_Tags_GroupBox_ToolTip" xml:space="preserve">
-    <value>The current OneNote page will be tagged with these tags. Add or remove tags as needed.</value>
+    <value>Tags to add or remove to/from the current OneNote page.</value>
   </data>
   <data name="TagEditor_Tag_ComboBox_Tooltip" xml:space="preserve">
     <value>Type or select tag. Press 'Enter' to add tag</value>
@@ -239,13 +239,13 @@
     <value>Copy Tags</value>
   </data>
   <data name="RemoveTag_Button_Tooltip" xml:space="preserve">
-    <value>Press to remove this tag.</value>
+    <value>Press to remove this tag from the list of selected tags.</value>
   </data>
-  <data name="TagEditor_Pages_GroupBox_Title" xml:space="preserve">
-    <value>Related Notes</value>
+  <data name="TagEditor_Suggestions_GroupBox_Title" xml:space="preserve">
+    <value>Suggested Tags</value>
   </data>
-  <data name="TagEditor_Pages_GroupBox_Tooltip" xml:space="preserve">
-    <value>Notes tagged with one or more tags from the current collection of tags</value>
+  <data name="TagEditor_Suggestions_GroupBox_Tooltip" xml:space="preserve">
+    <value>Tags you can add or remove from the current page.</value>
   </data>
   <data name="Add_Tag_26" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\add tag 26.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -253,22 +253,28 @@
   <data name="refresh_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\refresh-32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="TagEditor_Tag_RefreshButton_Tooltip" xml:space="preserve">
-    <value>Tap to load tags from current page</value>
+  <data name="TagEditor_Window_Title" xml:space="preserve">
+    <value>Note Tagger</value>
   </data>
-  <data name="TagEditor_Windows_Title" xml:space="preserve">
-    <value>Untitled Note</value>
-  </data>
-  <data name="TagEditor_Tag_AddButton_Tooltip" xml:space="preserve">
-    <value>Press to add tag to page</value>
-  </data>
-  <data name="TagEditor_MessageBox_UnsavedChanges_Message" xml:space="preserve">
-    <value>You have navigated away form a page with unsaved tag changes.
-
-Tap or click OK to save changes now.
-Tap or click CANCEL to discard the changes</value>
+  <data name="TagEditor_AddTags_Button_Tooltip" xml:space="preserve">
+    <value>Press to add all selected tags to the current page</value>
   </data>
   <data name="TagEditor_MessageBox_UnsavedChanges_Title" xml:space="preserve">
     <value>Unsaved Changes</value>
+  </data>
+  <data name="TagEditor_RemoveTags_Button_Tooltip" xml:space="preserve">
+    <value>Press to remove tags from the current page.</value>
+  </data>
+  <data name="TagEditor_ClearFilter_Button_Tooltip" xml:space="preserve">
+    <value>Press to clear the filter for suggested tags.</value>
+  </data>
+  <data name="TagEditor_ClearTags_Button_Tooltip" xml:space="preserve">
+    <value>Press to clear all selected tags.</value>
+  </data>
+  <data name="TagEditor_HithighlightedTag_Button_Tooltip" xml:space="preserve">
+    <value>Press to select this tag.</value>
+  </data>
+  <data name="TagEditor_Tag_TextBox_Tooltip" xml:space="preserve">
+    <value>Start typing a tag and select from the suggested tags or press enter to select the tag as you typed it.</value>
   </data>
 </root>

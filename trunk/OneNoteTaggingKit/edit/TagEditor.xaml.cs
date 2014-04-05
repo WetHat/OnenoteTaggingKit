@@ -19,8 +19,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     {
         private TagEditorModel _model;
 
-        private Timer _updater;
-
         /// <summary>
         /// Create a new instance of the tag editor 
         /// </summary>
@@ -43,38 +41,77 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             {
                 _model = value;
                  DataContext = _model;
+                 _model.SuggestedTags.CollectionChanged += OnSuggestedTagsChanged;
             }
         }
+
         #endregion
 
-
-        private Task CheckForUnsavedChanges()
+        private void OnSuggestedTagsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (!_model.InSync && _model.HasUnsavedChanges)
+            switch (e.Action)
             {
-                Task t = null;
-                MessageBoxResult answer = MessageBox.Show(Properties.Resources.TagEditor_MessageBox_UnsavedChanges_Message, Properties.Resources.TagEditor_MessageBox_UnsavedChanges_Title, MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-                if (answer == MessageBoxResult.OK)
+                case NotifyCollectionChangedAction.Add:
+                    for (int i = 0; i < e.NewItems.Count; i++)
+                    {
+                        HitHighlightedTagButton tag = new HitHighlightedTagButton()
+                        {
+                            DataContext = e.NewItems[i] 
+                        };
+                        tag.Click += OnSuggestedTagClick;
+
+                        suggestedTagsPanel.Children.Insert(i + e.NewStartingIndex, tag);
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    for (int i = 0; i < e.OldItems.Count; i++)
+                    {
+                        suggestedTagsPanel.Children.RemoveAt(e.OldStartingIndex);
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    suggestedTagsPanel.Children.Clear();
+                    break;
+            }
+        }
+
+        private void OnSuggestedTagClick(object sender, RoutedEventArgs e)
+        {
+            tagInput.Focus();
+            HitHighlightedTagButton btn = sender as HitHighlightedTagButton;
+            if (btn != null)
+            {
+                IHitHighlightedTagButtonModel mdl = btn.DataContext as IHitHighlightedTagButtonModel;
+                if (mdl != null)
                 {
-                   return _model.SaveChangesAsync();
+                    _model.PageTags.AddAll(new SimpleTagButtonModel[] { new SimpleTagButtonModel(mdl.TagName) });
                 }
             }
-            return null;
         }
+
+        private void RemovePageTagButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_model != null)
+            {
+                tagInput.Focus();
+                SimpleTagButton tagBtn = e.OriginalSource as SimpleTagButton;
+                if (tagBtn != null)
+                {
+                    SimpleTagButtonModel mdl = tagBtn.DataContext as SimpleTagButtonModel;
+                    if (mdl != null)
+                    {
+                        _model.PageTags.RemoveAll(new string[] { mdl.TagName});
+                    }
+                }
+            }
+        }
+
         private async void AddTagsToPageButton_Click(object sender, RoutedEventArgs e)
         {
-            CheckForUnsavedChanges();
-
-            if (!_model.InSync)
-            {
-                await _model.UpdatePageAsync(false);
-            }
-            // Make sure any tag stuck in the combo box is added too.
-
-            AddTagsToModel();
             try
             {
-                _model.SaveChangesAsync();
+                tagInput.Focus();
+                _model.SaveChangesAsync(TagOperation.UNITE);
             }
             catch (Exception ex)
             {
@@ -86,104 +123,79 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
-        private async void TagDropDown_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        private void RemoveTagsFromPageButton_Click(object sender, RoutedEventArgs e)
         {
-            if (e.Key == System.Windows.Input.Key.Enter)
+            try
             {
-                CheckForUnsavedChanges();
-                if (!_model.InSync)
-                {
-                    await _model.UpdatePageAsync(false);
-                }
-                if (string.IsNullOrEmpty(tagComboBox.Text))
-                {
-                    AddTagsToPageButton_Click(sender, null);
-                }
-                else
-                {
-                    AddTagsToModel();
-                }
-                e.Handled = true;
+                tagInput.Focus();
+                _model.SaveChangesAsync(TagOperation.SUBTRACT);
             }
-        }
-
-        private void AddTagsToModel()
-        {
-            if (!string.IsNullOrEmpty(tagComboBox.Text))
+            catch (Exception ex)
             {
-                _model.ApplyPageTagsAsync(from t in OneNotePageProxy.ParseTags(tagComboBox.Text) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(t));
-                tagComboBox.Text = string.Empty;
+                MessageBox.Show(string.Format(Properties.Resources.TagEditor_Save_Error, ex), Properties.Resources.TagEditor_ErrorBox_Title);
+            }
+            if (e != null)
+            {
+                e.Handled = true;
             }
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            tagComboBox.Focus();
-            tagComboBox.SelectedItem = null;
-            tagComboBox.Text = "";
+            tagInput.Focus();
+            tagInput.Text = String.Empty;
             if (_model != null)
             {
-                await _model.LoadTagAndPageDatabaseAsync();
+                 await _model.LoadSuggestedTagsAsync();
                 pBar.Visibility = System.Windows.Visibility.Hidden;
-
-                // track changes to the page
-                _model.UpdatePageAsync(false);
-
-                bool operationInProgress = false;
-                _updater = new Timer(async (s) =>
-                {
-                    if (!operationInProgress)
-                    {
-                        operationInProgress = true;
-                        await Dispatcher.InvokeAsync(() => CheckForUnsavedChanges());
-
-                        if (!_model.InSync)
-                        {
-                            await _model.UpdatePageAsync(false);
-                        }
-                        operationInProgress = false;
-                    }
-                }, null, 0, 1000);
             }
         }
 
         private void editTags_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (_updater != null)
-            {
-                _updater.Dispose();
-            }
+            Properties.Settings.Default.KnownTags = string.Join(",", from t in _model.SuggestedTags.Values select t.TagName);
             Properties.Settings.Default.Save();
         }
 
-        private async void RefreshButton_Click(object sender, RoutedEventArgs e)
+        private void ClearFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            tagInput.Text = String.Empty;
+            tagInput.Focus();
+
+            _model.UpdateTagFilter(null);
+            clearFilter.Visibility = System.Windows.Visibility.Hidden;
+        }
+
+        private void TagInput_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                IEnumerable<string> tags = from t in OneNotePageProxy.ParseTags(tagInput.Text) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(t);
+                _model.SuggestedTags.AddAll(from t in tags where !_model.SuggestedTags.ContainsKey(t) select new HitHighlightedTagButtonModel(t));
+                _model.PageTags.AddAll(from t in tags where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(t));
+                tagInput.Text = String.Empty;
+                _model.UpdateTagFilter(null);
+
+            }
+            else if (tagInput.Text.Length > 0)
+            {
+                clearFilter.Visibility = System.Windows.Visibility.Visible;
+                _model.UpdateTagFilter(OneNotePageProxy.ParseTags(tagInput.Text));
+            }
+            else
+            {
+                clearFilter.Visibility = System.Windows.Visibility.Hidden;
+                _model.UpdateTagFilter(null);
+            }
+            e.Handled = true;
+        }
+
+        private void ClearTagsButton_Click(object sender, RoutedEventArgs e)
         {
             if (_model != null)
             {
-                pBar.Visibility = System.Windows.Visibility.Visible;
-                if (_model.InSync)
-                {
-                    await _model.UpdatePageAsync(true);
-                }
-                else
-                {
-                    CheckForUnsavedChanges();
-                    await _model.UpdatePageAsync(false);
-                }
-                pBar.Visibility = System.Windows.Visibility.Hidden;
-            }
-        }
-
-        private void RemoveTagButton_Click(object sender, RoutedEventArgs e)
-        {
-            SimpleTagButton btn = e.OriginalSource as SimpleTagButton;
-            if (btn != null)
-            {
-                SimpleTagButtonModel mdl = btn.DataContext as SimpleTagButtonModel;
-                if (mdl != null)
-                {
-                    _model.UnapplyPageTagAsync(mdl.TagName);
-                }
+                _model.PageTags.Clear();
+                tagInput.Focus();
             }
         }
     }

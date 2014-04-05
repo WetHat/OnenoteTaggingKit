@@ -1,4 +1,5 @@
-﻿using WetHatLab.OneNote.TaggingKit.common;
+﻿using System.Globalization;
+using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
