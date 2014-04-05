@@ -37,7 +37,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
         #region IKeyedItem
         /// <summary>
-        /// Get a unique key suitable for sorting
+        /// Get pages unique key suitable for hasing
         /// </summary>
         public string Key
         {

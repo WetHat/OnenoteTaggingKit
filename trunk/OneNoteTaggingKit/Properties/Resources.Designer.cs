@@ -109,7 +109,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to remove this tag..
+        ///   Looks up a localized string similar to Press to remove this tag from the list of selected tags..
         /// </summary>
         public static string RemoveTag_Button_Tooltip {
             get {
@@ -158,6 +158,33 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Press to add all selected tags to the current page.
+        /// </summary>
+        public static string TagEditor_AddTags_Button_Tooltip {
+            get {
+                return ResourceManager.GetString("TagEditor_AddTags_Button_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press to clear the filter for suggested tags..
+        /// </summary>
+        public static string TagEditor_ClearFilter_Button_Tooltip {
+            get {
+                return ResourceManager.GetString("TagEditor_ClearFilter_Button_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press to clear all selected tags..
+        /// </summary>
+        public static string TagEditor_ClearTags_Button_Tooltip {
+            get {
+                return ResourceManager.GetString("TagEditor_ClearTags_Button_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string TagEditor_ErrorBox_Title {
@@ -167,14 +194,11 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You have navigated away form a page with unsaved tag changes.
-        ///
-        ///Tap or click OK to save changes now.
-        ///Tap or click CANCEL to discard the changes.
+        ///   Looks up a localized string similar to Press to select this tag..
         /// </summary>
-        public static string TagEditor_MessageBox_UnsavedChanges_Message {
+        public static string TagEditor_HithighlightedTag_Button_Tooltip {
             get {
-                return ResourceManager.GetString("TagEditor_MessageBox_UnsavedChanges_Message", resourceCulture);
+                return ResourceManager.GetString("TagEditor_HithighlightedTag_Button_Tooltip", resourceCulture);
             }
         }
         
@@ -197,20 +221,11 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Related Notes.
+        ///   Looks up a localized string similar to Press to remove tags from the current page..
         /// </summary>
-        public static string TagEditor_Pages_GroupBox_Title {
+        public static string TagEditor_RemoveTags_Button_Tooltip {
             get {
-                return ResourceManager.GetString("TagEditor_Pages_GroupBox_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Notes tagged with one or more tags from the current collection of tags.
-        /// </summary>
-        public static string TagEditor_Pages_GroupBox_Tooltip {
-            get {
-                return ResourceManager.GetString("TagEditor_Pages_GroupBox_Tooltip", resourceCulture);
+                return ResourceManager.GetString("TagEditor_RemoveTags_Button_Tooltip", resourceCulture);
             }
         }
         
@@ -224,11 +239,20 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to add tag to page.
+        ///   Looks up a localized string similar to Suggested Tags.
         /// </summary>
-        public static string TagEditor_Tag_AddButton_Tooltip {
+        public static string TagEditor_Suggestions_GroupBox_Title {
             get {
-                return ResourceManager.GetString("TagEditor_Tag_AddButton_Tooltip", resourceCulture);
+                return ResourceManager.GetString("TagEditor_Suggestions_GroupBox_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tags you can add or remove from the current page..
+        /// </summary>
+        public static string TagEditor_Suggestions_GroupBox_Tooltip {
+            get {
+                return ResourceManager.GetString("TagEditor_Suggestions_GroupBox_Tooltip", resourceCulture);
             }
         }
         
@@ -242,11 +266,11 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to load tags from current page.
+        ///   Looks up a localized string similar to Start typing a tag and select from the suggested tags or press enter to select the tag as you typed it..
         /// </summary>
-        public static string TagEditor_Tag_RefreshButton_Tooltip {
+        public static string TagEditor_Tag_TextBox_Tooltip {
             get {
-                return ResourceManager.GetString("TagEditor_Tag_RefreshButton_Tooltip", resourceCulture);
+                return ResourceManager.GetString("TagEditor_Tag_TextBox_Tooltip", resourceCulture);
             }
         }
         
@@ -260,7 +284,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The current OneNote page will be tagged with these tags. Add or remove tags as needed..
+        ///   Looks up a localized string similar to Tags to add or remove to/from the current OneNote page..
         /// </summary>
         public static string TagEditor_Tags_GroupBox_ToolTip {
             get {
@@ -269,11 +293,11 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Untitled Note.
+        ///   Looks up a localized string similar to Note Tagger.
         /// </summary>
-        public static string TagEditor_Windows_Title {
+        public static string TagEditor_Window_Title {
             get {
-                return ResourceManager.GetString("TagEditor_Windows_Title", resourceCulture);
+                return ResourceManager.GetString("TagEditor_Window_Title", resourceCulture);
             }
         }
         

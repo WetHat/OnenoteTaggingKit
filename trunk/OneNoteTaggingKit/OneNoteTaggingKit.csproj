@@ -84,7 +84,11 @@
     <Compile Include="common\TagPageSet.cs" />
     <Compile Include="common\ui\TagModelKey.cs" />
     <Compile Include="COMReadonlyStreamAdapter.cs" />
-    <Compile Include="edit\AggregatedPageCollection.cs" />
+    <Compile Include="edit\HitHighlightedTagButton.xaml.cs">
+      <DependentUpon>HitHighlightedTagButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="edit\HitHighlightedTagButtonDesignerModel.cs" />
+    <Compile Include="edit\HitHighlightedTagButtonModel.cs" />
     <Compile Include="edit\OneNotePageProxy.cs" />
     <Compile Include="edit\SimpleTagButton.xaml.cs">
       <DependentUpon>SimpleTagButton.xaml</DependentUpon>
@@ -122,6 +126,12 @@
     </Compile>
     <Compile Include="manage\TagManagerDesignerModel.cs" />
     <Compile Include="manage\TagManagerModel.cs" />
+    <Compile Include="nexus\AggregatedPageCollection.cs" />
+    <Compile Include="nexus\RelatedPageLink.xaml.cs">
+      <DependentUpon>RelatedPageLink.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="nexus\RelatedPageLinkDesignerModel.cs" />
+    <Compile Include="nexus\RelatedPageLinkModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -226,6 +236,10 @@
     <Resource Include="Resources\tagSearch 32x32.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="edit\HitHighlightedTagButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="edit\SimpleTagButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -262,6 +276,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="nexus\RelatedPageLink.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -288,6 +306,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\refresh-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Remove Tag 26.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

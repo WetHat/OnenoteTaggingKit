@@ -10,16 +10,17 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     public class TagEditorDesignerModel : ITagEditorModel
     {
         private ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> _pageTags = new ObservableSortedList<TagModelKey, string, SimpleTagButtonModel>();
-        private ObservableCollection<string> _knownTags = new ObservableCollection<string>();
+        private ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel> _suggestedTags = new ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel>();
 
         /// <summary>
         /// Create a new instance of the view model
         /// </summary>
         public TagEditorDesignerModel()
         {
-            _knownTags.Add("Known Tag 1");
-            _knownTags.Add("Known Tag 2");
-            _knownTags.Add("Known Tag 3");
+            _suggestedTags.AddAll(new HitHighlightedTagButtonModel[] {
+                new HitHighlightedTagButtonModel("Suggested Tag 1"),
+                new HitHighlightedTagButtonModel("Suggested Tag 2")
+            });
 
             _pageTags.AddAll(new SimpleTagButtonModel[] { new SimpleTagButtonModel("tag 1"), new SimpleTagButtonModel("tag 2") });
         }
@@ -32,24 +33,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             get { return _pageTags; }
         }
 
-        /// <summary>
-        /// Get the collection of all known tags.
-        /// </summary>
-        public ObservableCollection<string> KnownTags
+        public ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel> SuggestedTags
         {
-            get { return _knownTags; }
-        }
-
-
-        public string PageTitle
-        {
-            get { return "Designer Page"; }
-        }
-
-
-        public string ModificationMarker
-        {
-            get { return " *"; }
+            get { throw new System.NotImplementedException(); }
         }
     }
 }
