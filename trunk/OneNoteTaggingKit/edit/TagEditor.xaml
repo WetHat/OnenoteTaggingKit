@@ -48,43 +48,22 @@
                     Orientation="Horizontal"
                     HorizontalAlignment="Left">
             <Button
-                Width="26"
                 Margin="20,5,20,0"
                 BorderBrush="LightBlue"
-                Background="Transparent"
+                Background="Honeydew"
                 VerticalAlignment="Top"
                 ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_AddTags_Button_Tooltip}}"
                 Click="AddTagsToPageButton_Click">
-                <Image Source="/OneNoteTaggingKit;component/Resources/Add Tag 26.png"  Margin="0,5,0,5" RenderTransformOrigin="0.5,0.5">
-                    <Image.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform Angle="90"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Image.RenderTransform>
-                </Image>
+                <Image Source="/OneNoteTaggingKit;component/Resources/Add Tag 26.png"  Width="26" Height="26" RenderTransformOrigin="0.5,0.5" />
             </Button>
             <Button 
-                Width="26"
                 Margin="0,5,20,0"
                 BorderBrush="LightBlue"
-                Background="Transparent"
+                Background="#FFFFEAE8"
                 VerticalAlignment="Top"
                 ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_RemoveTags_Button_Tooltip}}"
                 Click="RemoveTagsFromPageButton_Click">
-
-                <Image Source="/OneNoteTaggingKit;component/Resources/Remove Tag 26.png" Margin="0,5,0,5" RenderTransformOrigin="0.5,0.5">
-                    <Image.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform Angle="90"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Image.RenderTransform>
-                </Image>
+                <Image Source="/OneNoteTaggingKit;component/Resources/Remove Tag 26.png" Width="26" Height="26"/>
             </Button>
         </StackPanel>
         <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
