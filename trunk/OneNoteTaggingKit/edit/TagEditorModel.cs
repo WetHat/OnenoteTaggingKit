@@ -56,14 +56,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel> _suggestedTags = new ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel>();
 
-        /// <summary>
-        /// True if the tags on the current page were changed.
-        /// </summary>
-        private bool _tagsChanged;
-
-        private CancellationTokenSource _cancelPageUpdater = new CancellationTokenSource();
-        private Task _pageUpdater;
-
         internal TagEditorModel(Microsoft.Office.Interop.OneNote.Application onenote,XMLSchema schema)
         {
             _OneNote = onenote;
@@ -89,30 +81,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
 
         #endregion ITagEditorModel
-
-        /// <summary>
-        /// Associate a tag with the current page
-        /// </summary>
-        /// <param name="tags">tags to apply</param>
-        internal Task ApplyPageTagsAsync(IEnumerable<string> tags)
-        {
-            return Task.Run(() =>
-            {
-                _tagsChanged = true;
-            });
-        }
-
-        /// <summary>
-        /// Dissassociate a tag with the current page.
-        /// </summary>
-        /// <param name="tagname">name of the tag</param>
-        internal Task UnapplyPageTagAsync(string tagname)
-        {
-            return Task.Run(() =>
-                {
-                    _tagsChanged = true;
-                });
-        }
 
         /// <summary>
         /// Asnchronously load all tags used anywhere on OneNote pages.
