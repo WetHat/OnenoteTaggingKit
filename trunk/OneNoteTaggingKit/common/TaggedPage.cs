@@ -13,9 +13,11 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// </summary>
     public class TaggedPage : IKeyedItem<string>
     {
-        private string _title;
+        string _title;
 
-        private ISet<TagPageSet> _tags = new HashSet<TagPageSet>();
+        ISet<TagPageSet> _tags = new HashSet<TagPageSet>();
+
+        bool _isSelected = false;
 
         /// <summary>
         /// get the page's ID
@@ -33,6 +35,11 @@ namespace WetHatLab.OneNote.TaggingKit.common
             {
                 _title = value ?? String.Empty;
             }
+        }
+
+        public bool IsSelected
+        {
+            get { return _isSelected; }
         }
 
         #region IKeyedItem
@@ -70,6 +77,11 @@ namespace WetHatLab.OneNote.TaggingKit.common
             ID = page.Attribute("ID").Value;
             Title = page.Attribute("name").Value;
 
+            XAttribute selected = page.Attribute("selected");
+            if (selected != null && "all".Equals(selected.Value))
+            {
+                _isSelected = true;
+            }
             XElement meta = page.Elements(one.GetName("Meta")).FirstOrDefault( m =>  OneNotePageProxy.META_NAME.Equals(m.Attribute("name").Value) );
         }
 
