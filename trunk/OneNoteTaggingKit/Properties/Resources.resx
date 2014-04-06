@@ -257,19 +257,19 @@
     <value>Note Tagger</value>
   </data>
   <data name="TagEditor_AddTags_Button_Tooltip" xml:space="preserve">
-    <value>Press to add all selected tags to the current page</value>
+    <value>Press to add selected tags to the current page</value>
   </data>
   <data name="TagEditor_MessageBox_UnsavedChanges_Title" xml:space="preserve">
     <value>Unsaved Changes</value>
   </data>
   <data name="TagEditor_RemoveTags_Button_Tooltip" xml:space="preserve">
-    <value>Press to remove tags from the current page.</value>
+    <value>Press to remove selected tags from the current page.</value>
   </data>
   <data name="TagEditor_ClearFilter_Button_Tooltip" xml:space="preserve">
     <value>Press to clear the filter for suggested tags.</value>
   </data>
   <data name="TagEditor_ClearTags_Button_Tooltip" xml:space="preserve">
-    <value>Press to clear all selected tags.</value>
+    <value>Press to clear tag selection.</value>
   </data>
   <data name="TagEditor_HithighlightedTag_Button_Tooltip" xml:space="preserve">
     <value>Press to select this tag.</value>
@@ -288,5 +288,11 @@
   </data>
   <data name="TagEditor_Tag_TextBox_Default" xml:space="preserve">
     <value>Type a Tag.</value>
+  </data>
+  <data name="TagEditor_Context_ComboBox_Tooltip" xml:space="preserve">
+    <value>Choose a preset filter to suggest tags used in different contexts</value>
+  </data>
+  <data name="TagEditor_Context_None" xml:space="preserve">
+    <value>No Filter</value>
   </data>
 </root>

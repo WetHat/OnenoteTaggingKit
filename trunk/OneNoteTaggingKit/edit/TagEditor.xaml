@@ -118,6 +118,7 @@
                   ItemsSource="{Binding FilterPresets}"
                   DisplayMemberPath="Label"
                   SelectedIndex="0"
+                  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Context_ComboBox_Tooltip}}"
                   Margin="5,10,5,5" SelectionChanged="FilterPreset_ComboBox_SelectionChanged" >
             <ComboBox.Effect>
                 <DropShadowEffect Color="LightBlue"/>

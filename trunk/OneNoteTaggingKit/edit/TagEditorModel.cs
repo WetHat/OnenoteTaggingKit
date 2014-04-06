@@ -82,7 +82,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             _filterPresets = new FilterPreset[] { new FilterPreset()
                                                         {
                                                             Preset = FilterPresetType.None,
-                                                            Label = "  ---"
+                                                            Label = Properties.Resources.TagEditor_Context_None
                                                         },
                                                   new FilterPreset()
                                                         {
