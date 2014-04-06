@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Threading;
+using WetHatLab.OneNote.TaggingKit.common;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
@@ -25,6 +26,33 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         public TagEditor()
         {
             InitializeComponent();
+        }
+
+        private void UpdateTagFilter(bool clear)
+        {
+            bool currentlyEmpty = tagInputDefaultMessage.Visibility == System.Windows.Visibility.Visible;
+            if (clear)
+            {
+                if (!currentlyEmpty)
+                {
+                    tagInputDefaultMessage.Visibility = System.Windows.Visibility.Visible;
+                    tagInput.Text = string.Empty;                   
+                    clearFilter.Visibility = System.Windows.Visibility.Hidden;
+                    _model.UpdateTagFilter(null);
+                    filterPreset.SelectedIndex = 0;
+                }
+            }
+            else
+            {
+                if (currentlyEmpty)
+                {
+                    tagInputDefaultMessage.Visibility = System.Windows.Visibility.Hidden;
+                    clearFilter.Visibility = System.Windows.Visibility.Visible;
+                }
+                IEnumerable<string> tags = from t in OneNotePageProxy.ParseTags(tagInput.Text) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(t);
+                _model.UpdateTagFilter(tags);
+            }
+            tagInput.Focus();
         }
 
         #region IOneNotePageDialog<TagEditorModel>
@@ -146,8 +174,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             tagInput.Text = String.Empty;
             if (_model != null)
             {
-                 await _model.LoadSuggestedTagsAsync();
-                pBar.Visibility = System.Windows.Visibility.Hidden;
+                _model.LoadSuggestedTagsAsync().ContinueWith((x) => { pBar.Visibility = System.Windows.Visibility.Hidden; }, TaskScheduler.FromCurrentSynchronizationContext());
             }
         }
 
@@ -159,34 +186,26 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private void ClearFilterButton_Click(object sender, RoutedEventArgs e)
         {
-            tagInput.Text = String.Empty;
-            tagInput.Focus();
-
-            _model.UpdateTagFilter(null);
-            clearFilter.Visibility = System.Windows.Visibility.Hidden;
+           UpdateTagFilter(true);
         }
 
         private void TagInput_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == System.Windows.Input.Key.Enter)
             {
-                IEnumerable<string> tags = from t in OneNotePageProxy.ParseTags(tagInput.Text) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(t);
-                _model.SuggestedTags.AddAll(from t in tags where !_model.SuggestedTags.ContainsKey(t) select new HitHighlightedTagButtonModel(t));
-                _model.PageTags.AddAll(from t in tags where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(t));
-                tagInput.Text = String.Empty;
-                _model.UpdateTagFilter(null);
-
-            }
-            else if (tagInput.Text.Length > 0)
-            {
-                clearFilter.Visibility = System.Windows.Visibility.Visible;
-                _model.UpdateTagFilter(OneNotePageProxy.ParseTags(tagInput.Text));
+                if (string.IsNullOrEmpty(tagInput.Text))
+                {
+                    IEnumerable<string> tags = from t in OneNotePageProxy.ParseTags(tagInput.Text) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(t);
+                    _model.SuggestedTags.AddAll(from t in tags where !_model.SuggestedTags.ContainsKey(t) select new HitHighlightedTagButtonModel(t));
+                    _model.PageTags.AddAll(from t in tags where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(t));
+                }
+                UpdateTagFilter(true);
             }
             else
             {
-                clearFilter.Visibility = System.Windows.Visibility.Hidden;
-                _model.UpdateTagFilter(null);
+                UpdateTagFilter(string.IsNullOrEmpty(tagInput.Text));
             }
+
             e.Handled = true;
         }
 
@@ -197,6 +216,33 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 _model.PageTags.Clear();
                 tagInput.Focus();
             }
+            e.Handled = true;
+        }
+
+        private async void FilterPreset_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox cb = sender as ComboBox;
+
+            FilterPreset selected = cb.SelectedItem as FilterPreset;
+
+            if (pBar.Visibility != System.Windows.Visibility.Visible)
+            {
+                IEnumerable<TagPageSet> tags = await _model.GetContextTagsAsync(selected);
+
+                IEnumerable<string> filter = from t in tags select t.TagName;
+
+                string filterText = string.Join(",", filter);
+                if (string.IsNullOrEmpty(filterText))
+                {
+                    UpdateTagFilter(true);
+                }
+                else
+                {
+                    tagInput.Text = filterText;
+                    UpdateTagFilter(false);
+                }
+            }
+            e.Handled = true;
         }
     }
 }

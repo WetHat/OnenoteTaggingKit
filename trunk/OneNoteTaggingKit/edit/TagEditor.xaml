@@ -40,11 +40,12 @@
             <RowDefinition Height="2*" MinHeight="100" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         
-        <StackPanel Grid.Row="0" Grid.ColumnSpan="2"
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="3"
                     Orientation="Horizontal"
                     HorizontalAlignment="Left">
             <Button
@@ -54,6 +55,9 @@
                 VerticalAlignment="Top"
                 ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_AddTags_Button_Tooltip}}"
                 Click="AddTagsToPageButton_Click">
+                <Button.Effect>
+                    <DropShadowEffect Color="LightBlue"/>
+                </Button.Effect>
                 <Image Source="/OneNoteTaggingKit;component/Resources/Add Tag 26.png"  Width="26" Height="26" RenderTransformOrigin="0.5,0.5" />
             </Button>
             <Button 
@@ -63,10 +67,13 @@
                 VerticalAlignment="Top"
                 ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_RemoveTags_Button_Tooltip}}"
                 Click="RemoveTagsFromPageButton_Click">
+                <Button.Effect>
+                    <DropShadowEffect Color="LightBlue"/>
+                </Button.Effect>
                 <Image Source="/OneNoteTaggingKit;component/Resources/Remove Tag 26.png" Width="26" Height="26"/>
             </Button>
         </StackPanel>
-        <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+        <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
                   Margin="5,0,5,0"
@@ -82,7 +89,7 @@
                                    Click="RemovePageTagButton_Click"/>
         </GroupBox>
 
-        <Button Grid.Row="1" Grid.ColumnSpan="2"
+        <Button Grid.Row="1" Grid.ColumnSpan="3"
                 Width="26"
                 Background="Transparent"
                 VerticalAlignment="Top"
@@ -94,7 +101,7 @@
             <Image Source="/OneNoteTaggingKit;component/Resources/clear selection.png"/>
         </Button>
         
-        <GridSplitter Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+        <GridSplitter Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
                       ResizeBehavior="PreviousAndNext"
                       ResizeDirection="Rows"
                       VerticalAlignment="Top"
@@ -107,15 +114,32 @@
                 </LinearGradientBrush>
             </GridSplitter.Background>
         </GridSplitter>
-        <TextBox Name="tagInput" Grid.Row="2" Grid.Column="0"
+        <ComboBox Name="filterPreset" Grid.Row="2"
+                  ItemsSource="{Binding FilterPresets}"
+                  DisplayMemberPath="Label"
+                  SelectedIndex="0"
+                  Margin="5,10,5,5" SelectionChanged="FilterPreset_ComboBox_SelectionChanged" >
+            <ComboBox.Effect>
+                <DropShadowEffect Color="LightBlue"/>
+            </ComboBox.Effect>
+        </ComboBox>
+        <TextBox Name="tagInput" Grid.Row="2" Grid.Column="1"
                  FontSize="16"
                  VerticalContentAlignment="Center"
                  BorderBrush="LightBlue"
                  Margin="5,10,5,5"
+                 TextWrapping="NoWrap"
                  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Tooltip}}"
-                 KeyUp="TagInput_KeyUp">
-        </TextBox>
-        <Button Name="clearFilter" Grid.Row="2" Grid.Column="1"
+                 KeyUp="TagInput_KeyUp" />
+        <Label Name="tagInputDefaultMessage" Grid.Row="2" Grid.Column="1"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Center"
+               ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Tooltip}}"
+               Margin="5,5,0,0"
+               Foreground="LightGray">
+            <TextBlock Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Default}}" FontSize="{Binding ElementName=tagInput,Path=FontSize}" />
+        </Label>
+        <Button Name="clearFilter" Grid.Row="2" Grid.Column="2"
                 Width="26"
                 Margin="0,10,0,5"
                 Visibility="Hidden"
@@ -134,7 +158,7 @@
             </Button.RenderTransform>
             <Image Source="/OneNoteTaggingKit;component/Resources/clear selection.png"/>
         </Button>
-        <GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" 
+        <GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" 
                   HorizontalAlignment="Stretch" 
                   Margin="5,0,5,0" Background="Transparent"
                   ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Suggestions_GroupBox_Tooltip}}"
