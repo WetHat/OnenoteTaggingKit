@@ -275,6 +275,18 @@
     <value>Press to select this tag.</value>
   </data>
   <data name="TagEditor_Tag_TextBox_Tooltip" xml:space="preserve">
-    <value>Start typing a tag and select from the suggested tags or press enter to select the tag as you typed it.</value>
+    <value>Type a tag and press 'Enter', or select from the suggested tags matching the text you typed.</value>
+  </data>
+  <data name="TagEditor_Context_CurrentNote" xml:space="preserve">
+    <value>Current Note</value>
+  </data>
+  <data name="TagEditor_Context_CurrentSection" xml:space="preserve">
+    <value>Current Section</value>
+  </data>
+  <data name="TagEditor_Context_SelectedNotes" xml:space="preserve">
+    <value>Selected Notes</value>
+  </data>
+  <data name="TagEditor_Tag_TextBox_Default" xml:space="preserve">
+    <value>Type a Tag.</value>
   </data>
 </root>

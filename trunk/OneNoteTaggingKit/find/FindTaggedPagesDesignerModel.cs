@@ -38,7 +38,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
              _selectedScope = _scopes[0];
 
              TagCollection c = new TagCollection(null, Microsoft.Office.Interop.OneNote.XMLSchema.xs2013);
-            c.parseOneNoteFindResult(_strXml);
+            c.parseOneNoteHierarchy(_strXml);
 
             Regex pattern = new Regex("Cool",RegexOptions.IgnoreCase);
 

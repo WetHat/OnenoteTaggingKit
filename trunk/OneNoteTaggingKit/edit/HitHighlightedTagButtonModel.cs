@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.Windows;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
@@ -85,7 +85,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
-        internal string[] Filter
+        internal IEnumerable<string> Filter
         {
             set
             {
