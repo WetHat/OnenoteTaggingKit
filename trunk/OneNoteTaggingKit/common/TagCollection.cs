@@ -46,7 +46,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             // collect all tags used somewhere on a page
             _onenote.FindMeta(scopeID, OneNotePageProxy.META_NAME, out strXml, false, _schema);
 
-            parseOneNoteFindResult(strXml);
+            parseOneNoteHierarchy(strXml);
 
             // attempt to automatically update the tag suggestion list, if we have collected all used tags
             HashSet<string> knownTags = new HashSet<String>(OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags));
@@ -66,7 +66,16 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
         }
 
-        internal void parseOneNoteFindResult(string strXml)
+        public void LoadHierarchy(string scopeID)
+        {
+            string strXml;
+            // collect all tags used somewhere on a page
+            _onenote.GetHierarchy(scopeID, HierarchyScope.hsPages, out strXml, _schema);
+
+            parseOneNoteHierarchy(strXml);
+        }
+
+        internal void parseOneNoteHierarchy(string strXml)
         {
             // parse the search results
             _tags.Clear();
@@ -102,9 +111,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 // bulk update for performance reasons
                 _tags.UnionWith(tags.Values);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // unable to parse tags
+                Debug.Write(ex);
             }
         }
 
