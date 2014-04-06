@@ -158,7 +158,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to add all selected tags to the current page.
+        ///   Looks up a localized string similar to Press to add selected tags to the current page.
         /// </summary>
         public static string TagEditor_AddTags_Button_Tooltip {
             get {
@@ -176,11 +176,20 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to clear all selected tags..
+        ///   Looks up a localized string similar to Press to clear tag selection..
         /// </summary>
         public static string TagEditor_ClearTags_Button_Tooltip {
             get {
                 return ResourceManager.GetString("TagEditor_ClearTags_Button_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose a preset filter to suggest tags used in different contexts.
+        /// </summary>
+        public static string TagEditor_Context_ComboBox_Tooltip {
+            get {
+                return ResourceManager.GetString("TagEditor_Context_ComboBox_Tooltip", resourceCulture);
             }
         }
         
@@ -199,6 +208,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TagEditor_Context_CurrentSection {
             get {
                 return ResourceManager.GetString("TagEditor_Context_CurrentSection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Filter.
+        /// </summary>
+        public static string TagEditor_Context_None {
+            get {
+                return ResourceManager.GetString("TagEditor_Context_None", resourceCulture);
             }
         }
         
@@ -248,7 +266,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to remove tags from the current page..
+        ///   Looks up a localized string similar to Press to remove selected tags from the current page..
         /// </summary>
         public static string TagEditor_RemoveTags_Button_Tooltip {
             get {
