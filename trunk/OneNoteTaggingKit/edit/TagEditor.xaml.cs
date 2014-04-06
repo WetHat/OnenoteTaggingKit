@@ -193,7 +193,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             if (e.Key == System.Windows.Input.Key.Enter)
             {
-                if (string.IsNullOrEmpty(tagInput.Text))
+                if (!string.IsNullOrEmpty(tagInput.Text))
                 {
                     IEnumerable<string> tags = from t in OneNotePageProxy.ParseTags(tagInput.Text) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(t);
                     _model.SuggestedTags.AddAll(from t in tags where !_model.SuggestedTags.ContainsKey(t) select new HitHighlightedTagButtonModel(t));
