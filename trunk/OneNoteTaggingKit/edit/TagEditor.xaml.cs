@@ -39,7 +39,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     tagInput.Text = string.Empty;                   
                     clearFilter.Visibility = System.Windows.Visibility.Hidden;
                     _model.UpdateTagFilter(null);
-                    filterPreset.SelectedIndex = 0;
+                    //filterPreset.SelectedIndex = 0;
                 }
             }
             else
@@ -219,30 +219,25 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             e.Handled = true;
         }
 
-        private async void FilterPreset_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void Filter_MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            ComboBox cb = sender as ComboBox;
+            MenuItem itm = sender as MenuItem;
 
-            FilterPreset selected = cb.SelectedItem as FilterPreset;
+            PresetFilter filter = (PresetFilter)Enum.Parse(typeof(PresetFilter), itm.Tag.ToString());
+            IEnumerable<TagPageSet> tags = await _model.GetContextTagsAsync(filter);
 
-            if (pBar.Visibility != System.Windows.Visibility.Visible)
+            IEnumerable<string> tagNames = from t in tags select t.TagName;
+
+            string filterText = string.Join(",", tagNames);
+            if (string.IsNullOrEmpty(filterText))
             {
-                IEnumerable<TagPageSet> tags = await _model.GetContextTagsAsync(selected);
-
-                IEnumerable<string> filter = from t in tags select t.TagName;
-
-                string filterText = string.Join(",", filter);
-                if (string.IsNullOrEmpty(filterText))
-                {
-                    UpdateTagFilter(true);
-                }
-                else
-                {
-                    tagInput.Text = filterText;
-                    UpdateTagFilter(false);
-                }
+                UpdateTagFilter(true);
             }
-            e.Handled = true;
+            else
+            {
+                tagInput.Text = filterText;
+                UpdateTagFilter(false);
+            }
         }
     }
 }

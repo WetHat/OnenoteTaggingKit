@@ -185,56 +185,47 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Choose a preset filter to suggest tags used in different contexts.
+        ///   Looks up a localized string similar to Error.
         /// </summary>
-        public static string TagEditor_Context_ComboBox_Tooltip {
+        public static string TagEditor_ErrorBox_Title {
             get {
-                return ResourceManager.GetString("TagEditor_Context_ComboBox_Tooltip", resourceCulture);
+                return ResourceManager.GetString("TagEditor_ErrorBox_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose a preset filter to show tags used in the selectes context.
+        /// </summary>
+        public static string TagEditor_Filter_Menu_Tooltip {
+            get {
+                return ResourceManager.GetString("TagEditor_Filter_Menu_Tooltip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Current Note.
         /// </summary>
-        public static string TagEditor_Context_CurrentNote {
+        public static string TagEditor_Filter_MenuItem_CurrentNote {
             get {
-                return ResourceManager.GetString("TagEditor_Context_CurrentNote", resourceCulture);
+                return ResourceManager.GetString("TagEditor_Filter_MenuItem_CurrentNote", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Current Section.
         /// </summary>
-        public static string TagEditor_Context_CurrentSection {
+        public static string TagEditor_Filter_MenuItem_CurrentSection {
             get {
-                return ResourceManager.GetString("TagEditor_Context_CurrentSection", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No Filter.
-        /// </summary>
-        public static string TagEditor_Context_None {
-            get {
-                return ResourceManager.GetString("TagEditor_Context_None", resourceCulture);
+                return ResourceManager.GetString("TagEditor_Filter_MenuItem_CurrentSection", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Selected Notes.
         /// </summary>
-        public static string TagEditor_Context_SelectedNotes {
+        public static string TagEditor_Filter_MenuItem_SelectedNotes {
             get {
-                return ResourceManager.GetString("TagEditor_Context_SelectedNotes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Error.
-        /// </summary>
-        public static string TagEditor_ErrorBox_Title {
-            get {
-                return ResourceManager.GetString("TagEditor_ErrorBox_Title", resourceCulture);
+                return ResourceManager.GetString("TagEditor_Filter_MenuItem_SelectedNotes", resourceCulture);
             }
         }
         
@@ -347,7 +338,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Note Tagger.
+        ///   Looks up a localized string similar to Tag Notes.
         /// </summary>
         public static string TagEditor_Window_Title {
             get {
