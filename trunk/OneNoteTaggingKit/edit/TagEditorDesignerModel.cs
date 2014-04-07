@@ -12,8 +12,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> _pageTags = new ObservableSortedList<TagModelKey, string, SimpleTagButtonModel>();
         ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel> _suggestedTags = new ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel>();
 
-        FilterPreset[] _presets;
-
         /// <summary>
         /// Create a new instance of the view model
         /// </summary>
@@ -25,14 +23,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             });
 
             _pageTags.AddAll(new SimpleTagButtonModel[] { new SimpleTagButtonModel("tag 1"), new SimpleTagButtonModel("tag 2") });
-
-            _presets = new FilterPreset[] { 
-              new FilterPreset()
-              {
-                  Preset=FilterPresetType.None,
-                  Label="None"
-              }
-            };
         }
 
         /// <summary>
@@ -46,12 +36,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         public ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel> SuggestedTags
         {
             get { return _suggestedTags; }
-        }
-
-
-        public FilterPreset[] FilterPresets
-        {
-            get { return _presets; }
         }
     }
 }

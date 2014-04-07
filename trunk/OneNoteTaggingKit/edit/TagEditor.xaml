@@ -114,16 +114,29 @@
                 </LinearGradientBrush>
             </GridSplitter.Background>
         </GridSplitter>
-        <ComboBox Name="filterPreset" Grid.Row="2"
-                  ItemsSource="{Binding FilterPresets}"
-                  DisplayMemberPath="Label"
-                  SelectedIndex="0"
-                  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Context_ComboBox_Tooltip}}"
-                  Margin="5,10,5,5" SelectionChanged="FilterPreset_ComboBox_SelectionChanged" >
-            <ComboBox.Effect>
+        <Menu Grid.Row="2"
+              Margin="5,10,5,5"
+              BorderThickness="1" BorderBrush="LightBlue"
+              ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_Menu_Tooltip}}"
+              VerticalAlignment="Center" >
+            <Menu.Effect>
                 <DropShadowEffect Color="LightBlue"/>
-            </ComboBox.Effect>
-        </ComboBox>
+            </Menu.Effect>
+            <MenuItem Header="Presets" FontSize="14">
+                <MenuItem.Resources>
+                    <Style TargetType="{x:Type MenuItem}">
+                        <Setter Property="FontSize" Value="16"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="BorderBrush" Value="LightBlue"/>
+                    </Style>
+                </MenuItem.Resources>
+                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_MenuItem_CurrentNote}}" Tag="CurrentNote" Click="Filter_MenuItem_Click"/>
+                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_MenuItem_SelectedNotes}}"
+                          Margin="0,5,0,5"
+                          Tag="SelectedNotes" Click="Filter_MenuItem_Click"/>
+                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_MenuItem_CurrentSection}}" Tag="CurrentSection" Click="Filter_MenuItem_Click"/>
+            </MenuItem>
+        </Menu>
         <TextBox Name="tagInput" Grid.Row="2" Grid.Column="1"
                  FontSize="16"
                  VerticalContentAlignment="Center"

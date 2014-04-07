@@ -254,7 +254,7 @@
     <value>..\resources\refresh-32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TagEditor_Window_Title" xml:space="preserve">
-    <value>Note Tagger</value>
+    <value>Tag Notes</value>
   </data>
   <data name="TagEditor_AddTags_Button_Tooltip" xml:space="preserve">
     <value>Press to add selected tags to the current page</value>
@@ -277,22 +277,19 @@
   <data name="TagEditor_Tag_TextBox_Tooltip" xml:space="preserve">
     <value>Type a tag and press 'Enter', or select from the suggested tags matching the text you typed.</value>
   </data>
-  <data name="TagEditor_Context_CurrentNote" xml:space="preserve">
+  <data name="TagEditor_Filter_MenuItem_CurrentNote" xml:space="preserve">
     <value>Current Note</value>
   </data>
-  <data name="TagEditor_Context_CurrentSection" xml:space="preserve">
+  <data name="TagEditor_Filter_MenuItem_CurrentSection" xml:space="preserve">
     <value>Current Section</value>
   </data>
-  <data name="TagEditor_Context_SelectedNotes" xml:space="preserve">
+  <data name="TagEditor_Filter_MenuItem_SelectedNotes" xml:space="preserve">
     <value>Selected Notes</value>
   </data>
   <data name="TagEditor_Tag_TextBox_Default" xml:space="preserve">
     <value>Type a Tag.</value>
   </data>
-  <data name="TagEditor_Context_ComboBox_Tooltip" xml:space="preserve">
-    <value>Choose a preset filter to suggest tags used in different contexts</value>
-  </data>
-  <data name="TagEditor_Context_None" xml:space="preserve">
-    <value>No Filter</value>
+  <data name="TagEditor_Filter_Menu_Tooltip" xml:space="preserve">
+    <value>Choose a preset filter to show tags used in the selectes context</value>
   </data>
 </root>
