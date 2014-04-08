@@ -38,71 +38,90 @@
             <GradientStop Color="#FFF3DEF2" Offset="1"/>
         </LinearGradientBrush>
     </Window.Background>
-    <Grid Background="Transparent">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <TabControl Grid.Row="0"  Background="Transparent">
-            <TabItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_TagSuggestionsTab_Header}}"
-                     IsSelected="True"
-                     BorderThickness="0"
-                     ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_TagSuggestionsTab_Tooltip}}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <local:RemovableTagsPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+    <TabControl Grid.Row="0"  Background="Transparent">
+        <TabItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_TagSuggestionsTab_Header}}"
+                    IsSelected="True"
+                    BorderThickness="0"
+                    ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_TagSuggestionsTab_Tooltip}}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <local:RemovableTagsPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                                               ContextMenu="{DynamicResource contextMenu}"
                                               BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
                                               Tags="{Binding SuggestedTags}"
                                               Margin="5,5,5,0" />
-                    <ProgressBar Name="pBar" Visibility="Visible"
+                <ProgressBar Name="pBar" Visibility="Visible"
                                  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
-                    <TextBox Name="newTag" Grid.Row="2" Grid.Column="0" Margin="5,10,10,10" KeyUp="newTag_KeyUp" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_NewTagTextbox_Tooltip}}"/>
-                    <Button x:Name="newTagButton" Grid.Row="2" Grid.Column="2" Width="20" Height="20" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_NewTagButton_Tooltip}}" Click="NewTagButton_Click" Margin="0,0,5,0">
+                <TextBox Name="newTag" Grid.Row="2" Grid.Column="0"
+                         FontSize="16"
+                         VerticalContentAlignment="Center"
+                         Margin="5,10,10,10"
+                         KeyUp="newTag_KeyUp"
+                         ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_NewTagTextbox_Tooltip}}"/>
+                <Label Name="tagInputDefaultMessage" Grid.Row="2" Grid.Column="0"
+                       HorizontalAlignment="Left"
+                       Style="{DynamicResource inlineInputPromptStyle}"
+                       ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Tooltip}}"
+                       Margin="5,10,10,10">
+                    <TextBlock Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Default}}" FontSize="{Binding ElementName=newTag,Path=FontSize}" />
+                </Label>
+                <StackPanel Orientation="Horizontal"
+                                Grid.Row="2" Grid.Column="2">
+                    <Button x:Name="newTagButton"
+                            Style="{DynamicResource controlEffectStyle}"
+                            Width="26" Height="26"
+                            ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_NewTagButton_Tooltip}}"
+                            Click="NewTagButton_Click"
+                            Margin="0,0,5,0">
                         <Button.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="#FF00FF00" Offset="0"/>
                                 <GradientStop Color="#FFB0ADAD" Offset="1"/>
                             </LinearGradientBrush>
                         </Button.Background>
-                        <TextBlock FontFamily="Segoe UI Symbol" Text="✙" FontSize="16" FontWeight="ExtraBold" TextAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.357,-1.587" Height="23" />
+                        <TextBlock FontFamily="Segoe UI Symbol" Text="✙"
+                                   FontSize="22"
+                                   FontWeight="ExtraBold"
+                                   TextAlignment="Center"  VerticalAlignment="Center"
+                                   />
                     </Button>
-                </Grid>
-            </TabItem>
-            <TabItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_AboutTab_Header}}">
-                <RichTextBox IsReadOnly="True" IsDocumentEnabled="True"  Background="Transparent" Margin="5,5,5,0" BorderThickness="0" >
-                    <FlowDocument >
-                        <Paragraph >
-                            <Image Source="/OneNoteTaggingKit;component/Resources/tag 32x32.png" Height="32" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <Run BaselineAlignment="Center" Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Appname}}" FontWeight="Bold" FontSize="16" Foreground="LightSeaGreen"/>
-                            <Run BaselineAlignment="Center" Text="{Binding AddinVersion, Mode=OneTime}"/>
-                        </Paragraph>
-                        <Paragraph>
-                            <Run Text ="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Description}}"/>
-                        </Paragraph>
-                        <Paragraph>
-                            <Run Text ="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Copyright}}"/>
-                        </Paragraph>
-                        <Paragraph>
-                            <Hyperlink NavigateUri="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_AddIn_Website}}" RequestNavigate="Hyperlink_RequestNavigate">
-                                <Run Text ="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_AddIn_Website}}"/>
-                            </Hyperlink>
-                        </Paragraph>
-                    </FlowDocument>
-                </RichTextBox>
-            </TabItem>
-        </TabControl>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
-            <Button x:Name="doneButton" Grid.Column="0" Content="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_SaveButton_Text}}" Width="80" HorizontalAlignment="Center" Margin="10,10,0,5" Click="SaveButton_Click" />
-            <Button x:Name="cancelButton" Grid.Column="1" Content="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_CancelButton_Text}}" Width="80" HorizontalAlignment="Center" Margin="10,10,0,5" IsCancel="True"/>
-        </StackPanel>
-    </Grid>
+                    <Button Style="{DynamicResource controlEffectStyle}" Width="26" Height="26"
+                            ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_SaveTagsButton_Tooltip}}"
+                            Click="SaveButton_Click">
+                        <Image Source="/OneNoteTaggingKit;component/Resources/save-26.png" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_AboutTab_Header}}">
+            <RichTextBox IsReadOnly="True" IsDocumentEnabled="True"  Background="Transparent" Margin="5,5,5,0" BorderThickness="0" >
+                <FlowDocument >
+                    <Paragraph >
+                        <Image Source="/OneNoteTaggingKit;component/Resources/tag 32x32.png" Height="32" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Run BaselineAlignment="Center" Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Appname}}" FontWeight="Bold" FontSize="16" Foreground="LightSeaGreen"/>
+                        <Run BaselineAlignment="Center" Text="{Binding AddinVersion, Mode=OneTime}"/>
+                    </Paragraph>
+                    <Paragraph>
+                        <Run Text ="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Description}}"/>
+                    </Paragraph>
+                    <Paragraph>
+                        <Run Text ="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Copyright}}"/>
+                    </Paragraph>
+                    <Paragraph>
+                        <Hyperlink NavigateUri="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_AddIn_Website}}" RequestNavigate="Hyperlink_RequestNavigate">
+                            <Run Text ="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_AddIn_Website}}"/>
+                        </Hyperlink>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+        </TabItem>
+    </TabControl>
 </Window>

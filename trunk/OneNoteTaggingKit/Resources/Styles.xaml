@@ -26,4 +26,19 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="controlEffectStyle" TargetType="{x:Type Control}">
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="LightBlue"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="LightBlue"/>
+    </Style>
+
+    <Style x:Key="inlineInputPromptStyle" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="LightGray"/>
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
 </ResourceDictionary>

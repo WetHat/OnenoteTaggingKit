@@ -509,6 +509,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save changes to the collection of suggested tags..
+        /// </summary>
+        public static string TagManager_SaveTagsButton_Tooltip {
+            get {
+                return ResourceManager.GetString("TagManager_SaveTagsButton_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tag Suggestions.
         /// </summary>
         public static string TagManager_TagSuggestionsTab_Header {

@@ -316,4 +316,7 @@
   <data name="TagEditor_WarningMessageBox_Title" xml:space="preserve">
     <value>Warning</value>
   </data>
+  <data name="TagManager_SaveTagsButton_Tooltip" xml:space="preserve">
+    <value>Save changes to the collection of suggested tags.</value>
+  </data>
 </root>

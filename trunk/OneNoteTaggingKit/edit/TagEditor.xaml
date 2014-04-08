@@ -73,23 +73,18 @@
                 BorderBrush="LightBlue"
                 Background="Honeydew"
                 VerticalAlignment="Top"
+                Style="{DynamicResource controlEffectStyle}"
                 ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_AddTags_Button_Tooltip}}"
                 Click="AddTagsToPageButton_Click">
-                <Button.Effect>
-                    <DropShadowEffect Color="LightBlue"/>
-                </Button.Effect>
                 <Image Source="/OneNoteTaggingKit;component/Resources/Add Tag 26.png"  Width="26" Height="26" RenderTransformOrigin="0.5,0.5" />
             </Button>
             <Button 
                 Margin="0,0,20,0"
-                BorderBrush="LightBlue"
+                Style="{DynamicResource controlEffectStyle}"
                 Background="#FFFFEAE8"
                 VerticalAlignment="Top"
                 ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_RemoveTags_Button_Tooltip}}"
                 Click="RemoveTagsFromPageButton_Click">
-                <Button.Effect>
-                    <DropShadowEffect Color="LightBlue"/>
-                </Button.Effect>
                 <Image Source="/OneNoteTaggingKit;component/Resources/Remove Tag 26.png" Width="26" Height="26"/>
             </Button>
             <Popup Name="pagesTaggedPopup"
@@ -151,12 +146,9 @@
         </GridSplitter>
         <Menu Grid.Row="2"
               Margin="5,10,5,5"
-              BorderThickness="1" BorderBrush="LightBlue"
+              Style="{DynamicResource controlEffectStyle}"
               ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_Menu_Tooltip}}"
               VerticalAlignment="Center" >
-            <Menu.Effect>
-                <DropShadowEffect Color="LightBlue"/>
-            </Menu.Effect>
             <MenuItem Header="Presets" FontSize="14">
                 <MenuItem.Resources>
                     <Style TargetType="{x:Type MenuItem}">
@@ -182,10 +174,9 @@
                  KeyUp="TagInput_KeyUp" />
         <Label Name="tagInputDefaultMessage" Grid.Row="2" Grid.Column="1"
                HorizontalAlignment="Left"
-               VerticalAlignment="Center"
+               Style="{DynamicResource inlineInputPromptStyle}"
                ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Tooltip}}"
-               Margin="5,5,0,0"
-               Foreground="LightGray">
+               Margin="5,5,0,0">
             <TextBlock Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Default}}" FontSize="{Binding ElementName=tagInput,Path=FontSize}" />
         </Label>
         <Button Name="clearFilter" Grid.Row="2" Grid.Column="2"
