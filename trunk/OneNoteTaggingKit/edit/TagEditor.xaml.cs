@@ -197,6 +197,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private void TagInput_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             pagesTaggedPopup.IsOpen = false;
+            filterPopup.IsOpen = false;
             if (e.Key == System.Windows.Input.Key.Enter)
             {
                 if (!string.IsNullOrEmpty(tagInput.Text))
@@ -238,6 +239,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             if (string.IsNullOrEmpty(filterText))
             {
                 UpdateTagFilter(true);
+                filterPopup.IsOpen = true;
             }
             else
             {

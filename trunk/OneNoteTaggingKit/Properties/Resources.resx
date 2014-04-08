@@ -307,6 +307,9 @@
   <data name="TagEditor_ErrorMessage_TaggingException" xml:space="preserve">
     <value>Tagging failed unexpectedly with exception: {0}</value>
   </data>
+  <data name="TagEditor_Popup_FilterNoResult" xml:space="preserve">
+    <value>The filter did not find any tags in the selected scope</value>
+  </data>
   <data name="TagEditor_Popup_NothingTagged" xml:space="preserve">
     <value>No Pages were tagged! Please select at least one page and try again.</value>
   </data>
