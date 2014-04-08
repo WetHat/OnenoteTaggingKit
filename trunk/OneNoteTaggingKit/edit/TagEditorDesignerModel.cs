@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 
@@ -36,6 +37,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         public ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel> SuggestedTags
         {
             get { return _suggestedTags; }
+        }
+
+
+        public IEnumerable<TaggingScopeDescriptor> TaggingScopes
+        {
+            get { return new TaggingScopeDescriptor[] { new TaggingScopeDescriptor(TaggingScope.CurrentNote,"Current Note")}; }
         }
     }
 }

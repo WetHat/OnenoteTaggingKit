@@ -134,10 +134,10 @@
     <value>Tags</value>
   </data>
   <data name="TagEditor_Tags_GroupBox_ToolTip" xml:space="preserve">
-    <value>Tags to add or remove to/from the current OneNote page.</value>
+    <value>Tags to add or remove to/from notes.</value>
   </data>
   <data name="TagEditor_Tag_ComboBox_Tooltip" xml:space="preserve">
-    <value>Type or select tag. Press 'Enter' to add tag</value>
+    <value>Type or select tag. Press 'Enter' to add tag to selection</value>
   </data>
   <data name="TagsPanel_RemoveButton_Tooltip" xml:space="preserve">
     <value>Press to remove this tag.</value>
@@ -245,7 +245,7 @@
     <value>Suggested Tags</value>
   </data>
   <data name="TagEditor_Suggestions_GroupBox_Tooltip" xml:space="preserve">
-    <value>Tags you can add or remove from the current page.</value>
+    <value>Tags you can add or remove from notes.</value>
   </data>
   <data name="Add_Tag_26" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\add tag 26.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -257,13 +257,13 @@
     <value>Tag Notes</value>
   </data>
   <data name="TagEditor_AddTags_Button_Tooltip" xml:space="preserve">
-    <value>Press to add selected tags to the current page</value>
+    <value>Press to add selected tags to notes</value>
   </data>
   <data name="TagEditor_MessageBox_UnsavedChanges_Title" xml:space="preserve">
     <value>Unsaved Changes</value>
   </data>
   <data name="TagEditor_RemoveTags_Button_Tooltip" xml:space="preserve">
-    <value>Press to remove selected tags from the current page.</value>
+    <value>Press to remove selected tags from notes.</value>
   </data>
   <data name="TagEditor_ClearFilter_Button_Tooltip" xml:space="preserve">
     <value>Press to clear the filter for suggested tags.</value>
@@ -278,18 +278,30 @@
     <value>Type a tag and press 'Enter', or select from the suggested tags matching the text you typed.</value>
   </data>
   <data name="TagEditor_Filter_MenuItem_CurrentNote" xml:space="preserve">
-    <value>Current Note</value>
+    <value>Tags from Current Note</value>
   </data>
   <data name="TagEditor_Filter_MenuItem_CurrentSection" xml:space="preserve">
-    <value>Current Section</value>
+    <value>Tags from Current Section</value>
   </data>
   <data name="TagEditor_Filter_MenuItem_SelectedNotes" xml:space="preserve">
-    <value>Selected Notes</value>
+    <value>Tags from Selected Notes</value>
   </data>
   <data name="TagEditor_Tag_TextBox_Default" xml:space="preserve">
     <value>Type a Tag.</value>
   </data>
   <data name="TagEditor_Filter_Menu_Tooltip" xml:space="preserve">
-    <value>Choose a preset filter to show tags used in the selectes context</value>
+    <value>Apply a preset filter to show tags used in the selected context</value>
+  </data>
+  <data name="TagEditor_ComboBox_Scope_CurrentNote" xml:space="preserve">
+    <value>Current Note</value>
+  </data>
+  <data name="TagEditor_ComboBox_Scope_SelectedNotes" xml:space="preserve">
+    <value>Selected Notes</value>
+  </data>
+  <data name="TagEditor_ComboBox_Scope_Tooltip" xml:space="preserve">
+    <value>Select the scope to apply the tags to.</value>
+  </data>
+  <data name="TagEditor_Scope_Label_Text" xml:space="preserve">
+    <value>Scope</value>
   </data>
 </root>
