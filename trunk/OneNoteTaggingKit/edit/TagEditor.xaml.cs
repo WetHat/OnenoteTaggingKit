@@ -136,14 +136,17 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private async void AddTagsToPageButton_Click(object sender, RoutedEventArgs e)
         {
+            tagInput.Focus();
             try
             {
-                tagInput.Focus();
-                _model.SaveChangesAsync(TagOperation.UNITE, ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope);
+                int pagesTagged = await _model.SaveChangesAsync(TagOperation.UNITE, ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope);
+                pagesTaggedText.Text = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_PagesTagged, pagesTagged);
+
+                pagesTaggedPopup.IsOpen = true;
             }
-            catch (Exception ex)
+            catch (Exception xe)
             {
-                MessageBox.Show(string.Format(Properties.Resources.TagEditor_Save_Error, ex), Properties.Resources.TagEditor_ErrorBox_Title);
+                MessageBox.Show(string.Format(Properties.Resources.TagEditor_ErrorMessage_TaggingException, xe), Properties.Resources.TagEditor_ErrorMessageBox_Title);
             }
             if (e != null)
             {
@@ -151,16 +154,18 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
-        private void RemoveTagsFromPageButton_Click(object sender, RoutedEventArgs e)
+        private async void RemoveTagsFromPageButton_Click(object sender, RoutedEventArgs e)
         {
+            tagInput.Focus();
             try
             {
-                tagInput.Focus();
-                _model.SaveChangesAsync(TagOperation.SUBTRACT, ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope);
+                int pagesTagged = await _model.SaveChangesAsync(TagOperation.SUBTRACT, ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope);
+                pagesTaggedText.Text = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_PagesTagged, pagesTagged);
+                pagesTaggedPopup.IsOpen = true;
             }
-            catch (Exception ex)
+            catch (Exception xe)
             {
-                MessageBox.Show(string.Format(Properties.Resources.TagEditor_Save_Error, ex), Properties.Resources.TagEditor_ErrorBox_Title);
+                MessageBox.Show(string.Format(Properties.Resources.TagEditor_ErrorMessage_TaggingException, xe), Properties.Resources.TagEditor_ErrorMessageBox_Title);
             }
             if (e != null)
             {
@@ -191,6 +196,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private void TagInput_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            pagesTaggedPopup.IsOpen = false;
             if (e.Key == System.Windows.Input.Key.Enter)
             {
                 if (!string.IsNullOrEmpty(tagInput.Text))

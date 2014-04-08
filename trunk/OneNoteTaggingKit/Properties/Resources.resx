@@ -134,7 +134,7 @@
     <value>Tags</value>
   </data>
   <data name="TagEditor_Tags_GroupBox_ToolTip" xml:space="preserve">
-    <value>Tags to add or remove to/from notes.</value>
+    <value>Tags to apply to pages.</value>
   </data>
   <data name="TagEditor_Tag_ComboBox_Tooltip" xml:space="preserve">
     <value>Type or select tag. Press 'Enter' to add tag to selection</value>
@@ -214,7 +214,7 @@
   <data name="TagSearch_Query_ComboBox_Tooltip" xml:space="preserve">
     <value>Enter query and press enter to start search.</value>
   </data>
-  <data name="TagEditor_ErrorBox_Title" xml:space="preserve">
+  <data name="TagEditor_ErrorMessageBox_Title" xml:space="preserve">
     <value>Error</value>
   </data>
   <data name="TagEditor_Save_Error" xml:space="preserve">
@@ -245,7 +245,7 @@
     <value>Suggested Tags</value>
   </data>
   <data name="TagEditor_Suggestions_GroupBox_Tooltip" xml:space="preserve">
-    <value>Tags you can add or remove from notes.</value>
+    <value>Tags you can add or remove from pages.</value>
   </data>
   <data name="Add_Tag_26" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\add tag 26.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -254,16 +254,16 @@
     <value>..\resources\refresh-32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TagEditor_Window_Title" xml:space="preserve">
-    <value>Tag Notes</value>
+    <value>Tag Pages</value>
   </data>
   <data name="TagEditor_AddTags_Button_Tooltip" xml:space="preserve">
-    <value>Press to add selected tags to notes</value>
+    <value>Press to add selected tags to pages</value>
   </data>
   <data name="TagEditor_MessageBox_UnsavedChanges_Title" xml:space="preserve">
     <value>Unsaved Changes</value>
   </data>
   <data name="TagEditor_RemoveTags_Button_Tooltip" xml:space="preserve">
-    <value>Press to remove selected tags from notes.</value>
+    <value>Press to remove selected tags from pages.</value>
   </data>
   <data name="TagEditor_ClearFilter_Button_Tooltip" xml:space="preserve">
     <value>Press to clear the filter for suggested tags.</value>
@@ -278,13 +278,13 @@
     <value>Type a tag and press 'Enter', or select from the suggested tags matching the text you typed.</value>
   </data>
   <data name="TagEditor_Filter_MenuItem_CurrentNote" xml:space="preserve">
-    <value>Tags from Current Note</value>
+    <value>Tags from Current Page</value>
   </data>
   <data name="TagEditor_Filter_MenuItem_CurrentSection" xml:space="preserve">
     <value>Tags from Current Section</value>
   </data>
   <data name="TagEditor_Filter_MenuItem_SelectedNotes" xml:space="preserve">
-    <value>Tags from Selected Notes</value>
+    <value>Tags from Selected Pages</value>
   </data>
   <data name="TagEditor_Tag_TextBox_Default" xml:space="preserve">
     <value>Type a Tag.</value>
@@ -293,15 +293,27 @@
     <value>Apply a preset filter to show tags used in the selected context</value>
   </data>
   <data name="TagEditor_ComboBox_Scope_CurrentNote" xml:space="preserve">
-    <value>Current Note</value>
+    <value>Current Page</value>
   </data>
   <data name="TagEditor_ComboBox_Scope_SelectedNotes" xml:space="preserve">
-    <value>Selected Notes</value>
+    <value>Selected Pages</value>
   </data>
   <data name="TagEditor_ComboBox_Scope_Tooltip" xml:space="preserve">
     <value>Select the scope to apply the tags to.</value>
   </data>
   <data name="TagEditor_Scope_Label_Text" xml:space="preserve">
     <value>Scope</value>
+  </data>
+  <data name="TagEditor_ErrorMessage_TaggingException" xml:space="preserve">
+    <value>Tagging failed unexpectedly with exception: {0}</value>
+  </data>
+  <data name="TagEditor_Popup_NothingTagged" xml:space="preserve">
+    <value>No Pages were tagged! Please select at least one page and try again.</value>
+  </data>
+  <data name="TagEditor_Popup_PagesTagged" xml:space="preserve">
+    <value>{0} page(s) tagged.</value>
+  </data>
+  <data name="TagEditor_WarningMessageBox_Title" xml:space="preserve">
+    <value>Warning</value>
   </data>
 </root>

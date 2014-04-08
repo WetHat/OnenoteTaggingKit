@@ -148,7 +148,7 @@ namespace WetHatLab.OneNote.TaggingKit
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Properties.Resources.TagEditor_OpenDialogError, ex), Properties.Resources.TagEditor_ErrorBox_Title);
+                MessageBox.Show(string.Format(Properties.Resources.TagEditor_OpenDialogError, ex), Properties.Resources.TagEditor_ErrorMessageBox_Title);
             }
         }
 

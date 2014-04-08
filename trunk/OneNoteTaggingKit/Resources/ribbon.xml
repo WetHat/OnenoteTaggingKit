@@ -5,7 +5,7 @@
       <tab idMso="TabHome">
         <group id="PageTagging" label="Page Tags" insertAfterMso="GroupTagging">
           <button id="buttonTagPage"
-                  label="Tag Notes"
+                  label="Tag Pages"
                   size="large"
                   screentip="Add tags to or remove tags from OneNote pages."
                   onAction="exploreTags"
