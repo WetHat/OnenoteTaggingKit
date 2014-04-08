@@ -44,7 +44,10 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TabControl Grid.Row="0"  Background="Transparent">
-            <TabItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_TagSuggestionsTab_Header}}" IsSelected="True" BorderThickness="0" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_TagSuggestionsTab_Tooltip}}">
+            <TabItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_TagSuggestionsTab_Header}}"
+                     IsSelected="True"
+                     BorderThickness="0"
+                     ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_TagSuggestionsTab_Tooltip}}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>

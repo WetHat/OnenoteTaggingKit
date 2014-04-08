@@ -154,12 +154,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             return (from string t in OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags) select new HitHighlightedTagButtonModel(t)).ToArray();
         }
 
-        internal async Task SaveChangesAsync(TagOperation op,TaggingScope scope)
+        internal async Task<int> SaveChangesAsync(TagOperation op,TaggingScope scope)
         {
             // pass tags and current page as parameters so that the undelying objects can further be modified in the foreground
-
+            int pagesTagged = 0;
             string[] pageTags = (from t in _pageTags.Values select t.TagName).ToArray();
-            await Task.Run(() => SaveChangesAction(pageTags,op,scope));
+            pagesTagged = await Task<int>.Run(() => SaveChangesAction(pageTags, op, scope));
 
             // update suggestions
             if (pageTags != null && pageTags.Length > 0)
@@ -167,6 +167,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 SuggestedTags.AddAll(from t in pageTags where !SuggestedTags.ContainsKey(t) select new HitHighlightedTagButtonModel(t));
                 Properties.Settings.Default.KnownTags = string.Join(",", from v in SuggestedTags.Values select v.TagName);
             }
+            return pagesTagged;
         }
 
         internal void UpdateTagFilter(IEnumerable<string> filter)
@@ -177,9 +178,10 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
-        private void SaveChangesAction(string[] tags, TagOperation op, TaggingScope scope)
+        private int SaveChangesAction(string[] tags, TagOperation op, TaggingScope scope)
         {
-           IEnumerable<string> pageIDs = null;
+            IEnumerable<string> pageIDs = null;
+            int pagesTagged = 0;
             switch (scope)
             {
                 case TaggingScope.SelectedNotes:
@@ -219,7 +221,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     page.PageTags = sortedTags;
                     page.Update();
                 }
+                pagesTagged++;
             }
+            return pagesTagged;
         }
 
         private void firePropertyChangedEvent(PropertyChangedEventArgs args)

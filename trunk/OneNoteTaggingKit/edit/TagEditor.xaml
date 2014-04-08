@@ -54,6 +54,7 @@
                     <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Scope_Label_Text}}"/><Run Text=":"/>
                 </TextBlock>
             </Label>
+            
             <ComboBox Name="taggingScope"
                 HorizontalAlignment="Center"
                 SelectedIndex="0"
@@ -91,8 +92,24 @@
                 </Button.Effect>
                 <Image Source="/OneNoteTaggingKit;component/Resources/Remove Tag 26.png" Width="26" Height="26"/>
             </Button>
+            <Popup Name="pagesTaggedPopup"
+               PlacementTarget="{Binding ElementName=taggingScope}"
+               StaysOpen="False"
+               AllowsTransparency="True"
+               VerticalOffset="50">
+                <Border BorderThickness="2"
+                        BorderBrush="DarkSlateBlue"
+                        CornerRadius="5">
+                    <TextBlock Name="pagesTaggedText"
+                               MaxWidth="200"
+                               TextWrapping="Wrap"
+                               TextTrimming="CharacterEllipsis"
+                               Text="x pages tagged"
+                               FontSize="16" Background="LightYellow"/>
+                </Border>
+            </Popup>
         </StackPanel>
-        <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+        <GroupBox Name="selectedTags"  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
                   Margin="5,0,5,0"
@@ -107,7 +124,6 @@
                                    VerticalAlignment="Stretch"
                                    Click="RemovePageTagButton_Click"/>
         </GroupBox>
-
         <Button Grid.Row="1" Grid.ColumnSpan="3"
                 Width="26"
                 Background="Transparent"

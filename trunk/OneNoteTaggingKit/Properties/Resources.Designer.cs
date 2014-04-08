@@ -125,7 +125,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         ///      &lt;tab idMso=&quot;TabHome&quot;&gt;
         ///        &lt;group id=&quot;PageTagging&quot; label=&quot;Page Tags&quot; insertAfterMso=&quot;GroupTagging&quot;&gt;
         ///          &lt;button id=&quot;buttonTagPage&quot;
-        ///                  label=&quot;Tag Notes&quot;
+        ///                  label=&quot;Tag Pages&quot;
         ///                  size=&quot;large&quot;
         ///                  screentip=&quot;Add tags to or remove tags from OneNote pages.&quot;
         ///                  onAction=&quot;exploreTags&quot;
@@ -158,7 +158,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to add selected tags to notes.
+        ///   Looks up a localized string similar to Press to add selected tags to pages.
         /// </summary>
         public static string TagEditor_AddTags_Button_Tooltip {
             get {
@@ -185,7 +185,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Current Note.
+        ///   Looks up a localized string similar to Current Page.
         /// </summary>
         public static string TagEditor_ComboBox_Scope_CurrentNote {
             get {
@@ -194,7 +194,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Selected Notes.
+        ///   Looks up a localized string similar to Selected Pages.
         /// </summary>
         public static string TagEditor_ComboBox_Scope_SelectedNotes {
             get {
@@ -212,11 +212,20 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tagging failed unexpectedly with exception: {0}.
+        /// </summary>
+        public static string TagEditor_ErrorMessage_TaggingException {
+            get {
+                return ResourceManager.GetString("TagEditor_ErrorMessage_TaggingException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
-        public static string TagEditor_ErrorBox_Title {
+        public static string TagEditor_ErrorMessageBox_Title {
             get {
-                return ResourceManager.GetString("TagEditor_ErrorBox_Title", resourceCulture);
+                return ResourceManager.GetString("TagEditor_ErrorMessageBox_Title", resourceCulture);
             }
         }
         
@@ -230,7 +239,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tags from Current Note.
+        ///   Looks up a localized string similar to Tags from Current Page.
         /// </summary>
         public static string TagEditor_Filter_MenuItem_CurrentNote {
             get {
@@ -248,7 +257,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tags from Selected Notes.
+        ///   Looks up a localized string similar to Tags from Selected Pages.
         /// </summary>
         public static string TagEditor_Filter_MenuItem_SelectedNotes {
             get {
@@ -284,7 +293,25 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to remove selected tags from notes..
+        ///   Looks up a localized string similar to No Pages were tagged! Please select at least one page and try again..
+        /// </summary>
+        public static string TagEditor_Popup_NothingTagged {
+            get {
+                return ResourceManager.GetString("TagEditor_Popup_NothingTagged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} page(s) tagged..
+        /// </summary>
+        public static string TagEditor_Popup_PagesTagged {
+            get {
+                return ResourceManager.GetString("TagEditor_Popup_PagesTagged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press to remove selected tags from pages..
         /// </summary>
         public static string TagEditor_RemoveTags_Button_Tooltip {
             get {
@@ -320,7 +347,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tags you can add or remove from notes..
+        ///   Looks up a localized string similar to Tags you can add or remove from pages..
         /// </summary>
         public static string TagEditor_Suggestions_GroupBox_Tooltip {
             get {
@@ -365,7 +392,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tags to add or remove to/from notes..
+        ///   Looks up a localized string similar to Tags to apply to pages..
         /// </summary>
         public static string TagEditor_Tags_GroupBox_ToolTip {
             get {
@@ -374,7 +401,16 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tag Notes.
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        public static string TagEditor_WarningMessageBox_Title {
+            get {
+                return ResourceManager.GetString("TagEditor_WarningMessageBox_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tag Pages.
         /// </summary>
         public static string TagEditor_Window_Title {
             get {
