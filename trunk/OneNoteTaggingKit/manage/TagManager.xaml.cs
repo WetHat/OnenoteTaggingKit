@@ -43,6 +43,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                     }
                 }
                 newTag.Text = String.Empty;
+                tagInputDefaultMessage.Visibility = System.Windows.Visibility.Visible;
             }
             if (e != null)
             {
@@ -62,6 +63,10 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             if (e.Key == System.Windows.Input.Key.Enter)
             {
                 NewTagButton_Click(sender, null);
+            }
+            else
+            {
+                tagInputDefaultMessage.Visibility = string.IsNullOrEmpty(newTag.Text) ? Visibility.Visible : Visibility.Hidden;
             }
             e.Handled = true;
         }

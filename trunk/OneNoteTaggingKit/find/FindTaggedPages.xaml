@@ -52,19 +52,22 @@
                   ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Query_ComboBox_Tooltip}}" />
         <Button Name="searchButton" 
                 Grid.Row="0" Grid.Column="1"
-                Height="24" BorderBrush="LightBlue"
+                Height="24"
+                Style="{DynamicResource controlEffectStyle}"
                 Margin="0,5,0,0"
                 Click="SearchButton_Click">
-            <Image MaxWidth="32"  Source="/OneNoteTaggingKit;component/Resources/search-32x32 blue.jpg"/>
+            <Image MaxWidth="32"  Source="/OneNoteTaggingKit;component/Resources/search-32x32 blue.jpg" />
         </Button>
         <ComboBox Grid.Row="0" Grid.Column="2"
+                  Style="{DynamicResource controlEffectStyle}"
                   IsEditable="False" IsTextSearchEnabled="True"
                   ItemsSource="{Binding Scopes}"
                   SelectedValue="{Binding SelectedScope,Mode=OneWay}"
                   DisplayMemberPath="ScopeLabel"
                   Margin="5,5,5,0"
                   SelectionChanged="ScopeComboBox_SelectionChanged"
-                  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Scope_ComboBox_Tooltip}}" />
+                  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Scope_ComboBox_Tooltip}}" >
+        </ComboBox>
         <GroupBox Grid.Row="1" Grid.ColumnSpan="3"
                   HorizontalAlignment="Stretch"
                   Margin="5,0,5,0"
