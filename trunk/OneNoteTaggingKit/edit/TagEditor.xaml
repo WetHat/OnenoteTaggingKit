@@ -157,11 +157,30 @@
                         <Setter Property="BorderBrush" Value="LightBlue"/>
                     </Style>
                 </MenuItem.Resources>
-                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_MenuItem_CurrentNote}}" Tag="CurrentNote" Click="Filter_MenuItem_Click"/>
+                <MenuItem.Icon>
+                    <Image Source="/OneNoteTaggingKit;component/Resources/empty_filter-32.png" Height="32" />
+                </MenuItem.Icon>
+                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_MenuItem_CurrentNote}}"
+                          Tag="CurrentNote"
+                          Click="Filter_MenuItem_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/OneNoteTaggingKit;component/Resources/one_page-32.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_MenuItem_SelectedNotes}}"
                           Margin="0,5,0,5"
-                          Tag="SelectedNotes" Click="Filter_MenuItem_Click"/>
-                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_MenuItem_CurrentSection}}" Tag="CurrentSection" Click="Filter_MenuItem_Click"/>
+                          Tag="SelectedNotes" Click="Filter_MenuItem_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/OneNoteTaggingKit;component/Resources/copy-26.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_MenuItem_CurrentSection}}"
+                          Tag="CurrentSection"
+                          Click="Filter_MenuItem_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/OneNoteTaggingKit;component/Resources/4-32.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
         <TextBox Name="tagInput" Grid.Row="2" Grid.Column="1"
