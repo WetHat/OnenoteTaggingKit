@@ -91,7 +91,7 @@
                PlacementTarget="{Binding ElementName=taggingScope}"
                StaysOpen="False"
                AllowsTransparency="True"
-               VerticalOffset="50">
+               VerticalOffset="10">
                 <Border BorderThickness="2"
                         BorderBrush="DarkSlateBlue"
                         CornerRadius="5">
@@ -100,6 +100,21 @@
                                TextWrapping="Wrap"
                                TextTrimming="CharacterEllipsis"
                                Text="x pages tagged"
+                               FontSize="16" Background="LightYellow"/>
+                </Border>
+            </Popup>
+            <Popup Name="filterPopup"
+               PlacementTarget="{Binding ElementName=presetsMenuItem}"
+               StaysOpen="False"
+               AllowsTransparency="True"
+               VerticalOffset="10">
+                <Border BorderThickness="2"
+                        BorderBrush="DarkSlateBlue"
+                        CornerRadius="5">
+                    <TextBlock MaxWidth="200"
+                               TextWrapping="Wrap"
+                               TextTrimming="CharacterEllipsis"
+                               Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Popup_FilterNoResult}}"
                                FontSize="16" Background="LightYellow"/>
                 </Border>
             </Popup>
@@ -149,7 +164,7 @@
               Style="{DynamicResource controlEffectStyle}"
               ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_Menu_Tooltip}}"
               VerticalAlignment="Center" >
-            <MenuItem Header="Presets" FontSize="14">
+            <MenuItem Name="presetsMenuItem" Header="Presets" FontSize="14">
                 <MenuItem.Resources>
                     <Style TargetType="{x:Type MenuItem}">
                         <Setter Property="FontSize" Value="16"/>

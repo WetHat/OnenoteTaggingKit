@@ -293,6 +293,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The filter did not find any tags in the selected scope.
+        /// </summary>
+        public static string TagEditor_Popup_FilterNoResult {
+            get {
+                return ResourceManager.GetString("TagEditor_Popup_FilterNoResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Pages were tagged! Please select at least one page and try again..
         /// </summary>
         public static string TagEditor_Popup_NothingTagged {
