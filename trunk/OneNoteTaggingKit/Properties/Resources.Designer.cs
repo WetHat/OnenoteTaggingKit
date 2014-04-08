@@ -158,7 +158,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to add selected tags to the current page.
+        ///   Looks up a localized string similar to Press to add selected tags to notes.
         /// </summary>
         public static string TagEditor_AddTags_Button_Tooltip {
             get {
@@ -185,6 +185,33 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current Note.
+        /// </summary>
+        public static string TagEditor_ComboBox_Scope_CurrentNote {
+            get {
+                return ResourceManager.GetString("TagEditor_ComboBox_Scope_CurrentNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected Notes.
+        /// </summary>
+        public static string TagEditor_ComboBox_Scope_SelectedNotes {
+            get {
+                return ResourceManager.GetString("TagEditor_ComboBox_Scope_SelectedNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the scope to apply the tags to..
+        /// </summary>
+        public static string TagEditor_ComboBox_Scope_Tooltip {
+            get {
+                return ResourceManager.GetString("TagEditor_ComboBox_Scope_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string TagEditor_ErrorBox_Title {
@@ -194,7 +221,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Choose a preset filter to show tags used in the selectes context.
+        ///   Looks up a localized string similar to Apply a preset filter to show tags used in the selected context.
         /// </summary>
         public static string TagEditor_Filter_Menu_Tooltip {
             get {
@@ -203,7 +230,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Current Note.
+        ///   Looks up a localized string similar to Tags from Current Note.
         /// </summary>
         public static string TagEditor_Filter_MenuItem_CurrentNote {
             get {
@@ -212,7 +239,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Current Section.
+        ///   Looks up a localized string similar to Tags from Current Section.
         /// </summary>
         public static string TagEditor_Filter_MenuItem_CurrentSection {
             get {
@@ -221,7 +248,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Selected Notes.
+        ///   Looks up a localized string similar to Tags from Selected Notes.
         /// </summary>
         public static string TagEditor_Filter_MenuItem_SelectedNotes {
             get {
@@ -257,7 +284,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to remove selected tags from the current page..
+        ///   Looks up a localized string similar to Press to remove selected tags from notes..
         /// </summary>
         public static string TagEditor_RemoveTags_Button_Tooltip {
             get {
@@ -275,6 +302,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scope.
+        /// </summary>
+        public static string TagEditor_Scope_Label_Text {
+            get {
+                return ResourceManager.GetString("TagEditor_Scope_Label_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Suggested Tags.
         /// </summary>
         public static string TagEditor_Suggestions_GroupBox_Title {
@@ -284,7 +320,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tags you can add or remove from the current page..
+        ///   Looks up a localized string similar to Tags you can add or remove from notes..
         /// </summary>
         public static string TagEditor_Suggestions_GroupBox_Tooltip {
             get {
@@ -293,7 +329,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type or select tag. Press &apos;Enter&apos; to add tag.
+        ///   Looks up a localized string similar to Type or select tag. Press &apos;Enter&apos; to add tag to selection.
         /// </summary>
         public static string TagEditor_Tag_ComboBox_Tooltip {
             get {
@@ -329,7 +365,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tags to add or remove to/from the current OneNote page..
+        ///   Looks up a localized string similar to Tags to add or remove to/from notes..
         /// </summary>
         public static string TagEditor_Tags_GroupBox_ToolTip {
             get {

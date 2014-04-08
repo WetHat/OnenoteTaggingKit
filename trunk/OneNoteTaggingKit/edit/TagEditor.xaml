@@ -11,7 +11,7 @@
         Width="{Binding Source={x:Static prop:Settings.Default},Path=TagEditorWindow_Width,Mode=TwoWay}"
         Left="{Binding Source={x:Static prop:Settings.Default},Path=TagEditorWindow_Left,Mode=TwoWay}"
         Top="{Binding Source={x:Static prop:Settings.Default},Path=TagEditorWindow_Top,Mode=TwoWay}"
-        MinWidth="200"
+        MinWidth="300"
         MinHeight="350"
         Name="tagEditorWindow"
         mc:Ignorable="d"
@@ -47,9 +47,28 @@
         
         <StackPanel Grid.Row="0" Grid.ColumnSpan="3"
                     Orientation="Horizontal"
+                    Margin="5,5,0,0"
                     HorizontalAlignment="Left">
+            <Label>
+                <TextBlock>
+                    <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Scope_Label_Text}}"/><Run Text=":"/>
+                </TextBlock>
+            </Label>
+            <ComboBox Name="taggingScope"
+                HorizontalAlignment="Center"
+                SelectedIndex="0"
+                ItemsSource="{Binding TaggingScopes}"
+                DisplayMemberPath="Label"
+                VerticalAlignment="Center"
+                FontSize="14"
+                ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_ComboBox_Scope_Tooltip}}"
+                IsTextSearchEnabled="True" IsEditable="False">
+                <ComboBox.Effect>
+                    <DropShadowEffect Color="LightBlue"/>
+                </ComboBox.Effect>
+            </ComboBox>
             <Button
-                Margin="20,5,20,0"
+                Margin="20,0,20,0"
                 BorderBrush="LightBlue"
                 Background="Honeydew"
                 VerticalAlignment="Top"
@@ -61,7 +80,7 @@
                 <Image Source="/OneNoteTaggingKit;component/Resources/Add Tag 26.png"  Width="26" Height="26" RenderTransformOrigin="0.5,0.5" />
             </Button>
             <Button 
-                Margin="0,5,20,0"
+                Margin="0,0,20,0"
                 BorderBrush="LightBlue"
                 Background="#FFFFEAE8"
                 VerticalAlignment="Top"

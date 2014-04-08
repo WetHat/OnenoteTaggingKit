@@ -28,6 +28,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// Get the collection of suggested tags.
         /// </summary>
         ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel> SuggestedTags { get; }
+
+        /// <summary>
+        /// Get the enumeration of tagging scopes
+        /// </summary>
+        IEnumerable<TaggingScopeDescriptor> TaggingScopes { get; }
     }
 
     internal enum TagOperation
@@ -43,6 +48,23 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         CurrentSection
     }
 
+    public enum TaggingScope
+    {
+        CurrentNote = 0,
+        SelectedNotes
+    }
+
+    public class TaggingScopeDescriptor
+    {
+        internal TaggingScopeDescriptor(TaggingScope scope, string label)
+        {
+            Scope = scope;
+            Label = label;
+        }
+
+        public TaggingScope Scope {get; private set;}
+        public string Label {get; private set;}
+    }
     /// <summary>
     /// View Model to support the tag editor dialog.
     /// </summary>
@@ -54,19 +76,25 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     /// </remarks>
     public class TagEditorModel : DependencyObject, ITagEditorModel, INotifyPropertyChanged
     {
-        private static readonly PropertyChangedEventArgs PAGE_TITLE = new PropertyChangedEventArgs("PageTitle");
+        static readonly PropertyChangedEventArgs PAGE_TITLE = new PropertyChangedEventArgs("PageTitle");
 
-        private Microsoft.Office.Interop.OneNote.Application _OneNote;
-        private XMLSchema _schema;
+        Microsoft.Office.Interop.OneNote.Application _OneNote;
+        XMLSchema _schema;
 
-        private ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> _pageTags = new ObservableSortedList<TagModelKey, string, SimpleTagButtonModel>();
+        ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> _pageTags = new ObservableSortedList<TagModelKey, string, SimpleTagButtonModel>();
 
-        private ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel> _suggestedTags = new ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel>();
+        ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel> _suggestedTags = new ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel>();
+
+        TaggingScopeDescriptor[] _taggingScopes;
 
         internal TagEditorModel(Microsoft.Office.Interop.OneNote.Application onenote,XMLSchema schema)
         {
             _OneNote = onenote;
             _schema = schema;
+            _taggingScopes = new TaggingScopeDescriptor[] {
+               new TaggingScopeDescriptor(TaggingScope.CurrentNote,Properties.Resources.TagEditor_ComboBox_Scope_CurrentNote),
+               new TaggingScopeDescriptor(TaggingScope.SelectedNotes,Properties.Resources.TagEditor_ComboBox_Scope_SelectedNotes),
+            };
         }
 
         internal Microsoft.Office.Interop.OneNote.Application OneNote
@@ -102,6 +130,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             get { return _suggestedTags; }
         }
+
+        public IEnumerable<TaggingScopeDescriptor> TaggingScopes
+        {
+            get { return _taggingScopes; }
+        }
+
         #endregion ITagEditorModel
 
         /// <summary>
@@ -120,12 +154,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             return (from string t in OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags) select new HitHighlightedTagButtonModel(t)).ToArray();
         }
 
-        internal async Task SaveChangesAsync(TagOperation op)
+        internal async Task SaveChangesAsync(TagOperation op,TaggingScope scope)
         {
             // pass tags and current page as parameters so that the undelying objects can further be modified in the foreground
 
             string[] pageTags = (from t in _pageTags.Values select t.TagName).ToArray();
-            await Task.Run(() => SaveChangesAction(pageTags,op));
+            await Task.Run(() => SaveChangesAction(pageTags,op,scope));
 
             // update suggestions
             if (pageTags != null && pageTags.Length > 0)
@@ -143,30 +177,48 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
-        private void SaveChangesAction(string[] tags, TagOperation op)
+        private void SaveChangesAction(string[] tags, TagOperation op, TaggingScope scope)
         {
-            OneNotePageProxy page = new OneNotePageProxy(_OneNote, _OneNote.Windows.CurrentWindow.CurrentPageId, _schema);
-
-            HashSet<string> pagetags = new HashSet<string>(page.PageTags);
-
-            int countBefore = pagetags.Count;
-
-            switch (op)
+           IEnumerable<string> pageIDs = null;
+            switch (scope)
             {
-                case TagOperation.SUBTRACT:
-                    pagetags.ExceptWith(tags);
-                    break;
-                case TagOperation.UNITE:
-                    pagetags.UnionWith(tags);
+                case TaggingScope.SelectedNotes:
+                    TagCollection tagCollection = new TagCollection(_OneNote, _schema);
+                    tagCollection.LoadHierarchy(_OneNote.Windows.CurrentWindow.CurrentSectionId);
+                    pageIDs = from p in tagCollection.Pages where p.Value.IsSelected select p.Key;
                     break;
             }
-            if (pagetags.Count != countBefore)
-            {
-                string[] sortedTags = pagetags.ToArray();
-                Array.Sort<string>(sortedTags,(x,y) => string.Compare(x,y,true));
 
-                page.PageTags = sortedTags;
-                page.Update();
+            if (pageIDs == null)
+            {
+                pageIDs = new string[] { _OneNote.Windows.CurrentWindow.CurrentPageId };
+            }
+
+            foreach (string pageID in pageIDs)
+            {
+                OneNotePageProxy page = new OneNotePageProxy(_OneNote, pageID, _schema);
+
+                HashSet<string> pagetags = new HashSet<string>(page.PageTags);
+
+                int countBefore = pagetags.Count;
+
+                switch (op)
+                {
+                    case TagOperation.SUBTRACT:
+                        pagetags.ExceptWith(tags);
+                        break;
+                    case TagOperation.UNITE:
+                        pagetags.UnionWith(tags);
+                        break;
+                }
+                if (pagetags.Count != countBefore)
+                {
+                    string[] sortedTags = pagetags.ToArray();
+                    Array.Sort<string>(sortedTags, (x, y) => string.Compare(x, y, true));
+
+                    page.PageTags = sortedTags;
+                    page.Update();
+                }
             }
         }
 

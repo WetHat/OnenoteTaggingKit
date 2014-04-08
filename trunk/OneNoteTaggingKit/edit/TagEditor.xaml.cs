@@ -139,7 +139,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             try
             {
                 tagInput.Focus();
-                _model.SaveChangesAsync(TagOperation.UNITE);
+                _model.SaveChangesAsync(TagOperation.UNITE, ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope);
             }
             catch (Exception ex)
             {
@@ -156,7 +156,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             try
             {
                 tagInput.Focus();
-                _model.SaveChangesAsync(TagOperation.SUBTRACT);
+                _model.SaveChangesAsync(TagOperation.SUBTRACT, ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope);
             }
             catch (Exception ex)
             {
