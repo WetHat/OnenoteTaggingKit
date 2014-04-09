@@ -35,7 +35,7 @@
                 Background="Transparent"
                 VerticalAlignment="Center"
                 BorderThickness="0"
-                ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_ClearFilter_Button_Tooltip}}"
+                ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagInputBox_ClearInput_Button_Tooltip}}"
                 Click="ClearInputButton_Click" RenderTransformOrigin="0.5,0.5" >
             <Button.RenderTransform>
                 <TransformGroup>

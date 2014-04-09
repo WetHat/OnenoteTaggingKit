@@ -30,7 +30,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <param name="e">event details</param>
         private void NewTagButton_Click(object sender, RoutedEventArgs e)
         {
-            _model.SuggestedTags.AddAll(from t in tagInput.Tags where !_model.SuggestedTags.ContainsKey(t) select  new RemovableTagModel(new TagPageSet(t)));
+            _model.SuggestedTags.AddAll(from t in tagInput.Tags where !_model.SuggestedTags.ContainsKey(t) select new RemovableTagModel(new TagPageSet(t)));
             tagInput.Clear();
             e.Handled = true;
         }

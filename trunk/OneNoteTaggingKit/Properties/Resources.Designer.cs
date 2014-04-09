@@ -167,15 +167,6 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to clear the filter for suggested tags..
-        /// </summary>
-        public static string TagEditor_ClearFilter_Button_Tooltip {
-            get {
-                return ResourceManager.GetString("TagEditor_ClearFilter_Button_Tooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Press to clear tag selection..
         /// </summary>
         public static string TagEditor_ClearTags_Button_Tooltip {
@@ -478,6 +469,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TaggingKit_SaveButton_Text {
             get {
                 return ResourceManager.GetString("TaggingKit_SaveButton_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press to clear tag input..
+        /// </summary>
+        public static string TagInputBox_ClearInput_Button_Tooltip {
+            get {
+                return ResourceManager.GetString("TagInputBox_ClearInput_Button_Tooltip", resourceCulture);
             }
         }
         
