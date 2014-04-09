@@ -57,13 +57,18 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
 
             // rebuild the hit highlighted Tooltip
+            ToolTip tt = new ToolTip();
+            tt.Style = new Style();
+            TextBlock tb = new TextBlock();
+            tt.Content = tb;
 
             foreach (Run r in link.hithighlightedTitle.Inlines)
             {
                 Run newR = new Run(r.Text);
                 newR.Background = r.Background;
-                link.hithighlightedTooltip.Inlines.Add(newR);
+                tb.Inlines.Add(newR);
             }
+            link.ToolTip = tt;
         }
 
         public HitHighlightedPageLink()
