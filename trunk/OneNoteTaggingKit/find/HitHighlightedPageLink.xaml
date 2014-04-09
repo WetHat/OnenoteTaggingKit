@@ -8,10 +8,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="200"
              DataContextChanged="OnDataContextChanged">
-    <Hyperlink Click="Hyperlink_Click">
-        <TextBlock Name="hithighlightedTitle" TextTrimming="CharacterEllipsis"/>
-        <Hyperlink.ToolTip>
-            <TextBlock Name="hithighlightedTooltip"/>
-        </Hyperlink.ToolTip>
-    </Hyperlink>
+    <TextBlock>
+        <Run Text="⤷" FontFamily="Segoe UI Symbol" FontSize="14" FontWeight="ExtraBold"/>
+        <Hyperlink Click="Hyperlink_Click">
+            <TextBlock Name="hithighlightedTitle" TextTrimming="CharacterEllipsis"/>
+        </Hyperlink>
+        <TextBlock.ToolTip>
+          <TextBlock Name="hithighlightedTooltip"/>
+        </TextBlock.ToolTip>
+    </TextBlock>
 </UserControl>

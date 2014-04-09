@@ -54,7 +54,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <local:RemovableTagsPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                                              ContextMenu="{DynamicResource contextMenu}"
+                                              ContextMenu="{StaticResource contextMenu}"
                                               BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
                                               Tags="{Binding SuggestedTags}"
                                               Margin="5,5,5,0" />
@@ -68,7 +68,7 @@
                 <StackPanel Orientation="Horizontal"
                                 Grid.Row="2" Grid.Column="2">
                     <Button x:Name="newTagButton"
-                            Style="{DynamicResource controlEffectStyle}"
+                            Style="{StaticResource controlEffectStyle}"
                             Width="26" Height="26"
                             ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_NewTagButton_Tooltip}}"
                             Click="NewTagButton_Click"
