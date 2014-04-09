@@ -53,13 +53,13 @@
         <Button Name="searchButton" 
                 Grid.Row="0" Grid.Column="1"
                 Height="24"
-                Style="{DynamicResource controlEffectStyle}"
+                Style="{StaticResource controlEffectStyle}"
                 Margin="0,5,0,0"
                 Click="SearchButton_Click">
             <Image MaxWidth="32"  Source="/OneNoteTaggingKit;component/Resources/search-32x32 blue.jpg" />
         </Button>
         <ComboBox Grid.Row="0" Grid.Column="2"
-                  Style="{DynamicResource controlEffectStyle}"
+                  Style="{StaticResource controlEffectStyle}"
                   IsEditable="False" IsTextSearchEnabled="True"
                   ItemsSource="{Binding Scopes}"
                   SelectedValue="{Binding SelectedScope,Mode=OneWay}"
