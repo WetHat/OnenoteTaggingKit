@@ -536,7 +536,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add or remove tags used as suggestions in the page tag editor dialog. .
+        ///   Looks up a localized string similar to Add new or remove unused tags available as suggestions in the tag editor. .
         /// </summary>
         public static string TagManager_TagSuggestionsTab_Tooltip {
             get {
