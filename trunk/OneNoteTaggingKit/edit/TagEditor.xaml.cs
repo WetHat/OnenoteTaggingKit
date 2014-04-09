@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Threading;
 using WetHatLab.OneNote.TaggingKit.common;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
@@ -26,33 +23,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         public TagEditor()
         {
             InitializeComponent();
-        }
-
-        private void UpdateTagFilter(bool clear)
-        {
-            bool currentlyEmpty = tagInputDefaultMessage.Visibility == System.Windows.Visibility.Visible;
-            if (clear)
-            {
-                if (!currentlyEmpty)
-                {
-                    tagInputDefaultMessage.Visibility = System.Windows.Visibility.Visible;
-                    tagInput.Text = string.Empty;                   
-                    clearFilter.Visibility = System.Windows.Visibility.Hidden;
-                    _model.UpdateTagFilter(null);
-                    //filterPreset.SelectedIndex = 0;
-                }
-            }
-            else
-            {
-                if (currentlyEmpty)
-                {
-                    tagInputDefaultMessage.Visibility = System.Windows.Visibility.Hidden;
-                    clearFilter.Visibility = System.Windows.Visibility.Visible;
-                }
-                IEnumerable<string> tags = from t in OneNotePageProxy.ParseTags(tagInput.Text) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(t);
-                _model.UpdateTagFilter(tags);
-            }
-            tagInput.Focus();
         }
 
         #region IOneNotePageDialog<TagEditorModel>
@@ -176,7 +146,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             tagInput.Focus();
-            tagInput.Text = String.Empty;
             if (_model != null)
             {
                 _model.LoadSuggestedTagsAsync().ContinueWith((x) => { pBar.Visibility = System.Windows.Visibility.Hidden; }, TaskScheduler.FromCurrentSynchronizationContext());
@@ -189,32 +158,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             Properties.Settings.Default.Save();
         }
 
-        private void ClearFilterButton_Click(object sender, RoutedEventArgs e)
-        {
-           UpdateTagFilter(true);
-        }
-
-        private void TagInput_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            pagesTaggedPopup.IsOpen = false;
-            filterPopup.IsOpen = false;
-            if (e.Key == System.Windows.Input.Key.Enter)
-            {
-                if (!string.IsNullOrEmpty(tagInput.Text))
-                {
-                    IEnumerable<string> tags = from t in OneNotePageProxy.ParseTags(tagInput.Text) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(t);
-                    _model.SuggestedTags.AddAll(from t in tags where !_model.SuggestedTags.ContainsKey(t) select new HitHighlightedTagButtonModel(t));
-                    _model.PageTags.AddAll(from t in tags where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(t));
-                }
-                UpdateTagFilter(true);
-            }
-            else
-            {
-                UpdateTagFilter(string.IsNullOrEmpty(tagInput.Text));
-            }
-
-            e.Handled = true;
-        }
 
         private void ClearTagsButton_Click(object sender, RoutedEventArgs e)
         {
@@ -235,17 +178,41 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
             IEnumerable<string> tagNames = from t in tags select t.TagName;
 
+            tagInput.Tags = tagNames;
+
             string filterText = string.Join(",", tagNames);
+
             if (string.IsNullOrEmpty(filterText))
             {
-                UpdateTagFilter(true);
+                //UpdateTagFilter(true);
+                _model.UpdateTagFilter(null);
                 filterPopup.IsOpen = true;
             }
             else
             {
-                tagInput.Text = filterText;
-                UpdateTagFilter(false);
+                _model.UpdateTagFilter(tagNames);
             }
+        }
+
+        private void TagInputBox_Input(object sender, TagInputEventArgs e)
+        {
+            pagesTaggedPopup.IsOpen = false;
+            filterPopup.IsOpen = false;
+            if (tagInput.IsEmpty)
+            {
+                _model.UpdateTagFilter(null);
+            }
+            else
+            {
+                IEnumerable<string> tags = tagInput.Tags;
+                if (e.TagInputComplete)
+                {
+                    _model.SuggestedTags.AddAll(from t in tags where !_model.SuggestedTags.ContainsKey(t) select new HitHighlightedTagButtonModel(t));
+                    _model.PageTags.AddAll(from t in tags where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(t));
+                }
+                _model.UpdateTagFilter(tags);
+            }
+            e.Handled = true;
         }
     }
 }

@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="WetHatLab.OneNote.TaggingKit.common.ui.TagInputBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:WetHatLab.OneNote.TaggingKit.common.ui"
+             xmlns:prop="clr-namespace:WetHatLab.OneNote.TaggingKit.Properties"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             Background="White"
+             d:DesignHeight="37.313" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Label HorizontalAlignment="Left"
+               Foreground="LightGray"
+               VerticalAlignment="Center"
+               ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Tooltip}}">
+            <TextBlock Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Default}}" FontSize="{Binding ElementName=tagInput,Path=FontSize}" />
+        </Label>
+        <TextBox Name="tagInput"
+                 FontSize="16"
+                 VerticalContentAlignment="Center"
+                 BorderBrush="LightBlue"
+                 Background="Transparent"
+                 TextWrapping="NoWrap"
+                 KeyUp="TagInput_KeyUp"/>
+        <Button Name="clearTagInput" Grid.Column="1"
+                Width="26"
+                Visibility="Collapsed"
+                Background="Transparent"
+                VerticalAlignment="Center"
+                BorderThickness="0"
+                ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_ClearFilter_Button_Tooltip}}"
+                Click="ClearInputButton_Click" RenderTransformOrigin="0.5,0.5" >
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+            <Image Source="/OneNoteTaggingKit;component/Resources/clear selection.png"/>
+        </Button>
+    </Grid>
+</UserControl>
