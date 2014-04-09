@@ -56,14 +56,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             }
             set
             {
-                if (value == null)
-                {
-                    tagInput.Text = String.Empty;
-                }
-                else
-                {
-                    tagInput.Text = string.Join(",", value);
-                }
+                tagInput.Text = string.Join(",", value);
 
                 UpdateVisibility();
             }
@@ -103,7 +96,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
 
         private void ClearInputButton_Click(object sender, RoutedEventArgs e)
         {
-            Tags = null;
+            Tags = new string[0];
             RaiseEvent(new TagInputEventArgs(TagInputEvent, this, false));
 
         }
