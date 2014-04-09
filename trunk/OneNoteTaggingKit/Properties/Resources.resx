@@ -170,7 +170,7 @@
     <value>Tag Suggestions</value>
   </data>
   <data name="TagManager_TagSuggestionsTab_Tooltip" xml:space="preserve">
-    <value>Add or remove tags used as suggestions in the page tag editor dialog. </value>
+    <value>Add new or remove unused tags available as suggestions in the tag editor. </value>
   </data>
   <data name="TagManager_Window_Title" xml:space="preserve">
     <value>Manage Tags</value>

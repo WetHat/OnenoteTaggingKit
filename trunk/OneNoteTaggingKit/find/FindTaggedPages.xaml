@@ -63,6 +63,7 @@
                   IsEditable="False" IsTextSearchEnabled="True"
                   ItemsSource="{Binding Scopes}"
                   SelectedValue="{Binding SelectedScope,Mode=OneWay}"
+                  TextOptions.TextFormattingMode="Display"
                   DisplayMemberPath="ScopeLabel"
                   Margin="5,5,5,0"
                   SelectionChanged="ScopeComboBox_SelectionChanged"

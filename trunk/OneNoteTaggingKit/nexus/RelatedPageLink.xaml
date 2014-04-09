@@ -21,7 +21,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="?"  VerticalAlignment="Top" FontSize="16" FontWeight="ExtraBold"/>
+            <TextBlock Grid.Row="0" Grid.Column="0" FontFamily="Segoe UI Symbol" Text="⤷"  VerticalAlignment="Top" FontSize="18" FontWeight="ExtraBold"/>
             <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
                        TextTrimming="CharacterEllipsis"
                        TextWrapping="NoWrap"
