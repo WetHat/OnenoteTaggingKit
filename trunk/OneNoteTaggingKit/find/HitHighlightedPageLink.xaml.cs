@@ -60,6 +60,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
             ToolTip tt = new ToolTip();
             tt.Style = new Style();
             TextBlock tb = new TextBlock();
+            tb.MaxWidth = 300;
+            tb.TextWrapping = TextWrapping.Wrap;
             tt.Content = tb;
 
             foreach (Run r in link.hithighlightedTitle.Inlines)
