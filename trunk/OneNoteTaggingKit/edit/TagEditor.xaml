@@ -162,6 +162,7 @@
         <Menu Grid.Row="2"
               Margin="5,10,5,5"
               Style="{DynamicResource controlEffectStyle}"
+              BorderThickness="0"
               ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_Menu_Tooltip}}"
               VerticalAlignment="Center" >
             <MenuItem Name="presetsMenuItem" Header="Presets" FontSize="14">
