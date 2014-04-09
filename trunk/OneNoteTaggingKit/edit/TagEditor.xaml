@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:local="clr-namespace:WetHatLab.OneNote.TaggingKit.edit"
+        xmlns:cui="clr-namespace:WetHatLab.OneNote.TaggingKit.common.ui"
         xmlns:prop="clr-namespace:WetHatLab.OneNote.TaggingKit.Properties"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -199,40 +200,11 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <TextBox Name="tagInput" Grid.Row="2" Grid.Column="1"
-                 FontSize="16"
-                 VerticalContentAlignment="Center"
-                 BorderBrush="LightBlue"
-                 Margin="5,10,5,5"
-                 TextWrapping="NoWrap"
-                 ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Tooltip}}"
-                 KeyUp="TagInput_KeyUp" />
-        <Label Name="tagInputDefaultMessage" Grid.Row="2" Grid.Column="1"
-               HorizontalAlignment="Left"
-               Style="{DynamicResource inlineInputPromptStyle}"
-               ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Tooltip}}"
-               Margin="5,5,0,0">
-            <TextBlock Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Default}}" FontSize="{Binding ElementName=tagInput,Path=FontSize}" />
-        </Label>
-        <Button Name="clearFilter" Grid.Row="2" Grid.Column="2"
-                Width="26"
-                Margin="0,10,0,5"
-                Visibility="Hidden"
-                Background="Transparent"
-                VerticalAlignment="Top"
-                BorderThickness="0" BorderBrush="LightBlue"
-                ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_ClearFilter_Button_Tooltip}}"
-                Click="ClearFilterButton_Click" RenderTransformOrigin="0.5,0.5" >
-            <Button.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="90"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Button.RenderTransform>
-            <Image Source="/OneNoteTaggingKit;component/Resources/clear selection.png"/>
-        </Button>
+        <cui:TagInputBox x:Name="tagInput"
+                         Margin="5,10,5,0"
+                         Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+                         ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Tooltip}}"
+                         TagInput="TagInputBox_Input"/>
         <GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" 
                   HorizontalAlignment="Stretch" 
                   Margin="5,0,5,0" Background="Transparent"

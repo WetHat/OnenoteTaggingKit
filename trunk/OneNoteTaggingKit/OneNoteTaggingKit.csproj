@@ -82,6 +82,9 @@
     <Compile Include="common\TagCollection.cs" />
     <Compile Include="common\TaggedPage.cs" />
     <Compile Include="common\TagPageSet.cs" />
+    <Compile Include="common\ui\TagInputBox.xaml.cs">
+      <DependentUpon>TagInputBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="common\ui\TagModelKey.cs" />
     <Compile Include="COMReadonlyStreamAdapter.cs" />
     <Compile Include="edit\HitHighlightedTagButton.xaml.cs">
@@ -233,6 +236,10 @@
     <Resource Include="Resources\tagSearch 32x32.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="common\ui\TagInputBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="edit\HitHighlightedTagButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
