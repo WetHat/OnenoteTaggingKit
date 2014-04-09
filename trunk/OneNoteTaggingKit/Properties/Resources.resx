@@ -265,9 +265,6 @@
   <data name="TagEditor_RemoveTags_Button_Tooltip" xml:space="preserve">
     <value>Press to remove selected tags from pages.</value>
   </data>
-  <data name="TagEditor_ClearFilter_Button_Tooltip" xml:space="preserve">
-    <value>Press to clear the filter for suggested tags.</value>
-  </data>
   <data name="TagEditor_ClearTags_Button_Tooltip" xml:space="preserve">
     <value>Press to clear tag selection.</value>
   </data>
@@ -321,5 +318,8 @@
   </data>
   <data name="TagManager_SaveTagsButton_Tooltip" xml:space="preserve">
     <value>Save changes to the collection of suggested tags.</value>
+  </data>
+  <data name="TagInputBox_ClearInput_Button_Tooltip" xml:space="preserve">
+    <value>Press to clear tag input.</value>
   </data>
 </root>
