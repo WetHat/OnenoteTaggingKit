@@ -2,8 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:TaggingKit="clr-namespace:WetHatLab.OneNote.TaggingKit"
         xmlns:local="clr-namespace:WetHatLab.OneNote.TaggingKit.manage"
+        xmlns:cui="clr-namespace:WetHatLab.OneNote.TaggingKit.common.ui"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:TagManagerDesignerModel}}"
         xmlns:prop="clr-namespace:WetHatLab.OneNote.TaggingKit.Properties"
@@ -60,19 +60,11 @@
                                               Margin="5,5,5,0" />
                 <ProgressBar Name="pBar" Visibility="Visible"
                                  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
-                <TextBox Name="newTag" Grid.Row="2" Grid.Column="0"
-                         FontSize="16"
-                         VerticalContentAlignment="Center"
-                         Margin="5,10,10,10"
-                         KeyUp="newTag_KeyUp"
-                         ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_NewTagTextbox_Tooltip}}"/>
-                <Label Name="tagInputDefaultMessage" Grid.Row="2" Grid.Column="0"
-                       HorizontalAlignment="Left"
-                       Style="{DynamicResource inlineInputPromptStyle}"
-                       ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Tooltip}}"
-                       Margin="5,10,10,10">
-                    <TextBlock Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Default}}" FontSize="{Binding ElementName=newTag,Path=FontSize}" />
-                </Label>
+                <cui:TagInputBox x:Name="tagInput" Grid.Row="2" Grid.Column="0"
+                                 ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_NewTagTextbox_Tooltip}}"
+                                 Margin="5,5,10,5"
+                                 VerticalAlignment="Center"
+                                 TagInput="TagInputBox_Input" />
                 <StackPanel Orientation="Horizontal"
                                 Grid.Row="2" Grid.Column="2">
                     <Button x:Name="newTagButton"

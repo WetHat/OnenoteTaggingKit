@@ -70,23 +70,24 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         public void Clear()
         {
             tagInput.Text = String.Empty;
-            tagInput.Background=Brushes.Transparent;
-            clearTagInput.Visibility = System.Windows.Visibility.Collapsed;
-            tagInput.Focus();
+            UpdateVisibility();
         }
 
         private void UpdateVisibility()
         {
             if (string.IsNullOrEmpty(tagInput.Text))
             {
+                Background = Brushes.White;
                 tagInput.Background = Brushes.Transparent;
                 clearTagInput.Visibility = System.Windows.Visibility.Collapsed;
             }
             else
             {
+                Background = Brushes.Transparent;
                 tagInput.Background = Brushes.White;
                 clearTagInput.Visibility = System.Windows.Visibility.Visible;
             }
+            tagInput.Focus();
         }
         private void TagInput_KeyUp(object sender, KeyEventArgs e)
         {
@@ -96,9 +97,8 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
 
         private void ClearInputButton_Click(object sender, RoutedEventArgs e)
         {
-            Tags = new string[0];
+            Clear();
             RaiseEvent(new TagInputEventArgs(TagInputEvent, this, false));
-
         }
     }
 }
