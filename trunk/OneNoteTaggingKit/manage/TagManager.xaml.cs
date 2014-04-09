@@ -1,11 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using System.Globalization;
+﻿using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
-using System.Windows.Input;
 using WetHatLab.OneNote.TaggingKit.common;
-using WetHatLab.OneNote.TaggingKit.edit;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.manage
 {
@@ -32,23 +30,9 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <param name="e">event details</param>
         private void NewTagButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(newTag.Text))
-            {
-                foreach (string tag in OneNotePageProxy.ParseTags(newTag.Text))
-                {
-                    string titlecased = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(tag);
-                    if (!_model.SuggestedTags.ContainsKey(titlecased))
-                    {
-                        _model.SuggestedTags.AddAll(new RemovableTagModel[] {new RemovableTagModel(new TagPageSet(titlecased))});
-                    }
-                }
-                newTag.Text = String.Empty;
-                tagInputDefaultMessage.Visibility = System.Windows.Visibility.Visible;
-            }
-            if (e != null)
-            {
-                e.Handled = true;
-            }
+            _model.SuggestedTags.AddAll(from t in tagInput.Tags where !_model.SuggestedTags.ContainsKey(t) select  new RemovableTagModel(new TagPageSet(t)));
+            tagInput.Clear();
+            e.Handled = true;
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -56,19 +40,6 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             _model.SaveChanges();
             e.Handled = true;
             DialogResult = true;
-        }
-
-        private void newTag_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
-            {
-                NewTagButton_Click(sender, null);
-            }
-            else
-            {
-                tagInputDefaultMessage.Visibility = string.IsNullOrEmpty(newTag.Text) ? Visibility.Visible : Visibility.Hidden;
-            }
-            e.Handled = true;
         }
 
         #region IOneNotePageDialog<TagManagerModel>
@@ -122,6 +93,18 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             {
                 await _model.LoadTagSuggestionsAsync();
                 pBar.Visibility = System.Windows.Visibility.Hidden;
+            }
+        }
+
+        private void TagInputBox_Input(object sender, TagInputEventArgs e)
+        {
+            if (e.TagInputComplete)
+            {
+                NewTagButton_Click(sender, e);
+            }
+            else
+            {
+                e.Handled = true;
             }
         }
     }
