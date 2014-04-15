@@ -299,10 +299,10 @@
     <value>Tagging failed unexpectedly with exception: {0}</value>
   </data>
   <data name="TagEditor_Popup_FilterNoResult" xml:space="preserve">
-    <value>The filter did not find any tags in the selected scope</value>
+    <value>No tags were found in the selected scope!</value>
   </data>
   <data name="TagEditor_Popup_NothingTagged" xml:space="preserve">
-    <value>No Pages were tagged! Please select at least one page and try again.</value>
+    <value>No Pages were tagged! Please select a range that contains at least one page and try again.</value>
   </data>
   <data name="TagEditor_Popup_PagesTagged" xml:space="preserve">
     <value>{0} page(s) tagged.</value>
