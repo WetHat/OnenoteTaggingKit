@@ -215,7 +215,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 TaggingScope scope = ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope;
                 taggingScope.SelectedIndex = 0;
                     
-                int pagesTagged = await _model.SaveChangesAsync(TagOperation.REPLACE, scope);
+                int pagesTagged = await _model.SaveChangesAsync(op, scope);
                 pagesTaggedText.Text = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_PagesTagged, pagesTagged);
                 progressPopup.IsOpen = false; 
                 pagesTaggedPopup.IsOpen = true;
