@@ -322,4 +322,7 @@
   <data name="TagEditor_SetTags_Button_Tooltip" xml:space="preserve">
     <value>Press to replace the tags on a range of OneNote pages with the selected tags.</value>
   </data>
+  <data name="TagEditor_ComboBox_Scope_CurrentSection" xml:space="preserve">
+    <value>Current Section</value>
+  </data>
 </root>
