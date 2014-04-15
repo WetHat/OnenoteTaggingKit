@@ -374,7 +374,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type one or more  tags separated by comma &apos;,&apos; and press &apos;Enter&apos;, or select from the list of tags matching the text you typed..
+        ///   Looks up a localized string similar to Type one or more tags separated by comma &apos;,&apos; and press &apos;Enter&apos;, or select from the list of tags matching the text you typed..
         /// </summary>
         public static string TagEditor_Tag_TextBox_Tooltip {
             get {
