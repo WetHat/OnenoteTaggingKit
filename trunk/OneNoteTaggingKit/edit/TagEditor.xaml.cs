@@ -208,7 +208,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             tagInput.Focus();
             try
             {
-                int pagesTagged = await _model.SaveChangesAsync(TagOperation.REPLACE, ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope);
+                TaggingScope scope = ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope;
+                if (scope == TaggingScope.CurrentSection)
+                {
+                    taggingScope.SelectedIndex = 0;
+                }
+                int pagesTagged = await _model.SaveChangesAsync(TagOperation.REPLACE, scope);
                 pagesTaggedText.Text = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_PagesTagged, pagesTagged);
 
                 pagesTaggedPopup.IsOpen = true;
@@ -217,7 +222,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             {
                 MessageBox.Show(string.Format(Properties.Resources.TagEditor_ErrorMessage_TaggingException, xe), Properties.Resources.TagEditor_ErrorMessageBox_Title);
             }
-            
+
         }
     }
 }
