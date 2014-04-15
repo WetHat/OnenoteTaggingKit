@@ -106,18 +106,16 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private async void AddTagsToPageButton_Click(object sender, RoutedEventArgs e)
         {
-            tagInput.Focus();
-            try
+            await ApplyPageTagsAsync(TagOperation.UNITE);
+            if (e != null)
             {
-                int pagesTagged = await _model.SaveChangesAsync(TagOperation.UNITE, ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope);
-                pagesTaggedText.Text = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_PagesTagged, pagesTagged);
+                e.Handled = true;
+            }
+        }
 
-                pagesTaggedPopup.IsOpen = true;
-            }
-            catch (Exception xe)
-            {
-                MessageBox.Show(string.Format(Properties.Resources.TagEditor_ErrorMessage_TaggingException, xe), Properties.Resources.TagEditor_ErrorMessageBox_Title);
-            }
+        private async void SetPageTagsButton_Click(object sender, RoutedEventArgs e)
+        {
+            await ApplyPageTagsAsync(TagOperation.REPLACE);
             if (e != null)
             {
                 e.Handled = true;
@@ -126,17 +124,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private async void RemoveTagsFromPageButton_Click(object sender, RoutedEventArgs e)
         {
-            tagInput.Focus();
-            try
-            {
-                int pagesTagged = await _model.SaveChangesAsync(TagOperation.SUBTRACT, ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope);
-                pagesTaggedText.Text = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_PagesTagged, pagesTagged);
-                pagesTaggedPopup.IsOpen = true;
-            }
-            catch (Exception xe)
-            {
-                MessageBox.Show(string.Format(Properties.Resources.TagEditor_ErrorMessage_TaggingException, xe), Properties.Resources.TagEditor_ErrorMessageBox_Title);
-            }
+            await ApplyPageTagsAsync(TagOperation.SUBTRACT);
             if (e != null)
             {
                 e.Handled = true;
@@ -213,6 +201,23 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 _model.UpdateTagFilter(tags);
             }
             e.Handled = true;
+        }
+
+        private async Task ApplyPageTagsAsync(TagOperation op)
+        {
+            tagInput.Focus();
+            try
+            {
+                int pagesTagged = await _model.SaveChangesAsync(TagOperation.REPLACE, ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope);
+                pagesTaggedText.Text = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_PagesTagged, pagesTagged);
+
+                pagesTaggedPopup.IsOpen = true;
+            }
+            catch (Exception xe)
+            {
+                MessageBox.Show(string.Format(Properties.Resources.TagEditor_ErrorMessage_TaggingException, xe), Properties.Resources.TagEditor_ErrorMessageBox_Title);
+            }
+            
         }
     }
 }

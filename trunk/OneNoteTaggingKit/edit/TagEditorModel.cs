@@ -38,7 +38,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     internal enum TagOperation
     {
         UNITE,
-        SUBTRACT
+        SUBTRACT,
+        REPLACE
     }
 
     internal enum PresetFilter
@@ -212,8 +213,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     case TagOperation.UNITE:
                         pagetags.UnionWith(tags);
                         break;
+                    case TagOperation.REPLACE:
+                        pagetags.Clear();
+                        pagetags.UnionWith(tags);
+                        break;
                 }
-                if (pagetags.Count != countBefore)
+                if ((pagetags.Count != countBefore) || op == TagOperation.REPLACE)
                 {
                     string[] sortedTags = pagetags.ToArray();
                     Array.Sort<string>(sortedTags, (x, y) => string.Compare(x, y, true));
