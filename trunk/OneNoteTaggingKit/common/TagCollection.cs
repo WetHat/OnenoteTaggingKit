@@ -40,11 +40,11 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="scopeID">OneNote id of the scope to search for pages. This is the element ID of a notebook, section group, or section.
         ///                       If given as null or empty string scope is the entire set of notebooks open in OneNote.
         /// </param>
-        public void Find(string scopeID)
+        public void Find(string scopeID, bool includeUnindexedPages = false)
         {
             string strXml;
             // collect all tags used somewhere on a page
-            _onenote.FindMeta(scopeID, OneNotePageProxy.META_NAME, out strXml, false, _schema);
+            _onenote.FindMeta(scopeID, OneNotePageProxy.META_NAME, out strXml, includeUnindexedPages, _schema);
 
             parseOneNoteHierarchy(strXml);
 
