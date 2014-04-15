@@ -168,11 +168,12 @@
         <Menu Grid.Row="2"
               Margin="5,10,5,5"
               Style="{StaticResource controlEffectStyle}"
-              TextOptions.TextFormattingMode="Display"
               BorderThickness="0"
               ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_Menu_Tooltip}}"
               VerticalAlignment="Center" >
-            <MenuItem Name="presetsMenuItem" Header="Presets" FontSize="14">
+            <MenuItem Name="presetsMenuItem"
+                      Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_Menu_Header}}" FontSize="14"
+                      TextOptions.TextFormattingMode="Display">
                 <MenuItem.Resources>
                     <Style TargetType="{x:Type MenuItem}">
                         <Setter Property="FontSize" Value="16"/>

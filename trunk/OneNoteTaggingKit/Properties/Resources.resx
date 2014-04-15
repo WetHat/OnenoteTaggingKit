@@ -136,9 +136,6 @@
   <data name="TagEditor_Tags_GroupBox_ToolTip" xml:space="preserve">
     <value>Tags to apply to pages.</value>
   </data>
-  <data name="TagEditor_Tag_ComboBox_Tooltip" xml:space="preserve">
-    <value>Type or select tag. Press 'Enter' to add tag to selection</value>
-  </data>
   <data name="TagsPanel_RemoveButton_Tooltip" xml:space="preserve">
     <value>Press to remove this tag.</value>
   </data>
@@ -164,7 +161,7 @@
     <value>Tap to add tag to suggestions</value>
   </data>
   <data name="TagManager_NewTagTextbox_Tooltip" xml:space="preserve">
-    <value>Type new tag. Press 'Enter' to add.</value>
+    <value>Type one or more tags separated by ','. Press 'Enter' to add.</value>
   </data>
   <data name="TagManager_TagSuggestionsTab_Header" xml:space="preserve">
     <value>Tag Suggestions</value>
@@ -173,7 +170,7 @@
     <value>Add new or remove unused tags available as suggestions in the tag editor. </value>
   </data>
   <data name="TagManager_Window_Title" xml:space="preserve">
-    <value>Manage Tags</value>
+    <value>Manage Settings</value>
   </data>
   <data name="TagSearch_Scope_AllNotebooks_Label" xml:space="preserve">
     <value>All Notebooks</value>
@@ -257,13 +254,13 @@
     <value>Tag Pages</value>
   </data>
   <data name="TagEditor_AddTags_Button_Tooltip" xml:space="preserve">
-    <value>Press to add selected tags to pages</value>
+    <value>Press to add tags to the selected range of OneNote pages</value>
   </data>
   <data name="TagEditor_MessageBox_UnsavedChanges_Title" xml:space="preserve">
     <value>Unsaved Changes</value>
   </data>
   <data name="TagEditor_RemoveTags_Button_Tooltip" xml:space="preserve">
-    <value>Press to remove selected tags from pages.</value>
+    <value>Press to remove the selected tags from a range of OneNote pages.</value>
   </data>
   <data name="TagEditor_ClearTags_Button_Tooltip" xml:space="preserve">
     <value>Press to clear tag selection.</value>
@@ -272,7 +269,7 @@
     <value>Press to select this tag.</value>
   </data>
   <data name="TagEditor_Tag_TextBox_Tooltip" xml:space="preserve">
-    <value>Type a tag and press 'Enter', or select from the suggested tags matching the text you typed.</value>
+    <value>Type one or more  tags separated by comma ',' and press 'Enter', or select from the list of tags matching the text you typed.</value>
   </data>
   <data name="TagEditor_Filter_MenuItem_CurrentNote" xml:space="preserve">
     <value>Tags from Current Page</value>
@@ -296,7 +293,7 @@
     <value>Selected Pages</value>
   </data>
   <data name="TagEditor_ComboBox_Scope_Tooltip" xml:space="preserve">
-    <value>Select the range of pages to apply the tags to.</value>
+    <value>Range of OneNote pages the tags will be applied to.</value>
   </data>
   <data name="TagEditor_ErrorMessage_TaggingException" xml:space="preserve">
     <value>Tagging failed unexpectedly with exception: {0}</value>
@@ -319,7 +316,10 @@
   <data name="TagInputBox_ClearInput_Button_Tooltip" xml:space="preserve">
     <value>Press to clear tag input.</value>
   </data>
+  <data name="TagEditor_Filter_Menu_Header" xml:space="preserve">
+    <value>Presets</value>
+  </data>
   <data name="TagEditor_SetTags_Button_Tooltip" xml:space="preserve">
-    <value>Press to replace the tags on the OneNote pages with the selected tags.</value>
+    <value>Press to replace the tags on a range of OneNote pages with the selected tags.</value>
   </data>
 </root>
