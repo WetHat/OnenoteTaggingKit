@@ -100,7 +100,7 @@
                MouseDown="Popup_MouseAction"
                StylusDown="progressPopup_StylusDown"
                TouchDown="pagesTaggedPopup_TouchDown"
-               VerticalOffset="10">
+               VerticalOffset="20">
                 <Border BorderThickness="2"
                         BorderBrush="DarkSlateBlue"
                         CornerRadius="5">
@@ -137,7 +137,7 @@
                StylusDown="progressPopup_StylusDown"
                TouchDown="pagesTaggedPopup_TouchDown"
                AllowsTransparency="True"
-               VerticalOffset="10">
+               VerticalOffset="20">
                 <Border BorderThickness="2"
                         BorderBrush="DarkSlateBlue"
                         CornerRadius="5">
