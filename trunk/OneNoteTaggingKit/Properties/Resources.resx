@@ -296,10 +296,7 @@
     <value>Selected Pages</value>
   </data>
   <data name="TagEditor_ComboBox_Scope_Tooltip" xml:space="preserve">
-    <value>Select the scope to apply the tags to.</value>
-  </data>
-  <data name="TagEditor_Scope_Label_Text" xml:space="preserve">
-    <value>Scope</value>
+    <value>Select the range of pages to apply the tags to.</value>
   </data>
   <data name="TagEditor_ErrorMessage_TaggingException" xml:space="preserve">
     <value>Tagging failed unexpectedly with exception: {0}</value>
@@ -321,5 +318,8 @@
   </data>
   <data name="TagInputBox_ClearInput_Button_Tooltip" xml:space="preserve">
     <value>Press to clear tag input.</value>
+  </data>
+  <data name="TagEditor_SetTags_Button_Tooltip" xml:space="preserve">
+    <value>Press to replace the tags on the OneNote pages with the selected tags.</value>
   </data>
 </root>

@@ -194,7 +194,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select the scope to apply the tags to..
+        ///   Looks up a localized string similar to Select the range of pages to apply the tags to..
         /// </summary>
         public static string TagEditor_ComboBox_Scope_Tooltip {
             get {
@@ -329,11 +329,11 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Scope.
+        ///   Looks up a localized string similar to Press to replace the tags on the OneNote pages with the selected tags..
         /// </summary>
-        public static string TagEditor_Scope_Label_Text {
+        public static string TagEditor_SetTags_Button_Tooltip {
             get {
-                return ResourceManager.GetString("TagEditor_Scope_Label_Text", resourceCulture);
+                return ResourceManager.GetString("TagEditor_SetTags_Button_Tooltip", resourceCulture);
             }
         }
         

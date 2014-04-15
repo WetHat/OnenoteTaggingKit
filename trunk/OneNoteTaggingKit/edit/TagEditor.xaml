@@ -50,12 +50,6 @@
                     Orientation="Horizontal"
                     Margin="5,5,0,0"
                     HorizontalAlignment="Left">
-            <Label>
-                <TextBlock>
-                    <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Scope_Label_Text}}"/><Run Text=":"/>
-                </TextBlock>
-            </Label>
-
             <ComboBox Name="taggingScope"
                 HorizontalAlignment="Center"
                 SelectedIndex="0"
@@ -71,7 +65,7 @@
                 </ComboBox.Effect>
             </ComboBox>
             <Button
-                Margin="20,0,20,0"
+                Margin="20,0,0,0"
                 BorderBrush="LightBlue"
                 Background="Honeydew"
                 VerticalAlignment="Top"
@@ -80,8 +74,18 @@
                 Click="AddTagsToPageButton_Click">
                 <Image Source="/OneNoteTaggingKit;component/Resources/Add Tag 26.png"  Width="26" Height="26" RenderTransformOrigin="0.5,0.5" />
             </Button>
+            <Button
+                Margin="10,0,0,0"
+                BorderBrush="LightBlue"
+                Background="Ivory"
+                VerticalAlignment="Top"
+                Style="{StaticResource controlEffectStyle}"
+                ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_SetTags_Button_Tooltip}}"
+                Click="SetPageTagsButton_Click">
+                <Image Source="/OneNoteTaggingKit;component/Resources/Set Tag 26.png"  Width="26" Height="26" />
+            </Button>
             <Button 
-                Margin="0,0,20,0"
+                Margin="10,0,00,0"
                 Style="{StaticResource controlEffectStyle}"
                 Background="#FFFFEAE8"
                 VerticalAlignment="Top"
@@ -164,6 +168,7 @@
         <Menu Grid.Row="2"
               Margin="5,10,5,5"
               Style="{StaticResource controlEffectStyle}"
+              TextOptions.TextFormattingMode="Display"
               BorderThickness="0"
               ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_Menu_Tooltip}}"
               VerticalAlignment="Center" >
