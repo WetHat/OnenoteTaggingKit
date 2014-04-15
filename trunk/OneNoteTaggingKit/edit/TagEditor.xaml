@@ -64,7 +64,7 @@
                     <DropShadowEffect Color="LightBlue"/>
                 </ComboBox.Effect>
             </ComboBox>
-            <Button
+            <Button Name="addTags"
                 Margin="20,0,0,0"
                 BorderBrush="LightBlue"
                 Background="Honeydew"
@@ -94,9 +94,12 @@
                 <Image Source="/OneNoteTaggingKit;component/Resources/Remove Tag 26.png" Width="26" Height="26"/>
             </Button>
             <Popup Name="pagesTaggedPopup"
-               PlacementTarget="{Binding ElementName=taggingScope}"
+               PlacementTarget="{Binding ElementName=addTags}"
                StaysOpen="False"
                AllowsTransparency="True"
+               MouseDown="Popup_MouseAction"
+               StylusDown="progressPopup_StylusDown"
+               TouchDown="pagesTaggedPopup_TouchDown"
                VerticalOffset="10">
                 <Border BorderThickness="2"
                         BorderBrush="DarkSlateBlue"
@@ -113,6 +116,9 @@
                PlacementTarget="{Binding ElementName=presetsMenuItem}"
                StaysOpen="False"
                AllowsTransparency="True"
+               MouseDown="Popup_MouseAction"
+               StylusDown="progressPopup_StylusDown"
+               TouchDown="pagesTaggedPopup_TouchDown"
                VerticalOffset="10">
                 <Border BorderThickness="2"
                         BorderBrush="DarkSlateBlue"
@@ -121,6 +127,24 @@
                                TextWrapping="Wrap"
                                TextTrimming="CharacterEllipsis"
                                Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Popup_FilterNoResult}}"
+                               FontSize="16" Background="LightYellow"/>
+                </Border>
+            </Popup>
+            <Popup Name="progressPopup"
+               PlacementTarget="{Binding ElementName=addTags}"
+               StaysOpen="False"
+               MouseDown="Popup_MouseAction"
+               StylusDown="progressPopup_StylusDown"
+               TouchDown="pagesTaggedPopup_TouchDown"
+               AllowsTransparency="True"
+               VerticalOffset="10">
+                <Border BorderThickness="2"
+                        BorderBrush="DarkSlateBlue"
+                        CornerRadius="5">
+                    <TextBlock MaxWidth="200"
+                               TextWrapping="Wrap"
+                               TextTrimming="CharacterEllipsis"
+                               Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Popup_TaggingInProgress}}"
                                FontSize="16" Background="LightYellow"/>
                 </Border>
             </Popup>
