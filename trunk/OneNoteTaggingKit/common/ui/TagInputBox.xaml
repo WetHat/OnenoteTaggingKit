@@ -19,6 +19,7 @@
         <Label HorizontalAlignment="Left"
                Foreground="LightGray"
                VerticalAlignment="Center"
+               VerticalContentAlignment="Center"
                ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Tooltip}}">
             <TextBlock Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Default}}" FontSize="{Binding ElementName=tagInput,Path=FontSize}" />
         </Label>
