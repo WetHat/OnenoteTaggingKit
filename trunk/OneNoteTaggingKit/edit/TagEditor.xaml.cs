@@ -229,25 +229,20 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private void Popup_MouseAction(object sender, MouseEventArgs e)
         {
-            Popup p = sender as Popup;
-            if (p != null)
-            {
-                p.IsOpen = false;
-            }
-            e.Handled = true;
+            handlePopupPointerAction(sender, e);
         }
 
         private void progressPopup_StylusDown(object sender, StylusDownEventArgs e)
         {
-            Popup p = sender as Popup;
-            if (p != null)
-            {
-                p.IsOpen = false;
-            }
-            e.Handled = true;
+            handlePopupPointerAction(sender, e);
         }
 
         private void pagesTaggedPopup_TouchDown(object sender, TouchEventArgs e)
+        {
+            handlePopupPointerAction(sender, e);
+        }
+
+        private void handlePopupPointerAction(object sender, RoutedEventArgs e)
         {
             Popup p = sender as Popup;
             if (p != null)
