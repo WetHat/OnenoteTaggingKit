@@ -62,7 +62,7 @@
                   Style="{StaticResource controlEffectStyle}"
                   IsEditable="False" IsTextSearchEnabled="True"
                   ItemsSource="{Binding Scopes}"
-                  SelectedValue="{Binding SelectedScope,Mode=OneWay}"
+                  SelectedValue="{Binding SelectedScope,Mode=TwoWay}"
                   TextOptions.TextFormattingMode="Display"
                   DisplayMemberPath="ScopeLabel"
                   Margin="5,5,5,0"
