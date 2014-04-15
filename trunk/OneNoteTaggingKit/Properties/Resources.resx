@@ -134,7 +134,7 @@
     <value>Tags</value>
   </data>
   <data name="TagEditor_Tags_GroupBox_ToolTip" xml:space="preserve">
-    <value>Tags to apply to pages.</value>
+    <value>Tags to apply to one or more pages.</value>
   </data>
   <data name="TagsPanel_RemoveButton_Tooltip" xml:space="preserve">
     <value>Press to remove this tag.</value>

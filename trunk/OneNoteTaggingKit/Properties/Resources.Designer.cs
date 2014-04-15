@@ -401,7 +401,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tags to apply to pages..
+        ///   Looks up a localized string similar to Tags to apply to one or more pages..
         /// </summary>
         public static string TagEditor_Tags_GroupBox_ToolTip {
             get {
