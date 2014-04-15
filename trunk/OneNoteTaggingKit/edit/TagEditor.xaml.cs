@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 
@@ -185,6 +187,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private void TagInputBox_Input(object sender, TagInputEventArgs e)
         {
             pagesTaggedPopup.IsOpen = false;
+            progressPopup.IsOpen = false;
             filterPopup.IsOpen = false;
             if (tagInput.IsEmpty)
             {
@@ -206,16 +209,15 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private async Task ApplyPageTagsAsync(TagOperation op)
         {
             tagInput.Focus();
+            progressPopup.IsOpen = true;
             try
             {
                 TaggingScope scope = ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope;
-                if (scope == TaggingScope.CurrentSection)
-                {
-                    taggingScope.SelectedIndex = 0;
-                }
+                taggingScope.SelectedIndex = 0;
+                    
                 int pagesTagged = await _model.SaveChangesAsync(TagOperation.REPLACE, scope);
                 pagesTaggedText.Text = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_PagesTagged, pagesTagged);
-
+                progressPopup.IsOpen = false; 
                 pagesTaggedPopup.IsOpen = true;
             }
             catch (Exception xe)
@@ -223,6 +225,36 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 MessageBox.Show(string.Format(Properties.Resources.TagEditor_ErrorMessage_TaggingException, xe), Properties.Resources.TagEditor_ErrorMessageBox_Title);
             }
 
+        }
+
+        private void Popup_MouseAction(object sender, MouseEventArgs e)
+        {
+            Popup p = sender as Popup;
+            if (p != null)
+            {
+                p.IsOpen = false;
+            }
+            e.Handled = true;
+        }
+
+        private void progressPopup_StylusDown(object sender, StylusDownEventArgs e)
+        {
+            Popup p = sender as Popup;
+            if (p != null)
+            {
+                p.IsOpen = false;
+            }
+            e.Handled = true;
+        }
+
+        private void pagesTaggedPopup_TouchDown(object sender, TouchEventArgs e)
+        {
+            Popup p = sender as Popup;
+            if (p != null)
+            {
+                p.IsOpen = false;
+            }
+            e.Handled = true;
         }
     }
 }

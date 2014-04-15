@@ -329,6 +329,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tags will be applied in the background. OneNote may be less responsive while tagging is in progress..
+        /// </summary>
+        public static string TagEditor_Popup_TaggingInProgress {
+            get {
+                return ResourceManager.GetString("TagEditor_Popup_TaggingInProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Press to remove the selected tags from a range of OneNote pages..
         /// </summary>
         public static string TagEditor_RemoveTags_Button_Tooltip {

@@ -325,4 +325,7 @@
   <data name="TagEditor_ComboBox_Scope_CurrentSection" xml:space="preserve">
     <value>Current Section</value>
   </data>
+  <data name="TagEditor_Popup_TaggingInProgress" xml:space="preserve">
+    <value>Tags will be applied in the background. OneNote may be less responsive while tagging is in progress.</value>
+  </data>
 </root>
