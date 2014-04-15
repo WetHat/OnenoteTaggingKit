@@ -250,7 +250,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
             TagCollection contextTags = new TagCollection(_OneNote, _schema);
 
-            contextTags.Find(_OneNote.Windows.CurrentWindow.CurrentSectionId);
+            contextTags.Find(_OneNote.Windows.CurrentWindow.CurrentSectionId, includeUnindexedPages: true);
 
             switch (filter)
             {
