@@ -52,7 +52,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     public enum TaggingScope
     {
         CurrentNote = 0,
-        SelectedNotes
+        SelectedNotes,
+        CurrentSection
     }
 
     public class TaggingScopeDescriptor
@@ -95,6 +96,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             _taggingScopes = new TaggingScopeDescriptor[] {
                new TaggingScopeDescriptor(TaggingScope.CurrentNote,Properties.Resources.TagEditor_ComboBox_Scope_CurrentNote),
                new TaggingScopeDescriptor(TaggingScope.SelectedNotes,Properties.Resources.TagEditor_ComboBox_Scope_SelectedNotes),
+               new TaggingScopeDescriptor(TaggingScope.CurrentSection,Properties.Resources.TagEditor_ComboBox_Scope_CurrentSection),
             };
         }
 
@@ -183,18 +185,25 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             IEnumerable<string> pageIDs = null;
             int pagesTagged = 0;
+
+            TagCollection tagCollection = null;
+
             switch (scope)
             {
+                default:
+                case TaggingScope.CurrentNote:
+                    pageIDs = new string[] { _OneNote.Windows.CurrentWindow.CurrentPageId };
+                    break;
                 case TaggingScope.SelectedNotes:
-                    TagCollection tagCollection = new TagCollection(_OneNote, _schema);
+                    tagCollection = new TagCollection(_OneNote, _schema);
                     tagCollection.LoadHierarchy(_OneNote.Windows.CurrentWindow.CurrentSectionId);
                     pageIDs = from p in tagCollection.Pages where p.Value.IsSelected select p.Key;
                     break;
-            }
-
-            if (pageIDs == null)
-            {
-                pageIDs = new string[] { _OneNote.Windows.CurrentWindow.CurrentPageId };
+                case TaggingScope.CurrentSection:
+                    tagCollection = new TagCollection(_OneNote, _schema);
+                    tagCollection.LoadHierarchy(_OneNote.Windows.CurrentWindow.CurrentSectionId);
+                    pageIDs = from p in tagCollection.Pages select p.Key;
+                    break;
             }
 
             foreach (string pageID in pageIDs)

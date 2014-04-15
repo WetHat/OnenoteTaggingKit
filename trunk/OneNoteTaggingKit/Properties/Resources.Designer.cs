@@ -185,6 +185,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current Section.
+        /// </summary>
+        public static string TagEditor_ComboBox_Scope_CurrentSection {
+            get {
+                return ResourceManager.GetString("TagEditor_ComboBox_Scope_CurrentSection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Selected Pages.
         /// </summary>
         public static string TagEditor_ComboBox_Scope_SelectedNotes {
