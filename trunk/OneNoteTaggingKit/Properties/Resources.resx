@@ -269,7 +269,7 @@
     <value>Press to select this tag.</value>
   </data>
   <data name="TagEditor_Tag_TextBox_Tooltip" xml:space="preserve">
-    <value>Type one or more  tags separated by comma ',' and press 'Enter', or select from the list of tags matching the text you typed.</value>
+    <value>Type one or more tags separated by comma ',' and press 'Enter', or select from the list of tags matching the text you typed.</value>
   </data>
   <data name="TagEditor_Filter_MenuItem_CurrentNote" xml:space="preserve">
     <value>Tags from Current Page</value>
