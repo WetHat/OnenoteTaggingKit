@@ -8,8 +8,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="200"
              DataContextChanged="OnDataContextChanged">
-    <TextBlock>
-        <Run Text="⤷" FontFamily="Segoe UI Symbol" FontSize="14" FontWeight="ExtraBold"/>
+    <TextBlock VerticalAlignment="Center">
+        <Run Text="ñ" FontFamily="Symbol" FontSize="14" FontWeight="ExtraBold" Foreground="Gray"/>
         <Hyperlink Click="Hyperlink_Click">
             <TextBlock Name="hithighlightedTitle" TextTrimming="CharacterEllipsis"/>
         </Hyperlink>
