@@ -194,6 +194,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filter failed.
+        /// </summary>
+        public static string TagEditor_Filter_Error {
+            get {
+                return ResourceManager.GetString("TagEditor_Filter_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Presets.
         /// </summary>
         public static string TagEditor_Filter_Menu_Header {
@@ -475,10 +484,12 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0}: &apos;{1}&apos;!
         ///
-        ///Please, browse to the support website
+        ///Please browse to the support website
         ///&apos;{2}&apos;
         ///and report this issue. Describe what you were doing and attach the add-in log file
-        ///&apos;{3}&apos;..
+        ///&apos;{3}&apos;.
+        ///
+        ///Sorry for the inconvenience!.
         /// </summary>
         public static string TaggingKit_ErrorBox_GenericSevereError {
             get {
