@@ -102,14 +102,25 @@
                         <Run BaselineAlignment="Center" Text="{Binding AddinVersion, Mode=OneTime}"/>
                     </Paragraph>
                     <Paragraph>
-                        <Run Text ="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Description}}"/>
+                        <Run Text ="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Description}}" FontWeight="Bold"/>
                     </Paragraph>
                     <Paragraph>
                         <Run Text ="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Copyright}}"/>
                     </Paragraph>
                     <Paragraph>
+                        <Run Text ="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Framework}}"/>
+                        <Run BaselineAlignment="Center" Text="{Binding FrameworkVersion, Mode=OneTime}"/>
+                    </Paragraph>
+                    <Paragraph>
+                        <Run Text ="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Website}}"/>
                         <Hyperlink NavigateUri="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_AddIn_Website}}" RequestNavigate="Hyperlink_RequestNavigate">
                             <Run Text ="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_AddIn_Website}}"/>
+                        </Hyperlink>
+                    </Paragraph>
+                    <Paragraph>
+                        <Run Text ="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Logfile}}"/>
+                        <Hyperlink NavigateUri="{Binding Logfile}" RequestNavigate="Hyperlink_RequestLogNavigate">
+                            <Run Text ="{Binding Logfile, Mode=OneTime}"/>
                         </Hyperlink>
                     </Paragraph>
                 </FlowDocument>

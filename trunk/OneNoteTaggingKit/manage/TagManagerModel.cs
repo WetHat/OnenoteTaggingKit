@@ -28,6 +28,16 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// Get the add-in version.
         /// </summary>
         string AddinVersion { get; }
+
+        /// <summary>
+        /// Get the add-in version.
+        /// </summary>
+        string FrameworkVersion { get; }
+
+        /// <summary>
+        /// Get the location of the logfile
+        /// </summary>
+        string Logfile { get; }
     }
 
     /// <summary>
@@ -111,6 +121,15 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             {
                 return Assembly.GetExecutingAssembly().GetName().Version.ToString();
             }
+        }
+        public string FrameworkVersion
+        {
+            get { return Environment.Version.ToString(); }
+        }
+
+        public string Logfile
+        {
+            get { return TraceLogger.LogFile; }
         }
         #endregion
 

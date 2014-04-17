@@ -446,6 +446,33 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .Net Framework.
+        /// </summary>
+        public static string TaggingKit_About_Framework {
+            get {
+                return ResourceManager.GetString("TaggingKit_About_Framework", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logfile.
+        /// </summary>
+        public static string TaggingKit_About_Logfile {
+            get {
+                return ResourceManager.GetString("TaggingKit_About_Logfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Web.
+        /// </summary>
+        public static string TaggingKit_About_Website {
+            get {
+                return ResourceManager.GetString("TaggingKit_About_Website", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string TaggingKit_CancelButton_Text {

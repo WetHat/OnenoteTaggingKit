@@ -1,4 +1,5 @@
-﻿using WetHatLab.OneNote.TaggingKit.common;
+﻿using System;
+using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.manage
@@ -35,6 +36,17 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         public string AddinVersion
         {
             get { return "1.2.3.4"; }
+        }
+
+        public string FrameworkVersion
+        {
+            get { return Environment.Version.ToString(); }
+        }
+
+
+        public string Logfile
+        {
+            get { return TraceLogger.LogFile; }
         }
     }
 }
