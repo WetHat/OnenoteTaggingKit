@@ -5,10 +5,11 @@ using System;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
-using System.Linq;
 using System.Windows;
 using System.Windows.Interop;
 using WetHatLab.OneNote.TaggingKit.edit;
@@ -33,6 +34,25 @@ namespace WetHatLab.OneNote.TaggingKit
 
         private Thread findTagsUI;
         private Thread exploreTagsUI;
+
+        public static readonly string TRACE_INFO    = "INFO";
+        public static readonly string TRACE_WARNING = "WARNING";
+        public static readonly string TRACE_ERROR   = "ERROR";
+
+        public ConnectTaggingKitAddin()
+        {
+            string logfile = Path.Combine(Path.GetTempPath(), "taggingkit_" + DateTime.Now.Ticks.ToString("X") +".log");
+            FileStream log = new FileStream(logfile, FileMode.OpenOrCreate);
+            // Creates the new trace listener.
+            TextWriterTraceListener listener = new TextWriterTraceListener(log);
+            Trace.Listeners.Add(listener);
+            Trace.Write(Properties.Resources.TaggingKit_About_Appname);
+            Trace.WriteLine(" logging activated", TRACE_INFO);
+            Trace.Write("Add-In Version: ", TRACE_INFO);
+            Trace.WriteLine(Assembly.GetExecutingAssembly().GetName().Version);
+            Trace.Write(".net Framework Version: ", TRACE_INFO);
+            Trace.WriteLine(Environment.Version);
+        }
 
         #region IDTExtensibility2
         /// <summary>
@@ -89,12 +109,18 @@ namespace WetHatLab.OneNote.TaggingKit
                         _schema = XMLSchema.xs2010;
                         break;
                 }
+                Trace.Write("OneNote schema Version: ", TRACE_INFO);
+                Trace.WriteLine(_schema);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Properties.Resources.Adding_ErrorBox_ConnectionError, ex), string.Format(Properties.Resources.Addin_ErrorBox_Title, Properties.Resources.TaggingKit_About_Appname));
+                Trace.Write("Unable to determine OneNote version: ", TRACE_ERROR);
+                Trace.WriteLine(ex);
+                Trace.Flush();
+                MessageBox.Show(string.Format(Properties.Resources.TaggingKit_ErrorBox_ConnectionError, ex), string.Format(Properties.Resources.TaggingKit_ErrorBox_Title, Properties.Resources.TaggingKit_About_Appname));
             }
 
+            Trace.Flush();
         }
 
         /// <summary>
@@ -104,6 +130,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="custom">An empty array that you can use to pass host-specific data for use after the add-in unloads.</param>
         public void OnDisconnection(ext_DisconnectMode RemoveMode, ref Array custom)
         {
+            Trace.Flush();
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }
@@ -136,19 +163,11 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="ribbon">OneNote ribbon bar</param>
         public void exploreTags(IRibbonControl ribbon)
         {
-            try
+            if (exploreTagsUI == null || !exploreTagsUI.IsAlive)
             {
+                Microsoft.Office.Interop.OneNote.Window currentWindow = _OneNoteApp.Windows.CurrentWindow;
 
-                if (exploreTagsUI == null || !exploreTagsUI.IsAlive)
-                {
-                    Microsoft.Office.Interop.OneNote.Window currentWindow = _OneNoteApp.Windows.CurrentWindow;
-
-                    exploreTagsUI = Show<TagEditor, TagEditorModel>(currentWindow, () => new TagEditorModel(_OneNoteApp, _schema));
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(string.Format(Properties.Resources.TagEditor_OpenDialogError, ex), Properties.Resources.TagEditor_ErrorMessageBox_Title);
+                exploreTagsUI = Show<TagEditor, TagEditorModel>(currentWindow, () => new TagEditorModel(_OneNoteApp, _schema));
             }
         }
 
@@ -209,20 +228,31 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <typeparam name="T">dialog type</typeparam>
         /// <typeparam name="M">view model type</typeparam>
         /// <param name="window">current OneNote windows</param>
-        /// <param name="viewModel">view model instance</param>
+        /// <param name="viewModelFactory">factory method to create a view model</param>
         /// <returns>dialog result</returns>
         internal static bool? ShowDialog<T, M>(Microsoft.Office.Interop.OneNote.Window window, Func<M> viewModelFactory) where T : System.Windows.Window, IOneNotePageWindow<M>, new()
         {
             bool? retval = null;
             var thread = new Thread(() =>
             {
-                System.Windows.Window w = new T();
-                w.Closed += (s, e) => w.Dispatcher.InvokeShutdown();
-                w.Topmost = true;
-                ((IOneNotePageWindow<M>)w).ViewModel = viewModelFactory();
-                var helper = new WindowInteropHelper(w);
-                helper.Owner = (IntPtr)window.WindowHandle;
-                retval = w.ShowDialog();
+                try
+                {
+                    System.Windows.Window w = new T();
+                    w.Closed += (s, e) => w.Dispatcher.InvokeShutdown();
+                    w.Topmost = true;
+                    ((IOneNotePageWindow<M>)w).ViewModel = viewModelFactory();
+                    var helper = new WindowInteropHelper(w);
+                    helper.Owner = (IntPtr)window.WindowHandle;
+                    retval = w.ShowDialog();
+                    Trace.Flush();
+                }
+                catch (Exception ex)
+                {
+                    Trace.Write("Exception in ConnectTaggingKitAddin.ShowDialog: ", TRACE_ERROR);
+                    Trace.WriteLine(ex);
+                    Trace.Flush();
+                    MessageBox.Show(string.Format(Properties.Resources.TaggingKit_ErrorBox_WindowError,ex));
+                }
             });
             thread.SetApartmentState(ApartmentState.STA);
             thread.IsBackground = true;
@@ -243,15 +273,25 @@ namespace WetHatLab.OneNote.TaggingKit
         {
             var thread = new Thread(() =>
             {
-                System.Windows.Window w = new T();
-                w.Closed += (s, e) => w.Dispatcher.InvokeShutdown();
-                w.Topmost = true;
-                ((IOneNotePageWindow<M>)w).ViewModel = viewModelFactory();
-                var helper = new WindowInteropHelper(w);
-                helper.Owner = (IntPtr)window.WindowHandle;
-                w.Show();
-                // Turn this thread into an UI thread
-                System.Windows.Threading.Dispatcher.Run();
+                try
+                {
+                    System.Windows.Window w = new T();
+                    w.Closed += (s, e) => w.Dispatcher.InvokeShutdown();
+                    w.Topmost = true;
+                    ((IOneNotePageWindow<M>)w).ViewModel = viewModelFactory();
+                    var helper = new WindowInteropHelper(w);
+                    helper.Owner = (IntPtr)window.WindowHandle;
+                    w.Show();
+                    // Turn this thread into an UI thread
+                    System.Windows.Threading.Dispatcher.Run();
+                }
+                catch (Exception ex)
+                {
+                    Trace.Write("Exception in ConnectTaggingKitAddin.Show: ", TRACE_ERROR);
+                    Trace.WriteLine(ex);
+                    Trace.Flush();
+                    MessageBox.Show(string.Format(Properties.Resources.TaggingKit_ErrorBox_WindowError, ex));
+                }
             });
             thread.SetApartmentState(ApartmentState.STA);
             thread.IsBackground = true;

@@ -69,6 +69,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             {
                 _model.Dispose();
             }
+            Trace.Flush();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)

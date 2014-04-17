@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -146,8 +147,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             Properties.Settings.Default.KnownTags = string.Join(",", from t in _model.SuggestedTags.Values select t.TagName);
             Properties.Settings.Default.Save();
+            Trace.Flush();
         }
-
 
         private void ClearTagsButton_Click(object sender, RoutedEventArgs e)
         {
@@ -211,6 +212,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             tagInput.Focus();
             try
             {
+                Trace.WriteLine("Applying tags to page", ConnectTaggingKitAddin.TRACE_INFO);
                 progressPopup.IsOpen = true;
                 TaggingScope scope = ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope;
                 taggingScope.SelectedIndex = 0;
@@ -222,6 +224,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
             catch (Exception xe)
             {
+                Trace.Write("Applying tags to page failed:", ConnectTaggingKitAddin.TRACE_ERROR);
+                Trace.WriteLine(xe);
+                Trace.Flush();
                 MessageBox.Show(string.Format(Properties.Resources.TagEditor_ErrorMessage_TaggingException, xe), Properties.Resources.TagEditor_ErrorMessageBox_Title);
             }
 
@@ -247,6 +252,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             Popup p = sender as Popup;
             if (p != null)
             {
+                Trace.Write("Closing popup", ConnectTaggingKitAddin.TRACE_INFO);
                 p.IsOpen = false;
             }
             e.Handled = true;
