@@ -35,23 +35,9 @@ namespace WetHatLab.OneNote.TaggingKit
         private Thread findTagsUI;
         private Thread exploreTagsUI;
 
-        public static readonly string TRACE_INFO    = "INFO";
-        public static readonly string TRACE_WARNING = "WARNING";
-        public static readonly string TRACE_ERROR   = "ERROR";
-
         public ConnectTaggingKitAddin()
         {
-            string logfile = Path.Combine(Path.GetTempPath(), "taggingkit_" + DateTime.Now.Ticks.ToString("X") +".log");
-            FileStream log = new FileStream(logfile, FileMode.OpenOrCreate);
-            // Creates the new trace listener.
-            TextWriterTraceListener listener = new TextWriterTraceListener(log);
-            Trace.Listeners.Add(listener);
-            Trace.Write(Properties.Resources.TaggingKit_About_Appname);
-            Trace.WriteLine(" logging activated", TRACE_INFO);
-            Trace.Write("Add-In Version: ", TRACE_INFO);
-            Trace.WriteLine(Assembly.GetExecutingAssembly().GetName().Version);
-            Trace.Write(".net Framework Version: ", TRACE_INFO);
-            Trace.WriteLine(Environment.Version);
+            TraceLogger.Register();
         }
 
         #region IDTExtensibility2
@@ -109,14 +95,11 @@ namespace WetHatLab.OneNote.TaggingKit
                         _schema = XMLSchema.xs2010;
                         break;
                 }
-                Trace.Write("OneNote schema Version: ", TRACE_INFO);
-                Trace.WriteLine(_schema);
+                TraceLogger.Log(TraceCategory.Info(),"OneNote schema Version: {0}",_schema);
             }
             catch (Exception ex)
             {
-                Trace.Write("Unable to determine OneNote version: ", TRACE_ERROR);
-                Trace.WriteLine(ex);
-                Trace.Flush();
+                TraceLogger.Log(TraceCategory.Error(),"Unable to determine OneNote version: {0}",ex);
                 MessageBox.Show(string.Format(Properties.Resources.TaggingKit_ErrorBox_ConnectionError, ex), string.Format(Properties.Resources.TaggingKit_ErrorBox_Title, Properties.Resources.TaggingKit_About_Appname));
             }
 
@@ -248,9 +231,8 @@ namespace WetHatLab.OneNote.TaggingKit
                 }
                 catch (Exception ex)
                 {
-                    Trace.Write("Exception in ConnectTaggingKitAddin.ShowDialog: ", TRACE_ERROR);
-                    Trace.WriteLine(ex);
-                    Trace.Flush();
+                    TraceLogger.Log(TraceCategory.Error(), "Exception while creating dialog: {0}", ex);
+                    TraceLogger.Flush();
                     MessageBox.Show(string.Format(Properties.Resources.TaggingKit_ErrorBox_WindowError,ex));
                 }
             });
@@ -287,9 +269,8 @@ namespace WetHatLab.OneNote.TaggingKit
                 }
                 catch (Exception ex)
                 {
-                    Trace.Write("Exception in ConnectTaggingKitAddin.Show: ", TRACE_ERROR);
-                    Trace.WriteLine(ex);
-                    Trace.Flush();
+                    TraceLogger.Log(TraceCategory.Error(), "Exception while creating dialog: {0}", ex);
+                    TraceLogger.Flush();
                     MessageBox.Show(string.Format(Properties.Resources.TaggingKit_ErrorBox_WindowError, ex));
                 }
             });
