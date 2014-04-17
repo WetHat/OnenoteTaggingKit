@@ -113,7 +113,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
             catch (Exception ex)
             {
-                Debug.Write(ex);
+                Trace.Write("TagCollection.parseOneNoteHierarchy: ",ConnectTaggingKitAddin.TRACE_ERROR);
+                Trace.WriteLine(ex);
+                Trace.Flush();
+                throw;
             }
         }
 

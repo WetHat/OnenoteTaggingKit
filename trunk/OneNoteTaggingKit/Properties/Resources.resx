@@ -220,14 +220,11 @@
   <data name="TagSelector_Tooltip" xml:space="preserve">
     <value>Tap to show only pages which have this tag.</value>
   </data>
-  <data name="TagEditor_OpenDialogError" xml:space="preserve">
-    <value>The tag editor dialog failed to open: {0}</value>
-  </data>
-  <data name="Adding_ErrorBox_ConnectionError" xml:space="preserve">
+  <data name="TaggingKit_ErrorBox_ConnectionError" xml:space="preserve">
     <value>Unable to determine OneNote version! Caught exception: {0}</value>
   </data>
-  <data name="Addin_ErrorBox_Title" xml:space="preserve">
-    <value>{0} Add-in Error</value>
+  <data name="TaggingKit_ErrorBox_Title" xml:space="preserve">
+    <value>Fatal {0} Error</value>
   </data>
   <data name="copy_26" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\copy-26.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -327,5 +324,8 @@
   </data>
   <data name="TagEditor_Popup_TaggingInProgress" xml:space="preserve">
     <value>Tags will be applied in the background. OneNote may be less responsive while tagging is in progress.</value>
+  </data>
+  <data name="TaggingKit_ErrorBox_WindowError" xml:space="preserve">
+    <value>Opening window failed with exception: {0}</value>
   </data>
 </root>

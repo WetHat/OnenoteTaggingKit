@@ -71,24 +71,6 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} Add-in Error.
-        /// </summary>
-        public static string Addin_ErrorBox_Title {
-            get {
-                return ResourceManager.GetString("Addin_ErrorBox_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to determine OneNote version! Caught exception: {0}.
-        /// </summary>
-        public static string Adding_ErrorBox_ConnectionError {
-            get {
-                return ResourceManager.GetString("Adding_ErrorBox_ConnectionError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap copy_26 {
@@ -293,15 +275,6 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The tag editor dialog failed to open: {0}.
-        /// </summary>
-        public static string TagEditor_OpenDialogError {
-            get {
-                return ResourceManager.GetString("TagEditor_OpenDialogError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to No tags were found in the selected scope!.
         /// </summary>
         public static string TagEditor_Popup_FilterNoResult {
@@ -478,6 +451,33 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TaggingKit_CancelButton_Text {
             get {
                 return ResourceManager.GetString("TaggingKit_CancelButton_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to determine OneNote version! Caught exception: {0}.
+        /// </summary>
+        public static string TaggingKit_ErrorBox_ConnectionError {
+            get {
+                return ResourceManager.GetString("TaggingKit_ErrorBox_ConnectionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fatal {0} Error.
+        /// </summary>
+        public static string TaggingKit_ErrorBox_Title {
+            get {
+                return ResourceManager.GetString("TaggingKit_ErrorBox_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opening window failed with exception: {0}.
+        /// </summary>
+        public static string TaggingKit_ErrorBox_WindowError {
+            get {
+                return ResourceManager.GetString("TaggingKit_ErrorBox_WindowError", resourceCulture);
             }
         }
         

@@ -1,9 +1,8 @@
 ﻿using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
-using WetHatLab.OneNote.TaggingKit.common;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {
@@ -85,6 +84,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             {
                 _model.Dispose();
             }
+            Trace.Flush();
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
