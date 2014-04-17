@@ -209,9 +209,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private async Task ApplyPageTagsAsync(TagOperation op)
         {
             tagInput.Focus();
-            progressPopup.IsOpen = true;
             try
             {
+                progressPopup.IsOpen = true;
                 TaggingScope scope = ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope;
                 taggingScope.SelectedIndex = 0;
                     
