@@ -8,16 +8,32 @@ using WetHatLab.OneNote.TaggingKit.edit;
 
 namespace WetHatLab.OneNote.TaggingKit.common
 {
+    public class HierarchyElement : IKeyedItem<string>
+    {
+        public HierarchyElement(string id, string name)
+        {
+            Key = id;
+            Name = name;
+        }
+        public string Name { get; private set; }
+        #region IKeyedItem<string>
+        public string Key
+        {
+            get;
+            private set;
+        }
+        #endregion IKeyedItem<string>
+    }
+
     /// <summary>
     /// Representation of a OneNote page which has page tags.
     /// </summary>
     public class TaggedPage : IKeyedItem<string>
     {
         string _title;
-
         ISet<TagPageSet> _tags = new HashSet<TagPageSet>();
-
         bool _isSelected = false;
+        IEnumerable<HierarchyElement> _path;
 
         /// <summary>
         /// get the page's ID
@@ -36,6 +52,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 _title = value ?? String.Empty;
             }
         }
+
+        public IEnumerable<HierarchyElement> Path { get { return _path; } }
 
         public bool IsSelected
         {
@@ -83,6 +101,22 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 _isSelected = true;
             }
             XElement meta = page.Elements(one.GetName("Meta")).FirstOrDefault( m =>  OneNotePageProxy.META_NAME.Equals(m.Attribute("name").Value) );
+
+            // build the items path
+            LinkedList<HierarchyElement> path = new LinkedList<HierarchyElement>();
+            XElement e = page;
+            while (e.Parent != null)
+            {
+                e = e.Parent;
+                XAttribute id = e.Attribute("ID");
+                XAttribute name = e.Attribute("name");
+                if (id == null || name == null)
+                {
+                    break;
+                }
+                path.AddFirst(new HierarchyElement(e.Attribute("ID").Value, e.Attribute("name").Value));
+            }
+            _path = path;
         }
 
         internal TaggedPage(string id, string title)
