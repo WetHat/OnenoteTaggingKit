@@ -221,7 +221,7 @@
                     </Style>
                 </MenuItem.Resources>
                 <MenuItem.Icon>
-                    <Image Source="/OneNoteTaggingKit;component/Resources/empty_filter-32.png" Height="32" />
+                    <Image Source="/OneNoteTaggingKit;component/Resources/empty_filter-32.png" Height="26" />
                 </MenuItem.Icon>
                 <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_MenuItem_CurrentNote}}"
                           Tag="CurrentNote"
