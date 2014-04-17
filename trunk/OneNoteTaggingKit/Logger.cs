@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace WetHatLab.OneNote.TaggingKit
 {
@@ -45,6 +46,18 @@ namespace WetHatLab.OneNote.TaggingKit
     internal class TraceLogger
     {
         static string _logfile = null;
+
+        internal static void ShowGenericMessageBox(string message, Exception ex)
+        {
+            Trace.Flush();
+            MessageBox.Show(string.Format(Properties.Resources.TaggingKit_ErrorBox_GenericSevereError,
+                                          message,
+                                          ex.Message,
+                                          Properties.Resources.TaggingKit_Support_Website,
+                                          TraceLogger.LogFile),
+                            string.Format(Properties.Resources.TaggingKit_ErrorBox_Title,
+                                          Properties.Resources.TaggingKit_About_Appname));
+        }
 
         internal static string LogFile
         {

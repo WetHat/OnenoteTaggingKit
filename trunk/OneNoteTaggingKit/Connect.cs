@@ -33,6 +33,7 @@ namespace WetHatLab.OneNote.TaggingKit
         private XMLSchema _schema = XMLSchema.xsCurrent;
 
         private Thread findTagsUI;
+        
         private Thread exploreTagsUI;
 
         public ConnectTaggingKitAddin()
@@ -100,7 +101,7 @@ namespace WetHatLab.OneNote.TaggingKit
             catch (Exception ex)
             {
                 TraceLogger.Log(TraceCategory.Error(),"Unable to determine OneNote version: {0}",ex);
-                MessageBox.Show(string.Format(Properties.Resources.TaggingKit_ErrorBox_ConnectionError, ex), string.Format(Properties.Resources.TaggingKit_ErrorBox_Title, Properties.Resources.TaggingKit_About_Appname));
+                TraceLogger.ShowGenericMessageBox(Properties.Resources.TaggingKit_ConnectionError, ex);
             }
 
             Trace.Flush();
@@ -232,8 +233,7 @@ namespace WetHatLab.OneNote.TaggingKit
                 catch (Exception ex)
                 {
                     TraceLogger.Log(TraceCategory.Error(), "Exception while creating dialog: {0}", ex);
-                    TraceLogger.Flush();
-                    MessageBox.Show(string.Format(Properties.Resources.TaggingKit_ErrorBox_WindowError,ex));
+                    TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_WindowCreation_Error, ex);
                 }
             });
             thread.SetApartmentState(ApartmentState.STA);
@@ -270,8 +270,7 @@ namespace WetHatLab.OneNote.TaggingKit
                 catch (Exception ex)
                 {
                     TraceLogger.Log(TraceCategory.Error(), "Exception while creating dialog: {0}", ex);
-                    TraceLogger.Flush();
-                    MessageBox.Show(string.Format(Properties.Resources.TaggingKit_ErrorBox_WindowError, ex));
+                    TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_WindowCreation_Error, ex);
                 }
             });
             thread.SetApartmentState(ApartmentState.STA);
