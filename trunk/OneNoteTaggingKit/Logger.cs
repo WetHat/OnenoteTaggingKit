@@ -77,8 +77,9 @@ namespace WetHatLab.OneNote.TaggingKit
         {
 #if TRACE
             Trace.Write(category.CallerName,category.Category);
-            Trace.Write(" line ");
-            Trace.Write("| ");
+            Trace.Write(" (");
+            Trace.Write(category.Line);
+            Trace.Write(") | ");
             try
             {
                 Trace.WriteLine(string.Format(message, args));
