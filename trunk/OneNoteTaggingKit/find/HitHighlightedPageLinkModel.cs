@@ -84,6 +84,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
             
         }
 
+        public IEnumerable<HierarchyElement> Path
+        {
+            get
+            {
+                return _page.Path;
+            }
+        }
+
         #region IHitHighlightedPageLinkModel
         public MatchCollection Matches
         {
