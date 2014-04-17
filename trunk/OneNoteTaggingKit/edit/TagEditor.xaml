@@ -13,7 +13,7 @@
         Left="{Binding Source={x:Static prop:Settings.Default},Path=TagEditorWindow_Left,Mode=TwoWay}"
         Top="{Binding Source={x:Static prop:Settings.Default},Path=TagEditorWindow_Top,Mode=TwoWay}"
         MinWidth="300"
-        MinHeight="350"
+        MinHeight="430"
         Name="tagEditorWindow"
         mc:Ignorable="d"
         ShowInTaskbar="True"
