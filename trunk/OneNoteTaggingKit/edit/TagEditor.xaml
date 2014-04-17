@@ -103,13 +103,18 @@
                VerticalOffset="20">
                 <Border BorderThickness="2"
                         BorderBrush="DarkSlateBlue"
-                        CornerRadius="5">
+                        Background="LightYellow"
+                        CornerRadius="10">
+                    <Border.Effect>
+                        <DropShadowEffect Color="LightGray"/>
+                    </Border.Effect>
                     <TextBlock Name="pagesTaggedText"
                                MaxWidth="200"
+                               Margin="5,5,5,5"
                                TextWrapping="Wrap"
                                TextTrimming="CharacterEllipsis"
                                Text="x pages tagged"
-                               FontSize="16" Background="LightYellow"/>
+                               FontSize="16" Background="Transparent"/>
                 </Border>
             </Popup>
             <Popup Name="filterPopup"
@@ -121,13 +126,18 @@
                TouchDown="pagesTaggedPopup_TouchDown"
                VerticalOffset="10">
                 <Border BorderThickness="2"
+                        Background="LightYellow"
                         BorderBrush="DarkSlateBlue"
-                        CornerRadius="5">
+                        CornerRadius="10">
+                    <Border.Effect>
+                        <DropShadowEffect Color="LightGray"/>
+                    </Border.Effect>
                     <TextBlock MaxWidth="200"
+                               Margin="5,5,5,5"
                                TextWrapping="Wrap"
                                TextTrimming="CharacterEllipsis"
                                Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Popup_FilterNoResult}}"
-                               FontSize="16" Background="LightYellow"/>
+                               FontSize="16" Background="Transparent"/>
                 </Border>
             </Popup>
             <Popup Name="progressPopup"
@@ -139,13 +149,18 @@
                AllowsTransparency="True"
                VerticalOffset="20">
                 <Border BorderThickness="2"
+                        Background="LightYellow"
                         BorderBrush="DarkSlateBlue"
-                        CornerRadius="5">
+                        CornerRadius="10">
+                    <Border.Effect>
+                        <DropShadowEffect Color="LightGray"/>
+                    </Border.Effect>
                     <TextBlock MaxWidth="200"
+                               Margin="5,5,5,5"
                                TextWrapping="Wrap"
                                TextTrimming="CharacterEllipsis"
                                Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Popup_TaggingInProgress}}"
-                               FontSize="16" Background="LightYellow"/>
+                               FontSize="16" Background="Transparent"/>
                 </Border>
             </Popup>
         </StackPanel>
