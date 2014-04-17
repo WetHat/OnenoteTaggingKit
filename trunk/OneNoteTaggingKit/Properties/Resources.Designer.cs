@@ -194,24 +194,6 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tagging failed unexpectedly with exception: {0}.
-        /// </summary>
-        public static string TagEditor_ErrorMessage_TaggingException {
-            get {
-                return ResourceManager.GetString("TagEditor_ErrorMessage_TaggingException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Error.
-        /// </summary>
-        public static string TagEditor_ErrorMessageBox_Title {
-            get {
-                return ResourceManager.GetString("TagEditor_ErrorMessageBox_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Presets.
         /// </summary>
         public static string TagEditor_Filter_Menu_Header {
@@ -266,11 +248,11 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unsaved Changes.
+        ///   Looks up a localized string similar to Processing input failed.
         /// </summary>
-        public static string TagEditor_MessageBox_UnsavedChanges_Title {
+        public static string TagEditor_Input_Error {
             get {
-                return ResourceManager.GetString("TagEditor_MessageBox_UnsavedChanges_Title", resourceCulture);
+                return ResourceManager.GetString("TagEditor_Input_Error", resourceCulture);
             }
         }
         
@@ -316,15 +298,6 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TagEditor_RemoveTags_Button_Tooltip {
             get {
                 return ResourceManager.GetString("TagEditor_RemoveTags_Button_Tooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tags could not be applied to page: {0}.
-        /// </summary>
-        public static string TagEditor_Save_Error {
-            get {
-                return ResourceManager.GetString("TagEditor_Save_Error", resourceCulture);
             }
         }
         
@@ -392,6 +365,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Updating page tags failed.
+        /// </summary>
+        public static string TagEditor_TagUpdate_Error {
+            get {
+                return ResourceManager.GetString("TagEditor_TagUpdate_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Warning.
         /// </summary>
         public static string TagEditor_WarningMessageBox_Title {
@@ -406,6 +388,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TagEditor_Window_Title {
             get {
                 return ResourceManager.GetString("TagEditor_Window_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creation of dialog window failed.
+        /// </summary>
+        public static string TagEditor_WindowCreation_Error {
+            get {
+                return ResourceManager.GetString("TagEditor_WindowCreation_Error", resourceCulture);
             }
         }
         
@@ -473,25 +464,30 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cancel.
+        ///   Looks up a localized string similar to OneNote version lookup failed.
         /// </summary>
-        public static string TaggingKit_CancelButton_Text {
+        public static string TaggingKit_ConnectionError {
             get {
-                return ResourceManager.GetString("TaggingKit_CancelButton_Text", resourceCulture);
+                return ResourceManager.GetString("TaggingKit_ConnectionError", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to determine OneNote version! Caught exception: {0}.
+        ///   Looks up a localized string similar to {0}: &apos;{1}&apos;!
+        ///
+        ///Please, browse to the support website
+        ///&apos;{2}&apos;
+        ///and report this issue. Describe what you were doing and attach the add-in log file
+        ///&apos;{3}&apos;..
         /// </summary>
-        public static string TaggingKit_ErrorBox_ConnectionError {
+        public static string TaggingKit_ErrorBox_GenericSevereError {
             get {
-                return ResourceManager.GetString("TaggingKit_ErrorBox_ConnectionError", resourceCulture);
+                return ResourceManager.GetString("TaggingKit_ErrorBox_GenericSevereError", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fatal {0} Error.
+        ///   Looks up a localized string similar to Severe {0}  Add-In Error.
         /// </summary>
         public static string TaggingKit_ErrorBox_Title {
             get {
@@ -500,20 +496,11 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Opening window failed with exception: {0}.
+        ///   Looks up a localized string similar to https://onenotetaggingkit.codeplex.com/workitem/list/basic.
         /// </summary>
-        public static string TaggingKit_ErrorBox_WindowError {
+        public static string TaggingKit_Support_Website {
             get {
-                return ResourceManager.GetString("TaggingKit_ErrorBox_WindowError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save.
-        /// </summary>
-        public static string TaggingKit_SaveButton_Text {
-            get {
-                return ResourceManager.GetString("TaggingKit_SaveButton_Text", resourceCulture);
+                return ResourceManager.GetString("TaggingKit_Support_Website", resourceCulture);
             }
         }
         

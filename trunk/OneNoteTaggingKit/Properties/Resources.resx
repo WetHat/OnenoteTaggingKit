@@ -124,12 +124,6 @@
   <data name="settings_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\settings 32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="TaggingKit_CancelButton_Text" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="TaggingKit_SaveButton_Text" xml:space="preserve">
-    <value>Save</value>
-  </data>
   <data name="TagEditor_Tags_GroupBox_Title" xml:space="preserve">
     <value>Tags</value>
   </data>
@@ -211,20 +205,14 @@
   <data name="TagSearch_Query_ComboBox_Tooltip" xml:space="preserve">
     <value>Enter query and press enter to start search.</value>
   </data>
-  <data name="TagEditor_ErrorMessageBox_Title" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="TagEditor_Save_Error" xml:space="preserve">
-    <value>Tags could not be applied to page: {0}</value>
-  </data>
   <data name="TagSelector_Tooltip" xml:space="preserve">
     <value>Tap to show only pages which have this tag.</value>
   </data>
-  <data name="TaggingKit_ErrorBox_ConnectionError" xml:space="preserve">
-    <value>Unable to determine OneNote version! Caught exception: {0}</value>
+  <data name="TaggingKit_ConnectionError" xml:space="preserve">
+    <value>OneNote version lookup failed</value>
   </data>
   <data name="TaggingKit_ErrorBox_Title" xml:space="preserve">
-    <value>Fatal {0} Error</value>
+    <value>Severe {0}  Add-In Error</value>
   </data>
   <data name="copy_26" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\copy-26.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -252,9 +240,6 @@
   </data>
   <data name="TagEditor_AddTags_Button_Tooltip" xml:space="preserve">
     <value>Press to add tags to the selected range of OneNote pages</value>
-  </data>
-  <data name="TagEditor_MessageBox_UnsavedChanges_Title" xml:space="preserve">
-    <value>Unsaved Changes</value>
   </data>
   <data name="TagEditor_RemoveTags_Button_Tooltip" xml:space="preserve">
     <value>Press to remove the selected tags from a range of OneNote pages.</value>
@@ -292,9 +277,6 @@
   <data name="TagEditor_ComboBox_Scope_Tooltip" xml:space="preserve">
     <value>Range of OneNote pages the tags will be applied to.</value>
   </data>
-  <data name="TagEditor_ErrorMessage_TaggingException" xml:space="preserve">
-    <value>Tagging failed unexpectedly with exception: {0}</value>
-  </data>
   <data name="TagEditor_Popup_FilterNoResult" xml:space="preserve">
     <value>No tags were found in the selected scope!</value>
   </data>
@@ -325,8 +307,13 @@
   <data name="TagEditor_Popup_TaggingInProgress" xml:space="preserve">
     <value>Tags will be applied in the background. OneNote may be less responsive while tagging is in progress.</value>
   </data>
-  <data name="TaggingKit_ErrorBox_WindowError" xml:space="preserve">
-    <value>Opening window failed with exception: {0}</value>
+  <data name="TaggingKit_ErrorBox_GenericSevereError" xml:space="preserve">
+    <value>{0}: '{1}'!
+
+Please, browse to the support website
+'{2}'
+and report this issue. Describe what you were doing and attach the add-in log file
+'{3}'.</value>
   </data>
   <data name="TaggingKit_About_Framework" xml:space="preserve">
     <value>.Net Framework</value>
@@ -336,5 +323,17 @@
   </data>
   <data name="TaggingKit_About_Website" xml:space="preserve">
     <value>Web</value>
+  </data>
+  <data name="TagEditor_Input_Error" xml:space="preserve">
+    <value>Processing input failed</value>
+  </data>
+  <data name="TagEditor_TagUpdate_Error" xml:space="preserve">
+    <value>Updating page tags failed</value>
+  </data>
+  <data name="TagEditor_WindowCreation_Error" xml:space="preserve">
+    <value>Creation of dialog window failed</value>
+  </data>
+  <data name="TaggingKit_Support_Website" xml:space="preserve">
+    <value>https://onenotetaggingkit.codeplex.com/workitem/list/basic</value>
   </data>
 </root>

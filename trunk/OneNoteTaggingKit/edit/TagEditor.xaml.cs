@@ -50,6 +50,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private void OnSuggestedTagsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
@@ -162,26 +163,34 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private async void Filter_MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            MenuItem itm = sender as MenuItem;
-
-            PresetFilter filter = (PresetFilter)Enum.Parse(typeof(PresetFilter), itm.Tag.ToString());
-            IEnumerable<TagPageSet> tags = await _model.GetContextTagsAsync(filter);
-
-            IEnumerable<string> tagNames = from t in tags select t.TagName;
-
-            tagInput.Tags = tagNames;
-
-            string filterText = string.Join(",", tagNames);
-
-            if (string.IsNullOrEmpty(filterText))
+            try
             {
-                //UpdateTagFilter(true);
-                _model.UpdateTagFilter(null);
-                filterPopup.IsOpen = true;
+                MenuItem itm = sender as MenuItem;
+
+                PresetFilter filter = (PresetFilter)Enum.Parse(typeof(PresetFilter), itm.Tag.ToString());
+                IEnumerable<TagPageSet> tags = await _model.GetContextTagsAsync(filter);
+
+                IEnumerable<string> tagNames = from t in tags select t.TagName;
+
+                tagInput.Tags = tagNames;
+
+                string filterText = string.Join(",", tagNames);
+
+                if (string.IsNullOrEmpty(filterText))
+                {
+                    //UpdateTagFilter(true);
+                    _model.UpdateTagFilter(null);
+                    filterPopup.IsOpen = true;
+                }
+                else
+                {
+                    _model.UpdateTagFilter(tagNames);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _model.UpdateTagFilter(tagNames);
+                TraceLogger.Log(TraceCategory.Error(), "Applying preset filter failed {0}", ex);
+                TraceLogger.Flush();
             }
         }
 
@@ -190,19 +199,27 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             pagesTaggedPopup.IsOpen = false;
             progressPopup.IsOpen = false;
             filterPopup.IsOpen = false;
-            if (tagInput.IsEmpty)
+            try
             {
-                _model.UpdateTagFilter(null);
-            }
-            else
-            {
-                IEnumerable<string> tags = tagInput.Tags;
-                if (e.TagInputComplete)
+                if (tagInput.IsEmpty)
                 {
-                    _model.SuggestedTags.AddAll(from t in tags where !_model.SuggestedTags.ContainsKey(t) select new HitHighlightedTagButtonModel(t));
-                    _model.PageTags.AddAll(from t in tags where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(t));
+                    _model.UpdateTagFilter(null);
                 }
-                _model.UpdateTagFilter(tags);
+                else
+                {
+                    IEnumerable<string> tags = tagInput.Tags;
+                    if (e.TagInputComplete)
+                    {
+                        _model.SuggestedTags.AddAll(from t in tags where !_model.SuggestedTags.ContainsKey(t) select new HitHighlightedTagButtonModel(t));
+                        _model.PageTags.AddAll(from t in tags where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(t));
+                    }
+                    _model.UpdateTagFilter(tags);
+                }
+            }
+            catch (Exception ex)
+            {
+                TraceLogger.Log(TraceCategory.Error(), "Processing Tag input failed with {0}", ex);
+                TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_Input_Error, ex);
             }
             e.Handled = true;
         }
@@ -225,8 +242,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             catch (Exception xe)
             {
                 TraceLogger.Log(TraceCategory.Error(), "Applying tags to page failed: {0}", xe);
-                TraceLogger.Flush();
-                MessageBox.Show(string.Format(Properties.Resources.TagEditor_ErrorMessage_TaggingException, xe), Properties.Resources.TagEditor_ErrorMessageBox_Title);
+                TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_TagUpdate_Error, xe);
             }
 
         }
