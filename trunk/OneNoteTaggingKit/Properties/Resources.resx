@@ -328,4 +328,13 @@
   <data name="TaggingKit_ErrorBox_WindowError" xml:space="preserve">
     <value>Opening window failed with exception: {0}</value>
   </data>
+  <data name="TaggingKit_About_Framework" xml:space="preserve">
+    <value>.Net Framework</value>
+  </data>
+  <data name="TaggingKit_About_Logfile" xml:space="preserve">
+    <value>Logfile</value>
+  </data>
+  <data name="TaggingKit_About_Website" xml:space="preserve">
+    <value>Web</value>
+  </data>
 </root>

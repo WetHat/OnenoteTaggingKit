@@ -44,10 +44,22 @@ namespace WetHatLab.OneNote.TaggingKit
 
     internal class TraceLogger
     {
+        static string _logfile = null;
+
+        internal static string LogFile
+        {
+            get
+            {
+                if (_logfile == null)
+                {
+                    _logfile = Path.Combine(Path.GetTempPath(), "taggingkit_" + DateTime.Now.Ticks.ToString("X") + ".log");
+                }
+                return _logfile;
+            }
+        }
         internal static void Register()
         {
-            string logfile = Path.Combine(Path.GetTempPath(), "taggingkit_" + DateTime.Now.Ticks.ToString("X") +".log");
-            FileStream log = new FileStream(logfile, FileMode.OpenOrCreate);
+            FileStream log = new FileStream(LogFile, FileMode.OpenOrCreate);
             // Creates the new trace listener.
             TextWriterTraceListener listener = new TextWriterTraceListener(log);
             Trace.Listeners.Add(listener);

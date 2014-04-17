@@ -108,5 +108,16 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                 e.Handled = true;
             }
         }
+
+        private void Hyperlink_RequestLogNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            Hyperlink hl = (Hyperlink)sender;
+
+            string path = hl.NavigateUri.LocalPath;
+
+            Process.Start(new ProcessStartInfo("notepad.exe", path));
+
+            e.Handled = true;
+        }
     }
 }
