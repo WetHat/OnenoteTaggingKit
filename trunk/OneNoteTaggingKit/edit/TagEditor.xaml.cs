@@ -50,7 +50,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private void OnSuggestedTagsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
@@ -190,7 +189,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             catch (Exception ex)
             {
                 TraceLogger.Log(TraceCategory.Error(), "Applying preset filter failed {0}", ex);
-                TraceLogger.Flush();
+                TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_Filter_Error, ex);
             }
         }
 

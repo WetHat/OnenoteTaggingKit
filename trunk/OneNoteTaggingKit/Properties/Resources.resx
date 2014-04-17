@@ -310,10 +310,12 @@
   <data name="TaggingKit_ErrorBox_GenericSevereError" xml:space="preserve">
     <value>{0}: '{1}'!
 
-Please, browse to the support website
+Please browse to the support website
 '{2}'
 and report this issue. Describe what you were doing and attach the add-in log file
-'{3}'.</value>
+'{3}'.
+
+Sorry for the inconvenience!</value>
   </data>
   <data name="TaggingKit_About_Framework" xml:space="preserve">
     <value>.Net Framework</value>
@@ -323,6 +325,9 @@ and report this issue. Describe what you were doing and attach the add-in log fi
   </data>
   <data name="TaggingKit_About_Website" xml:space="preserve">
     <value>Web</value>
+  </data>
+  <data name="TagEditor_Filter_Error" xml:space="preserve">
+    <value>Filter failed</value>
   </data>
   <data name="TagEditor_Input_Error" xml:space="preserve">
     <value>Processing input failed</value>
