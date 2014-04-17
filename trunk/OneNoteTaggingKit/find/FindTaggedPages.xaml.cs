@@ -89,12 +89,20 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            HitHighlightedPageLink l = sender as HitHighlightedPageLink;
-            if (l != null)
+            try
             {
-                HitHighlightedPageLinkModel model = l.DataContext as HitHighlightedPageLinkModel;
-                _model.NavigateTo(model.PageID);
-                e.Handled = true;
+                HitHighlightedPageLink l = sender as HitHighlightedPageLink;
+                if (l != null)
+                {
+                    HitHighlightedPageLinkModel model = l.DataContext as HitHighlightedPageLinkModel;
+                    _model.NavigateTo(model.PageID);
+                    e.Handled = true;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                TraceLogger.Log(TraceCategory.Error(), "Navigation to OneNote page failed: {0}", ex);
+                TraceLogger.ShowGenericMessageBox(Properties.Resources.TagSearch_Error_PageNavigation, ex);
             }
         }
 
@@ -112,17 +120,34 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private void ScopeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            pBar.Visibility = System.Windows.Visibility.Visible;
-            _model.FindPagesAsync(searchComboBox.Text, () => pBar.Visibility = System.Windows.Visibility.Hidden);
+            try
+            {
+                pBar.Visibility = System.Windows.Visibility.Visible;
+                _model.FindPagesAsync(searchComboBox.Text, () => pBar.Visibility = System.Windows.Visibility.Hidden);
+            }
+            catch (System.Exception ex)
+            {
+                TraceLogger.Log(TraceCategory.Error(), "Changing search scope failed: {0}", ex);
+                TraceLogger.ShowGenericMessageBox(Properties.Resources.TagSearch_Error_ScopeChange, ex);
+            }
             e.Handled = true;
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             string query = searchComboBox.Text;
-            pBar.Visibility = System.Windows.Visibility.Visible;
-            _model.FindPagesAsync(query, () => pBar.Visibility = System.Windows.Visibility.Hidden);
-            searchComboBox.SelectedValue = query;
+                
+            try
+            {
+                pBar.Visibility = System.Windows.Visibility.Visible;
+                _model.FindPagesAsync(query, () => pBar.Visibility = System.Windows.Visibility.Hidden);
+                searchComboBox.SelectedValue = query;
+            }
+            catch (System.Exception ex)
+            {
+                TraceLogger.Log(TraceCategory.Error(), "search for '{0}' failed: {1}", query, ex);
+                TraceLogger.ShowGenericMessageBox(Properties.Resources.TagSearch_Error_Find, ex);
+            }
             e.Handled = true;
         }
 

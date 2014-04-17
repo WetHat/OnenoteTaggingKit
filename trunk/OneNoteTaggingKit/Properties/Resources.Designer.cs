@@ -616,6 +616,33 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search failed.
+        /// </summary>
+        public static string TagSearch_Error_Find {
+            get {
+                return ResourceManager.GetString("TagSearch_Error_Find", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Navigation to page failed.
+        /// </summary>
+        public static string TagSearch_Error_PageNavigation {
+            get {
+                return ResourceManager.GetString("TagSearch_Error_PageNavigation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changing search scope failed.
+        /// </summary>
+        public static string TagSearch_Error_ScopeChange {
+            get {
+                return ResourceManager.GetString("TagSearch_Error_ScopeChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Found Pages.
         /// </summary>
         public static string TagSearch_Pages_GroupBox_Title {

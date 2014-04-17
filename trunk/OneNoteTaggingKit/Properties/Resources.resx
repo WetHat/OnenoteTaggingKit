@@ -341,4 +341,13 @@ Sorry for the inconvenience!</value>
   <data name="TaggingKit_Support_Website" xml:space="preserve">
     <value>https://onenotetaggingkit.codeplex.com/workitem/list/basic</value>
   </data>
+  <data name="TagSearch_Error_Find" xml:space="preserve">
+    <value>Search failed</value>
+  </data>
+  <data name="TagSearch_Error_PageNavigation" xml:space="preserve">
+    <value>Navigation to page failed</value>
+  </data>
+  <data name="TagSearch_Error_ScopeChange" xml:space="preserve">
+    <value>Changing search scope failed</value>
+  </data>
 </root>
