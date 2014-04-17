@@ -117,6 +117,7 @@
     </Compile>
     <Compile Include="find\TagSelectorDesignerModel.cs" />
     <Compile Include="find\TagSelectorModel.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="manage\RemovableTag.xaml.cs">
       <DependentUpon>RemovableTag.xaml</DependentUpon>
     </Compile>

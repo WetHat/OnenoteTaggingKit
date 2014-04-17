@@ -212,7 +212,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             tagInput.Focus();
             try
             {
-                Trace.WriteLine("Applying tags to page", ConnectTaggingKitAddin.TRACE_INFO);
+                TraceLogger.Log(TraceCategory.Info(), "Applying tags to page");
                 progressPopup.IsOpen = true;
                 TaggingScope scope = ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope;
                 taggingScope.SelectedIndex = 0;
@@ -224,9 +224,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
             catch (Exception xe)
             {
-                Trace.Write("Applying tags to page failed:", ConnectTaggingKitAddin.TRACE_ERROR);
-                Trace.WriteLine(xe);
-                Trace.Flush();
+                TraceLogger.Log(TraceCategory.Error(), "Applying tags to page failed: {0}", xe);
+                TraceLogger.Flush();
                 MessageBox.Show(string.Format(Properties.Resources.TagEditor_ErrorMessage_TaggingException, xe), Properties.Resources.TagEditor_ErrorMessageBox_Title);
             }
 
@@ -252,7 +251,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             Popup p = sender as Popup;
             if (p != null)
             {
-                Trace.Write("Closing popup", ConnectTaggingKitAddin.TRACE_INFO);
                 p.IsOpen = false;
             }
             e.Handled = true;
