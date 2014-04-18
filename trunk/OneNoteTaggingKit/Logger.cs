@@ -7,6 +7,9 @@ using System.Windows;
 
 namespace WetHatLab.OneNote.TaggingKit
 {
+    /// <summary>
+    /// Tracing catergory for use with the <see cref="TraceLogger"/>
+    /// </summary>
     internal struct TraceCategory
     {
         private static readonly string TRACE_INFO = "INFO";
@@ -16,8 +19,18 @@ namespace WetHatLab.OneNote.TaggingKit
         private string _category;
         private string _caller;
         private int    _line;
+
+        /// <summary>
+        /// Get the tracing category name
+        /// </summary>
         internal string Category   { get { return _category; } }
+        /// <summary>
+        /// Get the name of the calling method which requested logging
+        /// </summary>
         internal string CallerName { get { return _caller;  } }
+        /// <summary>
+        /// Get the line number of the caller from where the caller requested logging
+        /// </summary>
         internal int Line          { get { return _line;  } }
 
         private TraceCategory(string category, string caller, int line)
@@ -27,26 +40,52 @@ namespace WetHatLab.OneNote.TaggingKit
             _line = line;
         }
 
+        /// <summary>
+        /// Get the info tracing category
+        /// </summary>
+        /// <param name="callerName">name of the calling method. Provided by the compiler</param>
+        /// <param name="line">caller line number from where logging is requested. Provided by the compiler</param>
+        /// <returns>category instance</returns>
         internal static TraceCategory Info([CallerMemberName] string callerName = "", [CallerLineNumber] int line = -1)
         {
             return new TraceCategory(TRACE_INFO, callerName, line);
         }
 
+        /// <summary>
+        /// Get the warning tracing category
+        /// </summary>
+        /// <param name="callerName">name of the calling method. Provided by the compiler</param>
+        /// <param name="line">caller line number from where logging is requested. Provided by the compiler</param>
+        /// <returns>category instance</returns>
         internal static TraceCategory Warning([CallerMemberName] string callerName = "", [CallerLineNumber] int line = -1)
         {
             return new TraceCategory(TRACE_WARNING, callerName, line);
         }
 
+        /// <summary>
+        /// Get the error tracing category
+        /// </summary>
+        /// <param name="callerName">name of the calling method. Provided by the compiler</param>
+        /// <param name="line">caller line number from where logging is requested. Provided by the compiler</param>
+        /// <returns>category instance</returns>
         internal static TraceCategory Error([CallerMemberName] string callerName = "", [CallerLineNumber] int line = -1)
         {
             return new TraceCategory(TRACE_ERROR, callerName, line);
         }
     }
 
+    /// <summary>
+    /// Add-In specific logging utility
+    /// </summary>
     internal class TraceLogger
     {
         static string _logfile = null;
 
+        /// <summary>
+        /// Show a message box for an exception.
+        /// </summary>
+        /// <param name="message">Message to describe the faling operation</param>
+        /// <param name="ex">exception</param>
         internal static void ShowGenericMessageBox(string message, Exception ex)
         {
             Trace.Flush();
@@ -59,6 +98,9 @@ namespace WetHatLab.OneNote.TaggingKit
                                           Properties.Resources.TaggingKit_About_Appname),MessageBoxButton.OK,MessageBoxImage.Error);
         }
 
+        /// <summary>
+        /// get the path to the log file
+        /// </summary>
         internal static string LogFile
         {
             get
@@ -70,6 +112,10 @@ namespace WetHatLab.OneNote.TaggingKit
                 return _logfile;
             }
         }
+
+        /// <summary>
+        /// register the logging utility with the tracing system.
+        /// </summary>
         internal static void Register()
         {
             FileStream log = new FileStream(LogFile, FileMode.OpenOrCreate);
@@ -86,6 +132,12 @@ namespace WetHatLab.OneNote.TaggingKit
             Flush();
         }
 
+        /// <summary>
+        /// log a message.
+        /// </summary>
+        /// <param name="category">logging category</param>
+        /// <param name="message">logging message</param>
+        /// <param name="args">parameters for the logging message</param>
         internal static void Log(TraceCategory category, string message, params object[] args)
         {
 #if TRACE
@@ -105,6 +157,9 @@ namespace WetHatLab.OneNote.TaggingKit
 #endif //TRACE
         }
 
+        /// <summary>
+        /// Flush all cached log messages.
+        /// </summary>
         internal static void Flush()
         {
             Trace.Flush();
