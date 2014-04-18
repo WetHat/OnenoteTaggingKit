@@ -22,24 +22,31 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// </remarks>
     public class TagCollection
     {
+        /// <summary>
+        /// OneNote application object
+        /// </summary>
         protected Application _onenote;
+        /// <summary>
+        /// version specific schema for OneNote pages
+        /// </summary>
         protected XMLSchema _schema;
 
         private ObservableDictionary<string, TagPageSet> _tags = new ObservableDictionary<string, TagPageSet>();
         private ObservableDictionary<string, TaggedPage> _pages = new ObservableDictionary<string, TaggedPage>();
 
-        public TagCollection(Application onenote, XMLSchema schema)
+        internal TagCollection(Application onenote, XMLSchema schema)
         {
             _onenote = onenote;
             _schema = schema;
         }
 
         /// <summary>
-        /// Find OneNote pages.
+        /// Find OneNote pages in a scope.
         /// </summary>
         /// <param name="scopeID">OneNote id of the scope to search for pages. This is the element ID of a notebook, section group, or section.
         ///                       If given as null or empty string scope is the entire set of notebooks open in OneNote.
         /// </param>
+        /// <param name="includeUnindexedPages">true to include pages in the search which have not been not indexed yet</param>
         public void Find(string scopeID, bool includeUnindexedPages = false)
         {
             string strXml;

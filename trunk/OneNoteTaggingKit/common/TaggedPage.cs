@@ -8,15 +8,35 @@ using WetHatLab.OneNote.TaggingKit.edit;
 
 namespace WetHatLab.OneNote.TaggingKit.common
 {
+
+    /// <summary>
+    /// Representation of an element in the hierarchy of the OneNote note tree
+    /// </summary>
+    /// <remarks>
+    /// Collections of instances of this class are typically used to describe a path to a OneNote page
+    /// </remarks>
     public class HierarchyElement : IKeyedItem<string>
     {
+        /// <summary>
+        /// create a new instance of an element in the OneNote object hierarchy.
+        /// </summary>
+        /// <param name="id">unique element id</param>
+        /// <param name="name">user friendly element name</param>
         public HierarchyElement(string id, string name)
         {
             Key = id;
             Name = name;
         }
+
+        /// <summary>
+        /// Get the name of this element in the OneNote hierachy
+        /// </summary>
         public string Name { get; private set; }
+
         #region IKeyedItem<string>
+        /// <summary>
+        /// get the unique key of this item
+        /// </summary>
         public string Key
         {
             get;
@@ -26,65 +46,14 @@ namespace WetHatLab.OneNote.TaggingKit.common
     }
 
     /// <summary>
-    /// Representation of a OneNote page which has page tags.
+    /// Representation of a OneNote page with its page level tags.
     /// </summary>
     public class TaggedPage : IKeyedItem<string>
     {
-        string _title;
-        ISet<TagPageSet> _tags = new HashSet<TagPageSet>();
         bool _isSelected = false;
         IEnumerable<HierarchyElement> _path;
-
-        /// <summary>
-        /// get the page's ID
-        /// </summary>
-        public string ID { get; private set; }
-        /// <summary>
-        /// get the page's title
-        /// </summary>
-        public string Title {
-            get
-            {
-                return _title;
-            }
-            set
-            {
-                _title = value ?? String.Empty;
-            }
-        }
-
-        public IEnumerable<HierarchyElement> Path { get { return _path; } }
-
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-        }
-
-        #region IKeyedItem
-        /// <summary>
-        /// Get pages unique key suitable for hasing
-        /// </summary>
-        public string Key
-        {
-            get
-            {
-                return  ID;
-            }
-        }
-        #endregion IKeyedItem
-
-        /// <summary>
-        /// Get or set the collection of tags on this page
-        /// </summary>
-        internal ISet<TagPageSet> Tags
-        {
-            get
-            {
-                return _tags;
-            }
-        }
-
-
+        ISet<TagPageSet> _tags = new HashSet<TagPageSet>();
+        string _title;
         /// <summary>
         /// Create an internal representation of a page returned from FindMeta
         /// </summary>
@@ -100,7 +69,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             {
                 _isSelected = true;
             }
-            XElement meta = page.Elements(one.GetName("Meta")).FirstOrDefault( m =>  OneNotePageProxy.META_NAME.Equals(m.Attribute("name").Value) );
+            XElement meta = page.Elements(one.GetName("Meta")).FirstOrDefault(m => OneNotePageProxy.META_NAME.Equals(m.Attribute("name").Value));
 
             // build the items path
             LinkedList<HierarchyElement> path = new LinkedList<HierarchyElement>();
@@ -124,15 +93,55 @@ namespace WetHatLab.OneNote.TaggingKit.common
             ID = id;
             Title = title;
         }
+
         /// <summary>
-        /// Compute the hashcode
+        /// get the page's ID
         /// </summary>
-        /// <returns>hashcode</returns>
-        public override int GetHashCode()
+        public string ID { get; private set; }
+
+        public bool IsSelected
         {
-            return ID.GetHashCode();
+            get { return _isSelected; }
         }
 
+        public IEnumerable<HierarchyElement> Path { get { return _path; } }
+
+        /// <summary>
+        /// get the page's title
+        /// </summary>
+        public string Title {
+            get
+            {
+                return _title;
+            }
+            set
+            {
+                _title = value ?? String.Empty;
+            }
+        }
+        #region IKeyedItem
+        /// <summary>
+        /// Get pages unique key suitable for hasing
+        /// </summary>
+        public string Key
+        {
+            get
+            {
+                return  ID;
+            }
+        }
+        #endregion IKeyedItem
+
+        /// <summary>
+        /// Get or set the collection of tags on this page
+        /// </summary>
+        internal ISet<TagPageSet> Tags
+        {
+            get
+            {
+                return _tags;
+            }
+        }
         /// <summary>
         /// Check two page objects for equality
         /// </summary>
@@ -142,7 +151,16 @@ namespace WetHatLab.OneNote.TaggingKit.common
         {
             TaggedPage tp = obj as TaggedPage;
 
-            return tp == null ? false : ID.Equals(tp.ID); 
+            return tp == null ? false : ID.Equals(tp.ID);
+        }
+
+        /// <summary>
+        /// Compute the hashcode
+        /// </summary>
+        /// <returns>hashcode</returns>
+        public override int GetHashCode()
+        {
+            return ID.GetHashCode();
         }
     }
 }

@@ -4,6 +4,10 @@ using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 namespace WetHatLab.OneNote.TaggingKit.nexus
 {
+
+    /// <summary>
+    /// Design time support for the <see cref="RelatedPageLink"/> control.
+    /// </summary>
     public class RelatedPageLinkDesignerModel : IRelatedPageLinkModel
     {
 

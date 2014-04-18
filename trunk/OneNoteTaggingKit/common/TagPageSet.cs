@@ -6,7 +6,7 @@ using System.ComponentModel;
 namespace WetHatLab.OneNote.TaggingKit.common
 {
     /// <summary>
-    /// The set of pages which have a specified tag in the &lt;one:Meta name="TaggingKit.PageTags" ...&gt; element
+    /// The set of pages which have a specified tag in their &lt;one:Meta name="TaggingKit.PageTags" ...&gt; meta element
     /// </summary>
     public class TagPageSet : IKeyedItem<string>, INotifyPropertyChanged
     {
@@ -17,7 +17,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         private HashSet<TaggedPage> _filteredPages;
 
         /// <summary>
-        /// get name of the tag.
+        /// Get name of the tag.
         /// </summary>
         public string TagName { get; private set; }
 
@@ -92,6 +92,11 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
         }
 
+        /// <summary>
+        /// Determine if two tags a are equal
+        /// </summary>
+        /// <param name="obj">the other tag for equality test</param>
+        /// <returns>true if both tags are equal; false otherwise</returns>
         public override bool Equals(object obj)
         {
             TagPageSet other = obj as TagPageSet;
@@ -103,6 +108,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
             return false;
         }
 
+        /// <summary>
+        /// Get the tag's hashcode.
+        /// </summary>
+        /// <returns>hashcode</returns>
         public override int GetHashCode()
         {
             return TagName.GetHashCode();
@@ -120,6 +129,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
         #endregion IKeyedItem
 
         #region INotifyPropertyChanged
+        /// <summary>
+        /// Event to notify listeners about changes of properties.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
     }

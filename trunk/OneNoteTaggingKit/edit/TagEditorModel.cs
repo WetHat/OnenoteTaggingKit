@@ -49,13 +49,28 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         CurrentSection
     }
 
+    /// <summary>
+    /// Classification of a range of OneNote pages.
+    /// </summary>
     public enum TaggingScope
     {
+        /// <summary>
+        /// The OneNote page currently viewed
+        /// </summary>
         CurrentNote = 0,
+        /// <summary>
+        /// The range of OneNote pages currently selected
+        /// </summary>
         SelectedNotes,
+        /// <summary>
+        /// The OneNote section to which the currently viewed page belongs to.
+        /// </summary>
         CurrentSection
     }
 
+    /// <summary>
+    /// Descriptor for a range of pages the tags will be applied to.
+    /// </summary>
     public class TaggingScopeDescriptor
     {
         internal TaggingScopeDescriptor(TaggingScope scope, string label)
@@ -64,13 +79,20 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             Label = label;
         }
 
+        /// <summary>
+        /// Get the scope classification.
+        /// </summary>
         public TaggingScope Scope {get; private set;}
+        /// <summary>
+        /// Get the scope UI label.
+        /// </summary>
         public string Label {get; private set;}
     }
+
     /// <summary>
     /// View Model to support the tag editor dialog.
     /// </summary>
-    /// <remarks>Maintains a data models for:
+    /// <remarks>Maintains data models for:
     /// <list type="bullet">
     ///   <item>Tags selection</item>
     ///   <item>suggested tags</item>
@@ -134,6 +156,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             get { return _suggestedTags; }
         }
 
+        /// <summary>
+        /// Get a collection of scopes available for tagging
+        /// </summary>
         public IEnumerable<TaggingScopeDescriptor> TaggingScopes
         {
             get { return _taggingScopes; }
@@ -245,6 +270,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             PropertyChanged(this, args);
         }
 #region INotifyPropertyChanged
+        /// <summary>
+        /// event to notify registered listener about property changes
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 #endregion
 

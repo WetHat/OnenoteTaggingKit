@@ -265,7 +265,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
-        ///  get or set the scope currently used for finding tags
+        ///  Get or set the scope currently used for finding tags
         /// </summary>
         public TagSearchScope SelectedScope
         {
@@ -368,10 +368,16 @@ namespace WetHatLab.OneNote.TaggingKit.find
             get { return _tags; }
         }
 
+        /// <summary>
+        /// Get the nuber of OneNote pages in the search result.
+        /// </summary>
         public int PageCount
         {
             get { return Pages.Count; }
         }
+        /// <summary>
+        /// Get the number of tags used on pages in the search result.
+        /// </summary>
         public int TagCount
         {
             get { return _tags.Count; }
@@ -393,6 +399,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
         #endregion IDisposable
 
         #region INotifyPropertyChanged
+        /// <summary>
+        /// Notify listeners about property changes of instances class.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion INotifyPropertyChanged
     }

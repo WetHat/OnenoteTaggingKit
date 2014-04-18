@@ -7,20 +7,50 @@ using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
+    /// <summary>
+    /// Contract for view models for the <see cref="HitHighlightedTagButton"/> control.
+    /// </summary>
     public interface IHitHighlightedTagButtonModel: INotifyPropertyChanged
     {
+        /// <summary>
+        /// Get the current control visibility.
+        /// </summary>
         Visibility Visibility { get; }
+        /// <summary>
+        /// Get the name of the tag the control should display
+        /// </summary>
         string TagName { get; }
+        /// <summary>
+        /// Get the description of a substring match
+        /// </summary>
         Hit Hit { get; }
+
+        /// <summary>
+        /// get the current margin of the control.
+        /// </summary>
         Thickness Margin { get; }
     }
 
+    /// <summary>
+    /// Descriptor for a substring match.
+    /// </summary>
     public struct Hit: IEquatable<Hit>
     {
+        /// <summary>
+        /// startindey of match
+        /// </summary>
         public int Index;
+        /// <summary>
+        /// length of match
+        /// </summary>
         public int Length;
 
         #region IEquatable<Hit>
+        /// <summary>
+        /// compare two instances of class <see cref="Hit"/> for equality
+        /// </summary>
+        /// <param name="other">other instance of this class to compare against</param>
+        /// <returns>true if this instance is identcal with the other instance</returns>
         public bool Equals(Hit other)
         {
             return Index == other.Index && Length == other.Length;
@@ -28,11 +58,23 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         #endregion IEquatable<Hit>
     }
 
+    /// <summary>
+    /// View model for the <see cref="HitHighlightedTagButton"/> control.
+    /// </summary>
     public class HitHighlightedTagButtonModel : IHitHighlightedTagButtonModel, ISortableKeyedItem<TagModelKey,string>
     {
-        public static readonly PropertyChangedEventArgs HIT_Property = new PropertyChangedEventArgs("Hit");
-        public static readonly PropertyChangedEventArgs VISIBILITY_Property = new PropertyChangedEventArgs("Visibility");
-        public static readonly PropertyChangedEventArgs MARGIN_Property = new PropertyChangedEventArgs("Margin");
+        /// <summary>
+        /// predefined event descriptor for <see cref=">PropertyChanged"/> event fired for the <see cref="Hit"/> property
+        /// </summary>
+        internal static readonly PropertyChangedEventArgs HIT_Property = new PropertyChangedEventArgs("Hit");
+        /// <summary>
+        /// predefined event descriptor for <see cref=">PropertyChanged"/> event fired for the <see cref="Visibility"/> property
+        /// </summary>
+        internal static readonly PropertyChangedEventArgs VISIBILITY_Property = new PropertyChangedEventArgs("Visibility");
+        /// <summary>
+        /// predefined event descriptor for <see cref=">PropertyChanged"/> event fired for the <see cref="Margin"/> property
+        /// </summary>
+        internal static readonly PropertyChangedEventArgs MARGIN_Property = new PropertyChangedEventArgs("Margin");
 
         string _tagName;
         Hit _hit ;
@@ -47,11 +89,17 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         #region IHitHighlightedTagButtonModel
 
+        /// <summary>
+        /// Get the name of the tag the associated <see cref="HitHighlightedTagButton"/> control displays
+        /// </summary>
         public string TagName
         {
             get { return _tagName; }
         }
 
+        /// <summary>
+        /// Get the visibilty the associated <see cref="HitHighlightedTagButton"/> control has. 
+        /// </summary>
         public Visibility Visibility
         {
             get
@@ -59,7 +107,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 return _hit.Index >= 0 ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
             }
         }
-
+        /// <summary>
+        /// Get the hit higlighting data of the  <see cref="HitHighlightedTagButton"/> control.
+        /// </summary>
         public Hit Hit
         {
             get
@@ -68,6 +118,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
+        /// <summary>
+        /// Get the margin the associated <see cref="HitHighlightedTagButton"/> control uses.
+        /// </summary>
         public Thickness Margin
         {
             get
@@ -85,6 +138,14 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
+        /// <summary>
+        /// Set a filter string which is used to determine the appearance of the <see cref="HitHighlightedTagButton"/>
+        /// control.
+        /// </summary>
+        /// <remarks>
+        /// Setting this property has a side effect on two other properties: <see cref="Hit"/> and <see cref="Margin"/>.
+        /// The appropriate <see cref="PropertyChanged"/> events are fired as necessary.
+        /// </remarks>
         internal IEnumerable<string> Filter
         {
             set
@@ -130,15 +191,25 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
 
         #region INotifyPropertyChanged
+        /// <summary>
+        /// Event fired for view model properties bound to the <see cref="HitHighlightedTagButton"/> control. 
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion INotifyPropertyChanged
 
         #region ISortableKeyedItem<TagModelKey,string>
+
+        /// <summary>
+        /// Get the view model's sort key
+        /// </summary>
         public TagModelKey SortKey
         {
             get { return _sortkey; }
         }
 
+        /// <summary>
+        /// Get the view models key used for hashing
+        /// </summary>
         public string Key
         {
             get { return _tagName; }
