@@ -211,8 +211,14 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     {
                         _model.SuggestedTags.AddAll(from t in tags where !_model.SuggestedTags.ContainsKey(t) select new HitHighlightedTagButtonModel(t));
                         _model.PageTags.AddAll(from t in tags where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(t));
+                        tagInput.Clear();
+                        _model.UpdateTagFilter(null);
                     }
-                    _model.UpdateTagFilter(tags);
+                    else
+                    {
+                        _model.UpdateTagFilter(tags);
+                    }
+                    
                 }
             }
             catch (Exception ex)
@@ -235,6 +241,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     
                 int pagesTagged = await _model.SaveChangesAsync(op, scope);
                 pagesTaggedText.Text = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_PagesTagged, pagesTagged);
+                tagInput.Clear();
+                _model.UpdateTagFilter(null);
                 progressPopup.IsOpen = false; 
                 pagesTaggedPopup.IsOpen = true;
             }
