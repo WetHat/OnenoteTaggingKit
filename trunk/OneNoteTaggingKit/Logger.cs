@@ -56,7 +56,7 @@ namespace WetHatLab.OneNote.TaggingKit
                                           Properties.Resources.TaggingKit_Support_Website,
                                           TraceLogger.LogFile),
                             string.Format(Properties.Resources.TaggingKit_ErrorBox_Title,
-                                          Properties.Resources.TaggingKit_About_Appname));
+                                          Properties.Resources.TaggingKit_About_Appname),MessageBoxButton.OK,MessageBoxImage.Error);
         }
 
         internal static string LogFile

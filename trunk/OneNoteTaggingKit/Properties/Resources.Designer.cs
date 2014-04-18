@@ -194,6 +194,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Creation of dialog window failed.
+        /// </summary>
+        public static string TagEditor_Error_WindowCreation {
+            get {
+                return ResourceManager.GetString("TagEditor_Error_WindowCreation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter failed.
         /// </summary>
         public static string TagEditor_Filter_Error {
@@ -401,15 +410,6 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Creation of dialog window failed.
-        /// </summary>
-        public static string TagEditor_WindowCreation_Error {
-            get {
-                return ResourceManager.GetString("TagEditor_WindowCreation_Error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to https://onenotetaggingkit.codeplex.com/.
         /// </summary>
         public static string TaggingKit_About_AddIn_Website {
@@ -475,19 +475,19 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         /// <summary>
         ///   Looks up a localized string similar to OneNote version lookup failed.
         /// </summary>
-        public static string TaggingKit_ConnectionError {
+        public static string TaggingKit_Error_VersionLookup {
             get {
-                return ResourceManager.GetString("TaggingKit_ConnectionError", resourceCulture);
+                return ResourceManager.GetString("TaggingKit_Error_VersionLookup", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}: &apos;{1}&apos;!
+        ///   Looks up a localized string similar to {0}! »{1}«
         ///
         ///Please browse to the support website
-        ///&apos;{2}&apos;
+        ///»{2}«
         ///and report this issue. Describe what you were doing and attach the add-in log file
-        ///&apos;{3}&apos;.
+        ///»{3}«
         ///
         ///Sorry for the inconvenience!.
         /// </summary>
