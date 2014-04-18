@@ -36,6 +36,9 @@ namespace WetHatLab.OneNote.TaggingKit
         
         private Thread exploreTagsUI;
 
+        /// <summary>
+        /// Create a new instance of the OneNote connector object.
+        /// </summary>
         public ConnectTaggingKitAddin()
         {
             TraceLogger.Register();

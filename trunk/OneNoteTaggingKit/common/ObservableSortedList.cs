@@ -7,13 +7,16 @@ using System.Linq;
 namespace WetHatLab.OneNote.TaggingKit.common
 {
     /// <summary>
-    /// A observable, sorted collection of items having sortable keys.
+    /// An observable, sorted collection of items having sortable keys.
     /// </summary>
     /// <remarks>
-    /// Instances of this class provide change notification through <see cref="INotifyCollectionChanged"/>. This
+    /// Instances of this class provide change notification through <see cref="INotifyCollectionChanged"/> and can
+    /// be take part in data binding to UI controls. This
     /// class is optimized for batch updates (item collections). Single items cannot be added. 
     /// </remarks>
-    /// <typeparam name="Tvalue">item type providing sortable keys</typeparam>
+    /// <typeparam name="TValue">item type providing sortable keys</typeparam>
+    /// <typeparam name="TKey">unique key type</typeparam>
+    /// <typeparam name="TSort">sort key type</typeparam>
     public class ObservableSortedList<TSort, TKey, TValue> : INotifyCollectionChanged, IEnumerable<TValue>
         where TValue : ISortableKeyedItem<TSort,TKey>
         where TKey : IEquatable<TKey>
@@ -106,7 +109,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// Groups the given items into contiguous ranges of batches and removes
         /// each batch at once, firing one change notification per batch.
         /// </remarks>
-        /// <param name="items">items to remove</param>
+        /// <param name="keys">items to remove</param>
         internal void RemoveAll(IEnumerable<TKey> keys)
         {
             List<KeyValuePair<int, TValue>> toDelete = new List<KeyValuePair<int, TValue>>();
@@ -231,11 +234,19 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         #region IEnumerable<TValue>
+        /// <summary>
+        /// Get an enumerator for items in the list
+        /// </summary>
+        /// <returns>item enumerator</returns>
         public IEnumerator<TValue> GetEnumerator()
         {
             return Values.GetEnumerator();
         }
 
+        /// <summary>
+        /// Get a generic enumerator of items in the list 
+        /// </summary>
+        /// <returns>item enumerator</returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return Values.GetEnumerator();
