@@ -86,7 +86,6 @@ namespace WetHatLab.OneNote.TaggingKit
                 ProcessModule onenoteModule = (from p in Process.GetProcesses()
                                                where "ONENOTE".Equals(p.ProcessName, StringComparison.InvariantCultureIgnoreCase) && p.MainModule.FileName.EndsWith("ONENOTE.EXE", StringComparison.InvariantCulture)
                                                select p.MainModule).First();
-                onenoteModule = null;
                 int onVersion = onenoteModule.FileVersionInfo.ProductMajorPart;
                 switch (onVersion)
                 {
