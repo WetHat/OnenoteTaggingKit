@@ -208,7 +208,7 @@
   <data name="TagSelector_Tooltip" xml:space="preserve">
     <value>Tap to show only pages which have this tag.</value>
   </data>
-  <data name="TaggingKit_ConnectionError" xml:space="preserve">
+  <data name="TaggingKit_Error_VersionLookup" xml:space="preserve">
     <value>OneNote version lookup failed</value>
   </data>
   <data name="TaggingKit_ErrorBox_Title" xml:space="preserve">
@@ -308,12 +308,12 @@
     <value>Tags will be applied in the background. OneNote may be less responsive while tagging is in progress.</value>
   </data>
   <data name="TaggingKit_ErrorBox_GenericSevereError" xml:space="preserve">
-    <value>{0}: '{1}'!
+    <value>{0}! »{1}«
 
 Please browse to the support website
-'{2}'
+»{2}«
 and report this issue. Describe what you were doing and attach the add-in log file
-'{3}'.
+»{3}«
 
 Sorry for the inconvenience!</value>
   </data>
@@ -335,7 +335,7 @@ Sorry for the inconvenience!</value>
   <data name="TagEditor_TagUpdate_Error" xml:space="preserve">
     <value>Updating page tags failed</value>
   </data>
-  <data name="TagEditor_WindowCreation_Error" xml:space="preserve">
+  <data name="TagEditor_Error_WindowCreation" xml:space="preserve">
     <value>Creation of dialog window failed</value>
   </data>
   <data name="TaggingKit_Support_Website" xml:space="preserve">

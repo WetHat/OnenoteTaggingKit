@@ -86,6 +86,7 @@ namespace WetHatLab.OneNote.TaggingKit
                 ProcessModule onenoteModule = (from p in Process.GetProcesses()
                                                where "ONENOTE".Equals(p.ProcessName, StringComparison.InvariantCultureIgnoreCase) && p.MainModule.FileName.EndsWith("ONENOTE.EXE", StringComparison.InvariantCulture)
                                                select p.MainModule).First();
+                onenoteModule = null;
                 int onVersion = onenoteModule.FileVersionInfo.ProductMajorPart;
                 switch (onVersion)
                 {
@@ -101,7 +102,7 @@ namespace WetHatLab.OneNote.TaggingKit
             catch (Exception ex)
             {
                 TraceLogger.Log(TraceCategory.Error(),"Unable to determine OneNote version: {0}",ex);
-                TraceLogger.ShowGenericMessageBox(Properties.Resources.TaggingKit_ConnectionError, ex);
+                TraceLogger.ShowGenericMessageBox(Properties.Resources.TaggingKit_Error_VersionLookup, ex);
             }
 
             Trace.Flush();
@@ -233,7 +234,7 @@ namespace WetHatLab.OneNote.TaggingKit
                 catch (Exception ex)
                 {
                     TraceLogger.Log(TraceCategory.Error(), "Exception while creating dialog: {0}", ex);
-                    TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_WindowCreation_Error, ex);
+                    TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_Error_WindowCreation, ex);
                 }
             });
             thread.SetApartmentState(ApartmentState.STA);
@@ -270,7 +271,7 @@ namespace WetHatLab.OneNote.TaggingKit
                 catch (Exception ex)
                 {
                     TraceLogger.Log(TraceCategory.Error(), "Exception while creating dialog: {0}", ex);
-                    TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_WindowCreation_Error, ex);
+                    TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_Error_WindowCreation, ex);
                 }
             });
             thread.SetApartmentState(ApartmentState.STA);
