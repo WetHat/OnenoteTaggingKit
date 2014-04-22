@@ -42,13 +42,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         REPLACE
     }
 
-    internal enum PresetFilter
-    {
-        CurrentNote,
-        SelectedNotes,
-        CurrentSection
-    }
-
     /// <summary>
     /// Classification of a range of OneNote pages.
     /// </summary>

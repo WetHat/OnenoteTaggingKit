@@ -85,7 +85,6 @@
     <Compile Include="common\ui\SelectableTag.xaml.cs">
       <DependentUpon>SelectableTag.xaml</DependentUpon>
     </Compile>
-    <Compile Include="common\ui\SelectableTagDesignerModel.cs" />
     <Compile Include="common\ui\SelectableTagModel.cs" />
     <Compile Include="common\ui\TagInputBox.xaml.cs">
       <DependentUpon>TagInputBox.xaml</DependentUpon>
@@ -94,7 +93,6 @@
     <Compile Include="common\ui\TagPanel.xaml.cs">
       <DependentUpon>TagPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="common\ui\TagPanelDesignerModel.cs" />
     <Compile Include="COMReadonlyStreamAdapter.cs" />
     <Compile Include="edit\HitHighlightedTagButton.xaml.cs">
       <DependentUpon>HitHighlightedTagButton.xaml</DependentUpon>

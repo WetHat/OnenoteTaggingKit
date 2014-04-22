@@ -1,20 +1,19 @@
-﻿<UserControl x:Class="WetHatLab.OneNote.TaggingKit.common.ui.SelectableTag"
+﻿<UserControl x:Name="this"
+             x:Class="WetHatLab.OneNote.TaggingKit.common.ui.SelectableTag"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:WetHatLab.OneNote.TaggingKit.common.ui"
              xmlns:prop="clr-namespace:WetHatLab.OneNote.TaggingKit.Properties"
-             d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:SelectableTagDesignerModel}}"
              mc:Ignorable="d">
     <Grid>
         <ToggleButton Name="tagButton" Background="White"
-                  BorderBrush="LightBlue"
-                  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSelector_Tooltip}}">
+                      BorderBrush="LightBlue">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Name="tagName" VerticalAlignment="Bottom" />
-                <TextBlock VerticalAlignment="Bottom">
-                    <Run Text="("/><Run Text="{Binding PageCount, Mode=OneWay}"/><Run Text=")"/>
+                <TextBlock Name="tagName" VerticalAlignment="Bottom" Text="Designer Tag"/>
+                <TextBlock VerticalAlignment="Bottom" Visibility="{Binding ElementName=this,Path=PageCountVisibility, Mode=OneWay}">
+                    <Run Text=" ("/><Run Text="{Binding ElementName=this, Path=PageCount, Mode=OneWay}"/><Run Text=")"/>
                 </TextBlock>
                 <CheckBox VerticalAlignment="Bottom" IsChecked="{Binding ElementName=tagButton, Path=IsChecked, Mode=OneWay}" BorderThickness="0" Background="Transparent"/>
             </StackPanel>
