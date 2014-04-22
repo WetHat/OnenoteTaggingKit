@@ -1,54 +1,153 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
     /// <summary>
     /// Interaction logic for SelectableTag.xaml
     /// </summary>
-    public partial class SelectableTag : UserControl
+    public partial class SelectableTag : UserControl, INotifyPropertyChanged
     {
+
+        static readonly PropertyChangedEventArgs PAGE_COUNT = new PropertyChangedEventArgs("PageCount");
+        static readonly PropertyChangedEventArgs PAGE_COUNT_VISIBILITY = new PropertyChangedEventArgs("PageCountVisibility");
+        static readonly PropertyChangedEventArgs HIGHLIGHT_COLOR = new PropertyChangedEventArgs("HighlightColor");
+        static readonly PropertyChangedEventArgs VISIBILITY = new PropertyChangedEventArgs("Visibility");
+        
+        ISelectableTagModel _model;
+
+        Brush _highlightColor = Brushes.Yellow;
+
+        bool _isChecked = false;
+
         public SelectableTag()
         {
             InitializeComponent();
         }
 
-        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        void firePropertyChanged(PropertyChangedEventArgs args)
         {
-            ISelectableTagModel mdl = e.NewValue as ISelectableTagModel;
-
-            if (mdl != null)
+            if (args != null && PropertyChanged != null)
             {
-                mdl.PropertyChanged += OnModelChanged;
-                buildHighlightedTagnameUI(mdl.HitHighlightedTagName);
+                PropertyChanged(this,args);
             }
         }
 
-        private void OnModelChanged(object sender, PropertyChangedEventArgs e)
+        public SelectableTag(ISelectableTagModel model) : this()
+        {
+            _model = model;
+            model.PropertyChanged += OnModelPropertyChanged;
+        }
+
+        public int PageCount
+        {
+            get
+            {
+                return _model != null ? _model.PageCount : 0;
+            }
+        }
+
+        public Brush HighlightColor
+        {
+            get
+            {
+                return _highlightColor;
+            }
+            set
+            {
+                if (!_highlightColor.Equals(value))
+                {
+                    _highlightColor = value;
+                    firePropertyChanged(HIGHLIGHT_COLOR);
+                }
+            }
+        }
+
+        public bool IsChecked
+        {
+            get
+            {
+                return _isChecked;
+            }
+            set
+            {
+                if (_isChecked != value)
+                {
+                    _isChecked = value;
+                    if (_model != null)
+                    {
+                        _model.IsChecked = _isChecked;
+                    }
+                }
+            }
+        }
+        public Visibility PageCountVisibility
+        {
+            get
+            {
+                return PageCount < 0 ? Visibility.Collapsed : Visibility.Visible;
+            }
+        }
+
+        private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             ISelectableTagModel mdl = sender as ISelectableTagModel;
 
-            if ("HitHighlightedTagName".Equals(e.PropertyName))
+            switch (e.PropertyName)
             {
-                buildHighlightedTagnameUI(mdl.HitHighlightedTagName);
+                case "PageCount":
+                    firePropertyChanged(PAGE_COUNT);
+                    firePropertyChanged(PAGE_COUNT_VISIBILITY);
+                    break;
+                case "Visibility":
+                    firePropertyChanged(VISIBILITY);
+                    break;
             }
         }
 
-        private void buildHighlightedTagnameUI(IEnumerable<TextFragment> tagname)
+        internal string[] Filter
         {
-            tagName.Inlines.Clear();
-            foreach (TextFragment t in tagname)
+            set
             {
-                Run r = new Run(t.Text);
-                if (t.HighLightColor != null)
+                tagName.Inlines.Clear();
+                string tagname=_model.TagName;
+                bool matched = false;
+                if (value != null)
                 {
-                    r.Background = t.HighLightColor;
+                    // find a match
+                    
+                    foreach (string pattern in value)
+                    {
+                        int index = tagname.IndexOf(pattern, StringComparison.CurrentCultureIgnoreCase);
+                        if (index >= 0)
+                        {
+                            // build UI
+                            tagName.Inlines.Add(new Run (tagname.Substring(0,index)));
+                            
+                            Run r = new Run(tagname.Substring(index,pattern.Length));
+                            r.Background = HighlightColor;
+                            tagName.Inlines.Add(r);
+                            tagName.Inlines.Add(new Run(tagname.Substring(index + pattern.Length)));
+                            matched = true;
+                            break;
+                        }
+                    }
                 }
-                tagName.Inlines.Add(r);
+
+                if (!matched)
+                {
+                    tagName.Inlines.Add(new Run(_model.TagName));
+                }
             }
         }
+
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion INotifyPropertyChanged
     }
 }

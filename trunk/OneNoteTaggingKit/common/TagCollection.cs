@@ -40,6 +40,13 @@ namespace WetHatLab.OneNote.TaggingKit.common
             _schema = schema;
         }
 
+        internal Window CurrentWindow
+        {
+            get
+            {
+                return _onenote.Windows.CurrentWindow;
+            }
+        }
         /// <summary>
         /// Find OneNote pages in a scope.
         /// </summary>
