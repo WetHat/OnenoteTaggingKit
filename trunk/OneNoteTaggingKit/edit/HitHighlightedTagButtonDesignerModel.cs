@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
@@ -24,15 +26,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             get { return "Sample Tag"; }
         }
 
-
-        /// <summary>
-        /// get the hit higlighting descriptor
-        /// </summary>
-        public Hit Hit
-        {
-            get { return default(Hit); }
-        }
-
         /// <summary>
         /// The event to notify about property changes
         /// </summary>
@@ -44,6 +37,16 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         public Thickness Margin
         {
             get { return new Thickness(0,5,5,0); }
+        }
+
+
+        public IEnumerable<TextFragment> HitHighlightedTagName
+        {
+            get
+            {
+                TextSplitter splitter = new TextSplitter("Tag");
+                return splitter.SplitText(TagName);
+            }
         }
     }
 }
