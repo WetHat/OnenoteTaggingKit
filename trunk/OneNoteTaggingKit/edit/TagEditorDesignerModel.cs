@@ -34,12 +34,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             get { return _pageTags; }
         }
 
-        public ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel> SuggestedTags
-        {
-            get { return _suggestedTags; }
-        }
-
-
         public IEnumerable<TaggingScopeDescriptor> TaggingScopes
         {
             get { return new TaggingScopeDescriptor[] { new TaggingScopeDescriptor(TaggingScope.CurrentNote,"Current Note")}; }

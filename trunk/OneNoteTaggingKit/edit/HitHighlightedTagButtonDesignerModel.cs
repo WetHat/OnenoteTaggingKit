@@ -48,5 +48,10 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 return splitter.SplitText(TagName);
             }
         }
+
+        public TextSplitter Highlighter
+        {
+            set { }
+        }
     }
 }

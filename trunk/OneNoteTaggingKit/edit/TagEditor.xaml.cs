@@ -13,6 +13,8 @@ using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
+    internal delegate HitHighlightedTagButton TagButtonFactory(object dataContext);
+
     /// <summary>
     /// The <i>Tag Editor</i> dialog.
     /// </summary>
@@ -41,40 +43,19 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             set
             {
                 _model = value;
-                 DataContext = _model;
-                 _model.SuggestedTags.CollectionChanged += OnSuggestedTagsChanged;
+                _model.TagSuggestions = new TagSuggestionSource((dataContext) =>
+                {
+                    var btn = new HitHighlightedTagButton()
+                    {
+                        DataContext = dataContext
+                    };
+                    btn.Click += OnSuggestedTagClick;
+                    return btn;
+                });
+                DataContext = _model;
             }
         }
-
         #endregion
-
-        private void OnSuggestedTagsChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    for (int i = 0; i < e.NewItems.Count; i++)
-                    {
-                        HitHighlightedTagButton tag = new HitHighlightedTagButton()
-                        {
-                            DataContext = e.NewItems[i] 
-                        };
-                        tag.Click += OnSuggestedTagClick;
-
-                        suggestedTagsPanel.Children.Insert(i + e.NewStartingIndex, tag);
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    for (int i = 0; i < e.OldItems.Count; i++)
-                    {
-                        suggestedTagsPanel.Children.RemoveAt(e.OldStartingIndex);
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    suggestedTagsPanel.Children.Clear();
-                    break;
-            }
-        }
 
         private void OnSuggestedTagClick(object sender, RoutedEventArgs e)
         {
@@ -139,13 +120,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             tagInput.Focus();
             if (_model != null)
             {
-                _model.LoadSuggestedTagsAsync().ContinueWith((x) => { pBar.Visibility = System.Windows.Visibility.Hidden; }, TaskScheduler.FromCurrentSynchronizationContext());
+                _model.TagSuggestions.LoadSuggestedTagsAsync().ContinueWith((x) => { pBar.Visibility = System.Windows.Visibility.Hidden; }, TaskScheduler.FromCurrentSynchronizationContext());
             }
         }
 
         private void editTags_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Properties.Settings.Default.KnownTags = string.Join(",", from t in _model.SuggestedTags.Values select t.TagName);
             Properties.Settings.Default.Save();
             Trace.Flush();
         }
@@ -178,12 +158,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 if (string.IsNullOrEmpty(filterText))
                 {
                     //UpdateTagFilter(true);
-                    _model.UpdateTagFilter(null);
+                    suggestedTags.Highlighter = new TextSplitter();
                     filterPopup.IsOpen = true;
                 }
                 else
                 {
-                    _model.UpdateTagFilter(tagNames);
+                    suggestedTags.Highlighter = new TextSplitter(tagNames);
                 }
             }
             catch (Exception ex)
@@ -202,23 +182,17 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             {
                 if (tagInput.IsEmpty)
                 {
-                    _model.UpdateTagFilter(null);
+                    suggestedTags.Highlighter = new TextSplitter();
                 }
                 else
                 {
                     IEnumerable<string> tags = tagInput.Tags;
                     if (e.TagInputComplete)
                     {
-                        _model.SuggestedTags.AddAll(from t in tags where !_model.SuggestedTags.ContainsKey(t) select new HitHighlightedTagButtonModel(t));
                         _model.PageTags.AddAll(from t in tags where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(t));
                         tagInput.Clear();
-                        _model.UpdateTagFilter(null);
                     }
-                    else
-                    {
-                        _model.UpdateTagFilter(tags);
-                    }
-                    
+                    suggestedTags.Highlighter = new TextSplitter(tagInput.Tags);           
                 }
             }
             catch (Exception ex)
@@ -235,16 +209,20 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             try
             {
                 TraceLogger.Log(TraceCategory.Info(), "Applying tags to page");
-                progressPopup.IsOpen = true;
                 TaggingScope scope = ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope;
+
+                Task<int> saveTask = _model.SavePageTagsAsync(op, scope);
+                progressPopup.IsOpen = true;
+                
                 taggingScope.SelectedIndex = 0;
-                    
-                int pagesTagged = await _model.SaveChangesAsync(op, scope);
-                pagesTaggedText.Text = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_PagesTagged, pagesTagged);
+                _model.TagSuggestions.AddAll(from t in _model.PageTags where !_model.TagSuggestions.ContainsKey(t.Key) select new HitHighlightedTagButtonModel(t.TagName));
                 tagInput.Clear();
-                _model.UpdateTagFilter(null);
-                progressPopup.IsOpen = false; 
+                suggestedTags.Highlighter = new TextSplitter();
+                progressPopup.IsOpen = false;
                 pagesTaggedPopup.IsOpen = true;
+
+                int pagesTagged = await saveTask;
+                pagesTaggedText.Text = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_PagesTagged, pagesTagged); 
             }
             catch (Exception xe)
             {

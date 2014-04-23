@@ -44,7 +44,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// The text is split into <see cref="TextFragment"/> sequences including all text fragments
     /// whether they match the pattern or not. See <see cref="SplitText"/> for more details
     /// </remarks>
-    internal class TextSplitter
+    public class TextSplitter
     {
         private Regex _pattern;
 
