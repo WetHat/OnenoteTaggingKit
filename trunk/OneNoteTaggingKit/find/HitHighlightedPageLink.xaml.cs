@@ -1,10 +1,8 @@
-﻿using System.ComponentModel;
-using System.Text.RegularExpressions;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
-using WetHatLab.OneNote.TaggingKit.common.ui;
+using WetHatLab.OneNote.TaggingKit.common;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {

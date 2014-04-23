@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using WetHatLab.OneNote.TaggingKit.common.ui;
+﻿using System.Collections.Generic;
+using WetHatLab.OneNote.TaggingKit.common;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {

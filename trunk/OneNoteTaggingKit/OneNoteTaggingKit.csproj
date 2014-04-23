@@ -86,7 +86,7 @@
       <DependentUpon>TagInputBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="common\ui\TagModelKey.cs" />
-    <Compile Include="common\ui\TextSplitter.cs" />
+    <Compile Include="common\TextSplitter.cs" />
     <Compile Include="COMReadonlyStreamAdapter.cs" />
     <Compile Include="edit\HitHighlightedTagButton.xaml.cs">
       <DependentUpon>HitHighlightedTagButton.xaml</DependentUpon>
