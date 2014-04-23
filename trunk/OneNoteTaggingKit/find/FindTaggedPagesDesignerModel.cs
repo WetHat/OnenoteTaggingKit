@@ -40,9 +40,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
              TagCollection c = new TagCollection(null, Microsoft.Office.Interop.OneNote.XMLSchema.xs2013);
             c.parseOneNoteHierarchy(_strXml);
 
-            Regex pattern = new Regex("Cool",RegexOptions.IgnoreCase);
+            TextSplitter splitter = new TextSplitter("Cool");
 
-            _pages.AddAll(from TaggedPage tp in c.Pages.Values select new HitHighlightedPageLinkModel(tp,pattern));
+            _pages.AddAll(from TaggedPage tp in c.Pages.Values select new HitHighlightedPageLinkModel(tp,splitter));
 
             _tags.AddAll(from t in c.Tags.Values select new TagSelectorModel(t));
         }

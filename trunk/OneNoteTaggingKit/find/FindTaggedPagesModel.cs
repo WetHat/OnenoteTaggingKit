@@ -108,7 +108,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         // Collection of previous searches
         private ObservableCollection<string> _searchHistory = new ObservableCollection<string>();
 
-        private Regex _queryPattern;
+        private TextSplitter _highlighter;
 
         /// <summary>
         /// Process request asynchronously
@@ -219,17 +219,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
                 // construct the query pattern
                 string[] words = query.Split(new char[] { ',', ' ', ':', ';' }, StringSplitOptions.RemoveEmptyEntries);
-                for (int i = 0; i < words.Length; i++)
-                {
-                    words[i] = words[i].Replace("'", "").Replace("\"", "");
-                }
 
-                string pattern = string.Join("|", words);
-                _queryPattern = new Regex( string.Join("|", words),RegexOptions.IgnoreCase);
+                _highlighter = new TextSplitter(from w in words select w.Replace("'", "").Replace("\"", ""));
             }
             else
             {
-                _queryPattern = null;
+                _highlighter = new TextSplitter();
             }
 
             _actions.Add(() => _searchResult.Find(query, scopeID));
@@ -337,7 +332,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             switch (e.Action)
             {
                 case NotifyDictionaryChangedAction.Add:
-                    a = () => _pages.AddAll(from i in e.Items select new HitHighlightedPageLinkModel(i,_queryPattern));
+                    a = () => _pages.AddAll(from i in e.Items select new HitHighlightedPageLinkModel(i,_highlighter));
                     break;
                 case NotifyDictionaryChangedAction.Remove:
                     a = () => _pages.RemoveAll(from i in e.Items select i.Key);

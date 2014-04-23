@@ -93,6 +93,7 @@
     <Compile Include="common\ui\TagPanel.xaml.cs">
       <DependentUpon>TagPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="common\ui\TextSplitter.cs" />
     <Compile Include="COMReadonlyStreamAdapter.cs" />
     <Compile Include="edit\HitHighlightedTagButton.xaml.cs">
       <DependentUpon>HitHighlightedTagButton.xaml</DependentUpon>

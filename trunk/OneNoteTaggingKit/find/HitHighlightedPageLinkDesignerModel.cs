@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {
@@ -11,8 +12,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// </summary>
     public class HitHighlightedPageLinkDesignerModel : IHitHighlightedPageLinkModel
     {
-        private MatchCollection _matches;
-
         private string _pageTitle = "Test Page Title";
 
         /// <summary>
@@ -21,16 +20,16 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <remarks>this constructor is called by the UI design application</remarks>
         public HitHighlightedPageLinkDesignerModel()
         {
-            _matches = Regex.Matches(_pageTitle, "page",RegexOptions.IgnoreCase);
         }
 
         #region IHitHighlightedPageLinkModel
 
-        public MatchCollection Matches
+        public IList<TextFragment> HighlightedTitle
         {
             get
             {
-                return _matches;
+                TextSplitter splitter = new TextSplitter("page");
+                return splitter.SplitText(_pageTitle);
             }
         }
         public string PageTitle
@@ -42,11 +41,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
         public int Hits
         {
-            get { return _matches != null ? _matches.Count : 0; }
+            get { return HighlightedTitle.Count; }
         }
         #endregion
-
-
-       
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using WetHatLab.OneNote.TaggingKit.common;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {
@@ -13,9 +14,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
     public interface IHitHighlightedPageLinkModel
     {
         /// <summary>
-        /// Get a description of the matches of a query string against the page title.
+        /// Get a the hit highlighted page title.
         /// </summary>
-        MatchCollection Matches { get; }
+        IList<TextFragment> HighlightedTitle { get; }
 
         /// <summary>
         /// Get the title of the OneNote page.
@@ -114,21 +115,19 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// </remarks>
     public class HitHighlightedPageLinkModel : HitHighlightedPageLinkKey, ISortableKeyedItem<HitHighlightedPageLinkKey,string>, IHitHighlightedPageLinkModel
     {
-        private MatchCollection _matches;
+        private IList<TextFragment> _highlights;
         private TaggedPage _page;
         /// <summary>
         /// create a new instance of the view model.
         /// </summary>
         /// <param name="tp">a OneNote page object</param>
         /// <param name="pattern">regular expression describing the search query. Used for generating hit highlighting of the page link</param>
-        internal HitHighlightedPageLinkModel(TaggedPage tp, Regex pattern) : base(tp.Title,tp.ID)
+        internal HitHighlightedPageLinkModel(TaggedPage tp, TextSplitter highlighter) : base(tp.Title,tp.ID)
         {
             _page = tp;
-            if (pattern != null)
-            {
-                _matches = pattern.Matches(PageTitle);
-            }
-            HitCount = Matches != null ? Matches.Count : 0;
+            _highlights = highlighter.SplitText(PageTitle);
+
+            HitCount = _highlights.Count;
             
         }
 
@@ -145,16 +144,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         #region IHitHighlightedPageLinkModel
 
-        /// <summary>
-        /// Get a description of the matches of the query with a OneNOte page
-        /// </summary>
-        public MatchCollection Matches
+        public IList<TextFragment> HighlightedTitle
         {
-            get
-            {
-                return _matches;
-            }
+            get { return _highlights; }
         }
+
         /// <summary>
         /// Get the OneNote page title.
         /// </summary>
