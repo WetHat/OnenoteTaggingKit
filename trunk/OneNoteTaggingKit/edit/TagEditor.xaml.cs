@@ -51,7 +51,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private void OnSuggestedTagClick(object sender, RoutedEventArgs e)
         {
-            tagInput.Focus();
+            tagInput.FocusInput();
             HitHighlightedTagButton btn = sender as HitHighlightedTagButton;
             if (btn != null)
             {
@@ -67,7 +67,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             if (_model != null)
             {
-                tagInput.Focus();
+                tagInput.FocusInput();
                 SimpleTagButton tagBtn = e.OriginalSource as SimpleTagButton;
                 if (tagBtn != null)
                 {
@@ -109,7 +109,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            tagInput.Focus();
+            tagInput.FocusInput();
             if (_model != null)
             {
                 _model.TagSuggestions.LoadSuggestedTagsAsync().ContinueWith((x) => { pBar.Visibility = System.Windows.Visibility.Hidden; }, TaskScheduler.FromCurrentSynchronizationContext());
@@ -127,7 +127,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             if (_model != null)
             {
                 _model.PageTags.Clear();
-                tagInput.Focus();
+                tagInput.FocusInput();
             }
             e.Handled = true;
         }
@@ -193,7 +193,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private async Task ApplyPageTagsAsync(TagOperation op)
         {
-            tagInput.Focus();
+            tagInput.FocusInput();
             try
             {
                 TraceLogger.Log(TraceCategory.Info(), "Applying tags to page");
