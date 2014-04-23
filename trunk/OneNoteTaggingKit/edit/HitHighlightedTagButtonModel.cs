@@ -125,7 +125,10 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 Visibility visBefore = Visibility;
                 _isFiltered = value.SplitPattern != null;
                 _hithighlightedTagname = value.SplitText(TagName);
-                firePropertyChange(HITHIGHLIGHTED_TAGNAME_Property);
+                if (Visibility == System.Windows.Visibility.Visible)
+                {
+                    firePropertyChange(HITHIGHLIGHTED_TAGNAME_Property);
+                }
                 if (visBefore != Visibility)
                 {
                     firePropertyChange(VISIBILITY_Property);
