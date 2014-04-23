@@ -32,17 +32,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 return splitter.SplitText(_pageTitle);
             }
         }
-        public string PageTitle
-        {
-            get
-            {
-                return _pageTitle;
-            }
-        }
-        public int Hits
-        {
-            get { return HighlightedTitle.Count; }
-        }
         #endregion
     }
 }
