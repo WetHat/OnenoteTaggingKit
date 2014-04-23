@@ -110,7 +110,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             }
         }
 
-        internal string[] Filter
+        internal IEnumerable<string> Filter
         {
             set
             {

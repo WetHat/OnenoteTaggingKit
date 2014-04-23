@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:WetHatLab.OneNote.TaggingKit.common.ui"
              xmlns:prop="clr-namespace:WetHatLab.OneNote.TaggingKit.Properties"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300" DataContextChanged="OnDataContextChanged">
     <UserControl.Resources>
         <ResourceDictionary Source="pack://application:,,,/OneNoteTaggingKit;component/Resources/Styles.xaml"/>
     </UserControl.Resources>
@@ -67,7 +67,7 @@
                AllowsTransparency="True"
                MouseDown="handlePopupPointerAction"
                StylusDown="handlePopupPointerAction"
-               TouchDown="pagesTaggedPopup_TouchDown"
+               TouchDown="handlePopupPointerAction"
                VerticalOffset="10">
                 <Border BorderThickness="2"
                         Background="LightYellow"
@@ -84,10 +84,9 @@
                                FontSize="16" Background="Transparent"/>
                 </Border>
             </Popup>
-            <local:TagInputBox Name="tagInput"
-                 TagInput="OnTagInput"
-                           ToolTip="{Binding ElementName=this,Path=TagInputTooltip,Mode=OneWay}"
-               />
+            <local:TagInputBox x:Name="tagInput"
+                               TagInput="OnTagInput"
+                               ToolTip="{Binding ElementName=this,Path=TagInputTooltip,Mode=OneWay}"/>
         </DockPanel>
         <GroupBox Grid.Row="1"
                   ToolTip="{Binding ElementName=this,Path=TagPanelTooltip,Mode=OneWay}"
