@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace WetHatLab.OneNote.TaggingKit.common.ui
+namespace WetHatLab.OneNote.TaggingKit.common
 {
 
     /// <summary>
