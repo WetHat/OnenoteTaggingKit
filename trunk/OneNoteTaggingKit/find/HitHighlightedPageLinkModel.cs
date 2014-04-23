@@ -18,10 +18,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         IList<TextFragment> HighlightedTitle { get; }
 
-        /// <summary>
-        /// Get the title of the OneNote page.
-        /// </summary>
-        string PageTitle { get; }
     }
 
     /// <summary>
@@ -29,7 +25,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// </summary>
     public class HitHighlightedPageLinkKey : IComparable<HitHighlightedPageLinkKey>, IEquatable<HitHighlightedPageLinkKey>
     {
-
         private int _hits;
 
         private string _title;
@@ -125,7 +120,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         internal HitHighlightedPageLinkModel(TaggedPage tp, TextSplitter highlighter) : base(tp.Title,tp.ID)
         {
             _page = tp;
-            _highlights = highlighter.SplitText(PageTitle);
+            _highlights = highlighter.SplitText(_page.Title);
 
             HitCount = _highlights.Count;
             
@@ -147,17 +142,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
         public IList<TextFragment> HighlightedTitle
         {
             get { return _highlights; }
-        }
-
-        /// <summary>
-        /// Get the OneNote page title.
-        /// </summary>
-        public string PageTitle
-        {
-            get
-            {
-                return _page.Title;
-            }
         }
         #endregion
 
