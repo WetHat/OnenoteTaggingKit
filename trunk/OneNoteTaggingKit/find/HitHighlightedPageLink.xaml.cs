@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {
@@ -29,33 +30,17 @@ namespace WetHatLab.OneNote.TaggingKit.find
            
             // rebuild the hithighlighted Title
             link.hithighlightedTitle.Inlines.Clear();
-            if (model.Matches != null && model.Matches.Count > 0)
-            {
-                int afterLastHighlight = 0;
-                foreach (Match m in model.Matches)
-                {
-                    // create a plain run between the last highlight and this highlight
-                    if (m.Index > afterLastHighlight)
-                    {
-                        link.hithighlightedTitle.Inlines.Add(new Run(model.PageTitle.Substring(afterLastHighlight, m.Index - afterLastHighlight)));
-                    }
-                    // add a highlighted Run
-                    Run r = new Run(model.PageTitle.Substring(m.Index, m.Length));
-                    r.Background=Brushes.Yellow;
-                    link.hithighlightedTitle.Inlines.Add(r);
-                    afterLastHighlight = m.Index + m.Length;
-                }
-                // add remaining plain text
-                if (afterLastHighlight < model.PageTitle.Length)
-                {
-                    link.hithighlightedTitle.Inlines.Add(new Run(model.PageTitle.Substring(afterLastHighlight, model.PageTitle.Length - afterLastHighlight)));
-                }
-            }
-            else
-            {
-                link.hithighlightedTitle.Inlines.Add(new Run(model.PageTitle));
-            }
 
+            foreach (TextFragment f in model.HighlightedTitle)
+            {
+                Run r = new Run(f.Text);
+                if (f.IsMatch)
+                {
+                    r.Background = Brushes.Yellow;
+                }
+                link.hithighlightedTitle.Inlines.Add(r);
+            }
+  
             // rebuild the hit highlighted Tooltip
             ToolTip tt = new ToolTip();
             tt.Style = new Style(); // override the global style
