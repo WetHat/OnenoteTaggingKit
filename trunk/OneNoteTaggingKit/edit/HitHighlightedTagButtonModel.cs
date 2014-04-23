@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
@@ -23,39 +24,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <summary>
         /// Get the description of a substring match
         /// </summary>
-        Hit Hit { get; }
+        IEnumerable<TextFragment> HitHighlightedTagName { get; }
 
         /// <summary>
         /// get the current margin of the control.
         /// </summary>
         Thickness Margin { get; }
-    }
-
-    /// <summary>
-    /// Descriptor for a substring match.
-    /// </summary>
-    public struct Hit: IEquatable<Hit>
-    {
-        /// <summary>
-        /// startindey of match
-        /// </summary>
-        public int Index;
-        /// <summary>
-        /// length of match
-        /// </summary>
-        public int Length;
-
-        #region IEquatable<Hit>
-        /// <summary>
-        /// compare two instances of class <see cref="Hit"/> for equality
-        /// </summary>
-        /// <param name="other">other instance of this class to compare against</param>
-        /// <returns>true if this instance is identcal with the other instance</returns>
-        public bool Equals(Hit other)
-        {
-            return Index == other.Index && Length == other.Length;
-        }
-        #endregion IEquatable<Hit>
     }
 
     /// <summary>
@@ -66,7 +40,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <summary>
         /// predefined event descriptor for <see cref=">PropertyChanged"/> event fired for the <see cref="Hit"/> property
         /// </summary>
-        internal static readonly PropertyChangedEventArgs HIT_Property = new PropertyChangedEventArgs("Hit");
+        internal static readonly PropertyChangedEventArgs HITHIGHLIGHTED_TAGNAME_Property = new PropertyChangedEventArgs("HitHighlightedTagName");
         /// <summary>
         /// predefined event descriptor for <see cref=">PropertyChanged"/> event fired for the <see cref="Visibility"/> property
         /// </summary>
@@ -77,14 +51,16 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         internal static readonly PropertyChangedEventArgs MARGIN_Property = new PropertyChangedEventArgs("Margin");
 
         string _tagName;
-        Hit _hit ;
+        IEnumerable<TextFragment> _hithighlightedTagname ;
+        bool _isFiltered = false;
         TagModelKey _sortkey;
-
 
         internal HitHighlightedTagButtonModel(string tagName)
         {
             _tagName = tagName;
             _sortkey = new TagModelKey(tagName);
+            TextSplitter splitter = new TextSplitter();
+            _hithighlightedTagname = splitter.SplitText(tagName);
         }
 
         #region IHitHighlightedTagButtonModel
@@ -104,17 +80,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             get
             {
-                return _hit.Index >= 0 ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
-            }
-        }
-        /// <summary>
-        /// Get the hit higlighting data of the  <see cref="HitHighlightedTagButton"/> control.
-        /// </summary>
-        public Hit Hit
-        {
-            get
-            {
-                return _hit;
+                return !_isFiltered || _hithighlightedTagname.FirstOrDefault((f) => f.IsMatch).IsMatch ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
             }
         }
 
@@ -128,6 +94,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 return Visibility == System.Windows.Visibility.Visible ? new Thickness(0, 5, 5, 0) : new Thickness(0,0,0,0);
             }
         }
+
+        public IEnumerable<TextFragment> HitHighlightedTagName
+        {
+            get { return _hithighlightedTagname; }
+        }
+
         #endregion IHitHighlightedTagButtonModel
 
         private void firePropertyChange(PropertyChangedEventArgs args)
@@ -146,42 +118,14 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// Setting this property has a side effect on two other properties: <see cref="Hit"/> and <see cref="Margin"/>.
         /// The appropriate <see cref="PropertyChanged"/> events are fired as necessary.
         /// </remarks>
-        internal IEnumerable<string> Filter
+        internal TextSplitter Filter
         {
             set
             {
                 Visibility visBefore = Visibility;
-                Hit hitBefore = _hit;
-
-                if (value == null)
-                {
-                    _hit = new Hit
-                        {
-                            Index = 0,
-                            Length = 0
-                        };
-                }
-                else
-                {
-                    _hit = new Hit {
-                        Index = -1,
-                        Length = 0
-                    };
-                    foreach (string s in value)
-                    {
-                        int index = TagName.IndexOf(s, 0, StringComparison.CurrentCultureIgnoreCase);
-                        if (index >= 0)
-                        {
-                            _hit.Index = index;
-                            _hit.Length = s.Length;
-                            break;
-                        }
-                    }
-                }
-                if (!hitBefore.Equals(_hit))
-                {
-                    firePropertyChange(HIT_Property);
-                }
+                _isFiltered = value.SplitPattern != null;
+                _hithighlightedTagname = value.SplitText(TagName);
+                firePropertyChange(HITHIGHLIGHTED_TAGNAME_Property);
                 if (visBefore != Visibility)
                 {
                     firePropertyChange(VISIBILITY_Property);
@@ -215,5 +159,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             get { return _tagName; }
         }
         #endregion
+
+
     }
 }

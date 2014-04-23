@@ -122,7 +122,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             _page = tp;
             _highlights = highlighter.SplitText(_page.Title);
 
-            HitCount = _highlights.Count;
+            HitCount = _highlights.Count((f) => f.IsMatch);
             
         }
 

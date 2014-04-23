@@ -52,14 +52,15 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// Create a new text splitter instance
         /// </summary>
         /// <param name="pattern">sequence of match strings</param>
-        internal TextSplitter(IEnumerable<string> pattern)
+        /// <param name="splitOptions">regular expression match options</param>
+        internal TextSplitter(IEnumerable<string> pattern, RegexOptions splitOptions = RegexOptions.IgnoreCase)
         {
             if (pattern != null)
             {
                 string p = string.Join("|", pattern);
                 if (p.Length > 0)
                 {
-                    _pattern = new Regex(string.Join("|", pattern), RegexOptions.IgnoreCase);
+                    _pattern = new Regex(string.Join("|", pattern), splitOptions);
                 }
             }
         }
@@ -68,10 +69,16 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// Create a new text splitter instance
         /// </summary>
         /// <param name="pattern">any number of text patterns</param>
+        /// <param name="splitOptions">regular expression match options</param>
         internal TextSplitter(params string[] pattern) : this((IEnumerable<string>)pattern)
         {
         }
 
+        /// <summary>
+        /// Get the regular expression used for splitting.
+        /// </summary>
+        /// <value>regular expression used for splitting; null if not spit pattern is set </value>
+        internal Regex SplitPattern { get { return _pattern; } }
         /// <summary>
         /// Create a sequence of text fragments describing matching and non-matching fragments
         /// </summary>

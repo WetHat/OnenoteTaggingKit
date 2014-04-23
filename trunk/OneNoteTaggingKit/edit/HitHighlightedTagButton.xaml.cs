@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
@@ -45,19 +46,14 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private void createHitHighlightedTag(IHitHighlightedTagButtonModel mdl)
         {
             hithighlightedTag.Inlines.Clear();
-            if (mdl.Hit.Length > 0)
+            foreach (TextFragment f in mdl.HitHighlightedTagName)
             {
-                hithighlightedTag.Inlines.Add(new Run(mdl.TagName.Substring(0, mdl.Hit.Index)));
-
-                Run r = new Run(mdl.TagName.Substring(mdl.Hit.Index, mdl.Hit.Length));
-                r.Background = Brushes.Yellow;
+                Run r = new Run(f.Text);
+                if (f.IsMatch)
+                {
+                    r.Background = Brushes.Yellow;
+                }
                 hithighlightedTag.Inlines.Add(r);
-
-                hithighlightedTag.Inlines.Add(new Run(mdl.TagName.Substring(mdl.Hit.Index + mdl.Hit.Length)));
-            }
-            else
-            { 
-                hithighlightedTag.Inlines.Add(new Run(mdl.TagName));
             }
         }
         private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -73,7 +69,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         void mdl_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e == HitHighlightedTagButtonModel.HIT_Property)
+            if (e == HitHighlightedTagButtonModel.HITHIGHLIGHTED_TAGNAME_Property)
             {
                 IHitHighlightedTagButtonModel mdl = sender as IHitHighlightedTagButtonModel;
                 createHitHighlightedTag(mdl);

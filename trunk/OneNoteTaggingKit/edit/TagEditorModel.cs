@@ -193,9 +193,10 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         internal void UpdateTagFilter(IEnumerable<string> filter)
         {
+            TextSplitter splitter = new TextSplitter(filter);
             foreach (var st in SuggestedTags)
             {
-                st.Filter = filter;
+                st.Filter = splitter;
             }
         }
 
