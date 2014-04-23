@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using WetHatLab.OneNote.TaggingKit.common;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
@@ -26,7 +27,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// Add or remove the click handler.
         /// </summary>
         /// <remarks>clr wrapper for routed event</remarks>
-        internal event RoutedEventHandler Click
+        public event RoutedEventHandler Click
         {
             add { AddHandler(ClickEvent, value); }
 

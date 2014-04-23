@@ -43,15 +43,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             set
             {
                 _model = value;
-                _model.TagSuggestions = new TagSuggestionSource((dataContext) =>
-                {
-                    var btn = new HitHighlightedTagButton()
-                    {
-                        DataContext = dataContext
-                    };
-                    btn.Click += OnSuggestedTagClick;
-                    return btn;
-                });
+                _model.TagSuggestions = new TagSuggestionSource();
                 DataContext = _model;
             }
         }

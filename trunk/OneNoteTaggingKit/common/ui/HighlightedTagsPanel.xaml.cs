@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
@@ -9,11 +12,10 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     {
         TextSplitter Highlighter { set; }
     }
-   
+
     public interface ITagSource: INotifyCollectionChanged
     {
         IEnumerable<IFilterableTagDataContext> TagDataContextCollection { get; }
-        FrameworkElement ConstructTagControl(object dataContext);
     }
 
     /// <summary>
@@ -21,6 +23,23 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// </summary>
     public partial class HighlightedTagsPanel : UserControl
     {
+        /// <summary>
+        /// Dependency property for the tag templage.
+        /// </summary>
+        public static readonly DependencyProperty TagTemplateProperty = DependencyProperty.Register("TagTemplate", typeof(DataTemplate), typeof(HighlightedTagsPanel));
+
+        public DataTemplate TagTemplate
+        {
+            get
+            {
+                return GetValue(TagTemplateProperty) as DataTemplate;
+            }
+            set
+            {
+                SetValue(TagTemplateProperty, value);
+            }
+        }
+
         /// <summary>
         /// Dependency property for panel header.
         /// </summary>
@@ -70,10 +89,14 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 switch (e.Action)
                 {
                     case NotifyCollectionChangedAction.Add:
+                        DataTemplate tpl = TagTemplate;
                         int newItemCount = e.NewItems.Count;
                         for (int i = 0; i < newItemCount; i++)
                         {
-                            tagsPanel.Children.Insert(i+e.NewStartingIndex,tagsource.ConstructTagControl(e.NewItems[i]));
+                            FrameworkElement tagControl = tpl.LoadContent() as FrameworkElement;
+                            tagControl.DataContext = e.NewItems[i];
+
+                            tagsPanel.Children.Insert(i + e.NewStartingIndex, tagControl);
                         }
                         break;
                     case NotifyCollectionChangedAction.Remove:
@@ -85,10 +108,6 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                         break;
                     case NotifyCollectionChangedAction.Reset:
                         tagsPanel.Children.Clear();
-                        foreach (object d in tagsource.TagDataContextCollection)
-                        {
-                            tagsPanel.Children.Add(tagsource.ConstructTagControl(d));
-                        }
                         break;
                 }
             }

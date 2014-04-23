@@ -284,11 +284,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
     public class TagSuggestionSource : ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel>, ITagSource
     {
-        private TagButtonFactory _factory;
-
-        internal TagSuggestionSource(TagButtonFactory factory)
+        internal TagSuggestionSource()
         {
-            _factory = factory;
         }
 
         /// <summary>
@@ -311,17 +308,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
           Properties.Settings.Default.KnownTags = string.Join(",", from v in Values select v.TagName);
         }
+
         #region ITagSource
         public IEnumerable<IFilterableTagDataContext> TagDataContextCollection
         {
             get { return Values; }
         }
-
-        public FrameworkElement ConstructTagControl(object dataContext)
-        {
-            return _factory(dataContext);
-        }
-        
         #endregion ITagSource
     }
 }
