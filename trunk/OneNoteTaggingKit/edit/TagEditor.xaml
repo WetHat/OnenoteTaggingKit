@@ -256,7 +256,13 @@
                                   Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" 
                                   Background="Transparent"
                                   TagSource="{Binding TagSuggestions,Mode=OneWay}"
-                                  Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Suggestions_GroupBox_Title}}"/>
+                                  Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Suggestions_GroupBox_Title}}">
+            <cui:HighlightedTagsPanel.TagTemplate>
+                <DataTemplate>
+                    <local:HitHighlightedTagButton Click="OnSuggestedTagClick"/>
+                </DataTemplate>
+            </cui:HighlightedTagsPanel.TagTemplate>
+        </cui:HighlightedTagsPanel>
         <ProgressBar Name="pBar" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>
