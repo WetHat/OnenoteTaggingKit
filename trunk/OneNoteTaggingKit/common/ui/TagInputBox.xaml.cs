@@ -40,7 +40,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             InitializeComponent();
         }
 
-        public bool IsEmpty
+        internal bool IsEmpty
         {
             get
             {
@@ -48,7 +48,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             }
         }
 
-        public IEnumerable<string> Tags
+        internal IEnumerable<string> Tags
         {
             get
             {
@@ -62,12 +62,12 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             }
         }
 
-        public bool Focus()
+        internal bool FocusInput()
         {
             return tagInput.Focus();
         }
 
-        public void Clear()
+        internal void Clear()
         {
             tagInput.Text = String.Empty;
             UpdateVisibility();
