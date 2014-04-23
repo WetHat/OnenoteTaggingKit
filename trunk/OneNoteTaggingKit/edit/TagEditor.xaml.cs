@@ -150,13 +150,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 if (string.IsNullOrEmpty(filterText))
                 {
                     //UpdateTagFilter(true);
-                    suggestedTags.Highlighter = new TextSplitter();
                     filterPopup.IsOpen = true;
                 }
-                else
-                {
-                    suggestedTags.Highlighter = new TextSplitter(tagNames);
-                }
+                suggestedTags.Highlighter = new TextSplitter(tagNames);
             }
             catch (Exception ex)
             {
@@ -221,7 +217,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 TraceLogger.Log(TraceCategory.Error(), "Applying tags to page failed: {0}", xe);
                 TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_TagUpdate_Error, xe);
             }
-
         }
 
         private void handlePopupPointerAction(object sender, RoutedEventArgs e)
