@@ -40,25 +40,9 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <ComboBox Name="searchComboBox"
-                  Grid.Row="0" Grid.Column="0"
-                  Margin="5,5,5,0"
-                  IsEditable="true" IsTextSearchEnabled="True"
-                  ItemsSource="{Binding SearchHistory}"
-                  KeyUp="SearchComboBox_KeyUp"
-                  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Query_ComboBox_Tooltip}}" />
-        <Button Name="searchButton" 
-                Grid.Row="0" Grid.Column="1"
-                Height="24"
-                Style="{StaticResource controlEffectStyle}"
-                Margin="0,5,0,0"
-                Click="SearchButton_Click">
-            <Image MaxWidth="32"  Source="/OneNoteTaggingKit;component/Resources/search-32x32 blue.jpg" />
-        </Button>
-        <ComboBox Grid.Row="0" Grid.Column="2"
+        <DockPanel Grid.Row="0">
+            <ComboBox DockPanel.Dock="Right"
                   Style="{StaticResource controlEffectStyle}"
                   IsEditable="False" IsTextSearchEnabled="True"
                   ItemsSource="{Binding Scopes}"
@@ -68,41 +52,23 @@
                   Margin="5,5,5,0"
                   SelectionChanged="ScopeComboBox_SelectionChanged"
                   ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Scope_ComboBox_Tooltip}}" >
-        </ComboBox>
-        <GroupBox Grid.Row="1" Grid.ColumnSpan="3"
-                  HorizontalAlignment="Stretch"
-                  Margin="5,0,5,0"
-                  Background="Transparent"
-                  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Tags_GroupBox_Tooltip}}">
-            <GroupBox.Header>
-                <TextBlock>
-                  <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Tags_GroupBox_Title}}"/>
-                  <Run Text=" ("/>
-                  <Run Text="{Binding TagCount, Mode=OneWay}"/>
-                  <Run Text=")"/>
-                </TextBlock>
-            </GroupBox.Header>
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <WrapPanel Name="tagsPanel" />
-            </ScrollViewer>
-        </GroupBox>
-        <ProgressBar Name="pBar"
-                     Grid.Row="1"
-                     Grid.ColumnSpan="3"/>
-        <Button Name="clearSelectionButton"  Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Top"  HorizontalAlignment="Right" Click="ClearSelectionButton_Click" BorderThickness="0" BorderBrush="LightBlue" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_ClearSelection_Button_Tooltip}}" Background="Transparent" Margin="0,0,25,0">
-            <Image  MaxWidth="32" Height="24" HorizontalAlignment="Center" VerticalAlignment="Bottom" Source="/OneNoteTaggingKit;component/Resources/clear selection.png"/>
-        </Button>
-        
-        <GridSplitter Grid.Row="2" Grid.ColumnSpan="3" ResizeDirection="Rows" Height="5" HorizontalAlignment="Stretch">
-            <GridSplitter.Background>
-                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="#FFE2EDF7" Offset="0.67"/>
-                </LinearGradientBrush>
-            </GridSplitter.Background>
-        </GridSplitter>
-        
-        <GroupBox Grid.Row="3" Grid.ColumnSpan="3" 
+            </ComboBox>
+            <Button Name="searchButton" 
+                DockPanel.Dock="Right"
+                Height="24"
+                Style="{StaticResource controlEffectStyle}"
+                Margin="0,5,0,0"
+                Click="SearchButton_Click">
+                <Image MaxWidth="32"  Source="/OneNoteTaggingKit;component/Resources/search-32x32 blue.jpg" />
+            </Button>
+            <ComboBox Name="searchComboBox"
+                  Margin="5,5,5,0"
+                  IsEditable="true" IsTextSearchEnabled="True"
+                  ItemsSource="{Binding SearchHistory}"
+                  KeyUp="SearchComboBox_KeyUp"
+                  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Query_ComboBox_Tooltip}}" />
+        </DockPanel>
+        <GroupBox Grid.Row="1" 
                   HorizontalAlignment="Stretch" 
                   Margin="5,0,5,0" Background="Transparent"
                   ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Pages_GroupBox_Tooltip}}">
@@ -122,5 +88,35 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </GroupBox>
+        <GridSplitter Grid.Row="2" ResizeDirection="Rows" Height="5" HorizontalAlignment="Stretch">
+            <GridSplitter.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FFE2EDF7" Offset="0.67"/>
+                </LinearGradientBrush>
+            </GridSplitter.Background>
+        </GridSplitter>
+        <GroupBox Grid.Row="3"
+                  HorizontalAlignment="Stretch"
+                  Margin="5,0,5,0"
+                  Background="Transparent"
+                  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Tags_GroupBox_Tooltip}}">
+            <GroupBox.Header>
+                <TextBlock>
+                  <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Tags_GroupBox_Title}}"/>
+                  <Run Text=" ("/>
+                  <Run Text="{Binding TagCount, Mode=OneWay}"/>
+                  <Run Text=")"/>
+                </TextBlock>
+            </GroupBox.Header>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <WrapPanel Name="tagsPanel" />
+            </ScrollViewer>
+        </GroupBox>
+        <ProgressBar Name="pBar"
+                     Grid.Row="1"/>
+        <Button Name="clearSelectionButton"  Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Top"  HorizontalAlignment="Right" Click="ClearSelectionButton_Click" BorderThickness="0" BorderBrush="LightBlue" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_ClearSelection_Button_Tooltip}}" Background="Transparent" Margin="0,0,25,0">
+            <Image  MaxWidth="32" Height="24" HorizontalAlignment="Center" VerticalAlignment="Bottom" Source="/OneNoteTaggingKit;component/Resources/clear selection.png"/>
+        </Button>
     </Grid>
 </Window>
