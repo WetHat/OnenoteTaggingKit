@@ -251,15 +251,12 @@
                          Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
                          ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Tooltip}}"
                          TagInput="TagInputBox_Input"/>
-        <GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" 
-                  HorizontalAlignment="Stretch" 
-                  Margin="5,0,5,0" Background="Transparent"
-                  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Suggestions_GroupBox_Tooltip}}"
-                  Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Suggestions_GroupBox_Title}}">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" CanContentScroll="True">
-                <WrapPanel Name="suggestedTagsPanel"/>
-            </ScrollViewer>
-        </GroupBox>
+        <cui:HighlightedTagsPanel x:Name="suggestedTags"
+                                  Margin="5,0,5,0"
+                                  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" 
+                                  Background="Transparent"
+                                  TagSource="{Binding TagSuggestions,Mode=OneWay}"
+                                  Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Suggestions_GroupBox_Title}}"/>
         <ProgressBar Name="pBar" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>

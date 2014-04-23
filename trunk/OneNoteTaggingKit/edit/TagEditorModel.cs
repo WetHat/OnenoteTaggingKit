@@ -25,11 +25,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> PageTags { get; }
 
         /// <summary>
-        /// Get the collection of suggested tags.
-        /// </summary>
-        ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel> SuggestedTags { get; }
-
-        /// <summary>
         /// Get the enumeration of tagging scopes
         /// </summary>
         IEnumerable<TaggingScopeDescriptor> TaggingScopes { get; }
@@ -105,11 +100,23 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         Microsoft.Office.Interop.OneNote.Application _OneNote;
         XMLSchema _schema;
 
+        TagSuggestionSource _suggestionSource;
+
         ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> _pageTags = new ObservableSortedList<TagModelKey, string, SimpleTagButtonModel>();
 
-        ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel> _suggestedTags = new ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel>();
-
         TaggingScopeDescriptor[] _taggingScopes;
+
+        public TagSuggestionSource TagSuggestions
+        {
+            get
+            {
+                return _suggestionSource;
+            }
+            internal set
+            {
+                _suggestionSource = value;
+            }
+        }
 
         internal TagEditorModel(Microsoft.Office.Interop.OneNote.Application onenote,XMLSchema schema)
         {
@@ -148,15 +155,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
 
         /// <summary>
-        /// Get the collection of all tags known to the addin.
-        /// </summary>
-        /// <remarks>These tags are used to suggest page tags</remarks>
-        public ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel> SuggestedTags
-        {
-            get { return _suggestedTags; }
-        }
-
-        /// <summary>
         /// Get a collection of scopes available for tagging
         /// </summary>
         public IEnumerable<TaggingScopeDescriptor> TaggingScopes
@@ -166,45 +164,13 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         #endregion ITagEditorModel
 
-        /// <summary>
-        /// Asnchronously load all tags used anywhere on OneNote pages.
-        /// </summary>
-        /// <returns>task object</returns>
-        internal async Task LoadSuggestedTagsAsync()
-        {
-            _suggestedTags.Clear();
-            HitHighlightedTagButtonModel[] mdls = await Task<HitHighlightedTagButtonModel[]>.Run(() => LoadSuggetedTagsAction());
-            _suggestedTags.AddAll(mdls);
-        }
-
-        private HitHighlightedTagButtonModel[] LoadSuggetedTagsAction()
-        {
-            return (from string t in OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags) select new HitHighlightedTagButtonModel(t)).ToArray();
-        }
-
-        internal async Task<int> SaveChangesAsync(TagOperation op,TaggingScope scope)
+        internal async Task<int> SavePageTagsAsync(TagOperation op,TaggingScope scope)
         {
             // pass tags and current page as parameters so that the undelying objects can further be modified in the foreground
             int pagesTagged = 0;
             string[] pageTags = (from t in _pageTags.Values select t.TagName).ToArray();
             pagesTagged = await Task<int>.Run(() => SaveChangesAction(pageTags, op, scope));
-
-            // update suggestions
-            if (pageTags != null && pageTags.Length > 0)
-            {
-                SuggestedTags.AddAll(from t in pageTags where !SuggestedTags.ContainsKey(t) select new HitHighlightedTagButtonModel(t));
-                Properties.Settings.Default.KnownTags = string.Join(",", from v in SuggestedTags.Values select v.TagName);
-            }
             return pagesTagged;
-        }
-
-        internal void UpdateTagFilter(IEnumerable<string> filter)
-        {
-            TextSplitter splitter = new TextSplitter(filter);
-            foreach (var st in SuggestedTags)
-            {
-                st.Filter = splitter;
-            }
         }
 
         private int SaveChangesAction(string[] tags, TagOperation op, TaggingScope scope)
@@ -314,5 +280,48 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
             return tags;
         }
+    }
+
+    public class TagSuggestionSource : ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel>, ITagSource
+    {
+        private TagButtonFactory _factory;
+
+        internal TagSuggestionSource(TagButtonFactory factory)
+        {
+            _factory = factory;
+        }
+
+        /// <summary>
+        /// Asnchronously load all tags used anywhere on OneNote pages.
+        /// </summary>
+        /// <returns>task object</returns>
+        internal async Task LoadSuggestedTagsAsync()
+        {
+            Clear();
+            HitHighlightedTagButtonModel[] mdls = await Task<HitHighlightedTagButtonModel[]>.Run(() => LoadSuggestedTagsAction());
+            AddAll(mdls);
+        }
+
+        private HitHighlightedTagButtonModel[] LoadSuggestedTagsAction()
+        {
+            return (from string t in OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags) select new HitHighlightedTagButtonModel(t)).ToArray();
+        }
+
+        internal void Save()
+        {
+          Properties.Settings.Default.KnownTags = string.Join(",", from v in Values select v.TagName);
+        }
+        #region ITagSource
+        public IEnumerable<IFilterableTagDataContext> TagDataContextCollection
+        {
+            get { return Values; }
+        }
+
+        public FrameworkElement ConstructTagControl(object dataContext)
+        {
+            return _factory(dataContext);
+        }
+        
+        #endregion ITagSource
     }
 }

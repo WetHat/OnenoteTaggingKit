@@ -11,7 +11,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     /// <summary>
     /// Contract for view models for the <see cref="HitHighlightedTagButton"/> control.
     /// </summary>
-    public interface IHitHighlightedTagButtonModel: INotifyPropertyChanged
+    public interface IHitHighlightedTagButtonModel : IFilterableTagDataContext,INotifyPropertyChanged
     {
         /// <summary>
         /// Get the current control visibility.
@@ -100,16 +100,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             get { return _hithighlightedTagname; }
         }
 
-        #endregion IHitHighlightedTagButtonModel
-
-        private void firePropertyChange(PropertyChangedEventArgs args)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, args);
-            }
-        }
-
         /// <summary>
         /// Set a filter string which is used to determine the appearance of the <see cref="HitHighlightedTagButton"/>
         /// control.
@@ -118,7 +108,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// Setting this property has a side effect on two other properties: <see cref="Hit"/> and <see cref="Margin"/>.
         /// The appropriate <see cref="PropertyChanged"/> events are fired as necessary.
         /// </remarks>
-        internal TextSplitter Filter
+        public TextSplitter Highlighter
         {
             set
             {
@@ -134,6 +124,16 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     firePropertyChange(VISIBILITY_Property);
                     firePropertyChange(MARGIN_Property);
                 }
+            }
+        }
+
+        #endregion IHitHighlightedTagButtonModel
+
+        private void firePropertyChange(PropertyChangedEventArgs args)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, args);
             }
         }
 
@@ -162,7 +162,5 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             get { return _tagName; }
         }
         #endregion
-
-
     }
 }
