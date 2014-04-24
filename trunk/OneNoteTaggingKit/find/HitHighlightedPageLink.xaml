@@ -13,7 +13,7 @@
         <ContextMenu>
             <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_ContextMenu_CopyLink}}" Click="Copy_Link_Click">
                 <MenuItem.Icon>
-                    <Image Source="/OneNoteTaggingKit;component/Resources/copy-26.png" />
+                    <Image Source="/OneNoteTaggingKit;component/Resources/copy_link-32.png" />
                 </MenuItem.Icon>
             </MenuItem>
         </ContextMenu>
