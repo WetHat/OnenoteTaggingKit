@@ -90,7 +90,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         private Microsoft.Office.Interop.OneNote.Application _onenote;
 
         private Microsoft.Office.Interop.OneNote.Window _currentWindow;
-
+        private XMLSchema _schema;
         private IList<TagSearchScope> _scopes;
 
         private TagSearchScope _selectedScope;
@@ -133,6 +133,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         internal FindTaggedPagesModel(Microsoft.Office.Interop.OneNote.Application onenote, Microsoft.Office.Interop.OneNote.Window currentWindow, XMLSchema schema)
         {
             _onenote = onenote;
+            _schema = schema;
             _currentWindow = currentWindow;
             _scopes = new TagSearchScope[4];
             _scopes[0] = new TagSearchScope {
@@ -179,6 +180,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 PropertyChanged(this, propArgs);
             }
         }
+
+        public TagCollection ContextTags { get { return new TagCollection(_onenote, _schema); } }
         /// <summary>
         /// Find pages matching a search criterion in the background.
         /// </summary>
