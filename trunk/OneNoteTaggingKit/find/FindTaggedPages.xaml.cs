@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using WetHatLab.OneNote.TaggingKit.common;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {
@@ -37,45 +39,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 _model = value;
                 
                 DataContext = _model;
-                _model.Tags.CollectionChanged += HandleTagCollectionChanges;
             }
         }
 
         #endregion IOneNotePageWindow<TagSearchModel>
-
-        private void HandleTagCollectionChanges(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    for (int i = 0; i < e.NewItems.Count; i++)
-                    {
-                        TagSelector btn = createTagSelectorButton((TagSelectorModel)e.NewItems[i]);
-                        tagsPanel.Children.Insert(i + e.NewStartingIndex, btn);
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    for (int i = 0; i < e.OldItems.Count; i++)
-                    {
-                        tagsPanel.Children.RemoveAt(e.OldStartingIndex);
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    tagsPanel.Children.Clear();
-                    break;
-            }
-        }
-
-        private TagSelector createTagSelectorButton(TagSelectorModel mdl)
-        {
-            TagSelector s = new TagSelector()
-            {
-                DataContext = mdl,
-                Margin = new Thickness(3,3,0,0)
-            };
-  
-            return s;
-        }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -167,6 +134,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
         {
             searchComboBox.Focus();
             Keyboard.Focus(searchComboBox);
+        }
+
+        private void TagInputBox_Input(object sender, TagInputEventArgs e)
+        {
+            if (!e.TagInputComplete)
+            {
+                tagsPanel.Highlighter = new TextSplitter(tagInput.Tags);
+            }
         }
     }
 }

@@ -94,7 +94,6 @@
     <Compile Include="edit\HitHighlightedTagButton.xaml.cs">
       <DependentUpon>HitHighlightedTagButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="edit\HitHighlightedTagButtonDesignerModel.cs" />
     <Compile Include="edit\HitHighlightedTagButtonModel.cs" />
     <Compile Include="edit\OneNotePageProxy.cs" />
     <Compile Include="edit\SimpleTagButton.xaml.cs">
@@ -119,7 +118,6 @@
     <Compile Include="find\TagSelector.xaml.cs">
       <DependentUpon>TagSelector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="find\TagSelectorDesignerModel.cs" />
     <Compile Include="find\TagSelectorModel.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="manage\RemovableTag.xaml.cs">
