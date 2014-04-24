@@ -112,18 +112,20 @@ namespace WetHatLab.OneNote.TaggingKit.find
     {
         private IList<TextFragment> _highlights;
         private TaggedPage _page;
+        private Microsoft.Office.Interop.OneNote.Application _onenote;
         /// <summary>
         /// create a new instance of the view model.
         /// </summary>
         /// <param name="tp">a OneNote page object</param>
         /// <param name="pattern">regular expression describing the search query. Used for generating hit highlighting of the page link</param>
-        internal HitHighlightedPageLinkModel(TaggedPage tp, TextSplitter highlighter) : base(tp.Title,tp.ID)
+        internal HitHighlightedPageLinkModel(TaggedPage tp, TextSplitter highlighter, Microsoft.Office.Interop.OneNote.Application onenote)
+            : base(tp.Title, tp.ID)
         {
             _page = tp;
             _highlights = highlighter.SplitText(_page.Title);
 
             HitCount = _highlights.Count((f) => f.IsMatch);
-            
+            _onenote = onenote;
         }
 
         /// <summary>
@@ -137,6 +139,15 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
 
+        internal string PageLink
+        {
+            get
+            {
+                string link;
+                _onenote.GetHyperlinkToObject(_page.ID,String.Empty,out link);
+                return link;
+            }
+        }
         #region IHitHighlightedPageLinkModel
 
         public IList<TextFragment> HighlightedTitle
@@ -145,6 +156,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
         #endregion
 
+        internal string LinkTitle { get { return _page.Title; } }
+ 
         #region ISortableKeyedItem<HitHighlightedPageLinkKey,string>
         
         /// <summary>

@@ -616,6 +616,24 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy link to OneNote Page.
+        /// </summary>
+        public static string TagSearch_ContextMenu_CopyLink {
+            get {
+                return ResourceManager.GetString("TagSearch_ContextMenu_CopyLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copying link to page failed.
+        /// </summary>
+        public static string TagSearch_Error_CopyLink {
+            get {
+                return ResourceManager.GetString("TagSearch_Error_CopyLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search failed.
         /// </summary>
         public static string TagSearch_Error_Find {

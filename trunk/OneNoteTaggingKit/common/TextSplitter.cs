@@ -53,7 +53,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </summary>
         /// <param name="pattern">sequence of match strings</param>
         /// <param name="splitOptions">regular expression match options</param>
-        internal TextSplitter(IEnumerable<string> pattern, RegexOptions splitOptions = RegexOptions.IgnoreCase)
+        internal TextSplitter(IEnumerable<string> pattern, RegexOptions splitOptions = RegexOptions.IgnoreCase | RegexOptions.Compiled)
         {
             if (pattern != null)
             {
