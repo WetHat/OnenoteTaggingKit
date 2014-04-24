@@ -94,6 +94,7 @@
         </GroupBox>
         <GridSplitter Grid.Row="2"
                       VerticalAlignment="Top"
+                      ResizeBehavior="PreviousAndNext"
                       ResizeDirection="Rows" Height="5" HorizontalAlignment="Stretch">
             <GridSplitter.Background>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
@@ -105,10 +106,13 @@
         <cui:TagInputBox Grid.Row="2"
                          x:Name="tagInput"
                          TagInput="TagInputBox_Input"
+                         ContextTagsSource="{Binding ContextTags}"
+                         ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_TagInput_Tooltip}}"
                          Margin="5,8,5,0" />
         <cui:HighlightedTagsPanel Grid.Row="3"
                                   x:Name="tagsPanel"
                                   TagSource="{Binding Tags, Mode=OneWay}"
+                                  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Tags_GroupBox_Tooltip}}"
                                   Background="Transparent">
             <cui:HighlightedTagsPanel.Header>
                 <TextBlock>

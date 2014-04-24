@@ -188,7 +188,7 @@
     <value>Refinement Tags</value>
   </data>
   <data name="TagSearch_Tags_GroupBox_Tooltip" xml:space="preserve">
-    <value>Select tags to filter found pages</value>
+    <value>Select one or more tags to show only pages having these tags.</value>
   </data>
   <data name="TagSearch_Window_Title" xml:space="preserve">
     <value>Find Tagged Pages</value>
@@ -253,20 +253,20 @@
   <data name="TagEditor_Tag_TextBox_Tooltip" xml:space="preserve">
     <value>Type one or more tags separated by comma ',' and press 'Enter', or select from the list of tags matching the text you typed.</value>
   </data>
-  <data name="TagEditor_Filter_MenuItem_CurrentNote" xml:space="preserve">
+  <data name="TagInputBox_Filter_MenuItem_CurrentNote" xml:space="preserve">
     <value>Tags from Current Page</value>
   </data>
-  <data name="TagEditor_Filter_MenuItem_CurrentSection" xml:space="preserve">
+  <data name="TagInputBox_Filter_MenuItem_CurrentSection" xml:space="preserve">
     <value>Tags from Current Section</value>
   </data>
-  <data name="TagEditor_Filter_MenuItem_SelectedNotes" xml:space="preserve">
+  <data name="TagInputBox_Filter_MenuItem_SelectedNotes" xml:space="preserve">
     <value>Tags from Selected Pages</value>
   </data>
-  <data name="TagEditor_Tag_TextBox_Default" xml:space="preserve">
+  <data name="TagInputBox_Input_Default" xml:space="preserve">
     <value>Type a Tag.</value>
   </data>
-  <data name="TagEditor_Filter_Menu_Tooltip" xml:space="preserve">
-    <value>Apply a preset filter to show tags used in the selected context</value>
+  <data name="TagInputBox_Filter_Menu_Tooltip" xml:space="preserve">
+    <value>Add tags found on a range of OneNote pages to the input box</value>
   </data>
   <data name="TagEditor_ComboBox_Scope_CurrentNote" xml:space="preserve">
     <value>Current Page</value>
@@ -277,7 +277,7 @@
   <data name="TagEditor_ComboBox_Scope_Tooltip" xml:space="preserve">
     <value>Range of OneNote pages the tags will be applied to.</value>
   </data>
-  <data name="TagEditor_Popup_FilterNoResult" xml:space="preserve">
+  <data name="TagInputBox_Popup_PresetNoResult" xml:space="preserve">
     <value>No tags were found in the selected scope!</value>
   </data>
   <data name="TagEditor_Popup_NothingTagged" xml:space="preserve">
@@ -295,7 +295,7 @@
   <data name="TagInputBox_ClearInput_Button_Tooltip" xml:space="preserve">
     <value>Press to clear tag input.</value>
   </data>
-  <data name="TagEditor_Filter_Menu_Header" xml:space="preserve">
+  <data name="TagInputBox_PresetsMenu_Header" xml:space="preserve">
     <value>Presets</value>
   </data>
   <data name="TagEditor_SetTags_Button_Tooltip" xml:space="preserve">
@@ -349,5 +349,8 @@ Sorry for the inconvenience!</value>
   </data>
   <data name="TagSearch_Error_ScopeChange" xml:space="preserve">
     <value>Changing search scope failed</value>
+  </data>
+  <data name="TagSearch_TagInput_Tooltip" xml:space="preserve">
+    <value>Type a name to locate a matching refinement tag in the tags panel</value>
   </data>
 </root>

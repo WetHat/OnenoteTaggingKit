@@ -38,7 +38,7 @@
                                Margin="5,5,5,5"
                                TextWrapping="Wrap"
                                TextTrimming="CharacterEllipsis"
-                               Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Popup_FilterNoResult}}"
+                               Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagInputBox_Popup_PresetNoResult}}"
                                FontSize="16" Background="Transparent"/>
             </Border>
         </Popup>
@@ -47,9 +47,9 @@
               BorderThickness="0"
               Visibility="Collapsed"
               Margin="0,0,5,0"
-              ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_Menu_Tooltip}}"
+              ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagInputBox_Filter_Menu_Tooltip}}"
               VerticalAlignment="Center" >
-            <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_Menu_Header}}" FontSize="14"
+            <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagInputBox_PresetsMenu_Header}}" FontSize="14"
                       TextOptions.TextFormattingMode="Display">
                 <MenuItem.Resources>
                     <Style TargetType="{x:Type MenuItem}">
@@ -61,21 +61,21 @@
                 <MenuItem.Icon>
                     <Image Source="/OneNoteTaggingKit;component/Resources/empty_filter-32.png" Height="26" />
                 </MenuItem.Icon>
-                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_MenuItem_CurrentNote}}"
+                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagInputBox_Filter_MenuItem_CurrentNote}}"
                           Tag="CurrentNote"
                           Click="Filter_MenuItem_Click">
                     <MenuItem.Icon>
                         <Image Source="/OneNoteTaggingKit;component/Resources/one_page-32.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_MenuItem_SelectedNotes}}"
+                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagInputBox_Filter_MenuItem_SelectedNotes}}"
                           Margin="0,5,0,5"
                           Tag="SelectedNotes" Click="Filter_MenuItem_Click">
                     <MenuItem.Icon>
                         <Image Source="/OneNoteTaggingKit;component/Resources/copy-26.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_MenuItem_CurrentSection}}"
+                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagInputBox_Filter_MenuItem_CurrentSection}}"
                           Tag="CurrentSection"
                           Click="Filter_MenuItem_Click">
                     <MenuItem.Icon>
@@ -89,9 +89,9 @@
                Foreground="LightGray"
                Background="White"
                VerticalAlignment="Center"
-               VerticalContentAlignment="Center"
-               ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Tooltip}}">
-            <TextBlock Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Default}}" FontSize="{Binding ElementName=tagInput,Path=FontSize}" />
+               VerticalContentAlignment="Center">
+            <TextBlock Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagInputBox_Input_Default}}"
+                       FontSize="{Binding ElementName=tagInput,Path=FontSize}" />
         </Label>
         <TextBox Name="tagInput"
                  Grid.Column="1"
