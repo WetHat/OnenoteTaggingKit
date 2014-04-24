@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -91,6 +92,35 @@ namespace WetHatLab.OneNote.TaggingKit.find
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
             RaiseEvent( new RoutedEventArgs(ClickEvent));
+        }
+
+        private void Copy_Link_Click(object sender, RoutedEventArgs e)
+        {
+            FrameworkElement l = sender as FrameworkElement;
+            if (l != null)
+            {
+                HitHighlightedPageLinkModel mdl = l.DataContext as HitHighlightedPageLinkModel;
+                string pageTitle = mdl.LinkTitle;
+                try
+                {
+                    if (mdl != null)
+                    {
+                        string link = string.Format(@"
+<html>
+<body>
+<a href=""{0}"">{1}</a>
+</body>
+</html>", mdl.PageLink, pageTitle);
+                        Clipboard.SetData(DataFormats.Html, link);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TraceLogger.Log(TraceCategory.Error(), "Link to page '{0}' could not be created: {1}", pageTitle,ex);
+                    TraceLogger.ShowGenericMessageBox(Properties.Resources.TagSearch_Error_CopyLink, ex);
+                }
+                e.Handled = true;
+            }
         }
     }
 }

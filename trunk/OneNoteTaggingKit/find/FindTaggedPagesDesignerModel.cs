@@ -42,7 +42,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
             TextSplitter splitter = new TextSplitter("Cool");
 
-            _pages.AddAll(from TaggedPage tp in c.Pages.Values select new HitHighlightedPageLinkModel(tp,splitter));
+            _pages.AddAll(from TaggedPage tp in c.Pages.Values select new HitHighlightedPageLinkModel(tp,splitter,null));
 
             _tags.AddAll(from t in c.Tags.Values select new TagSelectorModel(t));
         }

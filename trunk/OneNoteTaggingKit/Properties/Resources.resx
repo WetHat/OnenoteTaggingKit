@@ -353,4 +353,10 @@ Sorry for the inconvenience!</value>
   <data name="TagSearch_TagInput_Tooltip" xml:space="preserve">
     <value>Type a name to locate a matching refinement tag in the tags panel</value>
   </data>
+  <data name="TagSearch_ContextMenu_CopyLink" xml:space="preserve">
+    <value>Copy link to OneNote Page</value>
+  </data>
+  <data name="TagSearch_Error_CopyLink" xml:space="preserve">
+    <value>Copying link to page failed</value>
+  </data>
 </root>
