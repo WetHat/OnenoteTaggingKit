@@ -8,26 +8,66 @@ using System.Windows.Data;
 
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
+    /// <summary>
+    /// Contract for implmentation of the data context of controls which want to appear in
+    /// <see cref=" HighlightedTagsPanel"/> controls
+    /// </summary>
     public interface IFilterableTagDataContext
     {
+        /// <summary>
+        /// Set the higlighter which generates highlight text descriptions
+        /// based on a patter match.
+        /// </summary>
         TextSplitter Highlighter { set; }
     }
 
+    /// <summary>
+    /// Contract the implementation of the collection of data context objects backing
+    /// controls showing in <see cref="HighlightedTagsPanel"/> control.
+    /// </summary>
     public interface ITagSource: INotifyCollectionChanged
     {
+        /// <summary>
+        /// Get the collection of data context objects.
+        /// </summary>
         IEnumerable<IFilterableTagDataContext> TagDataContextCollection { get; }
     }
 
     /// <summary>
-    /// Interaction logic for HighlightedTagsPanel.xaml
+    /// Panel to host highlightable controls.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The panel requires the highlightable controls it hosts to be backed by a data context implementing
+    /// the <see cref="IFilterableTagDataContext"/> contract. The details of the highlighting are left
+    /// the specific control implementation. The highlightable control should be defined as a tag template
+    /// (<see cref="TagTemplate"/>).
+    /// <example>
+    /// <code lang="xml">
+    /// &lt;cui:HighlightedTagsPanel TagSource=&quot;{Binding TagSuggestions,Mode=OneWay}&quot;
+	/// 					          Header=&quot;Test&quot;&gt;
+	/// &lt;cui:HighlightedTagsPanel.TagTemplate&gt;
+	/// 	&lt;DataTemplate&gt;
+	/// 		&lt;local:HitHighlightedTagButton Click=&quot;OnSuggestedTagClick&quot;/&gt;
+	/// 	&lt;/DataTemplate&gt;
+	/// &lt;/cui:HighlightedTagsPanel.TagTemplate&gt;
+    /// &lt;/cui:HighlightedTagsPanel&gt;
+    /// </code>
+    /// </example>
+    /// the panel instantiates highlightable controls from the data templates and assignes a data context
+    /// from a tag source implemention <see cref="ITagSource"/>.
+    /// </para>
+    /// </remarks>
     public partial class HighlightedTagsPanel : UserControl
     {
         /// <summary>
-        /// Dependency property for the tag templage.
+        /// Dependency property for the tag's control template.
         /// </summary>
         public static readonly DependencyProperty TagTemplateProperty = DependencyProperty.Register("TagTemplate", typeof(DataTemplate), typeof(HighlightedTagsPanel));
 
+        /// <summary>
+        /// Get or set the tag UI template.
+        /// </summary>
         public DataTemplate TagTemplate
         {
             get
