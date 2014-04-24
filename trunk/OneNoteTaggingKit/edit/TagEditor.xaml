@@ -41,12 +41,10 @@
             <RowDefinition Height="2*" MinHeight="100" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="0" Grid.ColumnSpan="3"
+        <StackPanel Grid.Row="0"
                     Orientation="Horizontal"
                     Margin="5,5,0,0"
                     HorizontalAlignment="Left">
@@ -117,29 +115,6 @@
                                FontSize="16" Background="Transparent"/>
                 </Border>
             </Popup>
-            <Popup Name="filterPopup"
-               PlacementTarget="{Binding ElementName=presetsMenuItem}"
-               StaysOpen="False"
-               AllowsTransparency="True"
-               MouseDown="handlePopupPointerAction"
-               StylusDown="handlePopupPointerAction"
-               TouchDown="handlePopupPointerAction"
-               VerticalOffset="10">
-                <Border BorderThickness="2"
-                        Background="LightYellow"
-                        BorderBrush="DarkSlateBlue"
-                        CornerRadius="10">
-                    <Border.Effect>
-                        <DropShadowEffect Color="LightGray"/>
-                    </Border.Effect>
-                    <TextBlock MaxWidth="200"
-                               Margin="5,5,5,5"
-                               TextWrapping="Wrap"
-                               TextTrimming="CharacterEllipsis"
-                               Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Popup_FilterNoResult}}"
-                               FontSize="16" Background="Transparent"/>
-                </Border>
-            </Popup>
             <Popup Name="progressPopup"
                PlacementTarget="{Binding ElementName=addTags}"
                StaysOpen="False"
@@ -164,7 +139,7 @@
                 </Border>
             </Popup>
         </StackPanel>
-        <GroupBox Name="selectedTags"  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+        <GroupBox Name="selectedTags"  Grid.Row="1"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
                   Margin="5,0,5,0"
@@ -179,7 +154,7 @@
                                    VerticalAlignment="Stretch"
                                    Click="RemovePageTagButton_Click"/>
         </GroupBox>
-        <Button Grid.Row="1" Grid.ColumnSpan="3"
+        <Button Grid.Row="1"
                 Width="26"
                 Background="Transparent"
                 VerticalAlignment="Top"
@@ -191,7 +166,7 @@
             <Image Source="/OneNoteTaggingKit;component/Resources/clear selection.png"/>
         </Button>
 
-        <GridSplitter Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+        <GridSplitter Grid.Row="2" 
                       ResizeBehavior="PreviousAndNext"
                       ResizeDirection="Rows"
                       VerticalAlignment="Top"
@@ -204,56 +179,15 @@
                 </LinearGradientBrush>
             </GridSplitter.Background>
         </GridSplitter>
-        <Menu Grid.Row="2"
-              Margin="5,10,5,5"
-              Style="{StaticResource controlEffectStyle}"
-              BorderThickness="0"
-              ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_Menu_Tooltip}}"
-              VerticalAlignment="Center" >
-            <MenuItem Name="presetsMenuItem"
-                      Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_Menu_Header}}" FontSize="14"
-                      TextOptions.TextFormattingMode="Display">
-                <MenuItem.Resources>
-                    <Style TargetType="{x:Type MenuItem}">
-                        <Setter Property="FontSize" Value="16"/>
-                        <Setter Property="BorderThickness" Value="1"/>
-                        <Setter Property="BorderBrush" Value="LightBlue"/>
-                    </Style>
-                </MenuItem.Resources>
-                <MenuItem.Icon>
-                    <Image Source="/OneNoteTaggingKit;component/Resources/empty_filter-32.png" Height="26" />
-                </MenuItem.Icon>
-                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_MenuItem_CurrentNote}}"
-                          Tag="CurrentNote"
-                          Click="Filter_MenuItem_Click">
-                    <MenuItem.Icon>
-                        <Image Source="/OneNoteTaggingKit;component/Resources/one_page-32.png" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_MenuItem_SelectedNotes}}"
-                          Margin="0,5,0,5"
-                          Tag="SelectedNotes" Click="Filter_MenuItem_Click">
-                    <MenuItem.Icon>
-                        <Image Source="/OneNoteTaggingKit;component/Resources/copy-26.png" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_MenuItem_CurrentSection}}"
-                          Tag="CurrentSection"
-                          Click="Filter_MenuItem_Click">
-                    <MenuItem.Icon>
-                        <Image Source="/OneNoteTaggingKit;component/Resources/4-32.png" />
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
-        </Menu>
-        <cui:TagInputBox x:Name="tagInput"
+        <cui:TagInputBox Grid.Row="2"
+                         x:Name="tagInput"
                          Margin="5,10,5,0"
-                         Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
                          ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Tooltip}}"
+                         ContextTagsSource="{Binding ContextTagCollection}"
                          TagInput="TagInputBox_Input"/>
-        <cui:HighlightedTagsPanel x:Name="suggestedTags"
+        <cui:HighlightedTagsPanel Grid.Row="3"
+                                  x:Name="suggestedTags"
                                   Margin="5,0,5,0"
-                                  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" 
                                   Background="Transparent"
                                   TagSource="{Binding TagSuggestions,Mode=OneWay}"
                                   Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Suggestions_GroupBox_Title}}">

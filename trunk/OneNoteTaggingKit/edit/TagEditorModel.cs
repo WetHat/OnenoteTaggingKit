@@ -118,6 +118,14 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
+        public TagCollection ContextTagCollection
+        {
+            get
+            {
+                return new TagCollection(_OneNote, _schema);
+            }
+        }
+
         internal TagEditorModel(Microsoft.Office.Interop.OneNote.Application onenote,XMLSchema schema)
         {
             _OneNote = onenote;

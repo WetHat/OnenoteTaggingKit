@@ -6,31 +6,102 @@
              xmlns:prop="clr-namespace:WetHatLab.OneNote.TaggingKit.Properties"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d"
-             Background="White"
              d:DesignHeight="37.313" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary Source="pack://application:,,,/OneNoteTaggingKit;component/Resources/Styles.xaml"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Label HorizontalAlignment="Left"
+        <Popup Name="filterPopup"
+               PlacementTarget="{Binding ElementName=presetsMenu}"
+               StaysOpen="False"
+               AllowsTransparency="True"
+               MouseDown="handlePopupPointerAction"
+               StylusDown="handlePopupPointerAction"
+               TouchDown="handlePopupPointerAction"
+               VerticalOffset="10">
+            <Border BorderThickness="2"
+                        Background="LightYellow"
+                        BorderBrush="DarkSlateBlue"
+                        CornerRadius="10">
+                <Border.Effect>
+                    <DropShadowEffect Color="LightGray"/>
+                </Border.Effect>
+                <TextBlock MaxWidth="200"
+                               Margin="5,5,5,5"
+                               TextWrapping="Wrap"
+                               TextTrimming="CharacterEllipsis"
+                               Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Popup_FilterNoResult}}"
+                               FontSize="16" Background="Transparent"/>
+            </Border>
+        </Popup>
+        <Menu Name="presetsMenu"
+              Style="{StaticResource controlEffectStyle}"
+              BorderThickness="0"
+              Visibility="Collapsed"
+              Margin="0,0,5,0"
+              ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_Menu_Tooltip}}"
+              VerticalAlignment="Center" >
+            <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_Menu_Header}}" FontSize="14"
+                      TextOptions.TextFormattingMode="Display">
+                <MenuItem.Resources>
+                    <Style TargetType="{x:Type MenuItem}">
+                        <Setter Property="FontSize" Value="16"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="BorderBrush" Value="LightBlue"/>
+                    </Style>
+                </MenuItem.Resources>
+                <MenuItem.Icon>
+                    <Image Source="/OneNoteTaggingKit;component/Resources/empty_filter-32.png" Height="26" />
+                </MenuItem.Icon>
+                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_MenuItem_CurrentNote}}"
+                          Tag="CurrentNote"
+                          Click="Filter_MenuItem_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/OneNoteTaggingKit;component/Resources/one_page-32.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_MenuItem_SelectedNotes}}"
+                          Margin="0,5,0,5"
+                          Tag="SelectedNotes" Click="Filter_MenuItem_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/OneNoteTaggingKit;component/Resources/copy-26.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Filter_MenuItem_CurrentSection}}"
+                          Tag="CurrentSection"
+                          Click="Filter_MenuItem_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/OneNoteTaggingKit;component/Resources/4-32.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <Label Grid.Column="1"
+               HorizontalAlignment="Stretch"
                Foreground="LightGray"
+               Background="White"
                VerticalAlignment="Center"
                VerticalContentAlignment="Center"
                ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Tooltip}}">
             <TextBlock Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Default}}" FontSize="{Binding ElementName=tagInput,Path=FontSize}" />
         </Label>
         <TextBox Name="tagInput"
+                 Grid.Column="1"
                  FontSize="16"
                  VerticalContentAlignment="Center"
                  BorderBrush="LightBlue"
                  Background="Transparent"
                  TextWrapping="NoWrap"
                  KeyUp="TagInput_KeyUp"/>
-        <Button Name="clearTagInput" Grid.Column="1"
+        <Button Name="clearTagInput" Grid.Column="2"
                 Width="26"
                 Visibility="Collapsed"
                 Background="Transparent"
