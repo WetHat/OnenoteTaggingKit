@@ -105,13 +105,32 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 {
                     if (mdl != null)
                     {
-                        string link = string.Format(@"
-<html>
-<body>
-<a href=""{0}"">{1}</a>
-</body>
-</html>", mdl.PageLink, pageTitle);
-                        Clipboard.SetData(DataFormats.Html, link);
+                        string header =
+@"Version:0.9
+StartHTML:{0:D6}
+EndHTML:{1:D6}
+StartFragment:{2:D6}
+EndFragment:{3:D6}
+StartSelection:{4:D6}
+EndSelection:{5:D6}";
+                        string htmlpre =
+@"<HTML>
+<BODY>
+<!--StartFragment-->";
+                        string link = string.Format(@"<a href=""{0}"">{1}</a>", mdl.PageLink, pageTitle);
+                        string htmlpost =
+@"<!--EndFragment-->
+</BODY>
+</HTML>";
+                        string clip = string.Format(header,
+                            header.Length,
+                            header.Length + htmlpre.Length + link.Length + htmlpost.Length,
+                            header.Length + htmlpre.Length,
+                            header.Length + htmlpre.Length + link.Length,
+                            header.Length + htmlpre.Length,
+                            header.Length + htmlpre.Length + link.Length)
+                            + htmlpre + link + htmlpost;
+                        Clipboard.SetText(clip, TextDataFormat.Html);
                     }
                 }
                 catch (Exception ex)
