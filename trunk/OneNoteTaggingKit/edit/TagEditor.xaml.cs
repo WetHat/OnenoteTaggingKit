@@ -132,40 +132,10 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             e.Handled = true;
         }
 
-        private async void Filter_MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                MenuItem itm = sender as MenuItem;
-
-                PresetFilter filter = (PresetFilter)Enum.Parse(typeof(PresetFilter), itm.Tag.ToString());
-                IEnumerable<TagPageSet> tags = await _model.GetContextTagsAsync(filter);
-
-                IEnumerable<string> tagNames = from t in tags select t.TagName;
-
-                tagInput.Tags = tagNames;
-
-                string filterText = string.Join(",", tagNames);
-
-                if (string.IsNullOrEmpty(filterText))
-                {
-                    //UpdateTagFilter(true);
-                    filterPopup.IsOpen = true;
-                }
-                suggestedTags.Highlighter = new TextSplitter(tagNames);
-            }
-            catch (Exception ex)
-            {
-                TraceLogger.Log(TraceCategory.Error(), "Applying preset filter failed {0}", ex);
-                TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_Filter_Error, ex);
-            }
-        }
-
         private void TagInputBox_Input(object sender, TagInputEventArgs e)
         {
             pagesTaggedPopup.IsOpen = false;
             progressPopup.IsOpen = false;
-            filterPopup.IsOpen = false;
             try
             {
                 if (tagInput.IsEmpty)
