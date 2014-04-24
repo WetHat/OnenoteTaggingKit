@@ -34,7 +34,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// Get the collection of pages with particular tags
         /// </summary>
         ObservableSortedList <HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel> Pages { get; }
-        ObservableSortedList <TagModelKey, string, TagSelectorModel> Tags { get; }
+        TagSource Tags { get; }
 
         int PageCount { get; }
         int TagCount { get; }
@@ -100,7 +100,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         // pages in the search result exposed to the UI
         private ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel> _pages = new ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel>();
-        private ObservableSortedList<TagModelKey, string, TagSelectorModel> _tags = new ObservableSortedList<TagModelKey, string, TagSelectorModel>();
+        private TagSource _tags = new TagSource();
         
         private CancellationTokenSource _cancelWorker = new CancellationTokenSource();
         private BlockingCollection<Action> _actions;
@@ -292,7 +292,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
             TagSelectorModel mdl = sender as TagSelectorModel;
-            if (mdl != null && args.PropertyName.Equals("IsChecked"))
+            if (mdl != null && args == TagSelectorModel.IS_CHECKED)
             {
                 if (mdl.IsChecked)
                 {
@@ -358,7 +358,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// get the collection of tags 
         /// </summary>
-        public ObservableSortedList <TagModelKey, string, TagSelectorModel> Tags
+        public TagSource Tags
         {
             get { return _tags; }
         }
@@ -377,6 +377,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         {
             get { return _tags.Count; }
         }
+
         #endregion ITagSearchModel
 
         internal void NavigateTo(string pageID)
@@ -399,5 +400,15 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion INotifyPropertyChanged
+    }
+
+    public class TagSource : ObservableSortedList<TagModelKey, string, TagSelectorModel>, ITagSource
+    {
+        #region ITagSource
+        public IEnumerable<IFilterableTagDataContext> TagDataContextCollection
+        {
+            get { return Values; }
+        }
+        #endregion
     }
 }

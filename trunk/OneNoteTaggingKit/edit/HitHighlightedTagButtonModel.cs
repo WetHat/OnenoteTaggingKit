@@ -62,6 +62,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             TextSplitter splitter = new TextSplitter();
             _hithighlightedTagname = splitter.SplitText(tagName);
         }
+        public bool HasHighlights { get; private set; }
 
         #region IHitHighlightedTagButtonModel
 
@@ -115,6 +116,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 Visibility visBefore = Visibility;
                 _isFiltered = value.SplitPattern != null;
                 _hithighlightedTagname = value.SplitText(TagName);
+                HasHighlights = (from f in _hithighlightedTagname where f.IsMatch select f).FirstOrDefault().IsMatch;
                 if (Visibility == System.Windows.Visibility.Visible)
                 {
                     firePropertyChange(HITHIGHLIGHTED_TAGNAME_Property);
@@ -162,5 +164,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             get { return _tagName; }
         }
         #endregion
+
     }
 }

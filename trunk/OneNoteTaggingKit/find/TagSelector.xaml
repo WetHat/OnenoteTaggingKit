@@ -6,17 +6,20 @@
              xmlns:local="clr-namespace:WetHatLab.OneNote.TaggingKit.find"
              xmlns:prop="clr-namespace:WetHatLab.OneNote.TaggingKit.Properties"
              Visibility="{Binding Visibility, Mode=OneWay}"
-             d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:TagSelectorDesignerModel}}"
-             mc:Ignorable="d">
-    <ToggleButton Background="White"
-                  BorderBrush="LightBlue"
-                  IsChecked="{Binding IsChecked, Mode=TwoWay}"
-                  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSelector_Tooltip}}">
+             ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSelector_Tooltip}}"
+             mc:Ignorable="d" DataContextChanged="OnDatacontextChanged">
+    <ToggleButton Name="tagBtn"
+                  Background="White"
+                  IsChecked="{Binding IsChecked}"
+                  BorderBrush="LightBlue">
         <StackPanel Orientation="Horizontal">
-            <TextBlock VerticalAlignment="Bottom" >
-                <Run Text="{Binding TagName, Mode=OneWay}"/><Run Text=" ("/><Run Text="{Binding PageCount, Mode=OneWay}" /><Run Text=")" />
+            <TextBlock Name="tagName" VerticalAlignment="Bottom" />
+            <TextBlock VerticalAlignment="Bottom">
+                <Run Text=" ("/><Run Text="{Binding PageCount,Mode=OneWay}"/><Run Text=")"/>
             </TextBlock>
-            <CheckBox VerticalAlignment="Bottom" IsChecked="{Binding IsChecked, Mode=OneWay}" BorderThickness="0" Background="Transparent"/>
+            <CheckBox VerticalAlignment="Bottom"
+                      IsChecked="{Binding ElementName=tagBtn, Path=IsChecked, Mode=OneWay}"
+                      BorderThickness="0" Background="Transparent"/>
         </StackPanel>
     </ToggleButton>
 </UserControl>

@@ -38,14 +38,17 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// Implements the <see cref="INotifyPropertyChanged"/> interface to update the UI after property changes.
     /// <remarks>
     /// </remarks>
-    public class TagSelectorModel : DependencyObject, ISortableKeyedItem<TagModelKey,string>, ITagSelectorModel, INotifyPropertyChanged
+    public class TagSelectorModel : DependencyObject, ISortableKeyedItem<TagModelKey, string>, ITagSelectorModel, IFilterableTagDataContext,INotifyPropertyChanged
     {
-        private static readonly PropertyChangedEventArgs PAGE_COUNT = new PropertyChangedEventArgs("PageCount");
-        private static readonly PropertyChangedEventArgs IS_CHECKED = new PropertyChangedEventArgs("IsChecked");
-        private static readonly PropertyChangedEventArgs VISIBILITY = new PropertyChangedEventArgs("Visibility");
+        internal static readonly PropertyChangedEventArgs PAGE_COUNT = new PropertyChangedEventArgs("PageCount");
+        internal static readonly PropertyChangedEventArgs IS_CHECKED = new PropertyChangedEventArgs("IsChecked");
+        internal static readonly PropertyChangedEventArgs VISIBILITY = new PropertyChangedEventArgs("Visibility");
+        internal static readonly PropertyChangedEventArgs HIT_HIGHLIGHTED_TAGNAME = new PropertyChangedEventArgs("HitHighlightedTagName");
 
         private TagPageSet _tag;
         private TagModelKey _key;
+        private bool _isFiltered = false;
+        private IEnumerable<TextFragment> _highlightedTagName;
 
         /// <summary>
         /// create a new view model instance from a tag.
@@ -56,8 +59,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
             _tag = tag;
             _key = new TagModelKey(tag.TagName);
             tag.PropertyChanged += OnTagPropertyChanged;
+            _highlightedTagName = new TextSplitter().SplitText(tag.TagName);
         }
-
 
         /// <summary>
         /// create a new view model instance for a tag and an event handler.
@@ -75,7 +78,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             {
                 Dispatcher.Invoke(new Action(() => {
                     firePropertyChanged(PAGE_COUNT);
-                    Visibility = PageCount > 0 ? Visibility.Visible : Visibility.Collapsed;                    
+                    firePropertyChanged(VISIBILITY);                   
                 }));
             }
         }
@@ -87,6 +90,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 PropertyChanged(this, args);
             }
         }
+
+        public IEnumerable<TextFragment> HitHighlightedTagName { get { return _highlightedTagName; } }
+
         #region ITagSelectorModel
 
         public TagPageSet Tag
@@ -123,6 +129,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 {
                     _isChecked = value;
                     firePropertyChanged(IS_CHECKED);
+                    firePropertyChanged(VISIBILITY);
                 }
             }
         }
@@ -138,7 +145,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
 
-        Visibility _visibility;
         /// <summary>
         /// Get the visibility of the tag in the UI.
         /// </summary>
@@ -146,15 +152,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         {
             get
             {
-                return _visibility;
-            }
-            private set
-            {
-                if (_visibility != value)
-                {
-                    _visibility = value;
-                    firePropertyChanged(VISIBILITY);
-                }
+                return IsChecked || PageCount > 0  ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
@@ -192,5 +190,19 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </remarks>
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion INotifyPropertyChanged
+
+        #region IFilterableTagDataContext
+        public TextSplitter Highlighter
+        {
+            set
+            {
+                _highlightedTagName = value.SplitText(TagName);
+                HasHighlights = (from f in _highlightedTagName where f.IsMatch select f).FirstOrDefault().IsMatch;
+                firePropertyChanged(HIT_HIGHLIGHTED_TAGNAME);
+            }
+        }
+        public bool HasHighlights {get; private set;}
+
+        #endregion IFilterableTagDataContext
     }
 }

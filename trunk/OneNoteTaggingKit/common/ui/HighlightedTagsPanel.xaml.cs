@@ -19,6 +19,13 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// based on a patter match.
         /// </summary>
         TextSplitter Highlighter { set; }
+
+        /// <summary>
+        /// Determine if a particular tag has highlights
+        /// </summary>
+        /// <remarks>This property is used to make sure that the first
+        /// comtrol that displays highlights in visible</remarks>
+        bool HasHighlights { get; }
     }
 
     /// <summary>
@@ -57,6 +64,10 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// the panel instantiates highlightable controls from the data templates and assignes a data context
     /// from a tag source implemention <see cref="ITagSource"/>.
     /// </para>
+    /// <para>
+    /// </para>
+    /// Implementations of the <see cref="ITagSource"/> contract are usually based on observable collections
+    /// of some sort
     /// </remarks>
     public partial class HighlightedTagsPanel : UserControl
     {
@@ -131,10 +142,16 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                     case NotifyCollectionChangedAction.Add:
                         DataTemplate tpl = TagTemplate;
                         int newItemCount = e.NewItems.Count;
+                        TextSplitter highlighter = Highlighter;
                         for (int i = 0; i < newItemCount; i++)
                         {
                             FrameworkElement tagControl = tpl.LoadContent() as FrameworkElement;
-                            tagControl.DataContext = e.NewItems[i];
+                            IFilterableTagDataContext ctx = e.NewItems[i] as IFilterableTagDataContext;
+                            if (ctx != null)
+                            {
+                                ctx.Highlighter = highlighter;
+                                tagControl.DataContext = ctx;
+                            }
 
                             tagsPanel.Children.Insert(i + e.NewStartingIndex, tagControl);
                         }
@@ -168,7 +185,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// Dependency property for the tag highlighter.
         /// </summary>
-        public static readonly DependencyProperty HighlighterProperty = DependencyProperty.Register("Highlighter", typeof(TextSplitter), typeof(HighlightedTagsPanel),new PropertyMetadata(OnHighlighterChanged));
+        public static readonly DependencyProperty HighlighterProperty = DependencyProperty.Register("Highlighter", typeof(TextSplitter), typeof(HighlightedTagsPanel),new PropertyMetadata(new TextSplitter(),OnHighlighterChanged));
 
         private static void OnHighlighterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -184,9 +201,17 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                         highlighter = new TextSplitter();
                     }
 
+                    bool firstMatch = false;
+                    int i = 0;
                     foreach (IFilterableTagDataContext ctx in tagsource.TagDataContextCollection)
                     {
                         ctx.Highlighter = highlighter;
+                        if (!firstMatch && ctx.HasHighlights)
+                        {
+                            ((FrameworkElement)panel.tagsPanel.Children[i]).BringIntoView();
+                            firstMatch = true;
+                        }
+                        i++;
                     }
                 }
             }
