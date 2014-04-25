@@ -183,6 +183,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private int SaveChangesAction(string[] tags, TagOperation op, TaggingScope scope)
         {
+            TagSuggestions.Save();
             IEnumerable<string> pageIDs = null;
             int pagesTagged = 0;
 
