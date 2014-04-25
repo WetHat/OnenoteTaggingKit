@@ -99,15 +99,21 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </summary>
         public string ID { get; private set; }
 
+        /// <summary>
+        /// Get the selection status of the page
+        /// </summary>
         public bool IsSelected
         {
             get { return _isSelected; }
         }
 
+        /// <summary>
+        /// Get the path to this OneNote page in the OneNote hierarchy.
+        /// </summary>
         public IEnumerable<HierarchyElement> Path { get { return _path; } }
 
         /// <summary>
-        /// get the page's title
+        /// Get the page's title.
         /// </summary>
         public string Title {
             get

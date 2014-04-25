@@ -64,6 +64,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             Task onenotetags = Task.Run(() => _tags.Find(String.Empty));
             Task suggestions = _suggestedTags.LoadSuggestedTagsAsync();
             await Task.WhenAll(onenotetags, suggestions);
+            // update the tags loaded from the settings
             foreach (var t in _suggestedTags.Values)
             {
                 TagPageSet tag;

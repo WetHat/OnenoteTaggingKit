@@ -13,7 +13,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     /// </summary>
     public class HitHighlightedTagButtonModel : SuggestedTagsDataContext
     { /// <summary>
-        /// predefined event descriptor for <see cref=">E:PropertyChanged"/> event fired for the <see cref="Visibility"/> property
+        /// predefined event descriptor for <see cref="E:PropertyChanged"/> event fired for the <see cref="Visibility"/> property
         /// </summary>
         internal static readonly PropertyChangedEventArgs VISIBILITY_Property = new PropertyChangedEventArgs("Visibility");
         
@@ -40,7 +40,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// control.
         /// </summary>
         /// <remarks>
-        /// Setting this property has a side effect on two other properties: <see cref="Hit"/> and <see cref="Margin"/>.
+        /// Setting this property has a side effect on the <see cref="Visibility"/> property.
         /// The appropriate <see cref="PropertyChanged"/> events are fired as necessary.
         /// </remarks>
         public override TextSplitter Highlighter

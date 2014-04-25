@@ -117,7 +117,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// create a new instance of the view model.
         /// </summary>
         /// <param name="tp">a OneNote page object</param>
-        /// <param name="pattern">regular expression describing the search query. Used for generating hit highlighting of the page link</param>
+        /// <param name="highlighter">object to generate a highlight description of the link title</param>
+        /// <param name="onenote">OneNote application object</param>
         internal HitHighlightedPageLinkModel(TaggedPage tp, TextSplitter highlighter, Microsoft.Office.Interop.OneNote.Application onenote)
             : base(tp.Title, tp.ID)
         {
