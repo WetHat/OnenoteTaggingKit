@@ -34,7 +34,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             remove { RemoveHandler(ClickEvent, value); }
         }
 
-        private void createHitHighlightedTag(IHitHighlightedTagButtonModel mdl)
+        private void createHitHighlightedTag(HitHighlightedTagButtonModel mdl)
         {
             hithighlightedTag.Inlines.Clear();
             foreach (TextFragment f in mdl.HitHighlightedTagName)
@@ -49,7 +49,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
         private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            IHitHighlightedTagButtonModel mdl = DataContext as IHitHighlightedTagButtonModel;
+            HitHighlightedTagButtonModel mdl = DataContext as HitHighlightedTagButtonModel;
 
             if (mdl != null)
             {
@@ -62,7 +62,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             if (e == HitHighlightedTagButtonModel.HITHIGHLIGHTED_TAGNAME_Property)
             {
-                IHitHighlightedTagButtonModel mdl = sender as IHitHighlightedTagButtonModel;
+                HitHighlightedTagButtonModel mdl = sender as HitHighlightedTagButtonModel;
                 createHitHighlightedTag(mdl);
             }
         }

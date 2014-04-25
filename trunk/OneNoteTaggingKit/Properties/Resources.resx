@@ -351,7 +351,7 @@ Sorry for the inconvenience!</value>
     <value>Changing search scope failed</value>
   </data>
   <data name="TagSearch_TagInput_Tooltip" xml:space="preserve">
-    <value>Type one or mode names separated by comma ',' to locate matching tags in the refinement tags panel</value>
+    <value>Type one or more names separated by comma ',' to locate matching tags in the refinement tags panel</value>
   </data>
   <data name="TagSearch_ContextMenu_CopyLink" xml:space="preserve">
     <value>Copy link to OneNote Page</value>
