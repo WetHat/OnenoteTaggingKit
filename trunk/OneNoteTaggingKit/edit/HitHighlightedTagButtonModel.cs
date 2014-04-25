@@ -9,47 +9,19 @@ using WetHatLab.OneNote.TaggingKit.common.ui;
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
     /// <summary>
-    /// Contract for view models for the <see cref="HitHighlightedTagButton"/> control.
-    /// </summary>
-    public interface IHitHighlightedTagButtonModel : IFilterableTagDataContext,INotifyPropertyChanged
-    {
-        /// <summary>
-        /// Get the current control visibility.
-        /// </summary>
-        Visibility Visibility { get; }
-        /// <summary>
-        /// Get the name of the tag the control should display
-        /// </summary>
-        string TagName { get; }
-        /// <summary>
-        /// Get the description of a substring match
-        /// </summary>
-        IEnumerable<TextFragment> HitHighlightedTagName { get; }
-
-        /// <summary>
-        /// get the current margin of the control.
-        /// </summary>
-        Thickness Margin { get; }
-    }
-
-    /// <summary>
     /// View model for the <see cref="HitHighlightedTagButton"/> control.
     /// </summary>
-    public class HitHighlightedTagButtonModel : IHitHighlightedTagButtonModel, ISortableKeyedItem<TagModelKey,string>
+    public class HitHighlightedTagButtonModel : IFilterableTagDataContext, INotifyPropertyChanged, ISortableKeyedItem<TagModelKey, string>
     {
         /// <summary>
-        /// predefined event descriptor for <see cref=">PropertyChanged"/> event fired for the <see cref="Hit"/> property
+        /// predefined event descriptor for <see cref=">PropertyChanged"/> event fired for the <see cref="HitHighlightedTagName"/> property
         /// </summary>
         internal static readonly PropertyChangedEventArgs HITHIGHLIGHTED_TAGNAME_Property = new PropertyChangedEventArgs("HitHighlightedTagName");
         /// <summary>
         /// predefined event descriptor for <see cref=">PropertyChanged"/> event fired for the <see cref="Visibility"/> property
         /// </summary>
         internal static readonly PropertyChangedEventArgs VISIBILITY_Property = new PropertyChangedEventArgs("Visibility");
-        /// <summary>
-        /// predefined event descriptor for <see cref=">PropertyChanged"/> event fired for the <see cref="Margin"/> property
-        /// </summary>
-        internal static readonly PropertyChangedEventArgs MARGIN_Property = new PropertyChangedEventArgs("Margin");
-
+        
         string _tagName;
         IEnumerable<TextFragment> _hithighlightedTagname ;
         bool _isFiltered = false;
@@ -62,10 +34,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             TextSplitter splitter = new TextSplitter();
             _hithighlightedTagname = splitter.SplitText(tagName);
         }
-        public bool HasHighlights { get; private set; }
-
-        #region IHitHighlightedTagButtonModel
-
+        
         /// <summary>
         /// Get the name of the tag the associated <see cref="HitHighlightedTagButton"/> control displays
         /// </summary>
@@ -85,22 +54,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
-        /// <summary>
-        /// Get the margin the associated <see cref="HitHighlightedTagButton"/> control uses.
-        /// </summary>
-        public Thickness Margin
-        {
-            get
-            {
-                return Visibility == System.Windows.Visibility.Visible ? new Thickness(0, 5, 5, 0) : new Thickness(0,0,0,0);
-            }
-        }
-
         public IEnumerable<TextFragment> HitHighlightedTagName
         {
             get { return _hithighlightedTagname; }
         }
 
+        #region IFilterableTagDataContext
         /// <summary>
         /// Set a filter string which is used to determine the appearance of the <see cref="HitHighlightedTagButton"/>
         /// control.
@@ -124,12 +83,13 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 if (visBefore != Visibility)
                 {
                     firePropertyChange(VISIBILITY_Property);
-                    firePropertyChange(MARGIN_Property);
                 }
             }
         }
 
-        #endregion IHitHighlightedTagButtonModel
+        public bool HasHighlights { get; private set; }
+
+        #endregion
 
         private void firePropertyChange(PropertyChangedEventArgs args)
         {

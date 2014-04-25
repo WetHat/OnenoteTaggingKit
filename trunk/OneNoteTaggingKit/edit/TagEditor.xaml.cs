@@ -55,7 +55,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             HitHighlightedTagButton btn = sender as HitHighlightedTagButton;
             if (btn != null)
             {
-                IHitHighlightedTagButtonModel mdl = btn.DataContext as IHitHighlightedTagButtonModel;
+                HitHighlightedTagButtonModel mdl = btn.DataContext as HitHighlightedTagButtonModel;
                 if (mdl != null)
                 {
                     _model.PageTags.AddAll(new SimpleTagButtonModel[] { new SimpleTagButtonModel(mdl.TagName) });

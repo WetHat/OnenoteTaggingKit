@@ -733,7 +733,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type one or mode names separated by comma &apos;,&apos; to locate matching tags in the refinement tags panel.
+        ///   Looks up a localized string similar to Type one or more names separated by comma &apos;,&apos; to locate matching tags in the refinement tags panel.
         /// </summary>
         public static string TagSearch_TagInput_Tooltip {
             get {

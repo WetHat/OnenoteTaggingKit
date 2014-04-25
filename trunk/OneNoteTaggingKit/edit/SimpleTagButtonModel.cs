@@ -14,7 +14,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private TagModelKey _sortKey;
 
         /// <summary>
-        /// Create a new instance of a <see cref="SimpleTag"/> object
+        /// Create a new instance of a <see cref="SimpleTagButtonModel"/> object
         /// </summary>
         /// <param name="tag">tag name</param>
         public SimpleTagButtonModel(string tag)
@@ -44,8 +44,5 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             get { return _sortKey; }
         }
         #endregion ISortableKeyedItem<TagModelKey,string>
-
-
-        
     }
 }
