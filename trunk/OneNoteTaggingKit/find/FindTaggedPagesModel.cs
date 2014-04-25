@@ -408,7 +408,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     public class TagSource : ObservableSortedList<TagModelKey, string, TagSelectorModel>, ITagSource
     {
         #region ITagSource
-        public IEnumerable<IFilterableTagDataContext> TagDataContextCollection
+        public IEnumerable<IHighlightableTagDataContext> TagDataContextCollection
         {
             get { return Values; }
         }

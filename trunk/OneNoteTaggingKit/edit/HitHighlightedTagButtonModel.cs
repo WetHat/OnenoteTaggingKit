@@ -11,7 +11,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     /// <summary>
     /// View model for the <see cref="HitHighlightedTagButton"/> control.
     /// </summary>
-    public class HitHighlightedTagButtonModel : IFilterableTagDataContext, INotifyPropertyChanged, ISortableKeyedItem<TagModelKey, string>
+    public class HitHighlightedTagButtonModel : IHighlightableTagDataContext, INotifyPropertyChanged, ISortableKeyedItem<TagModelKey, string>
     {
         /// <summary>
         /// predefined event descriptor for <see cref=">PropertyChanged"/> event fired for the <see cref="HitHighlightedTagName"/> property
@@ -59,7 +59,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             get { return _hithighlightedTagname; }
         }
 
-        #region IFilterableTagDataContext
+        #region IHighlightableTagDataContext
         /// <summary>
         /// Set a filter string which is used to determine the appearance of the <see cref="HitHighlightedTagButton"/>
         /// control.
