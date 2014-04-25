@@ -80,6 +80,13 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
         }
 
+        /// <summary>
+        /// load a subtree of the OneNote page directory structure.
+        /// </summary>
+        /// <param name="scopeID">The node id (notebook, section group, or section) whose descendants you want.
+        /// If you pass a null string (""), the method gets all nodes below the root node, that is,
+        /// all notebooks, section groups, and sections.
+        /// If you specify a notebook, section group, or section node id, the method gets only descendants of that node.</param>
         public void LoadHierarchy(string scopeID)
         {
             string strXml;
@@ -89,6 +96,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
             parseOneNoteHierarchy(strXml);
         }
 
+        /// <summary>
+        /// build tags from an XML document returned from OneNote
+        /// </summary>
+        /// <param name="strXml">string representation of the XML document</param>
         internal void parseOneNoteHierarchy(string strXml)
         {
             // parse the search results

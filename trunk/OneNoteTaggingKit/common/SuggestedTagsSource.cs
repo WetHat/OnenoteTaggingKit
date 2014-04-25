@@ -7,6 +7,24 @@ using WetHatLab.OneNote.TaggingKit.edit;
 
 namespace WetHatLab.OneNote.TaggingKit.common
 {
+    /// <summary>
+    /// Base class for data context implementations for controls displaying suggested tags.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Data context data implementation based on this class can be used in <see cref="SuggestedTagsSource{T}"/>
+    /// collections.
+    /// </para>
+    /// <para>
+    /// This class fires <see cref="E:PropertyChanged"/> events for the <see cref="HighlightedTagName"/>
+    /// property. Derived classes may also fire additional <see cref="E:PropertyChanged"/>
+    /// events for their custom properties as appropriate.
+    /// </para>
+    /// <para>
+    /// Derived classes typically add custom properties to support specific rendering of their associated
+    /// controls. 
+    /// </para>
+    /// </remarks>
     public class SuggestedTagsDataContext: IHighlightableTagDataContext,ISortableKeyedItem<TagModelKey,string>,INotifyPropertyChanged
     {
         bool _hasHighlights;
@@ -14,11 +32,15 @@ namespace WetHatLab.OneNote.TaggingKit.common
         string _tagName;
         TagModelKey _sortkey;
 
-        // <summary>
+        ///<summary>
         /// predefined event descriptor for <see cref=">PropertyChanged"/> event fired for the <see cref="HighlightedTagName"/> property
-        /// </summary>
+        ///</summary>
         internal static readonly PropertyChangedEventArgs HIGHLIGHTED_TAGNAME = new PropertyChangedEventArgs("HighlightedTagName");
 
+        /// <summary>
+        /// Fire a <see cref="E:PropertyChanged"/> event
+        /// </summary>
+        /// <param name="args">event details</param>
         internal protected void firePropertyChanged(PropertyChangedEventArgs args)
         {
           if (PropertyChanged != null)
@@ -54,7 +76,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// control.
         /// </summary>
         /// <remarks>
-        /// Setting this property has a side effect on two other properties: <see cref="Hit"/> and <see cref="Margin"/>.
+        /// Setting this property has a side effect on the property <see cref="HighlightedTagName"/>.
         /// The appropriate <see cref="E:PropertyChanged"/> events are fired as necessary.
         /// </remarks>
         public virtual TextSplitter Highlighter
@@ -71,6 +93,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
         }
 
+        /// <summary>
+        /// Determine if the suggested tag's name has highlights.
+        /// </summary>
+        /// <value>true if highlights are present; false otherwise</value>
         public bool HasHighlights
         {
             get { return _hasHighlights; }
@@ -78,11 +104,16 @@ namespace WetHatLab.OneNote.TaggingKit.common
         #endregion
 
         #region ISortableKeyedItem<TagModelKey,string>
+        /// <summary>
+        /// Get the sortble key of the data context.
+        /// </summary>
         public TagModelKey SortKey
         {
             get { return _sortkey; }
         }
-
+        /// <summary>
+        /// Get the unique key of the data context
+        /// </summary>
         public string Key
         {
             get { return _tagName; }
@@ -90,12 +121,38 @@ namespace WetHatLab.OneNote.TaggingKit.common
         #endregion ISortableKeyedItem<TagModelKey,string>
 
         #region INotifyPropertyChanged
+        /// <summary>
+        /// Event to notify subscribers about property changes.
+        /// </summary>
+        /// <remarks>
+        /// This class fires the event for the <see cref="HighlightedTagName"/>
+        /// property. Derived classes may also fire additional
+        /// events for their custom properties as appropriate.
+        /// </remarks>
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion INotifyPropertyChanged
     }
 
+    /// <summary>
+    /// The collection of suggested tags recorded in the add-in settings
+    /// </summary>
+    /// <typeparam name="T">data context type</typeparam>
+    /// <remarks>
+    /// <para>
+    /// This class can be directly bound to the <see cref="HighlightedTagsPanel.TagSource"/> property and provides a
+    /// convenient way to display and manage suggested tags.
+    /// </para>
+    /// <para>
+    /// In combination with the <see cref="TagInputBox"/> control dynamic tag pattern hit highlighting
+    /// can be implemented by binding a <see cref="TextSplitter"/> created from
+    /// the <see cref="TagInputBox.Tags"/> property to the <see cref="HighlightedTagsPanel.Highlighter"/> property.
+    /// </para>
+    /// </remarks>
     public class SuggestedTagsSource<T> : ObservableSortedList<TagModelKey, string, T>, ITagSource where T : SuggestedTagsDataContext,new()
     {
+        /// <summary>
+        /// create a new instance of a suggeted tags collection.
+        /// </summary>
         internal SuggestedTagsSource()
         {
         }
@@ -103,7 +160,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Asnchronously load all tags used anywhere on OneNote pages.
         /// </summary>
-        /// <returns>task object</returns>
+        /// <returns>awaitable task object</returns>
         internal async Task LoadSuggestedTagsAsync()
         {
             Clear();
@@ -116,12 +173,18 @@ namespace WetHatLab.OneNote.TaggingKit.common
             return (from string t in OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags) select new T() { TagName = t }).ToArray();
         }
 
+        /// <summary>
+        /// save the suggested tags to the add-in settings store.
+        /// </summary>
         internal void Save()
         {
             Properties.Settings.Default.KnownTags = string.Join(",", from v in Values select v.TagName);
         }
 
         #region ITagSource
+        /// <summary>
+        /// Get the data context objects managed in this collection.
+        /// </summary>
         public IEnumerable<IHighlightableTagDataContext> TagDataContextCollection
         {
             get { return Values; }

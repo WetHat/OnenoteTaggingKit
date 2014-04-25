@@ -12,25 +12,50 @@ using WetHatLab.OneNote.TaggingKit.edit;
 
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
+
+    /// <summary>
+    /// Event details for the <see cref="E:TagInputBox.TagInput"/> event
+    /// </summary>
     public class TagInputEventArgs : RoutedEventArgs
     {
+        /// <summary>
+        /// Determine if tag input is complete
+        /// </summary>
+        /// <value>true if tag input is complete; false if tag input is still in progress</value>
         public bool TagInputComplete { get; private set; }
+
+        /// <summary>
+        /// Create a new instance of the event details
+        /// </summary>
+        /// <param name="routedEvent">routed event which fired</param>
+        /// <param name="source">object which fired the event</param>
+        /// <param name="enterPressed">true if tag input is complete; false otherwise</param>
         internal TagInputEventArgs(RoutedEvent routedEvent, object source, bool enterPressed)
             : base(routedEvent, source)
         {
             TagInputComplete = enterPressed;
         }
     }
+    /// <summary>
+    /// handlers for the <see cref="E:TagInputBox.TagInput"/> event
+    /// </summary>
+    /// <param name="sender">object emitting the event</param>
+    /// <param name="e">event details</param>
     public delegate void TagInputEventHandler(object sender, TagInputEventArgs e);
 
     /// <summary>
-    /// Interaction logic for TagInputBox.xaml
+    /// Capture input of one or more tags separated by comma ','
     /// </summary>
     public partial class TagInputBox : UserControl
     {
+        /// <summary>
+        /// Routed event fired for changes to the <see cref="Tags"/> property
+        /// </summary>
         public static readonly RoutedEvent TagInputEvent = EventManager.RegisterRoutedEvent("TagInput", RoutingStrategy.Bubble, typeof(TagInputEventHandler), typeof(TagInputBox));
 
-        // Provide CLR accessors for the event 
+        /// <summary>
+        /// Routed event fired for changes to the <see cref="Tags"/> property
+        /// </summary>
         public event TagInputEventHandler TagInput
         {
             add { AddHandler(TagInputEvent, value); }
@@ -51,6 +76,9 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             }
         }
 
+        /// <summary>
+        /// Get or set a collection which provides tags from a OneNote context.
+        /// </summary>
         public TagCollection ContextTagsSource
         {
             get
@@ -63,11 +91,18 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             }
         }
 
+        /// <summary>
+        /// Create a new instance of a input box for tag names.
+        /// </summary>
         public TagInputBox()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Check if the tag input is empty
+        /// </summary>
+        /// <value>true if no input is available; false otherwie</value>
         internal bool IsEmpty
         {
             get

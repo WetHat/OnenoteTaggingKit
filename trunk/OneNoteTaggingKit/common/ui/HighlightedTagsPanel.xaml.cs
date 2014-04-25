@@ -87,7 +87,10 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// </para>
     /// <para>
     /// Implementations of the <see cref="ITagSource"/> contract are usually based on observable collections
-    /// of some sort
+    /// of some sort. The collection can be used as view model for <see cref="HighlightedTagsPanel"/> controls
+    /// without additional modification, like so:
+    /// <code language="c#">
+    /// </code>
     /// </para>
     /// </remarks>
     public partial class HighlightedTagsPanel : UserControl
@@ -115,8 +118,12 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// Dependency property for panel header.
         /// </summary>
+        /// <seealso cref="Header"/>>
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(object), typeof(HighlightedTagsPanel));
         
+        /// <summary>
+        /// Get or set the header control for the tags panel
+        /// </summary>
         public object Header
         {
             get
@@ -130,8 +137,10 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         }
 
         /// <summary>
-        /// Dependency property for panel header.
+        /// Dependency property for the collection providing data context objects for the
+        /// tag UI controls.
         /// </summary>
+        /// <seealso cref="TagSource"/>
         public static readonly DependencyProperty TagSourceProperty = DependencyProperty.Register("TagSource", typeof(ITagSource), typeof(HighlightedTagsPanel),new PropertyMetadata(OnTagSourceChanged));
 
         private static void OnTagSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -191,6 +200,9 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             }
         }
 
+        /// <summary>
+        /// Get or set the collection providing data context objects for tag controls.
+        /// </summary>
         public ITagSource TagSource
         {
             get
@@ -204,8 +216,9 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         }
 
         /// <summary>
-        /// Dependency property for the tag highlighter.
+        /// Dependency property for the tag highlighter object.
         /// </summary>
+        /// <seealso cref="Highlighter"/>
         public static readonly DependencyProperty HighlighterProperty = DependencyProperty.Register("Highlighter", typeof(TextSplitter), typeof(HighlightedTagsPanel),new PropertyMetadata(new TextSplitter(),OnHighlighterChanged));
 
         private static void OnHighlighterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -250,7 +263,9 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 SetValue(HighlighterProperty, value);
             }
         }
-
+        /// <summary>
+        /// create a new instance of a panel hosting tag controls
+        /// </summary>
         public HighlightedTagsPanel()
         {
             InitializeComponent();

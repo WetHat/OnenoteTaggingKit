@@ -8,7 +8,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
 {
 
     /// <summary>
-    /// Classification of changes to a <see cref="ObservableDictionary&lt;TKey,TValue&gt;"/> instance.
+    /// Classification of changes to a <see cref="ObservableDictionary{T1,T2}"/> instance.
     /// </summary>
     public enum NotifyDictionaryChangedAction
     {
@@ -75,7 +75,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         where TKey : IEquatable<TKey>;
 
     /// <summary>
-    /// A dictionary which informs subscribed listerners about changes to its contents.
+    /// A dictionary which notifies subscribed listeners about content changes.
     /// </summary>
     /// <typeparam name="TKey">type of the key used in the dictionary</typeparam>
     /// <typeparam name="TValue">type of objects stored in the dictionary</typeparam>
