@@ -1,5 +1,9 @@
-﻿using WetHatLab.OneNote.TaggingKit.common;
+﻿using System.Linq;
+using System.Collections.Generic;
+using System.ComponentModel;
+using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
+using System.Windows;
 
 namespace WetHatLab.OneNote.TaggingKit.manage
 {
@@ -7,64 +11,56 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     /// View model backing a <see cref="RemovableTag"/> user control.
     /// </summary>
     /// <remarks>Provides properties to enable/disable a tag for removal and to adjust the presentation of the corresponding UI element.</remarks>
-    public class RemovableTagModel : ISortableKeyedItem<TagModelKey,string>
+    public class RemovableTagModel : SuggestedTagsDataContext
     {
-        private TagPageSet _tag;
+        internal static readonly PropertyChangedEventArgs USE_COUNT = new PropertyChangedEventArgs("UseCount");
+        internal static readonly PropertyChangedEventArgs MARKER_VISIBILIY = new PropertyChangedEventArgs("RemoveMarkerVisibility");
 
-        private TagModelKey _sortKey;
-
-        internal RemovableTagModel(TagPageSet tag)
+        public RemovableTagModel()
         {
-            _tag = tag;
-
-            _sortKey = new TagModelKey(tag.TagName);
         }
 
-        /// <summary>
-        /// Get the tag name
-        /// </summary>
-        public string TagName
+        internal TagPageSet Tag
         {
-            get { return _tag.Key; }
+            set
+            {
+                TagName = value.TagName;
+                UseCount = value.PageCount;
+            }
         }
-
+        
         /// <summary>
         /// Check whether the tag can be removed
         /// </summary>
-        public bool CanRemove
+        private bool CanRemove
         {
             get { return UseCount == 0; }
         }
 
+        int _useCount = 0;
         /// <summary>
         /// Get the number of uses of this tag 
         /// </summary>
         public int UseCount
         {
-            get { return _tag.Pages.Count; }
+            get { return _useCount;  }
+            private set
+            {
+                if (_useCount != value)
+                {
+                    _useCount = value;
+                    firePropertyChanged(USE_COUNT);
+                    firePropertyChanged(MARKER_VISIBILIY);
+                }
+            }
         }
 
         /// <summary>
         /// Get the visibility of the <i>remove</i> marker
         /// </summary>
-        public System.Windows.Visibility RemoveMarkerVisibility
+        public Visibility RemoveMarkerVisibility
         {
-            get { return CanRemove ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed; }
+            get { return CanRemove ? Visibility.Visible : Visibility.Collapsed; }
         }
-
-        #region ISortableKeyedItem<TagModelKey,string>
-        /// <summary>
-        /// Get the name (key) of this tag
-        /// </summary>
-        public string Key
-        {
-            get { return _tag.Key; }
-        }
-        public TagModelKey SortKey
-        {
-            get { return _sortKey; }
-        }
-
-        #endregion ISortableKeyedItem<TagModelKey,string>
     }
 }

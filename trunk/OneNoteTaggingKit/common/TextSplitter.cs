@@ -125,4 +125,11 @@ namespace WetHatLab.OneNote.TaggingKit.common
             return fragments;
         }
     }
+    internal static class TextSplitterExtensions
+    {
+        internal static bool IsHighlighted(this IEnumerable<TextFragment> highlightedText)
+        {
+            return (from f in highlightedText where f.IsMatch select f).FirstOrDefault().IsMatch;
+        }
+    }
 }

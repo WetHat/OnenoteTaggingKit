@@ -1,6 +1,7 @@
 ﻿using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -22,7 +23,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <summary>
         /// Get the collection of all tags used for suggestions.
         /// </summary>
-        ObservableSortedList<TagModelKey, string, RemovableTagModel> SuggestedTags { get; }
+        SuggestedTagsSource<RemovableTagModel> SuggestedTags { get; }
 
         /// <summary>
         /// Get the add-in version.
@@ -43,13 +44,10 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     /// <summary>
     /// View model backing the <see cref="TagManager"/> dialog.
     /// </summary>
-    public class TagManagerModel : System.Windows.DependencyObject, ITagManagerModel, IDisposable
+    public class TagManagerModel : System.Windows.DependencyObject, ITagManagerModel
     {
-        private ObservableSortedList<TagModelKey, string, RemovableTagModel> _suggestedTags = new ObservableSortedList<TagModelKey, string, RemovableTagModel>();
+        private SuggestedTagsSource<RemovableTagModel> _suggestedTags = new SuggestedTagsSource<RemovableTagModel>();
         private TagCollection _tags;
-
-        CancellationTokenSource _cancelFinderToken = new CancellationTokenSource();
-        private Task<Tuple<IEnumerable<RemovableTagModel>, IEnumerable<RemovableTagModel>>> _finderAction;
 
         /// <summary>
         /// Create a new instance of the view model backing the <see cref="TagManager"/> dialog.
@@ -61,42 +59,21 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             _tags = new TagCollection(onenote, schema);
         }
 
-        /// <summary>
-        /// Background worker method to collect the suggested tags by running a search
-        /// against all open OneNote notebooks
-        /// </summary>
-
-        private Tuple<IEnumerable<RemovableTagModel>,IEnumerable<RemovableTagModel>> LoadTagSuggestionsAction()
+        internal async Task LoadSuggestedTagsAsync()
         {
-            _tags.Find(String.Empty);
-
-            IEnumerable<RemovableTagModel> suggestions = from s in OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags)
-                                                         where !_tags.Tags.ContainsKey(s)
-                                                         select new RemovableTagModel(new TagPageSet(s));
-
-            IEnumerable<RemovableTagModel> tagsInUse = from t in _tags.Tags.Values select new RemovableTagModel(t);
-
-            return new Tuple<IEnumerable<RemovableTagModel>, IEnumerable<RemovableTagModel>>(suggestions, tagsInUse);
-        }
-
-        /// <summary>
-        /// Asynchronously load tag suggestions.
-        /// </summary>
-        /// <remarks>Runs a search for tags over all notebooks open in OneNote to collect tags in use.</remarks>
-        /// <param name="continuation">continuation action to be run in the UI thread</param>
-        internal async Task LoadTagSuggestionsAsync()
-        {
-            if (_finderAction != null && _finderAction.Status == TaskStatus.Running)
+            Task onenotetags = Task.Run(() => _tags.Find(String.Empty));
+            Task suggestions = _suggestedTags.LoadSuggestedTagsAsync();
+            await Task.WhenAll(onenotetags, suggestions);
+            foreach (var t in _suggestedTags.Values)
             {
-                _cancelFinderToken.Cancel();
+                TagPageSet tag;
+                if (_tags.Tags.TryGetValue(t.TagName, out tag))
+                {
+                    t.Tag = tag;
+                }
             }
-            _finderAction = Task.Run(() => LoadTagSuggestionsAction(), _cancelFinderToken.Token);
-            Tuple<IEnumerable<RemovableTagModel>, IEnumerable<RemovableTagModel>> tagModels = await _finderAction; 
-
-            _suggestedTags.AddAll(tagModels.Item1);
-            _suggestedTags.AddAll(tagModels.Item2);
         }
-
+       
         #region ITagManagerModel
 
         /// <summary>
@@ -104,7 +81,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// </summary>
         /// <remarks>This collection includes all tags used on any OneNote pages and additional tags suggestions
         /// which were added manually</remarks>
-        public ObservableSortedList<TagModelKey, string, RemovableTagModel> SuggestedTags
+        public SuggestedTagsSource<RemovableTagModel> SuggestedTags
         {
             get
             {
@@ -158,23 +135,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// </summary>
         internal void SaveChanges()
         {
-            string[] t = (from v in _suggestedTags.Values select v.TagName).ToArray();
-            Properties.Settings.Default.KnownTags = string.Join(",", t);
-            Properties.Settings.Default.Save();
+            _suggestedTags.Save();
         }
-
-        #region IDisposable
-        /// <summary>
-        /// Free resources of the view model
-        /// </summary>
-        public void Dispose()
-        {
-            if (_tags != null)
-            {
-                _tags = null;
-            }
-            _cancelFinderToken.Cancel();
-        }
-        #endregion IDisposable
     }
 }

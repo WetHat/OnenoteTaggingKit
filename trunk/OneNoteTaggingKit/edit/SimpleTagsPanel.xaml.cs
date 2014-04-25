@@ -90,7 +90,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <summary>
         /// Handle changes to the collection of tags in the underlying model
         /// </summary>
-        /// <param name="sender"><see cref="ObservableSortedList&lt;TKey,TValue&gt;"/> maintaining the listof tags</param>
+        /// <param name="sender">collection of sorted tags</param>
         /// <param name="e">event details</param>
         private void OnTagCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {

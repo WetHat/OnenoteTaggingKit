@@ -43,7 +43,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             set
             {
                 _model = value;
-                _model.TagSuggestions = new TagSuggestionSource();
+                _model.TagSuggestions = new SuggestedTagsSource<HitHighlightedTagButtonModel>();
                 DataContext = _model;
             }
         }
@@ -173,7 +173,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 progressPopup.IsOpen = true;
                 
                 taggingScope.SelectedIndex = 0;
-                _model.TagSuggestions.AddAll(from t in _model.PageTags where !_model.TagSuggestions.ContainsKey(t.Key) select new HitHighlightedTagButtonModel(t.TagName));
+                _model.TagSuggestions.AddAll(from t in _model.PageTags where !_model.TagSuggestions.ContainsKey(t.Key) select new HitHighlightedTagButtonModel() { TagName = t.TagName });
                 tagInput.Clear();
                 suggestedTags.Highlighter = new TextSplitter();
                 progressPopup.IsOpen = false;
