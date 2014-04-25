@@ -24,13 +24,25 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         }
 
         /// <summary>
+        /// remove tag from suggestions when user control is tapped.
+        /// </summary>
+        /// <param name="sender">user control emitting this event</param>
+        /// <param name="e">event details</param>
+        private void TagButton_Click(object sender, RoutedEventArgs e)
+        {
+            RemovableTag btn = sender as RemovableTag;
+            _model.SuggestedTags.RemoveAll(new string[] { ((RemovableTagModel)btn.DataContext).Key });
+        }
+
+        /// <summary>
         /// Add a new tag to the list of suggestions when the button is pressed
         /// </summary>
         /// <param name="sender">control emitting the event</param>
         /// <param name="e">event details</param>
         private void NewTagButton_Click(object sender, RoutedEventArgs e)
         {
-            _model.SuggestedTags.AddAll(from t in tagInput.Tags where !_model.SuggestedTags.ContainsKey(t) select new RemovableTagModel(new TagPageSet(t)));
+            _model.SuggestedTags.AddAll(from t in tagInput.Tags where !_model.SuggestedTags.ContainsKey(t) select new RemovableTagModel() { Tag = new TagPageSet(t)});
+            suggestedTags.Highlighter = null;
             tagInput.Clear();
             e.Handled = true;
         }
@@ -65,10 +77,6 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Properties.Settings.Default.Save();
-            if (_model != null)
-            {
-                _model.Dispose();
-            }
             Trace.Flush();
         }
 
@@ -86,13 +94,14 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         private void Copy_MenuItem_Click(object sender, RoutedEventArgs e)
         {
             Clipboard.SetData(DataFormats.Text, _model.TagList);
+            tagInput.FocusInput();
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             if (_model != null)
             {
-                await _model.LoadTagSuggestionsAsync();
+                await _model.LoadSuggestedTagsAsync();
                 pBar.Visibility = System.Windows.Visibility.Hidden;
             }
         }
@@ -105,6 +114,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             }
             else
             {
+                suggestedTags.Highlighter = new TextSplitter(tagInput.Tags);
                 e.Handled = true;
             }
         }

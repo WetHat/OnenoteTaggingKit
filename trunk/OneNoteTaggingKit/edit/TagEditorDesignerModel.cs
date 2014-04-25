@@ -19,8 +19,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         public TagEditorDesignerModel()
         {
             _suggestedTags.AddAll(new HitHighlightedTagButtonModel[] {
-                new HitHighlightedTagButtonModel("Suggested Tag 1"),
-                new HitHighlightedTagButtonModel("Suggested Tag 2")
+                new HitHighlightedTagButtonModel() { TagName="Suggested Tag 1"},
+                new HitHighlightedTagButtonModel() { TagName="Suggested Tag 2"}
             });
 
             _pageTags.AddAll(new SimpleTagButtonModel[] { new SimpleTagButtonModel("tag 1"), new SimpleTagButtonModel("tag 2") });

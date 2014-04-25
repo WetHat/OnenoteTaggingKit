@@ -570,6 +570,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tags.
+        /// </summary>
+        public static string TagManager_SuggestedTags_Header {
+            get {
+                return ResourceManager.GetString("TagManager_SuggestedTags_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tag Suggestions.
         /// </summary>
         public static string TagManager_TagSuggestionsTab_Header {

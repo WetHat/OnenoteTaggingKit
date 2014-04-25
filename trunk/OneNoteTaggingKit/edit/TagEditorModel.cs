@@ -100,13 +100,13 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         Microsoft.Office.Interop.OneNote.Application _OneNote;
         XMLSchema _schema;
 
-        TagSuggestionSource _suggestionSource;
+        SuggestedTagsSource<HitHighlightedTagButtonModel> _suggestionSource;
 
         ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> _pageTags = new ObservableSortedList<TagModelKey, string, SimpleTagButtonModel>();
 
         TaggingScopeDescriptor[] _taggingScopes;
 
-        public TagSuggestionSource TagSuggestions
+        public SuggestedTagsSource<HitHighlightedTagButtonModel> TagSuggestions
         {
             get
             {
@@ -290,38 +290,4 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
     }
 
-    public class TagSuggestionSource : ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel>, ITagSource
-    {
-        internal TagSuggestionSource()
-        {
-        }
-
-        /// <summary>
-        /// Asnchronously load all tags used anywhere on OneNote pages.
-        /// </summary>
-        /// <returns>task object</returns>
-        internal async Task LoadSuggestedTagsAsync()
-        {
-            Clear();
-            HitHighlightedTagButtonModel[] mdls = await Task<HitHighlightedTagButtonModel[]>.Run(() => LoadSuggestedTagsAction());
-            AddAll(mdls);
-        }
-
-        private HitHighlightedTagButtonModel[] LoadSuggestedTagsAction()
-        {
-            return (from string t in OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags) select new HitHighlightedTagButtonModel(t)).ToArray();
-        }
-
-        internal void Save()
-        {
-          Properties.Settings.Default.KnownTags = string.Join(",", from v in Values select v.TagName);
-        }
-
-        #region ITagSource
-        public IEnumerable<IHighlightableTagDataContext> TagDataContextCollection
-        {
-            get { return Values; }
-        }
-        #endregion ITagSource
-    }
 }

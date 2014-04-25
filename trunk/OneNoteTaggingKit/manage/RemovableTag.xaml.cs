@@ -50,5 +50,38 @@ namespace WetHatLab.OneNote.TaggingKit.manage
 
             RaiseEvent(newClickEventArgs);
         }
+
+        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            RemovableTag t = sender as RemovableTag;
+
+            RemovableTagModel mdl = t.DataContext as RemovableTagModel;
+            if (mdl != null)
+            {
+                mdl.PropertyChanged += mdl_PropertyChanged;
+                mdl_PropertyChanged(mdl,RemovableTagModel.HIGHLIGHTED_TAGNAME);
+            }
+        }
+
+        void mdl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            RemovableTagModel mdl = sender as RemovableTagModel;
+            if (mdl != null)
+            {
+                if (e == RemovableTagModel.HIGHLIGHTED_TAGNAME)
+                {
+                    highlighedTag.Inlines.Clear();
+                    highlighedTag.Inlines.AddRange(mdl.HighlightedTagName.Select((f) =>
+                    {
+                        Run r = new Run(f.Text);
+                        if (f.IsMatch)
+                        {
+                            r.Background = Brushes.Yellow;
+                        }
+                        return r;
+                    }));
+                }
+            }
+        }
     }
 }

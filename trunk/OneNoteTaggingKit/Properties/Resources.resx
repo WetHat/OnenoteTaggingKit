@@ -359,4 +359,7 @@ Sorry for the inconvenience!</value>
   <data name="TagSearch_Error_CopyLink" xml:space="preserve">
     <value>Copying link to page failed</value>
   </data>
+  <data name="TagManager_SuggestedTags_Header" xml:space="preserve">
+    <value>Tags</value>
+  </data>
 </root>

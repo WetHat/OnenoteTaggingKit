@@ -37,7 +37,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private void createHitHighlightedTag(HitHighlightedTagButtonModel mdl)
         {
             hithighlightedTag.Inlines.Clear();
-            foreach (TextFragment f in mdl.HitHighlightedTagName)
+            foreach (TextFragment f in mdl.HighlightedTagName)
             {
                 Run r = new Run(f.Text);
                 if (f.IsMatch)
@@ -60,7 +60,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         void mdl_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e == HitHighlightedTagButtonModel.HITHIGHLIGHTED_TAGNAME_Property)
+            if (e == HitHighlightedTagButtonModel.HIGHLIGHTED_TAGNAME)
             {
                 HitHighlightedTagButtonModel mdl = sender as HitHighlightedTagButtonModel;
                 createHitHighlightedTag(mdl);

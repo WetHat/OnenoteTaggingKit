@@ -9,20 +9,21 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     /// </summary>
     public class TagManagerDesignerModel : ITagManagerModel
     {
-        ObservableSortedList<TagModelKey, string, RemovableTagModel> _tags = new ObservableSortedList<TagModelKey, string, RemovableTagModel>();
+        SuggestedTagsSource<RemovableTagModel> _tags = new SuggestedTagsSource<RemovableTagModel>();
 
         /// <summary>
         /// Create a new instance of the view model including some dummy data.
         /// </summary>
         public TagManagerDesignerModel()
         {
-            _tags.AddAll(new RemovableTagModel[] { new RemovableTagModel(new TagPageSet("suggested tag 1")),new RemovableTagModel(new TagPageSet("suggested tag 2"))});
+            _tags.AddAll(new RemovableTagModel[] { new RemovableTagModel() { Tag = new TagPageSet("suggested tag 1") },
+                                                   new RemovableTagModel() { Tag = new TagPageSet("suggested tag 2") }});
         }
 
         /// <summary>
         /// Get the collection of tags used for suggestions.
         /// </summary>
-        public ObservableSortedList<TagModelKey, string, RemovableTagModel> SuggestedTags
+        public SuggestedTagsSource<RemovableTagModel> SuggestedTags
         {
             get
             {

@@ -45,12 +45,34 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// </summary>
     /// <remarks>
     /// <para>
-    /// The panel requires the highlightable controls it hosts to be backed by a data context implementing
+    /// The panel requires highlightable controls it hosts to be backed by a data context implementing
     /// the <see cref="IHighlightableTagDataContext"/> contract. The details of the highlighting are left
-    /// the specific control implementation. The highlightable control should be defined as a tag template
+    /// the specific control implementation. Typically the data context provides a
+    /// property like
+    /// <code>
+    /// IEnumerable&lt;TextFragment&gt; HighlightedName { get; }
+    /// </code>
+    /// This property can be used by the UI implementation to build text with highlights like so:
+    /// <code>
+    /// private void createHitHighlightedTag(HitHighlightedTagButtonModel mdl)
+    /// {
+    ///   hithighlightedTag.Inlines.Clear();
+    ///   foreach (TextFragment f in mdl.HitHighlightedTagName)
+    ///   {
+    ///       Run r = new Run(f.Text);
+    ///       if (f.IsMatch)
+    ///       {
+    ///           r.Background = Brushes.Yellow;
+    ///       }
+    ///       hithighlightedTag.Inlines.Add(r);
+    ///   }
+    /// }
+    /// </code>
+    /// </para>
+    /// <para>
+    /// The highlightable control should be defined as a tag template
     /// (<see cref="TagTemplate"/>).
-    /// <example>
-    /// <code lang="xml">
+    /// <code language="xml" title="DataTemplate Example">
     /// &lt;cui:HighlightedTagsPanel TagSource=&quot;{Binding TagSuggestions,Mode=OneWay}&quot;
 	/// 					          Header=&quot;Test&quot;&gt;
 	/// &lt;cui:HighlightedTagsPanel.TagTemplate&gt;
@@ -60,14 +82,13 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
 	/// &lt;/cui:HighlightedTagsPanel.TagTemplate&gt;
     /// &lt;/cui:HighlightedTagsPanel&gt;
     /// </code>
-    /// </example>
     /// the panel instantiates highlightable controls from the data templates and assignes a data context
     /// from a tag source implemention <see cref="ITagSource"/>.
     /// </para>
     /// <para>
-    /// </para>
     /// Implementations of the <see cref="ITagSource"/> contract are usually based on observable collections
     /// of some sort
+    /// </para>
     /// </remarks>
     public partial class HighlightedTagsPanel : UserControl
     {

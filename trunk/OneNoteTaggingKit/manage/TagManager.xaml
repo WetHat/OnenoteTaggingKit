@@ -47,26 +47,18 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <local:RemovableTagsPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                                              ContextMenu="{StaticResource contextMenu}"
-                                              BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
-                                              Tags="{Binding SuggestedTags}"
-                                              Margin="5,5,5,0" />
-                <ProgressBar Name="pBar" Visibility="Visible"
-                                 Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
-                <cui:TagInputBox x:Name="tagInput" Grid.Row="2" Grid.Column="0"
+                <cui:TagInputBox x:Name="tagInput" Grid.Row="0" Grid.Column="0"
                                  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_NewTagTextbox_Tooltip}}"
                                  Margin="5,5,10,5"
                                  VerticalAlignment="Center"
                                  TagInput="TagInputBox_Input" />
                 <StackPanel Orientation="Horizontal"
-                                Grid.Row="2" Grid.Column="2">
+                                Grid.Row="0" Grid.Column="2">
                     <Button x:Name="newTagButton"
                             Style="{StaticResource controlEffectStyle}"
                             Width="26" Height="26"
@@ -91,6 +83,18 @@
                         <Image Source="/OneNoteTaggingKit;component/Resources/save-26.png" />
                     </Button>
                 </StackPanel>
+                <cui:HighlightedTagsPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                          x:Name="suggestedTags"
+                                          TagSource="{Binding SuggestedTags}"
+                                          Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_SuggestedTags_Header}}">
+                    <cui:HighlightedTagsPanel.TagTemplate>
+                        <DataTemplate>
+                            <local:RemovableTag Margin="0,5,5,0" Click="TagButton_Click"/>
+                        </DataTemplate>
+                    </cui:HighlightedTagsPanel.TagTemplate>
+                </cui:HighlightedTagsPanel>
+                <ProgressBar Name="pBar" Visibility="Visible"
+                                 Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
             </Grid>
         </TabItem>
         <TabItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_AboutTab_Header}}">
