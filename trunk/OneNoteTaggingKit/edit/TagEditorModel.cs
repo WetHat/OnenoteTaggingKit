@@ -318,7 +318,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
 
         #region ITagSource
-        public IEnumerable<IFilterableTagDataContext> TagDataContextCollection
+        public IEnumerable<IHighlightableTagDataContext> TagDataContextCollection
         {
             get { return Values; }
         }

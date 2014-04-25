@@ -12,11 +12,11 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// Contract for implmentation of the data context of controls which want to appear in
     /// <see cref=" HighlightedTagsPanel"/> controls
     /// </summary>
-    public interface IFilterableTagDataContext
+    public interface IHighlightableTagDataContext
     {
         /// <summary>
-        /// Set the higlighter which generates highlight text descriptions
-        /// based on a patter match.
+        /// Set the higlighter which generates text highlight descriptions
+        /// based on pattern matches.
         /// </summary>
         TextSplitter Highlighter { set; }
 
@@ -37,7 +37,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// Get the collection of data context objects.
         /// </summary>
-        IEnumerable<IFilterableTagDataContext> TagDataContextCollection { get; }
+        IEnumerable<IHighlightableTagDataContext> TagDataContextCollection { get; }
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// <remarks>
     /// <para>
     /// The panel requires the highlightable controls it hosts to be backed by a data context implementing
-    /// the <see cref="IFilterableTagDataContext"/> contract. The details of the highlighting are left
+    /// the <see cref="IHighlightableTagDataContext"/> contract. The details of the highlighting are left
     /// the specific control implementation. The highlightable control should be defined as a tag template
     /// (<see cref="TagTemplate"/>).
     /// <example>
@@ -146,7 +146,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                         for (int i = 0; i < newItemCount; i++)
                         {
                             FrameworkElement tagControl = tpl.LoadContent() as FrameworkElement;
-                            IFilterableTagDataContext ctx = e.NewItems[i] as IFilterableTagDataContext;
+                            IHighlightableTagDataContext ctx = e.NewItems[i] as IHighlightableTagDataContext;
                             if (ctx != null)
                             {
                                 ctx.Highlighter = highlighter;
@@ -203,7 +203,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
 
                     bool firstMatch = false;
                     int i = 0;
-                    foreach (IFilterableTagDataContext ctx in tagsource.TagDataContextCollection)
+                    foreach (IHighlightableTagDataContext ctx in tagsource.TagDataContextCollection)
                     {
                         ctx.Highlighter = highlighter;
                         if (!firstMatch && ctx.HasHighlights)

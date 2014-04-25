@@ -38,7 +38,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// Implements the <see cref="INotifyPropertyChanged"/> interface to update the UI after property changes.
     /// <remarks>
     /// </remarks>
-    public class TagSelectorModel : DependencyObject, ISortableKeyedItem<TagModelKey, string>, ITagSelectorModel, IFilterableTagDataContext,INotifyPropertyChanged
+    public class TagSelectorModel : DependencyObject, ISortableKeyedItem<TagModelKey, string>, ITagSelectorModel, IHighlightableTagDataContext,INotifyPropertyChanged
     {
         internal static readonly PropertyChangedEventArgs PAGE_COUNT = new PropertyChangedEventArgs("PageCount");
         internal static readonly PropertyChangedEventArgs IS_CHECKED = new PropertyChangedEventArgs("IsChecked");
@@ -191,7 +191,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion INotifyPropertyChanged
 
-        #region IFilterableTagDataContext
+        #region IHighlightableTagDataContext
         public TextSplitter Highlighter
         {
             set
@@ -203,6 +203,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
         public bool HasHighlights {get; private set;}
 
-        #endregion IFilterableTagDataContext
+        #endregion IHighlightableTagDataContext
     }
 }
