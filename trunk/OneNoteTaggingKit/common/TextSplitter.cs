@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -46,21 +47,22 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// </remarks>
     public class TextSplitter
     {
+        private static Regex escaper = new Regex(@"([\(\)\[\]\{\}\\\.\+])", RegexOptions.Compiled);
         private Regex _pattern;
 
         /// <summary>
         /// Create a new text splitter instance
         /// </summary>
-        /// <param name="pattern">sequence of match strings</param>
+        /// <param name="pattern">sequence of plain text strings</param>
         /// <param name="splitOptions">regular expression match options</param>
         internal TextSplitter(IEnumerable<string> pattern, RegexOptions splitOptions = RegexOptions.IgnoreCase | RegexOptions.Compiled)
         {
             if (pattern != null)
             {
-                string p = string.Join("|", pattern);
-                if (p.Length > 0)
+                string rex = string.Join("|", from p in pattern select escaper.Replace(p,@"\$1"));
+                if (rex.Length > 0)
                 {
-                    _pattern = new Regex(string.Join("|", pattern), splitOptions);
+                    _pattern = new Regex(rex, splitOptions);
                 }
             }
         }
