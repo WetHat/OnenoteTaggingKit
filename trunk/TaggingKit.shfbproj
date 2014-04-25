@@ -29,25 +29,33 @@
     <VisibleItems>InheritedMembers, InheritedFrameworkMembers, Internals, Protected, ProtectedInternalAsProtected</VisibleItems>
     <WorkingPath>..\..\Temp\Sandcastle\</WorkingPath>
     <ComponentConfigurations>
-      <ComponentConfig id="Syntax Component" enabled="False" xmlns="">
-        <component id="Syntax Component">
-          <syntax input="/document/reference" output="/document/syntax" renderReferenceLinks="false" />
-<generators>
-    {@SyntaxFilters}
-</generators></component>
+      <ComponentConfig id="API Token Resolution" enabled="True">
+        <component id="API Token Resolution">{@TokenFiles}
+<replace elements="/*//token" item="string(.)" /></component>
       </ComponentConfig>
-<ComponentConfig id="API Token Resolution" enabled="True" xmlns=""><component id="API Token Resolution">{@TokenFiles}
-<replace elements="/*//token" item="string(.)" /></component></ComponentConfig>
-<ComponentConfig id="Code Block Component" enabled="True" xmlns=""><component id="Code Block Component">
-  <basePath value="{@HtmlEncProjectFolder}" />
-  <outputPaths>{@HelpFormatOutputPaths}</outputPaths>
-  <allowMissingSource value="false" />
-  <removeRegionMarkers value="false" />
-  <colorizer syntaxFile="{@SHFBFolder}Colorizer\highlight.xml" styleFile="{@SHFBFolder}Colorizer\highlight.xsl" stylesheet="{@SHFBFolder}Colorizer\highlight.css" scriptFile="{@SHFBFolder}Colorizer\highlight.js" disabled="{@DisableCodeBlockComponent}" language="cs" tabSize="0" numberLines="false" outlining="false" keepSeeTags="true" defaultTitle="true" />
-</component></ComponentConfig></ComponentConfigurations>
+      <ComponentConfig id="Code Block Component" enabled="True">
+        <component id="Code Block Component">
+          <basePath value="{@HtmlEncProjectFolder}" />
+          <outputPaths>{@HelpFormatOutputPaths}</outputPaths>
+          <allowMissingSource value="false" />
+          <removeRegionMarkers value="false" />
+          <colorizer syntaxFile="{@SHFBFolder}Colorizer\highlight.xml" styleFile="{@SHFBFolder}Colorizer\highlight.xsl" stylesheet="{@SHFBFolder}Colorizer\highlight.css" scriptFile="{@SHFBFolder}Colorizer\highlight.js" disabled="{@DisableCodeBlockComponent}" language="cs" tabSize="0" numberLines="false" outlining="false" keepSeeTags="true" defaultTitle="true" />
+        </component>
+      </ComponentConfig>
+    </ComponentConfigurations>
     <DocumentationSources>
       <DocumentationSource sourceFile="OneNoteTaggingKit\OneNoteTaggingKit.csproj" xmlns="" />
     </DocumentationSources>
+    <MaximumGroupParts>2</MaximumGroupParts>
+    <NamespaceGrouping>False</NamespaceGrouping>
+    <SyntaxFilters>C#, XAML Usage</SyntaxFilters>
+    <SdkLinkTarget>Blank</SdkLinkTarget>
+    <RootNamespaceContainer>False</RootNamespaceContainer>
+    <PresentationStyle>VS2005</PresentationStyle>
+    <Preliminary>False</Preliminary>
+    <NamingMethod>Guid</NamingMethod>
+    <HelpTitle>A Sandcastle Documented Class Library</HelpTitle>
+    <ContentPlacement>AboveNamespaces</ContentPlacement>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
 			 the build.  The others are optional common platform types that may appear. -->
