@@ -34,12 +34,19 @@ namespace WetHatLab.OneNote.TaggingKit.common
         private ObservableDictionary<string, TagPageSet> _tags = new ObservableDictionary<string, TagPageSet>();
         private ObservableDictionary<string, TaggedPage> _pages = new ObservableDictionary<string, TaggedPage>();
 
+        /// <summary>
+        /// Craete a new instance of the tag collection
+        /// </summary>
+        /// <param name="onenote">OneNote application object</param>
+        /// <param name="schema">version dependent page schema</param>
         internal TagCollection(Application onenote, XMLSchema schema)
         {
             _onenote = onenote;
             _schema = schema;
         }
-
+        /// <summary>
+        /// Get the OneNote current windows object which provides ids of the current page, section, sectiongroup, and notebook
+        /// </summary>
         internal Window CurrentWindow
         {
             get
@@ -53,7 +60,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="scopeID">OneNote id of the scope to search for pages. This is the element ID of a notebook, section group, or section.
         ///                       If given as null or empty string scope is the entire set of notebooks open in OneNote.
         /// </param>
-        /// <param name="includeUnindexedPages">true to include pages in the search which have not been not indexed yet</param>
+        /// <param name="includeUnindexedPages">true to include pages in the search which have not been indexed yet</param>
         public void Find(string scopeID, bool includeUnindexedPages = false)
         {
             string strXml;
@@ -145,7 +152,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         /// <summary>
-        /// get dictionary of tags.
+        /// get a dictionary of tags.
         /// </summary>
         internal ObservableDictionary<string, TagPageSet> Tags
         {
@@ -153,7 +160,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         /// <summary>
-        /// Get the dictionary of pages
+        /// Get a dictionary of pages.
         /// </summary>
         internal ObservableDictionary<string, TaggedPage> Pages
         {
