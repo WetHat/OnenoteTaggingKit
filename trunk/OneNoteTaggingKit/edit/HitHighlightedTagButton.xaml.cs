@@ -18,6 +18,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// </summary>
         public static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(HitHighlightedTagButton));
 
+        /// <summary>
+        /// Create a new instance of the control
+        /// </summary>
         public HitHighlightedTagButton()
         {
             InitializeComponent();

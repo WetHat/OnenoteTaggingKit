@@ -405,9 +405,16 @@ namespace WetHatLab.OneNote.TaggingKit.find
         #endregion INotifyPropertyChanged
     }
 
+    /// <summary>
+    /// A collection of tags represented by data context objects implementing the
+    /// <see cref="IHighlightableTagDataContext"/> contract. 
+    /// </summary>
     public class TagSource : ObservableSortedList<TagModelKey, string, TagSelectorModel>, ITagSource
     {
         #region ITagSource
+        /// <summary>
+        /// Get the sequence of tags in this collection.
+        /// </summary>
         public IEnumerable<IHighlightableTagDataContext> TagDataContextCollection
         {
             get { return Values; }

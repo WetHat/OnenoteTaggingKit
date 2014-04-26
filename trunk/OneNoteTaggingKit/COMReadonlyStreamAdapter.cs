@@ -7,6 +7,9 @@ using System.Text;
 
 namespace WetHatLab.OneNote.TaggingKit
 {
+    /// <summary>
+    /// Adapter to create image streams.
+    /// </summary>
     class COMReadonlyStreamAdapter : IStream
     {
         private System.IO.Stream m_stream;
@@ -17,11 +20,19 @@ namespace WetHatLab.OneNote.TaggingKit
 		}
 
         #region IStream
+        /// <summary>
+        /// Clone a stream
+        /// </summary>
+        /// <param name="ppstm">stream clone</param>
         public void Clone(out IStream ppstm)
 		{
             ppstm = new COMReadonlyStreamAdapter(m_stream);
 		}
 
+        /// <summary>
+        /// Flush the stream
+        /// </summary>
+        /// <param name="grfCommitFlags">flags</param>
 		public void Commit(int grfCommitFlags)
 		{
 			m_stream.Flush();

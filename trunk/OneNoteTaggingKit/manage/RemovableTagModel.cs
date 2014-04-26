@@ -16,10 +16,17 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         internal static readonly PropertyChangedEventArgs USE_COUNT = new PropertyChangedEventArgs("UseCount");
         internal static readonly PropertyChangedEventArgs MARKER_VISIBILIY = new PropertyChangedEventArgs("RemoveMarkerVisibility");
 
+        /// <summary>
+        /// Create a new instance of the view model.
+        /// </summary>
         public RemovableTagModel()
         {
         }
 
+        /// <summary>
+        /// Set the Tag for the view model.
+        /// </summary>
+        /// <remarks>The tag is used to provide the page count (number of pages with this tag)</remarks>
         internal TagPageSet Tag
         {
             set
@@ -32,6 +39,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <summary>
         /// Check whether the tag can be removed
         /// </summary>
+        /// <value>true, if the tag has a page xcount of 0 and can be removed; false otherwise</value>
         private bool CanRemove
         {
             get { return UseCount == 0; }
@@ -39,7 +47,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
 
         int _useCount = 0;
         /// <summary>
-        /// Get the number of uses of this tag 
+        /// Get the number of pages having this tag.
         /// </summary>
         public int UseCount
         {
@@ -58,6 +66,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <summary>
         /// Get the visibility of the <i>remove</i> marker
         /// </summary>
+        /// <remarks>The marker is visible for tags with page count 0</remarks>
         public Visibility RemoveMarkerVisibility
         {
             get { return CanRemove ? Visibility.Visible : Visibility.Collapsed; }
