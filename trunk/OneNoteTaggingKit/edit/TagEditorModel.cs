@@ -172,13 +172,14 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         #endregion ITagEditorModel
 
-        internal async Task<int> SavePageTagsAsync(TagOperation op,TaggingScope scope)
+        internal Task<int> SavePageTagsAsync(TagOperation op,TaggingScope scope)
         {
+            // bring suggestions up-to-date with new tags that may have been entered
+            TagSuggestions.AddAll(from t in _pageTags where !TagSuggestions.ContainsKey(t.Key) select new HitHighlightedTagButtonModel() { TagName = t.TagName });
+               
             // pass tags and current page as parameters so that the undelying objects can further be modified in the foreground
-            int pagesTagged = 0;
             string[] pageTags = (from t in _pageTags.Values select t.TagName).ToArray();
-            pagesTagged = await Task<int>.Run(() => SaveChangesAction(pageTags, op, scope));
-            return pagesTagged;
+            return Task<int>.Run(() => SaveChangesAction(pageTags, op, scope));
         }
 
         private int SaveChangesAction(string[] tags, TagOperation op, TaggingScope scope)

@@ -165,15 +165,14 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             tagInput.FocusInput();
             try
-            {
+            { 
                 TraceLogger.Log(TraceCategory.Info(), "Applying tags to page");
                 TaggingScope scope = ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope;
-
+                
                 Task<int> saveTask = _model.SavePageTagsAsync(op, scope);
                 progressPopup.IsOpen = true;
-                
+     
                 taggingScope.SelectedIndex = 0;
-                _model.TagSuggestions.AddAll(from t in _model.PageTags where !_model.TagSuggestions.ContainsKey(t.Key) select new HitHighlightedTagButtonModel() { TagName = t.TagName });
                 tagInput.Clear();
                 suggestedTags.Highlighter = new TextSplitter();
                 progressPopup.IsOpen = false;
