@@ -47,7 +47,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// </remarks>
     public class TextSplitter
     {
-        private static Regex escaper = new Regex(@"([\(\)\[\]\{\}\\\.\+])", RegexOptions.Compiled);
+        private static Regex escaper = new Regex(@"([\(\)\[\]\{\}\\\.\+\*])", RegexOptions.Compiled);
         private Regex _pattern;
 
         /// <summary>
@@ -70,8 +70,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Create a new text splitter instance
         /// </summary>
-        /// <param name="pattern">any number of text patterns</param>
-        /// <param name="splitOptions">regular expression match options</param>
+        /// <param name="pattern">any number of plain text patterns</param>
         internal TextSplitter(params string[] pattern) : this((IEnumerable<string>)pattern)
         {
         }
@@ -125,8 +124,16 @@ namespace WetHatLab.OneNote.TaggingKit.common
             return fragments;
         }
     }
+    /// <summary>
+    /// Extension methods for the <see cref="TextSplitter"/> class.
+    /// </summary>
     internal static class TextSplitterExtensions
     {
+        /// <summary>
+        /// Check if a sequence of <see cref="TextFragment"/> objects text with highlights.
+        /// </summary>
+        /// <param name="highlightedText">text sequence</param>
+        /// <returns>true, if the text contains highlights</returns>
         internal static bool IsHighlighted(this IEnumerable<TextFragment> highlightedText)
         {
             return (from f in highlightedText where f.IsMatch select f).FirstOrDefault().IsMatch;
