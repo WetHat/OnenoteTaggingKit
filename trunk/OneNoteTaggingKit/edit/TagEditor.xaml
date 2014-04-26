@@ -20,7 +20,7 @@
         d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:TagEditorDesignerModel}}"
         WindowStyle="ToolWindow"
         Title="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Window_Title}}"
-        Icon="/OneNoteTaggingKit;component/Resources/tag 32x32.png"
+        Icon="/OneNoteTaggingKit;component/Resources/tag 64x64.png"
         Loaded="Window_Loaded" Closing="editTags_Closing">
     <Window.Resources>
         <ResourceDictionary Source="pack://application:,,,/OneNoteTaggingKit;component/Resources/Styles.xaml"/>
