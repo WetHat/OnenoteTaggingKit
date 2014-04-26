@@ -16,8 +16,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// collections.
     /// </para>
     /// <para>
-    /// This class fires <see cref="E:PropertyChanged"/> events for the <see cref="HighlightedTagName"/>
-    /// property. Derived classes may also fire additional <see cref="E:PropertyChanged"/>
+    /// This class fires the <see cref="E:WetHatLab.OneNote.TaggingKit.common.PropertyChanged"/> events for changes to the <see cref="HighlightedTagName"/>
+    /// property. Derived classes may fire additional <see cref="E:WetHatLab.OneNote.TaggingKit.common.PropertyChanged"/>
     /// events for their custom properties as appropriate.
     /// </para>
     /// <para>
@@ -33,14 +33,14 @@ namespace WetHatLab.OneNote.TaggingKit.common
         TagModelKey _sortkey;
 
         ///<summary>
-        /// predefined event descriptor for <see cref=">PropertyChanged"/> event fired for the <see cref="HighlightedTagName"/> property
+        /// predefined event descriptor for the <see cref="E:WetHatLab.OneNote.TaggingKit.common.PropertyChanged"/> event fired for changes to the <see cref="HighlightedTagName"/> property
         ///</summary>
         internal static readonly PropertyChangedEventArgs HIGHLIGHTED_TAGNAME = new PropertyChangedEventArgs("HighlightedTagName");
 
         /// <summary>
-        /// Fire a <see cref="E:PropertyChanged"/> event
+        /// Fire a <see cref="E:WetHatLab.OneNote.TaggingKit.common.PropertyChanged"/> event
         /// </summary>
-        /// <param name="args">event details</param>
+        /// <param name="args">event details describing which property changed</param>
         internal protected void firePropertyChanged(PropertyChangedEventArgs args)
         {
           if (PropertyChanged != null)

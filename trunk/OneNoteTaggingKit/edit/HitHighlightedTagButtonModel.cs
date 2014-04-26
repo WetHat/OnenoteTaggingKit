@@ -19,6 +19,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         
         bool _isFiltered = false;
 
+        /// <summary>
+        /// Create a new instance of the control
+        /// </summary>
         public HitHighlightedTagButtonModel()
         {
         }
@@ -41,7 +44,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// </summary>
         /// <remarks>
         /// Setting this property has a side effect on the <see cref="Visibility"/> property.
-        /// The appropriate <see cref="PropertyChanged"/> events are fired as necessary.
+        /// The appropriate <see cref="E:WetHatLab.OneNote.TaggingKit.edit.PropertyChanged"/> events are fired as necessary.
         /// </remarks>
         public override TextSplitter Highlighter
         {

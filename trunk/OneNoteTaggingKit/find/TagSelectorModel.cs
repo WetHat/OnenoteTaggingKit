@@ -47,11 +47,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private TagPageSet _tag;
         private TagModelKey _key;
-        private bool _isFiltered = false;
         private IEnumerable<TextFragment> _highlightedTagName;
 
         /// <summary>
-        /// create a new view model instance from a tag.
+        /// Create a new view model instance from a tag.
         /// </summary>
         /// <param name="tag">tag object</param>
         internal TagSelectorModel(TagPageSet tag)
@@ -63,7 +62,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
-        /// create a new view model instance for a tag and an event handler.
+        /// Create a new view model instance for a tag and an event handler.
         /// </summary>
         /// <param name="tag">tag object</param>
         /// <param name="propHandler">listerner for property changes</param>
@@ -91,10 +90,16 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
 
+        /// <summary>
+        /// Get thee tag name with highlights
+        /// </summary>
         public IEnumerable<TextFragment> HitHighlightedTagName { get { return _highlightedTagName; } }
 
         #region ITagSelectorModel
 
+        /// <summary>
+        /// Get tag object.
+        /// </summary>
         public TagPageSet Tag
         {
             get
@@ -115,7 +120,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private bool _isChecked = false;
         /// <summary>
-        /// get or set a tags selectes state
+        /// Get or set a tags selectes state
         /// </summary>
         public bool IsChecked
         {
@@ -178,7 +183,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         #region INotifyPropertyChanged
         /// <summary>
-        /// Event to inform listerners about changes to certain properties
+        /// Event to notify listeners about changes to properties in this class
         /// </summary>
         /// <remarks>
         /// Currently notification for following properties are emitted:
@@ -192,6 +197,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
         #endregion INotifyPropertyChanged
 
         #region IHighlightableTagDataContext
+        /// <summary>
+        /// Set the object which is used to generate the highlighted text.
+        /// </summary>
         public TextSplitter Highlighter
         {
             set
@@ -201,6 +209,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 firePropertyChanged(HIT_HIGHLIGHTED_TAGNAME);
             }
         }
+        /// <summary>
+        /// Check if the tag name has highlights.
+        /// </summary>
         public bool HasHighlights {get; private set;}
 
         #endregion IHighlightableTagDataContext

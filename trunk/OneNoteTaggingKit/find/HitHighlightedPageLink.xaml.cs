@@ -8,13 +8,18 @@ using WetHatLab.OneNote.TaggingKit.common;
 namespace WetHatLab.OneNote.TaggingKit.find
 {
     /// <summary>
-    /// Interaction logic for HitHighlightedPageLink.xaml
+    /// Control to render a hit highlighted link to a OneNote page.
     /// </summary>
     public partial class HitHighlightedPageLink : UserControl
     {
+        /// <summary>
+        /// Routed Event for clicks on links to OneNote pages.
+        /// </summary>
         public static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(HitHighlightedPageLink));
 
-        // Provide CLR accessors for the event 
+        /// <summary>
+        /// Event fired for clicks on links to OneNote pages.
+        /// </summary>
         public event RoutedEventHandler Click
         {
             add { AddHandler(ClickEvent, value); }
