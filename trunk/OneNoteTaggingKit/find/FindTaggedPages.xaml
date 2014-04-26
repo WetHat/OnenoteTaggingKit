@@ -18,7 +18,7 @@
         MinWidth="300"
         MinHeight="370"
         Closing="Window_Closing"
-        Icon="/OneNoteTaggingKit;component/Resources/tagSearch 32x32.png"
+        Icon="/OneNoteTaggingKit;component/Resources/tag 64x64.png"
         Loaded="Window_Loaded">
     <Window.Resources>
         <ResourceDictionary>

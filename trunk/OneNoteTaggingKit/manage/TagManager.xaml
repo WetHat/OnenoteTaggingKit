@@ -14,7 +14,7 @@
         WindowStyle="ToolWindow"
         Title="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_Window_Title}}"
         Height="{Binding Source={x:Static prop:Settings.Default},Path=TagManagerWindow_Height,Mode=TwoWay}"
-        Width="{Binding Source={x:Static prop:Settings.Default},Path=TagManagerWindow_Width,Mode=TwoWay}" Closing="Window_Closing" Icon="/OneNoteTaggingKit;component/Resources/settings 32x32.png" Loaded="Window_Loaded">
+        Width="{Binding Source={x:Static prop:Settings.Default},Path=TagManagerWindow_Width,Mode=TwoWay}" Closing="Window_Closing" Icon="/OneNoteTaggingKit;component/Resources/tag 64x64.png" Loaded="Window_Loaded">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
