@@ -51,7 +51,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private void OnSuggestedTagClick(object sender, RoutedEventArgs e)
         {
-            tagInput.FocusInput();
             HitHighlightedTagButton btn = sender as HitHighlightedTagButton;
             if (btn != null)
             {
