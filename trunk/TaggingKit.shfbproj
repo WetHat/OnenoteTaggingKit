@@ -81,6 +81,9 @@
       <Project>{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <XamlConfiguration Include="XAML Syntax1.xamlcfg" />
+  </ItemGroup>
   <!-- Import the SHFB build targets -->
   <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" />
 </Project>
