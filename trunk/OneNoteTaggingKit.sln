@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.30110.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5AE547CE-AA49-4AC1-8836-DB9319C61190}"
 	ProjectSection(SolutionItems) = preProject
 		TaggingKitUML.odg = TaggingKitUML.odg
@@ -15,35 +13,107 @@ Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "SetupTaggingKit", "SetupTag
 		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C} = {C91F9302-AD53-4561-9FB4-7E6FB658CF7C}
 	EndProjectSection
 EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SetupTaggingKitWiX", "SetupTaggingKitWiX\SetupTaggingKitWiX.wixproj", "{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
+		CD_ROM|Mixed Platforms = CD_ROM|Mixed Platforms
+		CD_ROM|x86 = CD_ROM|x86
 		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
 		DVD-5|Any CPU = DVD-5|Any CPU
+		DVD-5|Mixed Platforms = DVD-5|Mixed Platforms
+		DVD-5|x86 = DVD-5|x86
 		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
 		SingleImage|Any CPU = SingleImage|Any CPU
+		SingleImage|Mixed Platforms = SingleImage|Mixed Platforms
+		SingleImage|x86 = SingleImage|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
 		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.CD_ROM|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.CD_ROM|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.CD_ROM|x86.ActiveCfg = Debug|Any CPU
 		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
 		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.DVD-5|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.DVD-5|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.DVD-5|x86.ActiveCfg = Debug|Any CPU
 		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.Release|x86.ActiveCfg = Release|Any CPU
 		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.SingleImage|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.SingleImage|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}.SingleImage|x86.ActiveCfg = Debug|Any CPU
 		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.CD_ROM|Any CPU.ActiveCfg = CD_ROM
 		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.CD_ROM|Any CPU.Build.0 = CD_ROM
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.CD_ROM|Mixed Platforms.ActiveCfg = CD_ROM
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.CD_ROM|Mixed Platforms.Build.0 = CD_ROM
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.CD_ROM|x86.ActiveCfg = CD_ROM
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.CD_ROM|x86.Build.0 = CD_ROM
 		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.Debug|Any CPU.ActiveCfg = DVD-5
 		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.Debug|Any CPU.Build.0 = DVD-5
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.Debug|Mixed Platforms.ActiveCfg = DVD-5
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.Debug|Mixed Platforms.Build.0 = DVD-5
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.Debug|x86.ActiveCfg = DVD-5
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.Debug|x86.Build.0 = DVD-5
 		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.DVD-5|Any CPU.ActiveCfg = DVD-5
 		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.DVD-5|Any CPU.Build.0 = DVD-5
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.DVD-5|Mixed Platforms.ActiveCfg = DVD-5
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.DVD-5|Mixed Platforms.Build.0 = DVD-5
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.DVD-5|x86.ActiveCfg = DVD-5
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.DVD-5|x86.Build.0 = DVD-5
 		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.Release|Any CPU.ActiveCfg = SingleImage
 		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.Release|Any CPU.Build.0 = SingleImage
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.Release|Mixed Platforms.ActiveCfg = SingleImage
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.Release|Mixed Platforms.Build.0 = SingleImage
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.Release|x86.ActiveCfg = SingleImage
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.Release|x86.Build.0 = SingleImage
 		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.SingleImage|Any CPU.ActiveCfg = SingleImage
 		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.SingleImage|Any CPU.Build.0 = SingleImage
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.SingleImage|Mixed Platforms.ActiveCfg = SingleImage
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.SingleImage|Mixed Platforms.Build.0 = SingleImage
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.SingleImage|x86.ActiveCfg = SingleImage
+		{96825EB9-B6F6-4027-95D2-C77B7B001E37}.SingleImage|x86.Build.0 = SingleImage
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.CD_ROM|Any CPU.ActiveCfg = Release|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.CD_ROM|Mixed Platforms.ActiveCfg = Release|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.CD_ROM|Mixed Platforms.Build.0 = Release|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.CD_ROM|x86.ActiveCfg = Release|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.CD_ROM|x86.Build.0 = Release|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.Debug|x86.ActiveCfg = Debug|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.Debug|x86.Build.0 = Debug|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.DVD-5|Any CPU.ActiveCfg = Debug|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.DVD-5|Mixed Platforms.ActiveCfg = Debug|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.DVD-5|Mixed Platforms.Build.0 = Debug|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.DVD-5|x86.ActiveCfg = Debug|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.DVD-5|x86.Build.0 = Debug|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.Release|Any CPU.ActiveCfg = Release|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.Release|x86.ActiveCfg = Release|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.Release|x86.Build.0 = Release|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.SingleImage|Any CPU.ActiveCfg = Release|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.SingleImage|Mixed Platforms.ActiveCfg = Release|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.SingleImage|Mixed Platforms.Build.0 = Release|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.SingleImage|x86.ActiveCfg = Release|x86
+		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.SingleImage|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

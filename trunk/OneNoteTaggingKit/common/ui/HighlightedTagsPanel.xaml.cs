@@ -240,11 +240,13 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                     foreach (IHighlightableTagDataContext ctx in tagsource.TagDataContextCollection)
                     {
                         ctx.Highlighter = highlighter;
+                        Control ctrl = (Control)panel.tagsPanel.Children[i];
                         if (!firstMatch && ctx.HasHighlights)
                         {
-                            ((FrameworkElement)panel.tagsPanel.Children[i]).BringIntoView();
+                            ctrl.BringIntoView();
                             firstMatch = true;
                         }
+                        ctrl.Focusable = ctx.HasHighlights;
                         i++;
                     }
                 }
