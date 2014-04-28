@@ -133,6 +133,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         internal void Clear()
         {
             tagInput.Text = String.Empty;
+            RaiseEvent(new TagInputEventArgs(TagInputEvent, this, enterPressed: false));
             UpdateVisibility();
         }
 
@@ -161,7 +162,6 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         private void ClearInputButton_Click(object sender, RoutedEventArgs e)
         {
             Clear();
-            RaiseEvent(new TagInputEventArgs(TagInputEvent, this, enterPressed: false));
             e.Handled = true;
         }
 

@@ -48,6 +48,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         private TagPageSet _tag;
         private TagModelKey _key;
         private IEnumerable<TextFragment> _highlightedTagName;
+        bool _isFiltered;
 
         /// <summary>
         /// Create a new view model instance from a tag.
@@ -157,7 +158,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         {
             get
             {
-                return IsChecked || PageCount > 0  ? Visibility.Visible : Visibility.Collapsed;
+                return IsChecked || (PageCount > 0 && (HasHighlights || !_isFiltered))  ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
@@ -205,8 +206,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
             set
             {
                 _highlightedTagName = value.SplitText(TagName);
+                _isFiltered = value.SplitPattern != null;
                 HasHighlights = (from f in _highlightedTagName where f.IsMatch select f).FirstOrDefault().IsMatch;
                 firePropertyChanged(HIT_HIGHLIGHTED_TAGNAME);
+                firePropertyChanged(VISIBILITY);
             }
         }
         /// <summary>
