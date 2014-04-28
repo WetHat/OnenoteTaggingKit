@@ -82,6 +82,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                                                    t.IsChecked = false;
                                                }
                                              });
+            tagInput.Clear();
             e.Handled = true;
         }
 
