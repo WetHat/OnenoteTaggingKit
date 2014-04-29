@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="INSTALLFOLDER" />
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="COMReg">
+            <Component Id="cmp49D9E8C3A0F9C35FEAAADA4A1E205506" Directory="INSTALLFOLDER" Guid="*">
+                <Class Id="{104D86CB-96C6-3C95-B72F-3D0874F7D19B}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.edit.TagEditor" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.edit.TagEditor" Description="WetHatLab.OneNote.TaggingKit.edit.TagEditor" />
+                </Class>
+                <Class Id="{12705CBA-3BAB-3FD7-B8ED-E8C0CC0C9995}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.manage.RemovableTagModel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.manage.RemovableTagModel" Description="WetHatLab.OneNote.TaggingKit.manage.RemovableTagModel" />
+                </Class>
+                <Class Id="{175F6642-1FCD-3ED4-AC73-9BD28BB0206A}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.nexus.RelatedPageLinkDesignerModel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.nexus.RelatedPageLinkDesignerModel" Description="WetHatLab.OneNote.TaggingKit.nexus.RelatedPageLinkDesignerModel" />
+                </Class>
+                <Class Id="{18951A86-45B5-3FEF-BAB4-D4F5B13AC74F}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.find.TagSearchScope" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.find.TagSearchScope" Description="WetHatLab.OneNote.TaggingKit.find.TagSearchScope" />
+                </Class>
+                <Class Id="{1ED4E0D0-74EE-3AB1-90C7-FC5B2C60F47B}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.edit.SimpleTagsPanel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.edit.SimpleTagsPanel" Description="WetHatLab.OneNote.TaggingKit.edit.SimpleTagsPanel" />
+                </Class>
+                <Class Id="{29BFEAF1-2A0D-3A33-B9B2-93CC3C459362}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.find.HitHighlightedPageLink" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.find.HitHighlightedPageLink" Description="WetHatLab.OneNote.TaggingKit.find.HitHighlightedPageLink" />
+                </Class>
+                <Class Id="{5397497C-E19B-37FF-BD5E-D77D57876671}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.find.FindTaggedPages" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.find.FindTaggedPages" Description="WetHatLab.OneNote.TaggingKit.find.FindTaggedPages" />
+                </Class>
+                <Class Id="{6D931FBB-8703-3195-9D1B-12C73F28401E}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.common.ui.HighlightedTagsPanel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.common.ui.HighlightedTagsPanel" Description="WetHatLab.OneNote.TaggingKit.common.ui.HighlightedTagsPanel" />
+                </Class>
+                <Class Id="{6ED06A68-8600-3266-B1BB-0A11EEDF41C3}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.edit.TagEditorDesignerModel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.edit.TagEditorDesignerModel" Description="WetHatLab.OneNote.TaggingKit.edit.TagEditorDesignerModel" />
+                </Class>
+                <Class Id="{72EAF797-A147-35AC-925A-C3FD1D14EAF2}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.find.FindTaggedPagesDesignerModel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.find.FindTaggedPagesDesignerModel" Description="WetHatLab.OneNote.TaggingKit.find.FindTaggedPagesDesignerModel" />
+                </Class>
+                <Class Id="{7316897F-96B7-39CC-B516-7C76D7659880}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.find.HitHighlightedPageLinkDesignerModel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.find.HitHighlightedPageLinkDesignerModel" Description="WetHatLab.OneNote.TaggingKit.find.HitHighlightedPageLinkDesignerModel" />
+                </Class>
+                <Class Id="{7D182A82-D8B2-3CCB-AD76-81368227C4A0}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.manage.RemovableTag" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.manage.RemovableTag" Description="WetHatLab.OneNote.TaggingKit.manage.RemovableTag" />
+                </Class>
+                <Class Id="{8D89EA8C-CC22-3F85-AAB1-91F3124AA8A2}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.find.TagSelector" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.find.TagSelector" Description="WetHatLab.OneNote.TaggingKit.find.TagSelector" />
+                </Class>
+                <Class Id="{97BC9D50-6BC2-33D0-8180-44D5317A864A}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.edit.HitHighlightedTagButton" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.edit.HitHighlightedTagButton" Description="WetHatLab.OneNote.TaggingKit.edit.HitHighlightedTagButton" />
+                </Class>
+                <Class Id="{A411252E-810C-33E3-BA6F-2970DFADE50A}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.manage.TagManagerDesignerModel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.manage.TagManagerDesignerModel" Description="WetHatLab.OneNote.TaggingKit.manage.TagManagerDesignerModel" />
+                </Class>
+                <Class Id="{A7826A8C-6812-393D-968B-4732CEE9FD00}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.manage.TagManager" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.manage.TagManager" Description="WetHatLab.OneNote.TaggingKit.manage.TagManager" />
+                </Class>
+                <Class Id="{ADA354D0-0E83-3E4A-BA82-95BA479BC9F1}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.nexus.RelatedPageLink" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.nexus.RelatedPageLink" Description="WetHatLab.OneNote.TaggingKit.nexus.RelatedPageLink" />
+                </Class>
+                <Class Id="{B37D75D7-C6E0-3AEA-8670-309C9BDF6506}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.find.TagSource" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.find.TagSource" Description="WetHatLab.OneNote.TaggingKit.find.TagSource" />
+                </Class>
+                <Class Id="{B5CA8146-F16F-3AC3-A62C-541AAE392F67}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.edit.HitHighlightedTagButtonModel" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.edit.HitHighlightedTagButtonModel" Description="WetHatLab.OneNote.TaggingKit.edit.HitHighlightedTagButtonModel" />
+                </Class>
+                <Class Id="{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.ConnectTaggingKitAddin" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKitAddin" Description="WetHatLab.OneNote.TaggingKit.ConnectTaggingKitAddin" />
+                </Class>
+                <Class Id="{C99A4ACA-C511-39CB-AD2C-C6452D8D1181}" Context="InprocServer32" Description="XamlGeneratedNamespace.GeneratedInternalTypeHelper" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="XamlGeneratedNamespace.GeneratedInternalTypeHelper" Description="XamlGeneratedNamespace.GeneratedInternalTypeHelper" />
+                </Class>
+                <Class Id="{DC763A37-EED0-3386-ACC8-3FB6CACF79F9}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.common.ui.TagInputBox" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.common.ui.TagInputBox" Description="WetHatLab.OneNote.TaggingKit.common.ui.TagInputBox" />
+                </Class>
+                <Class Id="{E45AA06C-63AE-33D7-B125-C8E5418CA567}" Context="InprocServer32" Description="WetHatLab.OneNote.TaggingKit.edit.SimpleTagButton" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="WetHatLab.OneNote.TaggingKit.edit.SimpleTagButton" Description="WetHatLab.OneNote.TaggingKit.edit.SimpleTagButton" />
+                </Class>
+                <File Id="fil79EBA630BFC629C16F2875094A76C4EA" KeyPath="yes" Source="$(var.OneNoteTaggingKit.TargetDir)\OneNoteTaggingKit.dll" />
+                <RegistryValue Root="HKCR" Key="CLSID\{104D86CB-96C6-3C95-B72F-3D0874F7D19B}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{104D86CB-96C6-3C95-B72F-3D0874F7D19B}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.edit.TagEditor" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{104D86CB-96C6-3C95-B72F-3D0874F7D19B}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{104D86CB-96C6-3C95-B72F-3D0874F7D19B}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{104D86CB-96C6-3C95-B72F-3D0874F7D19B}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{104D86CB-96C6-3C95-B72F-3D0874F7D19B}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.edit.TagEditor" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{104D86CB-96C6-3C95-B72F-3D0874F7D19B}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{104D86CB-96C6-3C95-B72F-3D0874F7D19B}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{104D86CB-96C6-3C95-B72F-3D0874F7D19B}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{12705CBA-3BAB-3FD7-B8ED-E8C0CC0C9995}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{12705CBA-3BAB-3FD7-B8ED-E8C0CC0C9995}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.manage.RemovableTagModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{12705CBA-3BAB-3FD7-B8ED-E8C0CC0C9995}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{12705CBA-3BAB-3FD7-B8ED-E8C0CC0C9995}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{12705CBA-3BAB-3FD7-B8ED-E8C0CC0C9995}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{12705CBA-3BAB-3FD7-B8ED-E8C0CC0C9995}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.manage.RemovableTagModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{12705CBA-3BAB-3FD7-B8ED-E8C0CC0C9995}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{12705CBA-3BAB-3FD7-B8ED-E8C0CC0C9995}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{12705CBA-3BAB-3FD7-B8ED-E8C0CC0C9995}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{175F6642-1FCD-3ED4-AC73-9BD28BB0206A}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{175F6642-1FCD-3ED4-AC73-9BD28BB0206A}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.nexus.RelatedPageLinkDesignerModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{175F6642-1FCD-3ED4-AC73-9BD28BB0206A}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{175F6642-1FCD-3ED4-AC73-9BD28BB0206A}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{175F6642-1FCD-3ED4-AC73-9BD28BB0206A}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{175F6642-1FCD-3ED4-AC73-9BD28BB0206A}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.nexus.RelatedPageLinkDesignerModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{175F6642-1FCD-3ED4-AC73-9BD28BB0206A}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{175F6642-1FCD-3ED4-AC73-9BD28BB0206A}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{175F6642-1FCD-3ED4-AC73-9BD28BB0206A}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{18951A86-45B5-3FEF-BAB4-D4F5B13AC74F}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{18951A86-45B5-3FEF-BAB4-D4F5B13AC74F}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.find.TagSearchScope" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{18951A86-45B5-3FEF-BAB4-D4F5B13AC74F}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{18951A86-45B5-3FEF-BAB4-D4F5B13AC74F}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{18951A86-45B5-3FEF-BAB4-D4F5B13AC74F}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{18951A86-45B5-3FEF-BAB4-D4F5B13AC74F}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.find.TagSearchScope" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{18951A86-45B5-3FEF-BAB4-D4F5B13AC74F}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{18951A86-45B5-3FEF-BAB4-D4F5B13AC74F}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{18951A86-45B5-3FEF-BAB4-D4F5B13AC74F}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1ED4E0D0-74EE-3AB1-90C7-FC5B2C60F47B}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1ED4E0D0-74EE-3AB1-90C7-FC5B2C60F47B}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.edit.SimpleTagsPanel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1ED4E0D0-74EE-3AB1-90C7-FC5B2C60F47B}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1ED4E0D0-74EE-3AB1-90C7-FC5B2C60F47B}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1ED4E0D0-74EE-3AB1-90C7-FC5B2C60F47B}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1ED4E0D0-74EE-3AB1-90C7-FC5B2C60F47B}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.edit.SimpleTagsPanel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1ED4E0D0-74EE-3AB1-90C7-FC5B2C60F47B}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1ED4E0D0-74EE-3AB1-90C7-FC5B2C60F47B}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{1ED4E0D0-74EE-3AB1-90C7-FC5B2C60F47B}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{29BFEAF1-2A0D-3A33-B9B2-93CC3C459362}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{29BFEAF1-2A0D-3A33-B9B2-93CC3C459362}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.find.HitHighlightedPageLink" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{29BFEAF1-2A0D-3A33-B9B2-93CC3C459362}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{29BFEAF1-2A0D-3A33-B9B2-93CC3C459362}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{29BFEAF1-2A0D-3A33-B9B2-93CC3C459362}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{29BFEAF1-2A0D-3A33-B9B2-93CC3C459362}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.find.HitHighlightedPageLink" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{29BFEAF1-2A0D-3A33-B9B2-93CC3C459362}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{29BFEAF1-2A0D-3A33-B9B2-93CC3C459362}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{29BFEAF1-2A0D-3A33-B9B2-93CC3C459362}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{5397497C-E19B-37FF-BD5E-D77D57876671}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{5397497C-E19B-37FF-BD5E-D77D57876671}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.find.FindTaggedPages" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{5397497C-E19B-37FF-BD5E-D77D57876671}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{5397497C-E19B-37FF-BD5E-D77D57876671}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{5397497C-E19B-37FF-BD5E-D77D57876671}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{5397497C-E19B-37FF-BD5E-D77D57876671}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.find.FindTaggedPages" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{5397497C-E19B-37FF-BD5E-D77D57876671}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{5397497C-E19B-37FF-BD5E-D77D57876671}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{5397497C-E19B-37FF-BD5E-D77D57876671}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6D931FBB-8703-3195-9D1B-12C73F28401E}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6D931FBB-8703-3195-9D1B-12C73F28401E}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.common.ui.HighlightedTagsPanel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6D931FBB-8703-3195-9D1B-12C73F28401E}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6D931FBB-8703-3195-9D1B-12C73F28401E}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6D931FBB-8703-3195-9D1B-12C73F28401E}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6D931FBB-8703-3195-9D1B-12C73F28401E}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.common.ui.HighlightedTagsPanel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6D931FBB-8703-3195-9D1B-12C73F28401E}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6D931FBB-8703-3195-9D1B-12C73F28401E}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6D931FBB-8703-3195-9D1B-12C73F28401E}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6ED06A68-8600-3266-B1BB-0A11EEDF41C3}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6ED06A68-8600-3266-B1BB-0A11EEDF41C3}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.edit.TagEditorDesignerModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6ED06A68-8600-3266-B1BB-0A11EEDF41C3}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6ED06A68-8600-3266-B1BB-0A11EEDF41C3}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6ED06A68-8600-3266-B1BB-0A11EEDF41C3}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6ED06A68-8600-3266-B1BB-0A11EEDF41C3}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.edit.TagEditorDesignerModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6ED06A68-8600-3266-B1BB-0A11EEDF41C3}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6ED06A68-8600-3266-B1BB-0A11EEDF41C3}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{6ED06A68-8600-3266-B1BB-0A11EEDF41C3}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{72EAF797-A147-35AC-925A-C3FD1D14EAF2}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{72EAF797-A147-35AC-925A-C3FD1D14EAF2}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.find.FindTaggedPagesDesignerModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{72EAF797-A147-35AC-925A-C3FD1D14EAF2}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{72EAF797-A147-35AC-925A-C3FD1D14EAF2}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{72EAF797-A147-35AC-925A-C3FD1D14EAF2}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{72EAF797-A147-35AC-925A-C3FD1D14EAF2}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.find.FindTaggedPagesDesignerModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{72EAF797-A147-35AC-925A-C3FD1D14EAF2}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{72EAF797-A147-35AC-925A-C3FD1D14EAF2}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{72EAF797-A147-35AC-925A-C3FD1D14EAF2}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7316897F-96B7-39CC-B516-7C76D7659880}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7316897F-96B7-39CC-B516-7C76D7659880}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.find.HitHighlightedPageLinkDesignerModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7316897F-96B7-39CC-B516-7C76D7659880}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7316897F-96B7-39CC-B516-7C76D7659880}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7316897F-96B7-39CC-B516-7C76D7659880}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7316897F-96B7-39CC-B516-7C76D7659880}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.find.HitHighlightedPageLinkDesignerModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7316897F-96B7-39CC-B516-7C76D7659880}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7316897F-96B7-39CC-B516-7C76D7659880}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7316897F-96B7-39CC-B516-7C76D7659880}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7D182A82-D8B2-3CCB-AD76-81368227C4A0}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7D182A82-D8B2-3CCB-AD76-81368227C4A0}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.manage.RemovableTag" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7D182A82-D8B2-3CCB-AD76-81368227C4A0}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7D182A82-D8B2-3CCB-AD76-81368227C4A0}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7D182A82-D8B2-3CCB-AD76-81368227C4A0}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7D182A82-D8B2-3CCB-AD76-81368227C4A0}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.manage.RemovableTag" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7D182A82-D8B2-3CCB-AD76-81368227C4A0}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7D182A82-D8B2-3CCB-AD76-81368227C4A0}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{7D182A82-D8B2-3CCB-AD76-81368227C4A0}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8D89EA8C-CC22-3F85-AAB1-91F3124AA8A2}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8D89EA8C-CC22-3F85-AAB1-91F3124AA8A2}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.find.TagSelector" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8D89EA8C-CC22-3F85-AAB1-91F3124AA8A2}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8D89EA8C-CC22-3F85-AAB1-91F3124AA8A2}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8D89EA8C-CC22-3F85-AAB1-91F3124AA8A2}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8D89EA8C-CC22-3F85-AAB1-91F3124AA8A2}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.find.TagSelector" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8D89EA8C-CC22-3F85-AAB1-91F3124AA8A2}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8D89EA8C-CC22-3F85-AAB1-91F3124AA8A2}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{8D89EA8C-CC22-3F85-AAB1-91F3124AA8A2}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{97BC9D50-6BC2-33D0-8180-44D5317A864A}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{97BC9D50-6BC2-33D0-8180-44D5317A864A}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.edit.HitHighlightedTagButton" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{97BC9D50-6BC2-33D0-8180-44D5317A864A}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{97BC9D50-6BC2-33D0-8180-44D5317A864A}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{97BC9D50-6BC2-33D0-8180-44D5317A864A}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{97BC9D50-6BC2-33D0-8180-44D5317A864A}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.edit.HitHighlightedTagButton" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{97BC9D50-6BC2-33D0-8180-44D5317A864A}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{97BC9D50-6BC2-33D0-8180-44D5317A864A}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{97BC9D50-6BC2-33D0-8180-44D5317A864A}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{A411252E-810C-33E3-BA6F-2970DFADE50A}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{A411252E-810C-33E3-BA6F-2970DFADE50A}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.manage.TagManagerDesignerModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{A411252E-810C-33E3-BA6F-2970DFADE50A}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{A411252E-810C-33E3-BA6F-2970DFADE50A}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{A411252E-810C-33E3-BA6F-2970DFADE50A}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{A411252E-810C-33E3-BA6F-2970DFADE50A}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.manage.TagManagerDesignerModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{A411252E-810C-33E3-BA6F-2970DFADE50A}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{A411252E-810C-33E3-BA6F-2970DFADE50A}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{A411252E-810C-33E3-BA6F-2970DFADE50A}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{A7826A8C-6812-393D-968B-4732CEE9FD00}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{A7826A8C-6812-393D-968B-4732CEE9FD00}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.manage.TagManager" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{A7826A8C-6812-393D-968B-4732CEE9FD00}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{A7826A8C-6812-393D-968B-4732CEE9FD00}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{A7826A8C-6812-393D-968B-4732CEE9FD00}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{A7826A8C-6812-393D-968B-4732CEE9FD00}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.manage.TagManager" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{A7826A8C-6812-393D-968B-4732CEE9FD00}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{A7826A8C-6812-393D-968B-4732CEE9FD00}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{A7826A8C-6812-393D-968B-4732CEE9FD00}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{ADA354D0-0E83-3E4A-BA82-95BA479BC9F1}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{ADA354D0-0E83-3E4A-BA82-95BA479BC9F1}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.nexus.RelatedPageLink" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{ADA354D0-0E83-3E4A-BA82-95BA479BC9F1}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{ADA354D0-0E83-3E4A-BA82-95BA479BC9F1}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{ADA354D0-0E83-3E4A-BA82-95BA479BC9F1}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{ADA354D0-0E83-3E4A-BA82-95BA479BC9F1}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.nexus.RelatedPageLink" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{ADA354D0-0E83-3E4A-BA82-95BA479BC9F1}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{ADA354D0-0E83-3E4A-BA82-95BA479BC9F1}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{ADA354D0-0E83-3E4A-BA82-95BA479BC9F1}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B37D75D7-C6E0-3AEA-8670-309C9BDF6506}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B37D75D7-C6E0-3AEA-8670-309C9BDF6506}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.find.TagSource" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B37D75D7-C6E0-3AEA-8670-309C9BDF6506}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B37D75D7-C6E0-3AEA-8670-309C9BDF6506}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B37D75D7-C6E0-3AEA-8670-309C9BDF6506}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B37D75D7-C6E0-3AEA-8670-309C9BDF6506}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.find.TagSource" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B37D75D7-C6E0-3AEA-8670-309C9BDF6506}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B37D75D7-C6E0-3AEA-8670-309C9BDF6506}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B37D75D7-C6E0-3AEA-8670-309C9BDF6506}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B5CA8146-F16F-3AC3-A62C-541AAE392F67}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B5CA8146-F16F-3AC3-A62C-541AAE392F67}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.edit.HitHighlightedTagButtonModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B5CA8146-F16F-3AC3-A62C-541AAE392F67}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B5CA8146-F16F-3AC3-A62C-541AAE392F67}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B5CA8146-F16F-3AC3-A62C-541AAE392F67}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B5CA8146-F16F-3AC3-A62C-541AAE392F67}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.edit.HitHighlightedTagButtonModel" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B5CA8146-F16F-3AC3-A62C-541AAE392F67}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B5CA8146-F16F-3AC3-A62C-541AAE392F67}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{B5CA8146-F16F-3AC3-A62C-541AAE392F67}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.ConnectTaggingKitAddin" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.ConnectTaggingKitAddin" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C99A4ACA-C511-39CB-AD2C-C6452D8D1181}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C99A4ACA-C511-39CB-AD2C-C6452D8D1181}\InprocServer32\2.1.5232.32327" Name="Class" Value="XamlGeneratedNamespace.GeneratedInternalTypeHelper" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C99A4ACA-C511-39CB-AD2C-C6452D8D1181}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C99A4ACA-C511-39CB-AD2C-C6452D8D1181}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C99A4ACA-C511-39CB-AD2C-C6452D8D1181}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C99A4ACA-C511-39CB-AD2C-C6452D8D1181}\InprocServer32" Name="Class" Value="XamlGeneratedNamespace.GeneratedInternalTypeHelper" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C99A4ACA-C511-39CB-AD2C-C6452D8D1181}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C99A4ACA-C511-39CB-AD2C-C6452D8D1181}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{C99A4ACA-C511-39CB-AD2C-C6452D8D1181}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{DC763A37-EED0-3386-ACC8-3FB6CACF79F9}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{DC763A37-EED0-3386-ACC8-3FB6CACF79F9}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.common.ui.TagInputBox" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{DC763A37-EED0-3386-ACC8-3FB6CACF79F9}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{DC763A37-EED0-3386-ACC8-3FB6CACF79F9}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{DC763A37-EED0-3386-ACC8-3FB6CACF79F9}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{DC763A37-EED0-3386-ACC8-3FB6CACF79F9}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.common.ui.TagInputBox" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{DC763A37-EED0-3386-ACC8-3FB6CACF79F9}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{DC763A37-EED0-3386-ACC8-3FB6CACF79F9}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{DC763A37-EED0-3386-ACC8-3FB6CACF79F9}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E45AA06C-63AE-33D7-B125-C8E5418CA567}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E45AA06C-63AE-33D7-B125-C8E5418CA567}\InprocServer32\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.edit.SimpleTagButton" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E45AA06C-63AE-33D7-B125-C8E5418CA567}\InprocServer32\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E45AA06C-63AE-33D7-B125-C8E5418CA567}\InprocServer32\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E45AA06C-63AE-33D7-B125-C8E5418CA567}\InprocServer32\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E45AA06C-63AE-33D7-B125-C8E5418CA567}\InprocServer32" Name="Class" Value="WetHatLab.OneNote.TaggingKit.edit.SimpleTagButton" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E45AA06C-63AE-33D7-B125-C8E5418CA567}\InprocServer32" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E45AA06C-63AE-33D7-B125-C8E5418CA567}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{E45AA06C-63AE-33D7-B125-C8E5418CA567}\InprocServer32" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{289E9AF1-4973-11D1-AE81-00A0C90F26F4}\2.1.5232.32327" Name="Class" Value="Extensibility.ext_ConnectMode" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{289E9AF1-4973-11D1-AE81-00A0C90F26F4}\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{289E9AF1-4973-11D1-AE81-00A0C90F26F4}\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{289E9AF1-4973-11D1-AE81-00A0C90F26F4}\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{289E9AF2-4973-11D1-AE81-00A0C90F26F4}\2.1.5232.32327" Name="Class" Value="Extensibility.ext_DisconnectMode" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{289E9AF2-4973-11D1-AE81-00A0C90F26F4}\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{289E9AF2-4973-11D1-AE81-00A0C90F26F4}\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{289E9AF2-4973-11D1-AE81-00A0C90F26F4}\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{6DCF5A00-36E1-3B24-AB4D-3606F20554C4}\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.common.TextFragment" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{6DCF5A00-36E1-3B24-AB4D-3606F20554C4}\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{6DCF5A00-36E1-3B24-AB4D-3606F20554C4}\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{6DCF5A00-36E1-3B24-AB4D-3606F20554C4}\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{76A512CC-E293-3B30-9A65-6EC6AFBC3308}\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.edit.TaggingScope" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{76A512CC-E293-3B30-9A65-6EC6AFBC3308}\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{76A512CC-E293-3B30-9A65-6EC6AFBC3308}\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{76A512CC-E293-3B30-9A65-6EC6AFBC3308}\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{A5E72AEF-A6FC-3416-934C-1BC3EC0700CA}\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.find.SearchScope" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{A5E72AEF-A6FC-3416-934C-1BC3EC0700CA}\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{A5E72AEF-A6FC-3416-934C-1BC3EC0700CA}\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{A5E72AEF-A6FC-3416-934C-1BC3EC0700CA}\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{B2F80717-C82C-3CBA-BFE6-54DB7F0E5001}\2.1.5232.32327" Name="Class" Value="WetHatLab.OneNote.TaggingKit.common.NotifyDictionaryChangedAction" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{B2F80717-C82C-3CBA-BFE6-54DB7F0E5001}\2.1.5232.32327" Name="Assembly" Value="OneNoteTaggingKit, Version=2.1.5232.32327, Culture=neutral, PublicKeyToken=f0801476e73461fa" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{B2F80717-C82C-3CBA-BFE6-54DB7F0E5001}\2.1.5232.32327" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="Record\{B2F80717-C82C-3CBA-BFE6-54DB7F0E5001}\2.1.5232.32327" Name="CodeBase" Value="file:///[#fil79EBA630BFC629C16F2875094A76C4EA]" Type="string" Action="write" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>
