@@ -15,9 +15,9 @@
     <Property Id="ARPPRODUCTICON" Value="KitIcon" />
     <Property Id="ARPHELPLINK" Value="https://onenotetaggingkit.codeplex.com/documentation" />
     <Property Id="ARPURLUPDATEINFO" Value="https://onenotetaggingkit.codeplex.com/" />
+    <Property Id="ARPURLINFOABOUT" Value="https://onenotetaggingkit.codeplex.com/" />
+    <Property Id="ARPCOMMENTS" Value="Tagging Add-In for OneNote on the Desktop" />
     <WixVariable Id="WixUILicenseRtf" Value="$(var.OneNoteTaggingKit.TargetDir)Resources\Ms-PublicLicense.rtf" />
-    
-   
     
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed."
                   AllowDowngrades="no"
