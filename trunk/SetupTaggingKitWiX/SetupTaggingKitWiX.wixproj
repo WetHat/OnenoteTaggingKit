@@ -61,6 +61,7 @@
               PreprocessorVariable="var.OneNoteTaggingKit.TargetDir"
               DirectoryRefId="INSTALLFOLDER" AutogenerateGuids="true"
               GenerateGuidsNow="true"
+              RunAsSeparateProcess="true"
               SuppressRootDirectory="true" />
   </Target>
   <!--
