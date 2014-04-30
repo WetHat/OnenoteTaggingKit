@@ -297,7 +297,9 @@
     <Resource Include="Resources\clear selection.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\kit.ico" />
+    <None Include="Resources\kit.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\search-32x32 blue.jpg" />
