@@ -2,17 +2,31 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
 
-	<Product Id="*" Name="OneNote Tagging Kit" Language="1033" Version="2.1.0.0" Manufacturer="WetHat Lab" UpgradeCode="7080DD39-FDE3-481C-992F-5E9531132059">
+	<Product Id="*"
+           Name="OneNote Tagging Kit"
+           Language="1033"
+           Version="2.1.0.0"
+           Manufacturer="WetHat Lab"
+           UpgradeCode="7080DD39-FDE3-481C-992F-5E9531132059">
     <Package InstallerVersion="405" Compressed="yes" InstallScope="perMachine" />
     <UIRef Id="WixUI_Minimal" />
+    
+    <Icon Id="KitIcon" SourceFile="$(var.OneNoteTaggingKit.TargetDir)Resources\kit.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="KitIcon" />
+    <Property Id="ARPHELPLINK" Value="https://onenotetaggingkit.codeplex.com/documentation" />
+    <Property Id="ARPURLUPDATEINFO" Value="https://onenotetaggingkit.codeplex.com/" />
     <WixVariable Id="WixUILicenseRtf" Value="$(var.OneNoteTaggingKit.TargetDir)Resources\Ms-PublicLicense.rtf" />
     
-		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+   
+    
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed."
+                  AllowDowngrades="no"
+                  AllowSameVersionUpgrades="yes"/>
 		<MediaTemplate EmbedCab="yes" />
 
     <!-- Check existence of the appropriate .net framework -->
     <PropertyRef Id="NETFRAMEWORK45"/>
-    <Condition Message="This application requires .NET Framework 4.5. Please install the .NET Framework then run this installer again.">
+    <Condition Message="This add-in requires .NET Framework 4.5. Please install the .NET Framework then run this installer again.">
       <![CDATA[Installed OR NETFRAMEWORK45]]>
     </Condition>
 
