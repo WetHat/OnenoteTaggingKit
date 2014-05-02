@@ -9,7 +9,7 @@
     <ProductVersion>3.8</ProductVersion>
     <ProjectGuid>fe85bbe4-bb34-4dff-8fed-f8f052909d8c</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>SetupTaggingKitWiXx32</OutputName>
+    <OutputName>SetupTaggingKitWiX</OutputName>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
@@ -23,12 +23,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
-    <OutputName>SetupTaggingKitWiXx64</OutputName>
-    <Platform>x64</Platform>
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="COMRegisteredFile.wxs" />
@@ -61,8 +55,14 @@
 	Other similar extension points exist, see Wix.targets. -->
   <Target Name="BeforeBuild">
     <HeatFile File="$(SolutionDir)\OneNoteTaggingKit\$(OutputPath)\OneNoteTaggingKit.dll"
-              Condition="'$(Platform)' == 'x86'"
-              ComponentGroupName="COMReg" ToolPath="$(WixToolPath)" OutputFile="$(ProjectDir)COMRegisteredFile.wxs" PreprocessorVariable="var.OneNoteTaggingKit.TargetDir" DirectoryRefId="INSTALLFOLDER" AutogenerateGuids="true" GenerateGuidsNow="true" RunAsSeparateProcess="true" SuppressRootDirectory="true" />
+              ComponentGroupName="COMReg"
+              ToolPath="$(WixToolPath)"
+              OutputFile="$(ProjectDir)COMRegisteredFile.wxs"
+              PreprocessorVariable="var.OneNoteTaggingKit.TargetDir"
+              DirectoryRefId="INSTALLFOLDER" AutogenerateGuids="true"
+              GenerateGuidsNow="true"
+              RunAsSeparateProcess="true"
+              SuppressRootDirectory="true" />
   </Target>
   <!--
 	<Target Name="AfterBuild">

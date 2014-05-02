@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?if $(var.Platform) = "x64" ?>
-  <?define PlatformProgramFolder = "ProgramFiles64Folder" ?>
-  <?define UpgradeCode = "B5F8A974-4AD3-4BC1-B185-37A2444AD2EC" ?>
-  <?define PlatformPostfix = "(64-Bit)" ?>
-<?else?>
-  <?define PlatformProgramFolder = "ProgramFilesFolder" ?>
-  <?define UpgradeCode = "7080DD39-FDE3-481C-992F-5E9531132059" ?>
-  <?define PlatformPostfix = "(32-Bit)" ?>
-<?endif?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
 
 	<Product Id="*"
-           Name="OneNote Tagging Kit $(var.PlatformPostfix)"
+           Name="OneNote Tagging Kit"
            Language="1033"
            Version="2.1.0.0"
            Manufacturer="WetHat Lab"
-           UpgradeCode="$(var.UpgradeCode)">
+           UpgradeCode="7080DD39-FDE3-481C-992F-5E9531132059">
     <Package InstallerVersion="405" Compressed="yes" InstallScope="perMachine" />
     <UIRef Id="WixUI_Minimal" />
     
@@ -26,7 +17,8 @@
     <Property Id="ARPURLUPDATEINFO" Value="https://onenotetaggingkit.codeplex.com/" />
     <Property Id="ARPURLINFOABOUT" Value="https://onenotetaggingkit.codeplex.com/" />
     <Property Id="ARPCOMMENTS" Value="Tagging Add-In for OneNote on the Desktop" />
-    <WixVariable Id="WixUILicenseRtf" Value="$(var.OneNoteTaggingKit.TargetDir)Resources\Ms-PublicLicense.rtf" />    
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.OneNoteTaggingKit.TargetDir)Resources\Ms-PublicLicense.rtf" />
+    
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed."
                   AllowDowngrades="no"
                   AllowSameVersionUpgrades="yes"/>
@@ -44,15 +36,17 @@
 		</Feature>
 	</Product>
 
- <Fragment>
+ 
+	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="$(var.PlatformProgramFolder)">
+			<Directory Id="ProgramFilesFolder">
         <Directory Id="CompanyFolder" Name="WetHat Lab">
 				  <Directory Id="INSTALLFOLDER" Name="OneNoteTaggingKit" />
         </Directory>
 			</Directory>
 		</Directory>
 	</Fragment>
+
   
   <Fragment>
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
