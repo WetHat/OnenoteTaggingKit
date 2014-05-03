@@ -8,7 +8,7 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("OneNoteTaggingKit")]
-[assembly: AssemblyDescription("OneNote Page Tag Add-In")]
+[assembly: AssemblyDescription("OneNote Page Tagging Add-In")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("WetHat Lab")]
 [assembly: AssemblyProduct("OneNoteTaggingKit")]
@@ -53,6 +53,7 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.1.*")]
-[assembly: AssemblyFileVersion("2.1.*")]
+[assembly: AssemblyVersion("2.2.*")]
+// removed the AssemblyFileVersion to force it to be equal to the AssemblyVersion
+// [assembly: AssemblyFileVersion("2.2.0.0")]
 [assembly: NeutralResourcesLanguageAttribute("")]
