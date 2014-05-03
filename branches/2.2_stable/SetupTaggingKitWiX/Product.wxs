@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+
+	<Product Id="*"
+           Name="OneNote Tagging Kit"
+           Language="1033"
+           Version="!(bind.fileVersion.fil79EBA630BFC629C16F2875094A76C4EA)"
+           Manufacturer="WetHat Lab"
+           UpgradeCode="7080DD39-FDE3-481C-992F-5E9531132059">
+    <Package InstallerVersion="405" Compressed="yes" InstallScope="perMachine" />
+    <UIRef Id="WixUI_Minimal" />
+    
+    <Icon Id="KitIcon" SourceFile="$(var.OneNoteTaggingKit.TargetDir)Resources\kit.ico"/>
+    
+    
+    <!-- Set common ARP properties -->
+    <Property Id="ARPPRODUCTICON" Value="KitIcon" />
+    <Property Id="ARPHELPLINK" Value="https://onenotetaggingkit.codeplex.com/documentation" />
+    <Property Id="ARPURLUPDATEINFO" Value="https://onenotetaggingkit.codeplex.com/" />
+    <Property Id="ARPURLINFOABOUT" Value="https://onenotetaggingkit.codeplex.com/" />
+    <Property Id="ARPCOMMENTS" Value="Tagging Add-In for OneNote on the Desktop" />
+    <SetProperty Id="ARPINSTALLLOCATION" Value="[INSTALLFOLDER]" After="CostFinalize" />
+
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.OneNoteTaggingKit.TargetDir)Resources\Ms-PublicLicense.rtf" />
+    
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed."
+                  AllowDowngrades="no"
+                  AllowSameVersionUpgrades="yes"/>
+		<MediaTemplate EmbedCab="yes" />
+
+    <!-- Check existence of the appropriate .net framework -->
+    <PropertyRef Id="NETFRAMEWORK45"/>
+    <Condition Message="This add-in requires .NET Framework 4.5. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK45]]>
+    </Condition>
+
+    <Feature Id="ProductFeature" Title="OneNote TaggingKit Add-In" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="COMReg"/>
+		</Feature>
+	</Product>
+
+ 
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+        <Directory Id="CompanyFolder" Name="WetHat Lab">
+				  <Directory Id="INSTALLFOLDER" Name="OneNoteTaggingKit" />
+        </Directory>
+			</Directory>
+		</Directory>
+	</Fragment>
+
+  
+  <Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="CMP_Interop.Microsoft.Office.Interop.OneNote" Guid="E153CAC9-E08C-4C6D-BE67-C3C71C6FDE27">
+				<File Id="FILE_Interop.Microsoft.Office.Interop.OneNote" Source="$(var.OneNoteTaggingKit.TargetDir)Interop.Microsoft.Office.Interop.OneNote.dll" KeyPath="yes"/>
+			</Component>
+
+      <Component Id="REG_Addin">
+        <RegistryValue Id="VAL_LoadBehavior" Root="HKLM" Key="SOFTWARE\Microsoft\Office\OneNote\AddIns\WetHatLab.OneNote.TaggingKitAddin" Name="LoadBehavior" Type="integer" Value="00000003" Action="write" KeyPath="yes" />
+        <RegistryValue Id="VAL_FriendlyName" Root="HKLM" Key="SOFTWARE\Microsoft\Office\OneNote\AddIns\WetHatLab.OneNote.TaggingKitAddin" Name="FriendlyName" Type="string" Value="OneNote Tagging Addin" Action="write"/>
+        <RegistryValue Id="VAL_Description"  Root="HKLM" Key="SOFTWARE\Microsoft\Office\OneNote\AddIns\WetHatLab.OneNote.TaggingKitAddin" Name="Description"  Type="string" Value="Edit / Manage OneNote Page Tags" Action="write"/>
+
+        <RegistryValue Id="VAL_AppID"        Root="HKLM" Key="SOFTWARE\Classes\AppID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}"              Name="DllSurrogate" Type="string" Value="" Action="write"/>
+        <RegistryValue Id="VAL_CLSID"        Root="HKLM" Key="SOFTWARE\Classes\CLSID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}"              Name="AppID" Type="string" Value="{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}" Action="write"/>
+        
+      </Component>
+    </ComponentGroup>
+	</Fragment>
+</Wix>
