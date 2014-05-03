@@ -5,18 +5,23 @@
 	<Product Id="*"
            Name="OneNote Tagging Kit"
            Language="1033"
-           Version="2.1.0.0"
+           Version="!(bind.fileVersion.fil79EBA630BFC629C16F2875094A76C4EA)"
            Manufacturer="WetHat Lab"
            UpgradeCode="7080DD39-FDE3-481C-992F-5E9531132059">
     <Package InstallerVersion="405" Compressed="yes" InstallScope="perMachine" />
     <UIRef Id="WixUI_Minimal" />
     
     <Icon Id="KitIcon" SourceFile="$(var.OneNoteTaggingKit.TargetDir)Resources\kit.ico"/>
+    
+    
+    <!-- Set common ARP properties -->
     <Property Id="ARPPRODUCTICON" Value="KitIcon" />
     <Property Id="ARPHELPLINK" Value="https://onenotetaggingkit.codeplex.com/documentation" />
     <Property Id="ARPURLUPDATEINFO" Value="https://onenotetaggingkit.codeplex.com/" />
     <Property Id="ARPURLINFOABOUT" Value="https://onenotetaggingkit.codeplex.com/" />
     <Property Id="ARPCOMMENTS" Value="Tagging Add-In for OneNote on the Desktop" />
+    <SetProperty Id="ARPINSTALLLOCATION" Value="[INSTALLFOLDER]" After="CostFinalize" />
+
     <WixVariable Id="WixUILicenseRtf" Value="$(var.OneNoteTaggingKit.TargetDir)Resources\Ms-PublicLicense.rtf" />
     
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed."
