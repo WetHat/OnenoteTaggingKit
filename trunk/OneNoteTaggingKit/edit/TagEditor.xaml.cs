@@ -175,10 +175,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 tagInput.Clear();
                 suggestedTags.Highlighter = new TextSplitter();
                 progressPopup.IsOpen = false;
-                pagesTaggedPopup.IsOpen = true;
-
                 int pagesTagged = await saveTask;
-                pagesTaggedText.Text = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_PagesTagged, pagesTagged); 
+                pagesTaggedText.Text = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_PagesTagged, pagesTagged);
+                pagesTaggedPopup.IsOpen = true;
             }
             catch (Exception xe)
             {
