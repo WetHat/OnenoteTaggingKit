@@ -13,7 +13,7 @@
              Click="Button_Click" >
         <StackPanel Orientation="Horizontal">
             <TextBlock Name="highlighedTag"/>
-            <TextBlock Background="White" Margin="0,0,5,0">
+            <TextBlock Background="Transparent" Margin="0,0,5,0">
                 <Run Text=" ("/><Run Text="{Binding UseCount, Mode=OneWay}"/><Run Text=")"/>
             </TextBlock>
             <TextBlock Name="removeMarker"
