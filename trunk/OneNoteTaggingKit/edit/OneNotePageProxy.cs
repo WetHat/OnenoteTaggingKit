@@ -44,7 +44,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private XElement _page;
         // the OneNote page document
         private XDocument _pageDoc;
-
+        private XElement _meta;
         // <one:T> element with tags
         private XElement _pageTagsOE;
 
@@ -57,7 +57,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             PageID = pageID;
             _schema = schema;
             LoadOneNotePage();
-            _originalTags = _pageTagsOE != null ? ParseTags(_pageTagsOE.Value) : new string[0];
+            _originalTags = _pageTagsOE != null ? ParseTags(_meta.Attribute("content").Value) : new string[0];
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             if (!string.IsNullOrEmpty(tags))
             {
-                // remove al HTML markup
+                // remove all HTML markup
                 tags = Regex.Replace(tags, "<[^<>]+>", String.Empty);
                 string[] parsedTags = tags.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 // normalize tags
@@ -291,16 +291,15 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             string strTags = string.Join(", ", _tags);
 
             // create the <one:Meta> element for page tags, if needed
-            XName metaName = _one.GetName("Meta");
-            XElement meta = _page.Elements(metaName).FirstOrDefault(m => m.Attribute("name").Value == META_NAME);
-            if (meta == null)
+            if (_meta == null)
             {
-                meta = new XElement(metaName,
+                XName metaName = _one.GetName("Meta");
+                _meta = new XElement(metaName,
                                     new XAttribute("name", META_NAME));
-                addElementToPage(meta, META_IDX);
+                addElementToPage(_meta, META_IDX);
             }
 
-            meta.SetAttributeValue("content", strTags);
+            _meta.SetAttributeValue("content", strTags);
 
             if (!strTags.Equals(_pageTagsOE.Value))
             {
@@ -326,6 +325,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             _pageDoc = XDocument.Parse(strPageContent);
             _one = _pageDoc.Root.GetNamespaceOfPrefix("one");
             _page = _pageDoc.Root;
+
+            XName metaName = _one.GetName("Meta");
+            _meta = _page.Elements(metaName).FirstOrDefault(m => m.Attribute("name").Value == META_NAME);
 
             _lastModified = DateTime.Parse(_page.Attribute("lastModifiedTime").Value);
 
