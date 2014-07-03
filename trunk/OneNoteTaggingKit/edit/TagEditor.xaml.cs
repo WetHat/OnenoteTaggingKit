@@ -22,6 +22,16 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     {
         private TagEditorModel _model;
 
+        private static TagEditor _window;
+
+        internal static void Restore()
+        {
+            if (_window != null)
+            {
+                _window.Dispatcher.Invoke(() => _window.WindowState = WindowState.Normal);
+            }
+        }
+
         /// <summary>
         /// Create a new instance of the tag editor 
         /// </summary>
