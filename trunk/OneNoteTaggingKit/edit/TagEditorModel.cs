@@ -37,13 +37,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         REPLACE
     }
 
-    internal enum PresetFilter
-    {
-        CurrentNote,
-        SelectedNotes,
-        CurrentSection
-    }
-
     /// <summary>
     /// Classification of a range of OneNote pages.
     /// </summary>
@@ -118,11 +111,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
-        public TagCollection ContextTagCollection
+        public TagsAndPages ContextTagCollection
         {
             get
             {
-                return new TagCollection(_OneNote, _schema);
+                return new TagsAndPages(_OneNote, _schema);
             }
         }
 
@@ -185,30 +178,29 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private int SaveChangesAction(string[] tags, TagOperation op, TaggingScope scope)
         {
             TagSuggestions.Save();
-            IEnumerable<string> pageIDs = null;
             int pagesTagged = 0;
 
-            TagCollection tagCollection = null;
+            TagsAndPages tc = new TagsAndPages(_OneNote, _schema);
+
+            // covert scope to context
+            TagContext ctx;
 
             switch (scope)
             {
                 default:
                 case TaggingScope.CurrentNote:
-                    pageIDs = new string[] { _OneNote.Windows.CurrentWindow.CurrentPageId };
+                    ctx = TagContext.CurrentNote;
                     break;
                 case TaggingScope.SelectedNotes:
-                    tagCollection = new TagCollection(_OneNote, _schema);
-                    tagCollection.LoadHierarchy(_OneNote.Windows.CurrentWindow.CurrentSectionId);
-                    pageIDs = from p in tagCollection.Pages where p.Value.IsSelected select p.Key;
+                    ctx = TagContext.SelectedNotes;
                     break;
                 case TaggingScope.CurrentSection:
-                    tagCollection = new TagCollection(_OneNote, _schema);
-                    tagCollection.LoadHierarchy(_OneNote.Windows.CurrentWindow.CurrentSectionId);
-                    pageIDs = from p in tagCollection.Pages select p.Key;
+                    ctx = TagContext.CurrentSection;
                     break;
             }
+            tc.GetPagesFromHierarchy(_OneNote.Windows.CurrentWindow, ctx);
 
-            foreach (string pageID in pageIDs)
+            foreach (string pageID in (from p in tc.Pages select p.Key))
             {
                 OneNotePageProxy page = new OneNotePageProxy(_OneNote, pageID, _schema);
 
@@ -253,35 +245,35 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         public event PropertyChangedEventHandler PropertyChanged;
 #endregion
 
-        internal Task<IEnumerable<TagPageSet>> GetContextTagsAsync(PresetFilter filter)
+        internal Task<IEnumerable<TagPageSet>> GetContextTagsAsync(TagContext filter)
         {
             return Task<IEnumerable<TagPageSet>>.Run(() => { return GetContextTagsAction(filter);}); 
         }
 
-        private IEnumerable<TagPageSet> GetContextTagsAction(PresetFilter filter)
+        private IEnumerable<TagPageSet> GetContextTagsAction(TagContext filter)
         {
             HashSet<TagPageSet> tags = new HashSet<TagPageSet>();
 
-            TagCollection contextTags = new TagCollection(_OneNote, _schema);
+            TagsAndPages contextTags = new TagsAndPages(_OneNote, _schema);
 
-            contextTags.Find(_OneNote.Windows.CurrentWindow.CurrentSectionId, includeUnindexedPages: true);
+            contextTags.FindPages(_OneNote.Windows.CurrentWindow.CurrentSectionId, includeUnindexedPages: true);
 
             switch (filter)
             {
-                case PresetFilter.CurrentNote:
+                case TagContext.CurrentNote:
                     TaggedPage currentPage = (from p in contextTags.Pages where p.Key.Equals(OneNote.Windows.CurrentWindow.CurrentPageId) select p.Value).FirstOrDefault();
                     if (currentPage != null)
                     {
                         tags.UnionWith(currentPage.Tags);
                     }
                     break;
-                case PresetFilter.SelectedNotes:
+                case TagContext.SelectedNotes:
                     foreach (var p in (from pg in contextTags.Pages where pg.Value.IsSelected select pg.Value))
                     {
                         tags.UnionWith(p.Tags);
                     }
                     break;
-                case PresetFilter.CurrentSection:
+                case TagContext.CurrentSection:
                     foreach (var p in contextTags.Pages)
                     {
                         tags.UnionWith(p.Value.Tags);

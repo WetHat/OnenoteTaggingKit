@@ -769,7 +769,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Find Tagged Pages.
+        ///   Looks up a localized string similar to FindPages Tagged Pages.
         /// </summary>
         public static string TagSearch_Window_Title {
             get {

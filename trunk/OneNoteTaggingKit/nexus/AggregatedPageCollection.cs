@@ -8,7 +8,7 @@ using WetHatLab.OneNote.TaggingKit.common;
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
 
-    internal class AggregatedPageCollection : TagCollection
+    internal class AggregatedPageCollection : TagsAndPages
     {
         /// <summary>
         /// set of pages aggregatedd from tags

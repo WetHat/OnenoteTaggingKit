@@ -37,8 +37,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
              _selectedScope = _scopes[0];
 
-             TagCollection c = new TagCollection(null, Microsoft.Office.Interop.OneNote.XMLSchema.xs2013);
-            c.parseOneNoteHierarchy(_strXml);
+             TagsAndPages c = new TagsAndPages(null, Microsoft.Office.Interop.OneNote.XMLSchema.xs2013);
+            c.parseOneNoteHierarchy(_strXml,false);
 
             TextSplitter splitter = new TextSplitter("Cool");
 
