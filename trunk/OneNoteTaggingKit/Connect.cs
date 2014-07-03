@@ -180,6 +180,10 @@ namespace WetHatLab.OneNote.TaggingKit
                 XMLSchema s = CurrentSchema;
                 exploreTagsUI = Show<TagEditor, TagEditorModel>(currentWindow, () => new TagEditorModel(_OneNoteApp, s));
             }
+            else
+            {
+                TagEditor.Restore();
+            }
         }
 
         /// <summary>
@@ -193,6 +197,10 @@ namespace WetHatLab.OneNote.TaggingKit
                 Microsoft.Office.Interop.OneNote.Window currentWindow = _OneNoteApp.Windows.CurrentWindow;
                 XMLSchema s = CurrentSchema;
                 findTagsUI = Show<FindTaggedPages, FindTaggedPagesModel>(currentWindow, () => new FindTaggedPagesModel(_OneNoteApp, currentWindow, s));
+            }
+            else
+            {
+               FindTaggedPages.Restore();
             }
         }
 
