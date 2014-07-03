@@ -65,7 +65,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// Dependency property for the context tags source
         /// </summary>
-        public static readonly DependencyProperty ContextTagsSourceProperty = DependencyProperty.Register("ContextTagsSource", typeof(TagCollection), typeof(TagInputBox),new PropertyMetadata(OnContextTagSourceChanged));
+        public static readonly DependencyProperty ContextTagsSourceProperty = DependencyProperty.Register("ContextTagsSource", typeof(TagsAndPages), typeof(TagInputBox),new PropertyMetadata(OnContextTagSourceChanged));
 
         private static void OnContextTagSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -79,11 +79,11 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// Get or set a collection which provides tags from a OneNote context.
         /// </summary>
-        public TagCollection ContextTagsSource
+        public TagsAndPages ContextTagsSource
         {
             get
             {
-                return GetValue(ContextTagsSourceProperty) as TagCollection;
+                return GetValue(ContextTagsSourceProperty) as TagsAndPages;
             }
             set
             {
@@ -175,34 +175,34 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             e.Handled = true;
         }
 
-        private Task<IEnumerable<TagPageSet>> GetContextTagsAsync(PresetFilter filter)
+        private Task<IEnumerable<TagPageSet>> GetContextTagsAsync(TagContext filter)
         {
-            TagCollection tags = ContextTagsSource;
+            TagsAndPages tags = ContextTagsSource;
             return Task<IEnumerable<TagPageSet>>.Run(() => { return GetContextTagsAction(filter,tags); });
         }
 
-        private IEnumerable<TagPageSet> GetContextTagsAction(PresetFilter filter, TagCollection contextTags)
+        private IEnumerable<TagPageSet> GetContextTagsAction(TagContext filter, TagsAndPages contextTags)
         {
             HashSet<TagPageSet> tags = new HashSet<TagPageSet>();
 
-            contextTags.Find(contextTags.CurrentWindow.CurrentSectionId, includeUnindexedPages: true);
+            contextTags.FindPages(contextTags.CurrentWindow.CurrentSectionId, includeUnindexedPages: true);
 
             switch (filter)
             {
-                case PresetFilter.CurrentNote:
+                case TagContext.CurrentNote:
                     TaggedPage currentPage = (from p in contextTags.Pages where p.Key.Equals(contextTags.CurrentWindow.CurrentPageId) select p.Value).FirstOrDefault();
                     if (currentPage != null)
                     {
                         tags.UnionWith(currentPage.Tags);
                     }
                     break;
-                case PresetFilter.SelectedNotes:
+                case TagContext.SelectedNotes:
                     foreach (var p in (from pg in contextTags.Pages where pg.Value.IsSelected select pg.Value))
                     {
                         tags.UnionWith(p.Tags);
                     }
                     break;
-                case PresetFilter.CurrentSection:
+                case TagContext.CurrentSection:
                     foreach (var p in contextTags.Pages)
                     {
                         tags.UnionWith(p.Value.Tags);
@@ -223,7 +223,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
 
                 MenuItem itm = sender as MenuItem;
 
-                PresetFilter filter = (PresetFilter)Enum.Parse(typeof(PresetFilter), itm.Tag.ToString());
+                TagContext filter = (TagContext)Enum.Parse(typeof(TagContext), itm.Tag.ToString());
                 IEnumerable<TagPageSet> tags = await GetContextTagsAsync(filter);
 
                 IEnumerable<string> tagNames = from t in tags select t.TagName;

@@ -47,7 +47,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     public class TagManagerModel : System.Windows.DependencyObject, ITagManagerModel
     {
         private SuggestedTagsSource<RemovableTagModel> _suggestedTags = new SuggestedTagsSource<RemovableTagModel>();
-        private TagCollection _tags;
+        private TagsAndPages _tags;
 
         /// <summary>
         /// Create a new instance of the view model backing the <see cref="TagManager"/> dialog.
@@ -56,12 +56,12 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <param name="schema">current schema version</param>
         internal TagManagerModel(Application onenote, XMLSchema schema)
         {
-            _tags = new TagCollection(onenote, schema);
+            _tags = new TagsAndPages(onenote, schema);
         }
 
         internal async Task LoadSuggestedTagsAsync()
         {
-            Task onenotetags = Task.Run(() => _tags.Find(String.Empty));
+            Task onenotetags = Task.Run(() => _tags.FindPages(String.Empty));
             Task suggestions = _suggestedTags.LoadSuggestedTagsAsync();
             await Task.WhenAll(onenotetags, suggestions);
             // update the tags loaded from the settings

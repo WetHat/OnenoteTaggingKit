@@ -181,9 +181,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
 
-        public TagCollection ContextTags { get { return new TagCollection(_onenote, _schema); } }
+        public TagsAndPages ContextTags { get { return new TagsAndPages(_onenote, _schema); } }
         /// <summary>
-        /// Find pages matching a search criterion in the background.
+        /// FindPages pages matching a search criterion in the background.
         /// </summary>
         /// <param name="query">query. If null or empty just all page tags are collected</param>
         /// <param name="continuationAction">a UI action to execute (in the UI thread) after completion of the search</param>

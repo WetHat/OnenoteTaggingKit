@@ -80,7 +80,7 @@
     <Compile Include="common\ObservableDictionary.cs" />
     <Compile Include="common\ObservableSortedList.cs" />
     <Compile Include="common\SuggestedTagsSource.cs" />
-    <Compile Include="common\TagCollection.cs" />
+    <Compile Include="common\TagsAndPages.cs" />
     <Compile Include="common\TaggedPage.cs" />
     <Compile Include="common\TagPageSet.cs" />
     <Compile Include="common\ui\HighlightedTagsPanel.xaml.cs">
