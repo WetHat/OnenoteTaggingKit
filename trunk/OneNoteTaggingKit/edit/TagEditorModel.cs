@@ -1,13 +1,9 @@
 ﻿using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 
@@ -86,7 +82,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     ///   <item>suggested tags</item>
     /// </list>
     /// </remarks>
-    public class TagEditorModel : DependencyObject, ITagEditorModel, INotifyPropertyChanged
+    public class TagEditorModel : WindowViewModelBase, ITagEditorModel
     {
         static readonly PropertyChangedEventArgs PAGE_TITLE = new PropertyChangedEventArgs("PageTitle");
 
@@ -111,6 +107,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
+        /// <summary>
+        /// Collection of tags found in a OneNote hierarchy context (section, section group, notebook)
+        /// </summary>
         public TagsAndPages ContextTagCollection
         {
             get
@@ -233,17 +232,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
             return pagesTagged;
         }
-
-        private void firePropertyChangedEvent(PropertyChangedEventArgs args)
-        {
-            PropertyChanged(this, args);
-        }
-#region INotifyPropertyChanged
-        /// <summary>
-        /// event to notify registered listener about property changes
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-#endregion
 
         internal Task<IEnumerable<TagPageSet>> GetContextTagsAsync(TagContext filter)
         {

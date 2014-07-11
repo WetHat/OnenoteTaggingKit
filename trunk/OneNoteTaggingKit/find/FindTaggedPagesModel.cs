@@ -7,10 +7,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Threading;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
@@ -82,7 +80,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// View model backing the UI to find tagged pages.
     /// </summary>
     /// <remarks>Search queries are run in the background</remarks>
-    public class FindTaggedPagesModel : DependencyObject, ITagSearchModel, IDisposable, INotifyPropertyChanged
+    public class FindTaggedPagesModel : WindowViewModelBase, ITagSearchModel
     {
         private static readonly PropertyChangedEventArgs PAGE_COUNT = new PropertyChangedEventArgs("PageCount");
         private static readonly PropertyChangedEventArgs TAG_COUNT = new PropertyChangedEventArgs("TagCount");
@@ -173,14 +171,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
             tf.StartNew(processActions);
         }
 
-        private void fireNotifyPropertyChanged(PropertyChangedEventArgs propArgs)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, propArgs);
-            }
-        }
-
+        /// <summary>
+        /// Collection of tafs used in a OneNote hierarchy context (section, section group, notebook)
+        /// </summary>
         public TagsAndPages ContextTags { get { return new TagsAndPages(_onenote, _schema); } }
         /// <summary>
         /// FindPages pages matching a search criterion in the background.
@@ -387,22 +380,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
         {
             _onenote.NavigateTo(pageID);
         }
-        #region IDisposable
         /// <summary>
         /// Dispose the view model.
         /// </summary>
         public void Dispose()
         {
             _cancelWorker.Cancel();
+            base.Dispose();
         }
-        #endregion IDisposable
-
-        #region INotifyPropertyChanged
-        /// <summary>
-        /// Notify listeners about property changes of instances class.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-        #endregion INotifyPropertyChanged
     }
 
     /// <summary>

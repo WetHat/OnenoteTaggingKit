@@ -11,7 +11,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     internal class AggregatedPageCollection : TagsAndPages
     {
         /// <summary>
-        /// set of pages aggregatedd from tags
+        /// set of pages aggregated from tags
         /// </summary>
         private ObservableDictionary<string, TaggedPage> _aggregatedPages = new ObservableDictionary<string, TaggedPage>();
 
@@ -26,6 +26,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             _aggregationTags.CollectionChanged += OnTagsCollectionChanged;
         }
 
+        /// <summary>
+        /// Update the aggregated pages as the set of tags changes.
+        /// </summary>
+        /// <param name="sender">collection which emits the event</param>
+        /// <param name="e">event details</param>
         private void OnTagsCollectionChanged(object sender, NotifyDictionaryChangedEventArgs<string, TagPageSet> e)
         {
             switch (e.Action)
