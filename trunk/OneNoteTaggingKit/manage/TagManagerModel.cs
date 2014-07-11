@@ -54,9 +54,9 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// </summary>
         /// <param name="onenote">OneNote application object</param>
         /// <param name="schema">current schema version</param>
-        internal TagManagerModel(Application onenote, XMLSchema schema)
+        internal TagManagerModel(Application onenote, XMLSchema schema): base(onenote,schema)
         {
-            _tags = new TagsAndPages(onenote, schema);
+            _tags = new TagsAndPages(OneNoteApp, OneNotePageSchema);
         }
 
         internal async Task LoadSuggestedTagsAsync()

@@ -1,0 +1,34 @@
+﻿<Window x:Class="WetHatLab.OneNote.TaggingKit.nexus.RelatedPages"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStyle="ToolWindow"
+        Title="Related Pages" Height="300" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Column="0"
+               FontSize="14" >
+            <TextBlock Text="CUrrent Page Title" />
+        </Label>
+        <Button Grid.Column="0"
+                HorizontalAlignment="Right"
+                Background="Transparent"
+                BorderThickness="0">
+            <Image Height="32" Source="/OneNoteTaggingKit;component/Resources/refresh-32.png" />
+        </Button>
+        
+        <GroupBox Grid.Row="1" Grid.ColumnSpan="2"
+                  Header="Pages related by Tags">
+            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent">
+
+            </ListBox>
+        </GroupBox>
+    </Grid>
+</Window>

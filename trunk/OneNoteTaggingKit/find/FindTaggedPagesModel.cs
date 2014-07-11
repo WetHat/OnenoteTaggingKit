@@ -85,10 +85,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
         private static readonly PropertyChangedEventArgs PAGE_COUNT = new PropertyChangedEventArgs("PageCount");
         private static readonly PropertyChangedEventArgs TAG_COUNT = new PropertyChangedEventArgs("TagCount");
 
-        private Microsoft.Office.Interop.OneNote.Application _onenote;
-
-        private Microsoft.Office.Interop.OneNote.Window _currentWindow;
-        private XMLSchema _schema;
         private IList<TagSearchScope> _scopes;
 
         private TagSearchScope _selectedScope;
@@ -128,11 +124,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
 
-        internal FindTaggedPagesModel(Microsoft.Office.Interop.OneNote.Application onenote, Microsoft.Office.Interop.OneNote.Window currentWindow, XMLSchema schema)
+        internal FindTaggedPagesModel(Microsoft.Office.Interop.OneNote.Application onenote, XMLSchema schema) : base (onenote,schema)
         {
-            _onenote = onenote;
-            _schema = schema;
-            _currentWindow = currentWindow;
             _scopes = new TagSearchScope[4];
             _scopes[0] = new TagSearchScope {
                                               Scope = SearchScope.Section,
@@ -152,7 +145,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                                             };
 
             _selectedScope = _scopes[Properties.Settings.Default.DefaultScope];
-            _searchResult = new FilterablePageCollection(_onenote,schema);
+            _searchResult = new FilterablePageCollection(OneNoteApp, OneNotePageSchema);
             _searchResult.Tags.CollectionChanged          += HandleTagCollectionChanges;
             _searchResult.FilteredPages.CollectionChanged += HandlePageCollectionChanges;
 
@@ -174,7 +167,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Collection of tafs used in a OneNote hierarchy context (section, section group, notebook)
         /// </summary>
-        public TagsAndPages ContextTags { get { return new TagsAndPages(_onenote, _schema); } }
+        public TagsAndPages ContextTags { get { return new TagsAndPages(OneNoteApp, OneNotePageSchema); } }
         /// <summary>
         /// FindPages pages matching a search criterion in the background.
         /// </summary>
@@ -186,13 +179,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
             switch (_selectedScope.Scope)
             {
                 case SearchScope.Notebook:
-                    scopeID = _currentWindow.CurrentNotebookId;
+                    scopeID = CurrentNotebookID;
                     break;
                 case SearchScope.SectionGroup:
-                    scopeID = _currentWindow.CurrentSectionGroupId;
+                    scopeID = CurrentSectionGroupID;
                     break;
                 case SearchScope.Section:
-                    scopeID = _currentWindow.CurrentSectionId;
+                    scopeID = CurrentSectionID;
                     break;
             }
 
@@ -328,7 +321,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             switch (e.Action)
             {
                 case NotifyDictionaryChangedAction.Add:
-                    a = () => _pages.AddAll(from i in e.Items select new HitHighlightedPageLinkModel(i,_highlighter,_onenote));
+                    a = () => _pages.AddAll(from i in e.Items select new HitHighlightedPageLinkModel(i,_highlighter,OneNoteApp));
                     break;
                 case NotifyDictionaryChangedAction.Remove:
                     a = () => _pages.RemoveAll(from i in e.Items select i.Key);
@@ -378,7 +371,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         internal void NavigateTo(string pageID)
         {
-            _onenote.NavigateTo(pageID);
+            OneNoteApp.NavigateTo(pageID);
         }
         /// <summary>
         /// Dispose the view model.

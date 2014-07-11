@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Office.Interop.OneNote;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,7 +14,39 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// </summary>
     public abstract class WindowViewModelBase: DependencyObject, INotifyPropertyChanged, IDisposable
     {
-        #region INotifyPropertyChanged
+        protected Microsoft.Office.Interop.OneNote.Application OneNoteApp {get; private set;}
+        protected XMLSchema OneNotePageSchema {get; private set;}
+
+        internal Microsoft.Office.Interop.OneNote.Window CurrentOneNoteWindow {get; private set;}
+        
+        internal string CurrentPageID
+        {
+            get { return CurrentOneNoteWindow.CurrentPageId; }
+        }
+
+        internal string CurrentSectionID
+        {
+            get { return CurrentOneNoteWindow.CurrentSectionId; }
+        }
+
+        internal string CurrentSectionGroupID
+        {
+            get { return CurrentOneNoteWindow.CurrentSectionGroupId; }
+        }
+
+        internal string CurrentNotebookID
+        {
+            get { return CurrentOneNoteWindow.CurrentNotebookId; }
+        }
+
+        protected WindowViewModelBase(Microsoft.Office.Interop.OneNote.Application app, XMLSchema schema)
+        {
+            OneNoteApp = app;
+            OneNotePageSchema = schema;
+            CurrentOneNoteWindow = app.Windows.CurrentWindow;
+        }
+
+        #region INotifyPropertyChanged 
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion INotifyPropertyChanged
 
@@ -28,7 +61,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         ///   fireNotifyPropertyChanged(PAGE_TITLE);
         /// </code>
         /// </example>
-        /// /remarks>
+        /// </remarks>
         /// <param name="propArgs">event and property details</param>
         protected void fireNotifyPropertyChanged(PropertyChangedEventArgs propArgs)
         {
