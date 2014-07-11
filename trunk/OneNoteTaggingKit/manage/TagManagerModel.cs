@@ -44,7 +44,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     /// <summary>
     /// View model backing the <see cref="TagManager"/> dialog.
     /// </summary>
-    public class TagManagerModel : System.Windows.DependencyObject, ITagManagerModel
+    public class TagManagerModel : WindowViewModelBase, ITagManagerModel
     {
         private SuggestedTagsSource<RemovableTagModel> _suggestedTags = new SuggestedTagsSource<RemovableTagModel>();
         private TagsAndPages _tags;

@@ -26,9 +26,9 @@
                        TextTrimming="CharacterEllipsis"
                        TextWrapping="NoWrap"
                        FontSize="14">
-            <Hyperlink>
-                <Run Text="{Binding PageTitle, Mode=OneWay}"/>
-            </Hyperlink>
+                <Hyperlink>
+                    <Run Text="{Binding PageTitle, Mode=OneWay}"/>
+                </Hyperlink>
             </TextBlock>
             <Border Grid.Row="1" Grid.Column="1"
                     BorderBrush="LightGray"

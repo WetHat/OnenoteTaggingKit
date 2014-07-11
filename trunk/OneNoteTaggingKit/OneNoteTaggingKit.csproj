@@ -91,6 +91,7 @@
     </Compile>
     <Compile Include="common\ui\TagModelKey.cs" />
     <Compile Include="common\TextSplitter.cs" />
+    <Compile Include="common\WindowViewModelBase.cs" />
     <Compile Include="COMReadonlyStreamAdapter.cs" />
     <Compile Include="edit\HitHighlightedTagButton.xaml.cs">
       <DependentUpon>HitHighlightedTagButton.xaml</DependentUpon>
@@ -136,6 +137,10 @@
     </Compile>
     <Compile Include="nexus\RelatedPageLinkDesignerModel.cs" />
     <Compile Include="nexus\RelatedPageLinkModel.cs" />
+    <Compile Include="nexus\RelatedPages.xaml.cs">
+      <DependentUpon>RelatedPages.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="nexus\RelatedPagesModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -285,6 +290,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="nexus\RelatedPageLink.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="nexus\RelatedPages.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
