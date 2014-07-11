@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace WetHatLab.OneNote.TaggingKit.common
+namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
     /// <summary>
     /// Base class for view models supporting the MVVM pattern for top level add-in windows.

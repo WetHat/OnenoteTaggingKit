@@ -13,6 +13,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
 using WetHatLab.OneNote.TaggingKit.common;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.edit;
 using WetHatLab.OneNote.TaggingKit.find;
 using WetHatLab.OneNote.TaggingKit.manage;
@@ -178,9 +179,7 @@ namespace WetHatLab.OneNote.TaggingKit
         {
             if (editTagsUIthread == null || !editTagsUIthread.IsAlive)
             {
-                Microsoft.Office.Interop.OneNote.Window currentWindow = _OneNoteApp.Windows.CurrentWindow;
-                XMLSchema s = CurrentSchema;
-                editTagsUIthread = Show<TagEditor, TagEditorModel>(() => new TagEditorModel(_OneNoteApp, s));
+                editTagsUIthread = Show<TagEditor, TagEditorModel>(() => new TagEditorModel(_OneNoteApp, CurrentSchema));
             }
             else
             {
@@ -196,8 +195,7 @@ namespace WetHatLab.OneNote.TaggingKit
         {
             if (findTagsUIthread == null || !findTagsUIthread.IsAlive)
             {
-                XMLSchema s = CurrentSchema;
-                findTagsUIthread = Show<FindTaggedPages, FindTaggedPagesModel>(() => new FindTaggedPagesModel(_OneNoteApp, s));
+                findTagsUIthread = Show<FindTaggedPages, FindTaggedPagesModel>(() => new FindTaggedPagesModel(_OneNoteApp, CurrentSchema));
             }
             else
             {
@@ -213,8 +211,7 @@ namespace WetHatLab.OneNote.TaggingKit
         {
             if (relatedTagsUIthread == null || !relatedTagsUIthread.IsAlive)
             {
-                XMLSchema s = CurrentSchema;
-                relatedTagsUIthread = Show<RelatedPages, RelatedPagesModel>(() => new RelatedPagesModel(_OneNoteApp, s));
+                relatedTagsUIthread = Show<RelatedPages, RelatedPagesModel>(() => new RelatedPagesModel(_OneNoteApp, CurrentSchema));
             }
             else
             {
