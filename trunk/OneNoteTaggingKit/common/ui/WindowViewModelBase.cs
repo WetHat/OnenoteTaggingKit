@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
@@ -14,11 +15,24 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// </summary>
     public abstract class WindowViewModelBase: DependencyObject, INotifyPropertyChanged, IDisposable
     {
+        /// <summary>
+        /// Get the OneNote application object
+        /// </summary>
         protected Microsoft.Office.Interop.OneNote.Application OneNoteApp {get; private set;}
+
+        /// <summary>
+        /// Get the OneNote schema.
+        /// </summary>
         protected XMLSchema OneNotePageSchema {get; private set;}
 
+        /// <summary>
+        /// Get the OneNote current window object
+        /// </summary>
         internal Microsoft.Office.Interop.OneNote.Window CurrentOneNoteWindow {get; private set;}
         
+        /// <summary>
+        /// Get the id of the current OneNote page
+        /// </summary>
         internal string CurrentPageID
         {
             get { return CurrentOneNoteWindow.CurrentPageId; }
@@ -39,6 +53,11 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             get { return CurrentOneNoteWindow.CurrentNotebookId; }
         }
 
+        /// <summary>
+        /// Initialize this base class
+        /// </summary>
+        /// <param name="app">OneNote application object</param>
+        /// <param name="schema">OneNote schema to use</param>
         protected WindowViewModelBase(Microsoft.Office.Interop.OneNote.Application app, XMLSchema schema)
         {
             OneNoteApp = app;
@@ -46,7 +65,10 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             CurrentOneNoteWindow = app.Windows.CurrentWindow;
         }
 
-        #region INotifyPropertyChanged 
+        #region INotifyPropertyChanged
+        /// <summary>
+        /// Event to notify registered handlers about property changes
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion INotifyPropertyChanged
 
@@ -69,6 +91,17 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             {
                 PropertyChanged(this, propArgs);
             }
+        }
+
+        /// <summary>
+        /// Notify listeners subscribed to the <see cref="E:WetHatLab.OneNote.TaggingKit.common.PropertyChanged"/> about changes to model properties.
+        /// </summary>
+        /// <remarks>Notification is performed in a given thread context</remarks>
+        /// <param name="dispatcher">thread context to use</param>
+        /// <param name="propArgs">event and property details</param>
+        protected void fireNotifyPropertyChanged(Dispatcher dispatcher, PropertyChangedEventArgs propArgs)
+        {
+            dispatcher.Invoke(() => fireNotifyPropertyChanged(propArgs));
         }
 
         #region IDisposable
