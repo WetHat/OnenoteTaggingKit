@@ -13,8 +13,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// </summary>
     public class FindTaggedPagesDesignerModel : ITagSearchModel
     {
-        private List<TagSearchScope> _scopes;
-        private TagSearchScope _selectedScope;
+        private List<TagSearchScopeFacade> _scopes;
+        private TagSearchScopeFacade _selectedScope;
         private ObservableSortedList<HitHighlightedPageLinkKey,string, HitHighlightedPageLinkModel> _pages = new  ObservableSortedList<HitHighlightedPageLinkKey,string, HitHighlightedPageLinkModel>();
         private TagSource _tags = new TagSource();
 
@@ -22,13 +22,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
        
         public FindTaggedPagesDesignerModel()
         {
-             _scopes = new List<TagSearchScope> {
-                    new TagSearchScope()
+             _scopes = new List<TagSearchScopeFacade> {
+                    new TagSearchScopeFacade()
                     {
                         Scope = SearchScope.AllNotebooks,
                         ScopeLabel = "All Notebooks"
                     },
-                    new TagSearchScope()
+                    new TagSearchScopeFacade()
                     {
                         Scope = SearchScope.Notebook,
                         ScopeLabel = "Notebooks"
@@ -47,7 +47,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             _tags.AddAll(from t in c.Tags.Values select new TagSelectorModel(t));
         }
 
-        public IList<TagSearchScope> Scopes
+        public IList<TagSearchScopeFacade> Scopes
         {
             get
             {
@@ -55,7 +55,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
 
-        public TagSearchScope SelectedScope
+        public TagSearchScopeFacade SelectedScope
         {
             get
             {

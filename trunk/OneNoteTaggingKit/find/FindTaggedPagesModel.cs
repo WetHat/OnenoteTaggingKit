@@ -23,11 +23,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Get a list of scopes available for finding tagged pages.
         /// </summary>
-        IList<TagSearchScope> Scopes { get; }
+        IList<TagSearchScopeFacade> Scopes { get; }
         /// <summary>
         /// Get or set the scope to use
         /// </summary>
-        TagSearchScope SelectedScope { get; set; }
+        TagSearchScopeFacade SelectedScope { get; set; }
         /// <summary>
         /// Get the collection of pages with particular tags
         /// </summary>
@@ -64,7 +64,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// <summary>
     /// Search Scope UI facade
     /// </summary>
-    public class TagSearchScope
+    public class TagSearchScopeFacade
     {
         /// <summary>
         /// Get or set the search scope
@@ -85,9 +85,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
         private static readonly PropertyChangedEventArgs PAGE_COUNT = new PropertyChangedEventArgs("PageCount");
         private static readonly PropertyChangedEventArgs TAG_COUNT = new PropertyChangedEventArgs("TagCount");
 
-        private IList<TagSearchScope> _scopes;
+        private IList<TagSearchScopeFacade> _scopes;
 
-        private TagSearchScope _selectedScope;
+        private TagSearchScopeFacade _selectedScope;
 
         // the collection of tags found on OneNote pages
         private FilterablePageCollection _searchResult ;
@@ -126,20 +126,20 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         internal FindTaggedPagesModel(Microsoft.Office.Interop.OneNote.Application onenote, XMLSchema schema) : base (onenote,schema)
         {
-            _scopes = new TagSearchScope[4];
-            _scopes[0] = new TagSearchScope {
+            _scopes = new TagSearchScopeFacade[4];
+            _scopes[0] = new TagSearchScopeFacade {
                                               Scope = SearchScope.Section,
                                               ScopeLabel = Properties.Resources.TagSearch_Scope_Section_Label
                                             };
-            _scopes[1] = new TagSearchScope {
+            _scopes[1] = new TagSearchScopeFacade {
                                                 Scope = SearchScope.SectionGroup,
                                                 ScopeLabel = Properties.Resources.TagSearch_Scope_SectionGroup_Label
                                             };
-            _scopes[2] = new TagSearchScope {
+            _scopes[2] = new TagSearchScopeFacade {
                                                 Scope = SearchScope.Notebook,
                                                 ScopeLabel = Properties.Resources.TagSearch_Scope_Notebook_Label
                                             };
-            _scopes[3] = new TagSearchScope {
+            _scopes[3] = new TagSearchScopeFacade {
                                                 Scope = SearchScope.AllNotebooks,
                                                 ScopeLabel = Properties.Resources.TagSearch_Scope_AllNotebooks_Label
                                             };
@@ -240,7 +240,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Get the list of scopes available for collecting tagged pages.
         /// </summary>
-        public IList<TagSearchScope> Scopes
+        public IList<TagSearchScopeFacade> Scopes
         {
             get
             {
@@ -251,7 +251,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         ///  Get or set the scope currently used for finding tags
         /// </summary>
-        public TagSearchScope SelectedScope
+        public TagSearchScopeFacade SelectedScope
         {
             get
             {
