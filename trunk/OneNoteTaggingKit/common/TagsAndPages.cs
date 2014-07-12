@@ -159,21 +159,18 @@ namespace WetHatLab.OneNote.TaggingKit.common
                         continue;
                     }
                     // assign Tags
-                    XElement meta = page.Elements(one.GetName("Meta")).FirstOrDefault(m => OneNotePageProxy.META_NAME.Equals(m.Attribute("name").Value));
-                    if (meta != null)
-                    {
-                        foreach (string tagname in OneNotePageProxy.ParseTags(meta.Attribute("content").Value))
-                        {
-                            TagPageSet t;
 
-                            if (!tags.TryGetValue(tagname, out t))
-                            {
-                                t = new TagPageSet(tagname);
-                                tags.Add(tagname, t);
-                            }
-                            t.AddPage(tp);
-                            tp.Tags.Add(t);
+                    foreach (string tagname in tp.TagNames)
+                    {
+                        TagPageSet t;
+
+                        if (!tags.TryGetValue(tagname, out t))
+                        {
+                            t = new TagPageSet(tagname);
+                            tags.Add(tagname, t);
                         }
+                        t.AddPage(tp);
+                        tp.Tags.Add(t);
                     }
                     _pages.Add(tp.Key, tp);
                 }

@@ -51,9 +51,24 @@ namespace WetHatLab.OneNote.TaggingKit.common
     public class TaggedPage : IKeyedItem<string>
     {
         bool _isSelected = false;
+        /// <summary>
+        /// OneNote hierarchy path to this page
+        /// </summary>
         IEnumerable<HierarchyElement> _path;
+        /// <summary>
+        /// Set of tags
+        /// </summary>
         ISet<TagPageSet> _tags = new HashSet<TagPageSet>();
+        /// <summary>
+        /// page title
+        /// </summary>
         string _title;
+
+        /// <summary>
+        /// Names of tags as recorded in the page's meta section;
+        /// </summary>
+        IEnumerable<string> _tagnames;
+
         /// <summary>
         /// Create an internal representation of a page returned from FindMeta
         /// </summary>
@@ -70,7 +85,15 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 _isSelected = true;
             }
             XElement meta = page.Elements(one.GetName("Meta")).FirstOrDefault(m => OneNotePageProxy.META_NAME.Equals(m.Attribute("name").Value));
-
+            if (meta != null)
+            {
+                _tagnames = OneNotePageProxy.ParseTags(meta.Attribute("content").Value);
+            }
+            else
+            {
+                _tagnames = new string[0];
+            }
+            
             // build the items path
             LinkedList<HierarchyElement> path = new LinkedList<HierarchyElement>();
             XElement e = page;
@@ -88,11 +111,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
             _path = path;
         }
 
-        internal TaggedPage(string id, string title)
-        {
-            ID = id;
-            Title = title;
-        }
 
         /// <summary>
         /// get the page's ID
@@ -127,7 +145,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
         #region IKeyedItem
         /// <summary>
-        /// Get pages unique key suitable for hasing
+        /// Get pages unique key suitable for hashing
         /// </summary>
         public string Key
         {
@@ -137,6 +155,17 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
         }
         #endregion IKeyedItem
+
+        /// <summary>
+        /// get the ollections of tags as recorded in the pages metadata
+        /// </summary>
+        internal IEnumerable<string> TagNames
+        {
+            get
+            {
+                return _tagnames;
+            }
+        }
 
         /// <summary>
         /// Get or set the collection of tags on this page
