@@ -140,6 +140,7 @@
     <Compile Include="nexus\RelatedPages.xaml.cs">
       <DependentUpon>RelatedPages.xaml</DependentUpon>
     </Compile>
+    <Compile Include="nexus\RelatedPagesDesignerModel.cs" />
     <Compile Include="nexus\RelatedPagesModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

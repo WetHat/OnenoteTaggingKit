@@ -30,13 +30,25 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
         {
             get
             {
-                return _model;
+                return _model;  
             }
             set
             {
-                _model = value; ;
+                _model = value;
+                DataContext = _model;
+                _model.TrackCurrentPage();
             }
         }
         #endregion IOneNotePageWindow<RelatedPagesModel>
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (_model != null)
+            {
+                _model.Dispose();
+                _model = null;
+            }
+        }
+
     }
 }
