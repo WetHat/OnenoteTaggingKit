@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using WetHatLab.OneNote.TaggingKit.common;
 
-namespace WetHatLab.OneNote.TaggingKit.edit
+namespace WetHatLab.OneNote.TaggingKit.nexus
 {
 
     internal class AggregatedPageCollection : TagsAndPages
