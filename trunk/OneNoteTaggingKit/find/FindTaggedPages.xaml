@@ -6,7 +6,6 @@
         xmlns:cui="clr-namespace:WetHatLab.OneNote.TaggingKit.common.ui"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:find="clr-namespace:WetHatLab.OneNote.TaggingKit.find"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:FindTaggedPagesDesignerModel}}"
         WindowStyle="ToolWindow"
