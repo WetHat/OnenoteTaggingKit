@@ -15,7 +15,10 @@
                   Focusable="{Binding ElementName=self,Path=Focusable, Mode=OneWay}"
                   BorderBrush="LightBlue">
         <StackPanel Orientation="Horizontal">
-            <TextBlock Name="tagName" VerticalAlignment="Bottom" Focusable="False"/>
+            <TextBlock Name="tagName" VerticalAlignment="Bottom"
+                       Foreground="DarkCyan"
+                       FontWeight="Bold"
+                       Focusable="False"/>
             <TextBlock VerticalAlignment="Bottom" Focusable="False">
                 <Run Text=" ("/><Run Text="{Binding PageCount,Mode=OneWay}"/><Run Text=")"/>
             </TextBlock>

@@ -12,6 +12,6 @@
              BorderBrush="LightBlue"
              Click="Button_Click"
              ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_HithighlightedTag_Button_Tooltip}}">
-        <TextBlock Name="hithighlightedTag" TextAlignment="Left"/>
+        <TextBlock Name="hithighlightedTag" TextAlignment="Left" Foreground="DarkCyan" FontWeight="Bold"/>
     </Button>
 </UserControl>
