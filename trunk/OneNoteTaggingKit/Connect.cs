@@ -2,6 +2,7 @@
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.OneNote;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
@@ -23,6 +24,128 @@ using WetHatLab.OneNote.TaggingKit.nexus;
 namespace WetHatLab.OneNote.TaggingKit
 {
     /// <summary>
+    /// Manage the singleton dialog windows of the add-in
+    /// </summary>
+    /// <remarks>This class is thread safe</remarks>
+    internal class AddInDialogManager
+    {
+        private Dictionary<Type, System.Windows.Window> _SingletonWindows = new Dictionary<Type, System.Windows.Window>();
+
+        private void UnregisterWindow(Type windowType)
+        {
+            lock(_SingletonWindows)
+            {
+                _SingletonWindows.Remove(windowType);
+            }
+        }
+        public void CloseAllWindows()
+        {
+            TraceLogger.Log(TraceCategory.Info(), "Closing Windows");
+            lock (_SingletonWindows)
+            {
+                foreach (System.Windows.Window w in _SingletonWindows.Values)
+                {
+                    try
+                    {
+                        w.Close();
+                    }
+                    catch (Exception e)
+                    {
+                        TraceLogger.Log(TraceCategory.Error(), "Closing window failed: {0}", e);
+                    }
+                }
+                _SingletonWindows.Clear();
+            }
+        }
+        /// <summary>
+        /// Show a WPF window.
+        /// </summary>
+        /// <typeparam name="W">window type</typeparam>
+        /// <typeparam name="M">view model type</typeparam>
+        /// <param name="viewModelFactory">factory method to generate the view model in the UI thread of the WPF window</param>
+        public void Show<W, M>(Func<M> viewModelFactory)
+            where W : System.Windows.Window, IOneNotePageWindow<M>, new()
+            where M : WindowViewModelBase
+        {
+            var thread = new Thread(() =>
+            {
+                try
+                {
+                    lock (_SingletonWindows)
+                    { 
+                        System.Windows.Window w;
+                        if (_SingletonWindows.TryGetValue(typeof(W), out w))
+                        {
+                            w.Dispatcher.Invoke(() => w.WindowState = WindowState.Normal);
+                            return;
+                        }
+                        w = new W();
+                        w.Closing += (o, e) => UnregisterWindow(typeof(W));
+                        w.Closed += (s, e) => w.Dispatcher.InvokeShutdown();
+                        w.Topmost = true;
+                        M viewmodel = viewModelFactory();
+                        ((IOneNotePageWindow<M>)w).ViewModel = viewmodel;
+                        var helper = new WindowInteropHelper(w);
+                        helper.Owner = (IntPtr)viewmodel.CurrentOneNoteWindow.WindowHandle;
+                        w.Show();
+                        _SingletonWindows.Add(typeof(W),w);
+                    }
+                    // Turn this thread into an UI thread
+                    System.Windows.Threading.Dispatcher.Run();
+                }
+                catch (Exception ex)
+                {
+                    TraceLogger.Log(TraceCategory.Error(), "Exception while creating dialog: {0}", ex);
+                    TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_Error_WindowCreation, ex);
+                }
+            });
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.IsBackground = true;
+            thread.Start();
+        }
+
+        /// <summary>
+        /// Show a WPF dialog.
+        /// </summary>
+        /// <typeparam name="T">dialog type</typeparam>
+        /// <typeparam name="M">view model type</typeparam>
+        /// <param name="window">current OneNote windows</param>
+        /// <param name="viewModelFactory">factory method to create a view model</param>
+        /// <returns>dialog result</returns>
+        public bool? ShowDialog<T, M>(Microsoft.Office.Interop.OneNote.Window window, Func<M> viewModelFactory)
+            where T : System.Windows.Window, IOneNotePageWindow<M>, new()
+            where M : WindowViewModelBase
+        {
+            bool? retval = null;
+            var thread = new Thread(() =>
+            {
+                try
+                {
+                    System.Windows.Window w = new T();
+                    w.Closed += (s, e) => w.Dispatcher.InvokeShutdown();
+                    w.Topmost = true;
+                    M viewmodel = viewModelFactory();
+                    ((IOneNotePageWindow<M>)w).ViewModel = viewmodel;
+                    var helper = new WindowInteropHelper(w);
+                    helper.Owner = (IntPtr)viewmodel.CurrentOneNoteWindow.WindowHandle;
+                    retval = w.ShowDialog();
+                    Trace.Flush();
+                }
+                catch (Exception ex)
+                {
+                    TraceLogger.Log(TraceCategory.Error(), "Exception while creating dialog: {0}", ex);
+                    TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_Error_WindowCreation, ex);
+                }
+            });
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.IsBackground = true;
+            thread.Start();
+
+            thread.Join();
+            return retval;
+        }
+    }
+    /// <summary>
     /// OneNote application connector.
     /// </summary>
     /// <remarks>Manages the addin lifecycle and executes Ribbon bar actions.
@@ -31,15 +154,14 @@ namespace WetHatLab.OneNote.TaggingKit
     [Guid("C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF"), ProgId("WetHatLab.OneNote.TaggingKitAddin")]
     public class ConnectTaggingKitAddin : IDTExtensibility2, IRibbonExtensibility
     {
+
         private Microsoft.Office.Interop.OneNote.Application _OneNoteApp;
 
         private XMLSchema _schema = XMLSchema.xsCurrent;
         private bool _schemaChecked = false;
 
-        private Thread findTagsUIthread;
-        private Thread editTagsUIthread;
-        private Thread relatedTagsUIthread;
-
+        private AddInDialogManager _dialogmanager = new AddInDialogManager();
+        
         /// <summary>
         /// Create a new instance of the OneNote connector object.
         /// </summary>
@@ -112,6 +234,7 @@ namespace WetHatLab.OneNote.TaggingKit
         {
             if (_OneNoteApp != null)
             {
+                _dialogmanager.CloseAllWindows();
                 _OneNoteApp = null;
             }
         }
@@ -143,6 +266,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="custom">An empty array that you can use to pass host-specific data for use after the add-in unloads.</param>
         public void OnDisconnection(ext_DisconnectMode RemoveMode, ref Array custom)
         {
+            _dialogmanager.CloseAllWindows();
             Trace.Flush();
             GC.Collect();
             GC.WaitForPendingFinalizers();
@@ -177,14 +301,8 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="ribbon">OneNote ribbon bar</param>
         public void editTags(IRibbonControl ribbon)
         {
-            if (editTagsUIthread == null || !editTagsUIthread.IsAlive)
-            {
-                editTagsUIthread = Show<TagEditor, TagEditorModel>(() => new TagEditorModel(_OneNoteApp, CurrentSchema));
-            }
-            else
-            {
-                TagEditor.Restore();
-            }
+            XMLSchema s = CurrentSchema;
+            _dialogmanager.Show<TagEditor, TagEditorModel>(() => new TagEditorModel(_OneNoteApp, s));
         }
 
         /// <summary>
@@ -193,14 +311,8 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="ribbon">OneNote ribbon bar</param>
         public void findTags(IRibbonControl ribbon)
         {
-            if (findTagsUIthread == null || !findTagsUIthread.IsAlive)
-            {
-                findTagsUIthread = Show<FindTaggedPages, FindTaggedPagesModel>(() => new FindTaggedPagesModel(_OneNoteApp, CurrentSchema));
-            }
-            else
-            {
-               FindTaggedPages.Restore();
-            }
+            XMLSchema s = CurrentSchema;
+            _dialogmanager.Show<FindTaggedPages, FindTaggedPagesModel>(() => new FindTaggedPagesModel(_OneNoteApp, s));
         }
 
         /// <summary>
@@ -209,14 +321,8 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="ribbon">OneNote ribbon bar</param>
         public void relatedPages(IRibbonControl ribbon)
         {
-            if (relatedTagsUIthread == null || !relatedTagsUIthread.IsAlive)
-            {
-                relatedTagsUIthread = Show<RelatedPages, RelatedPagesModel>(() => new RelatedPagesModel(_OneNoteApp, CurrentSchema));
-            }
-            else
-            {
-                FindTaggedPages.Restore();
-            }
+            XMLSchema s = CurrentSchema;
+            _dialogmanager.Show<RelatedPages, RelatedPagesModel>(() => new RelatedPagesModel(_OneNoteApp, s));
         }
 
         /// <summary>
@@ -225,9 +331,8 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="ribbon"></param>
         public void manageTags(IRibbonControl ribbon)
         {
-            Microsoft.Office.Interop.OneNote.Window currentWindow = _OneNoteApp.Windows.CurrentWindow;
             XMLSchema s = CurrentSchema;
-            ShowDialog<TagManager, TagManagerModel>(currentWindow, () => new TagManagerModel(_OneNoteApp, s));
+            _dialogmanager.ShowDialog<TagManager, TagManagerModel>(_OneNoteApp.Windows.CurrentWindow, () => new TagManagerModel(_OneNoteApp, s));
         }
 
         /// <summary>
@@ -256,83 +361,6 @@ namespace WetHatLab.OneNote.TaggingKit
             }
 
             return new COMReadonlyStreamAdapter(mem);
-        }
-
-        /// <summary>
-        /// Show a WPF dialog.
-        /// </summary>
-        /// <typeparam name="T">dialog type</typeparam>
-        /// <typeparam name="M">view model type</typeparam>
-        /// <param name="window">current OneNote windows</param>
-        /// <param name="viewModelFactory">factory method to create a view model</param>
-        /// <returns>dialog result</returns>
-        internal static bool? ShowDialog<T, M>(Microsoft.Office.Interop.OneNote.Window window, Func<M> viewModelFactory) where T : System.Windows.Window, IOneNotePageWindow<M>, new()
-                                                                                                                         where M : WindowViewModelBase
-        {
-            bool? retval = null;
-            var thread = new Thread(() =>
-            {
-                try
-                {
-                    System.Windows.Window w = new T();
-                    w.Closed += (s, e) => w.Dispatcher.InvokeShutdown();
-                    w.Topmost = true;
-                    M viewmodel = viewModelFactory();
-                    ((IOneNotePageWindow<M>)w).ViewModel = viewmodel;
-                    var helper = new WindowInteropHelper(w);
-                    helper.Owner = (IntPtr)viewmodel.CurrentOneNoteWindow.WindowHandle;
-                    retval = w.ShowDialog();
-                    Trace.Flush();
-                }
-                catch (Exception ex)
-                {
-                    TraceLogger.Log(TraceCategory.Error(), "Exception while creating dialog: {0}", ex);
-                    TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_Error_WindowCreation, ex);
-                }
-            });
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.IsBackground = true;
-            thread.Start();
-
-            thread.Join();
-            return retval;
-        }
-
-        /// <summary>
-        /// Show a WPF window.
-        /// </summary>
-        /// <typeparam name="T">window type</typeparam>
-        /// <typeparam name="M">view model type</typeparam>
-        /// <param name="window">current OneNote window</param>
-        /// <param name="viewModelFactory">factory method to generate the view model in the UI thread of the WPF window</param>
-        internal static Thread Show<T, M>(Func<M> viewModelFactory) where T : System.Windows.Window, IOneNotePageWindow<M>, new()
-                                                                    where M : WindowViewModelBase
-        {
-            var thread = new Thread(() =>
-            {
-                try
-                {
-                    System.Windows.Window w = new T();
-                    w.Closed += (s, e) => w.Dispatcher.InvokeShutdown();
-                    w.Topmost = true;
-                    M viewmodel = viewModelFactory();
-                    ((IOneNotePageWindow<M>)w).ViewModel = viewmodel;
-                    var helper = new WindowInteropHelper(w);
-                    helper.Owner = (IntPtr)viewmodel.CurrentOneNoteWindow.WindowHandle;
-                    w.Show();
-                    // Turn this thread into an UI thread
-                    System.Windows.Threading.Dispatcher.Run();
-                }
-                catch (Exception ex)
-                {
-                    TraceLogger.Log(TraceCategory.Error(), "Exception while creating dialog: {0}", ex);
-                    TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_Error_WindowCreation, ex);
-                }
-            });
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.IsBackground = true;
-            thread.Start();
-            return thread;
         }
     }
 }
