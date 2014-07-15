@@ -15,7 +15,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
 {
 
     /// <summary>
-    /// Context from which a tag collection has been build from
+    /// Context from which a tags and pages collection has been build from
     /// </summary>
     internal enum TagContext
     {
@@ -38,7 +38,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// </summary>
     /// <remarks>
     /// Provides an unordered set of tags and pages. The page collection is
-    /// built by calling <see cref="FindPages"/> or <see cref="GetPagesFromHierarchy"/>.
+    /// populated by calling <see cref="FindPages"/> or <see cref="GetPagesFromHierarchy"/>.
     /// </remarks>
     public class TagsAndPages
     {
