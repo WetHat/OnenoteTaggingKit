@@ -15,22 +15,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
     {
         private FindTaggedPagesModel _model;
 
-        private static FindTaggedPages _window;
-
-        internal static void Restore()
-        {
-            if (_window != null)
-            {
-                _window.Dispatcher.Invoke(() => _window.WindowState = WindowState.Normal);
-            }
-        }
         /// <summary>
         /// Create a new instance of the find tags window
         /// </summary>
         public FindTaggedPages()
         {
             InitializeComponent();
-            _window = this;
         }
 
         #region IOneNotePageWindow<TagSearchModel>
@@ -56,8 +46,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            _window = null;
-
             Properties.Settings.Default.Save();
             if (_model != null)
             {
