@@ -27,10 +27,10 @@ namespace WetHatLab.OneNote.TaggingKit
     /// Manage the singleton dialog windows of the add-in
     /// </summary>
     /// <remarks>This class is thread safe</remarks>
-    internal class AddInDialogManager
+    internal class AddInDialogManager : IDisposable
     {
         private Dictionary<Type, System.Windows.Window> _SingletonWindows = new Dictionary<Type, System.Windows.Window>();
-
+        private bool _disposed = false;
         private void UnregisterWindow(Type windowType)
         {
             lock(_SingletonWindows)
@@ -38,25 +38,7 @@ namespace WetHatLab.OneNote.TaggingKit
                 _SingletonWindows.Remove(windowType);
             }
         }
-        public void CloseAllWindows()
-        {
-            TraceLogger.Log(TraceCategory.Info(), "Closing Windows");
-            lock (_SingletonWindows)
-            {
-                foreach (System.Windows.Window w in _SingletonWindows.Values)
-                {
-                    try
-                    {
-                        w.Close();
-                    }
-                    catch (Exception e)
-                    {
-                        TraceLogger.Log(TraceCategory.Error(), "Closing window failed: {0}", e);
-                    }
-                }
-                _SingletonWindows.Clear();
-            }
-        }
+        
         /// <summary>
         /// Show a WPF window.
         /// </summary>
@@ -92,6 +74,10 @@ namespace WetHatLab.OneNote.TaggingKit
                     }
                     // Turn this thread into an UI thread
                     System.Windows.Threading.Dispatcher.Run();
+                }
+                catch (ThreadAbortException ta)
+                {
+                    TraceLogger.Log(TraceCategory.Warning(), "Window Thrad aborted: {0}", ta);
                 }
                 catch (Exception ex)
                 {
@@ -144,6 +130,30 @@ namespace WetHatLab.OneNote.TaggingKit
             thread.Join();
             return retval;
         }
+
+        public void Dispose()
+        {
+            if (!_disposed)
+            {
+                _disposed = true;
+                // We do not lock the window collection because closing a window
+                // also attempts to lock that collection.
+                foreach (System.Windows.Window w in _SingletonWindows.Values.ToArray())
+                {
+                    try
+                    {
+                        w.Dispatcher.Invoke(() => {
+                            TraceLogger.Log(TraceCategory.Info(), "Closing Window: {0}", w.Title);
+                            w.Close();
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        TraceLogger.Log(TraceCategory.Error(), "Closing window failed: {0}", e);
+                    }
+                }
+            }
+        }
     }
     /// <summary>
     /// OneNote application connector.
@@ -160,7 +170,7 @@ namespace WetHatLab.OneNote.TaggingKit
         private XMLSchema _schema = XMLSchema.xsCurrent;
         private bool _schemaChecked = false;
 
-        private AddInDialogManager _dialogmanager = new AddInDialogManager();
+        private AddInDialogManager _dialogmanager = null;
         
         /// <summary>
         /// Create a new instance of the OneNote connector object.
@@ -234,7 +244,11 @@ namespace WetHatLab.OneNote.TaggingKit
         {
             if (_OneNoteApp != null)
             {
-                _dialogmanager.CloseAllWindows();
+                if (_dialogmanager != null)
+                {
+                    _dialogmanager.Dispose();
+                    _dialogmanager = null;
+                }
                 _OneNoteApp = null;
             }
         }
@@ -249,7 +263,7 @@ namespace WetHatLab.OneNote.TaggingKit
         public void OnConnection(object Application, ext_ConnectMode ConnectMode, object AddInInst, ref Array custom)
         {
             _OneNoteApp = Application as Microsoft.Office.Interop.OneNote.Application;
-
+            _dialogmanager = new AddInDialogManager();
             // Upgrade Settings if necessary. On new version the UpdateRequired flag is reset to default (true)
             if (Properties.Settings.Default.UpdateRequired)
             {
@@ -266,7 +280,11 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="custom">An empty array that you can use to pass host-specific data for use after the add-in unloads.</param>
         public void OnDisconnection(ext_DisconnectMode RemoveMode, ref Array custom)
         {
-            _dialogmanager.CloseAllWindows();
+            if (_dialogmanager != null)
+            {
+                _dialogmanager.Dispose();
+                _dialogmanager = null;
+            }
             Trace.Flush();
             GC.Collect();
             GC.WaitForPendingFinalizers();
