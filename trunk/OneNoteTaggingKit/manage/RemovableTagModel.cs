@@ -33,7 +33,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             set
             {
                 TagName = value.TagName;
-                UseCount = value.PageCount;
+                UseCount = value.FilteredPages.Count;
             }
         }
         
