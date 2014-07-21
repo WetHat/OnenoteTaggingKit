@@ -206,7 +206,7 @@
     <value>Enter query and press enter to start search.</value>
   </data>
   <data name="TagSelector_Tooltip" xml:space="preserve">
-    <value>Tap to show only pages which have this tag.</value>
+    <value>Tap to add or remove this tag from the filter.</value>
   </data>
   <data name="TaggingKit_Error_VersionLookup" xml:space="preserve">
     <value>OneNote version lookup failed</value>
@@ -361,5 +361,11 @@ Sorry for the inconvenience!</value>
   </data>
   <data name="TagManager_SuggestedTags_Header" xml:space="preserve">
     <value>Tags</value>
+  </data>
+  <data name="TagSelector_FilterIndicator_Tooltip" xml:space="preserve">
+    <value>This tag is selected for filtering</value>
+  </data>
+  <data name="TagSelector_PageCount_Tooltip" xml:space="preserve">
+    <value>{0} of {1} pages tagged as '{2}' match the tag filter</value>
   </data>
 </root>

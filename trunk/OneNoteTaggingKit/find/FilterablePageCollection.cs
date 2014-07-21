@@ -85,7 +85,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             if (_filterTags.Add(tag))
             {
                 // remove pages which are not in this tag's page set
-                _filteredPages.IntersectWith(tag.Pages);
+                _filteredPages.IntersectWith(tag.FilteredPages);
                 ApplyFilterToTags();
             }
         }
@@ -110,7 +110,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     foreach ( TagPageSet tps in _filterTags)
                     {
                         tps.ClearFilter();
-                        _filteredPages.IntersectWith(tps.Pages);
+                        _filteredPages.IntersectWith(tps.FilteredPages);
                     }
                     ApplyFilterToTags();
                 }

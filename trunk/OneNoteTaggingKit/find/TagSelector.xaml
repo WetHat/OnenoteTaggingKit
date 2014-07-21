@@ -19,13 +19,20 @@
                        Foreground="DarkCyan"
                        FontWeight="Bold"
                        Focusable="False"/>
-            <TextBlock VerticalAlignment="Bottom" Focusable="False">
-                <Run Text=" ("/><Run Text="{Binding PageCount,Mode=OneWay}"/><Run Text=")"/>
+            <TextBlock VerticalAlignment="Bottom"
+                       Focusable="False"
+                       Background="Transparent"
+                       ToolTip="{Binding PageCountTooltip}">
+                <Run Text=" ("/><Run Text="{Binding FilteredPageCount,Mode=OneWay}"/><Run Text=")"/>
             </TextBlock>
-            <CheckBox VerticalAlignment="Bottom"
-                      Focusable="False"
-                      IsChecked="{Binding ElementName=tagBtn, Path=IsChecked, Mode=OneWay}"
-                      BorderThickness="0" Background="Transparent"/>
+            <TextBlock VerticalAlignment="Bottom"
+                       Visibility="{Binding FilterIndicatorVisibility}"
+                       Background="Transparent"
+                       Focusable="False"
+                       FontFamily="Segoe UI Symbol"
+                       ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSelector_FilterIndicator_Tooltip}}"
+                       Text=""/>
+
         </StackPanel>
     </ToggleButton>
 </UserControl>
