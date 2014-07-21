@@ -9,9 +9,11 @@ using System.Windows.Data;
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
     /// <summary>
-    /// Contract for implmentation of the data context of controls which want to appear in
-    /// <see cref=" HighlightedTagsPanel"/> controls
+    /// Contract of the implementation of the data context of controls which want to appear in
+    /// <see cref="HighlightedTagsPanel"/> controls
     /// </summary>
+    /// <remarks>A collection of instances of objects implementing this contract is managed by
+    /// implementations of <see cref="ITagSource"/></remarks>
     public interface IHighlightableTagDataContext
     {
         /// <summary>
@@ -29,7 +31,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     }
 
     /// <summary>
-    /// Contract the implementation of the collection of data context objects backing
+    /// Contract of the implementation of a collection of data context objects backing
     /// controls showing in <see cref="HighlightedTagsPanel"/> control.
     /// </summary>
     public interface ITagSource: INotifyCollectionChanged
@@ -45,7 +47,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// </summary>
     /// <remarks>
     /// <para>
-    /// The panel requires highlightable controls it hosts to be backed by a data context implementing
+    /// The panel requires the highlightable controls it hosts to be backed by a data context implementing
     /// the <see cref="IHighlightableTagDataContext"/> contract. The details of the highlighting are left
     /// the specific control implementation. Typically the data context provides a
     /// property like
@@ -82,14 +84,31 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
 	/// &lt;/cui:HighlightedTagsPanel.TagTemplate&gt;
     /// &lt;/cui:HighlightedTagsPanel&gt;
     /// </code>
-    /// the panel instantiates highlightable controls from the data templates and assignes a data context
-    /// from a tag source implemention <see cref="ITagSource"/>.
+    /// the panel instantiates highlightable controls from the data template and assigns a data context
+    /// from a <see cref="IHighlightableTagDataContext"/> implementation .
     /// </para>
     /// <para>
     /// Implementations of the <see cref="ITagSource"/> contract are usually based on observable collections
-    /// of some sort. The collection can be used as view model for <see cref="HighlightedTagsPanel"/> controls
+    /// of some sort. Such a collection can be directly bound to the <see cref="HighlightedTagsPanel.TagSource"/> property
     /// without additional modification, like so:
-    /// <code language="c#">
+    /// <code language="xml">
+    /// &lt;cui:HighlightedTagsPanel ...
+    ///                           TagSource="{Binding TagSourceObservableCollection,Mode=OneWay}"
+    ///                           Header="{Binding ...}"&gt;
+    /// </code>
+    /// </para>
+    /// <para>
+    /// A simple implmentation of <see cref="ITagSource"/> looks like this
+    /// <code language="C#">
+    /// public class TagSource : ObservableSortedList<TagModelKey, string, TagSelectorModel>, ITagSource
+    /// {
+    ///    #region ITagSource
+    ///    public IEnumerable&lt;IHighlightableTagDataContext&gt; TagDataContextCollection
+    ///    {
+    ///      get { return Values; }
+    ///    }
+    ///    #endregion
+    /// }
     /// </code>
     /// </para>
     /// </remarks>
@@ -201,7 +220,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         }
 
         /// <summary>
-        /// Get or set the collection providing data context objects for tag controls.
+        /// Get or set the observable collection providing data context objects for tag controls.
         /// </summary>
         public ITagSource TagSource
         {
