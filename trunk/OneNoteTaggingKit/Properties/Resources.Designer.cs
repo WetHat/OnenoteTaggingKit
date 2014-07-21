@@ -110,8 +110,8 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         ///                  label=&quot;Tag Pages&quot;
         ///                  size=&quot;large&quot;
         ///                  screentip=&quot;Add tags to or remove tags from OneNote pages.&quot;
-        ///                  onAction=&quot;exploreTags&quot;
-        ///                [rest of string was truncated]&quot;;.
+        ///                  onAction=&quot;editTags&quot;
+        ///                   [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ribbon {
             get {
@@ -769,7 +769,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FindPages Tagged Pages.
+        ///   Looks up a localized string similar to Find Tagged Pages.
         /// </summary>
         public static string TagSearch_Window_Title {
             get {
@@ -778,7 +778,25 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to show only pages which have this tag..
+        ///   Looks up a localized string similar to This tag is selected for filtering.
+        /// </summary>
+        public static string TagSelector_FilterIndicator_Tooltip {
+            get {
+                return ResourceManager.GetString("TagSelector_FilterIndicator_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} of {1} pages tagged as &apos;{2}&apos; match the tag filter.
+        /// </summary>
+        public static string TagSelector_PageCount_Tooltip {
+            get {
+                return ResourceManager.GetString("TagSelector_PageCount_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add or remove this tag from the filter..
         /// </summary>
         public static string TagSelector_Tooltip {
             get {

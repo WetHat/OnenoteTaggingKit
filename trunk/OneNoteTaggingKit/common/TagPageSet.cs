@@ -6,13 +6,17 @@ using System.ComponentModel;
 namespace WetHatLab.OneNote.TaggingKit.common
 {
     /// <summary>
-    /// The set of pages which have a specified tag in their &lt;one:Meta name="TaggingKit.PageTags" ...&gt; meta element
+    /// The set of pages which have a specified tag in their &lt;one:Meta name="TaggingKit.PageTags" ...&gt; meta element.
     /// </summary>
+    /// <remarks>A filter can be applied to constrain the number of tagged pages
+    /// <see cref="IntersectWith"/>
+    /// </remarks>
     public class TagPageSet : IKeyedItem<string>, INotifyPropertyChanged
     {
-        private static readonly PropertyChangedEventArgs PAGE_COUNT = new PropertyChangedEventArgs("PageCount");
+        internal static readonly PropertyChangedEventArgs PAGES = new PropertyChangedEventArgs("Pages");
+        internal static readonly PropertyChangedEventArgs FILTERED_PAGES = new PropertyChangedEventArgs("FilteredPages");
 
-        private HashSet<TaggedPage> _pages = new HashSet<TaggedPage>();
+        private readonly HashSet<TaggedPage> _pages = new HashSet<TaggedPage>();
 
         private HashSet<TaggedPage> _filteredPages;
 
@@ -38,15 +42,15 @@ namespace WetHatLab.OneNote.TaggingKit.common
         {
             get
             {
-                return _filteredPages != null ?_filteredPages : _pages;
+                return  _pages;
             }
         }
 
-        internal int PageCount
+        internal ISet<TaggedPage> FilteredPages
         {
             get
             {
-                return Pages.Count;
+                return _filteredPages ?? _pages;
             }
         }
 
@@ -56,7 +60,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
             if (added)
             {
-                firePropertyChanged(PAGE_COUNT);
+                firePropertyChanged(PAGES);
             }
             return added;
         }
@@ -67,7 +71,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
             if (removed)
             {
-                firePropertyChanged(PAGE_COUNT);
+                firePropertyChanged(PAGES);
             }
             return removed;
         }
@@ -77,18 +81,22 @@ namespace WetHatLab.OneNote.TaggingKit.common
             if (_filteredPages != null)
             {
                 _filteredPages = null;
-                firePropertyChanged(PAGE_COUNT);
+                firePropertyChanged(FILTERED_PAGES);
             }
         }
+        /// <summary>
+        /// Apply an intersection filter to constrain the number of pages.
+        /// </summary>
+        /// <param name="filter"></param>
         internal void IntersectWith(IEnumerable<TaggedPage> filter)
         {
-            int countBefore = PageCount;
+            int countBefore = FilteredPages.Count;
             _filteredPages = new HashSet<TaggedPage>(_pages);
             _filteredPages.IntersectWith(filter);
 
-            if (countBefore != PageCount)
+            if (countBefore != FilteredPages.Count)
             {
-                firePropertyChanged(PAGE_COUNT);
+                firePropertyChanged(FILTERED_PAGES);
             }
         }
 

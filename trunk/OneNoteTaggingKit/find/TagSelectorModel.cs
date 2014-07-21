@@ -18,10 +18,24 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// Get the checked state
         /// </summary>
         bool IsChecked { get; set; }
+
+        /// <summary>
+        /// Get the visibility of the glyph showing that a tag is used for filtering
+        /// </summary>
+        Visibility FilterIndicatorVisibility { get; }
+
+        string PageCountTooltip { get; }
+
         /// <summary>
         /// Get the number of pages having a particular tag 
         /// </summary>
         int PageCount { get; }
+
+        /// <summary>
+        /// Get the number of pages having a particular tag after
+        /// application of a filter
+        /// </summary>
+        int FilteredPageCount { get; }
         /// <summary>
         /// Get the name of a tag
         /// </summary>
@@ -38,9 +52,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// Implements the <see cref="INotifyPropertyChanged"/> interface to update the UI after property changes.
     /// <remarks>
     /// </remarks>
-    public class TagSelectorModel : DependencyObject, ISortableKeyedItem<TagModelKey, string>, ITagSelectorModel, IHighlightableTagDataContext,INotifyPropertyChanged
+    public class TagSelectorModel : DependencyObject, ISortableKeyedItem<TagModelKey, string>, ITagSelectorModel, IHighlightableTagDataContext, INotifyPropertyChanged
     {
-        internal static readonly PropertyChangedEventArgs PAGE_COUNT = new PropertyChangedEventArgs("PageCount");
+        internal static readonly PropertyChangedEventArgs FILTER_INDICATOR_VISIBILITY = new PropertyChangedEventArgs("FilterIndicatorVisibility");
+        internal static readonly PropertyChangedEventArgs FILTERED_PAGE_COUNT = new PropertyChangedEventArgs("FilteredPageCount");
+        internal static readonly PropertyChangedEventArgs PAGE_COUNT_TOOLTIP = new PropertyChangedEventArgs("PageCountTooltip");
+        
         internal static readonly PropertyChangedEventArgs IS_CHECKED = new PropertyChangedEventArgs("IsChecked");
         internal static readonly PropertyChangedEventArgs VISIBILITY = new PropertyChangedEventArgs("Visibility");
         internal static readonly PropertyChangedEventArgs HIT_HIGHLIGHTED_TAGNAME = new PropertyChangedEventArgs("HitHighlightedTagName");
@@ -67,19 +84,22 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         /// <param name="tag">tag object</param>
         /// <param name="propHandler">listerner for property changes</param>
-        internal TagSelectorModel(TagPageSet tag,PropertyChangedEventHandler propHandler) : this(tag)
+        internal TagSelectorModel(TagPageSet tag, PropertyChangedEventHandler propHandler)
+            : this(tag)
         {
             PropertyChanged += propHandler;
         }
 
         private void OnTagPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName.Equals("PageCount"))
+            if (e == TagPageSet.FILTERED_PAGES)
             {
-                Dispatcher.Invoke(new Action(() => {
-                    firePropertyChanged(PAGE_COUNT);
-                    firePropertyChanged(VISIBILITY);                   
-                }));
+                Dispatcher.Invoke(() =>
+                {
+                    firePropertyChanged(FILTERED_PAGE_COUNT);
+                    firePropertyChanged(PAGE_COUNT_TOOLTIP);
+                    firePropertyChanged(VISIBILITY);
+                });
             }
         }
 
@@ -92,7 +112,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
-        /// Get thee tag name with highlights
+        /// Get the tag name with highlights
         /// </summary>
         public IEnumerable<TextFragment> HitHighlightedTagName { get { return _highlightedTagName; } }
 
@@ -109,7 +129,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
         /// <summary>
-        /// Number of pages having this tag
+        /// Get the number of pages having this tag
         /// </summary>
         public int PageCount
         {
@@ -117,6 +137,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
             {
                 return _tag.Pages.Count;
             }
+        }
+
+        /// <summary>
+        /// Get the number of pages after application of an intersection filter
+        /// </summary>
+        public int FilteredPageCount
+        {
+            get { return _tag.FilteredPages.Count; }
         }
 
         private bool _isChecked = false;
@@ -135,6 +163,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 {
                     _isChecked = value;
                     firePropertyChanged(IS_CHECKED);
+                    firePropertyChanged(FILTER_INDICATOR_VISIBILITY);
                     firePropertyChanged(VISIBILITY);
                 }
             }
@@ -158,8 +187,24 @@ namespace WetHatLab.OneNote.TaggingKit.find
         {
             get
             {
-                return IsChecked || (PageCount > 0 && (HasHighlights || !_isFiltered))  ? Visibility.Visible : Visibility.Collapsed;
+                return IsChecked || (FilteredPageCount > 0 && (HasHighlights || !_isFiltered)) ? Visibility.Visible : Visibility.Collapsed;
             }
+        }
+
+        /// <summary>
+        /// Get the visibility of te filter indicator
+        /// </summary>
+        public Visibility FilterIndicatorVisibility
+        {
+            get { return IsChecked ? Visibility.Visible : Visibility.Collapsed; }
+        }
+
+        /// <summary>
+        /// Get the tooltip of the page count
+        /// </summary>
+        public string PageCountTooltip
+        {
+            get { return String.Format(Properties.Resources.TagSelector_PageCount_Tooltip, FilteredPageCount,PageCount,TagName); }
         }
 
         #endregion ITagSelectorModel
@@ -215,8 +260,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Check if the tag name has highlights.
         /// </summary>
-        public bool HasHighlights {get; private set;}
+        public bool HasHighlights { get; private set; }
 
         #endregion IHighlightableTagDataContext
+
     }
 }
