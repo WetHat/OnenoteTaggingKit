@@ -72,6 +72,17 @@ namespace WetHatLab.OneNote.TaggingKit.common
             return _dictionary.ContainsKey(key);
         }
 
+        /// <summary>
+        /// Try to retrieve a value from the list with a given key
+        /// </summary>
+        /// <param name="key">key of the item</param>
+        /// <param name="value">found vale or null</param>
+        /// <returns>true if a value was found for the key provided</returns>
+        public bool TryGetValue(TKey key, out TValue value)
+        {
+            return _dictionary.TryGetValue(key, out value);
+        }
+
         private int IndexOfKey(TKey key)
         {
             int index = -1;
