@@ -39,12 +39,17 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             get { return "1.2.3.4"; }
         }
 
+        /// <summary>
+        /// Get the design time version of the .net framework
+        /// </summary>
         public string FrameworkVersion
         {
             get { return Environment.Version.ToString(); }
         }
 
-
+        /// <summary>
+        /// Get the design time log file location
+        /// </summary>
         public string Logfile
         {
             get { return TraceLogger.LogFile; }

@@ -39,6 +39,10 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             get { return _tag; }
         }
+
+        /// <summary>
+        /// Get the sortable key.
+        /// </summary>
         public TagModelKey SortKey
         {
             get { return _sortKey; }

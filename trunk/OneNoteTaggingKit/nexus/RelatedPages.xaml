@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:WetHatLab.OneNote.TaggingKit.nexus"
         xmlns:cui="clr-namespace:WetHatLab.OneNote.TaggingKit.common.ui"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:swd="clr-namespace:System.Windows.Data;assembly=PresentationFramework"
         xmlns:prop="clr-namespace:WetHatLab.OneNote.TaggingKit.Properties"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -19,6 +21,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -38,8 +41,7 @@
             <TextBlock Text="{Binding CurrentPageTitle}"
                        ToolTip="{Binding CurrentPageTitle}"
                        TextTrimming="CharacterEllipsis"
-                       TextWrapping="NoWrap"
-                       />
+                       TextWrapping="NoWrap"/>
         </Label>
         <Button Grid.Column="1"           
                 Style="{StaticResource controlEffectStyle}"
@@ -51,8 +53,43 @@
         
         <GroupBox Grid.Row="1" Grid.ColumnSpan="2"
                   Header="Pages related by Tags">
-            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent">
-
+            <GroupBox.Resources>
+                <CollectionViewSource Source="{Binding RelatedPages}" x:Key="cvs">
+                    <CollectionViewSource.SortDescriptions>
+                        <scm:SortDescription PropertyName="Tag"/>
+                        <scm:SortDescription PropertyName="LinkTitle"/>
+                    </CollectionViewSource.SortDescriptions>
+                    <CollectionViewSource.GroupDescriptions>
+                        <swd:PropertyGroupDescription PropertyName="Tag"/>
+                    </CollectionViewSource.GroupDescriptions>
+                </CollectionViewSource>
+                
+            </GroupBox.Resources>
+            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ItemsSource="{Binding Source={StaticResource cvs}}"
+                     Background="Transparent">
+                <ListBox.Resources>
+                    <Style x:Key="tagGroupStyle" TargetType="{x:Type GroupItem}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type GroupItem}">
+                                    <Expander IsExpanded="False">
+                                        <Expander.Header>
+                                            <TextBlock>
+                                                <Run Text="{Binding Name, Mode=OneWay}" FontSize="16" FontWeight="Bold" Foreground="DarkCyan" TextDecorations="{x:Null}"/>
+                                                <Run Text="("/><Run Text="{Binding ItemCount, Mode=OneWay}"/><Run Text=")"/>
+                                            </TextBlock>
+                                        </Expander.Header>
+                                        <ItemsPresenter/>
+                                    </Expander>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.Resources>
+                <ListBox.GroupStyle>
+                    <GroupStyle ContainerStyle="{StaticResource tagGroupStyle}"/>
+                </ListBox.GroupStyle>
             </ListBox>
         </GroupBox>
         <ProgressBar Name="pBarTags" Visibility="Visible"

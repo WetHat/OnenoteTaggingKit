@@ -37,6 +37,7 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
                 _model = value;
                 DataContext = _model;
                 _model.TrackCurrentPage();
+                _model.LoadTaggedPagesAsyc();
             }
         }
         #endregion IOneNotePageWindow<RelatedPagesModel>

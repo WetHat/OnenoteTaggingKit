@@ -40,31 +40,9 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
             e.Handled = true;
         }
 
-        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            RelatedPageLink link = sender as RelatedPageLink;
-            if (link != null)
-            {
-                IRelatedPageLinkModel model = link.DataContext as IRelatedPageLinkModel;
 
-                if (model != null)
-                {
-                    highlightedTags.Inlines.Clear();
-                    foreach (var t in model.HighlightedTags)
-                    {
-                        if (highlightedTags.Inlines.Count > 0)
-                        {
-                            highlightedTags.Inlines.Add(new Run(","));
-                        }
-                        Run r = new Run(t.Item1);
-                        if (t.Item2)
-                        {
-                            r.Background = Brushes.Yellow;
-                        }
-                        highlightedTags.Inlines.Add(r);
-                    }
-                }
-            }
         }
     }
 }

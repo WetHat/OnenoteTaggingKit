@@ -10,21 +10,12 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
     /// </summary>
     public class RelatedPageLinkDesignerModel : IRelatedPageLinkModel
     {
+        public string LinkTitle { get { return "Sample page title"; } }
 
 
-        public string PageTitle { get { return "Sample page title";  } }
-
-        public IEnumerable<Tuple<string, bool>> HighlightedTags
+        public string Tag
         {
-            get
-            {
-                return new List<Tuple<string, bool>>()
-                {
-                    new Tuple<string, bool>("Tag 1",false),
-                    new Tuple<string, bool>("Tag 2",true),
-                    new Tuple<string, bool>("Tag 3",false)
-                };
-            }
+            get { return "Tag"; }
         }
     }
 }
