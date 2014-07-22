@@ -86,6 +86,9 @@
     <Compile Include="common\ui\HighlightedTagsPanel.xaml.cs">
       <DependentUpon>HighlightedTagsPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="common\ui\ScopeSelector.xaml.cs">
+      <DependentUpon>ScopeSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="common\ui\TagInputBox.xaml.cs">
       <DependentUpon>TagInputBox.xaml</DependentUpon>
     </Compile>
@@ -247,6 +250,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="common\ui\HighlightedTagsPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="common\ui\ScopeSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
