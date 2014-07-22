@@ -1,11 +1,13 @@
 ﻿using Microsoft.Office.Interop.OneNote;
-using System.Threading;
-using System.Xml.Linq;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
-using System.ComponentModel;
-using System.Threading.Tasks;
 
 namespace WetHatLab.OneNote.TaggingKit.nexus
 {
@@ -15,18 +17,21 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
         /// Get the title of the current page
         /// </summary>
         string CurrentPageTitle {get;}
+
+        IEnumerable<RelatedPageLinkModel> RelatedPages {get;}
     }
 
     public class RelatedPagesModel : WindowViewModelBase, IRelatedPagesModel
     {
         private static readonly PropertyChangedEventArgs PAGE_TITLE = new PropertyChangedEventArgs("CurrentPageTitle");
+        private static readonly PropertyChangedEventArgs RELATED_PAGES = new PropertyChangedEventArgs("RelatedPages");
 
         /// <summary>
         /// ID of the page currently on display
         /// </summary>
         private string _currentPageID = string.Empty;
 
-        private AggregatedPageCollection _taggedPagesCollection;
+        private TagsAndPages _taggedPagesCollection;
 
         /// <summary>
         /// Page currently on display
@@ -37,7 +42,7 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
 
         internal RelatedPagesModel(Application app, XMLSchema schema) : base(app,schema)
         {
-            _taggedPagesCollection = new AggregatedPageCollection(OneNoteApp, OneNotePageSchema);
+            _taggedPagesCollection = new TagsAndPages(OneNoteApp, OneNotePageSchema);
         }
 
         #region IRelatedPagesModel
@@ -46,6 +51,26 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
             get
             {
                 return _currentPage.Title;
+            }
+        }
+        public IEnumerable<RelatedPageLinkModel> RelatedPages
+        {
+            get
+            {
+                foreach (string tagname in _currentPage.TagNames)
+                {
+                    TagPageSet t;
+                    if (_taggedPagesCollection.Tags.TryGetValue(tagname,out t))
+                    {
+                        foreach (TaggedPage p in t.FilteredPages)
+                        {
+                            if (!p.ID.Equals(_currentPage.ID))
+                            {
+                                yield return new RelatedPageLinkModel(p, t);
+                            }
+                        }
+                    }
+                }
             }
         }
         #endregion IRelatedPagesModel
@@ -59,6 +84,7 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
         {
             return Task.Run(() => _taggedPagesCollection.FindTaggedPages(string.Empty));
         }
+
 
         private void TrackCurrentPage(object state)
         {
@@ -77,7 +103,10 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
                     _currentPage = new TaggedPage(pg);
 
                     fireNotifyPropertyChanged(Dispatcher, PAGE_TITLE);
+                    fireNotifyPropertyChanged(Dispatcher, RELATED_PAGES);
                 }
+
+                // build the list of pages
             }
         }
 

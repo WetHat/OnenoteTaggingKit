@@ -34,6 +34,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             get { return _pageTags; }
         }
 
+        /// <summary>
+        /// Get the design time collection of scopes
+        /// </summary>
         public IEnumerable<TaggingScopeDescriptor> TaggingScopes
         {
             get { return new TaggingScopeDescriptor[] { new TaggingScopeDescriptor(TaggingScope.CurrentNote,"Current Note")}; }

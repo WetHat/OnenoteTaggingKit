@@ -319,7 +319,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Dispose the view model.
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             _cancelWorker.Cancel();
             base.Dispose();

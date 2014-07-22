@@ -83,6 +83,9 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// <param name="e">event details</param>
     public delegate void ScopeChangedEventEventHandler(object sender, ScopeChangedEventArgs e);
 
+    /// <summary>
+    /// View model for the <see cref="ScopeSelector"/> UI control.
+    /// </summary>
     public class ScopeSelectorModel
     {
         private static readonly SearchScopeFacade[] s_scopes = new SearchScopeFacade[] {
@@ -103,6 +106,9 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                                                                                     ScopeLabel = Properties.Resources.TagSearch_Scope_AllNotebooks_Label
                                                                                 }
                                                                             };
+        /// <summary>
+        /// Get the collection of scope facade objects
+        /// </summary>
         public IEnumerable<SearchScopeFacade> Scopes
         {
             get { return s_scopes; }
@@ -114,6 +120,10 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// </summary>
     public partial class ScopeSelector : UserControl
     {
+        /// <summary>
+        /// Dependecy property for the selected scope
+        /// </summary>
+        /// <seealso cref="SelectedScope"/>
         public static readonly DependencyProperty SelectedScopeProperty = DependencyProperty.Register("SelectedScope", typeof(SearchScope), typeof(ScopeSelector),new PropertyMetadata(HandleScopeChange));
 
         private static void HandleScopeChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -125,6 +135,9 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             }
         }
 
+        /// <summary>
+        /// Get or set the selected scope
+        /// </summary>
         public SearchScope SelectedScope
         {
             get { return (SearchScope)GetValue(SelectedScopeProperty); }
@@ -133,8 +146,15 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 }
         }
 
+        /// <summary>
+        /// Routed event to inform subscribers about scope changes
+        /// </summary>
+        /// <seealso cref="ScopeChanged"/>
         public static readonly RoutedEvent ScopeChangedEvent = EventManager.RegisterRoutedEvent("ScopeChanged", RoutingStrategy.Bubble, typeof(ScopeChangedEventEventHandler), typeof(ScopeSelector));
 
+        /// <summary>
+        /// Event to notify listeners when the scope has changed
+        /// </summary>
         public event ScopeChangedEventEventHandler ScopeChanged
         {
             add { AddHandler(ScopeChangedEvent, value); }

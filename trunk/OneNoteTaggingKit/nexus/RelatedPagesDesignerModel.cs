@@ -12,5 +12,10 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
         {
             get { return "Current Page Title"; }
         }
+
+        public IEnumerable<RelatedPageLinkModel> RelatedPages
+        {
+            get { return new RelatedPageLinkModel[0] ;}
+        }
     }
 }

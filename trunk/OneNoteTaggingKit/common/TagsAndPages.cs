@@ -38,7 +38,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// </summary>
     /// <remarks>
     /// Provides an unordered set of tags and pages. The page collection is
-    /// populated by calling <see cref="FindTaggedPages"/> or <see cref="GetPagesFromHierarchy"/>.
+    /// populated by calling <see cref="FindTaggedPages(string,bool)"/>, <see cref="FindTaggedPages(string,string,bool)"/> or <see cref="GetPagesFromHierarchy"/>.
     /// </remarks>
     public class TagsAndPages
     {
