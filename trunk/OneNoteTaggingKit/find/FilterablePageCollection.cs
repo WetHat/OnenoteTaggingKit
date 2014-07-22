@@ -44,20 +44,21 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <param name="scopeID">OneNote id of the scope to search for pages. This is the element ID of a notebook, section group, or section.
         ///                       If given as null or empty string scope is the entire set of notebooks open in OneNote.
         /// </param>
+        /// <param name="includeUnindexedPages">include pages which were not indexed so far</param>
         /// <seealso cref="Filter"/>
-        internal void Find(string query, string scopeID)
+        internal void Find(string query, string scopeID, bool includeUnindexedPages = false)
         {
             _filteredPages.Clear();
             _filterTags.Clear();
             if (string.IsNullOrEmpty(query))
             {
                 // collect all tags used somewhere on a page
-                FindTaggedPages(scopeID);
+                FindTaggedPages(scopeID, includeUnindexedPages);
             }
             else
             {
                 // run a text search
-                FindTaggedPages(query, scopeID);   
+                FindTaggedPages(query, scopeID, includeUnindexedPages);   
             }
 
             // rebuild filter tags and filtered pages
