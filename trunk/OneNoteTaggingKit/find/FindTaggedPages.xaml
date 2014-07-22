@@ -44,17 +44,12 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Row="0">
-            <ComboBox DockPanel.Dock="Right"
-                  Style="{StaticResource controlEffectStyle}"
-                  IsEditable="False" IsTextSearchEnabled="True"
-                  ItemsSource="{Binding Scopes}"
-                  SelectedValue="{Binding SelectedScope,Mode=TwoWay}"
-                  TextOptions.TextFormattingMode="Display"
-                  DisplayMemberPath="ScopeLabel"
-                  Margin="5,5,5,0"
-                  SelectionChanged="ScopeComboBox_SelectionChanged"
-                  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Scope_ComboBox_Tooltip}}" >
-            </ComboBox>
+            <cui:ScopeSelector x:Name="scopeSelect" DockPanel.Dock="Right"
+                               Margin="5,5,5,0"
+                               Style="{StaticResource controlEffectStyle}"
+                               SelectedScope="{Binding DefaultScope, Mode=OneTime}"
+                               ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Scope_ComboBox_Tooltip}}"
+                               ScopeChanged="ScopeSelector_ScopeChanged"/>
             <Button Name="searchButton" 
                 DockPanel.Dock="Right"
                 Height="24"
@@ -105,7 +100,7 @@
         <cui:TagInputBox Grid.Row="2"
                          x:Name="tagInput"
                          TagInput="TagInputBox_Input"
-                         ContextTagsSource="{Binding ContextTags}"
+                         ContextTagsSource="{Binding ContextTags, Mode=OneWay}"
                          ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_TagInput_Tooltip}}"
                          Margin="5,8,5,0" />
         <cui:HighlightedTagsPanel Grid.Row="3"

@@ -13,8 +13,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// </summary>
     public class FindTaggedPagesDesignerModel : ITagSearchModel
     {
-        private List<TagSearchScopeFacade> _scopes;
-        private TagSearchScopeFacade _selectedScope;
+        private List<SearchScopeFacade> _scopes;
+        private SearchScopeFacade _selectedScope;
         private ObservableSortedList<HitHighlightedPageLinkKey,string, HitHighlightedPageLinkModel> _pages = new  ObservableSortedList<HitHighlightedPageLinkKey,string, HitHighlightedPageLinkModel>();
         private TagSource _tags = new TagSource();
 
@@ -22,13 +22,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
        
         public FindTaggedPagesDesignerModel()
         {
-             _scopes = new List<TagSearchScopeFacade> {
-                    new TagSearchScopeFacade()
+             _scopes = new List<SearchScopeFacade> {
+                    new SearchScopeFacade()
                     {
                         Scope = SearchScope.AllNotebooks,
                         ScopeLabel = "All Notebooks"
                     },
-                    new TagSearchScopeFacade()
+                    new SearchScopeFacade()
                     {
                         Scope = SearchScope.Notebook,
                         ScopeLabel = "Notebooks"
@@ -45,26 +45,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
             _pages.AddAll(from TaggedPage tp in c.Pages.Values select new HitHighlightedPageLinkModel(tp,splitter,null));
 
             _tags.AddAll(from t in c.Tags.Values select new TagSelectorModel(t));
-        }
-
-        public IList<TagSearchScopeFacade> Scopes
-        {
-            get
-            {
-                return _scopes;
-            }
-        }
-
-        public TagSearchScopeFacade SelectedScope
-        {
-            get
-            {
-                return _selectedScope;
-            }
-            set
-            {
-                _selectedScope = value;
-            }
         }
 
         public ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel> Pages
@@ -87,6 +67,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
         public int TagCount
         {
             get { return _tags.Count; }
+        }
+
+
+        public SearchScope DefaultScope
+        {
+            get { return SearchScope.AllNotebooks; }
         }
     }
 }

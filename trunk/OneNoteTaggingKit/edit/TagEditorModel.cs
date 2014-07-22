@@ -223,7 +223,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
             TagsAndPages contextTags = new TagsAndPages(OneNoteApp, OneNotePageSchema);
 
-            contextTags.FindPages(CurrentSectionID, includeUnindexedPages: true);
+            contextTags.FindTaggedPages(CurrentSectionID, includeUnindexedPages: true);
 
             switch (filter)
             {

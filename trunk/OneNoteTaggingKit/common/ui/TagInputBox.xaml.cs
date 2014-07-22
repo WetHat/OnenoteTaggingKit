@@ -185,7 +185,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         {
             HashSet<TagPageSet> tags = new HashSet<TagPageSet>();
 
-            contextTags.FindPages(contextTags.CurrentWindow.CurrentSectionId, includeUnindexedPages: true);
+            contextTags.FindTaggedPages(contextTags.CurrentWindow.CurrentSectionId, includeUnindexedPages: true);
 
             switch (filter)
             {

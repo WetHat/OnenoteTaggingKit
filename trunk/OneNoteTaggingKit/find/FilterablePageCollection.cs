@@ -14,8 +14,16 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// </remarks>
     public class FilterablePageCollection : TagsAndPages
     {
+        /// <summary>
+        /// tag objects used for filtering
+        /// </summary>
+        /// <remarks>Contains live tags only and hence is a subset of <see cref="_tagfilter"/></remarks>
         private ISet<TagPageSet> _filterTags = new HashSet<TagPageSet>();
- 
+
+        /// <summary>
+        /// Names of tags intended for filtering. May contain names of non-existing tags.
+        /// </summary>
+        private ISet<string> _tagFilter = new HashSet<string>();
         /// <summary>
         /// Set of pages after tag filters have been applied.
         /// </summary>
@@ -28,13 +36,19 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Find pages in OneNote.
         /// </summary>
+        /// <remarks>
+        /// Calling this method may cause tags in the filter to become stale. It is the responsibility
+        /// of the caller to update tag objects it may have associated with the filter.
+        /// </remarks>
         /// <param name="query">query string. if null or empty just the tags are provided</param>
         /// <param name="scopeID">OneNote id of the scope to search for pages. This is the element ID of a notebook, section group, or section.
         ///                       If given as null or empty string scope is the entire set of notebooks open in OneNote.
         /// </param>
+        /// <seealso cref="Filter"/>
         internal void Find(string query, string scopeID)
         {
             _filteredPages.Clear();
+            _filterTags.Clear();
             if (string.IsNullOrEmpty(query))
             {
                 // collect all tags used somewhere on a page
@@ -45,8 +59,30 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 // run a text search
                 FindTaggedPages(query, scopeID);   
             }
-            _filteredPages.UnionWith(Pages.Values);
-            ClearTagFilter();
+
+            // rebuild filter tags and filtered pages
+            int filtersApplied = 0;
+            foreach (string tagname in _tagFilter)
+            {
+                TagPageSet t;
+                if (Tags.TryGetValue(tagname, out t))
+                {
+                    _filterTags.Add(t);
+                    if (filtersApplied++ == 0)
+                    {
+                        _filteredPages.UnionWith(t.Pages);
+                    }
+                    else
+                    {
+                        _filteredPages.IntersectWith(t.Pages);
+                    }
+                }
+            }
+            if (filtersApplied == 0)
+            {
+                _filteredPages.UnionWith(Pages.Values);
+            }
+            ApplyFilterToTags();
         }
 
         /// <summary>
@@ -58,11 +94,21 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
+        /// Get the set of tag names used for filtering
+        /// </summary>
+        /// <value>Not all tags returned in the set may be life.</value>
+        internal ISet<string> Filter
+        {
+            get { return _tagFilter; }
+        }
+
+        /// <summary>
         /// Undo all tag filters
         /// </summary>
         internal void ClearTagFilter()
         {
             _filterTags.Clear();
+            _tagFilter.Clear();
             _filteredPages.UnionWith(Pages.Values);
             foreach (TagPageSet tag in Tags.Values)
             {
@@ -77,43 +123,48 @@ namespace WetHatLab.OneNote.TaggingKit.find
         ///   Filters pages down to a collection where all pages have this tag and also all tags from preceding
         ///   calls to this method.
         /// </remarks>
-        /// <param name="tag">tag to filter on</param>
-        internal void AddTagToFilter(TagPageSet tag)
+        /// <param name="tagName">tag to filter on</param>
+        internal void AddTagToFilter(string tagName)
         {
-            if (_filterTags.Add(tag))
+            if (_tagFilter.Add(tagName))
             {
-                // remove pages which are not in this tag's page set
-                _filteredPages.IntersectWith(tag.FilteredPages);
-                ApplyFilterToTags();
+                TagPageSet tag;
+                if (Tags.TryGetValue(tagName,out tag))
+                {
+                    _filterTags.Add(tag);
+                    _filteredPages.IntersectWith(tag.FilteredPages);
+                    ApplyFilterToTags();
+                }
             }
         }
 
         /// <summary>
         /// Remove tag from the filter
         /// </summary>
-        /// <param name="tag">tag to remove</param>
-        internal void RemoveTagFromFilter(TagPageSet tag)
+        /// <param name="tagName">tag to remove</param>
+        internal void RemoveTagFromFilter(string tagName)
         {
-            if (_filterTags.Remove(tag))
+            if (_tagFilter.Remove(tagName))
             {
-                if (_filterTags.Count == 0)
+                TagPageSet tag;
+                if (Tags.TryGetValue(tagName,out tag))
                 {
-                    ClearTagFilter();
-                }
-                else
-                {
-                    // recompute filtered pages from scratch
-                    _filteredPages.UnionWith(Pages.Values);
-
-                    foreach ( TagPageSet tps in _filterTags)
+                    _filterTags.Remove(tag);
+                    if (_filterTags.Count == 0)
                     {
-                        tps.ClearFilter();
-                        _filteredPages.IntersectWith(tps.FilteredPages);
+                        ClearTagFilter();
                     }
-                    ApplyFilterToTags();
+                    else
+                    {
+                        // recompute filtered pages from scratch
+                        _filteredPages.UnionWith(Pages.Values);
+                        foreach ( TagPageSet tps in _filterTags)
+                        {
+                            _filteredPages.IntersectWith(tps.Pages );
+                        }
+                        ApplyFilterToTags();
+                    }
                 }
-
-                
             }
         }
 

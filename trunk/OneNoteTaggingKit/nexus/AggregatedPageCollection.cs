@@ -38,7 +38,7 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
                 case NotifyDictionaryChangedAction.Add:
                     foreach (var item in e.Items)
                     {
-                        _aggregatedPages.UnionWith(item.Pages);
+                        _aggregatedPages.UnionWith(item.FilteredPages);
                     }
                     break;
                 case NotifyDictionaryChangedAction.Remove:
@@ -46,7 +46,7 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
                     _aggregatedPages.Clear();
                     foreach (var item in e.Items)
                     {
-                        _aggregatedPages.UnionWith(item.Pages);
+                        _aggregatedPages.UnionWith(item.FilteredPages);
                     }
                     break;
                 case NotifyDictionaryChangedAction.Reset:

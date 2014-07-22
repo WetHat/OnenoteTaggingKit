@@ -61,7 +61,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
 
         internal async Task LoadSuggestedTagsAsync()
         {
-            Task onenotetags = Task.Run(() => _tags.FindPages(String.Empty));
+            Task onenotetags = Task.Run(() => _tags.FindTaggedPages(String.Empty));
             Task suggestions = _suggestedTags.LoadSuggestedTagsAsync();
             await Task.WhenAll(onenotetags, suggestions);
             // update the tags loaded from the settings
