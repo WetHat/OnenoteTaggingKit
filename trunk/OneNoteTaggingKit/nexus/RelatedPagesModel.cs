@@ -57,7 +57,7 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
 
         internal Task LoadTaggedPagesAsyc()
         {
-            return Task.Run(() => _taggedPagesCollection.FindPages(string.Empty));
+            return Task.Run(() => _taggedPagesCollection.FindTaggedPages(string.Empty));
         }
 
         private void TrackCurrentPage(object state)

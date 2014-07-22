@@ -16,12 +16,14 @@
                   screentip="Find Pages By Tags and Content"
                   onAction="findTags"
                   image="findPageTags.png"/>
+          <!--
           <button id="buttonNexus"
                   label="Related Pages"
                   size="normal"
                   screentip="Find related Pages by Tags and Links"
                   onAction="relatedPages"
                   image="findPageTags.png"/>
+                  -->
           <button id="buttonManageTags"
                   label="Settings"
                   size="normal"
