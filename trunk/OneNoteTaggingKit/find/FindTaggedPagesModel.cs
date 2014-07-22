@@ -21,59 +21,26 @@ namespace WetHatLab.OneNote.TaggingKit.find
     internal interface ITagSearchModel
     {
         /// <summary>
-        /// Get a list of scopes available for finding tagged pages.
-        /// </summary>
-        IList<TagSearchScopeFacade> Scopes { get; }
-        /// <summary>
-        /// Get or set the scope to use
-        /// </summary>
-        TagSearchScopeFacade SelectedScope { get; set; }
-        /// <summary>
         /// Get the collection of pages with particular tags
         /// </summary>
         ObservableSortedList <HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel> Pages { get; }
+        
+        /// <summary>
+        /// Get the collection of tags
+        /// </summary>
         TagSource Tags { get; }
-
+        /// <summary>
+        /// Get the number of pages in the search result
+        /// </summary>
         int PageCount { get; }
+        /// <summary>
+        /// Get the number of tags
+        /// </summary>
         int TagCount { get; }
-    }
-
-    /// <summary>
-    /// Enumeration of scopes to search for tagged pages
-    /// </summary>
-    public enum SearchScope
-    {
         /// <summary>
-        /// OneNote section
+        /// Get the default search scope
         /// </summary>
-        Section      = 0,
-        /// <summary>
-        /// OneNote section group
-        /// </summary>
-        SectionGroup = 1,
-        /// <summary>
-        /// OneNote notebook
-        /// </summary>
-        Notebook     = 2,
-        /// <summary>
-        /// All notebooks open in OneNote
-        /// </summary>
-        AllNotebooks = 3,
-    }
-
-    /// <summary>
-    /// Search Scope UI facade
-    /// </summary>
-    public class TagSearchScopeFacade
-    {
-        /// <summary>
-        /// Get or set the search scope
-        /// </summary>
-       public SearchScope Scope {get; set;}
-        /// <summary>
-        /// get or set the display label.
-        /// </summary>
-       public string ScopeLabel { get; set; }
+        SearchScope DefaultScope { get; }
     }
 
     /// <summary>
@@ -84,10 +51,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
     {
         private static readonly PropertyChangedEventArgs PAGE_COUNT = new PropertyChangedEventArgs("PageCount");
         private static readonly PropertyChangedEventArgs TAG_COUNT = new PropertyChangedEventArgs("TagCount");
-
-        private IList<TagSearchScopeFacade> _scopes;
-
-        private TagSearchScopeFacade _selectedScope;
 
         // the collection of tags found on OneNote pages
         private FilterablePageCollection _searchResult ;
@@ -126,25 +89,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         internal FindTaggedPagesModel(Microsoft.Office.Interop.OneNote.Application onenote, XMLSchema schema) : base (onenote,schema)
         {
-            _scopes = new TagSearchScopeFacade[4];
-            _scopes[0] = new TagSearchScopeFacade {
-                                              Scope = SearchScope.Section,
-                                              ScopeLabel = Properties.Resources.TagSearch_Scope_Section_Label
-                                            };
-            _scopes[1] = new TagSearchScopeFacade {
-                                                Scope = SearchScope.SectionGroup,
-                                                ScopeLabel = Properties.Resources.TagSearch_Scope_SectionGroup_Label
-                                            };
-            _scopes[2] = new TagSearchScopeFacade {
-                                                Scope = SearchScope.Notebook,
-                                                ScopeLabel = Properties.Resources.TagSearch_Scope_Notebook_Label
-                                            };
-            _scopes[3] = new TagSearchScopeFacade {
-                                                Scope = SearchScope.AllNotebooks,
-                                                ScopeLabel = Properties.Resources.TagSearch_Scope_AllNotebooks_Label
-                                            };
-
-            _selectedScope = _scopes[Properties.Settings.Default.DefaultScope];
             _searchResult = new FilterablePageCollection(OneNoteApp, OneNotePageSchema);
             _searchResult.Tags.CollectionChanged          += HandleTagCollectionChanges;
             _searchResult.FilteredPages.CollectionChanged += HandlePageCollectionChanges;
@@ -165,18 +109,20 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
-        /// Collection of tafs used in a OneNote hierarchy context (section, section group, notebook)
+        /// Collection of tags used in a OneNote hierarchy context (section, section group, notebook)
         /// </summary>
         public TagsAndPages ContextTags { get { return new TagsAndPages(OneNoteApp, OneNotePageSchema); } }
+
         /// <summary>
-        /// FindPages pages matching a search criterion in the background.
+        /// FindTaggedPages pages matching a search criterion in the background.
         /// </summary>
         /// <param name="query">query. If null or empty just all page tags are collected</param>
+        /// <param name="scope">Range of the search</param>
         /// <param name="continuationAction">a UI action to execute (in the UI thread) after completion of the search</param>
-        internal void FindPagesAsync(string query, Action continuationAction)
+        internal void FindPagesAsync(string query, SearchScope scope, Action continuationAction)
         {
             string scopeID = String.Empty;
-            switch (_selectedScope.Scope)
+            switch (scope)
             {
                 case SearchScope.Notebook:
                     scopeID = CurrentNotebookID;
@@ -217,7 +163,22 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
 
             _actions.Add(() => _searchResult.Find(query, scopeID));
+
+
+            _actions.Add(() => Dispatcher.Invoke(UpdateFilterSelectionAction));
             _actions.Add(() => Dispatcher.Invoke(continuationAction));
+        }
+
+        private void UpdateFilterSelectionAction()
+        {
+            foreach (string filterTag in _searchResult.Filter)
+            {
+                TagSelectorModel mdl;
+                if (_tags.TryGetValue(filterTag, out mdl))
+                {
+                    mdl.IsChecked = true;
+                }
+            }
         }
 
         internal void ClearTagFilterAsync(Action continuationAction)
@@ -228,44 +189,26 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         internal void AddTagToFilterAsync(TagPageSet tag)
         {
-            _actions.Add(() => _searchResult.AddTagToFilter(tag));
+            _actions.Add(() => _searchResult.AddTagToFilter(tag.TagName));
         }
 
         internal void RemoveTagFromFilterAsync(TagPageSet tag)
         {
-            _actions.Add(() => _searchResult.RemoveTagFromFilter(tag));
+            _actions.Add(() => _searchResult.RemoveTagFromFilter(tag.TagName));
+        }
+
+        /// <summary>
+        ///  Get the default scope
+        /// </summary>
+        public SearchScope DefaultScope
+        {
+            get
+            {
+                return (SearchScope)Properties.Settings.Default.DefaultScope;
+            }
         }
 
         #region ITagSearchModel
-        /// <summary>
-        /// Get the list of scopes available for collecting tagged pages.
-        /// </summary>
-        public IList<TagSearchScopeFacade> Scopes
-        {
-            get
-            {
-                return _scopes;
-            }
-        }
-
-        /// <summary>
-        ///  Get or set the scope currently used for finding tags
-        /// </summary>
-        public TagSearchScopeFacade SelectedScope
-        {
-            get
-            {
-                return _selectedScope;
-            }
-            set
-            {
-                if (_selectedScope.Scope != value.Scope)
-                {
-                    _selectedScope = value;
-                    Properties.Settings.Default.DefaultScope = (int)_selectedScope.Scope;
-                }
-            }
-        }
 
         /// <summary>
         /// Get the list of previous searches.

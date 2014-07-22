@@ -86,21 +86,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
             e.Handled = true;
         }
 
-        private void ScopeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                pBar.Visibility = System.Windows.Visibility.Visible;
-                _model.FindPagesAsync(searchComboBox.Text, () => pBar.Visibility = System.Windows.Visibility.Hidden);
-            }
-            catch (System.Exception ex)
-            {
-                TraceLogger.Log(TraceCategory.Error(), "Changing search scope failed: {0}", ex);
-                TraceLogger.ShowGenericMessageBox(Properties.Resources.TagSearch_Error_ScopeChange, ex);
-            }
-            e.Handled = true;
-        }
-
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             string query = searchComboBox.Text;
@@ -108,7 +93,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             try
             {
                 pBar.Visibility = System.Windows.Visibility.Visible;
-                _model.FindPagesAsync(query, () => pBar.Visibility = System.Windows.Visibility.Hidden);
+                _model.FindPagesAsync(query, scopeSelect.SelectedScope,() => pBar.Visibility = System.Windows.Visibility.Hidden);
                 searchComboBox.SelectedValue = query;
             }
             catch (System.Exception ex)
@@ -125,7 +110,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             {
                 string query = searchComboBox.Text;
                 pBar.Visibility = System.Windows.Visibility.Visible;
-                _model.FindPagesAsync(query, () => pBar.Visibility = System.Windows.Visibility.Hidden);
+                _model.FindPagesAsync(query, scopeSelect.SelectedScope,() => pBar.Visibility = System.Windows.Visibility.Hidden);
                 searchComboBox.SelectedValue = query;
             }
             e.Handled = true;
@@ -143,6 +128,23 @@ namespace WetHatLab.OneNote.TaggingKit.find
             {
                 tagsPanel.Highlighter = new TextSplitter(tagInput.Tags);
             }
+        }
+
+        private void ScopeSelector_ScopeChanged(object sender, ScopeChangedEventArgs e)
+        {
+            try
+            {
+                pBar.Visibility = System.Windows.Visibility.Visible;
+                string query = searchComboBox.Text;
+                _model.FindPagesAsync(query, scopeSelect.SelectedScope, () => pBar.Visibility = System.Windows.Visibility.Hidden);
+                searchComboBox.SelectedValue = query;
+            }
+            catch (System.Exception ex)
+            {
+                TraceLogger.Log(TraceCategory.Error(), "Changing search scope failed: {0}", ex);
+                TraceLogger.ShowGenericMessageBox(Properties.Resources.TagSearch_Error_ScopeChange, ex);
+            }
+            e.Handled = true;
         }
     }
 }

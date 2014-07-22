@@ -83,7 +83,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// Create a new view model instance for a tag and an event handler.
         /// </summary>
         /// <param name="tag">tag object</param>
-        /// <param name="propHandler">listerner for property changes</param>
+        /// <param name="propHandler">listener for property changes</param>
         internal TagSelectorModel(TagPageSet tag, PropertyChangedEventHandler propHandler)
             : this(tag)
         {
@@ -116,18 +116,19 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         public IEnumerable<TextFragment> HitHighlightedTagName { get { return _highlightedTagName; } }
 
-        #region ITagSelectorModel
-
         /// <summary>
         /// Get tag object.
         /// </summary>
-        public TagPageSet Tag
+        internal TagPageSet Tag
         {
             get
             {
                 return _tag;
             }
         }
+
+        #region ITagSelectorModel
+
         /// <summary>
         /// Get the number of pages having this tag
         /// </summary>
