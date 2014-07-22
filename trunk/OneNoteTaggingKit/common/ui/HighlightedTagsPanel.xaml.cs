@@ -100,7 +100,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// <para>
     /// A simple implmentation of <see cref="ITagSource"/> looks like this
     /// <code language="C#">
-    /// public class TagSource : ObservableSortedList<TagModelKey, string, TagSelectorModel>, ITagSource
+    /// public class TagSource : ObservableSortedList&lt;TagModelKey, string, TagSelectorModel&gt;, ITagSource
     /// {
     ///    #region ITagSource
     ///    public IEnumerable&lt;IHighlightableTagDataContext&gt; TagDataContextCollection
