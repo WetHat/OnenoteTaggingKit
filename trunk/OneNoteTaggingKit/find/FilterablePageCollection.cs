@@ -9,7 +9,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// </summary>
     /// <remarks>
     /// Provides a refineable unordered set of tags and pages. The page collection is
-    /// built by calling <see cref="FindPages"/> and can be progressively refined (filtered)
+    /// built by calling <see cref="FindTaggedPages"/> and can be progressively refined (filtered)
     /// by adding filter tags (<see cref="AddTagToFilter"/>)
     /// </remarks>
     public class FilterablePageCollection : TagsAndPages
@@ -26,7 +26,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
-        /// FindPages OneNote pages.
+        /// Find pages in OneNote.
         /// </summary>
         /// <param name="query">query string. if null or empty just the tags are provided</param>
         /// <param name="scopeID">OneNote id of the scope to search for pages. This is the element ID of a notebook, section group, or section.
@@ -34,20 +34,18 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </param>
         internal void Find(string query, string scopeID)
         {
-            string strXml;
+            _filteredPages.Clear();
             if (string.IsNullOrEmpty(query))
             {
                 // collect all tags used somewhere on a page
-                FindPages(scopeID);
+                FindTaggedPages(scopeID);
             }
             else
             {
                 // run a text search
-                _onenote.FindPages(scopeID, query, out strXml,false,false,_schema);
-                _filteredPages.Clear();
-                parseOneNoteHierarchy(strXml,false);
-                _filteredPages.UnionWith(Pages.Values);
+                FindTaggedPages(query, scopeID);   
             }
+            _filteredPages.UnionWith(Pages.Values);
             ClearTagFilter();
         }
 
