@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="WetHatLab.OneNote.TaggingKit.find.HitHighlightedPageLink"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WetHatLab.OneNote.TaggingKit.find"
+             xmlns:prop="clr-namespace:WetHatLab.OneNote.TaggingKit.Properties"
+             d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:HitHighlightedPageLinkDesignerModel}}"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="200"
+             DataContextChanged="OnDataContextChanged">
+    <UserControl.ContextMenu>
+        <ContextMenu>
+            <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_ContextMenu_CopyLink}}" Click="Copy_Link_Click">
+                <MenuItem.Icon>
+                    <Image Source="/OneNoteTaggingKit;component/Resources/copy_link-32.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+        </ContextMenu>
+    </UserControl.ContextMenu>
+    <TextBlock VerticalAlignment="Center">
+        <Run Text="ñ" FontFamily="Symbol" FontSize="14" FontWeight="ExtraBold" Foreground="Gray"/>
+        <Hyperlink Click="Hyperlink_Click">
+            <TextBlock Name="hithighlightedTitle" TextTrimming="CharacterEllipsis"/>
+        </Hyperlink>
+    </TextBlock>
+</UserControl>
