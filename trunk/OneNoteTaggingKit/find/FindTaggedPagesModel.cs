@@ -162,7 +162,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 _highlighter = new TextSplitter();
             }
 
-            _actions.Add(() => _searchResult.Find(query, scopeID, includeUnindexedPages:scope==SearchScope.Section));
+            _actions.Add(() => _searchResult.Find(query, scopeID, includeUnindexedPages:false));
 
 
             _actions.Add(() => Dispatcher.Invoke(UpdateFilterSelectionAction));
