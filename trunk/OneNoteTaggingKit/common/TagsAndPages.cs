@@ -196,7 +196,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
             {
                 TraceLogger.Log(TraceCategory.Error(),"Parsing Hierarchy data failed: {0}",ex);
                 TraceLogger.Flush();
-                throw;
             }
         }
 
