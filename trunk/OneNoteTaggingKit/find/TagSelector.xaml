@@ -16,7 +16,7 @@
                   BorderBrush="LightBlue">
         <StackPanel Orientation="Horizontal">
             <TextBlock Name="tagName" VerticalAlignment="Bottom"
-                       Foreground="DarkCyan"
+                       Foreground="DarkSlateBlue"
                        FontWeight="Bold"
                        Focusable="False"/>
             <TextBlock VerticalAlignment="Bottom"
