@@ -176,7 +176,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     ctx = TagContext.CurrentSection;
                     break;
             }
-            tc.GetPagesFromHierarchy(CurrentOneNoteWindow, ctx);
+            tc.GetPagesFromHierarchy(ctx);
 
             foreach (string pageID in (from p in tc.Pages select p.Key))
             {

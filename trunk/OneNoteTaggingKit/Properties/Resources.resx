@@ -368,4 +368,10 @@ Sorry for the inconvenience!</value>
   <data name="TagSelector_PageCount_Tooltip" xml:space="preserve">
     <value>{0} of {1} pages tagged as '{2}' match the tag filter</value>
   </data>
+  <data name="TagSearch_CheckBox_Tracking_Text" xml:space="preserve">
+    <value>← Check to turn on tag tracking</value>
+  </data>
+  <data name="TagSearch_StatusBar_Tooltip" xml:space="preserve">
+    <value>When tracking is on, tags from the current page are highlighted and the title of the current page is displayed in the status bar. Select one ore more of the highlighted tags to filter for pages related to the current page.</value>
+  </data>
 </root>

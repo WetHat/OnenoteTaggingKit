@@ -616,6 +616,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ← Check to turn on tag tracking.
+        /// </summary>
+        public static string TagSearch_CheckBox_Tracking_Text {
+            get {
+                return ResourceManager.GetString("TagSearch_CheckBox_Tracking_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap to clear tag selection.
         /// </summary>
         public static string TagSearch_ClearSelection_Button_Tooltip {
@@ -738,6 +747,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TagSearch_Scope_SectionGroup_Label {
             get {
                 return ResourceManager.GetString("TagSearch_Scope_SectionGroup_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When tracking is on, tags from the current page are highlighted and the title of the current page is displayed in the status bar. Select one ore more of the highlighted tags to filter for pages related to the current page..
+        /// </summary>
+        public static string TagSearch_StatusBar_Tooltip {
+            get {
+                return ResourceManager.GetString("TagSearch_StatusBar_Tooltip", resourceCulture);
             }
         }
         

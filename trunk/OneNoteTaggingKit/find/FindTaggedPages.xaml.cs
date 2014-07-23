@@ -1,10 +1,14 @@
-﻿using System.Collections.Specialized;
+﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Threading;
 using System.Windows;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
+using System.ComponentModel;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {
@@ -23,6 +27,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
             InitializeComponent();
         }
 
+        private void _model_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e == FindTaggedPagesModel.CURRENT_TAGS)
+            {
+                tagInput.Tags = ViewModel.CurrentTags;
+            }
+        }
+
         #region IOneNotePageWindow<TagSearchModel>
 
         /// <summary>
@@ -37,7 +49,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             set
             {
                 _model = value;
-                
+                _model.PropertyChanged += _model_PropertyChanged;
                 DataContext = _model;
             }
         }
@@ -50,6 +62,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
             if (_model != null)
             {
                 _model.Dispose();
+            }
+            if (_pageTrackingTimer != null)
+            {
+                var waitHandle = new ManualResetEvent(false);
+                _pageTrackingTimer.Dispose(waitHandle);
+                waitHandle.WaitOne();
             }
             Trace.Flush();
         }
@@ -82,7 +100,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
                                                    t.IsChecked = false;
                                                }
                                              });
-            tagInput.Clear();
             e.Handled = true;
         }
 
@@ -145,6 +162,17 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 TraceLogger.ShowGenericMessageBox(Properties.Resources.TagSearch_Error_ScopeChange, ex);
             }
             e.Handled = true;
+        }
+
+        Timer _pageTrackingTimer;
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ViewModel.EndTracking();
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            ViewModel.BeginTracking();
         }
     }
 }
