@@ -89,5 +89,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
         {
             get { return SearchScope.AllNotebooks; }
         }
+
+
+        public string CurrentPageTitle
+        {
+            get { return "← Check to automatically track tags on current page"; }
+        }
     }
 }

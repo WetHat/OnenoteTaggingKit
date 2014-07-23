@@ -120,8 +120,8 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             set
             {
                 tagInput.Text = string.Join(",", value);
-
                 UpdateVisibility();
+                RaiseEvent(new TagInputEventArgs(TagInputEvent, this, enterPressed: false));
             }
         }
 
@@ -177,39 +177,25 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
 
         private Task<IEnumerable<TagPageSet>> GetContextTagsAsync(TagContext filter)
         {
-            TagsAndPages tags = ContextTagsSource;
-            return Task<IEnumerable<TagPageSet>>.Run(() => { return GetContextTagsAction(filter,tags); });
+            TagsAndPages tagSource = ContextTagsSource; // must be assigned here to avoid access from another thread
+            return Task<IEnumerable<TagPageSet>>.Run(() => { return GetContextTagsAction(filter,tagSource); });
         }
 
-        private IEnumerable<TagPageSet> GetContextTagsAction(TagContext filter, TagsAndPages contextTags)
+        private IEnumerable<TagPageSet> GetContextTagsAction(TagContext filter, TagsAndPages tagSource)
         {
-            HashSet<TagPageSet> tags = new HashSet<TagPageSet>();
+            tagSource.GetPagesFromHierarchy(filter);
 
-            contextTags.FindTaggedPages(contextTags.CurrentWindow.CurrentSectionId, includeUnindexedPages: true);
-
-            switch (filter)
+            if (filter == TagContext.SelectedNotes)
             {
-                case TagContext.CurrentNote:
-                    TaggedPage currentPage = (from p in contextTags.Pages where p.Key.Equals(contextTags.CurrentWindow.CurrentPageId) select p.Value).FirstOrDefault();
-                    if (currentPage != null)
-                    {
-                        tags.UnionWith(currentPage.Tags);
-                    }
-                    break;
-                case TagContext.SelectedNotes:
-                    foreach (var p in (from pg in contextTags.Pages where pg.Value.IsSelected select pg.Value))
-                    {
-                        tags.UnionWith(p.Tags);
-                    }
-                    break;
-                case TagContext.CurrentSection:
-                    foreach (var p in contextTags.Pages)
-                    {
-                        tags.UnionWith(p.Value.Tags);
-                    }
-                    break;
+                HashSet<TagPageSet> tags = new HashSet<TagPageSet>();
+                foreach (var p in (from pg in tagSource.Pages where pg.Value.IsSelected select pg.Value))
+                {
+                    tags.UnionWith(p.Tags);
+                }
+                return tags;
             }
-            return tags;
+
+            return tagSource.Tags.Values;
         }
 
         private async void Filter_MenuItem_Click(object sender, RoutedEventArgs e)
@@ -226,16 +212,11 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 TagContext filter = (TagContext)Enum.Parse(typeof(TagContext), itm.Tag.ToString());
                 IEnumerable<TagPageSet> tags = await GetContextTagsAsync(filter);
 
-                IEnumerable<string> tagNames = from t in tags select t.TagName;
-
-                string taglist = string.Join(",", tagNames);
-                tagInput.Text = taglist;
-                if (string.IsNullOrEmpty(taglist))
+                Tags = from t in tags select t.TagName;
+                if (string.IsNullOrEmpty(tagInput.Text))
                 {
                     filterPopup.IsOpen = true;
                 }
-                UpdateVisibility();
-                RaiseEvent(new TagInputEventArgs(TagInputEvent, this, enterPressed: false));
             }
             catch (Exception ex)
             {

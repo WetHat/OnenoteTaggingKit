@@ -39,6 +39,7 @@
             <RowDefinition Height="*" MinHeight="100"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="2*" MinHeight="100"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -67,7 +68,7 @@
         </DockPanel>
         <GroupBox Grid.Row="1" 
                   HorizontalAlignment="Stretch" 
-                  Margin="5,0,5,0" Background="Transparent"
+                  Background="Transparent"
                   ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Pages_GroupBox_Tooltip}}">
             <GroupBox.Header>
                 <TextBlock>
@@ -124,8 +125,24 @@
         </cui:HighlightedTagsPanel>
         <ProgressBar Name="pBar"
                      Grid.Row="3"/>
-        <Button Name="clearSelectionButton"  Grid.Row="3" Grid.ColumnSpan="3" VerticalAlignment="Top"  HorizontalAlignment="Right" Click="ClearSelectionButton_Click" BorderThickness="0" BorderBrush="LightBlue" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_ClearSelection_Button_Tooltip}}" Background="Transparent" Margin="0,0,25,0">
+        <Button Name="clearSelectionButton"  Grid.Row="3"  VerticalAlignment="Top"  HorizontalAlignment="Right" Click="ClearSelectionButton_Click" BorderThickness="0" BorderBrush="LightBlue" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_ClearSelection_Button_Tooltip}}" Background="Transparent" Margin="0,0,25,0">
             <Image  MaxWidth="32" Height="24" HorizontalAlignment="Center" VerticalAlignment="Bottom" Source="/OneNoteTaggingKit;component/Resources/clear selection.png"/>
         </Button>
+        <StatusBar Grid.Row="4"
+                   ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_StatusBar_Tooltip}}">
+            <StatusBarItem>
+                <CheckBox Background="LightGreen"
+                      IsChecked="False"
+                      Checked="CheckBox_Checked"
+                      Unchecked="CheckBox_Unchecked"
+                      BorderThickness="2"
+                      VerticalContentAlignment="Center">
+                    <TextBlock VerticalAlignment="Bottom"
+                            TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+                            Background="Transparent"
+                      Text="{Binding CurrentPageTitle, Mode=OneWay}"/>
+                </CheckBox>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>

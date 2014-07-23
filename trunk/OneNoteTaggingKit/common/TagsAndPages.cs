@@ -64,16 +64,27 @@ namespace WetHatLab.OneNote.TaggingKit.common
             _onenote = onenote;
             _schema = schema;
         }
-        /// <summary>
-        /// Get the OneNote current windows object which provides ids of the current page, section, sectiongroup, and notebook
-        /// </summary>
-        internal Window CurrentWindow
+
+        internal string CurrentPageID
         {
-            get
-            {
-                return _onenote.Windows.CurrentWindow;
-            }
+            get { return _onenote.Windows.CurrentWindow.CurrentPageId; } 
         }
+
+        internal string CurrentSectionID
+        {
+            get { return _onenote.Windows.CurrentWindow.CurrentSectionId; }
+        }
+
+        internal string CurrentSectionGroupID
+        {
+            get { return _onenote.Windows.CurrentWindow.CurrentSectionGroupId; }
+        }
+
+        internal string CurrentNotebookID
+        {
+            get { return _onenote.Windows.CurrentWindow.CurrentNotebookId; }
+        }
+       
         /// <summary>
         /// Find tagged OneNote pages in a scope.
         /// </summary>
@@ -126,8 +137,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// load pages from a subtree of the OneNote page directory structure.
         /// </summary>
         /// <param name="context">the context from where to get pages</param>
-        /// <param name="currentWindow">current OneNote window</param>
-        internal void GetPagesFromHierarchy(Window currentWindow, TagContext context)
+        internal void GetPagesFromHierarchy(TagContext context)
         {
             string strXml;
 
@@ -137,12 +147,12 @@ namespace WetHatLab.OneNote.TaggingKit.common
             {
                 default:
                 case TagContext.CurrentNote:
-                    _onenote.GetHierarchy(currentWindow.CurrentPageId, HierarchyScope.hsSelf, out strXml, _schema);
+                    _onenote.GetHierarchy(CurrentPageID, HierarchyScope.hsSelf, out strXml, _schema);
                     break;
 
                 case TagContext.CurrentSection:
                 case TagContext.SelectedNotes:
-                    _onenote.GetHierarchy(currentWindow.CurrentSectionId, HierarchyScope.hsPages, out strXml, _schema);
+                    _onenote.GetHierarchy(CurrentSectionID, HierarchyScope.hsPages, out strXml, _schema);
                     break;
             }
             

@@ -41,6 +41,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// Get the default search scope
         /// </summary>
         SearchScope DefaultScope { get; }
+
+        /// <summary>
+        /// Get the title of the current page, if tacking is enabled
+        /// </summary>
+        string CurrentPageTitle { get; }
     }
 
     /// <summary>
@@ -49,21 +54,18 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// <remarks>Search queries are run in the background</remarks>
     public class FindTaggedPagesModel : WindowViewModelBase, ITagSearchModel
     {
-        private static readonly PropertyChangedEventArgs PAGE_COUNT = new PropertyChangedEventArgs("PageCount");
-        private static readonly PropertyChangedEventArgs TAG_COUNT = new PropertyChangedEventArgs("TagCount");
-
+        internal static readonly PropertyChangedEventArgs PAGE_COUNT = new PropertyChangedEventArgs("PageCount");
+        internal static readonly PropertyChangedEventArgs TAG_COUNT = new PropertyChangedEventArgs("TagCount");
+        internal static readonly PropertyChangedEventArgs CURRENT_PAGE_TITLE = new PropertyChangedEventArgs("CurrentPageTitle");
+        internal static readonly PropertyChangedEventArgs CURRENT_TAGS = new PropertyChangedEventArgs("CurrentTags");
+        
         // the collection of tags found on OneNote pages
         private FilterablePageCollection _searchResult ;
 
         // pages in the search result exposed to the UI
         private ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel> _pages = new ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel>();
-        private TagSource _tags = new TagSource();
-        
         private CancellationTokenSource _cancelWorker = new CancellationTokenSource();
         private BlockingCollection<Action> _actions;
-
-        // Collection of previous searches
-        private ObservableCollection<string> _searchHistory = new ObservableCollection<string>();
 
         private TextSplitter _highlighter;
 
@@ -93,13 +95,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
             _searchResult.Tags.CollectionChanged          += HandleTagCollectionChanges;
             _searchResult.FilteredPages.CollectionChanged += HandlePageCollectionChanges;
 
+            CurrentPageTitle = Properties.Resources.TagSearch_CheckBox_Tracking_Text;
             // load the search history
             if (!string.IsNullOrEmpty(Properties.Settings.Default.SearchHistory))
             {
                 string[] searches = Properties.Settings.Default.SearchHistory.Split(new char[] {','},StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < searches.Length && i < Properties.Settings.Default.SearchHistory_Size; i++)
                 {
-                    _searchHistory.Add(searches[i].Trim());
+                    SearchHistory.Add(searches[i].Trim());
                 }
             }
 
@@ -138,17 +141,17 @@ namespace WetHatLab.OneNote.TaggingKit.find
             if (!string.IsNullOrEmpty(query))
             {
                 query = query.Trim().Replace(',', ' ');
-                _searchHistory.Remove(query);
-                _searchHistory.Insert(0, query);
+                SearchHistory.Remove(query);
+                SearchHistory.Insert(0, query);
                 // update settings
                 StringBuilder history = new StringBuilder();
-                for (int i = 0; i < _searchHistory.Count() && i < Properties.Settings.Default.SearchHistory_Size; i++)
+                for (int i = 0; i < SearchHistory.Count() && i < Properties.Settings.Default.SearchHistory_Size; i++)
                 {
                     if (history.Length > 0)
                     {
                         history.Append(',');
                     }
-                    history.Append(_searchHistory[i]);
+                    history.Append(SearchHistory[i]);
                 }
                 Properties.Settings.Default.SearchHistory = history.ToString();
 
@@ -174,7 +177,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             foreach (string filterTag in _searchResult.Filter)
             {
                 TagSelectorModel mdl;
-                if (_tags.TryGetValue(filterTag, out mdl))
+                if (Tags.TryGetValue(filterTag, out mdl))
                 {
                     mdl.IsChecked = true;
                 }
@@ -210,6 +213,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         #region ITagSearchModel
 
+        // Collection of previous searches
+        private ObservableCollection<string> _searchHistory = new ObservableCollection<string>();
         /// <summary>
         /// Get the list of previous searches.
         /// </summary>
@@ -221,64 +226,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
 
-        private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs args)
-        {
-            TagSelectorModel mdl = sender as TagSelectorModel;
-            if (mdl != null && args == TagSelectorModel.IS_CHECKED)
-            {
-                if (mdl.IsChecked)
-                {
-                    AddTagToFilterAsync(mdl.Tag);
-                }
-                else
-                {
-                    RemoveTagFromFilterAsync(mdl.Tag);
-                }
-            }
-        }
-        private void HandleTagCollectionChanges(object sender, NotifyDictionaryChangedEventArgs<string, TagPageSet> e)
-        {
-            Action a = null;
-   
-            switch (e.Action)
-            {
-                case NotifyDictionaryChangedAction.Add:
-                    a = () => _tags.AddAll(from i in e.Items select new TagSelectorModel(i, OnModelPropertyChanged));;
-                    break;
-                case NotifyDictionaryChangedAction.Remove:
-                    a = () =>_tags.RemoveAll(from i in e.Items select i.Key);
-                    break;
-                case NotifyDictionaryChangedAction.Reset:
-                    a = () => _tags.Clear();
-                    break;
-            }
-           if (a != null)
-           {
-               Dispatcher.Invoke(new Action(() => { a() ; fireNotifyPropertyChanged(TAG_COUNT);}));
-           }
-        }
-
-        private void HandlePageCollectionChanges(object sender, NotifyDictionaryChangedEventArgs<string, TaggedPage> e)
-        {
-            Action a = null;
-            switch (e.Action)
-            {
-                case NotifyDictionaryChangedAction.Add:
-                    a = () => _pages.AddAll(from i in e.Items select new HitHighlightedPageLinkModel(i,_highlighter,OneNoteApp));
-                    break;
-                case NotifyDictionaryChangedAction.Remove:
-                    a = () => _pages.RemoveAll(from i in e.Items select i.Key);
-                    break;
-                case NotifyDictionaryChangedAction.Reset:
-                    a = () => _pages.Clear();
-                    break;
-            }
-            if (a != null)
-            {
-                Dispatcher.Invoke(new Action(() => { a(); fireNotifyPropertyChanged(PAGE_COUNT); }));
-            }
-        }
-
         /// <summary>
         /// get the collection of pages having specific tag
         /// </summary>
@@ -286,7 +233,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
         {
             get { return _pages; }
         }
-       
+
+        private TagSource _tags = new TagSource();
+
         /// <summary>
         /// get the collection of tags 
         /// </summary>
@@ -307,10 +256,142 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         public int TagCount
         {
-            get { return _tags.Count; }
+            get { return Tags.Count; }
+        }
+
+        string _currentPageTitle;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string CurrentPageTitle
+        {
+            get { return _currentPageTitle; }
+            set
+            {
+                _currentPageTitle = value;
+                fireNotifyPropertyChanged(CURRENT_PAGE_TITLE);
+            }
         }
 
         #endregion ITagSearchModel
+
+        #region tag tracking
+        IEnumerable<string> _currentTags;
+        /// <summary>
+        /// get the set of tags associated with the current page
+        /// </summary>
+        internal IEnumerable<string> CurrentTags
+        {
+            get
+            {
+                return _currentTags;
+            }
+            private set
+            {
+                _currentTags = value;
+                fireNotifyPropertyChanged(CURRENT_TAGS);
+            }
+        }
+        Timer _tracker;
+        string _currentPageID = string.Empty;
+        internal void BeginTracking()
+        {
+            if (_tracker == null)
+            {
+                _tracker = new Timer(TrackCurrentPage, null, 1000, 1000);
+            }
+        }
+
+        internal void EndTracking()
+        {
+            if (_tracker != null)
+            {
+                _currentPageID = string.Empty;
+                var waitHandle = new ManualResetEvent(false);
+                _tracker.Dispose(waitHandle);
+                waitHandle.WaitOne();
+                _tracker = null;
+            }
+            CurrentPageTitle = Properties.Resources.TagSearch_CheckBox_Tracking_Text;
+        }
+
+        private void TrackCurrentPage(object state)
+        {
+            if (!_currentPageID.Equals(CurrentPageID))
+            {
+                _currentPageID = CurrentPageID;
+                TagsAndPages tap = new TagsAndPages(OneNoteApp, OneNotePageSchema);
+                tap.GetPagesFromHierarchy(TagContext.CurrentNote);
+                TaggedPage tp = tap.Pages.Values.FirstOrDefault();
+                if (tp != null)
+                {
+                    Dispatcher.Invoke(() => {
+                                                CurrentTags = from t in tp.Tags select t.TagName;
+                                                CurrentPageTitle = tp.Title;
+                                            });
+                }
+            }
+        }
+        #endregion tag tracking
+
+        private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            TagSelectorModel mdl = sender as TagSelectorModel;
+            if (mdl != null && args == TagSelectorModel.IS_CHECKED)
+            {
+                if (mdl.IsChecked)
+                {
+                    AddTagToFilterAsync(mdl.Tag);
+                }
+                else
+                {
+                    RemoveTagFromFilterAsync(mdl.Tag);
+                }
+            }
+        }
+        private void HandleTagCollectionChanges(object sender, NotifyDictionaryChangedEventArgs<string, TagPageSet> e)
+        {
+            Action a = null;
+
+            switch (e.Action)
+            {
+                case NotifyDictionaryChangedAction.Add:
+                    a = () => Tags.AddAll(from i in e.Items select new TagSelectorModel(i, OnModelPropertyChanged)); ;
+                    break;
+                case NotifyDictionaryChangedAction.Remove:
+                    a = () => Tags.RemoveAll(from i in e.Items select i.Key);
+                    break;
+                case NotifyDictionaryChangedAction.Reset:
+                    a = () => Tags.Clear();
+                    break;
+            }
+            if (a != null)
+            {
+                Dispatcher.Invoke(new Action(() => { a(); fireNotifyPropertyChanged(TAG_COUNT); }));
+            }
+        }
+
+        private void HandlePageCollectionChanges(object sender, NotifyDictionaryChangedEventArgs<string, TaggedPage> e)
+        {
+            Action a = null;
+            switch (e.Action)
+            {
+                case NotifyDictionaryChangedAction.Add:
+                    a = () => _pages.AddAll(from i in e.Items select new HitHighlightedPageLinkModel(i, _highlighter, OneNoteApp));
+                    break;
+                case NotifyDictionaryChangedAction.Remove:
+                    a = () => _pages.RemoveAll(from i in e.Items select i.Key);
+                    break;
+                case NotifyDictionaryChangedAction.Reset:
+                    a = () => _pages.Clear();
+                    break;
+            }
+            if (a != null)
+            {
+                Dispatcher.Invoke(new Action(() => { a(); fireNotifyPropertyChanged(PAGE_COUNT); }));
+            }
+        }
 
         internal void NavigateTo(string pageID)
         {
@@ -322,6 +403,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         public override void Dispose()
         {
             _cancelWorker.Cancel();
+            EndTracking();
             base.Dispose();
         }
     }
