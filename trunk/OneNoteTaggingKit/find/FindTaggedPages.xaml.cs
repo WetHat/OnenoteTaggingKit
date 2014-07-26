@@ -27,14 +27,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
             InitializeComponent();
         }
 
-        private void _model_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e == FindTaggedPagesModel.CURRENT_TAGS)
-            {
-                tagInput.Tags = ViewModel.CurrentTags;
-            }
-        }
-
         #region IOneNotePageWindow<TagSearchModel>
 
         /// <summary>
@@ -63,12 +55,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             {
                 _model.Dispose();
             }
-            if (_pageTrackingTimer != null)
-            {
-                var waitHandle = new ManualResetEvent(false);
-                _pageTrackingTimer.Dispose(waitHandle);
-                waitHandle.WaitOne();
-            }
+
             Trace.Flush();
         }
 
@@ -147,6 +134,53 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
 
+        private void _model_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e == FindTaggedPagesModel.CURRENT_TAGS)
+            {
+                // update query if necessary
+                string thisScopID;
+                switch (scopeSelect.SelectedScope)
+                {
+                    case SearchScope.Notebook:
+                        thisScopID = ViewModel.CurrentNotebookID;
+                        break;
+                    case SearchScope.SectionGroup:
+                        thisScopID = ViewModel.CurrentSectionGroupID;
+                        break;
+                    case SearchScope.Section:
+                        thisScopID = ViewModel.CurrentSectionID;
+                        break;
+                    default:
+                        thisScopID = string.Empty;
+                        break;
+                }
+                if (!thisScopID.Equals(ViewModel.LastScopeID))
+                { // rerun the query for the current scope
+                    try
+                    {
+                        pBar.Visibility = System.Windows.Visibility.Visible;
+                        string query = searchComboBox.Text;
+                        _model.FindPagesAsync(query, scopeSelect.SelectedScope, () =>
+                        {
+                            tagInput.Tags = ViewModel.CurrentTags;
+                            pBar.Visibility = System.Windows.Visibility.Hidden;
+                        });
+                        searchComboBox.SelectedValue = query;
+                    }
+                    catch (System.Exception ex)
+                    {
+                        TraceLogger.Log(TraceCategory.Error(), "Changing search scope failed: {0}", ex);
+                        TraceLogger.ShowGenericMessageBox(Properties.Resources.TagSearch_Error_ScopeChange, ex);
+                    }
+                }
+                else
+                {
+                    tagInput.Tags = ViewModel.CurrentTags;
+                }
+            }
+        }
+
         private void ScopeSelector_ScopeChanged(object sender, ScopeChangedEventArgs e)
         {
             try
@@ -164,14 +198,15 @@ namespace WetHatLab.OneNote.TaggingKit.find
             e.Handled = true;
         }
 
-        Timer _pageTrackingTimer;
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
+            // Stop tracking current page
             ViewModel.EndTracking();
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
+            // start tracking current page
             ViewModel.BeginTracking();
         }
     }

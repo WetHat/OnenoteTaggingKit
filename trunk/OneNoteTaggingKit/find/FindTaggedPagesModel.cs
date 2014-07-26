@@ -116,6 +116,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         public TagsAndPages ContextTags { get { return new TagsAndPages(OneNoteApp, OneNotePageSchema); } }
 
+        internal string LastScopeID { get; set; }
         /// <summary>
         /// FindTaggedPages pages matching a search criterion in the background.
         /// </summary>
@@ -124,17 +125,19 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <param name="continuationAction">a UI action to execute (in the UI thread) after completion of the search</param>
         internal void FindPagesAsync(string query, SearchScope scope, Action continuationAction)
         {
-            string scopeID = String.Empty;
             switch (scope)
             {
                 case SearchScope.Notebook:
-                    scopeID = CurrentNotebookID;
+                    LastScopeID = CurrentNotebookID;
                     break;
                 case SearchScope.SectionGroup:
-                    scopeID = CurrentSectionGroupID;
+                    LastScopeID = CurrentSectionGroupID;
                     break;
                 case SearchScope.Section:
-                    scopeID = CurrentSectionID;
+                    LastScopeID = CurrentSectionID;
+                    break;
+                default:
+                    LastScopeID = String.Empty;
                     break;
             }
 
@@ -165,15 +168,20 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 _highlighter = new TextSplitter();
             }
 
-            _actions.Add(() => _searchResult.Find(query, scopeID, includeUnindexedPages:false));
+            _actions.Add(() => _searchResult.Find(query, LastScopeID, includeUnindexedPages:false));
 
 
             _actions.Add(() => Dispatcher.Invoke(UpdateFilterSelectionAction));
-            _actions.Add(() => Dispatcher.Invoke(continuationAction));
+            if (continuationAction != null)
+            {
+                _actions.Add(() => Dispatcher.Invoke(continuationAction));
+            }
         }
 
         private void UpdateFilterSelectionAction()
         {
+            // re-select all tags in the filter as selection got lost
+            // when new tags were creaed through search
             foreach (string filterTag in _searchResult.Filter)
             {
                 TagSelectorModel mdl;
