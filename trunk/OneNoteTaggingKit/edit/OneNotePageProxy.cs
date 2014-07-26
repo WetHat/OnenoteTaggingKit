@@ -57,7 +57,22 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             PageID = pageID;
             _schema = schema;
             LoadOneNotePage();
-            _originalTags = _pageTagsOE != null ? ParseTags(_meta.Attribute("content").Value) : new string[0];
+            if (_pageTagsOE != null)
+            {
+                if (_meta != null)
+                {
+                    _originalTags = ParseTags(_meta.Attribute("content").Value);
+                }
+                else
+                {
+                    _originalTags = ParseTags(_pageTagsOE.Value);
+                }
+            }
+            if (_originalTags == null)
+            {
+                _originalTags = new string[0];
+            }
+            
         }
 
         /// <summary>
