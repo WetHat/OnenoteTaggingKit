@@ -147,7 +147,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     return;
                 }
             }
-            _page.AddFirst(element);
+            _page.Add(element);
         }
 
         private void ApplyTagsToPage()
