@@ -94,6 +94,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="includeUnindexedPages">true to include pages in the search which have not been indexed yet</param>
         internal void FindTaggedPages(string scopeID, bool includeUnindexedPages = false)
         {
+            TraceLogger.Log(TraceCategory.Info(), "Scope = {0}; includeUnindexedPages = {1}", scopeID, includeUnindexedPages);
             string strXml;
             // collect all tags used somewhere on a page
             _onenote.FindMeta(scopeID, OneNotePageProxy.META_NAME, out strXml, includeUnindexedPages, _schema);
@@ -128,6 +129,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="includeUnindexedPages">true to include pages in the search which have not been indexed yet</param>
         internal void FindTaggedPages(string query, string scopeID, bool includeUnindexedPages = false)
         {
+            TraceLogger.Log(TraceCategory.Info(), "query={0}; Scope = {1}; includeUnindexedPages = {2}", query,scopeID, includeUnindexedPages);
             string strXml;
             _onenote.FindPages(scopeID, query, out strXml, includeUnindexedPages, false, _schema);
             parseOneNoteHierarchy(strXml, false);
