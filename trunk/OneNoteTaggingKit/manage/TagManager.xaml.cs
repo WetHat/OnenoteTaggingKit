@@ -121,6 +121,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
 
         private void Hyperlink_RequestLogNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
+            TraceLogger.Flush();
             Hyperlink hl = (Hyperlink)sender;
 
             string path = hl.NavigateUri.LocalPath;
