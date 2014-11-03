@@ -221,7 +221,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             catch (Exception ex)
             {
                 TraceLogger.Log(TraceCategory.Error(), "Applying preset filter failed {0}", ex);
-                TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_Filter_Error, ex);
+                TraceLogger.ShowGenericErrorBox(Properties.Resources.TagEditor_Filter_Error, ex);
             }
             finally
             {

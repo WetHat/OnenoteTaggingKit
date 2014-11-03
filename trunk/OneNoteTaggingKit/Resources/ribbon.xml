@@ -17,12 +17,12 @@
                   onAction="findTags"
                   image="findPageTags.png"/>
 
-          <button id="buttonNexus"
+          <!-- <button id="buttonNexus"
                   label="Related Pages"
                   size="normal"
                   screentip="Find related Pages by Tags and Links"
                   onAction="relatedPages"
-                  image="findPageTags.png"/>
+                  image="findPageTags.png"/> -->
 
           <button id="buttonManageTags"
                   label="Settings"

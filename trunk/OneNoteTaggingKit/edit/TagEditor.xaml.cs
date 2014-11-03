@@ -155,7 +155,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             catch (Exception ex)
             {
                 TraceLogger.Log(TraceCategory.Error(), "Processing Tag input failed with {0}", ex);
-                TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_Input_Error, ex);
+                TraceLogger.ShowGenericErrorBox(Properties.Resources.TagEditor_Input_Error, ex);
             }
             e.Handled = true;
         }
@@ -182,7 +182,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             catch (Exception xe)
             {
                 TraceLogger.Log(TraceCategory.Error(), "Applying tags to page failed: {0}", xe);
-                TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_TagUpdate_Error, xe);
+                TraceLogger.ShowGenericErrorBox(Properties.Resources.TagEditor_TagUpdate_Error, xe);
             }
         }
 

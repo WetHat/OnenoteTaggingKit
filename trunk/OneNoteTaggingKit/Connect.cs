@@ -77,12 +77,12 @@ namespace WetHatLab.OneNote.TaggingKit
                 }
                 catch (ThreadAbortException ta)
                 {
-                    TraceLogger.Log(TraceCategory.Warning(), "Window Thrad aborted: {0}", ta);
+                    TraceLogger.Log(TraceCategory.Warning(), "Window Thread aborted: {0}", ta);
                 }
                 catch (Exception ex)
                 {
                     TraceLogger.Log(TraceCategory.Error(), "Exception while creating dialog: {0}", ex);
-                    TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_Error_WindowCreation, ex);
+                    TraceLogger.ShowGenericErrorBox(Properties.Resources.TagEditor_Error_WindowCreation, ex);
                 }
             });
             thread.SetApartmentState(ApartmentState.STA);
@@ -120,7 +120,7 @@ namespace WetHatLab.OneNote.TaggingKit
                 catch (Exception ex)
                 {
                     TraceLogger.Log(TraceCategory.Error(), "Exception while creating dialog: {0}", ex);
-                    TraceLogger.ShowGenericMessageBox(Properties.Resources.TagEditor_Error_WindowCreation, ex);
+                    TraceLogger.ShowGenericErrorBox(Properties.Resources.TagEditor_Error_WindowCreation, ex);
                 }
             });
             thread.SetApartmentState(ApartmentState.STA);
@@ -220,7 +220,7 @@ namespace WetHatLab.OneNote.TaggingKit
                 if (!_schemaChecked)
                 {
                     TraceLogger.Log(TraceCategory.Error(), "Unable to determine OneNote version!");
-                    TraceLogger.ShowGenericMessageBox(Properties.Resources.TaggingKit_Error_VersionLookup, schemaException);
+                    TraceLogger.ShowGenericErrorBox(Properties.Resources.TaggingKit_Error_VersionLookup, schemaException);
                 }
                 Trace.Flush();
                 return _schema;

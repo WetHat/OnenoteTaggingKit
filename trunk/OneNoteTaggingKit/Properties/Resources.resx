@@ -310,10 +310,10 @@
   <data name="TaggingKit_ErrorBox_GenericSevereError" xml:space="preserve">
     <value>{0}! »{1}«
 
-Please browse to the support website
+Click OK to browse troubleshooting tips and known issues. Click CANCEL to continue.
+
+If this is a new issue, please consider reporting it. Describe what you were trying to do and attach the add-in log file
 »{2}«
-and report this issue. Describe what you were doing and attach the add-in log file
-»{3}«
 
 Sorry for the inconvenience!</value>
   </data>
@@ -338,8 +338,8 @@ Sorry for the inconvenience!</value>
   <data name="TagEditor_Error_WindowCreation" xml:space="preserve">
     <value>Creation of dialog window failed</value>
   </data>
-  <data name="TaggingKit_Support_Website" xml:space="preserve">
-    <value>https://onenotetaggingkit.codeplex.com/workitem/list/basic</value>
+  <data name="TaggingKit_Wiki_Page" xml:space="preserve">
+    <value>https://onenotetaggingkit.codeplex.com/wikipage?title={0}</value>
   </data>
   <data name="TagSearch_Error_Find" xml:space="preserve">
     <value>Search failed</value>
