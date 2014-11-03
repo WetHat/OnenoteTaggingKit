@@ -83,7 +83,7 @@ namespace WetHatLab.OneNote.TaggingKit
         static string _logfile = null;
 
         /// <summary>
-        /// Show a message box for an exception.
+        /// Show an error box for an exception.
         /// </summary>
         /// <param name="message">Message to describe the failing operation</param>
         /// <param name="ex">exception</param>
@@ -113,8 +113,14 @@ namespace WetHatLab.OneNote.TaggingKit
                             break;
                     }
                 }
-
-                Process.Start(new ProcessStartInfo(string.Format(Properties.Resources.TaggingKit_Wiki_Page,wikipage))); 
+                try
+                {
+                    Process.Start(new ProcessStartInfo(string.Format(Properties.Resources.TaggingKit_Wiki_Page, wikipage)));
+                }
+                catch (Exception ex1)
+                {
+                    TraceLogger.Log(TraceCategory.Error(), "Failed to open web browser: {0}", ex1);
+                }
             }
         }
 
