@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Windows;
 
 namespace WetHatLab.OneNote.TaggingKit
@@ -84,18 +85,37 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <summary>
         /// Show a message box for an exception.
         /// </summary>
-        /// <param name="message">Message to describe the faling operation</param>
+        /// <param name="message">Message to describe the failing operation</param>
         /// <param name="ex">exception</param>
-        internal static void ShowGenericMessageBox(string message, Exception ex)
+        internal static void ShowGenericErrorBox(string message, Exception ex)
         {
             Trace.Flush();
-            MessageBox.Show(string.Format(Properties.Resources.TaggingKit_ErrorBox_GenericSevereError,
-                                          message,
-                                          ex.Message,
-                                          Properties.Resources.TaggingKit_Support_Website,
-                                          TraceLogger.LogFile),
-                            string.Format(Properties.Resources.TaggingKit_ErrorBox_Title,
-                                          Properties.Resources.TaggingKit_About_Appname),MessageBoxButton.OK,MessageBoxImage.Error);
+            MessageBoxResult result = MessageBox.Show(string.Format(Properties.Resources.TaggingKit_ErrorBox_GenericSevereError,
+                                                                    message,
+                                                                    ex.Message,
+                                                                    TraceLogger.LogFile),
+                                                      string.Format(Properties.Resources.TaggingKit_ErrorBox_Title,
+                                                                      Properties.Resources.TaggingKit_About_Appname),
+                                                      MessageBoxButton.OKCancel,
+                                                      MessageBoxImage.Error);
+            if (result == MessageBoxResult.OK)
+            { // browse to the troubleshooting tips
+                string wikipage = "Troubleshooting%20Tips";
+                
+                COMException ce = ex as COMException;
+                if (ce != null)
+                {
+                    
+                    switch ((uint)ce.ErrorCode)
+                    {
+                        case 0x80042019:
+                            wikipage = "0x80042019";
+                            break;
+                    }
+                }
+
+                Process.Start(new ProcessStartInfo(string.Format(Properties.Resources.TaggingKit_Wiki_Page,wikipage))); 
+            }
         }
 
         /// <summary>

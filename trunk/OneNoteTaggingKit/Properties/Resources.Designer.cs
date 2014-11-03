@@ -421,10 +421,10 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0}! »{1}«
         ///
-        ///Please browse to the support website
+        ///Click OK to browse troubleshooting tips and known issues. Click CANCEL to continue.
+        ///
+        ///If this is a new issue, please consider reporting it. Describe what you were trying to do and attach the add-in log file
         ///»{2}«
-        ///and report this issue. Describe what you were doing and attach the add-in log file
-        ///»{3}«
         ///
         ///Sorry for the inconvenience!.
         /// </summary>
@@ -444,11 +444,11 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://onenotetaggingkit.codeplex.com/workitem/list/basic.
+        ///   Looks up a localized string similar to https://onenotetaggingkit.codeplex.com/wikipage?title={0}.
         /// </summary>
-        public static string TaggingKit_Support_Website {
+        public static string TaggingKit_Wiki_Page {
             get {
-                return ResourceManager.GetString("TaggingKit_Support_Website", resourceCulture);
+                return ResourceManager.GetString("TaggingKit_Wiki_Page", resourceCulture);
             }
         }
         

@@ -83,8 +83,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 }
                 catch (Exception e)
                 {
-                    Debug.Assert(false, e.ToString());
-                    return; // that's it! We have to give up.
+                    TraceLogger.Log(TraceCategory.Error(), "Exception in background task: {0}", e);
+                    TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_Find, e);
+                    // We continue processing actions regardless
                 }
             }
         }

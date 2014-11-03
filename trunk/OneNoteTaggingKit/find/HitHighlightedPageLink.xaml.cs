@@ -141,7 +141,7 @@ EndSelection:{5:D6}";
                 catch (Exception ex)
                 {
                     TraceLogger.Log(TraceCategory.Error(), "Link to page '{0}' could not be created: {1}", pageTitle,ex);
-                    TraceLogger.ShowGenericMessageBox(Properties.Resources.TagSearch_Error_CopyLink, ex);
+                    TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_CopyLink, ex);
                 }
                 e.Handled = true;
             }

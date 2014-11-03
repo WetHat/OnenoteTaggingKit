@@ -70,7 +70,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             catch (System.Exception ex)
             {
                 TraceLogger.Log(TraceCategory.Error(), "Navigation to OneNote page failed: {0}", ex);
-                TraceLogger.ShowGenericMessageBox(Properties.Resources.TagSearch_Error_PageNavigation, ex);
+                TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_PageNavigation, ex);
             }
         }
 
@@ -99,7 +99,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             catch (System.Exception ex)
             {
                 TraceLogger.Log(TraceCategory.Error(), "search for '{0}' failed: {1}", query, ex);
-                TraceLogger.ShowGenericMessageBox(Properties.Resources.TagSearch_Error_Find, ex);
+                TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_Find, ex);
             }
             e.Handled = true;
         }
@@ -142,7 +142,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             catch (System.Exception ex)
             {
                 TraceLogger.Log(TraceCategory.Error(), "Changing search scope failed: {0}", ex);
-                TraceLogger.ShowGenericMessageBox(Properties.Resources.TagSearch_Error_ScopeChange, ex);
+                TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_ScopeChange, ex);
             }
             e.Handled = true;
         }
@@ -198,7 +198,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     catch (System.Exception ex)
                     {
                         TraceLogger.Log(TraceCategory.Error(), "Changing search scope failed: {0}", ex);
-                        TraceLogger.ShowGenericMessageBox(Properties.Resources.TagSearch_Error_ScopeChange, ex);
+                        TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_ScopeChange, ex);
                     }
                 }
                 else
