@@ -164,8 +164,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             tagInput.FocusInput();
             try
-            { 
-                TraceLogger.Log(TraceCategory.Info(), "Applying tags to page");
+            {
+                TraceLogger.Log(TraceCategory.Info(), "Applying {0} tag(s); operation = {1}", _model.PageTags.Count,op);
                 TaggingScope scope = ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope;
                 
                 Task<int> saveTask = _model.SavePageTagsAsync(op, scope);
@@ -178,6 +178,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 int pagesTagged = await saveTask;
                 pagesTaggedText.Text = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_PagesTagged, pagesTagged);
                 pagesTaggedPopup.IsOpen = true;
+                TraceLogger.Log(TraceCategory.Info(), "{0} page(s) tagged successfully", pagesTagged);
             }
             catch (Exception xe)
             {
