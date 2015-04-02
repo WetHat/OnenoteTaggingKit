@@ -158,8 +158,8 @@ namespace WetHatLab.OneNote.TaggingKit
     /// <summary>
     /// OneNote application connector.
     /// </summary>
-    /// <remarks>Manages the addin lifecycle and executes Ribbon bar actions.
-    /// <para>This addin implements a simple but flexible tagging system for OneNote pages</para>
+    /// <remarks>Manages the add-in life-cycle and executes Ribbon bar actions.
+    /// <para>This add-in implements a simple but flexible tagging system for OneNote pages</para>
     /// </remarks>
     [Guid("C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF"), ProgId("WetHatLab.OneNote.TaggingKitAddin")]
     public class ConnectTaggingKitAddin : IDTExtensibility2, IRibbonExtensibility
