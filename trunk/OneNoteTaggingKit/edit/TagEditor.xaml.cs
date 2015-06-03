@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,6 +19,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     /// <summary>
     /// The <i>Tag Editor</i> dialog.
     /// </summary>
+    [ComVisible(false)]
     public partial class TagEditor : Window, IOneNotePageWindow<TagEditorModel>
     {
         private TagEditorModel _model;
@@ -81,10 +83,17 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private async void AddTagsToPageButton_Click(object sender, RoutedEventArgs e)
         {
-            await ApplyPageTagsAsync(TagOperation.UNITE);
-            if (e != null)
+            if (_model != null && _model.PageTags.Count > 0)
             {
-                e.Handled = true;
+                await ApplyPageTagsAsync(TagOperation.UNITE);
+                if (e != null)
+                {
+                    e.Handled = true;
+                }
+            }
+            else
+            {
+                MessageBox.Show(Properties.Resources.TagEditor_NoTagsSelectedWarning, Properties.Resources.TagEditor_WarningMessageBox_Title,MessageBoxButton.OK);
             }
         }
 
@@ -99,10 +108,17 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private async void RemoveTagsFromPageButton_Click(object sender, RoutedEventArgs e)
         {
-            await ApplyPageTagsAsync(TagOperation.SUBTRACT);
-            if (e != null)
+            if (_model != null && _model.PageTags.Count > 0)
             {
-                e.Handled = true;
+                await ApplyPageTagsAsync(TagOperation.SUBTRACT);
+                if (e != null)
+                {
+                    e.Handled = true;
+                }
+            }
+            else
+            {
+                MessageBox.Show(Properties.Resources.TagEditor_NoTagsSelectedWarning, Properties.Resources.TagEditor_WarningMessageBox_Title, MessageBoxButton.OK);
             }
         }
 
