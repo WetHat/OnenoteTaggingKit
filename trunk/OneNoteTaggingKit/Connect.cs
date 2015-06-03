@@ -169,6 +169,7 @@ namespace WetHatLab.OneNote.TaggingKit
 
         private XMLSchema _schema = XMLSchema.xsCurrent;
         private bool _schemaChecked = false;
+        private bool _forceExit = false;
 
         private AddInDialogManager _dialogmanager = null;
         
@@ -212,6 +213,7 @@ namespace WetHatLab.OneNote.TaggingKit
                     }
                     catch (Exception xe)
                     {
+                        _forceExit = true;
                         schemaException = xe;
                         TraceLogger.Log(TraceCategory.Info(), "Test of OneNote Schema Version: {0} failed with {1}", schema, xe);
                     }
@@ -242,6 +244,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="custom">An empty array that you can use to pass host-specific data for use in the add-in.</param>
         public void OnBeginShutdown(ref Array custom)
         {
+            TraceLogger.Log(TraceCategory.Info(), "Beginning Add-In shutdown; Arguments '{0}'",custom);
             if (_OneNoteApp != null)
             {
                 if (_dialogmanager != null)
@@ -262,15 +265,17 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="custom">An empty array that you can use to pass host-specific data for use in the add-in</param>
         public void OnConnection(object Application, ext_ConnectMode ConnectMode, object AddInInst, ref Array custom)
         {
+            TraceLogger.Log(TraceCategory.Info(), "Connection mode '{0}'", ConnectMode);
             _OneNoteApp = Application as Microsoft.Office.Interop.OneNote.Application;
-            _dialogmanager = new AddInDialogManager();
+            
             // Upgrade Settings if necessary. On new version the UpdateRequired flag is reset to default (true)
             if (Properties.Settings.Default.UpdateRequired)
             {
                 Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.UpdateRequired = false;
             }
-            TraceLogger.Log(TraceCategory.Info(), "Connection mode '{0}'", ConnectMode);
+
+            _dialogmanager = new AddInDialogManager();
         }
 
         /// <summary>
@@ -280,6 +285,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="custom">An empty array that you can use to pass host-specific data for use after the add-in unloads.</param>
         public void OnDisconnection(ext_DisconnectMode RemoveMode, ref Array custom)
         {
+            TraceLogger.Log(TraceCategory.Info(), "Disconnecting; mode='{0}'; Arguments: '{1}'",RemoveMode,custom);
             if (_dialogmanager != null)
             {
                 _dialogmanager.Dispose();
@@ -288,6 +294,18 @@ namespace WetHatLab.OneNote.TaggingKit
             Trace.Flush();
             GC.Collect();
             GC.WaitForPendingFinalizers();
+            if (_forceExit 
+                && ( RemoveMode == ext_DisconnectMode.ext_dm_HostShutdown
+                  || RemoveMode == ext_DisconnectMode.ext_dm_UserClosed))
+            {
+                // a dirty hack to make sure the ddlhost shuts down after an exception occurred.
+                // This is necessary to allow the add-in to be loaded successfully next time
+                // OneNote starts (a zombie dllhost would prevent that)
+                TraceLogger.Log(TraceCategory.Info(), "Forcing COM Surrogate shutdown");
+                Trace.Flush();
+                Environment.Exit(0);
+            }
+            
         }
 
         /// <summary>
@@ -308,6 +326,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <returns>ribbon definition XML as string</returns>
         public string GetCustomUI(string RibbonID)
         {
+            TraceLogger.Log(TraceCategory.Info(), "UI configuration requested: {0}", RibbonID);
             return Properties.Resources.ribbon;
         }
         #endregion IRibbonExtensibility
@@ -319,6 +338,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="ribbon">OneNote ribbon bar</param>
         public void editTags(IRibbonControl ribbon)
         {
+            TraceLogger.Log(TraceCategory.Info(), "Show tag editor");
             XMLSchema s = CurrentSchema;
             _dialogmanager.Show<TagEditor, TagEditorModel>(() => new TagEditorModel(_OneNoteApp, s));
         }
@@ -329,6 +349,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="ribbon">OneNote ribbon bar</param>
         public void findTags(IRibbonControl ribbon)
         {
+            TraceLogger.Log(TraceCategory.Info(), "Show tag finder");
             XMLSchema s = CurrentSchema;
             _dialogmanager.Show<FindTaggedPages, FindTaggedPagesModel>(() => new FindTaggedPagesModel(_OneNoteApp, s));
         }
@@ -339,6 +360,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="ribbon">OneNote ribbon bar</param>
         public void relatedPages(IRibbonControl ribbon)
         {
+            TraceLogger.Log(TraceCategory.Info(), "Show related pages tracer");
             XMLSchema s = CurrentSchema;
             _dialogmanager.Show<RelatedPages, RelatedPagesModel>(() => new RelatedPagesModel(_OneNoteApp, s));
         }
@@ -349,12 +371,13 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="ribbon"></param>
         public void manageTags(IRibbonControl ribbon)
         {
+            TraceLogger.Log(TraceCategory.Info(), "Show settings editor");
             XMLSchema s = CurrentSchema;
             _dialogmanager.ShowDialog<TagManager, TagManagerModel>(_OneNoteApp.Windows.CurrentWindow, () => new TagManagerModel(_OneNoteApp, s));
         }
 
         /// <summary>
-        /// Get mages for ribbon bar buttons
+        /// Get images for ribbon bar buttons
         /// </summary>
         /// <param name="imageName">name of image to get</param>
         /// <returns>image stream</returns>
@@ -374,6 +397,7 @@ namespace WetHatLab.OneNote.TaggingKit
                     Properties.Resources.tagSearch_32x32.Save(mem, ImageFormat.Png);
                     break;
                 default:
+                    TraceLogger.Log(TraceCategory.Warning(), "Unknown image requested: {0}", imageName);
                     Properties.Resources.tag_32x32.Save(mem, ImageFormat.Png);
                     break;
             }
