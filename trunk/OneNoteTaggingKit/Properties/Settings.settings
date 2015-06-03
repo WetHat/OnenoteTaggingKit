@@ -30,7 +30,7 @@
       <Value Profile="(Default)">400</Value>
     </Setting>
     <Setting Name="DefaultScope" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">3</Value>
     </Setting>
     <Setting Name="TagSearchWindow_Width" Type="System.Double" Scope="User">
       <Value Profile="(Default)">350</Value>
