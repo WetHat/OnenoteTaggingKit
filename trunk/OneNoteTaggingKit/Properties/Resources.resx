@@ -374,4 +374,7 @@ Sorry for the inconvenience!</value>
   <data name="TagSearch_StatusBar_Tooltip" xml:space="preserve">
     <value>When tracking is on, tags from the current page are highlighted and the title of the current page is displayed in the status bar. Select one ore more of the highlighted tags to filter for pages related to the current page.</value>
   </data>
+  <data name="TagEditor_NoTagsSelectedWarning" xml:space="preserve">
+    <value>No tags have been selected! This operation will not change anything.</value>
+  </data>
 </root>
