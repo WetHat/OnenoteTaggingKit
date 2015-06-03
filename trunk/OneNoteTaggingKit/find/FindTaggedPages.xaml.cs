@@ -49,7 +49,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // save the scope
-            Properties.Settings.Default.DefaultScope = (int)scopeSelect.SelectedScope;
+            // Properties.Settings.Default.DefaultScope = (int)scopeSelect.SelectedScope;
             Properties.Settings.Default.Save();
             if (_model != null)
             {
