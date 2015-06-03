@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using WetHatLab.OneNote.TaggingKit.common;
@@ -10,6 +11,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// <summary>
     /// Interaction logic for TagSearch.xaml
     /// </summary>
+    [ComVisible(false)]
     public partial class FindTaggedPages : Window, IOneNotePageWindow<FindTaggedPagesModel>
     {
         private FindTaggedPagesModel _model;
@@ -46,6 +48,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
         #region UI events
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            // save the scope
+            Properties.Settings.Default.DefaultScope = (int)scopeSelect.SelectedScope;
             Properties.Settings.Default.Save();
             if (_model != null)
             {
