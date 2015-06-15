@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -52,6 +53,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// View model backing the UI to find tagged pages.
     /// </summary>
     /// <remarks>Search queries are run in the background</remarks>
+    [ComVisible(false)]
     public class FindTaggedPagesModel : WindowViewModelBase, ITagSearchModel
     {
         internal static readonly PropertyChangedEventArgs PAGE_COUNT = new PropertyChangedEventArgs("PageCount");
@@ -421,6 +423,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// A collection of tags represented by data context objects implementing the
     /// <see cref="IHighlightableTagDataContext"/> contract. 
     /// </summary>
+    [ComVisible(false)]
     public class TagSource : ObservableSortedList<TagModelKey, string, TagSelectorModel>, ITagSource
     {
         #region ITagSource

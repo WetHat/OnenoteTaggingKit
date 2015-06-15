@@ -77,6 +77,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddInDialogManager.cs" />
     <Compile Include="common\KeyedItems.cs" />
     <Compile Include="common\ObservableDictionary.cs" />
     <Compile Include="common\ObservableSortedList.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="common\TagsAndPages.cs" />
     <Compile Include="common\TaggedPage.cs" />
     <Compile Include="common\TagPageSet.cs" />
+    <Compile Include="common\ui\AddInWindowsContracts.cs" />
     <Compile Include="common\ui\HighlightedTagsPanel.xaml.cs">
       <DependentUpon>HighlightedTagsPanel.xaml</DependentUpon>
     </Compile>
@@ -156,7 +158,6 @@
       <DependentUpon>FindTaggedPages.xaml</DependentUpon>
     </Compile>
     <Compile Include="find\FindTaggedPagesModel.cs" />
-    <Compile Include="WindowContracts.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

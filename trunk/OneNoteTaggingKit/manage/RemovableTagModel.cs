@@ -11,7 +11,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     /// View model backing a <see cref="RemovableTag"/> user control.
     /// </summary>
     /// <remarks>Provides properties to enable/disable a tag for removal and to adjust the presentation of the corresponding UI element.</remarks>
-    public class RemovableTagModel : SuggestedTagsDataContext
+    public class RemovableTagModel : SuggestedTagDataContext
     {
         internal static readonly PropertyChangedEventArgs USE_COUNT = new PropertyChangedEventArgs("UseCount");
         internal static readonly PropertyChangedEventArgs MARKER_VISIBILIY = new PropertyChangedEventArgs("RemoveMarkerVisibility");

@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Runtime.InteropServices;
 
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
@@ -17,7 +18,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     public interface IHighlightableTagDataContext
     {
         /// <summary>
-        /// Set the higlighter which generates text highlight descriptions
+        /// Set the highlighter which generates text highlight descriptions
         /// based on pattern matches.
         /// </summary>
         TextSplitter Highlighter { set; }
@@ -26,7 +27,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// Determine if a particular tag has highlights
         /// </summary>
         /// <remarks>This property is used to make sure that the first
-        /// comtrol that displays highlights in visible</remarks>
+        /// control that displays highlights in visible</remarks>
         bool HasHighlights { get; }
     }
 
@@ -98,7 +99,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// </code>
     /// </para>
     /// <para>
-    /// A simple implmentation of <see cref="ITagSource"/> looks like this
+    /// A simple implementation of <see cref="ITagSource"/> looks like this
     /// <code language="C#">
     /// public class TagSource : ObservableSortedList&lt;TagModelKey, string, TagSelectorModel&gt;, ITagSource
     /// {
@@ -112,6 +113,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// </code>
     /// </para>
     /// </remarks>
+    [ComVisible(false)]
     public partial class HighlightedTagsPanel : UserControl
     {
         /// <summary>

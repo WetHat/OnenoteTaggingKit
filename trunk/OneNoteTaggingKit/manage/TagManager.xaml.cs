@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Documents;
 using WetHatLab.OneNote.TaggingKit.common;
@@ -11,6 +12,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     /// Interaction logic for TagManager.xaml user control
     /// </summary>
     /// <remarks>Implements the tag management dialog logic</remarks>
+    [ComVisible(false)]
     public partial class TagManager : Window, IOneNotePageWindow<TagManagerModel>
     {
         private TagManagerModel _model;

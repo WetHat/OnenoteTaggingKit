@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +14,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// <summary>
     /// Base class for view models supporting the MVVM pattern for top level add-in windows.
     /// </summary>
+    [ComVisible(false)]
     public abstract class WindowViewModelBase: DependencyObject, INotifyPropertyChanged, IDisposable
     {
         /// <summary>

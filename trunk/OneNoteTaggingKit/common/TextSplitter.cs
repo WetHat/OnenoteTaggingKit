@@ -8,7 +8,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
 {
 
     /// <summary>
-    /// Representation of a fragment of text which does or des not match a pattern
+    /// Representation of a fragment of text which does or does not match a pattern
     /// </summary>
     /// <remarks>instances of this classed are used by <see cref="TextSplitter"/> objects to split
     /// text according to matching patterns</remarks>
@@ -78,7 +78,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Get the regular expression used for splitting.
         /// </summary>
-        /// <value>regular expression used for splitting; null if not spit pattern is set </value>
+        /// <value>regular expression used for splitting; null if not split pattern is set </value>
         internal Regex SplitPattern { get { return _pattern; } }
         /// <summary>
         /// Create a sequence of text fragments describing matching and non-matching fragments

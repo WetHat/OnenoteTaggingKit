@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using WetHatLab.OneNote.TaggingKit.common;
@@ -52,6 +53,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// Implements the <see cref="INotifyPropertyChanged"/> interface to update the UI after property changes.
     /// <remarks>
     /// </remarks>
+    [ComVisible(false)]
     public class TagSelectorModel : DependencyObject, ISortableKeyedItem<TagModelKey, string>, ITagSelectorModel, IHighlightableTagDataContext, INotifyPropertyChanged
     {
         internal static readonly PropertyChangedEventArgs FILTER_INDICATOR_VISIBILITY = new PropertyChangedEventArgs("FilterIndicatorVisibility");
