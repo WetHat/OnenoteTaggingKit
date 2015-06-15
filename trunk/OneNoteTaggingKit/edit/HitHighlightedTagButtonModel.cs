@@ -11,7 +11,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     /// <summary>
     /// View model for the <see cref="HitHighlightedTagButton"/> control.
     /// </summary>
-    public class HitHighlightedTagButtonModel : SuggestedTagsDataContext
+    public class HitHighlightedTagButtonModel : SuggestedTagDataContext
     { /// <summary>
         /// predefined event descriptor for <see cref="E:PropertyChanged"/> event fired for the <see cref="Visibility"/> property
         /// </summary>
@@ -27,7 +27,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
        
         /// <summary>
-        /// Get the visibilty the associated <see cref="HitHighlightedTagButton"/> control has. 
+        /// Get the visibility the associated <see cref="HitHighlightedTagButton"/> control has. 
         /// </summary>
         public Visibility Visibility
         {

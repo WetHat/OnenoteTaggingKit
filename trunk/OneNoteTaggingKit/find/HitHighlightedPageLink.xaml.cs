@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -10,6 +11,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// <summary>
     /// Control to render a hit highlighted link to a OneNote page.
     /// </summary>
+    [ComVisible(false)]
     public partial class HitHighlightedPageLink : UserControl
     {
         /// <summary>

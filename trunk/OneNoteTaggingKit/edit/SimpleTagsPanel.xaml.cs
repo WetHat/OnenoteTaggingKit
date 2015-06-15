@@ -1,4 +1,5 @@
 ﻿using System.Collections.Specialized;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using WetHatLab.OneNote.TaggingKit.common;
@@ -9,6 +10,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     /// <summary>
     /// Interaction logic for SimpleTagsPanel.xaml
     /// </summary>
+    [ComVisible(false)]
     public partial class SimpleTagsPanel : UserControl
     {
 

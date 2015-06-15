@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Runtime.InteropServices;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -9,6 +10,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// <summary>
     /// Interaction logic for TagSelector.xaml
     /// </summary>
+    [ComVisible(false)]
     public partial class TagSelector : UserControl
     {
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -56,6 +57,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// <summary>
     /// Event details for the <see cref="E:WetHatLab.OneNote.TaggingKit.common.ui.ScopeSelector.ScopeChanged"/> event
     /// </summary>
+    [ComVisible(false)]
     public class ScopeChangedEventArgs : RoutedEventArgs
     {
         /// <summary>
@@ -118,10 +120,11 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// <summary>
     /// Interaction logic for ScopeSelector.xaml
     /// </summary>
+    [ComVisible(false)]
     public partial class ScopeSelector : UserControl
     {
         /// <summary>
-        /// Dependecy property for the selected scope
+        /// Dependency property for the selected scope
         /// </summary>
         /// <seealso cref="SelectedScope"/>
         public static readonly DependencyProperty SelectedScopeProperty = DependencyProperty.Register("SelectedScope", typeof(SearchScope), typeof(ScopeSelector),new PropertyMetadata(HandleScopeChange));

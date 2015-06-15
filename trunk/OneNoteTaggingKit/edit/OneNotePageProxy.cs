@@ -37,16 +37,16 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private static readonly String[] ELEMENT_SEQUENCE = { "TagDef", "QuickStyleDef", "XPSFile", "Meta", "MediaPlaylist", "MeetingInfo", "PageSettings", "Title" };
         private DateTime _lastModified;
         private XNamespace _one;
-        // the onenote application object
+        // the OneNote application object
         private Application _onenote;
 
         private string[] _originalTags;
         private XElement _page;
-        // the OneNote page document
-        private XDocument _pageDoc;
+
+        private XDocument _pageDoc; // the OneNote page document
         private XElement _meta;
-        // <one:T> element with tags
-        private XElement _pageTagsOE;
+
+        private XElement _pageTagsOE; // <one:T> element with tags
 
         private XMLSchema _schema;
         private string[] _tags;

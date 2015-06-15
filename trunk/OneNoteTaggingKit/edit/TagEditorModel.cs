@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
@@ -82,6 +83,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     ///   <item>suggested tags</item>
     /// </list>
     /// </remarks>
+    [ComVisible(false)]
     public class TagEditorModel : WindowViewModelBase, ITagEditorModel
     {
         static readonly PropertyChangedEventArgs PAGE_TITLE = new PropertyChangedEventArgs("PageTitle");

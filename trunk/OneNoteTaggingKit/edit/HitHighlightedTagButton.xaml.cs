@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -11,6 +12,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     /// <summary>
     /// Interaction logic for HitHighlightedTag.xaml
     /// </summary>
+    [ComVisible(false)]
     public partial class HitHighlightedTagButton : UserControl
     {
         /// <summary>

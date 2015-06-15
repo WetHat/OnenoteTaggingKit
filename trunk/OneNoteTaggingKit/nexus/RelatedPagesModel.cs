@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -21,6 +22,7 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
         IEnumerable<RelatedPageLinkModel> RelatedPages {get;}
     }
 
+    [ComVisible(false)]
     public class RelatedPagesModel : WindowViewModelBase, IRelatedPagesModel
     {
         private static readonly PropertyChangedEventArgs PAGE_TITLE = new PropertyChangedEventArgs("CurrentPageTitle");

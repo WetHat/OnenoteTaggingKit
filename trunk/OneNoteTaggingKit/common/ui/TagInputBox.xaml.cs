@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,6 +17,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// <summary>
     /// Event details for the <see cref="E:TagInputBox.TagInput"/> event
     /// </summary>
+    [ComVisible(false)]
     public class TagInputEventArgs : RoutedEventArgs
     {
         /// <summary>
@@ -46,6 +48,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// <summary>
     /// Capture input of one or more tags separated by comma ','
     /// </summary>
+    [ComVisible(false)]
     public partial class TagInputBox : UserControl
     {
         /// <summary>

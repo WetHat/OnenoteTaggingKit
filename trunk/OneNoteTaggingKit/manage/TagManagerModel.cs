@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -44,6 +45,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     /// <summary>
     /// View model backing the <see cref="TagManager"/> dialog.
     /// </summary>
+    [ComVisible(false)]
     public class TagManagerModel : WindowViewModelBase, ITagManagerModel
     {
         private SuggestedTagsSource<RemovableTagModel> _suggestedTags = new SuggestedTagsSource<RemovableTagModel>();

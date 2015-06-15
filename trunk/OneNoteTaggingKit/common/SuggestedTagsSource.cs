@@ -8,11 +8,11 @@ using WetHatLab.OneNote.TaggingKit.edit;
 namespace WetHatLab.OneNote.TaggingKit.common
 {
     /// <summary>
-    /// Base class for data context implementations for controls displaying suggested tags.
+    /// Base class for data context implementations for controls displaying a single tag (such as a button or label).
     /// </summary>
     /// <remarks>
     /// <para>
-    /// Data context data implementation based on this class can be used in <see cref="SuggestedTagsSource{T}"/>
+    /// Data context implementations based on this class can be used in <see cref="SuggestedTagsSource{T}"/>
     /// collections.
     /// </para>
     /// <para>
@@ -25,7 +25,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// controls. 
     /// </para>
     /// </remarks>
-    public class SuggestedTagsDataContext: IHighlightableTagDataContext,ISortableKeyedItem<TagModelKey,string>,INotifyPropertyChanged
+    public class SuggestedTagDataContext: IHighlightableTagDataContext,ISortableKeyedItem<TagModelKey,string>,INotifyPropertyChanged
     {
         bool _hasHighlights;
         IEnumerable<TextFragment> _highlightedTagName;
@@ -49,7 +49,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
           }
         }
 
-        internal SuggestedTagsDataContext()
+        internal SuggestedTagDataContext()
         {   
         }
 
@@ -105,7 +105,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
         #region ISortableKeyedItem<TagModelKey,string>
         /// <summary>
-        /// Get the sortble key of the data context.
+        /// Get the sortable key of the data context.
         /// </summary>
         public TagModelKey SortKey
         {
@@ -136,7 +136,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// <summary>
     /// The collection of suggested tags recorded in the add-in settings
     /// </summary>
-    /// <typeparam name="T">data context type</typeparam>
+    /// <typeparam name="T">data context type to use to represent a tag</typeparam>
     /// <remarks>
     /// <para>
     /// This class can be directly bound to the <see cref="HighlightedTagsPanel.TagSource"/> property and provides a
@@ -148,17 +148,17 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// the <see cref="TagInputBox.Tags"/> property to the <see cref="HighlightedTagsPanel.Highlighter"/> property.
     /// </para>
     /// </remarks>
-    public class SuggestedTagsSource<T> : ObservableSortedList<TagModelKey, string, T>, ITagSource where T : SuggestedTagsDataContext,new()
+    public class SuggestedTagsSource<T> : ObservableSortedList<TagModelKey, string, T>, ITagSource where T : SuggestedTagDataContext,new()
     {
         /// <summary>
-        /// create a new instance of a suggeted tags collection.
+        /// create a new instance of a suggested tags collection.
         /// </summary>
         internal SuggestedTagsSource()
         {
         }
 
         /// <summary>
-        /// Asnchronously load all tags used anywhere on OneNote pages.
+        /// Asynchronously load all tags used anywhere on OneNote pages.
         /// </summary>
         /// <returns>awaitable task object</returns>
         internal async Task LoadSuggestedTagsAsync()
