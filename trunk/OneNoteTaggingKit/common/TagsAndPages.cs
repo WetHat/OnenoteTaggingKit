@@ -55,7 +55,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         private ObservableDictionary<string, TaggedPage> _pages = new ObservableDictionary<string, TaggedPage>();
 
         /// <summary>
-        /// Craete a new instance of the tag collection
+        /// Create a new instance of the tag collection
         /// </summary>
         /// <param name="onenote">OneNote application object</param>
         /// <param name="schema">version dependent page schema</param>
@@ -105,7 +105,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             HashSet<string> knownTags = new HashSet<String>(OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags));
             int countBefore = knownTags.Count;
 
-            // update the list of kown tags by adding tags from search result
+            // update the list of known tags by adding tags from search result
             foreach (KeyValuePair<string, TagPageSet> t in _tags)
             {
                 knownTags.Add(t.Key);
