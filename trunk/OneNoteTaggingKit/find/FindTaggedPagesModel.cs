@@ -184,7 +184,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         private void UpdateFilterSelectionAction()
         {
             // re-select all tags in the filter as selection got lost
-            // when new tags were creaed through search
+            // when new tags were created through search
             foreach (string filterTag in _searchResult.Filter)
             {
                 TagSelectorModel mdl;

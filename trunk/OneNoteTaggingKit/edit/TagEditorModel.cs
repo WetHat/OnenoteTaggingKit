@@ -150,7 +150,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             // bring suggestions up-to-date with new tags that may have been entered
             TagSuggestions.AddAll(from t in _pageTags where !TagSuggestions.ContainsKey(t.Key) select new HitHighlightedTagButtonModel() { TagName = t.TagName });
                
-            // pass tags and current page as parameters so that the undelying objects can further be modified in the foreground
+            // pass tags and current page as parameters so that the underlying objects can further be modified in the foreground
             string[] pageTags = (from t in _pageTags.Values select t.TagName).ToArray();
             return Task<int>.Run(() => SaveChangesAction(pageTags, op, scope));
         }

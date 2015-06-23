@@ -9,7 +9,7 @@ using WetHatLab.OneNote.TaggingKit.common.ui;
 namespace WetHatLab.OneNote.TaggingKit.find
 {
     /// <summary>
-    /// Contract vor view models supporting the <see cref="HitHighlightedPageLink"/> control.
+    /// Contract for view models supporting the <see cref="HitHighlightedPageLink"/> control.
     /// </summary>
     public interface IHitHighlightedPageLinkModel
     {

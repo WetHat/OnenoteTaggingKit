@@ -132,7 +132,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 unchecked
                 {
                     if (ce.ErrorCode == (int)0x80042010)
-                    {
+                    { // try again after concurrent page modification
                         LoadOneNotePage();
                         ApplyTagsToPage();
                         _onenote.UpdatePageContent(_pageDoc.ToString(), _lastModified.ToUniversalTime(), _schema);
