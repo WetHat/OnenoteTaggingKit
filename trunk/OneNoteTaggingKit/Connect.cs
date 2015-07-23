@@ -29,8 +29,7 @@ namespace WetHatLab.OneNote.TaggingKit
 
         private XMLSchema _schema = XMLSchema.xsCurrent;
         private bool _schemaChecked = false;
-        private bool _forceExit = false;
-
+        
         private AddInDialogManager _dialogmanager = null;
         
         /// <summary>
@@ -73,7 +72,6 @@ namespace WetHatLab.OneNote.TaggingKit
                     }
                     catch (Exception xe)
                     {
-                        _forceExit = true;
                         schemaException = xe;
                         TraceLogger.Log(TraceCategory.Info(), "Test of OneNote Schema Version: {0} failed with {1}", schema, xe);
                     }
@@ -154,9 +152,8 @@ namespace WetHatLab.OneNote.TaggingKit
             Trace.Flush();
             GC.Collect();
             GC.WaitForPendingFinalizers();
-            if (_forceExit 
-                && ( RemoveMode == ext_DisconnectMode.ext_dm_HostShutdown
-                  || RemoveMode == ext_DisconnectMode.ext_dm_UserClosed))
+            if (    RemoveMode == ext_DisconnectMode.ext_dm_HostShutdown
+                 || RemoveMode == ext_DisconnectMode.ext_dm_UserClosed)
             {
                 // a dirty hack to make sure the ddlhost shuts down after an exception occurred.
                 // This is necessary to allow the add-in to be loaded successfully next time
