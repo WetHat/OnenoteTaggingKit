@@ -9,7 +9,7 @@ using System.Windows;
 namespace WetHatLab.OneNote.TaggingKit
 {
     /// <summary>
-    /// Tracing catergory for use with the <see cref="TraceLogger"/>
+    /// Tracing category for use with the <see cref="TraceLogger"/>
     /// </summary>
     internal struct TraceCategory
     {
@@ -19,20 +19,22 @@ namespace WetHatLab.OneNote.TaggingKit
 
         private string _category;
         private string _caller;
-        private int    _line;
+        private int _line;
 
         /// <summary>
         /// Get the tracing category name
         /// </summary>
-        internal string Category   { get { return _category; } }
+        internal string Category { get { return _category; } }
+
         /// <summary>
         /// Get the name of the calling method which requested logging
         /// </summary>
-        internal string CallerName { get { return _caller;  } }
+        internal string CallerName { get { return _caller; } }
+
         /// <summary>
         /// Get the line number of the caller from where the caller requested logging
         /// </summary>
-        internal int Line          { get { return _line;  } }
+        internal int Line { get { return _line; } }
 
         private TraceCategory(string category, string caller, int line)
         {
@@ -80,7 +82,7 @@ namespace WetHatLab.OneNote.TaggingKit
     /// </summary>
     internal class TraceLogger
     {
-        static string _logfile = null;
+        private static string _logfile = null;
 
         /// <summary>
         /// Show an error box for an exception.
@@ -101,11 +103,10 @@ namespace WetHatLab.OneNote.TaggingKit
             if (result == MessageBoxResult.OK)
             { // browse to the troubleshooting tips
                 string wikipage = "Troubleshooting%20Tips";
-                
+
                 COMException ce = ex as COMException;
                 if (ce != null)
                 {
-                    
                     switch ((uint)ce.ErrorCode)
                     {
                         case 0x80042019:
@@ -167,7 +168,7 @@ namespace WetHatLab.OneNote.TaggingKit
         internal static void Log(TraceCategory category, string message, params object[] args)
         {
 #if TRACE
-            Trace.Write(category.CallerName,category.Category);
+            Trace.Write(category.CallerName, category.Category);
             Trace.Write(" (");
             Trace.Write(category.Line);
             Trace.Write(") | ");
@@ -179,7 +180,7 @@ namespace WetHatLab.OneNote.TaggingKit
             {
                 Log(TraceCategory.Error(), "Logging failed {0}", ex);
             }
-            
+
 #endif //TRACE
         }
 
