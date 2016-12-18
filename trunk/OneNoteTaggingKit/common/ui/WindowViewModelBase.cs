@@ -1,11 +1,7 @@
 ﻿using Microsoft.Office.Interop.OneNote;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -15,23 +11,47 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// Base class for view models supporting the MVVM pattern for top level add-in windows.
     /// </summary>
     [ComVisible(false)]
-    public abstract class WindowViewModelBase: DependencyObject, INotifyPropertyChanged, IDisposable
+    public abstract class WindowViewModelBase : DependencyObject, INotifyPropertyChanged, IDisposable
     {
         /// <summary>
         /// Get the OneNote application object
         /// </summary>
-        protected Microsoft.Office.Interop.OneNote.Application OneNoteApp {get; private set;}
-
-        /// <summary>
-        /// Get the OneNote schema.
-        /// </summary>
-        protected XMLSchema OneNotePageSchema {get; private set;}
+        protected Microsoft.Office.Interop.OneNote.Application OneNoteApp { get; private set; }
 
         /// <summary>
         /// Get the OneNote current window object
         /// </summary>
-        internal Microsoft.Office.Interop.OneNote.Window CurrentOneNoteWindow {get; private set;}
-        
+        internal Microsoft.Office.Interop.OneNote.Window CurrentOneNoteWindow { get; private set; }
+
+        /// <summary>
+        /// Get the highest version of the schema supported by OneNote.
+        /// </summary>
+        internal XMLSchema CurrentSchema
+        {
+            get
+            {
+                string outXml;
+
+                // determine schema version we can use
+                foreach (var schema in new XMLSchema[] { XMLSchema.xs2013, XMLSchema.xs2010 })
+                {
+                    try
+                    {
+                        OneNoteApp.GetHierarchy(CurrentNotebookID, HierarchyScope.hsSelf, out outXml, schema);
+                        // we can use this schema
+                        TraceLogger.Log(TraceCategory.Info(), "OneNote schema Version: {0}", schema);
+                        return schema;
+                    }
+                    catch (Exception xe)
+                    {
+                        TraceLogger.Log(TraceCategory.Info(), "Test of OneNote Schema Version: {0} failed with {1}", schema, xe);
+                        TraceLogger.Flush();
+                    }
+                }
+                return XMLSchema.xs2010;
+            }
+        }
+
         /// <summary>
         /// Get the id of the current OneNote page
         /// </summary>
@@ -60,18 +80,19 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// </summary>
         /// <param name="app">OneNote application object</param>
         /// <param name="schema">OneNote schema to use</param>
-        protected WindowViewModelBase(Microsoft.Office.Interop.OneNote.Application app, XMLSchema schema)
+        protected WindowViewModelBase(Microsoft.Office.Interop.OneNote.Application app)
         {
             OneNoteApp = app;
-            OneNotePageSchema = schema;
             CurrentOneNoteWindow = app.Windows.CurrentWindow;
         }
 
         #region INotifyPropertyChanged
+
         /// <summary>
         /// Event to notify registered handlers about property changes
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
         #endregion INotifyPropertyChanged
 
         /// <summary>
@@ -107,6 +128,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         }
 
         #region IDisposable
+
         /// <summary>
         /// Unsubsribe all listeners.
         /// </summary>
@@ -114,6 +136,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         {
             PropertyChanged = null;
         }
-        #endregion
+
+        #endregion IDisposable
     }
 }

@@ -76,7 +76,7 @@ namespace WetHatLab.OneNote.TaggingKit
         }
 
         /// <summary>
-        /// Show a WPF dialog.
+        /// Show a singleton WPF dialog.
         /// </summary>
         /// <typeparam name="T">dialog type</typeparam>
         /// <typeparam name="M">view model type</typeparam>
