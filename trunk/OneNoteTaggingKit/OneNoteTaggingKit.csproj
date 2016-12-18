@@ -148,6 +148,7 @@
     </Compile>
     <Compile Include="nexus\RelatedPagesDesignerModel.cs" />
     <Compile Include="nexus\RelatedPagesModel.cs" />
+    <Compile Include="OneNoteProxy.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

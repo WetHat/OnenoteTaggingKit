@@ -1,4 +1,8 @@
-﻿using Microsoft.Office.Interop.OneNote;
+﻿////////////////////////////////////////////////////////////
+// Author: WetHat
+// (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
+////////////////////////////////////////////////////////////
+using Microsoft.Office.Interop.OneNote;
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -14,76 +18,17 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     public abstract class WindowViewModelBase : DependencyObject, INotifyPropertyChanged, IDisposable
     {
         /// <summary>
-        /// Get the OneNote application object
+        /// Get the OneNote application object proxy.
         /// </summary>
-        protected Microsoft.Office.Interop.OneNote.Application OneNoteApp { get; private set; }
-
-        /// <summary>
-        /// Get the OneNote current window object
-        /// </summary>
-        internal Microsoft.Office.Interop.OneNote.Window CurrentOneNoteWindow { get; private set; }
-
-        /// <summary>
-        /// Get the highest version of the schema supported by OneNote.
-        /// </summary>
-        internal XMLSchema CurrentSchema
-        {
-            get
-            {
-                string outXml;
-
-                // determine schema version we can use
-                foreach (var schema in new XMLSchema[] { XMLSchema.xs2013, XMLSchema.xs2010 })
-                {
-                    try
-                    {
-                        OneNoteApp.GetHierarchy(CurrentNotebookID, HierarchyScope.hsSelf, out outXml, schema);
-                        // we can use this schema
-                        TraceLogger.Log(TraceCategory.Info(), "OneNote schema Version: {0}", schema);
-                        return schema;
-                    }
-                    catch (Exception xe)
-                    {
-                        TraceLogger.Log(TraceCategory.Info(), "Test of OneNote Schema Version: {0} failed with {1}", schema, xe);
-                        TraceLogger.Flush();
-                    }
-                }
-                return XMLSchema.xs2010;
-            }
-        }
-
-        /// <summary>
-        /// Get the id of the current OneNote page
-        /// </summary>
-        internal string CurrentPageID
-        {
-            get { return CurrentOneNoteWindow.CurrentPageId; }
-        }
-
-        internal string CurrentSectionID
-        {
-            get { return CurrentOneNoteWindow.CurrentSectionId; }
-        }
-
-        internal string CurrentSectionGroupID
-        {
-            get { return CurrentOneNoteWindow.CurrentSectionGroupId; }
-        }
-
-        internal string CurrentNotebookID
-        {
-            get { return CurrentOneNoteWindow.CurrentNotebookId; }
-        }
+        public OneNoteProxy OneNoteApp { get; private set; }
 
         /// <summary>
         /// Initialize this base class
         /// </summary>
         /// <param name="app">OneNote application object</param>
-        /// <param name="schema">OneNote schema to use</param>
-        protected WindowViewModelBase(Microsoft.Office.Interop.OneNote.Application app)
+        protected WindowViewModelBase(OneNoteProxy app)
         {
             OneNoteApp = app;
-            CurrentOneNoteWindow = app.Windows.CurrentWindow;
         }
 
         #region INotifyPropertyChanged
@@ -130,7 +75,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         #region IDisposable
 
         /// <summary>
-        /// Unsubsribe all listeners.
+        /// Unsubscribe all listeners.
         /// </summary>
         public virtual void Dispose()
         {

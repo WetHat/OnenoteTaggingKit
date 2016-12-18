@@ -1,4 +1,8 @@
-﻿using Microsoft.Office.Interop.OneNote;
+﻿////////////////////////////////////////////////////////////
+// Author: WetHat
+// (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
+////////////////////////////////////////////////////////////
+using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -43,10 +47,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// The OneNote page currently viewed
         /// </summary>
         CurrentNote = 0,
+
         /// <summary>
         /// The range of OneNote pages currently selected
         /// </summary>
         SelectedNotes,
+
         /// <summary>
         /// The OneNote section to which the currently viewed page belongs to.
         /// </summary>
@@ -67,11 +73,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <summary>
         /// Get the scope classification.
         /// </summary>
-        public TaggingScope Scope {get; private set;}
+        public TaggingScope Scope { get; private set; }
+
         /// <summary>
         /// Get the scope UI label.
         /// </summary>
-        public string Label {get; private set;}
+        public string Label { get; private set; }
     }
 
     /// <summary>
@@ -86,13 +93,13 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     [ComVisible(false)]
     public class TagEditorModel : WindowViewModelBase, ITagEditorModel
     {
-        static readonly PropertyChangedEventArgs PAGE_TITLE = new PropertyChangedEventArgs("PageTitle");
+        private static readonly PropertyChangedEventArgs PAGE_TITLE = new PropertyChangedEventArgs("PageTitle");
 
-        SuggestedTagsSource<HitHighlightedTagButtonModel> _suggestionSource;
+        private SuggestedTagsSource<HitHighlightedTagButtonModel> _suggestionSource;
 
-        ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> _pageTags = new ObservableSortedList<TagModelKey, string, SimpleTagButtonModel>();
+        private ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> _pageTags = new ObservableSortedList<TagModelKey, string, SimpleTagButtonModel>();
 
-        TaggingScopeDescriptor[] _taggingScopes;
+        private TaggingScopeDescriptor[] _taggingScopes;
 
         public SuggestedTagsSource<HitHighlightedTagButtonModel> TagSuggestions
         {
@@ -113,11 +120,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             get
             {
-                return new TagsAndPages(OneNoteApp, CurrentSchema);
+                return new TagsAndPages(OneNoteApp);
             }
         }
 
-        internal TagEditorModel(Microsoft.Office.Interop.OneNote.Application onenote) : base(onenote)
+        internal TagEditorModel(OneNoteProxy onenote) : base(onenote)
         {
             _taggingScopes = new TaggingScopeDescriptor[] {
                new TaggingScopeDescriptor(TaggingScope.CurrentNote,Properties.Resources.TagEditor_ComboBox_Scope_CurrentNote),
@@ -127,6 +134,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
 
         #region ITagEditorModel
+
         /// <summary>
         /// Get the collection of tags on the current page.
         /// </summary>
@@ -145,7 +153,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         #endregion ITagEditorModel
 
-        internal Task<int> SavePageTagsAsync(TagOperation op,TaggingScope scope)
+        internal Task<int> SavePageTagsAsync(TagOperation op, TaggingScope scope)
         {
             // bring suggestions up-to-date with new tags that may have been entered
             TagSuggestions.AddAll(from t in _pageTags where !TagSuggestions.ContainsKey(t.Key) select new HitHighlightedTagButtonModel() { TagName = t.TagName });
@@ -160,7 +168,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             TagSuggestions.Save();
             int pagesTagged = 0;
 
-            TagsAndPages tc = new TagsAndPages(OneNoteApp, CurrentSchema);
+            TagsAndPages tc = new TagsAndPages(OneNoteApp);
 
             // covert scope to context
             TagContext ctx;
@@ -171,18 +179,20 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 case TaggingScope.CurrentNote:
                     ctx = TagContext.CurrentNote;
                     break;
+
                 case TaggingScope.SelectedNotes:
                     ctx = TagContext.SelectedNotes;
                     break;
+
                 case TaggingScope.CurrentSection:
                     ctx = TagContext.CurrentSection;
                     break;
             }
-            tc.GetPagesFromHierarchy(ctx);
+            tc.LoadPageTags(ctx);
 
             foreach (string pageID in (from p in tc.Pages select p.Key))
             {
-                OneNotePageProxy page = new OneNotePageProxy(OneNoteApp, pageID, CurrentSchema);
+                OneNotePageProxy page = new OneNotePageProxy(OneNoteApp, pageID);
 
                 HashSet<string> pagetags = new HashSet<string>(page.PageTags);
 
@@ -193,9 +203,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     case TagOperation.SUBTRACT:
                         pagetags.ExceptWith(tags);
                         break;
+
                     case TagOperation.UNITE:
                         pagetags.UnionWith(tags);
                         break;
+
                     case TagOperation.REPLACE:
                         pagetags.Clear();
                         pagetags.UnionWith(tags);
@@ -216,32 +228,34 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         internal Task<IEnumerable<TagPageSet>> GetContextTagsAsync(TagContext filter)
         {
-            return Task<IEnumerable<TagPageSet>>.Run(() => { return GetContextTagsAction(filter);});
+            return Task<IEnumerable<TagPageSet>>.Run(() => { return GetContextTagsAction(filter); });
         }
 
         private IEnumerable<TagPageSet> GetContextTagsAction(TagContext filter)
         {
             HashSet<TagPageSet> tags = new HashSet<TagPageSet>();
 
-            TagsAndPages contextTags = new TagsAndPages(OneNoteApp, CurrentSchema);
+            TagsAndPages contextTags = new TagsAndPages(OneNoteApp);
 
-            contextTags.FindTaggedPages(CurrentSectionID, includeUnindexedPages: true);
+            contextTags.FindTaggedPages(OneNoteApp.CurrentSectionID, includeUnindexedPages: true);
 
             switch (filter)
             {
                 case TagContext.CurrentNote:
-                    TaggedPage currentPage = (from p in contextTags.Pages where p.Key.Equals(CurrentPageID) select p.Value).FirstOrDefault();
+                    TaggedPage currentPage = (from p in contextTags.Pages where p.Key.Equals(OneNoteApp.CurrentPageID) select p.Value).FirstOrDefault();
                     if (currentPage != null)
                     {
                         tags.UnionWith(currentPage.Tags);
                     }
                     break;
+
                 case TagContext.SelectedNotes:
                     foreach (var p in (from pg in contextTags.Pages where pg.Value.IsSelected select pg.Value))
                     {
                         tags.UnionWith(p.Tags);
                     }
                     break;
+
                 case TagContext.CurrentSection:
                     foreach (var p in contextTags.Pages)
                     {
@@ -252,5 +266,4 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             return tags;
         }
     }
-
 }

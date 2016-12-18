@@ -1,4 +1,8 @@
-﻿using Microsoft.Office.Interop.OneNote;
+﻿////////////////////////////////////////////////////////////
+// Author: WetHat
+// (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
+////////////////////////////////////////////////////////////
+using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +11,6 @@ using WetHatLab.OneNote.TaggingKit.common;
 
 namespace WetHatLab.OneNote.TaggingKit.nexus
 {
-
     internal class AggregatedPageCollection : TagsAndPages
     {
         /// <summary>
@@ -20,8 +23,8 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
         /// </summary>
         private ObservableDictionary<string, TagPageSet> _aggregationTags = new ObservableDictionary<string, TagPageSet>();
 
-        internal AggregatedPageCollection(Application onenote, XMLSchema schema)
-            : base(onenote, schema)
+        internal AggregatedPageCollection(OneNoteProxy onenote)
+            : base(onenote)
         {
             _aggregationTags.CollectionChanged += OnTagsCollectionChanged;
         }
@@ -41,6 +44,7 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
                         _aggregatedPages.UnionWith(item.FilteredPages);
                     }
                     break;
+
                 case NotifyDictionaryChangedAction.Remove:
                     // rebuild the set
                     _aggregatedPages.Clear();
@@ -49,6 +53,7 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
                         _aggregatedPages.UnionWith(item.FilteredPages);
                     }
                     break;
+
                 case NotifyDictionaryChangedAction.Reset:
                     _aggregatedPages.Clear();
                     break;
@@ -71,7 +76,7 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
             }
         }
 
-        internal IEnumerable<TagPageSet>GetOrCreateTags(IEnumerable<string> tagNames)
+        internal IEnumerable<TagPageSet> GetOrCreateTags(IEnumerable<string> tagNames)
         {
             foreach (string t in tagNames)
             {
