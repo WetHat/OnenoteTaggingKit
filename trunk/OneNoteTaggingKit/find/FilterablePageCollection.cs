@@ -1,4 +1,8 @@
-﻿using Microsoft.Office.Interop.OneNote;
+﻿////////////////////////////////////////////////////////////
+// Author: WetHat
+// (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
+////////////////////////////////////////////////////////////
+using Microsoft.Office.Interop.OneNote;
 using System.Collections.Generic;
 using WetHatLab.OneNote.TaggingKit.common;
 
@@ -24,12 +28,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// Names of tags intended for filtering. May contain names of non-existing tags.
         /// </summary>
         private ISet<string> _tagFilter = new HashSet<string>();
+
         /// <summary>
         /// Set of pages after tag filters have been applied.
         /// </summary>
         private ObservableDictionary<string, TaggedPage> _filteredPages = new ObservableDictionary<string, TaggedPage>();
 
-        internal FilterablePageCollection(Application onenote, XMLSchema schema) : base (onenote,schema)
+        internal FilterablePageCollection(OneNoteProxy onenote) : base(onenote)
         {
         }
 
@@ -58,7 +63,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             else
             {
                 // run a text search
-                FindTaggedPages(query, scopeID, includeUnindexedPages);   
+                FindTaggedPages(query, scopeID, includeUnindexedPages);
             }
 
             // rebuild filter tags and filtered pages
@@ -130,7 +135,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             if (_tagFilter.Add(tagName))
             {
                 TagPageSet tag;
-                if (Tags.TryGetValue(tagName,out tag))
+                if (Tags.TryGetValue(tagName, out tag))
                 {
                     _filterTags.Add(tag);
                     _filteredPages.IntersectWith(tag.FilteredPages);
@@ -148,7 +153,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             if (_tagFilter.Remove(tagName))
             {
                 TagPageSet tag;
-                if (Tags.TryGetValue(tagName,out tag))
+                if (Tags.TryGetValue(tagName, out tag))
                 {
                     _filterTags.Remove(tag);
                     if (_filterTags.Count == 0)
@@ -159,9 +164,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     {
                         // recompute filtered pages from scratch
                         _filteredPages.UnionWith(Pages.Values);
-                        foreach ( TagPageSet tps in _filterTags)
+                        foreach (TagPageSet tps in _filterTags)
                         {
-                            _filteredPages.IntersectWith(tps.Pages );
+                            _filteredPages.IntersectWith(tps.Pages);
                         }
                         ApplyFilterToTags();
                     }

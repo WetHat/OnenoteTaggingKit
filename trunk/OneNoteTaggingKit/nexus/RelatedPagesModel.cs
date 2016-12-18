@@ -1,4 +1,8 @@
-﻿using Microsoft.Office.Interop.OneNote;
+﻿////////////////////////////////////////////////////////////
+// Author: WetHat
+// (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
+////////////////////////////////////////////////////////////
+using Microsoft.Office.Interop.OneNote;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -17,9 +21,9 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
         /// <summary>
         /// Get the title of the current page
         /// </summary>
-        string CurrentPageTitle {get;}
+        string CurrentPageTitle { get; }
 
-        IEnumerable<RelatedPageLinkModel> RelatedPages {get;}
+        IEnumerable<RelatedPageLinkModel> RelatedPages { get; }
     }
 
     [ComVisible(false)]
@@ -40,14 +44,15 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
         /// </summary>
         private TaggedPage _currentPage;
 
-        Timer _pageTimer;
+        private Timer _pageTimer;
 
-        internal RelatedPagesModel(Application app) : base(app)
+        internal RelatedPagesModel(OneNoteProxy app) : base(app)
         {
-            _taggedPagesCollection = new TagsAndPages(OneNoteApp, CurrentSchema);
+            _taggedPagesCollection = new TagsAndPages(OneNoteApp);
         }
 
         #region IRelatedPagesModel
+
         public string CurrentPageTitle
         {
             get
@@ -55,6 +60,7 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
                 return _currentPage.Title;
             }
         }
+
         public IEnumerable<RelatedPageLinkModel> RelatedPages
         {
             get
@@ -62,7 +68,7 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
                 foreach (string tagname in _currentPage.TagNames)
                 {
                     TagPageSet t;
-                    if (_taggedPagesCollection.Tags.TryGetValue(tagname,out t))
+                    if (_taggedPagesCollection.Tags.TryGetValue(tagname, out t))
                     {
                         foreach (TaggedPage p in t.FilteredPages)
                         {
@@ -75,6 +81,7 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
                 }
             }
         }
+
         #endregion IRelatedPagesModel
 
         internal void TrackCurrentPage()
@@ -87,16 +94,12 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
             return Task.Run(() => _taggedPagesCollection.FindTaggedPages(string.Empty));
         }
 
-
         private void TrackCurrentPage(object state)
         {
-            if (!_currentPageID.Equals(CurrentPageID))
+            if (!_currentPageID.Equals(OneNoteApp.CurrentPageID))
             { // pull in new page
-                _currentPageID = CurrentPageID;
-                string strXml;
-                OneNoteApp.GetHierarchy(_currentPageID, HierarchyScope.hsSelf, out strXml, CurrentSchema);
-
-                XDocument result = XDocument.Parse(strXml);
+                _currentPageID = OneNoteApp.CurrentPageID;
+                XDocument result = OneNoteApp.GetHierarchy(_currentPageID, HierarchyScope.hsSelf);
                 XNamespace one = result.Root.GetNamespaceOfPrefix("one");
 
                 XElement pg = result.Descendants(one.GetName("Page")).FirstOrDefault();

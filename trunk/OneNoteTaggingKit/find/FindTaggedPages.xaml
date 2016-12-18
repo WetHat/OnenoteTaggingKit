@@ -22,27 +22,27 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/OneNoteTaggingKit;component/Resources/Styles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/OneNoteTaggingKit;component/Resources/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-            <GradientStop Color="Ivory" Offset="0.497"/>
-            <GradientStop Color="#FFE1ECF7" Offset="1"/>
+            <GradientStop Color="Ivory" Offset="0.497" />
+            <GradientStop Color="#FFE1ECF7" Offset="1" />
         </LinearGradientBrush>
     </Window.Background>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*" MinHeight="100"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="2*" MinHeight="100"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" MinHeight="100" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="2*" MinHeight="100" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Row="0">
             <cui:ScopeSelector x:Name="scopeSelect" DockPanel.Dock="Right"
@@ -50,8 +50,8 @@
                                Style="{StaticResource controlEffectStyle}"
                                SelectedScope="{Binding DefaultScope, Mode=OneTime}"
                                ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Scope_ComboBox_Tooltip}}"
-                               ScopeChanged="ScopeSelector_ScopeChanged"/>
-            <Button Name="searchButton" 
+                               ScopeChanged="ScopeSelector_ScopeChanged" />
+            <Button Name="searchButton"
                 DockPanel.Dock="Right"
                 Height="24"
                 Style="{StaticResource controlEffectStyle}"
@@ -66,16 +66,16 @@
                   KeyUp="SearchComboBox_KeyUp"
                   ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Query_ComboBox_Tooltip}}" />
         </DockPanel>
-        <GroupBox Grid.Row="1" 
-                  HorizontalAlignment="Stretch" 
+        <GroupBox Grid.Row="1"
+                  HorizontalAlignment="Stretch"
                   Background="Transparent"
                   ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Pages_GroupBox_Tooltip}}">
             <GroupBox.Header>
                 <TextBlock>
-                  <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Pages_GroupBox_Title}}"/>
-                  <Run Text=" ("/>
-                  <Run Text="{Binding PageCount, Mode=OneWay}"/>
-                  <Run Text=")"/>
+                  <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Pages_GroupBox_Title}}" />
+                  <Run Text=" (" />
+                  <Run Text="{Binding PageCount, Mode=OneWay}" />
+                  <Run Text=")" />
                 </TextBlock>
             </GroupBox.Header>
             <ListBox Background="Transparent"
@@ -93,8 +93,8 @@
                       ResizeDirection="Rows" Height="5" HorizontalAlignment="Stretch">
             <GridSplitter.Background>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="#FFE2EDF7" Offset="0.67"/>
+                    <GradientStop Color="Black" Offset="1" />
+                    <GradientStop Color="#FFE2EDF7" Offset="0.67" />
                 </LinearGradientBrush>
             </GridSplitter.Background>
         </GridSplitter>
@@ -111,22 +111,22 @@
                                   Background="Transparent">
             <cui:HighlightedTagsPanel.Header>
                 <TextBlock>
-                  <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Tags_GroupBox_Title}}"/>
-                  <Run Text=" ("/>
-                  <Run Text="{Binding TagCount, Mode=OneWay}"/>
-                  <Run Text=")"/>
+                  <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Tags_GroupBox_Title}}" />
+                  <Run Text=" (" />
+                  <Run Text="{Binding TagCount, Mode=OneWay}" />
+                  <Run Text=")" />
                 </TextBlock>
             </cui:HighlightedTagsPanel.Header>
             <cui:HighlightedTagsPanel.TagTemplate>
                 <DataTemplate>
-                    <local:TagSelector Margin="0,5,5,0"/>
+                    <local:TagSelector Margin="0,5,5,0" />
                 </DataTemplate>
             </cui:HighlightedTagsPanel.TagTemplate>
         </cui:HighlightedTagsPanel>
         <ProgressBar Name="pBar"
-                     Grid.Row="3"/>
+                     Grid.Row="3" />
         <Button Name="clearSelectionButton"  Grid.Row="3"  VerticalAlignment="Top"  HorizontalAlignment="Right" Click="ClearSelectionButton_Click" BorderThickness="0" BorderBrush="LightBlue" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_ClearSelection_Button_Tooltip}}" Background="Transparent" Margin="0,0,25,0">
-            <Image  MaxWidth="32" Height="24" HorizontalAlignment="Center" VerticalAlignment="Bottom" Source="/OneNoteTaggingKit;component/Resources/clear selection.png"/>
+            <Image  MaxWidth="32" Height="24" HorizontalAlignment="Center" VerticalAlignment="Bottom" Source="/OneNoteTaggingKit;component/Resources/clear selection.png" />
         </Button>
         <StatusBar Grid.Row="4"
                    ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_StatusBar_Tooltip}}">
@@ -140,7 +140,7 @@
                     <TextBlock VerticalAlignment="Bottom"
                             TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
                             Background="Transparent"
-                      Text="{Binding CurrentPageTitle, Mode=OneWay}"/>
+                      Text="{Binding CurrentPageTitle, Mode=OneWay}" />
                 </CheckBox>
             </StatusBarItem>
         </StatusBar>

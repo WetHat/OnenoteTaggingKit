@@ -1,4 +1,8 @@
-﻿using Microsoft.Office.Interop.OneNote;
+﻿////////////////////////////////////////////////////////////
+// Author: WetHat
+// (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
+////////////////////////////////////////////////////////////
+using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -35,27 +39,27 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         //<xsd:element name="PageSettings" type="PageSettings" minOccurs="0"/>
         //<xsd:element name="Title" type="Title" minOccurs="0"/>
         private static readonly String[] ELEMENT_SEQUENCE = { "TagDef", "QuickStyleDef", "XPSFile", "Meta", "MediaPlaylist", "MeetingInfo", "PageSettings", "Title" };
+
         private DateTime _lastModified;
+        private XElement _meta;
         private XNamespace _one;
+
         // the OneNote application object
-        private Application _onenote;
+        private OneNoteProxy _onenote;
 
         private string[] _originalTags;
         private XElement _page;
 
         private XDocument _pageDoc; // the OneNote page document
-        private XElement _meta;
-
         private XElement _pageTagsOE; // <one:T> element with tags
 
-        private XMLSchema _schema;
         private string[] _tags;
         private XElement _titleOE;
-        internal OneNotePageProxy(Application onenoteApp, string pageID, XMLSchema schema)
+
+        internal OneNotePageProxy(OneNoteProxy onenoteApp, string pageID)
         {
             _onenote = onenoteApp;
             PageID = pageID;
-            _schema = schema;
             LoadOneNotePage();
             if (_pageTagsOE != null)
             {
@@ -72,13 +76,13 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             {
                 _originalTags = new string[0];
             }
-            
         }
 
         /// <summary>
         /// Get or set the unique ID of the OneNote Page
         /// </summary>
         internal string PageID { get; private set; }
+
         internal string[] PageTags
         {
             get
@@ -125,7 +129,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             ApplyTagsToPage();
             try
             {
-                _onenote.UpdatePageContent(_pageDoc.ToString(), _lastModified.ToUniversalTime(), _schema);
+                _onenote.UpdatePage(_pageDoc, _lastModified);
             }
             catch (COMException ce)
             {
@@ -135,7 +139,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     { // try again after concurrent page modification
                         LoadOneNotePage();
                         ApplyTagsToPage();
-                        _onenote.UpdatePageContent(_pageDoc.ToString(), _lastModified.ToUniversalTime(), _schema);
+                        _onenote.UpdatePage(_pageDoc, _lastModified);
                     }
                     else
                     {
@@ -333,11 +337,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private void LoadOneNotePage()
         {
             _pageTagsOE = null;
-            // Get the page XML
-            string strPageContent;
-            _onenote.GetPageContent(PageID, out strPageContent, PageInfo.piBasic, _schema);
-
-            _pageDoc = XDocument.Parse(strPageContent);
+            _pageDoc = _onenote.GetPage(PageID);
             _one = _pageDoc.Root.GetNamespaceOfPrefix("one");
             _page = _pageDoc.Root;
 

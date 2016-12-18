@@ -186,7 +186,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
 
         private IEnumerable<TagPageSet> GetContextTagsAction(TagContext filter, TagsAndPages tagSource)
         {
-            tagSource.GetPagesFromHierarchy(filter);
+            tagSource.LoadPageTags(filter);
 
             if (filter == TagContext.SelectedNotes)
             {

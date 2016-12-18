@@ -1,4 +1,8 @@
-﻿using System.ComponentModel;
+﻿////////////////////////////////////////////////////////////
+// Author: WetHat
+// (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
+////////////////////////////////////////////////////////////
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -33,7 +37,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         {
             get
             {
-                return _model;        
+                return _model;
             }
             set
             {
@@ -46,6 +50,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         #endregion IOneNotePageWindow<TagSearchModel>
 
         #region UI events
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // save the scope
@@ -81,23 +86,25 @@ namespace WetHatLab.OneNote.TaggingKit.find
         private void ClearSelectionButton_Click(object sender, RoutedEventArgs e)
         {
             pBar.Visibility = System.Windows.Visibility.Visible;
-            _model.ClearTagFilterAsync(() => { pBar.Visibility = System.Windows.Visibility.Hidden;
-                                               foreach (var t in _model.Tags.Values)
-                                               {
-                                                   t.IsChecked = false;
-                                               }
-                                             });
+            _model.ClearTagFilterAsync(() =>
+            {
+                pBar.Visibility = System.Windows.Visibility.Hidden;
+                foreach (var t in _model.Tags.Values)
+                {
+                    t.IsChecked = false;
+                }
+            });
             e.Handled = true;
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             string query = searchComboBox.Text;
-                
+
             try
             {
                 pBar.Visibility = System.Windows.Visibility.Visible;
-                _model.FindPagesAsync(query, scopeSelect.SelectedScope,() => pBar.Visibility = System.Windows.Visibility.Hidden);
+                _model.FindPagesAsync(query, scopeSelect.SelectedScope, () => pBar.Visibility = System.Windows.Visibility.Hidden);
                 searchComboBox.SelectedValue = query;
             }
             catch (System.Exception ex)
@@ -114,7 +121,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             {
                 string query = searchComboBox.Text;
                 pBar.Visibility = System.Windows.Visibility.Visible;
-                _model.FindPagesAsync(query, scopeSelect.SelectedScope,() => pBar.Visibility = System.Windows.Visibility.Hidden);
+                _model.FindPagesAsync(query, scopeSelect.SelectedScope, () => pBar.Visibility = System.Windows.Visibility.Hidden);
                 searchComboBox.SelectedValue = query;
             }
             e.Handled = true;
@@ -133,7 +140,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 tagsPanel.Highlighter = new TextSplitter(tagInput.Tags);
             }
         }
-        
+
         private void ScopeSelector_ScopeChanged(object sender, ScopeChangedEventArgs e)
         {
             try
@@ -174,14 +181,17 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 switch (scopeSelect.SelectedScope)
                 {
                     case SearchScope.Notebook:
-                        thisScopID = ViewModel.CurrentNotebookID;
+                        thisScopID = ViewModel.OneNoteApp.CurrentNotebookID;
                         break;
+
                     case SearchScope.SectionGroup:
-                        thisScopID = ViewModel.CurrentSectionGroupID;
+                        thisScopID = ViewModel.OneNoteApp.CurrentSectionGroupID;
                         break;
+
                     case SearchScope.Section:
-                        thisScopID = ViewModel.CurrentSectionID;
+                        thisScopID = ViewModel.OneNoteApp.CurrentSectionID;
                         break;
+
                     default:
                         thisScopID = string.Empty;
                         break;

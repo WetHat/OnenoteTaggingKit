@@ -1,11 +1,16 @@
-﻿using System;
+﻿////////////////////////////////////////////////////////////
+// Author: WetHat
+// (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
+////////////////////////////////////////////////////////////
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
 using WetHatLab.OneNote.TaggingKit.common.ui;
+
 namespace WetHatLab.OneNote.TaggingKit
 {
     /// <summary>
@@ -16,6 +21,7 @@ namespace WetHatLab.OneNote.TaggingKit
     {
         private Dictionary<Type, System.Windows.Window> _SingletonWindows = new Dictionary<Type, System.Windows.Window>();
         private bool _disposed = false;
+
         private void UnregisterWindow(Type windowType)
         {
             lock (_SingletonWindows)
@@ -53,7 +59,7 @@ namespace WetHatLab.OneNote.TaggingKit
                         M viewmodel = viewModelFactory();
                         ((IOneNotePageWindow<M>)w).ViewModel = viewmodel;
                         var helper = new WindowInteropHelper(w);
-                        helper.Owner = (IntPtr)viewmodel.CurrentOneNoteWindow.WindowHandle;
+                        helper.Owner = (IntPtr)viewmodel.OneNoteApp.CurrentWindow.WindowHandle;
                         w.Show();
                         _SingletonWindows.Add(typeof(W), w);
                     }
@@ -80,10 +86,9 @@ namespace WetHatLab.OneNote.TaggingKit
         /// </summary>
         /// <typeparam name="T">dialog type</typeparam>
         /// <typeparam name="M">view model type</typeparam>
-        /// <param name="window">current OneNote windows</param>
-        /// <param name="viewModelFactory">factory method to create a view model</param>
+        /// <param name="viewModelFactory">factory lambda function to create a view model</param>
         /// <returns>dialog result</returns>
-        public bool? ShowDialog<T, M>(Microsoft.Office.Interop.OneNote.Window window, Func<M> viewModelFactory)
+        public bool? ShowDialog<T, M>(Func<M> viewModelFactory)
             where T : System.Windows.Window, IOneNotePageWindow<M>, new()
             where M : WindowViewModelBase
         {
@@ -98,7 +103,7 @@ namespace WetHatLab.OneNote.TaggingKit
                     M viewmodel = viewModelFactory();
                     ((IOneNotePageWindow<M>)w).ViewModel = viewmodel;
                     var helper = new WindowInteropHelper(w);
-                    helper.Owner = (IntPtr)viewmodel.CurrentOneNoteWindow.WindowHandle;
+                    helper.Owner = (IntPtr)viewmodel.OneNoteApp.CurrentWindow.WindowHandle;
                     retval = w.ShowDialog();
                     Trace.Flush();
                 }

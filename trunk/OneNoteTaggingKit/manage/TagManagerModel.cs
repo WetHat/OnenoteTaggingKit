@@ -1,4 +1,8 @@
-﻿using Microsoft.Office.Interop.OneNote;
+﻿////////////////////////////////////////////////////////////
+// Author: WetHat
+// (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
+////////////////////////////////////////////////////////////
+using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -55,10 +59,9 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// Create a new instance of the view model backing the <see cref="TagManager"/> dialog.
         /// </summary>
         /// <param name="onenote">OneNote application object</param>
-        /// <param name="schema">current schema version</param>
-        internal TagManagerModel(Application onenote): base(onenote)
+        internal TagManagerModel(OneNoteProxy onenote) : base(onenote)
         {
-            _tags = new TagsAndPages(OneNoteApp, CurrentSchema);
+            _tags = new TagsAndPages(OneNoteApp);
         }
 
         internal async Task LoadSuggestedTagsAsync()
@@ -102,6 +105,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                 return Assembly.GetExecutingAssembly().GetName().Version.ToString();
             }
         }
+
         public string FrameworkVersion
         {
             get { return Environment.Version.ToString(); }
@@ -111,7 +115,8 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         {
             get { return TraceLogger.LogFile; }
         }
-        #endregion
+
+        #endregion ITagManagerModel
 
         /// <summary>
         /// Get comma separated list of suggested tags.

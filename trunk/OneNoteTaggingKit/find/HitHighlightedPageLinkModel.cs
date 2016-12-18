@@ -1,4 +1,8 @@
-﻿using System;
+﻿////////////////////////////////////////////////////////////
+// Author: WetHat
+// (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
+////////////////////////////////////////////////////////////
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +21,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// Get a the hit highlighted page title.
         /// </summary>
         IList<TextFragment> HighlightedTitle { get; }
-
     }
 
     /// <summary>
@@ -50,6 +53,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 _hits = value;
             }
         }
+
         #region IComparable<HitHighlightedPageLinkKey>
 
         /// <summary>
@@ -60,7 +64,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <item>a negative number, if this instance of the key comes before the other key</item>
         /// <item>0, if both keys are identical</item>
         /// <item>a positive number, if this instance of the key comes after the other key</item>
-        /// </list> 
+        /// </list>
         /// </returns>
         /// <remarks>ordering takes into account the number of matches of the query against the page title</remarks>
         public int CompareTo(HitHighlightedPageLinkKey other)
@@ -77,7 +81,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
             if (retval == 0)
             {
-               retval = _title.CompareTo(other._title); 
+                retval = _title.CompareTo(other._title);
             }
 
             if (retval == 0)
@@ -87,6 +91,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
             return retval;
         }
+
         #endregion IComparable<HitHighlightedPageLinkKey>
 
         #region IEquatable<HitHighlightedPageLinkKey>
@@ -100,26 +105,29 @@ namespace WetHatLab.OneNote.TaggingKit.find
         {
             return PageID.Equals(other.PageID);
         }
+
         #endregion IEquatable<HitHighlightedPageLinkKey>
     }
+
     /// <summary>
     /// View model to support the <see cref="HitHighlightedPageLink"/> control.
     /// </summary>
     /// <remarks>The view model describes a link to a OneNote page returned from a search operation.
     /// <para>The search query is used to generate a hit highlighted rendering of a link to a OneNote page</para>
     /// </remarks>
-    public class HitHighlightedPageLinkModel : HitHighlightedPageLinkKey, ISortableKeyedItem<HitHighlightedPageLinkKey,string>, IHitHighlightedPageLinkModel
+    public class HitHighlightedPageLinkModel : HitHighlightedPageLinkKey, ISortableKeyedItem<HitHighlightedPageLinkKey, string>, IHitHighlightedPageLinkModel
     {
         private IList<TextFragment> _highlights;
         private TaggedPage _page;
-        private Microsoft.Office.Interop.OneNote.Application _onenote;
+        private OneNoteProxy _onenote;
+
         /// <summary>
         /// create a new instance of the view model.
         /// </summary>
         /// <param name="tp">a OneNote page object</param>
         /// <param name="highlighter">object to generate a highlight description of the link title</param>
-        /// <param name="onenote">OneNote application object</param>
-        internal HitHighlightedPageLinkModel(TaggedPage tp, TextSplitter highlighter, Microsoft.Office.Interop.OneNote.Application onenote)
+        /// <param name="onenote">OneNote application object proxy</param>
+        internal HitHighlightedPageLinkModel(TaggedPage tp, TextSplitter highlighter, OneNoteProxy onenote)
             : base(tp.Title, tp.ID)
         {
             _page = tp;
@@ -144,23 +152,23 @@ namespace WetHatLab.OneNote.TaggingKit.find
         {
             get
             {
-                string link;
-                _onenote.GetHyperlinkToObject(_page.ID,String.Empty,out link);
-                return link;
+                return _onenote.GetHyperlinkToObject(_page.ID, pageObjectID: null);
             }
         }
+
         #region IHitHighlightedPageLinkModel
 
         public IList<TextFragment> HighlightedTitle
         {
             get { return _highlights; }
         }
-        #endregion
+
+        #endregion IHitHighlightedPageLinkModel
 
         internal string LinkTitle { get { return _page.Title; } }
- 
+
         #region ISortableKeyedItem<HitHighlightedPageLinkKey,string>
-        
+
         /// <summary>
         /// Get the unique key of the OneNote page
         /// </summary>
@@ -176,7 +184,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// of the search query for this particular page.</remarks>
         public HitHighlightedPageLinkKey SortKey
         {
-            get { return this;  }
+            get { return this; }
         }
 
         #endregion ISortableKeyedItem<HitHighlightedPageLinkKey,string>
