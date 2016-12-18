@@ -42,9 +42,9 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
 
         Timer _pageTimer;
 
-        internal RelatedPagesModel(Application app, XMLSchema schema) : base(app,schema)
+        internal RelatedPagesModel(Application app) : base(app)
         {
-            _taggedPagesCollection = new TagsAndPages(OneNoteApp, OneNotePageSchema);
+            _taggedPagesCollection = new TagsAndPages(OneNoteApp, CurrentSchema);
         }
 
         #region IRelatedPagesModel
@@ -94,7 +94,7 @@ namespace WetHatLab.OneNote.TaggingKit.nexus
             { // pull in new page
                 _currentPageID = CurrentPageID;
                 string strXml;
-                OneNoteApp.GetHierarchy(_currentPageID, HierarchyScope.hsSelf, out strXml, OneNotePageSchema);
+                OneNoteApp.GetHierarchy(_currentPageID, HierarchyScope.hsSelf, out strXml, CurrentSchema);
 
                 XDocument result = XDocument.Parse(strXml);
                 XNamespace one = result.Root.GetNamespaceOfPrefix("one");

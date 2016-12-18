@@ -27,64 +27,16 @@ namespace WetHatLab.OneNote.TaggingKit
 
         private Microsoft.Office.Interop.OneNote.Application _OneNoteApp;
 
-        private XMLSchema _schema = XMLSchema.xsCurrent;
         private bool _schemaChecked = false;
-        
+
         private AddInDialogManager _dialogmanager = null;
-        
+
         /// <summary>
         /// Create a new instance of the OneNote connector object.
         /// </summary>
         public ConnectTaggingKitAddin()
         {
             TraceLogger.Register();
-        }
-
-        /// <summary>
-        /// Get the highest version of the schema supported by OneNote.
-        /// </summary>
-        private XMLSchema CurrentSchema
-        {
-            get
-            {
-                if (_schemaChecked)
-                {
-                    return _schema;
-                }
-
-                string currentSectionID = _OneNoteApp.Windows.CurrentWindow.CurrentSectionId;
-                string outXml;
-
-                Exception schemaException = null;
-
-                // determine schema version we can use
-                foreach (var schema in new XMLSchema[] {XMLSchema.xs2013, XMLSchema.xs2010 })
-                {
-                    try
-                    {
-                        _OneNoteApp.GetHierarchy(currentSectionID, HierarchyScope.hsSelf, out outXml, schema);
-                        // we can use this schema
-                        _schema = schema;
-                        schemaException = null;
-                        _schemaChecked = true;
-                        TraceLogger.Log(TraceCategory.Info(), "OneNote schema Version: {0}", _schema);
-                        break;
-                    }
-                    catch (Exception xe)
-                    {
-                        schemaException = xe;
-                        TraceLogger.Log(TraceCategory.Info(), "Test of OneNote Schema Version: {0} failed with {1}", schema, xe);
-                    }
-                }
-
-                if (!_schemaChecked)
-                {
-                    TraceLogger.Log(TraceCategory.Error(), "Unable to determine OneNote version!");
-                    TraceLogger.ShowGenericErrorBox(Properties.Resources.TaggingKit_Error_VersionLookup, schemaException);
-                }
-                Trace.Flush();
-                return _schema;
-            }
         }
 
         #region IDTExtensibility2
@@ -115,7 +67,7 @@ namespace WetHatLab.OneNote.TaggingKit
         }
 
         /// <summary>
-        /// Handle the connection to the OneNote application. 
+        /// Handle the connection to the OneNote application.
         /// </summary>
         /// <param name="Application">The instance of OneNote which added the addin</param>
         /// <param name="ConnectMode">Enumeration value that indicates the way the add-in was loaded.</param>
@@ -125,7 +77,7 @@ namespace WetHatLab.OneNote.TaggingKit
         {
             TraceLogger.Log(TraceCategory.Info(), "Connection mode '{0}'", ConnectMode);
             _OneNoteApp = Application as Microsoft.Office.Interop.OneNote.Application;
-            
+
             // Upgrade Settings if necessary. On new version the UpdateRequired flag is reset to default (true)
             if (Properties.Settings.Default.UpdateRequired)
             {
@@ -162,7 +114,7 @@ namespace WetHatLab.OneNote.TaggingKit
                 Trace.Flush();
                 Environment.Exit(0);
             }
-            
+
         }
 
         /// <summary>
@@ -196,8 +148,7 @@ namespace WetHatLab.OneNote.TaggingKit
         public void editTags(IRibbonControl ribbon)
         {
             TraceLogger.Log(TraceCategory.Info(), "Show tag editor");
-            XMLSchema s = CurrentSchema;
-            _dialogmanager.Show<TagEditor, TagEditorModel>(() => new TagEditorModel(_OneNoteApp, s));
+            _dialogmanager.Show<TagEditor, TagEditorModel>(() => new TagEditorModel(_OneNoteApp));
         }
 
         /// <summary>
@@ -207,8 +158,7 @@ namespace WetHatLab.OneNote.TaggingKit
         public void findTags(IRibbonControl ribbon)
         {
             TraceLogger.Log(TraceCategory.Info(), "Show tag finder");
-            XMLSchema s = CurrentSchema;
-            _dialogmanager.Show<FindTaggedPages, FindTaggedPagesModel>(() => new FindTaggedPagesModel(_OneNoteApp, s));
+            _dialogmanager.Show<FindTaggedPages, FindTaggedPagesModel>(() => new FindTaggedPagesModel(_OneNoteApp));
         }
 
         /// <summary>
@@ -218,8 +168,7 @@ namespace WetHatLab.OneNote.TaggingKit
         public void relatedPages(IRibbonControl ribbon)
         {
             TraceLogger.Log(TraceCategory.Info(), "Show related pages tracer");
-            XMLSchema s = CurrentSchema;
-            _dialogmanager.Show<RelatedPages, RelatedPagesModel>(() => new RelatedPagesModel(_OneNoteApp, s));
+            _dialogmanager.Show<RelatedPages, RelatedPagesModel>(() => new RelatedPagesModel(_OneNoteApp));
         }
 
         /// <summary>
@@ -229,8 +178,7 @@ namespace WetHatLab.OneNote.TaggingKit
         public void manageTags(IRibbonControl ribbon)
         {
             TraceLogger.Log(TraceCategory.Info(), "Show settings editor");
-            XMLSchema s = CurrentSchema;
-            _dialogmanager.ShowDialog<TagManager, TagManagerModel>(_OneNoteApp.Windows.CurrentWindow, () => new TagManagerModel(_OneNoteApp, s));
+            _dialogmanager.ShowDialog<TagManager, TagManagerModel>(_OneNoteApp.Windows.CurrentWindow, () => new TagManagerModel(_OneNoteApp));
         }
 
         /// <summary>
@@ -241,7 +189,7 @@ namespace WetHatLab.OneNote.TaggingKit
         public IStream GetImage(string imageName)
         {
             MemoryStream mem = new MemoryStream();
-            
+
             switch (imageName)
             {
                 case "pageTags.png":

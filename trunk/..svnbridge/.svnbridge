@@ -6,4 +6,10 @@ Help
 obj
 sandcastle.log
 TaggingKitSandcastle.v11.suo
+</Value></Property><Property><Name>svn:ignore</Name><Value>OneNoteTaggingKit.v11.suo
+Help
+obj
+sandcastle.log
+TaggingKitSandcastle.v11.suo
+OneNoteTaggingKit.v12.suo
 </Value></Property></Properties></ItemProperties>
