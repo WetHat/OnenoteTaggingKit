@@ -36,8 +36,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// Observable collections of tags and OneNote pages satisfying a search criterion.
     /// </summary>
     /// <remarks>
-    /// Provides an unordered set of tags and pages. The page collection is
-    /// populated by calling <see cref="FindTaggedPages(string,bool)"/>, <see cref="FindTaggedPages(string,string,bool)"/> or <see cref="LoadPageTags"/>.
+    /// Provides an unordered set of tags and pages. The page collection is populated by
+    /// calling <see cref="FindTaggedPages(string,bool)" />,
+    /// <see cref="FindTaggedPages(string,string,bool)" /> or <see cref="LoadPageTags" />.
     /// </remarks>
     public class TagsAndPages
     {
@@ -77,10 +78,14 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Find tagged OneNote pages in a scope.
         /// </summary>
-        /// <param name="scopeID">OneNote id of the scope to search for pages. This is the element ID of a notebook, section group, or section.
-        ///                       If given as null or empty string scope is the entire set of notebooks open in OneNote.
+        /// <param name="scopeID">
+        /// OneNote id of the scope to search for pages. This is the element ID of a
+        /// notebook, section group, or section. If given as null or empty string scope is
+        /// the entire set of notebooks open in OneNote.
         /// </param>
-        /// <param name="includeUnindexedPages">true to include pages in the search which have not been indexed yet</param>
+        /// <param name="includeUnindexedPages">
+        /// true to include pages in the search which have not been indexed yet
+        /// </param>
         internal void FindTaggedPages(string scopeID, bool includeUnindexedPages = false)
         {
             // collect all page tags on pages which have page tags.
@@ -107,11 +112,15 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Find pages by full text search
         /// </summary>
-        /// <param name="query">query string</param>
-        /// <param name="scopeID">OneNote id of the scope to search for pages. This is the element ID of a notebook, section group, or section.
-        ///                       If given as null or empty string scope is the entire set of notebooks open in OneNote.
+        /// <param name="query">                query string</param>
+        /// <param name="scopeID">
+        /// OneNote id of the scope to search for pages. This is the element ID of a
+        /// notebook, section group, or section. If given as null or empty string scope is
+        /// the entire set of notebooks open in OneNote.
         /// </param>
-        /// <param name="includeUnindexedPages">true to include pages in the search which have not been indexed yet</param>
+        /// <param name="includeUnindexedPages">
+        /// true to include pages in the search which have not been indexed yet
+        /// </param>
         internal void FindTaggedPages(string query, string scopeID, bool includeUnindexedPages = false)
         {
             ExtractTags(_onenote.FindPages(scopeID, query, includeUnindexedPages), selectedPagesOnly: false);

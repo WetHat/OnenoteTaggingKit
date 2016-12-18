@@ -31,6 +31,56 @@ namespace WetHatLab.OneNote.TaggingKit
         }
 
         /// <summary>
+        /// Make sure a add-in window is fully visible on its screen
+        /// </summary>
+        /// <param name="w">Window object</param>
+        private void BringWindowIntoView(Window w)
+        {
+            var currentMonitor = System.Windows.Forms.Screen.FromHandle(new System.Windows.Interop.WindowInteropHelper(w).Handle);
+
+            PresentationSource source = PresentationSource.FromVisual(w);
+
+            // conversion factors: pixels (px) per device independent pixels (dip)
+            double px_per_dip_Horizontal, px_per_dip_Vertical;
+            if (source != null)
+            {
+                px_per_dip_Horizontal = source.CompositionTarget.TransformToDevice.M11;
+                px_per_dip_Vertical = source.CompositionTarget.TransformToDevice.M22;
+            }
+            else
+            {
+                px_per_dip_Horizontal = px_per_dip_Vertical = 1.0;
+            }
+
+            var screenArea = currentMonitor.WorkingArea;
+
+            double screenLeft = (double)screenArea.Left / px_per_dip_Horizontal;
+            double screenWidth = (double)screenArea.Width / px_per_dip_Horizontal;
+
+            double screenTop = (double)screenArea.Top / px_per_dip_Vertical;
+            double screenHeight = (double)screenArea.Height / px_per_dip_Vertical;
+
+            // Move windows to make it fully visible on its screen - if needed
+            if (w.Left < screenLeft)
+            {
+                w.Left = screenLeft;
+            }
+            else if (screenLeft + screenWidth < w.Left + w.Width)
+            {
+                w.Left = screenLeft + screenWidth - w.Width;
+            }
+
+            if (w.Top < screenTop)
+            {
+                w.Top = screenTop;
+            }
+            else if (screenTop + screenHeight < w.Top + w.Height)
+            {
+                w.Top = screenTop + screenHeight - w.Height;
+            }
+        }
+
+        /// <summary>
         /// Show a WPF window.
         /// </summary>
         /// <typeparam name="W">window type</typeparam>
@@ -49,7 +99,11 @@ namespace WetHatLab.OneNote.TaggingKit
                         System.Windows.Window w;
                         if (_SingletonWindows.TryGetValue(typeof(W), out w))
                         {
-                            w.Dispatcher.Invoke(() => w.WindowState = WindowState.Normal);
+                            w.Dispatcher.Invoke(() =>
+                            {
+                                w.WindowState = WindowState.Normal;
+                                BringWindowIntoView(w);
+                            });
                             return;
                         }
                         w = new W();
@@ -58,9 +112,13 @@ namespace WetHatLab.OneNote.TaggingKit
                         w.Topmost = true;
                         M viewmodel = viewModelFactory();
                         ((IOneNotePageWindow<M>)w).ViewModel = viewmodel;
-                        var helper = new WindowInteropHelper(w);
-                        helper.Owner = (IntPtr)viewmodel.OneNoteApp.CurrentWindow.WindowHandle;
+                        var helper = new WindowInteropHelper(w)
+                        {
+                            Owner = (IntPtr)viewmodel.OneNoteApp.CurrentWindow.WindowHandle
+                        };
+
                         w.Show();
+                        BringWindowIntoView(w);
                         _SingletonWindows.Add(typeof(W), w);
                     }
                     // Turn this thread into an UI thread
@@ -102,8 +160,11 @@ namespace WetHatLab.OneNote.TaggingKit
                     w.Topmost = true;
                     M viewmodel = viewModelFactory();
                     ((IOneNotePageWindow<M>)w).ViewModel = viewmodel;
-                    var helper = new WindowInteropHelper(w);
-                    helper.Owner = (IntPtr)viewmodel.OneNoteApp.CurrentWindow.WindowHandle;
+                    var helper = new WindowInteropHelper(w)
+                    {
+                        Owner = (IntPtr)viewmodel.OneNoteApp.CurrentWindow.WindowHandle
+                    };
+                    BringWindowIntoView(w);
                     retval = w.ShowDialog();
                     Trace.Flush();
                 }
@@ -113,6 +174,7 @@ namespace WetHatLab.OneNote.TaggingKit
                     TraceLogger.ShowGenericErrorBox(Properties.Resources.TagEditor_Error_WindowCreation, ex);
                 }
             });
+
             thread.SetApartmentState(ApartmentState.STA);
             thread.IsBackground = true;
             thread.Start();
