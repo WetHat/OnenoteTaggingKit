@@ -1,6 +1,6 @@
 ﻿////////////////////////////////////////////////////////////
 // Author: WetHat
-// (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
+// (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
 ////////////////////////////////////////////////////////////
 using System.Reflection;
 using System.Resources;
@@ -16,7 +16,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("WetHat Lab")]
 [assembly: AssemblyProduct("OneNoteTaggingKit")]
-[assembly: AssemblyCopyright("Copyright © 2015-2016")]
+[assembly: AssemblyCopyright("Copyright © 2013-2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
