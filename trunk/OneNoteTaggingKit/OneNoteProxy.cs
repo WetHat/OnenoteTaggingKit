@@ -1,7 +1,4 @@
-﻿////////////////////////////////////////////////////////////
-// Author: WetHat
-// (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
-////////////////////////////////////////////////////////////
+﻿// Author: WetHat | (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
 using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Runtime.InteropServices;
@@ -199,7 +196,7 @@ namespace WetHatLab.OneNote.TaggingKit
             return ExecuteMethodProtected<XDocument>(o =>
             {
                 string outXml;
-                o.GetHierarchy(nodeID, HierarchyScope.hsSelf, out outXml, OneNoteSchema);
+                o.GetHierarchy(nodeID, scope, out outXml, OneNoteSchema);
 
                 return XDocument.Parse(outXml);
             });
