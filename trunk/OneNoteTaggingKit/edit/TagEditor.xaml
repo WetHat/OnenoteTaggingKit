@@ -18,30 +18,30 @@
         mc:Ignorable="d"
         ShowInTaskbar="True"
         d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:TagEditorDesignerModel}}"
-        WindowStyle="ToolWindow"
+        WindowStyle="ThreeDBorderWindow"
         Title="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Window_Title}}"
         Icon="/OneNoteTaggingKit;component/Resources/tag 64x64.png"
         Loaded="Window_Loaded" Closing="editTags_Closing">
     <Window.Resources>
-        <ResourceDictionary Source="pack://application:,,,/OneNoteTaggingKit;component/Resources/Styles.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/OneNoteTaggingKit;component/Resources/Styles.xaml" />
     </Window.Resources>
 
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-            <GradientStop Color="Ivory" Offset="0.497"/>
-            <GradientStop Color="#FFE1ECF7" Offset="1"/>
+            <GradientStop Color="Ivory" Offset="0.497" />
+            <GradientStop Color="#FFE1ECF7" Offset="1" />
         </LinearGradientBrush>
     </Window.Background>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" MinHeight="100"/>
+            <RowDefinition Height="*" MinHeight="100" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="2*" MinHeight="100" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Row="0"
@@ -59,7 +59,7 @@
                 ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_ComboBox_Scope_Tooltip}}"
                 IsTextSearchEnabled="True" IsEditable="False" Margin="0,0,0,2">
                 <ComboBox.Effect>
-                    <DropShadowEffect Color="LightBlue"/>
+                    <DropShadowEffect Color="LightBlue" />
                 </ComboBox.Effect>
             </ComboBox>
             <Button Name="addTags"
@@ -82,14 +82,14 @@
                 Click="SetPageTagsButton_Click">
                 <Image Source="/OneNoteTaggingKit;component/Resources/Set Tag 26.png"  Width="26" Height="26" />
             </Button>
-            <Button 
+            <Button
                 Margin="10,0,00,0"
                 Style="{StaticResource controlEffectStyle}"
                 Background="#FFFFEAE8"
                 VerticalAlignment="Top"
                 ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_RemoveTags_Button_Tooltip}}"
                 Click="RemoveTagsFromPageButton_Click">
-                <Image Source="/OneNoteTaggingKit;component/Resources/Remove Tag 26.png" Width="26" Height="26"/>
+                <Image Source="/OneNoteTaggingKit;component/Resources/Remove Tag 26.png" Width="26" Height="26" />
             </Button>
             <Popup Name="pagesTaggedPopup"
                PlacementTarget="{Binding ElementName=addTags}"
@@ -104,7 +104,7 @@
                         Background="LightYellow"
                         CornerRadius="10">
                     <Border.Effect>
-                        <DropShadowEffect Color="LightGray"/>
+                        <DropShadowEffect Color="LightGray" />
                     </Border.Effect>
                     <TextBlock Name="pagesTaggedText"
                                MaxWidth="200"
@@ -112,7 +112,7 @@
                                TextWrapping="Wrap"
                                TextTrimming="CharacterEllipsis"
                                Text="x pages tagged"
-                               FontSize="16" Background="Transparent"/>
+                               FontSize="16" Background="Transparent" />
                 </Border>
             </Popup>
             <Popup Name="progressPopup"
@@ -128,14 +128,14 @@
                         BorderBrush="DarkSlateBlue"
                         CornerRadius="10">
                     <Border.Effect>
-                        <DropShadowEffect Color="LightGray"/>
+                        <DropShadowEffect Color="LightGray" />
                     </Border.Effect>
                     <TextBlock MaxWidth="200"
                                Margin="5,5,5,5"
                                TextWrapping="Wrap"
                                TextTrimming="CharacterEllipsis"
                                Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Popup_TaggingInProgress}}"
-                               FontSize="16" Background="Transparent"/>
+                               FontSize="16" Background="Transparent" />
                 </Border>
             </Popup>
         </StackPanel>
@@ -147,13 +147,13 @@
                   ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tags_GroupBox_ToolTip}}">
             <GroupBox.Header>
                 <TextBlock>
-                  <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tags_GroupBox_Title}}"/>
+                  <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tags_GroupBox_Title}}" />
                 </TextBlock>
             </GroupBox.Header>
             <local:SimpleTagsPanel Tags="{Binding PageTags}"
                                    Background="Transparent"
                                    VerticalAlignment="Stretch"
-                                   Click="RemovePageTagButton_Click"/>
+                                   Click="RemovePageTagButton_Click" />
         </GroupBox>
         <Button Grid.Row="1"
                 Width="26"
@@ -163,20 +163,20 @@
                 BorderThickness="0" BorderBrush="LightBlue"
                 Margin="0,0,25,0"
                 ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_ClearTags_Button_Tooltip}}"
-                Click="ClearTagsButton_Click" >
-            <Image Source="/OneNoteTaggingKit;component/Resources/clear selection.png"/>
+                Click="ClearTagsButton_Click">
+            <Image Source="/OneNoteTaggingKit;component/Resources/clear selection.png" />
         </Button>
 
-        <GridSplitter Grid.Row="2" 
+        <GridSplitter Grid.Row="2"
                       ResizeBehavior="PreviousAndNext"
                       ResizeDirection="Rows"
                       VerticalAlignment="Top"
                       HorizontalAlignment="Stretch"
-                      Height="5" >
+                      Height="5">
             <GridSplitter.Background>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="#FFE2EDF7" Offset="0.67"/>
+                    <GradientStop Color="Black" Offset="1" />
+                    <GradientStop Color="#FFE2EDF7" Offset="0.67" />
                 </LinearGradientBrush>
             </GridSplitter.Background>
         </GridSplitter>
@@ -185,7 +185,7 @@
                          Margin="5,10,5,0"
                          ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Tooltip}}"
                          ContextTagsSource="{Binding ContextTagCollection}"
-                         TagInput="TagInputBox_Input"/>
+                         TagInput="TagInputBox_Input" />
         <cui:HighlightedTagsPanel Grid.Row="3"
                                   x:Name="suggestedTags"
                                   Margin="5,0,5,0"
@@ -194,10 +194,10 @@
                                   Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Suggestions_GroupBox_Title}}">
             <cui:HighlightedTagsPanel.TagTemplate>
                 <DataTemplate>
-                    <local:HitHighlightedTagButton Margin="0,5,5,0" Click="OnSuggestedTagClick"/>
+                    <local:HitHighlightedTagButton Margin="0,5,5,0" Click="OnSuggestedTagClick" />
                 </DataTemplate>
             </cui:HighlightedTagsPanel.TagTemplate>
         </cui:HighlightedTagsPanel>
-        <ProgressBar Name="pBar" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <ProgressBar Name="pBar" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" />
     </Grid>
 </Window>
