@@ -46,7 +46,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Row="0">
-            <cui:ScopeSelector x:Name="scopeSelect" DockPanel.Dock="Right"
+            <cui:ScopeSelector x:Name="scopeSelect" DockPanel.Dock="Left"
                                Margin="5,5,5,0"
                                Style="{StaticResource controlEffectStyle}"
                                SelectedScope="{Binding DefaultScope, Mode=OneTime}"
@@ -56,7 +56,7 @@
                 DockPanel.Dock="Right"
                 Height="24"
                 Style="{StaticResource controlEffectStyle}"
-                Margin="0,5,0,0"
+                Margin="0,5,5,0"
                 Click="SearchButton_Click">
                 <Image MaxWidth="32"  Source="/OneNoteTaggingKit;component/Resources/search-32x32 blue.jpg" />
             </Button>
