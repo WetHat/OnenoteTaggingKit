@@ -1,14 +1,10 @@
-﻿////////////////////////////////////////////////////////////
-// Author: WetHat
-// (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
-////////////////////////////////////////////////////////////
+﻿// Author: WetHat | (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
+using System.Windows.Media;
 using WetHatLab.OneNote.TaggingKit.common;
-using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {
@@ -21,6 +17,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// Get a the hit highlighted page title.
         /// </summary>
         IList<TextFragment> HighlightedTitle { get; }
+
+        string MarkerSymbol { get; }
+        Brush MarkerColor { get; }
     }
 
     /// <summary>
@@ -115,11 +114,23 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// <remarks>The view model describes a link to a OneNote page returned from a search operation.
     /// <para>The search query is used to generate a hit highlighted rendering of a link to a OneNote page</para>
     /// </remarks>
-    public class HitHighlightedPageLinkModel : HitHighlightedPageLinkKey, ISortableKeyedItem<HitHighlightedPageLinkKey, string>, IHitHighlightedPageLinkModel
+    public class HitHighlightedPageLinkModel : HitHighlightedPageLinkKey, ISortableKeyedItem<HitHighlightedPageLinkKey, string>, IHitHighlightedPageLinkModel, INotifyPropertyChanged
     {
         private IList<TextFragment> _highlights;
         private TaggedPage _page;
         private OneNoteProxy _onenote;
+
+        private static readonly PropertyChangedEventArgs MARKER_SYMBOL = new PropertyChangedEventArgs("MarkerSymbol");
+        private static readonly PropertyChangedEventArgs MARKER_COLOR = new PropertyChangedEventArgs("MarkerColor");
+
+        #region INotifyPropertyChanged
+
+        /// <summary>
+        /// Event to notify registered handlers about property changes
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion INotifyPropertyChanged
 
         /// <summary>
         /// create a new instance of the view model.
@@ -130,11 +141,20 @@ namespace WetHatLab.OneNote.TaggingKit.find
         internal HitHighlightedPageLinkModel(TaggedPage tp, TextSplitter highlighter, OneNoteProxy onenote)
             : base(tp.Title, tp.ID)
         {
+            IsSelected = false;
             _page = tp;
             _highlights = highlighter.SplitText(_page.Title);
 
             HitCount = _highlights.Count((f) => f.IsMatch);
             _onenote = onenote;
+        }
+
+        protected void fireNotifyPropertyChanged(PropertyChangedEventArgs propArgs)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, propArgs);
+            }
         }
 
         /// <summary>
@@ -161,6 +181,67 @@ namespace WetHatLab.OneNote.TaggingKit.find
         public IList<TextFragment> HighlightedTitle
         {
             get { return _highlights; }
+        }
+
+        private bool _isSelected;
+
+        private string _markerSymbol;
+
+        public string MarkerSymbol
+        {
+            get
+            {
+                return _markerSymbol;
+            }
+            private set
+            {
+                if (!value.Equals(_markerSymbol))
+                {
+                    _markerSymbol = value;
+                    fireNotifyPropertyChanged(MARKER_SYMBOL);
+                }
+            }
+        }
+
+        private Brush _markerColor;
+
+        public Brush MarkerColor
+        {
+            get
+            {
+                return _markerColor;
+            }
+            private set
+            {
+                if (!value.Equals(_markerColor))
+                {
+                    _markerColor = value;
+                    fireNotifyPropertyChanged(MARKER_COLOR);
+                }
+            }
+        }
+
+        public bool IsSelected
+        {
+            get
+            {
+                return _isSelected;
+            }
+            set
+            {
+                _isSelected = value;
+
+                if (_isSelected)
+                {
+                    MarkerSymbol = "✔";
+                    MarkerColor = Brushes.OrangeRed;
+                }
+                else
+                {
+                    MarkerSymbol = "❱";
+                    MarkerColor = Brushes.Gray;
+                }
+            }
         }
 
         #endregion IHitHighlightedPageLinkModel

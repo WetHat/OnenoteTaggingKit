@@ -1,14 +1,9 @@
-﻿////////////////////////////////////////////////////////////
-// Author: WetHat
-// (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
-////////////////////////////////////////////////////////////
-using Microsoft.Office.Interop.OneNote;
+﻿// Author: WetHat | (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -268,7 +263,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
-        /// Get the nuber of OneNote pages in the search result.
+        /// Get the number of OneNote pages in the search result.
         /// </summary>
         public int PageCount
         {

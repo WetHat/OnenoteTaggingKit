@@ -358,6 +358,15 @@
   <ItemGroup>
     <Resource Include="Resources\tag 64x64.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\menu-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\SelectAll-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DeSelectAll-32.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

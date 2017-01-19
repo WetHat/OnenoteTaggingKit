@@ -1,14 +1,15 @@
-﻿////////////////////////////////////////////////////////////
-// Author: WetHat
-// (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
-////////////////////////////////////////////////////////////
+﻿// Author: WetHat | (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
+using System.Linq;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
+using System;
+using System.Text;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {
@@ -28,7 +29,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             InitializeComponent();
         }
 
-        #region IOneNotePageWindow<TagSearchModel>
+        #region IOneNotePageWindow<FindTaggedPagesModel>
 
         /// <summary>
         /// get or set the view model backing this UI
@@ -47,9 +48,82 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
 
-        #endregion IOneNotePageWindow<TagSearchModel>
+        #endregion IOneNotePageWindow<FindTaggedPagesModel>
 
         #region UI events
+
+        private void Page_MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem item = sender as MenuItem;
+            if (item != null)
+            {
+                switch (item.Tag.ToString())
+                {
+                    case "ClearSelection":
+                        foundPagesList.UnselectAll();
+                        break;
+
+                    case "SelectAll":
+                        foundPagesList.SelectAll();
+                        break;
+
+                    case "CopyLinks":
+                        string header =
+@"Version:0.9
+StartHTML:{0:D6}
+EndHTML:{1:D6}
+StartFragment:{2:D6}
+EndFragment:{3:D6}
+StartSelection:{4:D6}
+EndSelection:{5:D6}";
+                        string htmlpre =
+@"<HTML>
+<BODY>
+<!--StartFragment-->";
+                        StringBuilder links = new StringBuilder();
+
+                        foreach (var mdl in _model.Pages.Where((p) => p.IsSelected))
+                        {
+                            string pageTitle = mdl.LinkTitle;
+                            try
+                            {
+                                if (links.Length > 0)
+                                {
+                                    links.Append("<br />");
+                                }
+                                links.Append(@"<a href=""");
+                                links.Append(mdl.PageLink);
+                                links.Append(@""">");
+                                links.Append(mdl.LinkTitle);
+                                links.Append("</a>");
+                            }
+                            catch (Exception ex)
+                            {
+                                TraceLogger.Log(TraceCategory.Error(), "Link to page '{0}' could not be created: {1}", pageTitle, ex);
+                                TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_CopyLink, ex);
+                            }
+                        }
+
+                        string htmlpost =
+@"<!--EndFragment-->
+</BODY>
+</HTML>";
+                        string strLinks = links.ToString();
+                        string clip = string.Format(header,
+                            header.Length,
+                            header.Length + htmlpre.Length + strLinks.Length + htmlpost.Length,
+                            header.Length + htmlpre.Length,
+                            header.Length + htmlpre.Length + strLinks.Length,
+                            header.Length + htmlpre.Length,
+                            header.Length + htmlpre.Length + strLinks.Length)
+                            + htmlpre + strLinks + htmlpost;
+                        Clipboard.SetText(clip, TextDataFormat.Html);
+                        break;
+                }
+
+                e.Handled = true;
+            }
+        }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -174,7 +248,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private void _model_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e == FindTaggedPagesModel.CURRENT_TAGS)
+            if (e == FindTaggedPagesModel.PAGE_COUNT)
+            {
+                foundPagesList.UnselectAll();
+            }
+            else if (e == FindTaggedPagesModel.CURRENT_TAGS)
             {
                 // update query if necessary
                 string thisScopID;
@@ -219,6 +297,18 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 {
                     tagInput.Tags = ViewModel.CurrentTags;
                 }
+            }
+        }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            foreach (HitHighlightedPageLinkModel pl in e.RemovedItems)
+            {
+                pl.IsSelected = false;
+            }
+            foreach (HitHighlightedPageLinkModel pl in e.AddedItems)
+            {
+                pl.IsSelected = true;
             }
         }
     }
