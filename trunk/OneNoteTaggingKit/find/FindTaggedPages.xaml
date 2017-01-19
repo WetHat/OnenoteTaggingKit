@@ -47,7 +47,7 @@
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Row="0">
             <cui:ScopeSelector x:Name="scopeSelect" DockPanel.Dock="Left"
-                               Margin="5,5,5,0"
+                               Margin="3,3,0,0"
                                Style="{StaticResource controlEffectStyle}"
                                SelectedScope="{Binding DefaultScope, Mode=OneTime}"
                                ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Scope_ComboBox_Tooltip}}"
@@ -56,7 +56,7 @@
                 DockPanel.Dock="Right"
                 Height="24"
                 Style="{StaticResource controlEffectStyle}"
-                Margin="0,5,5,0"
+                Margin="0,3,2,0"
                 Click="SearchButton_Click">
                 <Image MaxWidth="32"  Source="/OneNoteTaggingKit;component/Resources/search-32x32 blue.jpg" />
             </Button>
@@ -72,9 +72,10 @@
                          TagInput="TagInputBox_Input"
                          ContextTagsSource="{Binding ContextTags, Mode=OneWay}"
                          ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_TagInput_Tooltip}}"
-                         Margin="5,8,5,0" />
+                         Margin="3,5,2,0" />
         <cui:HighlightedTagsPanel Grid.Row="2"
                                   x:Name="tagsPanel"
+                                  Margin="0,0,2,0"
                                   TagSource="{Binding Tags, Mode=OneWay}"
                                   ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Tags_GroupBox_Tooltip}}"
                                   Background="Transparent">
@@ -92,7 +93,13 @@
                 </DataTemplate>
             </cui:HighlightedTagsPanel.TagTemplate>
         </cui:HighlightedTagsPanel>
-        <Button Name="clearSelectionButton"  Grid.Row="2"  VerticalAlignment="Top"  HorizontalAlignment="Right" Click="ClearSelectionButton_Click" BorderThickness="0" BorderBrush="LightBlue" ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_ClearSelection_Button_Tooltip}}" Background="Transparent" Margin="0,0,25,0">
+        <Button Name="clearSelectionButton"  Grid.Row="2"
+                VerticalAlignment="Top"  HorizontalAlignment="Right"
+                Click="ClearSelectionButton_Click"
+                BorderThickness="0" BorderBrush="LightBlue"
+                ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_ClearSelection_Button_Tooltip}}"
+                Background="Transparent"
+                Margin="0,0,12,0">
             <Image  MaxWidth="32" Height="24" HorizontalAlignment="Center" VerticalAlignment="Bottom" Source="/OneNoteTaggingKit;component/Resources/clear selection.png" />
         </Button>
         <GridSplitter Grid.Row="3"
@@ -101,14 +108,15 @@
                       ResizeDirection="Rows" Height="5" HorizontalAlignment="Stretch">
             <GridSplitter.Background>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0.0">
-                    <GradientStop Color="Black" Offset="1" />
-                    <GradientStop Color="#FFE2EDF7" Offset="0.67" />
+                    <GradientStop Color="Blue" Offset="1" />
+                    <GradientStop Color="LightBlue" Offset="0.67" />
                 </LinearGradientBrush>
             </GridSplitter.Background>
         </GridSplitter>
         <GroupBox Grid.Row="4"
                   HorizontalAlignment="Stretch"
                   Background="Transparent"
+                  Margin="0,0,2,0"
                   ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Pages_GroupBox_Tooltip}}">
             <GroupBox.Header>
                 <TextBlock>
@@ -118,7 +126,11 @@
                   <Run Text=")" />
                 </TextBlock>
             </GroupBox.Header>
-            <ListBox Background="Transparent"
+            <ListBox Name="foundPagesList"
+                     Background="Transparent"
+                     SelectionMode="Extended"
+                     BorderThickness="0"
+                     SelectionChanged="ListBox_SelectionChanged"
                      ItemsSource="{Binding Pages, Mode=OneWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -127,6 +139,51 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </GroupBox>
+        <Menu Name="foundPagesMenu"
+              Grid.Row="4"
+              BorderThickness="0"
+              Background="Transparent"
+              Margin="0,0,5,0"
+              ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagInputBox_Filter_Menu_Tooltip}}"
+              VerticalAlignment="Top"
+              HorizontalAlignment="Right">
+            <MenuItem BorderThickness="0" Background="Transparent">
+                <MenuItem.Resources>
+                    <Style TargetType="{x:Type MenuItem}">
+                        <Setter Property="FontSize" Value="16" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="BorderBrush" Value="LightBlue" />
+                        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.MenuColorKey}}" />
+                    </Style>
+                </MenuItem.Resources>
+                <MenuItem.Header>
+                    <Image Source="/OneNoteTaggingKit;component/Resources/menu-32.png"
+                           Height="24"
+                           HorizontalAlignment="Center" />
+                </MenuItem.Header>
+                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.FoundPages_MenuItem_Deselect_All}}"
+                          Tag="ClearSelection"
+                          Click="Page_MenuItem_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/OneNoteTaggingKit;component/Resources/DeSelectAll-32.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.FoundPages_MenuItem_Select_All}}"
+                          Margin="0,5,0,5"
+                          Tag="SelectAll" Click="Page_MenuItem_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/OneNoteTaggingKit;component/Resources/SelectAll-32.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.FoundPages_MenuItem_CopyLinks}}"
+                          Tag="CopyLinks"
+                          Click="Page_MenuItem_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/OneNoteTaggingKit;component/Resources/copy_link-32.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
         <ProgressBar Name="pBar"
                      Grid.Row="4" />
         <StatusBar Grid.Row="5"

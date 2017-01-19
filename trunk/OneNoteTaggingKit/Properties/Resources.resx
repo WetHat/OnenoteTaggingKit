@@ -353,8 +353,8 @@ Sorry for the inconvenience!</value>
   <data name="TagSearch_TagInput_Tooltip" xml:space="preserve">
     <value>Type one or more names separated by comma ',' to locate matching tags in the refinement tags panel</value>
   </data>
-  <data name="TagSearch_ContextMenu_CopyLink" xml:space="preserve">
-    <value>Copy link to OneNote Page</value>
+  <data name="FoundPages_MenuItem_CopyLinks" xml:space="preserve">
+    <value>Copy Links to Pages</value>
   </data>
   <data name="TagSearch_Error_CopyLink" xml:space="preserve">
     <value>Copying link to page failed</value>
@@ -376,5 +376,20 @@ Sorry for the inconvenience!</value>
   </data>
   <data name="TagEditor_NoTagsSelectedWarning" xml:space="preserve">
     <value>No tags have been selected! This operation will not change anything.</value>
+  </data>
+  <data name="DeSelectAll_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\deselectall-32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FoundPages_MenuItem_Deselect_All" xml:space="preserve">
+    <value>Clear  Selection</value>
+  </data>
+  <data name="FoundPages_MenuItem_Select_All" xml:space="preserve">
+    <value>Select All</value>
+  </data>
+  <data name="menu_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\menu-32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SelectAll_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\selectall-32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
