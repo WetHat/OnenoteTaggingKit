@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -111,6 +112,10 @@ namespace WetHatLab.OneNote.TaggingKit
                     {
                         case 0x80042019:
                             wikipage = "0x80042019";
+                            break;
+
+                        case 0x8004200C:
+                            wikipage = "0x8004200C";
                             break;
                     }
                 }
