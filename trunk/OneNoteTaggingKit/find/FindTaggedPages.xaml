@@ -93,6 +93,8 @@
                 </DataTemplate>
             </cui:HighlightedTagsPanel.TagTemplate>
         </cui:HighlightedTagsPanel>
+        <ProgressBar Name="pBar"
+                     Grid.Row="2" />
         <Button Name="clearSelectionButton"  Grid.Row="2"
                 VerticalAlignment="Top"  HorizontalAlignment="Right"
                 Click="ClearSelectionButton_Click"
@@ -184,8 +186,6 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <ProgressBar Name="pBar"
-                     Grid.Row="4" />
         <StatusBar Grid.Row="5"
                    MaxHeight="23"
                    ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_StatusBar_Tooltip}}">
