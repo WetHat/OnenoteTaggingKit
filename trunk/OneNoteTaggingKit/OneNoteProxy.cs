@@ -1,4 +1,4 @@
-﻿// Author: WetHat | (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Runtime.InteropServices;
@@ -46,6 +46,21 @@ namespace WetHatLab.OneNote.TaggingKit
                     TraceLogger.Flush();
                 }
             }
+        }
+
+        /// <summary>
+        /// Delete a OneNote page object
+        /// </summary>
+        /// <remarks>Removes object such as outlines</remarks>
+        /// <param name="pageID">Page ID</param>
+        /// <param name="objectID">ID of object on the page</param>
+        public void DeletePageContent(string pageID, string objectID)
+        {
+            ExecuteMethodProtected<bool>(o =>
+            {
+                o.DeletePageContent(pageID, objectID, default(DateTime));
+                return true;
+            });
         }
 
         /// <summary>
