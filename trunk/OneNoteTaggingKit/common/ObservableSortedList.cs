@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
@@ -11,23 +12,23 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// </summary>
     /// <remarks>
     /// Instances of this class provide change notification through <see cref="INotifyCollectionChanged"/> and can
-    /// be take part in data binding to UI controls. This
-    /// class is optimized for batch updates (item collections). Single items cannot be added. 
+    /// take part in data binding to UI controls. This
+    /// class is optimized for batch updates (item collections). Single items cannot be added.
     /// </remarks>
     /// <typeparam name="TValue">item type providing sortable keys</typeparam>
     /// <typeparam name="TKey">unique key type</typeparam>
     /// <typeparam name="TSort">sort key type</typeparam>
     public class ObservableSortedList<TSort, TKey, TValue> : INotifyCollectionChanged, IEnumerable<TValue>
-        where TValue : ISortableKeyedItem<TSort,TKey>
+        where TValue : ISortableKeyedItem<TSort, TKey>
         where TKey : IEquatable<TKey>
-        where TSort  : IComparable<TSort>
+        where TSort : IComparable<TSort>
     {
         /// <summary>
         /// Event to notify about changes to this collection.
         /// </summary>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
-        const int INITIAL_CAPACITY = 200;
+        private const int INITIAL_CAPACITY = 200;
         private List<KeyValuePair<TSort, TValue>> _sortedList = new List<KeyValuePair<TSort, TValue>>(INITIAL_CAPACITY);
         private Dictionary<TKey, TValue> _dictionary = new Dictionary<TKey, TValue>(INITIAL_CAPACITY);
 
@@ -35,10 +36,12 @@ namespace WetHatLab.OneNote.TaggingKit.common
                                                 where TSort : IComparable<TSort>
         {
             #region IComparer<KeyValuePair<TSort, TValue>>
+
             public int Compare(KeyValuePair<TSort, TValue> x, KeyValuePair<TSort, TValue> y)
             {
                 return x.Key.CompareTo(y.Key);
             }
+
             #endregion IComparer<KeyValuePair<TSort, TValue>>
         };
 
@@ -90,7 +93,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             if (_dictionary.TryGetValue(key, out found))
             {
                 // lookup the index in the sorted list
-                index = _sortedList.BinarySearch(new KeyValuePair<TSort,TValue>(found.SortKey,found),_comparer);
+                index = _sortedList.BinarySearch(new KeyValuePair<TSort, TValue>(found.SortKey, found), _comparer);
             }
 
             return index;
@@ -114,7 +117,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         /// <summary>
-        /// Remove items from the collection in batches. 
+        /// Remove items from the collection in batches.
         /// </summary>
         /// <remarks>
         /// Groups the given items into contiguous ranges of batches and removes
@@ -129,7 +132,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 int index = IndexOfKey(key);
                 if (index >= 0)
                 {
-                    toDelete.Add(new KeyValuePair<int, TValue>(index,_dictionary[key]));
+                    toDelete.Add(new KeyValuePair<int, TValue>(index, _dictionary[key]));
                 }
             }
             toDelete.Sort(_indexComparer);
@@ -137,34 +140,34 @@ namespace WetHatLab.OneNote.TaggingKit.common
             while (toDelete.Count > 0)
             {
                 LinkedList<KeyValuePair<int, TValue>> batch = new LinkedList<KeyValuePair<int, TValue>>();
-                int lastElementIndex = toDelete.Count-1;
+                int lastElementIndex = toDelete.Count - 1;
                 batch.AddFirst(toDelete[lastElementIndex]);
                 toDelete.RemoveAt(lastElementIndex);
                 int n = 1;
                 // keep adding elements with contiguous indices
-                lastElementIndex = toDelete.Count-1;
-                while ( lastElementIndex >= 0 && toDelete[lastElementIndex].Key == (batch.First.Value.Key - 1))
+                lastElementIndex = toDelete.Count - 1;
+                while (lastElementIndex >= 0 && toDelete[lastElementIndex].Key == (batch.First.Value.Key - 1))
                 {
                     batch.AddFirst(toDelete[lastElementIndex]);
                     toDelete.RemoveAt(lastElementIndex);
-                    lastElementIndex = toDelete.Count-1;
+                    lastElementIndex = toDelete.Count - 1;
                     n++;
                 }
 
                 int startindex = batch.First.Value.Key;
-                
+
                 List<TValue> olditems = new List<TValue>(n);
                 foreach (var dead in batch)
                 {
                     olditems.Add(dead.Value);
                     bool removed = _dictionary.Remove(dead.Value.Key);
 #if DEBUG
-                    Debug.Assert(removed, string.Format("Failed to remove item with key {0}",dead.Value.Key));
+                    Debug.Assert(removed, string.Format("Failed to remove item with key {0}", dead.Value.Key));
 #endif
                 }
 
                 // remove this batch from the list
-                _sortedList.RemoveRange(startindex,n);
+                _sortedList.RemoveRange(startindex, n);
 
                 // fire the event to inform listeners
                 if (CollectionChanged != null)
@@ -188,18 +191,18 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="items">items to add</param>
         internal void AddAll(IEnumerable<TValue> items)
         {
-            List<KeyValuePair<int,TValue>> toAdd = new List<KeyValuePair<int,TValue>>();
+            List<KeyValuePair<int, TValue>> toAdd = new List<KeyValuePair<int, TValue>>();
             foreach (TValue item in items)
             {
                 if (!_dictionary.ContainsKey(item.Key))
                 {
                     // lookup insertion point
-                    int insertionPoint = _sortedList.BinarySearch(new KeyValuePair<TSort,TValue>(item.SortKey,item),_comparer);
+                    int insertionPoint = _sortedList.BinarySearch(new KeyValuePair<TSort, TValue>(item.SortKey, item), _comparer);
 #if DEBUG
-                    Debug.Assert(insertionPoint < 0, string.Format("Item with key {0} already present in list at index {1}",item.Key, insertionPoint));
+                    Debug.Assert(insertionPoint < 0, string.Format("Item with key {0} already present in list at index {1}", item.Key, insertionPoint));
 #endif
-                    _dictionary.Add(item.Key,item);
-                    toAdd.Add(new KeyValuePair<int, TValue>(~insertionPoint, item));                 
+                    _dictionary.Add(item.Key, item);
+                    toAdd.Add(new KeyValuePair<int, TValue>(~insertionPoint, item));
                 }
             }
             toAdd.Sort(_indexComparer);
@@ -215,7 +218,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 KeyValuePair<int, TValue> itemToAdd = toAdd[lastItemIndex];
 
                 int insertionPoint = itemToAdd.Key;
-                batch.Add(new KeyValuePair<TSort,TValue>(itemToAdd.Value.SortKey,itemToAdd.Value));
+                batch.Add(new KeyValuePair<TSort, TValue>(itemToAdd.Value.SortKey, itemToAdd.Value));
 
                 toAdd.RemoveAt(lastItemIndex);
                 lastItemIndex = toAdd.Count - 1;
@@ -224,7 +227,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 {
                     itemToAdd = toAdd[lastItemIndex];
                     batch.Add(new KeyValuePair<TSort, TValue>(itemToAdd.Value.SortKey, itemToAdd.Value));
-                     
+
                     toAdd.RemoveAt(lastItemIndex);
                     lastItemIndex = toAdd.Count - 1;
                 }
@@ -238,13 +241,14 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     NotifyCollectionChangedEventArgs args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add,
                                                                                           (from b in batch select b.Value).ToList(),
                                                                                           insertionPoint);
-             
+
                     CollectionChanged(this, args);
                 }
             }
         }
 
         #region IEnumerable<TValue>
+
         /// <summary>
         /// Get an enumerator for items in the list
         /// </summary>
@@ -255,7 +259,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         /// <summary>
-        /// Get a generic enumerator of items in the list 
+        /// Get a generic enumerator of items in the list
         /// </summary>
         /// <returns>item enumerator</returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
