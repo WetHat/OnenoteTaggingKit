@@ -1,4 +1,4 @@
-﻿// Author: WetHat | (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -70,30 +70,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         private ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel> _pages = new ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel>();
 
         private CancellationTokenSource _cancelWorker = new CancellationTokenSource();
-        private BlockingCollection<Action> _actions;
-
         private TextSplitter _highlighter;
-
-        /// <summary>
-        /// Process request asynchronously
-        /// </summary>
-        private void processActions()
-        {
-            while (true)
-            {
-                Action a = _actions.Take();
-                try
-                {
-                    a();
-                }
-                catch (Exception e)
-                {
-                    TraceLogger.Log(TraceCategory.Error(), "Exception in background task: {0}", e);
-                    TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_Find, e);
-                    // We continue processing actions regardless
-                }
-            }
-        }
 
         internal FindTaggedPagesModel(OneNoteProxy onenote) : base(onenote)
         {
@@ -111,10 +88,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     SearchHistory.Add(searches[i].Trim());
                 }
             }
-
-            _actions = new BlockingCollection<Action>(new ConcurrentQueue<Action>());
-            TaskFactory tf = new TaskFactory(_cancelWorker.Token, TaskCreationOptions.LongRunning, TaskContinuationOptions.None, TaskScheduler.Default);
-            tf.StartNew(processActions);
         }
 
         /// <summary>
@@ -129,8 +102,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         /// <param name="query">query. If null or empty just all page tags are collected</param>
         /// <param name="scope">Range of the search</param>
-        /// <param name="continuationAction">a UI action to execute (in the UI thread) after completion of the search</param>
-        internal void FindPagesAsync(string query, SearchScope scope, Action continuationAction)
+        internal async Task FindPagesAsync(string query, SearchScope scope)
         {
             switch (scope)
             {
@@ -178,13 +150,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 _highlighter = new TextSplitter();
             }
 
-            _actions.Add(() => _searchResult.Find(query, LastScopeID, includeUnindexedPages: false));
-
-            _actions.Add(() => Dispatcher.Invoke(UpdateFilterSelectionAction));
-            if (continuationAction != null)
-            {
-                _actions.Add(() => Dispatcher.Invoke(continuationAction));
-            }
+            await Task.Run(() => _searchResult.Find(query, LastScopeID, includeUnindexedPages: false), _cancelWorker.Token);
+            UpdateFilterSelectionAction();
         }
 
         private void UpdateFilterSelectionAction()
@@ -201,20 +168,19 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
 
-        internal void ClearTagFilterAsync(Action continuationAction)
+        internal Task ClearTagFilterAsync()
         {
-            _actions.Add(() => _searchResult.ClearTagFilter());
-            _actions.Add(() => Dispatcher.Invoke(continuationAction));
+            return Task.Run(() => _searchResult.ClearTagFilter(), _cancelWorker.Token);
         }
 
-        internal void AddTagToFilterAsync(TagPageSet tag)
+        internal Task AddTagToFilterAsync(TagPageSet tag)
         {
-            _actions.Add(() => _searchResult.AddTagToFilter(tag.TagName));
+            return Task.Run(() => _searchResult.AddTagToFilter(tag.TagName), _cancelWorker.Token);
         }
 
-        internal void RemoveTagFromFilterAsync(TagPageSet tag)
+        internal Task RemoveTagFromFilterAsync(TagPageSet tag)
         {
-            _actions.Add(() => _searchResult.RemoveTagFromFilter(tag.TagName));
+            return Task.Run(() => _searchResult.RemoveTagFromFilter(tag.TagName), _cancelWorker.Token);
         }
 
         /// <summary>

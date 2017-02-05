@@ -1,4 +1,5 @@
-﻿// Author: WetHat | (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+// Author: WetHat | (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
 using System.Linq;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -157,28 +158,27 @@ EndSelection:{5:D6}";
             }
         }
 
-        private void ClearSelectionButton_Click(object sender, RoutedEventArgs e)
+        private async void ClearSelectionButton_Click(object sender, RoutedEventArgs e)
         {
             pBar.Visibility = System.Windows.Visibility.Visible;
-            _model.ClearTagFilterAsync(() =>
+            await _model.ClearTagFilterAsync();
+            pBar.Visibility = System.Windows.Visibility.Hidden;
+            foreach (var t in _model.Tags.Values)
             {
-                pBar.Visibility = System.Windows.Visibility.Hidden;
-                foreach (var t in _model.Tags.Values)
-                {
-                    t.IsChecked = false;
-                }
-            });
+                t.IsChecked = false;
+            }
             e.Handled = true;
         }
 
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        private async void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             string query = searchComboBox.Text;
 
             try
             {
                 pBar.Visibility = System.Windows.Visibility.Visible;
-                _model.FindPagesAsync(query, scopeSelect.SelectedScope, () => pBar.Visibility = System.Windows.Visibility.Hidden);
+                await _model.FindPagesAsync(query, scopeSelect.SelectedScope);
+                pBar.Visibility = System.Windows.Visibility.Hidden;
                 searchComboBox.SelectedValue = query;
             }
             catch (System.Exception ex)
@@ -189,13 +189,14 @@ EndSelection:{5:D6}";
             e.Handled = true;
         }
 
-        private void SearchComboBox_KeyUp(object sender, KeyEventArgs e)
+        private async void SearchComboBox_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == System.Windows.Input.Key.Enter)
             {
                 string query = searchComboBox.Text;
                 pBar.Visibility = System.Windows.Visibility.Visible;
-                _model.FindPagesAsync(query, scopeSelect.SelectedScope, () => pBar.Visibility = System.Windows.Visibility.Hidden);
+                await _model.FindPagesAsync(query, scopeSelect.SelectedScope);
+                pBar.Visibility = System.Windows.Visibility.Hidden;
                 searchComboBox.SelectedValue = query;
             }
             e.Handled = true;
@@ -221,8 +222,12 @@ EndSelection:{5:D6}";
             {
                 pBar.Visibility = System.Windows.Visibility.Visible;
                 string query = searchComboBox.Text;
-                _model.FindPagesAsync(query, scopeSelect.SelectedScope, () => pBar.Visibility = System.Windows.Visibility.Hidden);
-                searchComboBox.SelectedValue = query;
+                // using ContinueWith until I've discovered how to do implement async events properly
+                _model.FindPagesAsync(query, scopeSelect.SelectedScope).ContinueWith(tsk => Dispatcher.Invoke(() =>
+                {
+                    pBar.Visibility = System.Windows.Visibility.Hidden;
+                    searchComboBox.SelectedValue = query;
+                }));
             }
             catch (System.Exception ex)
             {
@@ -280,11 +285,9 @@ EndSelection:{5:D6}";
                     {
                         pBar.Visibility = System.Windows.Visibility.Visible;
                         string query = searchComboBox.Text;
-                        _model.FindPagesAsync(query, scopeSelect.SelectedScope, () =>
-                        {
-                            tagInput.Tags = ViewModel.CurrentTags;
-                            pBar.Visibility = System.Windows.Visibility.Hidden;
-                        });
+                        _model.FindPagesAsync(query, scopeSelect.SelectedScope).Wait();
+                        tagInput.Tags = ViewModel.CurrentTags;
+                        pBar.Visibility = System.Windows.Visibility.Hidden;
                         searchComboBox.SelectedValue = query;
                     }
                     catch (System.Exception ex)
