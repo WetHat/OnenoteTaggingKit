@@ -40,7 +40,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" MinHeight="100" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="2*" MinHeight="100" />
+            <RowDefinition Height="3*" MinHeight="100" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -120,6 +120,7 @@
                   HorizontalAlignment="Stretch"
                   Background="Transparent"
                   Margin="0,0,2,0"
+                  MinHeight="100"
                   ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Pages_GroupBox_Tooltip}}">
             <GroupBox.Header>
                 <TextBlock>
