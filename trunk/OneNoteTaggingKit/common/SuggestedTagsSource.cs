@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,15 +23,15 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// </para>
     /// <para>
     /// Derived classes typically add custom properties to support specific rendering of their associated
-    /// controls. 
+    /// controls.
     /// </para>
     /// </remarks>
-    public class SuggestedTagDataContext: IHighlightableTagDataContext,ISortableKeyedItem<TagModelKey,string>,INotifyPropertyChanged
+    public class SuggestedTagDataContext : IHighlightableTagDataContext, ISortableKeyedItem<TagModelKey, string>, INotifyPropertyChanged
     {
-        bool _hasHighlights;
-        IEnumerable<TextFragment> _highlightedTagName;
-        string _tagName;
-        TagModelKey _sortkey;
+        private bool _hasHighlights;
+        private IEnumerable<TextFragment> _highlightedTagName;
+        private string _tagName;
+        private TagModelKey _sortkey;
 
         ///<summary>
         /// predefined event descriptor for the <see cref="E:WetHatLab.OneNote.TaggingKit.common.PropertyChanged"/> event fired for changes to the <see cref="HighlightedTagName"/> property
@@ -41,16 +42,12 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// Fire a <see cref="E:WetHatLab.OneNote.TaggingKit.common.PropertyChanged"/> event
         /// </summary>
         /// <param name="args">event details describing which property changed</param>
-        internal protected void firePropertyChanged(PropertyChangedEventArgs args)
+        protected internal void firePropertyChanged(PropertyChangedEventArgs args)
         {
-          if (PropertyChanged != null)
-          {
-              PropertyChanged(this, args);
-          }
-        }
-
-        internal SuggestedTagDataContext()
-        {   
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, args);
+            }
         }
 
         internal string TagName
@@ -71,6 +68,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         internal IEnumerable<TextFragment> HighlightedTagName { get { return _highlightedTagName; } }
 
         #region IHighlightableTagDataContext
+
         /// <summary>
         /// Set a filter string which is used to determine the appearance of the <see cref="HitHighlightedTagButton"/>
         /// control.
@@ -88,7 +86,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 _hasHighlights = _highlightedTagName.IsHighlighted();
                 if (_hasHighlights || before != _hasHighlights)
                 {
-                  firePropertyChanged(HIGHLIGHTED_TAGNAME);
+                    firePropertyChanged(HIGHLIGHTED_TAGNAME);
                 }
             }
         }
@@ -101,9 +99,11 @@ namespace WetHatLab.OneNote.TaggingKit.common
         {
             get { return _hasHighlights; }
         }
-        #endregion
+
+        #endregion IHighlightableTagDataContext
 
         #region ISortableKeyedItem<TagModelKey,string>
+
         /// <summary>
         /// Get the sortable key of the data context.
         /// </summary>
@@ -111,6 +111,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         {
             get { return _sortkey; }
         }
+
         /// <summary>
         /// Get the unique key of the data context
         /// </summary>
@@ -118,9 +119,11 @@ namespace WetHatLab.OneNote.TaggingKit.common
         {
             get { return _tagName; }
         }
+
         #endregion ISortableKeyedItem<TagModelKey,string>
 
         #region INotifyPropertyChanged
+
         /// <summary>
         /// Event to notify subscribers about property changes.
         /// </summary>
@@ -130,6 +133,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// events for their custom properties as appropriate.
         /// </remarks>
         public event PropertyChangedEventHandler PropertyChanged;
+
         #endregion INotifyPropertyChanged
     }
 
@@ -148,7 +152,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// the <see cref="TagInputBox.Tags"/> property to the <see cref="HighlightedTagsPanel.Highlighter"/> property.
     /// </para>
     /// </remarks>
-    public class SuggestedTagsSource<T> : ObservableSortedList<TagModelKey, string, T>, ITagSource where T : SuggestedTagDataContext,new()
+    public class SuggestedTagsSource<T> : ObservableSortedList<TagModelKey, string, T>, ITagSource where T : SuggestedTagDataContext, new()
     {
         /// <summary>
         /// create a new instance of a suggested tags collection.
@@ -182,6 +186,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         #region ITagSource
+
         /// <summary>
         /// Get the data context objects managed in this collection.
         /// </summary>
@@ -189,6 +194,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         {
             get { return Values; }
         }
+
         #endregion ITagSource
     }
 }
