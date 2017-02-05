@@ -1,8 +1,9 @@
-﻿// Author: WetHat | (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
@@ -57,10 +58,13 @@ namespace WetHatLab.OneNote.TaggingKit.manage
 
         internal async Task LoadSuggestedTagsAsync()
         {
+            await Task.Run(() => Thread.Sleep(1000));
+            // get the known suggestions
             Task suggestions = _suggestedTags.LoadSuggestedTagsAsync();
-            Task onenotetags = Task.Run(() => _tags.FindTaggedPages(String.Empty));
+            // grab all tags
+            await Task.Run(() => _tags.FindTaggedPages(String.Empty));
+            await suggestions;
 
-            await Task.WhenAll(onenotetags, suggestions);
             // update the tags loaded from the settings
             foreach (var t in _suggestedTags.Values)
             {
