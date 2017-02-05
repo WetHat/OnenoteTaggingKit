@@ -1,6 +1,9 @@
-﻿using System.Diagnostics;
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+// Author: WetHat | (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using WetHatLab.OneNote.TaggingKit.common;
@@ -43,7 +46,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <param name="e">event details</param>
         private void NewTagButton_Click(object sender, RoutedEventArgs e)
         {
-            _model.SuggestedTags.AddAll(from t in tagInput.Tags where !_model.SuggestedTags.ContainsKey(t) select new RemovableTagModel() { Tag = new TagPageSet(t)});
+            _model.SuggestedTags.AddAll(from t in tagInput.Tags where !_model.SuggestedTags.ContainsKey(t) select new RemovableTagModel() { Tag = new TagPageSet(t) });
             suggestedTags.Highlighter = null;
             tagInput.Clear();
             e.Handled = true;
@@ -57,6 +60,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         }
 
         #region IOneNotePageDialog<TagManagerModel>
+
         /// <summary>
         /// Get or set the dialog's view model.
         /// </summary>
@@ -74,7 +78,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             }
         }
 
-        #endregion
+        #endregion IOneNotePageDialog<TagManagerModel>
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -88,7 +92,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
 
             string navigateUri = hl.NavigateUri.ToString();
 
-            Process.Start(new ProcessStartInfo(navigateUri));  
+            Process.Start(new ProcessStartInfo(navigateUri));
 
             e.Handled = true;
         }
@@ -97,15 +101,6 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         {
             Clipboard.SetData(DataFormats.Text, _model.TagList);
             tagInput.FocusInput();
-        }
-
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (_model != null)
-            {
-                await _model.LoadSuggestedTagsAsync();
-                pBar.Visibility = System.Windows.Visibility.Hidden;
-            }
         }
 
         private void TagInputBox_Input(object sender, TagInputEventArgs e)
@@ -131,6 +126,15 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             Process.Start(new ProcessStartInfo("notepad.exe", path));
 
             e.Handled = true;
+        }
+
+        private async void TabItem_Selected(object sender, RoutedEventArgs e)
+        {
+            if (pBar.Visibility == System.Windows.Visibility.Visible)
+            {
+                await _model.LoadSuggestedTagsAsync();
+                pBar.Visibility = System.Windows.Visibility.Hidden;
+            }
         }
     }
 }

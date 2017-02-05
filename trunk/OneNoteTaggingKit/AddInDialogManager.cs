@@ -1,4 +1,5 @@
-﻿////////////////////////////////////////////////////////////
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+////////////////////////////////////////////////////////////
 // Author: WetHat
 // (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
 ////////////////////////////////////////////////////////////
@@ -109,7 +110,6 @@ namespace WetHatLab.OneNote.TaggingKit
                         w = new W();
                         w.Closing += (o, e) => UnregisterWindow(typeof(W));
                         w.Closed += (s, e) => w.Dispatcher.InvokeShutdown();
-                        w.Topmost = true;
                         M viewmodel = viewModelFactory();
                         ((IOneNotePageWindow<M>)w).ViewModel = viewmodel;
                         var helper = new WindowInteropHelper(w)

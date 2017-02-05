@@ -627,6 +627,69 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &apos;Tag Pages&apos; dialog always on top.
+        /// </summary>
+        public static string TagManager_PreferencesTab_DialogPreferences_TagEditorOnTop {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_DialogPreferences_TagEditorOnTop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When checked, the &apos;Tag Pages&apos; dialog is always on top of all other windows.
+        /// </summary>
+        public static string TagManager_PreferencesTab_DialogPreferences_TagEditorOnTopTooltip {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_DialogPreferences_TagEditorOnTopTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;Find Tagged Pages&apos; dialog always on top.
+        /// </summary>
+        public static string TagManager_PreferencesTab_DialogPreferences_TagSearchOnTop {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_DialogPreferences_TagSearchOnTop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When checked, the &apos;Find Tagged Pages&apos; dialog is always on top of all other windows.
+        /// </summary>
+        public static string TagManager_PreferencesTab_DialogPreferences_TagSearchOnTopTooltip {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_DialogPreferences_TagSearchOnTopTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dialog Preferences.
+        /// </summary>
+        public static string TagManager_PreferencesTab_DialogPreferencesGroup_Header {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_DialogPreferencesGroup_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preferences.
+        /// </summary>
+        public static string TagManager_PreferencesTab_Header {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Add-In Appearance and Behavior.
+        /// </summary>
+        public static string TagManager_PreferencesTab_Tooltip {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save changes to the collection of suggested tags..
         /// </summary>
         public static string TagManager_SaveTagsButton_Tooltip {

@@ -18,7 +18,6 @@
         MinHeight="250"
         Closing="Window_Closing"
         Icon="/OneNoteTaggingKit;component/Resources/tag 64x64.png"
-        Loaded="Window_Loaded"
         WindowStartupLocation="CenterOwner"
         WindowStyle="ToolWindow"
         d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,
@@ -49,9 +48,34 @@
     </Window.Background>
     <TabControl Grid.Row="0" Background="Transparent">
         <TabItem BorderThickness="0"
+                 IsSelected="True"
+                 Header="{Binding Mode=OneTime,
+                                  Source={x:Static prop:Resources.TagManager_PreferencesTab_Header}}"
+                 ToolTip="{Binding Mode=OneTime,
+                                   Source={x:Static prop:Resources.TagManager_PreferencesTab_Tooltip}}">
+            <StackPanel Orientation="Vertical">
+                <GroupBox Header="{Binding Mode=OneTime,
+                                  Source={x:Static prop:Resources.TagManager_PreferencesTab_DialogPreferencesGroup_Header}}">
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox Content="{Binding Mode=OneTime,
+                                       Source={x:Static prop:Resources.TagManager_PreferencesTab_DialogPreferences_TagEditorOnTop}}"
+                              ToolTip="{Binding Mode=OneTime,
+                                       Source={x:Static prop:Resources.TagManager_PreferencesTab_DialogPreferences_TagEditorOnTopTooltip}}"
+                              IsChecked="{Binding Source={x:Static prop:Settings.Default},Path=TagEditorAlwaysOnTop,Mode=TwoWay}" />
+                        <CheckBox Content="{Binding Mode=OneTime,
+                                       Source={x:Static prop:Resources.TagManager_PreferencesTab_DialogPreferences_TagSearchOnTop}}"
+                              ToolTip="{Binding Mode=OneTime,
+                                       Source={x:Static prop:Resources.TagManager_PreferencesTab_DialogPreferences_TagSearchOnTopTooltip}}"
+                              IsChecked="{Binding Source={x:Static prop:Settings.Default},Path=TagSearchAlwaysOnTop,Mode=TwoWay}" />
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </TabItem>
+        <TabItem BorderThickness="0"
+                 Selector.Selected="TabItem_Selected"
                  Header="{Binding Mode=OneTime,
                                   Source={x:Static prop:Resources.TagManager_TagSuggestionsTab_Header}}"
-                 IsSelected="True"
+
                  ToolTip="{Binding Mode=OneTime,
                                    Source={x:Static prop:Resources.TagManager_TagSuggestionsTab_Tooltip}}">
             <Grid>
