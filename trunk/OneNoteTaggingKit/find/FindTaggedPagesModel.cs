@@ -151,13 +151,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
 
             await Task.Run(() => _searchResult.Find(query, LastScopeID, includeUnindexedPages: false), _cancelWorker.Token);
-            UpdateFilterSelectionAction();
-        }
-
-        private void UpdateFilterSelectionAction()
-        {
-            // re-select all tags in the filter as selection got lost
-            // when new tags were created through search
+            // restore filter tag selection
             foreach (string filterTag in _searchResult.Filter)
             {
                 TagSelectorModel mdl;
