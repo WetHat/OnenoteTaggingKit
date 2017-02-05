@@ -1,7 +1,4 @@
-﻿////////////////////////////////////////////////////////////
-// Author: WetHat
-// (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
-////////////////////////////////////////////////////////////
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using Microsoft.Office.Interop.OneNote;
 using System.Collections.Generic;
 using WetHatLab.OneNote.TaggingKit.common;
@@ -21,7 +18,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// tag objects used for filtering
         /// </summary>
-        /// <remarks>Contains live tags only and hence is a subset of <see cref="_tagfilter"/></remarks>
+        /// <remarks>Contains live tags only.</remarks>
         private ISet<TagPageSet> _filterTags = new HashSet<TagPageSet>();
 
         /// <summary>
@@ -33,6 +30,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// Set of pages after tag filters have been applied.
         /// </summary>
         private ObservableDictionary<string, TaggedPage> _filteredPages = new ObservableDictionary<string, TaggedPage>();
+
+        /// <summary>
+        /// The current query used to determine the pages
+        /// </summary>
+        private string _query;
 
         internal FilterablePageCollection(OneNoteProxy onenote) : base(onenote)
         {
@@ -55,6 +57,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         {
             _filteredPages.Clear();
             _filterTags.Clear();
+            _query = query;
             if (string.IsNullOrEmpty(query))
             {
                 // collect all tags used somewhere on a page
@@ -84,8 +87,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     }
                 }
             }
-            if (filtersApplied == 0)
-            {
+            if (filtersApplied == 0 && !string.IsNullOrEmpty(query))
+            {   // as there are no filters we simply show the entire
+                // query result
                 _filteredPages.UnionWith(Pages.Values);
             }
             ApplyFilterToTags();
@@ -115,7 +119,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
         {
             _filterTags.Clear();
             _tagFilter.Clear();
-            _filteredPages.UnionWith(Pages.Values);
+            _filteredPages.Clear();
+            if (!string.IsNullOrEmpty(_query))
+            {
+                _filteredPages.UnionWith(Pages.Values);
+            }
             foreach (TagPageSet tag in Tags.Values)
             {
                 tag.ClearFilter();
@@ -138,7 +146,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 if (Tags.TryGetValue(tagName, out tag))
                 {
                     _filterTags.Add(tag);
-                    _filteredPages.IntersectWith(tag.FilteredPages);
+                    if (_filteredPages.Count == 0)
+                    {
+                        _filteredPages.UnionWith(tag.FilteredPages);
+                    }
+                    else
+                    {
+                        _filteredPages.IntersectWith(tag.FilteredPages);
+                    }
                     ApplyFilterToTags();
                 }
             }
@@ -163,10 +178,18 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     else
                     {
                         // recompute filtered pages from scratch
-                        _filteredPages.UnionWith(Pages.Values);
+                        _filteredPages.Clear();
+                        int tagsApplied = 0;
                         foreach (TagPageSet tps in _filterTags)
                         {
-                            _filteredPages.IntersectWith(tps.Pages);
+                            if (tagsApplied++ == 0)
+                            {
+                                _filteredPages.UnionWith(tps.Pages);
+                            }
+                            else
+                            {
+                                _filteredPages.IntersectWith(tps.Pages);
+                            }
                         }
                         ApplyFilterToTags();
                     }
