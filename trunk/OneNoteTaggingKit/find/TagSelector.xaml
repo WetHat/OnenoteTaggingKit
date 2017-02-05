@@ -2,7 +2,7 @@
              Name="self"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:WetHatLab.OneNote.TaggingKit.find"
              xmlns:prop="clr-namespace:WetHatLab.OneNote.TaggingKit.Properties"
@@ -18,21 +18,21 @@
             <TextBlock Name="tagName" VerticalAlignment="Bottom"
                        Foreground="DarkSlateBlue"
                        FontWeight="Bold"
-                       Focusable="False"/>
+                       Focusable="False" />
             <TextBlock VerticalAlignment="Bottom"
                        Focusable="False"
                        Background="Transparent"
                        ToolTip="{Binding PageCountTooltip}">
-                <Run Text=" ("/><Run Text="{Binding FilteredPageCount,Mode=OneWay}"/><Run Text=")"/>
+                <Run Text=" (" /><Run Text="{Binding FilteredPageCount,Mode=OneWay}" /><Run Text=")" />
             </TextBlock>
             <TextBlock VerticalAlignment="Bottom"
                        Visibility="{Binding FilterIndicatorVisibility}"
                        Background="Transparent"
+                       Foreground="Red"
                        Focusable="False"
                        FontFamily="Segoe UI Symbol"
                        ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSelector_FilterIndicator_Tooltip}}"
-                       Text=""/>
-
+                       Text="" />
         </StackPanel>
     </ToggleButton>
 </UserControl>
