@@ -1,18 +1,9 @@
-﻿using System;
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
@@ -25,14 +16,17 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// OneNote section
         /// </summary>
         Section = 0,
+
         /// <summary>
         /// OneNote section group
         /// </summary>
         SectionGroup = 1,
+
         /// <summary>
         /// OneNote notebook
         /// </summary>
         Notebook = 2,
+
         /// <summary>
         /// All notebooks open in OneNote
         /// </summary>
@@ -48,6 +42,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// Get or set the search scope
         /// </summary>
         public SearchScope Scope { get; set; }
+
         /// <summary>
         /// get or set the display label.
         /// </summary>
@@ -108,6 +103,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                                                                                     ScopeLabel = Properties.Resources.TagSearch_Scope_AllNotebooks_Label
                                                                                 }
                                                                             };
+
         /// <summary>
         /// Get the collection of scope facade objects
         /// </summary>
@@ -127,7 +123,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// Dependency property for the selected scope
         /// </summary>
         /// <seealso cref="SelectedScope"/>
-        public static readonly DependencyProperty SelectedScopeProperty = DependencyProperty.Register("SelectedScope", typeof(SearchScope), typeof(ScopeSelector),new PropertyMetadata(HandleScopeChange));
+        public static readonly DependencyProperty SelectedScopeProperty = DependencyProperty.Register("SelectedScope", typeof(SearchScope), typeof(ScopeSelector), new PropertyMetadata(HandleScopeChange));
 
         private static void HandleScopeChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -144,9 +140,11 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         public SearchScope SelectedScope
         {
             get { return (SearchScope)GetValue(SelectedScopeProperty); }
-            set { SetValue(SelectedScopeProperty, value);
-                  scopeSelect.SelectedIndex = (int)value;
-                }
+            set
+            {
+                SetValue(SelectedScopeProperty, value);
+                scopeSelect.SelectedIndex = (int)value;
+            }
         }
 
         /// <summary>
