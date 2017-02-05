@@ -151,7 +151,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// Routed event to inform subscribers about scope changes
         /// </summary>
         /// <seealso cref="ScopeChanged"/>
-        public static readonly RoutedEvent ScopeChangedEvent = EventManager.RegisterRoutedEvent("ScopeChanged", RoutingStrategy.Bubble, typeof(ScopeChangedEventEventHandler), typeof(ScopeSelector));
+        public static readonly RoutedEvent ScopeChangedEvent = EventManager.RegisterRoutedEvent("ScopeChanged", RoutingStrategy.Direct, typeof(ScopeChangedEventEventHandler), typeof(ScopeSelector));
 
         /// <summary>
         /// Event to notify listeners when the scope has changed
