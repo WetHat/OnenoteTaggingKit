@@ -1,5 +1,4 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
-// Author: WetHat | (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
 using System.Linq;
 using System.ComponentModel;
 using System.Diagnostics;
