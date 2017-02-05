@@ -12,6 +12,7 @@
         Width="{Binding Source={x:Static prop:Settings.Default},Path=TagEditorWindow_Width,Mode=TwoWay}"
         Left="{Binding Source={x:Static prop:Settings.Default},Path=TagEditorWindow_Left,Mode=TwoWay}"
         Top="{Binding Source={x:Static prop:Settings.Default},Path=TagEditorWindow_Top,Mode=TwoWay}"
+        Topmost="{Binding Source={x:Static prop:Settings.Default},Path=TagEditorAlwaysOnTop,Mode=OneWay}"
         MinWidth="300"
         MinHeight="430"
         Name="tagEditorWindow"
@@ -21,7 +22,8 @@
         WindowStyle="ThreeDBorderWindow"
         Title="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Window_Title}}"
         Icon="/OneNoteTaggingKit;component/Resources/tag 64x64.png"
-        Loaded="Window_Loaded" Closing="editTags_Closing">
+        Loaded="Window_Loaded"
+        Closing="editTags_Closing">
     <Window.Resources>
         <ResourceDictionary Source="pack://application:,,,/OneNoteTaggingKit;component/Resources/Styles.xaml" />
     </Window.Resources>
