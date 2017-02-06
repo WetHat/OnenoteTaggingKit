@@ -338,9 +338,6 @@
     <Resource Include="Resources\Remove Tag 26.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\save-26.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\empty_filter-32.png" />
   </ItemGroup>
   <ItemGroup>

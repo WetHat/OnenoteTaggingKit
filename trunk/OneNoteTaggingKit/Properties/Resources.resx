@@ -407,4 +407,10 @@ Sorry for the inconvenience!</value>
   <data name="TagSearch_Pages_Menu_Tooltip" xml:space="preserve">
     <value>Tap to show actions for found pages</value>
   </data>
+  <data name="TagSearch_PageItem_Tooltip" xml:space="preserve">
+    <value>Tap to select</value>
+  </data>
+  <data name="TagSearch_PageLink_Tooltip" xml:space="preserve">
+    <value>Tap to navigate to page</value>
+  </data>
 </root>

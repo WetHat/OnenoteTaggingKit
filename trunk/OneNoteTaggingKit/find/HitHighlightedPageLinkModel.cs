@@ -240,7 +240,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 else
                 {
                     MarkerSymbol = "❱";
-                    MarkerColor = Brushes.DodgerBlue;
+                    MarkerColor = Brushes.DarkOrange;
                 }
             }
         }
