@@ -147,7 +147,7 @@
               Grid.Row="4"
               BorderThickness="0"
               Background="Transparent"
-              Margin="0,0,5,0"
+              Margin="0,0,12,0"
               ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagInputBox_Filter_Menu_Tooltip}}"
               VerticalAlignment="Top"
               HorizontalAlignment="Right">
@@ -161,22 +161,30 @@
                     </Style>
                 </MenuItem.Resources>
                 <MenuItem.Header>
-                    <Image Source="/OneNoteTaggingKit;component/Resources/menu-32.png"
-                           Height="24"
-                           HorizontalAlignment="Center" />
+                    <TextBlock Text="" FontWeight="Heavy" FontFamily="Segoe UI Symbol" FontSize="20" HorizontalAlignment="Stretch" Margin="0,-2,0,0" />
                 </MenuItem.Header>
                 <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.FoundPages_MenuItem_Deselect_All}}"
                           Tag="ClearSelection"
                           Click="Page_MenuItem_Click">
                     <MenuItem.Icon>
-                        <Image Source="/OneNoteTaggingKit;component/Resources/DeSelectAll-32.png" />
+                        <TextBlock  Text=""
+                                    FontFamily="Segoe UI Symbol"
+                                    FontWeight="ExtraBold"
+                                    FontSize="15"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.FoundPages_MenuItem_Select_All}}"
                           Margin="0,5,0,5"
                           Tag="SelectAll" Click="Page_MenuItem_Click">
                     <MenuItem.Icon>
-                        <Image Source="/OneNoteTaggingKit;component/Resources/SelectAll-32.png" />
+                        <TextBlock  Text=""
+                                    FontFamily="Segoe UI Symbol"
+                                    FontWeight="ExtraBold"
+                                    FontSize="14"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.FoundPages_MenuItem_CopyLinks}}"
