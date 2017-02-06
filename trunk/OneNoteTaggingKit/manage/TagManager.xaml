@@ -90,44 +90,34 @@
                 <cui:TagInputBox x:Name="tagInput"
                                  Grid.Row="0"
                                  Grid.Column="0"
-                                 Margin="5,5,10,5"
+                                 Margin="5,5,5,5"
                                  VerticalAlignment="Center"
                                  TagInput="TagInputBox_Input"
                                  ToolTip="{Binding Mode=OneTime,
                                                    Source={x:Static prop:Resources.TagManager_NewTagTextbox_Tooltip}}" />
-                <StackPanel Grid.Row="0"
-                            Grid.Column="2"
-                            Orientation="Horizontal">
-                    <Button x:Name="newTagButton"
-                            Width="26"
-                            Height="26"
-                            Margin="0,0,5,0"
-                            Click="NewTagButton_Click"
-                            Style="{StaticResource controlEffectStyle}"
-                            ToolTip="{Binding Mode=OneTime,
-                                              Source={x:Static prop:Resources.TagManager_NewTagButton_Tooltip}}">
-                        <Button.Background>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Offset="0" Color="#FF00FF00" />
-                                <GradientStop Offset="1" Color="#FFB0ADAD" />
-                            </LinearGradientBrush>
-                        </Button.Background>
-                        <TextBlock VerticalAlignment="Center"
+                <Button x:Name="newTagButton"
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Width="26"
+                        Height="26"
+                        HorizontalAlignment="Center"
+                        Click="NewTagButton_Click"
+                        Style="{StaticResource controlEffectStyle}"
+                        ToolTip="{Binding Mode=OneTime,
+                                            Source={x:Static prop:Resources.TagManager_NewTagButton_Tooltip}}">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                            <GradientStop Offset="0" Color="#FF00FF00" />
+                            <GradientStop Offset="1" Color="#FFB0ADAD" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                    <TextBlock VerticalAlignment="Center"
                                    FontFamily="Segoe UI Symbol"
                                    FontSize="22"
                                    FontWeight="ExtraBold"
                                    Text="✙"
                                    TextAlignment="Center" />
-                    </Button>
-                    <Button Width="26"
-                            Height="26"
-                            Click="SaveButton_Click"
-                            Style="{DynamicResource controlEffectStyle}"
-                            ToolTip="{Binding Mode=OneTime,
-                                              Source={x:Static prop:Resources.TagManager_SaveTagsButton_Tooltip}}">
-                        <Image Source="/OneNoteTaggingKit;component/Resources/save-26.png" />
-                    </Button>
-                </StackPanel>
+                </Button>
                 <cui:HighlightedTagsPanel x:Name="suggestedTags"
                                           Grid.Row="1"
                                           Grid.Column="0"
@@ -142,6 +132,36 @@
                         </DataTemplate>
                     </cui:HighlightedTagsPanel.TagTemplate>
                 </cui:HighlightedTagsPanel>
+                <Menu Grid.Row="1" Grid.Column="1"
+                      BorderThickness="0"
+                      Background="Transparent"
+                      ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagInputBox_Filter_Menu_Tooltip}}"
+                      VerticalAlignment="Top"
+                      HorizontalAlignment="Left">
+                    <MenuItem BorderThickness="0" Background="Transparent">
+                        <MenuItem.Resources>
+                            <Style TargetType="{x:Type MenuItem}">
+                                <Setter Property="FontSize" Value="16" />
+                                <Setter Property="BorderThickness" Value="1" />
+                                <Setter Property="BorderBrush" Value="LightBlue" />
+                                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.MenuColorKey}}" />
+                            </Style>
+                        </MenuItem.Resources>
+                        <MenuItem.Header>
+                            <TextBlock Text=""
+                                       FontWeight="Heavy"
+                                       FontFamily="Segoe UI Symbol"
+                                       FontSize="20"
+                                       VerticalAlignment="Top"
+                                       Margin="0,-3,0,0" />
+                        </MenuItem.Header>
+                        <MenuItem Click="Copy_MenuItem_Click" Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_ContextMenu_Copy}}">
+                            <MenuItem.Icon>
+                                <Image Source="/OneNoteTaggingKit;component/Resources/copy-26.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
                 <ProgressBar Name="pBar"
                              Grid.Row="1"
                              Grid.Column="0"

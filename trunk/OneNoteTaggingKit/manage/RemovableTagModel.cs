@@ -1,9 +1,8 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using System.ComponentModel;
-using WetHatLab.OneNote.TaggingKit.common;
-using WetHatLab.OneNote.TaggingKit.common.ui;
 using System.Windows;
+using System.Windows.Media;
+using WetHatLab.OneNote.TaggingKit.common;
 
 namespace WetHatLab.OneNote.TaggingKit.manage
 {
@@ -14,6 +13,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     public class RemovableTagModel : SuggestedTagDataContext
     {
         internal static readonly PropertyChangedEventArgs USE_COUNT = new PropertyChangedEventArgs("UseCount");
+        internal static readonly PropertyChangedEventArgs USE_COUNT_COLOR = new PropertyChangedEventArgs("UseCountColor");
         internal static readonly PropertyChangedEventArgs MARKER_VISIBILIY = new PropertyChangedEventArgs("RemoveMarkerVisibility");
         internal static readonly PropertyChangedEventArgs CAN_REMOVE = new PropertyChangedEventArgs("CanRemove");
 
@@ -36,7 +36,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                 UseCount = value.FilteredPages.Count;
             }
         }
-        
+
         /// <summary>
         /// Check whether the tag can be removed
         /// </summary>
@@ -46,13 +46,14 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             get { return UseCount == 0; }
         }
 
-        int _useCount = 0;
+        private int _useCount = 0;
+
         /// <summary>
         /// Get the number of pages having this tag.
         /// </summary>
         public int UseCount
         {
-            get { return _useCount;  }
+            get { return _useCount; }
             private set
             {
                 if (_useCount != value)
@@ -65,8 +66,20 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                     {
                         firePropertyChanged(MARKER_VISIBILIY);
                         firePropertyChanged(CAN_REMOVE);
+                        firePropertyChanged(USE_COUNT_COLOR);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Get the color of the tag use count indicator.
+        /// </summary>
+        public Brush UseCountColor
+        {
+            get
+            {
+                return CanRemove ? Brushes.Red : Brushes.DodgerBlue;
             }
         }
 

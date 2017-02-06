@@ -1,20 +1,20 @@
 ﻿<UserControl x:Class="WetHatLab.OneNote.TaggingKit.manage.RemovableTag"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:WetHatLab.OneNote.TaggingKit.manage"
              xmlns:prop="clr-namespace:WetHatLab.OneNote.TaggingKit.Properties"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" DataContextChanged="OnDataContextChanged" >
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" DataContextChanged="OnDataContextChanged">
     <Button  Background="White"
              BorderBrush="LightBlue"
              IsEnabled="{Binding CanRemove, Mode=OneWay}"
              ToolTip="{Binding Mode=OneTime,
              Source={x:Static prop:Resources.RemoveTag_Button_Tooltip}}"
-             Click="Button_Click" >
+             Click="Button_Click">
         <StackPanel Orientation="Horizontal">
-            <TextBlock Name="highlighedTag"/>
-            <TextBlock Background="Transparent" Margin="0,0,5,0">
-                <Run Text=" ("/><Run Text="{Binding UseCount, Mode=OneWay}"/><Run Text=")"/>
+            <TextBlock Name="highlighedTag" />
+            <TextBlock Background="Transparent" Margin="0,0,5,0" Foreground="{Binding UseCountColor,Mode=OneWay}">
+                <Run Text=" (" /><Run Text="{Binding UseCount, Mode=OneWay}" /><Run Text=")" />
             </TextBlock>
             <TextBlock Name="removeMarker"
                        Visibility="{Binding RemoveMarkerVisibility, Mode=OneWay}"
@@ -23,7 +23,7 @@
                        Text="❌"
                        Width="10" Height="10"
                        FontSize="8"
-                       TextAlignment="Center"/>
+                       TextAlignment="Center" />
         </StackPanel>
     </Button>
 </UserControl>
