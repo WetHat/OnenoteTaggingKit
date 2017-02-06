@@ -569,6 +569,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tap to show actions for suggested tags.
+        /// </summary>
+        public static string TagManager_Menu_Tooltip {
+            get {
+                return ResourceManager.GetString("TagManager_Menu_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap to add tag to suggestions.
         /// </summary>
         public static string TagManager_NewTagButton_Tooltip {
@@ -668,7 +677,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tag Suggestions.
+        ///   Looks up a localized string similar to Suggested Tags.
         /// </summary>
         public static string TagManager_TagSuggestionsTab_Header {
             get {
@@ -773,6 +782,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TagSearch_Pages_GroupBox_Tooltip {
             get {
                 return ResourceManager.GetString("TagSearch_Pages_GroupBox_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to show actions for found pages.
+        /// </summary>
+        public static string TagSearch_Pages_Menu_Tooltip {
+            get {
+                return ResourceManager.GetString("TagSearch_Pages_Menu_Tooltip", resourceCulture);
             }
         }
         

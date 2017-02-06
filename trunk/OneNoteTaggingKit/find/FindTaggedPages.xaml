@@ -148,7 +148,7 @@
               BorderThickness="0"
               Background="Transparent"
               Margin="0,0,12,0"
-              ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagInputBox_Filter_Menu_Tooltip}}"
+              ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Pages_Menu_Tooltip}}"
               VerticalAlignment="Top"
               HorizontalAlignment="Right">
             <MenuItem BorderThickness="0" Background="Transparent">
