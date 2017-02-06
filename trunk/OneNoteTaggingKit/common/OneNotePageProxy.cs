@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
-namespace WetHatLab.OneNote.TaggingKit.edit
+namespace WetHatLab.OneNote.TaggingKit.common
 {
     /// <summary>
     /// Local representation of a OneNote Page
