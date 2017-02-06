@@ -63,29 +63,9 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Add_Tag_26 {
-            get {
-                object obj = ResourceManager.GetObject("Add_Tag_26", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         public static System.Drawing.Bitmap copy_26 {
             get {
                 object obj = ResourceManager.GetObject("copy_26", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap DeSelectAll_32 {
-            get {
-                object obj = ResourceManager.GetObject("DeSelectAll_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -114,16 +94,6 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string FoundPages_MenuItem_Select_All {
             get {
                 return ResourceManager.GetString("FoundPages_MenuItem_Select_All", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap menu_32 {
-            get {
-                object obj = ResourceManager.GetObject("menu_32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -163,16 +133,6 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string ribbon {
             get {
                 return ResourceManager.GetString("ribbon", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap SelectAll_32 {
-            get {
-                object obj = ResourceManager.GetObject("SelectAll_32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
