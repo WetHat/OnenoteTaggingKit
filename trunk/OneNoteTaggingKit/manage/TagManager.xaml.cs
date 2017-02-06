@@ -1,5 +1,4 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
-// Author: WetHat | (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -37,6 +36,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         {
             RemovableTag btn = sender as RemovableTag;
             _model.SuggestedTags.RemoveAll(new string[] { ((RemovableTagModel)btn.DataContext).Key });
+            _model.SaveChanges();
         }
 
         /// <summary>
@@ -49,14 +49,8 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             _model.SuggestedTags.AddAll(from t in tagInput.Tags where !_model.SuggestedTags.ContainsKey(t) select new RemovableTagModel() { Tag = new TagPageSet(t) });
             suggestedTags.Highlighter = null;
             tagInput.Clear();
-            e.Handled = true;
-        }
-
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
             _model.SaveChanges();
             e.Handled = true;
-            DialogResult = true;
         }
 
         #region IOneNotePageDialog<TagManagerModel>
