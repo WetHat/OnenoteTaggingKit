@@ -1,7 +1,4 @@
-﻿////////////////////////////////////////////////////////////
-// Author: WetHat
-// (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
-////////////////////////////////////////////////////////////
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using Extensibility;
 using Microsoft.Office.Core;
 using System;
@@ -57,13 +54,15 @@ namespace WetHatLab.OneNote.TaggingKit
         public void OnBeginShutdown(ref Array custom)
         {
             TraceLogger.Log(TraceCategory.Info(), "Beginning Add-In shutdown; Arguments '{0}'", custom);
+            if (_dialogmanager != null)
+            {
+                _dialogmanager.Dispose();
+                _dialogmanager = null;
+            }
+
             if (_onProxy != null)
             {
-                if (_dialogmanager != null)
-                {
-                    _dialogmanager.Dispose();
-                    _dialogmanager = null;
-                }
+                _onProxy.Dispose();
                 _onProxy = null;
             }
         }
@@ -77,17 +76,28 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="custom">An empty array that you can use to pass host-specific data for use in the add-in</param>
         public void OnConnection(object Application, ext_ConnectMode ConnectMode, object AddInInst, ref Array custom)
         {
-            TraceLogger.Log(TraceCategory.Info(), "Connection mode '{0}'", ConnectMode);
-            _onProxy = new OneNoteProxy(Application as Microsoft.Office.Interop.OneNote.Application);
-
-            // Upgrade Settings if necessary. On new version the UpdateRequired flag is reset to default (true)
-            if (Properties.Settings.Default.UpdateRequired)
+            try
             {
-                Properties.Settings.Default.Upgrade();
-                Properties.Settings.Default.UpdateRequired = false;
-            }
+                TraceLogger.Log(TraceCategory.Info(), "Connection mode '{0}'", ConnectMode);
 
-            _dialogmanager = new AddInDialogManager();
+                _onProxy = new OneNoteProxy(Application as Microsoft.Office.Interop.OneNote.Application);
+
+                // Upgrade Settings if necessary. On new version the UpdateRequired flag is reset to default (true)
+                if (Properties.Settings.Default.UpdateRequired)
+                {
+                    Properties.Settings.Default.Upgrade();
+                    Properties.Settings.Default.UpdateRequired = false;
+                }
+
+                _dialogmanager = new AddInDialogManager();
+                TraceLogger.Flush();
+            }
+            catch (Exception ex)
+            {
+                TraceLogger.Log(TraceCategory.Error(), "Connecting Tagging Kit failed: {0}", ex);
+                TraceLogger.Flush();
+                throw;
+            }
         }
 
         /// <summary>

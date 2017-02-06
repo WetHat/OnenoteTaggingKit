@@ -4,6 +4,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Xml.Linq;
+using WetHatLab.OneNote.TaggingKit.Tagger;
 
 namespace WetHatLab.OneNote.TaggingKit
 {
@@ -11,12 +12,12 @@ namespace WetHatLab.OneNote.TaggingKit
     /// Proxy class to make method calls into the OneNote application object which are
     /// protected against recoverable errors and offer a tagging specific API.
     /// </summary>
-    public class OneNoteProxy
+    public class OneNoteProxy : IDisposable
     {
         private const int MAX_RETRIES = 3; // number of retries if OneNote is busy
         private Application _on; // OneNote COM object
 
-        private XMLSchema _onenote_Schema = XMLSchema.xs2010; // lowest supported schema; updated by constructor
+        public BackgroundTagger TaggingService { get; private set; }
 
         /// <summary>
         /// Create a new instance of a OneNote proxy.
@@ -46,6 +47,9 @@ namespace WetHatLab.OneNote.TaggingKit
                     TraceLogger.Flush();
                 }
             }
+            TaggingService = new BackgroundTagger(this);
+            TaggingService.Run();
+            TraceLogger.Log(TraceCategory.Info(), "OneNote application proxy constructed successfully");
         }
 
         /// <summary>
@@ -320,5 +324,19 @@ namespace WetHatLab.OneNote.TaggingKit
             }
             return default(Tresult);
         }
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            if (TaggingService != null)
+            {
+                TaggingService.Dispose();
+                TaggingService = null;
+                GC.SuppressFinalize(this);
+            }
+        }
+
+        #endregion IDisposable
     }
 }

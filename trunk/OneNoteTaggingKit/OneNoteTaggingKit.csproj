@@ -155,6 +155,8 @@
       <DependentUpon>FindTaggedPages.xaml</DependentUpon>
     </Compile>
     <Compile Include="find\FindTaggedPagesModel.cs" />
+    <Compile Include="Tagger\BackgroundTagger.cs" />
+    <Compile Include="Tagger\TaggingJob.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
