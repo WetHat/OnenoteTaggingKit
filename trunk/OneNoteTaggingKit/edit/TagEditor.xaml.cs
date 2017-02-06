@@ -1,16 +1,15 @@
-﻿using System;
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
+using WetHatLab.OneNote.TaggingKit.Tagger;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
@@ -25,7 +24,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private TagEditorModel _model;
 
         /// <summary>
-        /// Create a new instance of the tag editor 
+        /// Create a new instance of the tag editor
         /// </summary>
         public TagEditor()
         {
@@ -33,6 +32,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
 
         #region IOneNotePageDialog<TagEditorModel>
+
         /// <summary>
         /// Get or set the view model backing the dialog
         /// </summary>
@@ -49,7 +49,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 DataContext = _model;
             }
         }
-        #endregion
+
+        #endregion IOneNotePageDialog<TagEditorModel>
 
         private void OnSuggestedTagClick(object sender, RoutedEventArgs e)
         {
@@ -75,17 +76,17 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     SimpleTagButtonModel mdl = tagBtn.DataContext as SimpleTagButtonModel;
                     if (mdl != null)
                     {
-                        _model.PageTags.RemoveAll(new string[] { mdl.TagName});
+                        _model.PageTags.RemoveAll(new string[] { mdl.TagName });
                     }
                 }
             }
         }
 
-        private async void AddTagsToPageButton_Click(object sender, RoutedEventArgs e)
+        private void AddTagsToPageButton_Click(object sender, RoutedEventArgs e)
         {
             if (_model != null && _model.PageTags.Count > 0)
             {
-                await ApplyPageTagsAsync(TagOperation.UNITE);
+                ApplyPageTags(TagOperation.UNITE);
                 if (e != null)
                 {
                     e.Handled = true;
@@ -93,24 +94,24 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
             else
             {
-                MessageBox.Show(Properties.Resources.TagEditor_NoTagsSelectedWarning, Properties.Resources.TagEditor_WarningMessageBox_Title,MessageBoxButton.OK);
+                MessageBox.Show(Properties.Resources.TagEditor_NoTagsSelectedWarning, Properties.Resources.TagEditor_WarningMessageBox_Title, MessageBoxButton.OK);
             }
         }
 
-        private async void SetPageTagsButton_Click(object sender, RoutedEventArgs e)
+        private void SetPageTagsButton_Click(object sender, RoutedEventArgs e)
         {
-            await ApplyPageTagsAsync(TagOperation.REPLACE);
+            ApplyPageTags(TagOperation.REPLACE);
             if (e != null)
             {
                 e.Handled = true;
             }
         }
 
-        private async void RemoveTagsFromPageButton_Click(object sender, RoutedEventArgs e)
+        private void RemoveTagsFromPageButton_Click(object sender, RoutedEventArgs e)
         {
             if (_model != null && _model.PageTags.Count > 0)
             {
-                await ApplyPageTagsAsync(TagOperation.SUBTRACT);
+                ApplyPageTags(TagOperation.SUBTRACT);
                 if (e != null)
                 {
                     e.Handled = true;
@@ -127,7 +128,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             tagInput.FocusInput();
             if (_model != null)
             {
-                _model.TagSuggestions.LoadSuggestedTagsAsync().ContinueWith((x) => { pBar.Visibility = System.Windows.Visibility.Hidden; }, TaskScheduler.FromCurrentSynchronizationContext());
+                await _model.TagSuggestions.LoadSuggestedTagsAsync().ContinueWith((x) => { pBar.Visibility = System.Windows.Visibility.Hidden; }, TaskScheduler.FromCurrentSynchronizationContext());
             }
         }
 
@@ -165,7 +166,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                         _model.PageTags.AddAll(from t in tags where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(t));
                         tagInput.Clear();
                     }
-                    suggestedTags.Highlighter = new TextSplitter(tagInput.Tags);           
+                    suggestedTags.Highlighter = new TextSplitter(tagInput.Tags);
                 }
             }
             catch (Exception ex)
@@ -176,25 +177,22 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             e.Handled = true;
         }
 
-        private async Task ApplyPageTagsAsync(TagOperation op)
+        private void ApplyPageTags(TagOperation op)
         {
             tagInput.FocusInput();
             try
             {
-                TraceLogger.Log(TraceCategory.Info(), "Applying {0} tag(s); operation = {1}", _model.PageTags.Count,op);
+                TraceLogger.Log(TraceCategory.Info(), "Applying {0} tag(s); operation = {1}", _model.PageTags.Count, op);
                 TaggingScope scope = ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope;
-                
-                Task<int> saveTask = _model.SavePageTagsAsync(op, scope);
-                progressPopup.IsOpen = true;
-     
+
+                int pagesTagged = _model.EnqueuePagesForTagging(op, scope);
+
                 taggingScope.SelectedIndex = 0;
                 tagInput.Clear();
                 suggestedTags.Highlighter = new TextSplitter();
                 progressPopup.IsOpen = false;
-                int pagesTagged = await saveTask;
                 pagesTaggedText.Text = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_PagesTagged, pagesTagged);
                 pagesTaggedPopup.IsOpen = true;
-                TraceLogger.Log(TraceCategory.Info(), "{0} page(s) tagged successfully", pagesTagged);
             }
             catch (Exception xe)
             {

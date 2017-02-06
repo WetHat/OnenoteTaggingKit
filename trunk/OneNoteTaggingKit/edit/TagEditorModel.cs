@@ -1,6 +1,5 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 
-using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
+using WetHatLab.OneNote.TaggingKit.Tagger;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
@@ -27,13 +27,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// Get the enumeration of tagging scopes
         /// </summary>
         IEnumerable<TaggingScopeDescriptor> TaggingScopes { get; }
-    }
-
-    internal enum TagOperation
-    {
-        UNITE,
-        SUBTRACT,
-        REPLACE
     }
 
     /// <summary>
@@ -151,20 +144,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         #endregion ITagEditorModel
 
-        internal Task<int> SavePageTagsAsync(TagOperation op, TaggingScope scope)
+        internal int EnqueuePagesForTagging(TagOperation op, TaggingScope scope)
         {
             // bring suggestions up-to-date with new tags that may have been entered
             TagSuggestions.AddAll(from t in _pageTags where !TagSuggestions.ContainsKey(t.Key) select new HitHighlightedTagButtonModel() { TagName = t.TagName });
-
-            // pass tags and current page as parameters so that the underlying objects can further be modified in the foreground
-            string[] pageTags = (from t in _pageTags.Values select t.TagName).ToArray();
-            return Task<int>.Run(() => SaveChangesAction(pageTags, op, scope));
-        }
-
-        private int SaveChangesAction(string[] tags, TagOperation op, TaggingScope scope)
-        {
             TagSuggestions.Save();
-            int pagesTagged = 0;
 
             TagsAndPages tc = new TagsAndPages(OneNoteApp);
 
@@ -187,81 +171,15 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     break;
             }
             tc.LoadPageTags(ctx);
-
+            string[] pageTags = (from t in _pageTags.Values select t.TagName).ToArray();
+            int enqueuedPages = 0;
             foreach (string pageID in (from p in tc.Pages select p.Key))
             {
-                OneNotePageProxy page = new OneNotePageProxy(OneNoteApp, pageID);
-
-                HashSet<string> pagetags = new HashSet<string>(page.PageTags);
-
-                int countBefore = pagetags.Count;
-
-                switch (op)
-                {
-                    case TagOperation.SUBTRACT:
-                        pagetags.ExceptWith(tags);
-                        break;
-
-                    case TagOperation.UNITE:
-                        pagetags.UnionWith(tags);
-                        break;
-
-                    case TagOperation.REPLACE:
-                        pagetags.Clear();
-                        pagetags.UnionWith(tags);
-                        break;
-                }
-                if ((pagetags.Count != countBefore) || op == TagOperation.REPLACE)
-                {
-                    string[] sortedTags = pagetags.ToArray();
-                    Array.Sort<string>(sortedTags, (x, y) => string.Compare(x, y, true));
-
-                    page.PageTags = sortedTags;
-                    page.Update();
-                }
-                pagesTagged++;
+                OneNoteApp.TaggingService.Add(new TaggingJob(pageID, pageTags, op));
+                enqueuedPages++;
             }
-            return pagesTagged;
-        }
-
-        internal Task<IEnumerable<TagPageSet>> GetContextTagsAsync(TagContext filter)
-        {
-            return Task<IEnumerable<TagPageSet>>.Run(() => { return GetContextTagsAction(filter); });
-        }
-
-        private IEnumerable<TagPageSet> GetContextTagsAction(TagContext filter)
-        {
-            HashSet<TagPageSet> tags = new HashSet<TagPageSet>();
-
-            TagsAndPages contextTags = new TagsAndPages(OneNoteApp);
-
-            contextTags.FindTaggedPages(OneNoteApp.CurrentSectionID, includeUnindexedPages: true);
-
-            switch (filter)
-            {
-                case TagContext.CurrentNote:
-                    TaggedPage currentPage = (from p in contextTags.Pages where p.Key.Equals(OneNoteApp.CurrentPageID) select p.Value).FirstOrDefault();
-                    if (currentPage != null)
-                    {
-                        tags.UnionWith(currentPage.Tags);
-                    }
-                    break;
-
-                case TagContext.SelectedNotes:
-                    foreach (var p in (from pg in contextTags.Pages where pg.Value.IsSelected select pg.Value))
-                    {
-                        tags.UnionWith(p.Tags);
-                    }
-                    break;
-
-                case TagContext.CurrentSection:
-                    foreach (var p in contextTags.Pages)
-                    {
-                        tags.UnionWith(p.Value.Tags);
-                    }
-                    break;
-            }
-            return tags;
+            TraceLogger.Log(TraceCategory.Info(), "{0} page(s) enqueued for tagging", enqueuedPages);
+            return enqueuedPages;
         }
     }
 }

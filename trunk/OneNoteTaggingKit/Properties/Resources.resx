@@ -281,7 +281,7 @@
     <value>No Pages were tagged! Please select a range that contains at least one page and try again.</value>
   </data>
   <data name="TagEditor_Popup_PagesTagged" xml:space="preserve">
-    <value>{0} page(s) tagged.</value>
+    <value>{0} page(s) scheduled for tagging.</value>
   </data>
   <data name="TagEditor_WarningMessageBox_Title" xml:space="preserve">
     <value>Warning</value>

@@ -265,7 +265,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} page(s) tagged..
+        ///   Looks up a localized string similar to {0} page(s) scheduled for tagging..
         /// </summary>
         public static string TagEditor_Popup_PagesTagged {
             get {
