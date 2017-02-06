@@ -135,7 +135,7 @@
                 <Menu Grid.Row="1" Grid.Column="1"
                       BorderThickness="0"
                       Background="Transparent"
-                      ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagInputBox_Filter_Menu_Tooltip}}"
+                      ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_Menu_Tooltip}}"
                       VerticalAlignment="Top"
                       HorizontalAlignment="Left">
                     <MenuItem BorderThickness="0" Background="Transparent">
