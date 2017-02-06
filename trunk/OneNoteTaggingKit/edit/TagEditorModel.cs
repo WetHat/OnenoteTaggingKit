@@ -178,7 +178,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 OneNoteApp.TaggingService.Add(new TaggingJob(pageID, pageTags, op));
                 enqueuedPages++;
             }
-            TraceLogger.Log(TraceCategory.Info(), "{0} page(s) enqueued for tagging", enqueuedPages);
+            TraceLogger.Log(TraceCategory.Info(), "{0} page(s) enqueued for tagging with '{1}' using {2}", enqueuedPages, string.Join(";", pageTags), op);
             return enqueuedPages;
         }
     }
