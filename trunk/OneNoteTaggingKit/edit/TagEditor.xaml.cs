@@ -182,7 +182,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             tagInput.FocusInput();
             try
             {
-                TraceLogger.Log(TraceCategory.Info(), "Applying {0} tag(s); operation = {1}", _model.PageTags.Count, op);
                 TaggingScope scope = ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope;
 
                 int pagesTagged = _model.EnqueuePagesForTagging(op, scope);
