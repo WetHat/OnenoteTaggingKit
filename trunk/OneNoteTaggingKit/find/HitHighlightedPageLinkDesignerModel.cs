@@ -1,4 +1,5 @@
-﻿// Author: WetHat | (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+// Author: WetHat | (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
 using System.Collections.Generic;
 using System.Windows.Media;
 using WetHatLab.OneNote.TaggingKit.common;
@@ -33,7 +34,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         public string MarkerSymbol { get { return "❱"; } }
 
-        public Brush MarkerColor { get { return Brushes.Gray; } }
+        public Brush MarkerColor { get { return Brushes.DarkOrange; } }
 
         #endregion IHitHighlightedPageLinkModel
     }

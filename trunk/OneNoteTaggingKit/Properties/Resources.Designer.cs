@@ -768,6 +768,24 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tap to select.
+        /// </summary>
+        public static string TagSearch_PageItem_Tooltip {
+            get {
+                return ResourceManager.GetString("TagSearch_PageItem_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to navigate to page.
+        /// </summary>
+        public static string TagSearch_PageLink_Tooltip {
+            get {
+                return ResourceManager.GetString("TagSearch_PageLink_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Found Pages.
         /// </summary>
         public static string TagSearch_Pages_GroupBox_Title {
