@@ -117,7 +117,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to remove this tag from the list of selected tags..
+        ///   Looks up a localized string similar to Tap or click to remove this tag from the list of selected tags..
         /// </summary>
         public static string RemoveTag_Button_Tooltip {
             get {
@@ -166,7 +166,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to add tags to the selected range of OneNote pages.
+        ///   Looks up a localized string similar to Tap or click to add tags to the selected range of OneNote pages.
         /// </summary>
         public static string TagEditor_AddTags_Button_Tooltip {
             get {
@@ -283,7 +283,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to remove the selected tags from a range of OneNote pages..
+        ///   Looks up a localized string similar to Tap or click to remove the selected tags from a range of OneNote pages..
         /// </summary>
         public static string TagEditor_RemoveTags_Button_Tooltip {
             get {
@@ -292,7 +292,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to replace the tags on a range of OneNote pages with the selected tags..
+        ///   Looks up a localized string similar to Tap or click to replace the tags on a range of OneNote pages with the selected tags..
         /// </summary>
         public static string TagEditor_SetTags_Button_Tooltip {
             get {
@@ -479,7 +479,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to clear tag input..
+        ///   Looks up a localized string similar to Tap or click to clear tag input..
         /// </summary>
         public static string TagInputBox_ClearInput_Button_Tooltip {
             get {
@@ -569,7 +569,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to show actions for suggested tags.
+        ///   Looks up a localized string similar to Tap or click to show actions for suggested tags.
         /// </summary>
         public static string TagManager_Menu_Tooltip {
             get {
@@ -578,7 +578,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to add tag to suggestions.
+        ///   Looks up a localized string similar to Tap or click to add tag to suggestions.
         /// </summary>
         public static string TagManager_NewTagButton_Tooltip {
             get {
@@ -822,7 +822,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to select.
+        ///   Looks up a localized string similar to Tap or click to select.
         /// </summary>
         public static string TagSearch_PageItem_Tooltip {
             get {
@@ -984,7 +984,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to add or remove this tag from the filter..
+        ///   Looks up a localized string similar to Tap or click to add or remove this tag from the filter..
         /// </summary>
         public static string TagSelector_Tooltip {
             get {
@@ -993,7 +993,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to remove this tag..
+        ///   Looks up a localized string similar to Tap or click to remove this tag..
         /// </summary>
         public static string TagsPanel_RemoveButton_Tooltip {
             get {

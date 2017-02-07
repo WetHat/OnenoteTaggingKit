@@ -131,7 +131,7 @@
     <value>Tags to apply to one or more pages.</value>
   </data>
   <data name="TagsPanel_RemoveButton_Tooltip" xml:space="preserve">
-    <value>Press to remove this tag.</value>
+    <value>Tap or click to remove this tag.</value>
   </data>
   <data name="tag_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\tag 32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -152,7 +152,7 @@
     <value>About</value>
   </data>
   <data name="TagManager_NewTagButton_Tooltip" xml:space="preserve">
-    <value>Tap to add tag to suggestions</value>
+    <value>Tap or click to add tag to suggestions</value>
   </data>
   <data name="TagManager_NewTagTextbox_Tooltip" xml:space="preserve">
     <value>Type one or more tags separated by ','. Press 'Enter' to add.</value>
@@ -206,7 +206,7 @@
     <value>Enter query and press enter to start search.</value>
   </data>
   <data name="TagSelector_Tooltip" xml:space="preserve">
-    <value>Tap to add or remove this tag from the filter.</value>
+    <value>Tap or click to add or remove this tag from the filter.</value>
   </data>
   <data name="TaggingKit_Error_VersionLookup" xml:space="preserve">
     <value>OneNote version lookup failed</value>
@@ -221,7 +221,7 @@
     <value>Copy Tags</value>
   </data>
   <data name="RemoveTag_Button_Tooltip" xml:space="preserve">
-    <value>Press to remove this tag from the list of selected tags.</value>
+    <value>Tap or click to remove this tag from the list of selected tags.</value>
   </data>
   <data name="TagEditor_Suggestions_GroupBox_Title" xml:space="preserve">
     <value>Suggested Tags</value>
@@ -236,10 +236,10 @@
     <value>Tag Pages</value>
   </data>
   <data name="TagEditor_AddTags_Button_Tooltip" xml:space="preserve">
-    <value>Press to add tags to the selected range of OneNote pages</value>
+    <value>Tap or click to add tags to the selected range of OneNote pages</value>
   </data>
   <data name="TagEditor_RemoveTags_Button_Tooltip" xml:space="preserve">
-    <value>Press to remove the selected tags from a range of OneNote pages.</value>
+    <value>Tap or click to remove the selected tags from a range of OneNote pages.</value>
   </data>
   <data name="TagEditor_ClearTags_Button_Tooltip" xml:space="preserve">
     <value>Press to clear tag selection.</value>
@@ -287,13 +287,13 @@
     <value>Save changes to the collection of suggested tags.</value>
   </data>
   <data name="TagInputBox_ClearInput_Button_Tooltip" xml:space="preserve">
-    <value>Press to clear tag input.</value>
+    <value>Tap or click to clear tag input.</value>
   </data>
   <data name="TagInputBox_PresetsMenu_Header" xml:space="preserve">
     <value>Presets</value>
   </data>
   <data name="TagEditor_SetTags_Button_Tooltip" xml:space="preserve">
-    <value>Press to replace the tags on a range of OneNote pages with the selected tags.</value>
+    <value>Tap or click to replace the tags on a range of OneNote pages with the selected tags.</value>
   </data>
   <data name="TagEditor_ComboBox_Scope_CurrentSection" xml:space="preserve">
     <value>Current Section</value>
@@ -399,13 +399,13 @@ Sorry for the inconvenience!</value>
     <value>When checked, the 'Find Tagged Pages' dialog is always on top of all other windows</value>
   </data>
   <data name="TagManager_Menu_Tooltip" xml:space="preserve">
-    <value>Tap to show actions for suggested tags</value>
+    <value>Tap or click to show actions for suggested tags</value>
   </data>
   <data name="TagSearch_Pages_Menu_Tooltip" xml:space="preserve">
     <value>Tap to show actions for found pages</value>
   </data>
   <data name="TagSearch_PageItem_Tooltip" xml:space="preserve">
-    <value>Tap to select</value>
+    <value>Tap or click to select</value>
   </data>
   <data name="TagManager_TagSuggestions_MenuItem_Cancel" xml:space="preserve">
     <value>Cancel</value>
