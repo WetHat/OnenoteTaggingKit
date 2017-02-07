@@ -135,6 +135,7 @@
                      SelectionMode="Extended"
                      BorderThickness="0"
                      SelectionChanged="ListBox_SelectionChanged"
+                     ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_PageLink_Tooltip}}"
                      ItemsSource="{Binding Pages, Mode=OneWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
