@@ -151,7 +151,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private void TagInputBox_Input(object sender, TagInputEventArgs e)
         {
             pagesTaggedPopup.IsOpen = false;
-            progressPopup.IsOpen = false;
             try
             {
                 if (tagInput.IsEmpty)
@@ -189,8 +188,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 taggingScope.SelectedIndex = 0;
                 tagInput.Clear();
                 suggestedTags.Highlighter = new TextSplitter();
-                progressPopup.IsOpen = false;
-                pagesTaggedText.Text = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_PagesTagged, pagesTagged);
+                pagesTaggedText.Text = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_TaggingInProgress, pagesTagged);
                 pagesTaggedPopup.IsOpen = true;
             }
             catch (Exception xe)
