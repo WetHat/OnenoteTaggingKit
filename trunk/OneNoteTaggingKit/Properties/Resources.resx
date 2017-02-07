@@ -410,9 +410,6 @@ Sorry for the inconvenience!</value>
   <data name="TagSearch_PageItem_Tooltip" xml:space="preserve">
     <value>Tap to select</value>
   </data>
-  <data name="TagSearch_PageLink_Tooltip" xml:space="preserve">
-    <value>Tap to navigate to page</value>
-  </data>
   <data name="TagManager_TagSuggestions_MenuItem_Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
@@ -430,5 +427,8 @@ Sorry for the inconvenience!</value>
   </data>
   <data name="TagManager_TagSuggestions_MenuItem_Rename_Tooltip" xml:space="preserve">
     <value>Rename this tag on the tag suggestions list and on all pages</value>
+  </data>
+  <data name="TagSearch_PageLink_Tooltip" xml:space="preserve">
+    <value>Tap to navigate to OneNote page</value>
   </data>
 </root>
