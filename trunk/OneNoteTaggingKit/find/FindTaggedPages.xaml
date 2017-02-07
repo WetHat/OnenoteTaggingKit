@@ -164,6 +164,18 @@
                 <MenuItem.Header>
                     <TextBlock Text="" FontWeight="Heavy" FontFamily="Segoe UI Symbol" FontSize="20" HorizontalAlignment="Stretch" Margin="0,-2,0,0" />
                 </MenuItem.Header>
+                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.FoundPages_MenuItem_Refresh}}"
+                          Tag="Refresh"
+                          Click="Page_MenuItem_Click">
+                    <MenuItem.Icon>
+                        <TextBlock  Text=""
+                                    FontFamily="Segoe UI Symbol"
+                                    FontWeight="ExtraBold"
+                                    FontSize="15"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.FoundPages_MenuItem_Deselect_All}}"
                           Tag="ClearSelection"
                           Click="Page_MenuItem_Click">

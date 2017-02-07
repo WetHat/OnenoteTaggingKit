@@ -52,13 +52,30 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         #region UI events
 
-        private void Page_MenuItem_Click(object sender, RoutedEventArgs e)
+        private async void Page_MenuItem_Click(object sender, RoutedEventArgs e)
         {
             MenuItem item = sender as MenuItem;
             if (item != null)
             {
                 switch (item.Tag.ToString())
                 {
+                    case "Refresh":
+                        string query = searchComboBox.Text;
+
+                        try
+                        {
+                            pBar.Visibility = System.Windows.Visibility.Visible;
+                            await _model.FindPagesAsync(query, scopeSelect.SelectedScope);
+                            searchComboBox.SelectedValue = query;
+                            pBar.Visibility = System.Windows.Visibility.Hidden;
+                        }
+                        catch (System.Exception ex)
+                        {
+                            TraceLogger.Log(TraceCategory.Error(), "search for '{0}' failed: {1}", query, ex);
+                            TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_Find, ex);
+                        }
+                        break;
+
                     case "ClearSelection":
                         foundPagesList.UnselectAll();
                         break;
@@ -179,8 +196,8 @@ EndSelection:{5:D6}";
             {
                 pBar.Visibility = System.Windows.Visibility.Visible;
                 await _model.FindPagesAsync(query, scopeSelect.SelectedScope);
-                pBar.Visibility = System.Windows.Visibility.Hidden;
                 searchComboBox.SelectedValue = query;
+                pBar.Visibility = System.Windows.Visibility.Hidden;
             }
             catch (System.Exception ex)
             {

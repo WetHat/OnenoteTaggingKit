@@ -431,4 +431,7 @@ Sorry for the inconvenience!</value>
   <data name="TagSearch_PageLink_Tooltip" xml:space="preserve">
     <value>Tapor click  link to navigate to OneNote page</value>
   </data>
+  <data name="FoundPages_MenuItem_Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
 </root>
