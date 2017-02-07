@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -9,11 +10,9 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using WetHatLab.OneNote.TaggingKit.edit;
 
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
-
     /// <summary>
     /// Event details for the <see cref="E:TagInputBox.TagInput"/> event
     /// </summary>
@@ -38,6 +37,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             TagInputComplete = enterPressed;
         }
     }
+
     /// <summary>
     /// handlers for the <see cref="E:TagInputBox.TagInput"/> event
     /// </summary>
@@ -68,7 +68,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// Dependency property for the context tags source
         /// </summary>
-        public static readonly DependencyProperty ContextTagsSourceProperty = DependencyProperty.Register("ContextTagsSource", typeof(TagsAndPages), typeof(TagInputBox),new PropertyMetadata(OnContextTagSourceChanged));
+        public static readonly DependencyProperty ContextTagsSourceProperty = DependencyProperty.Register("ContextTagsSource", typeof(TagsAndPages), typeof(TagInputBox), new PropertyMetadata(OnContextTagSourceChanged));
 
         private static void OnContextTagSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -105,7 +105,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// Check if the tag input is empty
         /// </summary>
-        /// <value>true if no input is available; false otherwie</value>
+        /// <value>true if no input is available; false otherwise</value>
         internal bool IsEmpty
         {
             get
@@ -181,7 +181,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         private Task<IEnumerable<TagPageSet>> GetContextTagsAsync(TagContext filter)
         {
             TagsAndPages tagSource = ContextTagsSource; // must be assigned here to avoid access from another thread
-            return Task<IEnumerable<TagPageSet>>.Run(() => { return GetContextTagsAction(filter,tagSource); });
+            return Task<IEnumerable<TagPageSet>>.Run(() => { return GetContextTagsAction(filter, tagSource); });
         }
 
         private IEnumerable<TagPageSet> GetContextTagsAction(TagContext filter, TagsAndPages tagSource)
