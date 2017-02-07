@@ -28,7 +28,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         }
 
         /// <summary>
-        /// remove tag from suggestions when user control is tapped.
+        /// Remove or rename tag from suggestions when user control is tapped.
         /// </summary>
         /// <param name="sender">user control emitting this event</param>
         /// <param name="e">event details</param>
@@ -60,12 +60,15 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                     _model.SuggestedTags.AddAll(new RemovableTagModel[] { new RemovableTagModel() { Tag = new TagPageSet(newName) } });
                 }
 
-                string[] toAdd = new string[] { newName };
-                // remove the old tag and add new tag to the pages
-                foreach (var tp in rt_mdl.Tag.Pages)
+                if (rt_mdl.Tag != null)
                 {
-                    _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toAdd, TagOperation.UNITE));
-                    _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toRemove, TagOperation.SUBTRACT));
+                    string[] toAdd = new string[] { newName };
+                    // remove the old tag and add new tag to the pages
+                    foreach (var tp in rt_mdl.Tag.Pages)
+                    {
+                        _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toAdd, TagOperation.UNITE));
+                        _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toRemove, TagOperation.SUBTRACT));
+                    }
                 }
             }
             _model.SaveChanges();
