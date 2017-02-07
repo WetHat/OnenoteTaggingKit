@@ -280,9 +280,6 @@
   <data name="TagEditor_Popup_NothingTagged" xml:space="preserve">
     <value>No Pages were tagged! Please select a range that contains at least one page and try again.</value>
   </data>
-  <data name="TagEditor_Popup_PagesTagged" xml:space="preserve">
-    <value>{0} page(s) scheduled for tagging.</value>
-  </data>
   <data name="TagEditor_WarningMessageBox_Title" xml:space="preserve">
     <value>Warning</value>
   </data>
@@ -302,7 +299,7 @@
     <value>Current Section</value>
   </data>
   <data name="TagEditor_Popup_TaggingInProgress" xml:space="preserve">
-    <value>Tags will be applied in the background. OneNote may be less responsive while tagging is in progress.</value>
+    <value>{0} page(s) will be tagged in the background. OneNote may be less responsive while tagging is in progress.</value>
   </data>
   <data name="TaggingKit_ErrorBox_GenericSevereError" xml:space="preserve">
     <value>{0}! »{1}«

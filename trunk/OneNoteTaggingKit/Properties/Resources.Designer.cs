@@ -274,16 +274,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} page(s) scheduled for tagging..
-        /// </summary>
-        public static string TagEditor_Popup_PagesTagged {
-            get {
-                return ResourceManager.GetString("TagEditor_Popup_PagesTagged", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tags will be applied in the background. OneNote may be less responsive while tagging is in progress..
+        ///   Looks up a localized string similar to {0} page(s) will be tagged in the background. OneNote may be less responsive while tagging is in progress..
         /// </summary>
         public static string TagEditor_Popup_TaggingInProgress {
             get {
