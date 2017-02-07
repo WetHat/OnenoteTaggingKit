@@ -27,15 +27,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/OneNoteTaggingKit;component/Resources/Styles.xaml" />
-                <ResourceDictionary>
-                    <ContextMenu x:Key="contextMenu">
-                        <MenuItem Click="Copy_MenuItem_Click" Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_ContextMenu_Copy}}">
-                            <MenuItem.Icon>
-                                <Image Source="/OneNoteTaggingKit;component/Resources/copy-26.png" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-                    </ContextMenu>
-                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -75,7 +66,6 @@
                  Selector.Selected="TabItem_Selected"
                  Header="{Binding Mode=OneTime,
                                   Source={x:Static prop:Resources.TagManager_TagSuggestionsTab_Header}}"
-
                  ToolTip="{Binding Mode=OneTime,
                                    Source={x:Static prop:Resources.TagManager_TagSuggestionsTab_Tooltip}}">
             <Grid>
@@ -122,13 +112,12 @@
                                           Grid.Row="1"
                                           Grid.Column="0"
                                           Grid.ColumnSpan="2"
-                                          ContextMenu="{StaticResource contextMenu}"
                                           Header="{Binding Mode=OneTime,
                                                            Source={x:Static prop:Resources.TagManager_SuggestedTags_Header}}"
                                           TagSource="{Binding SuggestedTags}">
                     <cui:HighlightedTagsPanel.TagTemplate>
                         <DataTemplate>
-                            <local:RemovableTag Margin="0,5,5,0" Click="TagButton_Click" />
+                            <local:RemovableTag Margin="0,5,5,0" Action="Tag_Action" />
                         </DataTemplate>
                     </cui:HighlightedTagsPanel.TagTemplate>
                 </cui:HighlightedTagsPanel>

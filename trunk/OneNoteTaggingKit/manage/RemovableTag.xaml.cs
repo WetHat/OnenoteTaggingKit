@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using System;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using WetHatLab.OneNote.TaggingKit.find;
 
 namespace WetHatLab.OneNote.TaggingKit.manage
 {
@@ -25,7 +18,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <summary>
         /// Click event for this button.
         /// </summary>
-        public static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(RemovableTag));
+        public static readonly RoutedEvent ActionEvent = EventManager.RegisterRoutedEvent("Action", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(RemovableTag));
 
         /// <summary>
         /// create a new instance of a <see cref="RemovableTag"/> user control
@@ -33,24 +26,19 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         public RemovableTag()
         {
             InitializeComponent();
+            HideConfirmation();
+            DisableEditing();
         }
 
         /// <summary>
         /// Add or remove the click handler.
         /// </summary>
         /// <remarks>clr wrapper for routed event</remarks>
-        internal event RoutedEventHandler Click
+        internal event RoutedEventHandler Action
         {
-            add { AddHandler(ClickEvent, value); }
+            add { AddHandler(ActionEvent, value); }
 
-            remove { RemoveHandler(ClickEvent, value); }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            RoutedEventArgs newClickEventArgs = new RoutedEventArgs(ClickEvent, this);
-
-            RaiseEvent(newClickEventArgs);
+            remove { RemoveHandler(ActionEvent, value); }
         }
 
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -61,11 +49,11 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             if (mdl != null)
             {
                 mdl.PropertyChanged += mdl_PropertyChanged;
-                mdl_PropertyChanged(mdl,RemovableTagModel.HIGHLIGHTED_TAGNAME);
+                mdl_PropertyChanged(mdl, RemovableTagModel.HIGHLIGHTED_TAGNAME);
             }
         }
 
-        void mdl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void mdl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             RemovableTagModel mdl = sender as RemovableTagModel;
             if (mdl != null)
@@ -83,6 +71,92 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                         return r;
                     }));
                 }
+            }
+        }
+
+        private void ShowConfirmation()
+        {
+            confirmAction.Visibility = Visibility.Visible;
+            cancelAction.Visibility = Visibility.Visible;
+
+            renameAction.Visibility = Visibility.Collapsed;
+            deleteAction.Visibility = Visibility.Collapsed;
+        }
+
+        private void HideConfirmation()
+        {
+            confirmAction.Visibility = Visibility.Collapsed;
+            cancelAction.Visibility = Visibility.Collapsed;
+
+            renameAction.Visibility = Visibility.Visible;
+            deleteAction.Visibility = Visibility.Visible;
+        }
+
+        private void EnableEditing()
+        {
+            tagNameEditBox.Visibility = Visibility.Visible;
+            highlighedTag.Visibility = Visibility.Collapsed;
+            tagNameEditBox.Focus();
+            tagNameEditBox.SelectAll();
+        }
+
+        private void DisableEditing()
+        {
+            tagNameEditBox.Visibility = Visibility.Collapsed;
+            highlighedTag.Visibility = Visibility.Visible;
+            tagNameEditBox.Focus();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem itm = sender as MenuItem;
+            RemovableTagModel mdl = DataContext as RemovableTagModel;
+            switch (itm.Tag.ToString())
+            {
+                case "DeleteTag":
+                    Tag = itm.Tag;
+                    if (mdl.CanRemove)
+                    {
+                        RaiseEvent(new RoutedEventArgs(ActionEvent, this));
+                    }
+                    else
+                    {
+                        ShowConfirmation();
+                        actionMenu.IsSubmenuOpen = true;
+                    }
+                    break;
+
+                case "RenameTag":
+                    Tag = itm.Tag;
+                    EnableEditing();
+                    ShowConfirmation();
+                    break;
+
+                case "CancelAction":
+                    HideConfirmation();
+                    DisableEditing();
+                    break;
+
+                case "ConfirmAction":
+                    HideConfirmation();
+                    DisableEditing();
+                    if (!"RenameTag".Equals(itm.Tag) || mdl.LocalName.Equals(mdl.TagName, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        RaiseEvent(new RoutedEventArgs(ActionEvent, this));
+                    }
+
+                    break;
+            }
+        }
+
+        private void tagNameEditBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            RemovableTagModel mdl = DataContext as RemovableTagModel;
+            if (e.Key == System.Windows.Input.Key.Escape)
+            {
+                e.Handled = true;
+                HideConfirmation();
+                DisableEditing();
             }
         }
     }

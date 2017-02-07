@@ -677,6 +677,60 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string TagManager_TagSuggestions_MenuItem_Cancel {
+            get {
+                return ResourceManager.GetString("TagManager_TagSuggestions_MenuItem_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        public static string TagManager_TagSuggestions_MenuItem_Confirm {
+            get {
+                return ResourceManager.GetString("TagManager_TagSuggestions_MenuItem_Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Tag.
+        /// </summary>
+        public static string TagManager_TagSuggestions_MenuItem_Delete {
+            get {
+                return ResourceManager.GetString("TagManager_TagSuggestions_MenuItem_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete this tag from the tag suggestions list and all pages.
+        /// </summary>
+        public static string TagManager_TagSuggestions_MenuItem_Delete_Tooltip {
+            get {
+                return ResourceManager.GetString("TagManager_TagSuggestions_MenuItem_Delete_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename Tag.
+        /// </summary>
+        public static string TagManager_TagSuggestions_MenuItem_Rename {
+            get {
+                return ResourceManager.GetString("TagManager_TagSuggestions_MenuItem_Rename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename this tag on the tag suggestions list and on all pages.
+        /// </summary>
+        public static string TagManager_TagSuggestions_MenuItem_Rename_Tooltip {
+            get {
+                return ResourceManager.GetString("TagManager_TagSuggestions_MenuItem_Rename_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Suggested Tags.
         /// </summary>
         public static string TagManager_TagSuggestionsTab_Header {
