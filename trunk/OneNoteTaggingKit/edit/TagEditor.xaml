@@ -94,7 +94,7 @@
                 <Image Source="/OneNoteTaggingKit;component/Resources/Remove Tag 26.png" Width="26" Height="26" />
             </Button>
             <Popup Name="pagesTaggedPopup"
-               PlacementTarget="{Binding ElementName=addTags}"
+               PlacementTarget="{Binding ElementName=suggestedTags}"
                StaysOpen="False"
                AllowsTransparency="True"
                MouseDown="handlePopupPointerAction"
