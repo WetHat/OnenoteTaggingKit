@@ -429,6 +429,6 @@ Sorry for the inconvenience!</value>
     <value>Rename this tag on the tag suggestions list and on all pages</value>
   </data>
   <data name="TagSearch_PageLink_Tooltip" xml:space="preserve">
-    <value>Tap to navigate to OneNote page</value>
+    <value>Tapor click  link to navigate to OneNote page</value>
   </data>
 </root>

@@ -147,6 +147,8 @@ EndSelection:{5:D6}";
                 {
                     HitHighlightedPageLinkModel model = l.DataContext as HitHighlightedPageLinkModel;
                     _model.NavigateTo(model.PageID);
+                    // select the link
+                    foundPagesList.SelectedItem = model;
                     e.Handled = true;
                 }
             }
