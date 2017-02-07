@@ -17,7 +17,7 @@
         MinWidth="350"
         MinHeight="250"
         Closing="Window_Closing"
-        Icon="/OneNoteTaggingKit;component/Resources/tag 64x64.png"
+        Icon="/OneNoteTaggingKit;component/Resources/tagSettings128x128.png"
         WindowStartupLocation="CenterOwner"
         WindowStyle="ToolWindow"
         d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,

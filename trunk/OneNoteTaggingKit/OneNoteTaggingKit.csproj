@@ -357,7 +357,11 @@
   <ItemGroup>
     <Resource Include="Resources\tag 64x64.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\tag128x128.png" />
+    <Resource Include="Resources\tagSearch128x128.png" />
+    <Resource Include="Resources\tagSettings128x128.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
