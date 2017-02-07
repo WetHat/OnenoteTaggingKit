@@ -92,6 +92,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="ex">exception</param>
         internal static void ShowGenericErrorBox(string message, Exception ex)
         {
+            TraceLogger.Log(TraceCategory.Error(), "{0}: {1}", message, ex);
             Trace.Flush();
             MessageBoxResult result = MessageBox.Show(string.Format(Properties.Resources.TaggingKit_ErrorBox_GenericSevereError,
                                                                     message,

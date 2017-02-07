@@ -3,6 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
+using WetHatLab.OneNote.TaggingKit.common;
 
 namespace WetHatLab.OneNote.TaggingKit.Tagger
 {
@@ -49,16 +50,23 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                 TraceLogger.Log(TraceCategory.Info(), "Background tagging service started");
                 try
                 {
+                    OneNotePageProxy lastPage = null;
                     while (!_jobs.IsCompleted)
                     {
                         TaggingJob j = _jobs.Take();
                         cancel.ThrowIfCancellationRequested();
                         try
                         {
-                            j.Execute(_onenote);
+                            lastPage = j.Execute(_onenote, lastPage);
+                            if (_jobs.Count == 0)
+                            { // no more pending pages - must update the last one and stop carrying forward
+                                lastPage.Update();
+                                lastPage = null;
+                            }
                         }
                         catch (Exception e)
                         {
+                            lastPage = null;
                             TraceLogger.ShowGenericErrorBox("page tagging failed", e);
                         }
                     }

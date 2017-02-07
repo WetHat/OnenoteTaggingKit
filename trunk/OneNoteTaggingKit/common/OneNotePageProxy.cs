@@ -122,24 +122,29 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </summary>
         internal void Update()
         {
-            ApplyTagsToPage();
-            try
+            if (_tags != null)
             {
-                _onenote.UpdatePage(_pageDoc, _lastModified);
-            }
-            catch (COMException ce)
-            {
-                unchecked
+                string[] savedTags = _tags;
+                ApplyTagsToPage();
+                try
                 {
-                    if (ce.ErrorCode == (int)0x80042010)
-                    { // try again after concurrent page modification
-                        LoadOneNotePage();
-                        ApplyTagsToPage();
-                        _onenote.UpdatePage(_pageDoc, _lastModified);
-                    }
-                    else
+                    _onenote.UpdatePage(_pageDoc, _lastModified);
+                }
+                catch (COMException ce)
+                {
+                    unchecked
                     {
-                        throw;
+                        if (ce.ErrorCode == (int)0x80042010)
+                        { // try again after concurrent page modification
+                            LoadOneNotePage();
+                            PageTags = savedTags;
+                            ApplyTagsToPage();
+                            _onenote.UpdatePage(_pageDoc, _lastModified);
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
                 }
             }
@@ -167,6 +172,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
         private void ApplyTagsToPage()
         {
+            if (_tags == null)
+            {
+                return;
+            }
             XName tagName = _one.GetName("Tag");
 
             // collect all tag definitions
@@ -175,7 +184,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
             int nextTagDefIndex = tagDefs.Count(); // next index for creating new tags
 
-            if (_pageTagsOE == null && _tags != null && _tags.Length > 0)
+            if (_pageTagsOE == null && _tags.Length > 0)
             {
                 // Create a style for the tags - if needed
                 // <one:QuickStyleDef index="1" name="cite" fontColor="#595959" highlightColor="automatic" font="Calibri" fontSize="9"
@@ -241,7 +250,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                                                                                       new XAttribute("completed", "true"))))));
                 _page.Add(outline);
             }
-            else if (_pageTagsOE != null && (_tags == null || _tags.Length == 0))
+            else if (_pageTagsOE != null && _tags.Length == 0)
             { // remove the empty page tag outline
                 XElement outline = _pageTagsOE.Parent.Parent;
                 _onenote.DeletePageContent(PageID, outline.Attribute("objectID").Value);
@@ -310,10 +319,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 }
             }
 
-            string strTags = string.Join(", ", _tags ?? new string[0]);
+            string strTags = string.Join(", ", _tags);
 
             // create the <one:Meta> element for page tags, if needed
-            if (_meta == null && _tags != null && _tags.Length > 0)
+            if (_meta == null && _tags.Length > 0)
             {
                 _meta = new XElement(_one.GetName("Meta"),
                                     new XAttribute("name", META_NAME));
@@ -337,6 +346,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 // turn off spell checking
                 _pageTagsOE.SetAttributeValue("lang", "yo");
             }
+            _tags = null;
         }
 
         private void LoadOneNotePage()

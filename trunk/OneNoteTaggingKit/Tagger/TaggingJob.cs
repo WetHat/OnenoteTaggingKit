@@ -49,9 +49,18 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
             _op = operation;
         }
 
-        public void Execute(OneNoteProxy onenote)
+        internal OneNotePageProxy Execute(OneNoteProxy onenote, OneNotePageProxy page)
         {
-            OneNotePageProxy page = new OneNotePageProxy(onenote, _pageid);
+            if (page == null)
+            {
+                page = new OneNotePageProxy(onenote, _pageid);
+            }
+            else if (!_pageid.Equals(page.PageID))
+            {  // cannot continue with the given page
+                page.Update();
+                page = new OneNotePageProxy(onenote, _pageid);
+            }
+
             TraceLogger.Log(TraceCategory.Info(), "Tagging page: {0}", page.Title);
             HashSet<string> pagetags = new HashSet<string>(page.PageTags);
 
@@ -78,8 +87,8 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                 Array.Sort<string>(sortedTags, (x, y) => string.Compare(x, y, true));
 
                 page.PageTags = sortedTags;
-                page.Update();
             }
+            return page;
         }
     }
 }
