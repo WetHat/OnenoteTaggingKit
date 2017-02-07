@@ -2,11 +2,11 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
+using WetHatLab.OneNote.TaggingKit.Tagger;
 
 namespace WetHatLab.OneNote.TaggingKit.manage
 {
@@ -32,10 +32,42 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// </summary>
         /// <param name="sender">user control emitting this event</param>
         /// <param name="e">event details</param>
-        private void TagButton_Click(object sender, RoutedEventArgs e)
+        private void Tag_Action(object sender, RoutedEventArgs e)
         {
-            RemovableTag btn = sender as RemovableTag;
-            _model.SuggestedTags.RemoveAll(new string[] { ((RemovableTagModel)btn.DataContext).Key });
+            var rt = sender as RemovableTag;
+            var rt_mdl = rt.DataContext as RemovableTagModel;
+            string[] toRemove = new string[] { rt_mdl.Key };
+            if ("DeleteTag".Equals(rt.Tag))
+            {
+                _model.SuggestedTags.RemoveAll(toRemove);
+                // schedule all pages with this tag for tag removal
+                if (rt_mdl.Tag != null)
+                {
+                    foreach (var tp in rt_mdl.Tag.Pages)
+                    {
+                        _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toRemove, TagOperation.SUBTRACT));
+                    }
+                }
+            }
+            else if ("RenameTag".Equals(rt.Tag))
+            {
+                _model.SuggestedTags.RemoveAll(toRemove);
+                /// create new tag if it does not already exist
+                string newName = rt_mdl.LocalName;
+
+                if (!_model.SuggestedTags.ContainsKey(newName))
+                {
+                    _model.SuggestedTags.AddAll(new RemovableTagModel[] { new RemovableTagModel() { Tag = new TagPageSet(newName) } });
+                }
+
+                string[] toAdd = new string[] { newName };
+                // remove the old tag and add new tag to the pages
+                foreach (var tp in rt_mdl.Tag.Pages)
+                {
+                    _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toAdd, TagOperation.UNITE));
+                    _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toRemove, TagOperation.SUBTRACT));
+                }
+            }
             _model.SaveChanges();
         }
 

@@ -16,6 +16,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         internal static readonly PropertyChangedEventArgs USE_COUNT_COLOR = new PropertyChangedEventArgs("UseCountColor");
         internal static readonly PropertyChangedEventArgs MARKER_VISIBILIY = new PropertyChangedEventArgs("RemoveMarkerVisibility");
         internal static readonly PropertyChangedEventArgs CAN_REMOVE = new PropertyChangedEventArgs("CanRemove");
+        internal static readonly PropertyChangedEventArgs LOCAL_NAME = new PropertyChangedEventArgs("LocalName");
 
         /// <summary>
         /// Create a new instance of the view model.
@@ -24,16 +25,39 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         {
         }
 
+        private TagPageSet _tag;
+
         /// <summary>
-        /// Set the Tag for the view model.
+        /// Get or set the Tag for the view model.
         /// </summary>
         /// <remarks>The tag is used to provide the page count (number of pages with this tag)</remarks>
         internal TagPageSet Tag
         {
+            get
+            {
+                return _tag;
+            }
             set
             {
+                _tag = value;
                 TagName = value.TagName;
-                UseCount = value.FilteredPages.Count;
+                LocalName = value.TagName;
+                UseCount = value.Pages.Count;
+            }
+        }
+
+        private string _localName;
+
+        public string LocalName
+        {
+            get
+            {
+                return _localName;
+            }
+            set
+            {
+                _localName = value;
+                firePropertyChanged(LOCAL_NAME);
             }
         }
 
@@ -79,17 +103,8 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         {
             get
             {
-                return CanRemove ? Brushes.Red : Brushes.DodgerBlue;
+                return CanRemove ? Brushes.Red : Brushes.Black;
             }
-        }
-
-        /// <summary>
-        /// Get the visibility of the <i>remove</i> marker
-        /// </summary>
-        /// <remarks>The marker is visible for tags with page count 0</remarks>
-        public Visibility RemoveMarkerVisibility
-        {
-            get { return CanRemove ? Visibility.Visible : Visibility.Collapsed; }
         }
     }
 }
