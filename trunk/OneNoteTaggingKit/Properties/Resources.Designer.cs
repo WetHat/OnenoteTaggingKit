@@ -831,7 +831,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap to navigate to OneNote page.
+        ///   Looks up a localized string similar to Tapor click  link to navigate to OneNote page.
         /// </summary>
         public static string TagSearch_PageLink_Tooltip {
             get {
