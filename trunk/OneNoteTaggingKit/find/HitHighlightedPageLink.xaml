@@ -9,15 +9,14 @@
              mc:Ignorable="d"
              d:DesignHeight="30" d:DesignWidth="200"
              DataContextChanged="OnDataContextChanged">
+    <!-- Tooltip for the Hyperlink is programmatically generated -->
     <TextBlock VerticalAlignment="Center">
         <Run Text="{Binding MarkerSymbol, Mode=OneWay}"
              FontFamily="Segoe UI Symbol"
              FontSize="14"
              FontWeight="UltraBold"
-             ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_PageItem_Tooltip}}"
              Foreground="{Binding MarkerColor,Mode=OneWay}" />
         <Hyperlink Click="Hyperlink_Click">
-            <!-- Tooltip for the Hyperlink is programmatically generated -->
             <TextBlock Name="hithighlightedTitle" TextTrimming="CharacterEllipsis" />
         </Hyperlink>
     </TextBlock>
