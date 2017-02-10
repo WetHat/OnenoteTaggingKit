@@ -156,6 +156,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tap or Click to show available actions..
+        /// </summary>
+        public static string SuggestedTag_Menu_Tooltip {
+            get {
+                return ResourceManager.GetString("SuggestedTag_Menu_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap tag_32x32 {
@@ -974,15 +983,6 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TagSelector_Tooltip {
             get {
                 return ResourceManager.GetString("TagSelector_Tooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tap or click to remove this tag..
-        /// </summary>
-        public static string TagsPanel_RemoveButton_Tooltip {
-            get {
-                return ResourceManager.GetString("TagsPanel_RemoveButton_Tooltip", resourceCulture);
             }
         }
     }

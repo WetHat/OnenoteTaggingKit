@@ -9,7 +9,7 @@
           BorderBrush="LightBlue"
           Background="White"
           PreviewKeyDown="tagNameEditBox_PreviewKeyDown"
-          ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.RemoveTag_Button_Tooltip}}">
+          ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.SuggestedTag_Menu_Tooltip}}">
         <MenuItem Name="actionMenu"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"

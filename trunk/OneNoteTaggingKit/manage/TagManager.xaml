@@ -151,7 +151,7 @@
                                 <TextBlock  Text=""
                                     FontFamily="Segoe UI Symbol"
                                     FontWeight="ExtraBold"
-                                    FontSize="15"
+                                    FontSize="14"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center" />
                             </MenuItem.Icon>
