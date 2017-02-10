@@ -24,11 +24,7 @@
                                          Type={x:Type local:TagManagerDesignerModel}}"
         mc:Ignorable="d">
     <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/OneNoteTaggingKit;component/Resources/Styles.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+        <ResourceDictionary Source="pack://application:,,,/OneNoteTaggingKit;component/Resources/Styles.xaml" />
     </Window.Resources>
 
     <Window.Background>
@@ -92,21 +88,17 @@
                         Height="26"
                         HorizontalAlignment="Center"
                         Click="NewTagButton_Click"
+                        Margin="0,0,5,0"
+                        Background="GreenYellow"
                         Style="{StaticResource controlEffectStyle}"
                         ToolTip="{Binding Mode=OneTime,
                                             Source={x:Static prop:Resources.TagManager_NewTagButton_Tooltip}}">
-                    <Button.Background>
-                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                            <GradientStop Offset="0" Color="#FF00FF00" />
-                            <GradientStop Offset="1" Color="#FFB0ADAD" />
-                        </LinearGradientBrush>
-                    </Button.Background>
-                    <TextBlock VerticalAlignment="Center"
-                                   FontFamily="Segoe UI Symbol"
-                                   FontSize="22"
-                                   FontWeight="ExtraBold"
-                                   Text="✙"
-                                   TextAlignment="Center" />
+                    <TextBlock  VerticalAlignment="Center"
+                                FontFamily="Segoe UI Symbol"
+                                FontSize="22"
+                                FontWeight="ExtraBold"
+                                Text="✙"
+                                TextAlignment="Center" />
                 </Button>
                 <cui:HighlightedTagsPanel x:Name="suggestedTags"
                                           Grid.Row="1"
@@ -121,12 +113,13 @@
                         </DataTemplate>
                     </cui:HighlightedTagsPanel.TagTemplate>
                 </cui:HighlightedTagsPanel>
-                <Menu Grid.Row="1" Grid.Column="1"
+                <Menu Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                       BorderThickness="0"
+                      Margin="0,0,8,0"
                       Background="Transparent"
                       ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_Menu_Tooltip}}"
                       VerticalAlignment="Top"
-                      HorizontalAlignment="Left">
+                      HorizontalAlignment="Right">
                     <MenuItem BorderThickness="0" Background="Transparent">
                         <MenuItem.Resources>
                             <Style TargetType="{x:Type MenuItem}">
