@@ -1,4 +1,5 @@
-﻿// Author: WetHat | (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+// Author: WetHat | (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
 using System;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -88,7 +89,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
             stack.Children.Add(tb);
 
-            link.ToolTip = tt;
+            ToolTip = tt;
             ToolTipService.SetShowDuration(link, 10000);
         }
 
