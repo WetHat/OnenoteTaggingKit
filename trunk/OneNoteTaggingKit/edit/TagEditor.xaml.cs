@@ -151,7 +151,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private void TagInputBox_Input(object sender, TagInputEventArgs e)
         {
-            pagesTaggedPopup.IsOpen = false;
+            suggestedTags.Notification = String.Empty;
             try
             {
                 if (tagInput.IsEmpty)
@@ -189,39 +189,13 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 taggingScope.SelectedIndex = 0;
                 tagInput.Clear();
                 suggestedTags.Highlighter = new TextSplitter();
-                pagesTaggedText.Text = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_TaggingInProgress, pagesTagged);
-                pagesTaggedPopup.IsOpen = true;
-                DispatcherTimer closeTimer = new DispatcherTimer(TimeSpan.FromSeconds(5),
-                    DispatcherPriority.Normal,
-                    (sender, b) =>
-                    {
-                        var timer = sender as DispatcherTimer;
-                        if (timer != null)
-                        {
-                            timer.Stop();
-                            if (pagesTaggedPopup.IsOpen)
-                            {
-                                pagesTaggedPopup.IsOpen = false;
-                            }
-                        }
-                    }, Dispatcher);
-                closeTimer.Start();
+                suggestedTags.Notification = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_TaggingInProgress, pagesTagged);
             }
             catch (Exception xe)
             {
                 TraceLogger.Log(TraceCategory.Error(), "Applying tags to page failed: {0}", xe);
                 TraceLogger.ShowGenericErrorBox(Properties.Resources.TagEditor_TagUpdate_Error, xe);
             }
-        }
-
-        private void handlePopupPointerAction(object sender, RoutedEventArgs e)
-        {
-            Popup p = sender as Popup;
-            if (p != null)
-            {
-                p.IsOpen = false;
-            }
-            e.Handled = true;
         }
     }
 }

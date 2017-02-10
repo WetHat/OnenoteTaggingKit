@@ -274,7 +274,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} page(s) added to background tagging queue.
+        ///   Looks up a localized string similar to {0} page(s) added to the background tagging queue.
         ///
         ///OneNote may be less responsive while tagging is in progress..
         /// </summary>

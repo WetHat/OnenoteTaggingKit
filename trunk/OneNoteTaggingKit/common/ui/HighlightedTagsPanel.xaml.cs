@@ -1,41 +1,46 @@
-﻿using System.Linq;
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Runtime.InteropServices;
+using System.Windows.Controls.Primitives;
+using System.Windows.Threading;
 
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
     /// <summary>
-    /// Contract of the implementation of the data context of controls which want to appear in
-    /// <see cref="HighlightedTagsPanel"/> controls
+    /// Contract of the implementation of the data context of controls which want to appear
+    /// in <see cref="HighlightedTagsPanel" /> controls
     /// </summary>
-    /// <remarks>A collection of instances of objects implementing this contract is managed by
-    /// implementations of <see cref="ITagSource"/></remarks>
+    /// <remarks>
+    /// A collection of instances of objects implementing this contract is managed by
+    /// implementations of <see cref="ITagSource" />
+    /// </remarks>
     public interface IHighlightableTagDataContext
     {
         /// <summary>
-        /// Set the highlighter which generates text highlight descriptions
-        /// based on pattern matches.
+        /// Set the highlighter which generates text highlight descriptions based on
+        /// pattern matches.
         /// </summary>
         TextSplitter Highlighter { set; }
 
         /// <summary>
         /// Determine if a particular tag has highlights
         /// </summary>
-        /// <remarks>This property is used to make sure that the first
-        /// control that displays highlights in visible</remarks>
+        /// <remarks>
+        /// This property is used to make sure that the first control that displays
+        /// highlights in visible
+        /// </remarks>
         bool HasHighlights { get; }
     }
 
     /// <summary>
     /// Contract of the implementation of a collection of data context objects backing
-    /// controls showing in <see cref="HighlightedTagsPanel"/> control.
+    /// controls showing in <see cref="HighlightedTagsPanel" /> control.
     /// </summary>
-    public interface ITagSource: INotifyCollectionChanged
+    public interface ITagSource : INotifyCollectionChanged
     {
         /// <summary>
         /// Get the collection of data context objects.
@@ -48,14 +53,15 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// </summary>
     /// <remarks>
     /// <para>
-    /// The panel requires the highlightable controls it hosts to be backed by a data context implementing
-    /// the <see cref="IHighlightableTagDataContext"/> contract. The details of the highlighting are left
-    /// the specific control implementation. Typically the data context provides a
-    /// property like
+    /// The panel requires the highlightable controls it hosts to be backed by a data
+    /// context implementing the <see cref="IHighlightableTagDataContext" /> contract. The
+    /// details of the highlighting are left the specific control implementation. Typically
+    /// the data context provides a property like
     /// <code>
     /// IEnumerable&lt;TextFragment&gt; HighlightedName { get; }
     /// </code>
-    /// This property can be used by the UI implementation to build text with highlights like so:
+    /// This property can be used by the UI implementation to build text with highlights
+    /// like so:
     /// <code>
     /// private void createHitHighlightedTag(HitHighlightedTagButtonModel mdl)
     /// {
@@ -73,25 +79,25 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// </code>
     /// </para>
     /// <para>
-    /// The highlightable control should be defined as a tag template
-    /// (<see cref="TagTemplate"/>).
+    /// The highlightable control should be defined as a tag template ( <see cref="TagTemplate" />).
     /// <code language="xml" title="DataTemplate Example">
-    /// &lt;cui:HighlightedTagsPanel TagSource=&quot;{Binding TagSuggestions,Mode=OneWay}&quot;
-	/// 					          Header=&quot;Test&quot;&gt;
-	/// &lt;cui:HighlightedTagsPanel.TagTemplate&gt;
-	/// 	&lt;DataTemplate&gt;
-	/// 		&lt;local:HitHighlightedTagButton Click=&quot;OnSuggestedTagClick&quot;/&gt;
-	/// 	&lt;/DataTemplate&gt;
-	/// &lt;/cui:HighlightedTagsPanel.TagTemplate&gt;
+    /// &lt;cui:HighlightedTagsPanel TagSource="{Binding TagSuggestions,Mode=OneWay}"
+    /// 					          Header="Test"&gt;
+    /// &lt;cui:HighlightedTagsPanel.TagTemplate&gt;
+    /// 	&lt;DataTemplate&gt;
+    /// 		&lt;local:HitHighlightedTagButton Click="OnSuggestedTagClick"/&gt;
+    /// 	&lt;/DataTemplate&gt;
+    /// &lt;/cui:HighlightedTagsPanel.TagTemplate&gt;
     /// &lt;/cui:HighlightedTagsPanel&gt;
     /// </code>
-    /// the panel instantiates highlightable controls from the data template and assigns a data context
-    /// from a <see cref="IHighlightableTagDataContext"/> implementation .
+    /// the panel instantiates highlightable controls from the data template and assigns a
+    /// data context from a <see cref="IHighlightableTagDataContext" /> implementation .
     /// </para>
     /// <para>
-    /// Implementations of the <see cref="ITagSource"/> contract are usually based on observable collections
-    /// of some sort. Such a collection can be directly bound to the <see cref="HighlightedTagsPanel.TagSource"/> property
-    /// without additional modification, like so:
+    /// Implementations of the <see cref="ITagSource" /> contract are usually based on
+    /// observable collections of some sort. Such a collection can be directly bound to the
+    /// <see cref="HighlightedTagsPanel.TagSource" /> property without additional
+    /// modification, like so:
     /// <code language="xml">
     /// &lt;cui:HighlightedTagsPanel ...
     ///                           TagSource="{Binding TagSourceObservableCollection,Mode=OneWay}"
@@ -99,7 +105,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// </code>
     /// </para>
     /// <para>
-    /// A simple implementation of <see cref="ITagSource"/> looks like this
+    /// A simple implementation of <see cref="ITagSource" /> looks like this
     /// <code language="C#">
     /// public class TagSource : ObservableSortedList&lt;TagModelKey, string, TagSelectorModel&gt;, ITagSource
     /// {
@@ -139,9 +145,10 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// Dependency property for panel header.
         /// </summary>
-        /// <seealso cref="Header"/>>
+        /// <seealso cref="Header" />
+        /// &gt;
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(object), typeof(HighlightedTagsPanel));
-        
+
         /// <summary>
         /// Get or set the header control for the tags panel
         /// </summary>
@@ -158,11 +165,48 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         }
 
         /// <summary>
+        /// Show a notification for 5 seconds.
+        /// </summary>
+        internal string Notification
+        {
+            set
+            {
+                notificationText.Text = value;
+                if (string.IsNullOrEmpty(value))
+                {
+                    if (notificationPopup.IsOpen)
+                    {
+                        notificationPopup.IsOpen = false;
+                    }
+                }
+                else
+                {
+                    notificationPopup.IsOpen = true;
+                    DispatcherTimer closeTimer = new DispatcherTimer(TimeSpan.FromSeconds(5),
+                        DispatcherPriority.Normal,
+                        (sender, e) =>
+                        {
+                            var timer = sender as DispatcherTimer;
+                            if (timer != null)
+                            {
+                                timer.Stop();
+                                if (notificationPopup.IsOpen)
+                                {
+                                    notificationPopup.IsOpen = false;
+                                }
+                            }
+                        }, Dispatcher);
+                    closeTimer.Start();
+                }
+            }
+        }
+
+        /// <summary>
         /// Dependency property for the collection providing data context objects for the
         /// tag UI controls.
         /// </summary>
-        /// <seealso cref="TagSource"/>
-        public static readonly DependencyProperty TagSourceProperty = DependencyProperty.Register("TagSource", typeof(ITagSource), typeof(HighlightedTagsPanel),new PropertyMetadata(OnTagSourceChanged));
+        /// <seealso cref="TagSource" />
+        public static readonly DependencyProperty TagSourceProperty = DependencyProperty.Register("TagSource", typeof(ITagSource), typeof(HighlightedTagsPanel), new PropertyMetadata(OnTagSourceChanged));
 
         private static void OnTagSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -207,6 +251,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                             tagsPanel.Children.Insert(i + e.NewStartingIndex, tagControl);
                         }
                         break;
+
                     case NotifyCollectionChangedAction.Remove:
                         int oldItemCount = e.OldItems.Count;
                         for (int i = 0; i < oldItemCount; i++)
@@ -214,6 +259,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                             tagsPanel.Children.RemoveAt(e.OldStartingIndex);
                         }
                         break;
+
                     case NotifyCollectionChangedAction.Reset:
                         tagsPanel.Children.Clear();
                         break;
@@ -239,8 +285,8 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// Dependency property for the tag highlighter object.
         /// </summary>
-        /// <seealso cref="Highlighter"/>
-        public static readonly DependencyProperty HighlighterProperty = DependencyProperty.Register("Highlighter", typeof(TextSplitter), typeof(HighlightedTagsPanel),new PropertyMetadata(new TextSplitter(),OnHighlighterChanged));
+        /// <seealso cref="Highlighter" />
+        public static readonly DependencyProperty HighlighterProperty = DependencyProperty.Register("Highlighter", typeof(TextSplitter), typeof(HighlightedTagsPanel), new PropertyMetadata(new TextSplitter(), OnHighlighterChanged));
 
         private static void OnHighlighterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -274,7 +320,6 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             }
         }
 
-
         internal TextSplitter Highlighter
         {
             get
@@ -286,6 +331,17 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 SetValue(HighlighterProperty, value);
             }
         }
+
+        private void handlePopupPointerAction(object sender, RoutedEventArgs e)
+        {
+            Popup p = sender as Popup;
+            if (p != null)
+            {
+                p.IsOpen = false;
+            }
+            e.Handled = true;
+        }
+
         /// <summary>
         /// create a new instance of a panel hosting tag controls
         /// </summary>

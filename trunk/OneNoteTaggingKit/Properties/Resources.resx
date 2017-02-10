@@ -299,7 +299,7 @@
     <value>Current Section</value>
   </data>
   <data name="TagEditor_Popup_TaggingInProgress" xml:space="preserve">
-    <value>{0} page(s) added to background tagging queue.
+    <value>{0} page(s) added to the background tagging queue.
 
 OneNote may be less responsive while tagging is in progress.</value>
   </data>

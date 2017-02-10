@@ -31,7 +31,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// Remove or rename tag from suggestions when user control is tapped.
         /// </summary>
         /// <param name="sender">user control emitting this event</param>
-        /// <param name="e">event details</param>
+        /// <param name="e">     event details</param>
         private void Tag_Action(object sender, RoutedEventArgs e)
         {
             var rt = sender as RemovableTag;
@@ -47,6 +47,11 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                     {
                         _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toRemove, TagOperation.SUBTRACT));
                     }
+                    suggestedTags.Notification = rt_mdl.Tag.Pages.Count == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_TaggingInProgress, rt_mdl.Tag.Pages.Count);
+                }
+                else
+                {
+                    suggestedTags.Notification = Properties.Resources.TagEditor_Popup_NothingTagged;
                 }
             }
             else if ("RenameTag".Equals(rt.Tag))
@@ -69,6 +74,11 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                         _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toAdd, TagOperation.UNITE));
                         _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toRemove, TagOperation.SUBTRACT));
                     }
+                    suggestedTags.Notification = rt_mdl.Tag.Pages.Count == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_TaggingInProgress, rt_mdl.Tag.Pages.Count);
+                }
+                else
+                {
+                    suggestedTags.Notification = Properties.Resources.TagEditor_Popup_NothingTagged;
                 }
             }
             _model.SaveChanges();
@@ -78,7 +88,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// Add a new tag to the list of suggestions when the button is pressed
         /// </summary>
         /// <param name="sender">control emitting the event</param>
-        /// <param name="e">event details</param>
+        /// <param name="e">     event details</param>
         private void NewTagButton_Click(object sender, RoutedEventArgs e)
         {
             _model.SuggestedTags.AddAll(from t in tagInput.Tags where !_model.SuggestedTags.ContainsKey(t) select new RemovableTagModel() { Tag = new TagPageSet(t) });
@@ -93,7 +103,9 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <summary>
         /// Get or set the dialog's view model.
         /// </summary>
-        /// <remarks>As soon as the view model is defined a background collection of tags is started</remarks>
+        /// <remarks>
+        /// As soon as the view model is defined a background collection of tags is started
+        /// </remarks>
         public TagManagerModel ViewModel
         {
             get
