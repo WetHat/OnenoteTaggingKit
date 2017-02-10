@@ -77,8 +77,6 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                 page.Update();
                 page = new OneNotePageProxy(onenote, _pageid);
             }
-
-            TraceLogger.Log(TraceCategory.Info(), "Tagging page: {0}", page.Title);
             HashSet<string> pagetags = new HashSet<string>(page.PageTags);
 
             int countBefore = pagetags.Count;

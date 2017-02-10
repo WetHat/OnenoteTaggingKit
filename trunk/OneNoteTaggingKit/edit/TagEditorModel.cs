@@ -1,11 +1,8 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
-
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.Tagger;
@@ -15,7 +12,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     /// <summary>
     /// Contract used by the tag editor view model
     /// </summary>
-    /// <seealso cref="WetHatLab.OneNote.TaggingKit.edit.TagEditor"/>
+    /// <seealso cref="WetHatLab.OneNote.TaggingKit.edit.TagEditor" />
     internal interface ITagEditorModel
     {
         /// <summary>
@@ -75,10 +72,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     /// <summary>
     /// View Model to support the tag editor dialog.
     /// </summary>
-    /// <remarks>Maintains data models for:
+    /// <remarks>
+    /// Maintains data models for:
     /// <list type="bullet">
-    ///   <item>Tags selection</item>
-    ///   <item>suggested tags</item>
+    /// <item>Tags selection</item>
+    /// <item>suggested tags</item>
     /// </list>
     /// </remarks>
     [ComVisible(false)]
@@ -105,7 +103,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
 
         /// <summary>
-        /// Collection of tags found in a OneNote hierarchy context (section, section group, notebook)
+        /// Collection of tags found in a OneNote hierarchy context (section, section
+        /// group, notebook)
         /// </summary>
         public TagsAndPages ContextTagCollection
         {
