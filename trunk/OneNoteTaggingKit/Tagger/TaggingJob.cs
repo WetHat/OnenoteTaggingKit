@@ -39,8 +39,8 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
         /// <summary>
         /// Create a new instance of a tagging job.
         /// </summary>
-        /// <param name="pageID">ID of the OneNote page to apply the tags</param>
-        /// <param name="tags">tags to apply</param>
+        /// <param name="pageID">   ID of the OneNote page to apply the tags</param>
+        /// <param name="tags">     tags to apply</param>
         /// <param name="operation">operation</param>
         public TaggingJob(string pageID, string[] tags, TagOperation operation)
         {
@@ -49,11 +49,28 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
             _op = operation;
         }
 
+        /// <summary>
+        /// Tag a singe OneNote page
+        /// </summary>
+        /// <remarks>
+        /// A tagged page is not saved immediately. The caller can hold on to a previously
+        /// returned page and pass it into this method again. This avoids saving a page
+        /// multiple times, if there are subsequent tagging jobs for the same page. If the
+        /// ID of the page passed into this method does not match the ID of this job, the
+        /// passed in page is saved.
+        /// </remarks>
+        /// <param name="onenote">OneNote application proxy object</param>
+        /// <param name="page">   an unsaved OneNote page which has been tagged previously</param>
+        /// <returns>Unsaved, tagged OneNote page.</returns>
         internal OneNotePageProxy Execute(OneNoteProxy onenote, OneNotePageProxy page)
         {
             if (page == null)
             {
                 page = new OneNotePageProxy(onenote, _pageid);
+                if (page.IsDeleted)
+                {
+                    return null;
+                }
             }
             else if (!_pageid.Equals(page.PageID))
             {  // cannot continue with the given page

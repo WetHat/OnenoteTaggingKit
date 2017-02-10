@@ -74,6 +74,16 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
         }
 
+        internal bool IsDeleted
+        {
+            get
+            {
+                XAttribute recycleBinAtt = _page.Attribute("isInRecycleBin");
+
+                return recycleBinAtt != null ? bool.Parse(recycleBinAtt.Value) : false;
+            }
+        }
+
         /// <summary>
         /// Get or set the unique ID of the OneNote Page
         /// </summary>
