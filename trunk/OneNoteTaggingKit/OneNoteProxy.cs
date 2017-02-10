@@ -26,37 +26,18 @@ namespace WetHatLab.OneNote.TaggingKit
         internal OneNoteProxy(Application onenote)
         {
             _on = onenote;
-            foreach (XMLSchema s in new XMLSchema[] { XMLSchema.xs2013, XMLSchema.xs2010 })
-            {
-                try
-                {
-                    OneNoteSchema = ExecuteMethodProtected<XMLSchema>(o =>
-                    {
-                        string outXml;
-                        o.GetHierarchy(CurrentNotebookID, HierarchyScope.hsSelf, out outXml, s);
-                        return s;
-                    });
 
-                    // we can use this schema
-                    TraceLogger.Log(TraceCategory.Info(), "OneNote schema version is {0}", s);
-                    break;
-                }
-                catch (COMException ce)
-                {
-                    TraceLogger.Log(TraceCategory.Info(), "Test of OneNote Schema Version {0} failed with {1}", s, ce);
-                    TraceLogger.Flush();
-                }
-            }
             TaggingService = new BackgroundTagger(this);
             TaggingService.Run();
             TraceLogger.Log(TraceCategory.Info(), "OneNote application proxy constructed successfully");
+            TraceLogger.Flush();
         }
 
         /// <summary>
         /// Delete a OneNote page object
         /// </summary>
         /// <remarks>Removes object such as outlines</remarks>
-        /// <param name="pageID">Page ID</param>
+        /// <param name="pageID">  Page ID</param>
         /// <param name="objectID">ID of object on the page</param>
         public void DeletePageContent(string pageID, string objectID)
         {
@@ -68,17 +49,29 @@ namespace WetHatLab.OneNote.TaggingKit
         }
 
         /// <summary>
-        /// Get the ID of the current Notebook
+        /// Get the ID of the current notebook
         /// </summary>
         public string CurrentNotebookID
         {
-            get { return CurrentWindow.CurrentNotebookId; }
+            get
+            {
+                try
+                {
+                    return CurrentWindow.CurrentNotebookId;
+                }
+                catch (COMException ex)
+                {
+                    TraceLogger.Log(TraceCategory.Info(), "Unable to determine Current Notebook ID: {0}", ex.Message);
+                }
+                return null;
+            }
         }
 
         /// <summary>
         /// Get the id of the current OneNote page
         /// </summary>
-        /// /// <value>null, if current page does not exist or could not be queried</value>
+        /// ///
+        /// <value>null, if current page does not exist or could not be queried</value>
         public string CurrentPageID
         {
             get
@@ -146,16 +139,86 @@ namespace WetHatLab.OneNote.TaggingKit
             }
         }
 
+        private XMLSchema _schema = XMLSchema.xs2007;
+
         /// <summary>
         /// Get the highest version of the schema supported by the current OneNote notebook.
         /// </summary>
-        private XMLSchema OneNoteSchema { get; set; }
+        internal XMLSchema OneNoteSchema
+        {
+            get
+            {
+                if (_schema == XMLSchema.xs2007)
+                {
+                    string contextID = CurrentNotebookID;
+                    if (contextID == null)
+                    {
+                        contextID = CurrentSectionGroupID;
+                        if (contextID == null)
+                        {
+                            contextID = CurrentSectionID;
+                            if (contextID == null)
+                            {
+                                contextID = CurrentPageID;
+                                if (contextID == null)
+                                {
+                                    TraceLogger.Log(TraceCategory.Error(), "Unable determine OneNote version");
+                                    _schema = XMLSchema.xsCurrent;
+                                    return _schema;
+                                }
+                                else
+                                {
+                                    TraceLogger.Log(TraceCategory.Info(), "Using current page to determine OneNote version");
+                                }
+                            }
+                            else
+                            {
+                                TraceLogger.Log(TraceCategory.Info(), "Using current section to determine OneNote version");
+                            }
+                        }
+                        else
+                        {
+                            TraceLogger.Log(TraceCategory.Info(), "Using current section group to determine OneNote version");
+                        }
+                    }
+                    else
+                    {
+                        TraceLogger.Log(TraceCategory.Info(), "Using current notebook to determine OneNote version");
+                    }
+
+                    foreach (XMLSchema s in new XMLSchema[] { XMLSchema.xs2013, XMLSchema.xs2010 })
+                    {
+                        try
+                        {
+                            _schema = ExecuteMethodProtected<XMLSchema>(o =>
+                            {
+                                string outXml;
+                                o.GetHierarchy(contextID, HierarchyScope.hsSelf, out outXml, s);
+                                return s;
+                            });
+
+                            // we can use this schema
+                            TraceLogger.Log(TraceCategory.Info(), "OneNote schema version is {0}", s);
+                            break;
+                        }
+                        catch (COMException ce)
+                        {
+                            TraceLogger.Log(TraceCategory.Info(), "Test of OneNote Schema Version {0} failed with {1}", s, ce);
+                            TraceLogger.Flush();
+                        }
+                    }
+                    TraceLogger.Flush();
+                }
+
+                return _schema;
+            }
+        }
 
         /// <summary>
         /// Find pages by full text search
         /// </summary>
         /// <param name="query">                query string</param>
-        /// <param name="scopeID">
+        /// <param name="scopeID">              
         /// OneNote id of the scope to search for pages. This is the element ID of a
         /// notebook, section group, or section. If given as null or empty string scope is
         /// the entire set of notebooks open in OneNote.
@@ -178,7 +241,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <summary>
         /// Find OneNote pages which have meta-data with a given key.
         /// </summary>
-        /// <param name="scopeID">
+        /// <param name="scopeID">              
         /// search scope. The id of a node in the hierarchy (notebook, section group, or
         /// section) below which to search for content. If null or empty string, the search
         /// scope is the entire set of notebooks open in OneNote. for the search.
@@ -205,7 +268,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// </summary>
         /// <remarks>Only basic information (as of OneNote 2010) is returned.</remarks>
         /// <param name="nodeID">id of the starting node</param>
-        /// <param name="scope">scope of the nodes to return</param>
+        /// <param name="scope"> scope of the nodes to return</param>
         /// <returns>XML document describing the nodes in the OneNote hierarchy</returns>
         /// <exception cref="COMException">Call to OneNote failed</exception>
         public XDocument GetHierarchy(string nodeID, HierarchyScope scope)
@@ -259,8 +322,10 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <summary>
         /// Navigate to a OneNote page or paragraph on a OneNote page.
         /// </summary>
-        /// <param name="pageID">ID of the OneNote page to navigate to.</param>
-        /// <param name="pageObjectID">optional ID of a paragraph on a OneNote page or empty string</param>
+        /// <param name="pageID">      ID of the OneNote page to navigate to.</param>
+        /// <param name="pageObjectID">
+        /// optional ID of a paragraph on a OneNote page or empty string
+        /// </param>
         public void NavigateTo(string pageID, string pageObjectID = "")
         {
             ExecuteMethodProtected<bool>(o =>
@@ -273,7 +338,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <summary>
         /// Update the content of a OneNote page.
         /// </summary>
-        /// <param name="page">OneNote page XML document</param>
+        /// <param name="page">        OneNote page XML document</param>
         /// <param name="lastModified">time the document was last modified</param>
         public void UpdatePage(XDocument page, DateTime lastModified)
         {

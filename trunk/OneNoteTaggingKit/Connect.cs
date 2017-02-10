@@ -1,6 +1,7 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using Extensibility;
 using Microsoft.Office.Core;
+using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Diagnostics;
 using System.Drawing.Imaging;
@@ -17,8 +18,11 @@ namespace WetHatLab.OneNote.TaggingKit
     /// <summary>
     /// OneNote application connector.
     /// </summary>
-    /// <remarks>Manages the add-in life-cycle and executes Ribbon bar actions.
-    /// <para>This add-in implements a simple but flexible tagging system for OneNote pages</para>
+    /// <remarks>
+    /// Manages the add-in life-cycle and executes Ribbon bar actions.
+    /// <para>
+    /// This add-in implements a simple but flexible tagging system for OneNote pages
+    /// </para>
     /// </remarks>
     [Guid("C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF"), ProgId("WetHatLab.OneNote.TaggingKitAddin")]
     public class ConnectTaggingKitAddin : IDTExtensibility2, IRibbonExtensibility
@@ -45,12 +49,15 @@ namespace WetHatLab.OneNote.TaggingKit
         /// </param>
         public void OnAddInsUpdate(ref Array custom)
         {
+            TraceLogger.Log(TraceCategory.Info(), "Add-In update initiated; Arguments '{0}'", custom);
         }
 
         /// <summary>
         /// Occurs whenever OneNote shuts down while an add-in is running.
         /// </summary>
-        /// <param name="custom">An empty array that you can use to pass host-specific data for use in the add-in.</param>
+        /// <param name="custom">
+        /// An empty array that you can use to pass host-specific data for use in the add-in.
+        /// </param>
         public void OnBeginShutdown(ref Array custom)
         {
             TraceLogger.Log(TraceCategory.Info(), "Beginning Add-In shutdown; Arguments '{0}'", custom);
@@ -70,26 +77,30 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <summary>
         /// Handle the connection to the OneNote application.
         /// </summary>
-        /// <param name="Application">The instance of OneNote which added the add-in</param>
-        /// <param name="ConnectMode">Enumeration value that indicates the way the add-in was loaded.</param>
-        /// <param name="AddInInst">Reference to the add-in's own instance</param>
-        /// <param name="custom">An empty array that you can use to pass host-specific data for use in the add-in</param>
-        public void OnConnection(object Application, ext_ConnectMode ConnectMode, object AddInInst, ref Array custom)
+        /// <param name="app">        The instance of OneNote which added the add-in</param>
+        /// <param name="ConnectMode">
+        /// Enumeration value that indicates the way the add-in was loaded.
+        /// </param>
+        /// <param name="AddInInst">  Reference to the add-in's own instance</param>
+        /// <param name="custom">     
+        /// An empty array that you can use to pass host-specific data for use in the add-in
+        /// </param>
+        public void OnConnection(object app, ext_ConnectMode ConnectMode, object AddInInst, ref Array custom)
         {
             try
             {
                 TraceLogger.Log(TraceCategory.Info(), "Connection mode '{0}'", ConnectMode);
 
-                _onProxy = new OneNoteProxy(Application as Microsoft.Office.Interop.OneNote.Application);
-
-                // Upgrade Settings if necessary. On new version the UpdateRequired flag is reset to default (true)
+                // Upgrade Settings if necessary. On new version the UpdateRequired flag is
+                // reset to default (true)
                 if (Properties.Settings.Default.UpdateRequired)
                 {
                     Properties.Settings.Default.Upgrade();
                     Properties.Settings.Default.UpdateRequired = false;
                 }
 
-                _dialogmanager = new AddInDialogManager();
+                _onProxy = new OneNoteProxy(app as Microsoft.Office.Interop.OneNote.Application);
+
                 TraceLogger.Flush();
             }
             catch (Exception ex)
@@ -103,8 +114,13 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <summary>
         /// handle disconnection of the OneNote application.
         /// </summary>
-        /// <param name="RemoveMode">Enumeration value that informs an add-in why it was unloaded</param>
-        /// <param name="custom">An empty array that you can use to pass host-specific data for use after the add-in unloads.</param>
+        /// <param name="RemoveMode">
+        /// Enumeration value that informs an add-in why it was unloaded
+        /// </param>
+        /// <param name="custom">    
+        /// An empty array that you can use to pass host-specific data for use after the
+        /// add-in unloads.
+        /// </param>
         public void OnDisconnection(ext_DisconnectMode RemoveMode, ref Array custom)
         {
             TraceLogger.Log(TraceCategory.Info(), "Disconnecting; mode='{0}'; Arguments: '{1}'", RemoveMode, custom);
@@ -119,9 +135,9 @@ namespace WetHatLab.OneNote.TaggingKit
             if (RemoveMode == ext_DisconnectMode.ext_dm_HostShutdown
                  || RemoveMode == ext_DisconnectMode.ext_dm_UserClosed)
             {
-                // a dirty hack to make sure the ddlhost shuts down after an exception occurred.
-                // This is necessary to allow the add-in to be loaded successfully next time
-                // OneNote starts (a zombie dllhost would prevent that)
+                // a dirty hack to make sure the ddlhost shuts down after an exception
+                // occurred. This is necessary to allow the add-in to be loaded
+                // successfully next time OneNote starts (a zombie dllhost would prevent that)
                 TraceLogger.Log(TraceCategory.Info(), "Forcing COM Surrogate shutdown");
                 Trace.Flush();
                 Environment.Exit(0);
@@ -131,10 +147,24 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <summary>
         /// Occurs whenever an add-in loads.
         /// </summary>
-        /// <param name="custom">An empty array that you can use to pass host-specific data for use when the add-in loads.</param>
+        /// <param name="custom">
+        /// An empty array that you can use to pass host-specific data for use when the
+        /// add-in loads.
+        /// </param>
         public void OnStartupComplete(ref Array custom)
         {
             TraceLogger.Log(TraceCategory.Info(), "Startup Arguments '{0}'", custom);
+            try
+            {
+                _dialogmanager = new AddInDialogManager();
+                XMLSchema s = _onProxy.OneNoteSchema; // cache the schema
+            }
+            catch (Exception ex)
+            {
+                TraceLogger.Log(TraceCategory.Error(), "Tagging Kit initialization failed: {0}", ex);
+                TraceLogger.Flush();
+                throw;
+            }
         }
 
         #endregion IDTExtensibility2
