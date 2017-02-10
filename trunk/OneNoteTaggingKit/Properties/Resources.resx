@@ -239,10 +239,10 @@
     <value>Tap or click to remove the selected tags from a range of OneNote pages.</value>
   </data>
   <data name="TagEditor_ClearTags_Button_Tooltip" xml:space="preserve">
-    <value>Press to clear tag selection.</value>
+    <value>Tap or click to clear tag selection.</value>
   </data>
   <data name="TagEditor_HithighlightedTag_Button_Tooltip" xml:space="preserve">
-    <value>Press to select this tag.</value>
+    <value>Tap or click to select this tag.</value>
   </data>
   <data name="TagEditor_Tag_TextBox_Tooltip" xml:space="preserve">
     <value>Type one or more tags separated by comma ',' and press 'Enter', or select from the list of tags matching the text you typed.</value>

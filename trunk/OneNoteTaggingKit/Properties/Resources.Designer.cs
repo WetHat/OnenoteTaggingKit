@@ -184,7 +184,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to clear tag selection..
+        ///   Looks up a localized string similar to Tap or click to clear tag selection..
         /// </summary>
         public static string TagEditor_ClearTags_Button_Tooltip {
             get {
@@ -247,7 +247,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press to select this tag..
+        ///   Looks up a localized string similar to Tap or click to select this tag..
         /// </summary>
         public static string TagEditor_HithighlightedTag_Button_Tooltip {
             get {
