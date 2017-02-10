@@ -14,8 +14,7 @@
                AllowsTransparency="True"
                MouseDown="handlePopupPointerAction"
                StylusDown="handlePopupPointerAction"
-               TouchDown="handlePopupPointerAction"
-               VerticalOffset="20">
+               TouchDown="handlePopupPointerAction">
             <Border BorderThickness="2"
                         BorderBrush="DarkSlateBlue"
                         Background="LightYellow"
