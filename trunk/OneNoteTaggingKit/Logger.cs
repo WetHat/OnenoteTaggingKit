@@ -10,7 +10,7 @@ using System.Windows;
 namespace WetHatLab.OneNote.TaggingKit
 {
     /// <summary>
-    /// Tracing category for use with the <see cref="TraceLogger"/>
+    /// Tracing category for use with the <see cref="TraceLogger" />
     /// </summary>
     internal struct TraceCategory
     {
@@ -48,7 +48,9 @@ namespace WetHatLab.OneNote.TaggingKit
         /// Get the info tracing category
         /// </summary>
         /// <param name="callerName">name of the calling method. Provided by the compiler</param>
-        /// <param name="line">caller line number from where logging is requested. Provided by the compiler</param>
+        /// <param name="line">      
+        /// caller line number from where logging is requested. Provided by the compiler
+        /// </param>
         /// <returns>category instance</returns>
         internal static TraceCategory Info([CallerMemberName] string callerName = "", [CallerLineNumber] int line = -1)
         {
@@ -59,7 +61,9 @@ namespace WetHatLab.OneNote.TaggingKit
         /// Get the warning tracing category
         /// </summary>
         /// <param name="callerName">name of the calling method. Provided by the compiler</param>
-        /// <param name="line">caller line number from where logging is requested. Provided by the compiler</param>
+        /// <param name="line">      
+        /// caller line number from where logging is requested. Provided by the compiler
+        /// </param>
         /// <returns>category instance</returns>
         internal static TraceCategory Warning([CallerMemberName] string callerName = "", [CallerLineNumber] int line = -1)
         {
@@ -70,7 +74,9 @@ namespace WetHatLab.OneNote.TaggingKit
         /// Get the error tracing category
         /// </summary>
         /// <param name="callerName">name of the calling method. Provided by the compiler</param>
-        /// <param name="line">caller line number from where logging is requested. Provided by the compiler</param>
+        /// <param name="line">      
+        /// caller line number from where logging is requested. Provided by the compiler
+        /// </param>
         /// <returns>category instance</returns>
         internal static TraceCategory Error([CallerMemberName] string callerName = "", [CallerLineNumber] int line = -1)
         {
@@ -89,7 +95,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// Show an error box for an exception.
         /// </summary>
         /// <param name="message">Message to describe the failing operation</param>
-        /// <param name="ex">exception</param>
+        /// <param name="ex">     exception</param>
         internal static void ShowGenericErrorBox(string message, Exception ex)
         {
             TraceLogger.Log(TraceCategory.Error(), "{0}: {1}", message, ex);
@@ -156,11 +162,18 @@ namespace WetHatLab.OneNote.TaggingKit
             TextWriterTraceListener listener = new TextWriterTraceListener(log);
             Trace.Listeners.Add(listener);
 
+#if DEBUG
+            string config = "Debug";
+#else
+            string config = "Release";
+#endif
+
             Log(TraceCategory.Info(),
-                "{0} logging activated.\r\n\tAddin-Version: {1}\r\n\t.net Framework Version: {2}",
+                "{0} logging activated.\r\n\tAddin-Version: {1}\r\n\t.net Framework Version: {2}\r\n Configuration: {3}",
                 Properties.Resources.TaggingKit_About_Appname,
                 Assembly.GetExecutingAssembly().GetName().Version,
-                Environment.Version
+                Environment.Version,
+                config
                 );
             Flush();
         }
@@ -169,8 +182,8 @@ namespace WetHatLab.OneNote.TaggingKit
         /// log a message.
         /// </summary>
         /// <param name="category">logging category</param>
-        /// <param name="message">logging message</param>
-        /// <param name="args">parameters for the logging message</param>
+        /// <param name="message"> logging message</param>
+        /// <param name="args">    parameters for the logging message</param>
         internal static void Log(TraceCategory category, string message, params object[] args)
         {
 #if TRACE
