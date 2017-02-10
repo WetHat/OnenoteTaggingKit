@@ -165,6 +165,7 @@ namespace WetHatLab.OneNote.TaggingKit
                 TraceLogger.Flush();
                 throw;
             }
+            TraceLogger.Log(TraceCategory.Info(), "Tagging Kit initialization complete!");
         }
 
         #endregion IDTExtensibility2
