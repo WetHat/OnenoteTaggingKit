@@ -84,7 +84,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                     suggestedTags.Notification = Properties.Resources.TagEditor_Popup_NothingTagged;
                 }
             }
-
+            TraceLogger.Flush();
             _model.SaveChanges();
         }
 

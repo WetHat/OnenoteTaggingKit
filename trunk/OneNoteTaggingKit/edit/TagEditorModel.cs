@@ -178,6 +178,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 enqueuedPages++;
             }
             TraceLogger.Log(TraceCategory.Info(), "{0} page(s) enqueued for tagging with '{1}' using {2}", enqueuedPages, string.Join(";", pageTags), op);
+            TraceLogger.Flush();
             return enqueuedPages;
         }
     }
