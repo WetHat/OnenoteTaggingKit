@@ -1,15 +1,16 @@
-﻿using System;
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using System;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.manage
 {
     /// <summary>
-    /// View model to support the design mode for the <see cref="TagManager"/> dialog
+    /// View model to support the design mode for the <see cref="TagManager" /> dialog
     /// </summary>
     public class TagManagerDesignerModel : ITagManagerModel
     {
-        SuggestedTagsSource<RemovableTagModel> _tags = new SuggestedTagsSource<RemovableTagModel>();
+        private SuggestedTagsSource<RemovableTagModel> _tags = new SuggestedTagsSource<RemovableTagModel>();
 
         /// <summary>
         /// Create a new instance of the view model including some dummy data.
@@ -28,6 +29,14 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             get
             {
                 return _tags;
+            }
+        }
+
+        public string Configuration
+        {
+            get
+            {
+                return "Debug";
             }
         }
 

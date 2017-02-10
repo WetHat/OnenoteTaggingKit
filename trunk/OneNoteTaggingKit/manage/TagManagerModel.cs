@@ -11,9 +11,10 @@ using WetHatLab.OneNote.TaggingKit.common.ui;
 namespace WetHatLab.OneNote.TaggingKit.manage
 {
     /// <summary>
-    ///  Contract for view models of the <see cref="WetHatLab.OneNote.TaggingKit.manage.TagManager"/> dialog
+    /// Contract for view models of the
+    /// <see cref="WetHatLab.OneNote.TaggingKit.manage.TagManager" /> dialog
     /// </summary>
-    /// <seealso cref="TagManager"/>
+    /// <seealso cref="TagManager" />
 
     internal interface ITagManagerModel
     {
@@ -39,7 +40,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     }
 
     /// <summary>
-    /// View model backing the <see cref="TagManager"/> dialog.
+    /// View model backing the <see cref="TagManager" /> dialog.
     /// </summary>
     [ComVisible(false)]
     public class TagManagerModel : WindowViewModelBase, ITagManagerModel
@@ -48,7 +49,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         private TagsAndPages _tags;
 
         /// <summary>
-        /// Create a new instance of the view model backing the <see cref="TagManager"/> dialog.
+        /// Create a new instance of the view model backing the <see cref="TagManager" /> dialog.
         /// </summary>
         /// <param name="onenote">OneNote application object</param>
         internal TagManagerModel(OneNoteProxy onenote) : base(onenote)
@@ -83,13 +84,30 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <summary>
         /// Get the collection of tags used for suggestions.
         /// </summary>
-        /// <remarks>This collection includes all tags used on any OneNote pages and additional tags suggestions
-        /// which were added manually</remarks>
+        /// <remarks>
+        /// This collection includes all tags used on any OneNote pages and additional tags
+        /// suggestions which were added manually
+        /// </remarks>
         public SuggestedTagsSource<RemovableTagModel> SuggestedTags
         {
             get
             {
                 return _suggestedTags;
+            }
+        }
+
+        /// <summary>
+        /// Get the build configuration of the add-in
+        /// </summary>
+        public string Configuration
+        {
+            get
+            {
+#if DEBUG
+                return "Debug";
+#else
+                return "Release";
+#endif
             }
         }
 
