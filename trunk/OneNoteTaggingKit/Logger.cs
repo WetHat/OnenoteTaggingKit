@@ -169,7 +169,7 @@ namespace WetHatLab.OneNote.TaggingKit
 #endif
 
             Log(TraceCategory.Info(),
-                "{0} logging activated.\r\n\tAddin-Version: {1}\r\n\t.net Framework Version: {2}\r\n Configuration: {3}",
+                "{0} logging activated.\r\n\tAddin-Version: {1}\r\n\t.net Framework Version: {2}\r\n\tConfiguration: {3}",
                 Properties.Resources.TaggingKit_About_Appname,
                 Assembly.GetExecutingAssembly().GetName().Version,
                 Environment.Version,
