@@ -93,30 +93,6 @@
                 Click="RemoveTagsFromPageButton_Click">
                 <Image Source="/OneNoteTaggingKit;component/Resources/Remove Tag 26.png" Width="26" Height="26" />
             </Button>
-            <Popup Name="pagesTaggedPopup"
-               PlacementTarget="{Binding ElementName=suggestedTags}"
-               StaysOpen="False"
-               AllowsTransparency="True"
-               MouseDown="handlePopupPointerAction"
-               StylusDown="handlePopupPointerAction"
-               TouchDown="handlePopupPointerAction"
-               VerticalOffset="20">
-                <Border BorderThickness="2"
-                        BorderBrush="DarkSlateBlue"
-                        Background="LightYellow"
-                        CornerRadius="10">
-                    <Border.Effect>
-                        <DropShadowEffect Color="LightGray" />
-                    </Border.Effect>
-                    <TextBlock Name="pagesTaggedText"
-                               MaxWidth="200"
-                               Margin="5,5,5,5"
-                               TextWrapping="Wrap"
-                               TextTrimming="CharacterEllipsis"
-                               Text="x pages tagged"
-                               FontSize="16" Background="Transparent" />
-                </Border>
-            </Popup>
         </StackPanel>
         <GroupBox Name="selectedTags"  Grid.Row="1"
                   HorizontalAlignment="Stretch"
