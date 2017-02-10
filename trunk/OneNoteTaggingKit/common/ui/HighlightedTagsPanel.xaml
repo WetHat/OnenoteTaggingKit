@@ -7,8 +7,8 @@
              mc:Ignorable="d"
              x:Name="self"
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel Orientation="Vertical">
-        <Popup Name="notificationPopup"
+    <DockPanel>
+        <Popup Name="notificationPopup" DockPanel.Dock="Bottom"
                PlacementTarget="{Binding ElementName=tagsPanel}"
                StaysOpen="False"
                AllowsTransparency="True"
@@ -39,5 +39,5 @@
                 <WrapPanel Name="tagsPanel" />
             </ScrollViewer>
         </GroupBox>
-    </StackPanel>
+    </DockPanel>
 </UserControl>
