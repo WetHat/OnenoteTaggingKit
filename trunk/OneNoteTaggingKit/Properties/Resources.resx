@@ -130,9 +130,6 @@
   <data name="TagEditor_Tags_GroupBox_ToolTip" xml:space="preserve">
     <value>Tags to apply to one or more pages.</value>
   </data>
-  <data name="TagsPanel_RemoveButton_Tooltip" xml:space="preserve">
-    <value>Tap or click to remove this tag.</value>
-  </data>
   <data name="tag_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\tag 32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -427,5 +424,8 @@ Tap or click link to navigate to page.</value>
   </data>
   <data name="FoundPages_MenuItem_Refresh" xml:space="preserve">
     <value>Refresh</value>
+  </data>
+  <data name="SuggestedTag_Menu_Tooltip" xml:space="preserve">
+    <value>Tap or Click to show available actions.</value>
   </data>
 </root>
