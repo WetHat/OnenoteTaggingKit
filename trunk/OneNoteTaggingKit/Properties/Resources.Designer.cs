@@ -274,7 +274,9 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} page(s) will be tagged in the background. OneNote may be less responsive while tagging is in progress..
+        ///   Looks up a localized string similar to {0} page(s) added to background tagging queue.
+        ///
+        ///OneNote may be less responsive while tagging is in progress..
         /// </summary>
         public static string TagEditor_Popup_TaggingInProgress {
             get {
@@ -975,7 +977,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} of {1} pages tagged as &apos;{2}&apos; match the tag filter.
+        ///   Looks up a localized string similar to {0} of {1} pages tagged with &apos;{2}&apos; match the tag filter.
         /// </summary>
         public static string TagSelector_PageCount_Tooltip {
             get {
