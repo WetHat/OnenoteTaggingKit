@@ -49,6 +49,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                         _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toRemove, TagOperation.SUBTRACT));
                     }
                     suggestedTags.Notification = rt_mdl.Tag.Pages.Count == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_TaggingInProgress, rt_mdl.Tag.Pages.Count);
+                    TraceLogger.Log(TraceCategory.Info(), "{0} page(s) enqueued for background tagging; Operation SUBTRACT {1}", rt_mdl.Tag.Pages.Count, toRemove[0]);
                 }
                 else
                 {
@@ -76,12 +77,14 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                         _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toRemove, TagOperation.SUBTRACT));
                     }
                     suggestedTags.Notification = rt_mdl.Tag.Pages.Count == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_TaggingInProgress, rt_mdl.Tag.Pages.Count);
+                    TraceLogger.Log(TraceCategory.Info(), "{0} page(s) enqueued for background tagging; Operation UNITE {1} SUBTRACT {2}", rt_mdl.Tag.Pages.Count, toAdd[0], toRemove[0]);
                 }
                 else
                 {
                     suggestedTags.Notification = Properties.Resources.TagEditor_Popup_NothingTagged;
                 }
             }
+
             _model.SaveChanges();
         }
 
