@@ -144,7 +144,21 @@
                                        VerticalAlignment="Top"
                                        Margin="0,-3,0,0" />
                         </MenuItem.Header>
-                        <MenuItem Click="Copy_MenuItem_Click" Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_ContextMenu_Copy}}">
+                        <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.FoundPages_MenuItem_Refresh}}"
+                          Tag="Refresh"
+                          Click="MenuItem_Click">
+                            <MenuItem.Icon>
+                                <TextBlock  Text=""
+                                    FontFamily="Segoe UI Symbol"
+                                    FontWeight="ExtraBold"
+                                    FontSize="15"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Click="MenuItem_Click"
+                                  Tag="Copy"
+                                  Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_ContextMenu_Copy}}">
                             <MenuItem.Icon>
                                 <Image Source="/OneNoteTaggingKit;component/Resources/copy-26.png" />
                             </MenuItem.Icon>

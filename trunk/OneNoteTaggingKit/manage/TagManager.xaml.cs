@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
@@ -138,10 +139,25 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             e.Handled = true;
         }
 
-        private void Copy_MenuItem_Click(object sender, RoutedEventArgs e)
+        private async void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetData(DataFormats.Text, _model.TagList);
-            tagInput.FocusInput();
+            var itm = sender as MenuItem;
+            switch (itm.Tag.ToString())
+            {
+                case "Copy":
+                    Clipboard.SetData(DataFormats.Text, _model.TagList);
+                    tagInput.FocusInput();
+                    break;
+
+                case "Refresh":
+                    if (pBar.Visibility == System.Windows.Visibility.Hidden)
+                    {
+                        pBar.Visibility = System.Windows.Visibility.Visible;
+                        await _model.LoadSuggestedTagsAsync();
+                        pBar.Visibility = System.Windows.Visibility.Hidden;
+                    }
+                    break;
+            }
         }
 
         private void TagInputBox_Input(object sender, TagInputEventArgs e)
