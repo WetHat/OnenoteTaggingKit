@@ -194,8 +194,7 @@
                     </Paragraph>
                     <Paragraph>
                         <Run FontWeight="Bold" Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Description}}" />
-                    </Paragraph>
-                    <Paragraph>
+                        <LineBreak />
                         <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Copyright}}" />
                     </Paragraph>
                     <Paragraph>
@@ -203,13 +202,20 @@
                         <Run BaselineAlignment="Center" Text="{Binding FrameworkVersion, Mode=OneTime}" />
                     </Paragraph>
                     <Paragraph>
+                        <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Configuration}}" />
+                        <Run Text=":" />
+                        <Run Text="{Binding Configuration, Mode=OneTime}" />
+                    </Paragraph>
+                    <Paragraph>
                         <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Website}}" />
+                        <Run Text=":" />
                         <Hyperlink NavigateUri="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_AddIn_Website}}" RequestNavigate="Hyperlink_RequestNavigate">
                             <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_AddIn_Website}}" />
                         </Hyperlink>
                     </Paragraph>
                     <Paragraph>
                         <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Logfile}}" />
+                        <Run Text=":" />
                         <Hyperlink NavigateUri="{Binding Logfile}" RequestNavigate="Hyperlink_RequestLogNavigate">
                             <Run Text="{Binding Logfile, Mode=OneTime}" />
                         </Hyperlink>
