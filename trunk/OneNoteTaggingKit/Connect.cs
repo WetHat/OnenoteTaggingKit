@@ -36,6 +36,13 @@ namespace WetHatLab.OneNote.TaggingKit
         /// </summary>
         public ConnectTaggingKitAddin()
         {
+            // Upgrade Settings if necessary. On new version the UpdateRequired flag is
+            // reset to default (true)
+            if (Properties.Settings.Default.UpdateRequired)
+            {
+                Properties.Settings.Default.Upgrade();
+                Properties.Settings.Default.UpdateRequired = false;
+            }
             TraceLogger.Register();
         }
 
@@ -49,7 +56,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// </param>
         public void OnAddInsUpdate(ref Array custom)
         {
-            TraceLogger.Log(TraceCategory.Info(), "Add-In update initiated; Arguments '{0}'", custom);
+            TraceLogger.Log(TraceCategory.Info(), "{0} update initiated; Arguments '{1}'", Properties.Resources.TaggingKit_About_Appname, custom);
         }
 
         /// <summary>
@@ -60,7 +67,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// </param>
         public void OnBeginShutdown(ref Array custom)
         {
-            TraceLogger.Log(TraceCategory.Info(), "Beginning Add-In shutdown; Arguments '{0}'", custom);
+            TraceLogger.Log(TraceCategory.Info(), "Beginning {0} shutdown; Arguments '{1}'", Properties.Resources.TaggingKit_About_Appname, custom);
             if (_dialogmanager != null)
             {
                 _dialogmanager.Dispose();
@@ -91,21 +98,13 @@ namespace WetHatLab.OneNote.TaggingKit
             {
                 TraceLogger.Log(TraceCategory.Info(), "Connection mode '{0}'", ConnectMode);
 
-                // Upgrade Settings if necessary. On new version the UpdateRequired flag is
-                // reset to default (true)
-                if (Properties.Settings.Default.UpdateRequired)
-                {
-                    Properties.Settings.Default.Upgrade();
-                    Properties.Settings.Default.UpdateRequired = false;
-                }
-
                 _onProxy = new OneNoteProxy(app as Microsoft.Office.Interop.OneNote.Application);
 
                 TraceLogger.Flush();
             }
             catch (Exception ex)
             {
-                TraceLogger.Log(TraceCategory.Error(), "Connecting Tagging Kit failed: {0}", ex);
+                TraceLogger.Log(TraceCategory.Error(), "Connecting {0} failed: {1}", Properties.Resources.TaggingKit_About_Appname, ex);
                 TraceLogger.Flush();
                 throw;
             }
@@ -161,11 +160,12 @@ namespace WetHatLab.OneNote.TaggingKit
             }
             catch (Exception ex)
             {
-                TraceLogger.Log(TraceCategory.Error(), "Tagging Kit initialization failed: {0}", ex);
+                TraceLogger.Log(TraceCategory.Error(), "{0} initialization failed: {1}", Properties.Resources.TaggingKit_About_Appname, ex);
                 TraceLogger.Flush();
                 throw;
             }
-            TraceLogger.Log(TraceCategory.Info(), "Tagging Kit initialization complete!");
+            TraceLogger.Log(TraceCategory.Info(), "{0} initialization complete!", Properties.Resources.TaggingKit_About_Appname);
+            TraceLogger.Flush();
         }
 
         #endregion IDTExtensibility2
