@@ -144,8 +144,7 @@ EndSelection:{5:D6}";
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            // save the scope
-            // Properties.Settings.Default.DefaultScope = (int)scopeSelect.SelectedScope;
+            // save the scope Properties.Settings.Default.DefaultScope = (int)scopeSelect.SelectedScope;
             Properties.Settings.Default.Save();
             if (_model != null)
             {
@@ -164,8 +163,24 @@ EndSelection:{5:D6}";
                 {
                     HitHighlightedPageLinkModel model = l.DataContext as HitHighlightedPageLinkModel;
                     _model.NavigateTo(model.PageID);
-                    // select the link
-                    foundPagesList.SelectedItem = model;
+                    if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                    {
+                        int ndx = foundPagesList.SelectedItems.IndexOf(model);
+                        if (ndx >= 0)
+                        {
+                            foundPagesList.SelectedItems.RemoveAt(ndx);
+                        }
+                        else
+                        {
+                            foundPagesList.SelectedItems.Add(model);
+                        }
+                    }
+                    else
+                    {
+                        // select the link
+                        foundPagesList.SelectedItem = model;
+                    }
+
                     e.Handled = true;
                 }
             }
@@ -240,7 +255,8 @@ EndSelection:{5:D6}";
             {
                 pBar.Visibility = System.Windows.Visibility.Visible;
                 string query = searchComboBox.Text;
-                // using ContinueWith until I've discovered how to do implement async events properly
+                // using ContinueWith until I've discovered how to do implement async
+                // events properly
                 _model.FindPagesAsync(query, scopeSelect.SelectedScope).ContinueWith(tsk => Dispatcher.Invoke(() =>
                 {
                     pBar.Visibility = System.Windows.Visibility.Hidden;
