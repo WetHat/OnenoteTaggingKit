@@ -99,7 +99,7 @@ namespace WetHatLab.OneNote.TaggingKit
                 TraceLogger.Log(TraceCategory.Info(), "Connection mode '{0}'", ConnectMode);
 
                 _onProxy = new OneNoteProxy(app as Microsoft.Office.Interop.OneNote.Application);
-
+                _dialogmanager = new AddInDialogManager();
                 TraceLogger.Flush();
             }
             catch (Exception ex)
@@ -155,7 +155,6 @@ namespace WetHatLab.OneNote.TaggingKit
             TraceLogger.Log(TraceCategory.Info(), "Startup Arguments '{0}'", custom);
             try
             {
-                _dialogmanager = new AddInDialogManager();
                 XMLSchema s = _onProxy.OneNoteSchema; // cache the schema
             }
             catch (Exception ex)
