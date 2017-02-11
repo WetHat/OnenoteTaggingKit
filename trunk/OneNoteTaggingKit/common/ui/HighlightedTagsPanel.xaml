@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <DockPanel>
         <Popup Name="notificationPopup" DockPanel.Dock="Bottom"
-               PlacementTarget="{Binding ElementName=tagsPanel}"
+               PlacementTarget="{Binding ElementName=self}"
                StaysOpen="False"
                AllowsTransparency="True"
                MouseDown="handlePopupPointerAction"
