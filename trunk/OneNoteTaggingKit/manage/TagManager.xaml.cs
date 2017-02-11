@@ -157,6 +157,10 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                     {
                         pBar.Visibility = System.Windows.Visibility.Visible;
                         await _model.LoadSuggestedTagsAsync();
+                        if (tagInput.Tags != null)
+                        {
+                            suggestedTags.Highlighter = new TextSplitter(tagInput.Tags);
+                        }
                         pBar.Visibility = System.Windows.Visibility.Hidden;
                     }
                     break;
