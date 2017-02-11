@@ -163,7 +163,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Add a new element at the correct position to a page
         /// </summary>
-        /// <param name="element">element to add</param>
+        /// <param name="element"> element to add</param>
         /// <param name="sequence">index of element name in the schema sequence</param>
         private void addElementToPage(XElement element, int sequence)
         {
@@ -196,8 +196,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
             if (_pageTagsOE == null && _tags.Length > 0)
             {
-                // Create a style for the tags - if needed
-                // <one:QuickStyleDef index="1" name="cite" fontColor="#595959" highlightColor="automatic" font="Calibri" fontSize="9"
+                // Create a style for the tags - if needed <one:QuickStyleDef index="1"
+                // name="cite" fontColor="#595959" highlightColor="automatic"
+                // font="Calibri" fontSize="9"
                 XName styledefName = _one.GetName("QuickStyleDef");
 
                 IEnumerable<XElement> quickstyleDefs = _page.Elements(styledefName);
@@ -218,8 +219,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     addElementToPage(tagStyle, QUICKSTYLEDEF_IDX);
                 }
 
-                // create tag definition for the tags outline like so:
-                // <one:TagDef index="3" name="Page Tags" type="23" symbol="26" />
+                // create tag definition for the tags outline like so: <one:TagDef
+                // index="3" name="Page Tags" type="23" symbol="26" />
                 XElement pageTagsDef = tagDefs.FirstOrDefault(t => t.Attribute("name").Value == "Page Tags");
                 if (pageTagsDef == null)
                 {
@@ -278,8 +279,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
             //</one:Title>
 
             // Locate tag definitions for existing page tags and record their indices
-            // <one:TagDef index="0" name="Test Tag 1" type="0" symbol="0" />
-            // <one:TagDef index="1" name="Test Tag 2" type="1" symbol="0" />
+            // <one:TagDef index="0" name="Test Tag 1" type="0" symbol="0" /> <one:TagDef
+            // index="1" name="Test Tag 2" type="1" symbol="0" />
             IDictionary<string, string> tagToIndexMap = new Dictionary<string, string>();
             foreach (XElement tagdef in tagDefs.Where(d => d.Attribute("symbol").Value == "0"
                                                            && !string.IsNullOrEmpty(d.Attribute("fontColor").Value)
@@ -373,8 +374,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
             XName outlineName = _one.GetName("Outline");
 
-            // find the definition <one:TagDef> element marking the tag outline
-            // <one:TagDef index="0" name="Tags" type="23" symbol="26" />
+            // find the definition <one:TagDef> element marking the tag outline <one:TagDef
+            // index="0" name="Tags" type="23" symbol="26" />
             XElement tagDef = (from d in _page.Elements(_one.GetName("TagDef"))
                                where d.Attribute("name").Value == "Page Tags" && d.Attribute("type").Value == "23" && d.Attribute("symbol").Value == "26"
                                select d).FirstOrDefault();
@@ -402,8 +403,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 // For performance reasons we avoid Xpath!
                 foreach (var outline in _page.Elements(outlineName))
                 {
-                    // the outline we are looking for has one <one:OEChildren> element with one <one:OE> element containing
-                    // a <one:Tag> with the given index
+                    // the outline we are looking for has one <one:OEChildren> element with
+                    // one <one:OE> element containing a <one:Tag> with the given index
                     if (_pageTagsOE == null)
                     {
                         XElement OEChildren = outline.Elements(_one.GetName("OEChildren")).FirstOrDefault();
@@ -418,6 +419,12 @@ namespace WetHatLab.OneNote.TaggingKit.common
                                 if (tag != null)
                                 { // found the outline with page tags, get the text element containing the tags
                                     _pageTagsOE = OE;
+                                    // delete the Indents as they tend to cause errors
+                                    XElement indents = outline.Element(_one.GetName("Indents"));
+                                    if (indents != null)
+                                    {
+                                        indents.Remove();
+                                    }
                                     continue;
                                 }
                             }
