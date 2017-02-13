@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,11 +23,13 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         }
 
         #region IComparable<TagModelKey>
+
         /// <summary>
         /// compare order two view models
         /// </summary>
         /// <param name="other">other key to compare against</param>
-        /// <returns>depending on the order of the view models relative to each other returns:
+        /// <returns>
+        /// depending on the order of the view models relative to each other returns:
         /// <list type="bullet">
         /// <item>a negative number if this key comes before the other key</item>
         /// <item>0 if both keys are equivalent</item>
@@ -37,9 +40,11 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         {
             return _tagKey.CompareTo(other._tagKey);
         }
-        #endregion IComparable<string>
+
+        #endregion IComparable<TagModelKey>
 
         #region IEquatable<TagModelKey>
+
         /// <summary>
         /// compare two key objects for equality
         /// </summary>
@@ -49,7 +54,8 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         {
             return _tagKey.Equals(other._tagKey);
         }
-        #endregion
+
+        #endregion IEquatable<TagModelKey>
 
         /// <summary>
         /// Get the hash code of a tag key
@@ -64,7 +70,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// compare two instances of a tag key for equality.
         /// </summary>
         /// <param name="obj">other tag key object</param>
-        /// <returns>true if botj tag keys are equal, false otherwise</returns>
+        /// <returns>true if both tag keys are equal, false otherwise</returns>
         public override bool Equals(object obj)
         {
             TagModelKey otherkey = obj as TagModelKey;
@@ -73,6 +79,6 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 return false;
             }
             return _tagKey.Equals(otherkey._tagKey);
-        } 
+        }
     }
 }
