@@ -1,5 +1,7 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -59,25 +61,42 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             else if ("RenameTag".Equals(rt.Tag))
             {
                 _model.SuggestedTags.RemoveAll(toRemove);
-                /// create new tag if it does not already exist
-                string newName = rt_mdl.LocalName;
 
-                if (!_model.SuggestedTags.ContainsKey(newName))
+                string[] newTagNames = (from tn in OneNotePageProxy.ParseTags(rt_mdl.LocalName) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(tn)).ToArray();
+
+                // create new tag models unless they already exist
+                List<RemovableTagModel> newTagModels = new List<RemovableTagModel>();
+                foreach (var newName in newTagNames)
                 {
-                    _model.SuggestedTags.AddAll(new RemovableTagModel[] { new RemovableTagModel() { Tag = new TagPageSet(newName) } });
+                    RemovableTagModel _tagmodel;
+                    if (!_model.SuggestedTags.TryGetValue(newName, out _tagmodel))
+                    {
+                        _tagmodel = new RemovableTagModel() { Tag = new TagPageSet(newName) };
+                        newTagModels.Add(_tagmodel);
+                    }
+                    else if (_tagmodel.Tag == null && rt_mdl.Tag != null)
+                    {
+                        _tagmodel.Tag = new TagPageSet(newName);
+                    }
+
+                    if (rt_mdl.Tag != null)
+                    {
+                        // copy the pages into the new tag - to update the tag count
+                        _tagmodel.UseCount = rt_mdl.Tag.Pages.Count;
+                    }
                 }
+                _model.SuggestedTags.AddAll(newTagModels);
 
                 if (rt_mdl.Tag != null)
                 {
-                    string[] toAdd = new string[] { newName };
                     // remove the old tag and add new tag to the pages
                     foreach (var tp in rt_mdl.Tag.Pages)
                     {
-                        _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toAdd, TagOperation.UNITE));
                         _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toRemove, TagOperation.SUBTRACT));
+                        _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, newTagNames, TagOperation.UNITE));
                     }
                     suggestedTags.Notification = rt_mdl.Tag.Pages.Count == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_TaggingInProgress, rt_mdl.Tag.Pages.Count);
-                    TraceLogger.Log(TraceCategory.Info(), "{0} page(s) enqueued for background tagging; Operation UNITE {1} SUBTRACT {2}", rt_mdl.Tag.Pages.Count, toAdd[0], toRemove[0]);
+                    TraceLogger.Log(TraceCategory.Info(), "{0} page(s) enqueued for background tagging; Operation UNITE {1} SUBTRACT {2}", rt_mdl.Tag.Pages.Count, string.Join(",", newTagNames), toRemove[0]);
                 }
                 else
                 {
@@ -163,6 +182,8 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                         }
                         pBar.Visibility = System.Windows.Visibility.Hidden;
                     }
+                    Properties.Settings.Default.Save();
+                    TraceLogger.Flush();
                     break;
             }
         }
