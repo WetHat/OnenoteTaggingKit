@@ -7,9 +7,12 @@ using WetHatLab.OneNote.TaggingKit.common;
 namespace WetHatLab.OneNote.TaggingKit.manage
 {
     /// <summary>
-    /// View model backing a <see cref="RemovableTag"/> user control.
+    /// View model backing a <see cref="RemovableTag" /> user control.
     /// </summary>
-    /// <remarks>Provides properties to enable/disable a tag for removal and to adjust the presentation of the corresponding UI element.</remarks>
+    /// <remarks>
+    /// Provides properties to enable/disable a tag for removal and to adjust the
+    /// presentation of the corresponding UI element.
+    /// </remarks>
     public class RemovableTagModel : SuggestedTagDataContext
     {
         internal static readonly PropertyChangedEventArgs USE_COUNT = new PropertyChangedEventArgs("UseCount");
@@ -30,7 +33,9 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <summary>
         /// Get or set the Tag for the view model.
         /// </summary>
-        /// <remarks>The tag is used to provide the page count (number of pages with this tag)</remarks>
+        /// <remarks>
+        /// The tag is used to provide the page count (number of pages with this tag)
+        /// </remarks>
         internal TagPageSet Tag
         {
             get
@@ -78,7 +83,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         public int UseCount
         {
             get { return _useCount; }
-            private set
+            internal set
             {
                 if (_useCount != value)
                 {
