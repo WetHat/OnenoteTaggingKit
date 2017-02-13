@@ -160,13 +160,7 @@ namespace WetHatLab.OneNote.TaggingKit
                             if (contextID == null)
                             {
                                 contextID = CurrentPageID;
-                                if (contextID == null)
-                                {
-                                    TraceLogger.Log(TraceCategory.Error(), "Unable determine OneNote version");
-                                    _schema = XMLSchema.xsCurrent;
-                                    return _schema;
-                                }
-                                else
+                                if (contextID != null)
                                 {
                                     TraceLogger.Log(TraceCategory.Info(), "Using current page to determine OneNote version");
                                 }
@@ -186,26 +180,35 @@ namespace WetHatLab.OneNote.TaggingKit
                         TraceLogger.Log(TraceCategory.Info(), "Using current notebook to determine OneNote version");
                     }
 
-                    foreach (XMLSchema s in new XMLSchema[] { XMLSchema.xs2013, XMLSchema.xs2010 })
+                    if (contextID != null)
                     {
-                        try
+                        foreach (XMLSchema s in new XMLSchema[] { XMLSchema.xs2013, XMLSchema.xs2010 })
                         {
-                            _schema = ExecuteMethodProtected<XMLSchema>(o =>
+                            try
                             {
-                                string outXml;
-                                o.GetHierarchy(contextID, HierarchyScope.hsSelf, out outXml, s);
-                                return s;
-                            });
+                                _schema = ExecuteMethodProtected<XMLSchema>(o =>
+                                {
+                                    string outXml;
+                                    o.GetHierarchy(contextID, HierarchyScope.hsSelf, out outXml, s);
+                                    return s;
+                                });
 
-                            // we can use this schema
-                            TraceLogger.Log(TraceCategory.Info(), "OneNote schema version is {0}", s);
-                            break;
+                                // we can use this schema
+                                TraceLogger.Log(TraceCategory.Info(), "OneNote schema version is {0}", s);
+                                break;
+                            }
+                            catch (COMException ce)
+                            {
+                                TraceLogger.Log(TraceCategory.Warning(), "Test of OneNote Schema Version {0} failed with {1}. Trying different version...", s, ce);
+                                TraceLogger.Flush();
+                            }
                         }
-                        catch (COMException ce)
-                        {
-                            TraceLogger.Log(TraceCategory.Info(), "Test of OneNote Schema Version {0} failed with {1}", s, ce);
-                            TraceLogger.Flush();
-                        }
+                    }
+
+                    if (_schema == XMLSchema.xs2007)
+                    {
+                        _schema = XMLSchema.xsCurrent;
+                        TraceLogger.Log(TraceCategory.Error(), "Schema detection failed! Trying to continue with default schema {0}", _schema);
                     }
                     TraceLogger.Flush();
                 }
