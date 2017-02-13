@@ -11,9 +11,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// An observable, sorted collection of items having sortable keys.
     /// </summary>
     /// <remarks>
-    /// Instances of this class provide change notification through <see cref="INotifyCollectionChanged"/> and can
-    /// take part in data binding to UI controls. This
-    /// class is optimized for batch updates (item collections). Single items cannot be added.
+    /// Instances of this class provide change notification through
+    /// <see cref="INotifyCollectionChanged" /> and can take part in data binding to UI
+    /// controls. This class is optimized for batch updates (item collections). Single
+    /// items cannot be added.
     /// </remarks>
     /// <typeparam name="TValue">item type providing sortable keys</typeparam>
     /// <typeparam name="TKey">unique key type</typeparam>
@@ -78,7 +79,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Try to retrieve a value from the list with a given key
         /// </summary>
-        /// <param name="key">key of the item</param>
+        /// <param name="key">  key of the item</param>
         /// <param name="value">found vale or null</param>
         /// <returns>true if a value was found for the key provided</returns>
         public bool TryGetValue(TKey key, out TValue value)
@@ -102,9 +103,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Clear all items from the collection.
         /// </summary>
-        /// <remarks>
-        /// Notifies all listeners about the change
-        /// </remarks>
+        /// <remarks>Notifies all listeners about the change</remarks>
         public void Clear()
         {
             _sortedList.Clear();
@@ -120,8 +119,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// Remove items from the collection in batches.
         /// </summary>
         /// <remarks>
-        /// Groups the given items into contiguous ranges of batches and removes
-        /// each batch at once, firing one change notification per batch.
+        /// Groups the given items into contiguous ranges of batches and removes each batch
+        /// at once, firing one change notification per batch.
         /// </remarks>
         /// <param name="keys">items to remove</param>
         internal void RemoveAll(IEnumerable<TKey> keys)
@@ -185,8 +184,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// Add items to the sorted collection in batches.
         /// </summary>
         /// <remarks>
-        /// Groups the given items into contiguous ranges of batches and adds
-        /// each batch at once, firing one change notification per batch.
+        /// Groups the given items into contiguous ranges of batches and adds each batch at
+        /// once, firing one change notification per batch.
         /// </remarks>
         /// <param name="items">items to add</param>
         internal void AddAll(IEnumerable<TValue> items)
@@ -201,8 +200,17 @@ namespace WetHatLab.OneNote.TaggingKit.common
 #if DEBUG
                     Debug.Assert(insertionPoint < 0, string.Format("Item with key {0} already present in list at index {1}", item.Key, insertionPoint));
 #endif
-                    _dictionary.Add(item.Key, item);
-                    toAdd.Add(new KeyValuePair<int, TValue>(~insertionPoint, item));
+                    if (insertionPoint < 0)
+                    {
+                        _dictionary.Add(item.Key, item);
+                        toAdd.Add(new KeyValuePair<int, TValue>(~insertionPoint, item));
+                    }
+                    else
+                    {
+                        TraceLogger.Log(TraceCategory.Error(), "List is inconsistency! Attempting to recover");
+                        TraceLogger.Flush();
+                        _dictionary.Add(item.Key, item);
+                    }
                 }
             }
             toAdd.Sort(_indexComparer);
@@ -217,6 +225,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 int lastItemIndex = toAdd.Count - 1;
                 KeyValuePair<int, TValue> itemToAdd = toAdd[lastItemIndex];
 
+                // add the first item to the batch
                 int insertionPoint = itemToAdd.Key;
                 batch.Add(new KeyValuePair<TSort, TValue>(itemToAdd.Value.SortKey, itemToAdd.Value));
 
