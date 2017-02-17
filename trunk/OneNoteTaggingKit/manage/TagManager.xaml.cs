@@ -68,21 +68,25 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                 List<RemovableTagModel> newTagModels = new List<RemovableTagModel>();
                 foreach (var newName in newTagNames)
                 {
-                    RemovableTagModel _tagmodel;
-                    if (!_model.SuggestedTags.TryGetValue(newName, out _tagmodel))
+                    RemovableTagModel tagmodel;
+                    if (!_model.SuggestedTags.TryGetValue(newName, out tagmodel))
                     {
-                        _tagmodel = new RemovableTagModel() { Tag = new TagPageSet(newName) };
-                        newTagModels.Add(_tagmodel);
+                        tagmodel = new RemovableTagModel() { Tag = new TagPageSet(newName) };
+                        newTagModels.Add(tagmodel);
                     }
-                    else if (_tagmodel.Tag == null && rt_mdl.Tag != null)
+                    else if (tagmodel.Tag == null && rt_mdl.Tag != null)
                     {
-                        _tagmodel.Tag = new TagPageSet(newName);
+                        tagmodel.Tag = new TagPageSet(newName);
                     }
 
                     if (rt_mdl.Tag != null)
                     {
-                        // copy the pages into the new tag - to update the tag count
-                        _tagmodel.UseCount = rt_mdl.Tag.Pages.Count;
+                        // copy the pages into the new tag and update the tag count
+                        foreach (var pg in rt_mdl.Tag.Pages)
+                        {
+                            tagmodel.Tag.Pages.Add(pg);
+                        }
+                        tagmodel.UseCount = tagmodel.Tag.Pages.Count;
                     }
                 }
                 _model.SuggestedTags.AddAll(newTagModels);
