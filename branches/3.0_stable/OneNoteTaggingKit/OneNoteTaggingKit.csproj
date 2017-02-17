@@ -1,0 +1,373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WetHatLab.OneNote.TaggingKit</RootNamespace>
+    <AssemblyName>OneNoteTaggingKit</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <ExpressionBlendVersion>5.0.40218.0</ExpressionBlendVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DocumentationFile>bin\Debug\OneNoteTaggingKit.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>WetHatOneNoteAddin.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="extensibility, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="PresentationUI" />
+    <Reference Include="ReachFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddInDialogManager.cs" />
+    <Compile Include="common\KeyedItems.cs" />
+    <Compile Include="common\ObservableDictionary.cs" />
+    <Compile Include="common\ObservableSortedList.cs" />
+    <Compile Include="common\OneNotePageProxy.cs" />
+    <Compile Include="common\SuggestedTagsSource.cs" />
+    <Compile Include="common\TagsAndPages.cs" />
+    <Compile Include="common\TaggedPage.cs" />
+    <Compile Include="common\TagPageSet.cs" />
+    <Compile Include="common\ui\AddInWindowsContracts.cs" />
+    <Compile Include="common\ui\HighlightedTagsPanel.xaml.cs">
+      <DependentUpon>HighlightedTagsPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="common\ui\ScopeSelector.xaml.cs">
+      <DependentUpon>ScopeSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="common\ui\TagInputBox.xaml.cs">
+      <DependentUpon>TagInputBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="common\ui\TagModelKey.cs" />
+    <Compile Include="common\TextSplitter.cs" />
+    <Compile Include="common\ui\WindowViewModelBase.cs" />
+    <Compile Include="COMReadonlyStreamAdapter.cs" />
+    <Compile Include="edit\HitHighlightedTagButton.xaml.cs">
+      <DependentUpon>HitHighlightedTagButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="edit\HitHighlightedTagButtonModel.cs" />
+    <Compile Include="edit\SimpleTagButton.xaml.cs">
+      <DependentUpon>SimpleTagButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="edit\SimpleTagButtonModel.cs" />
+    <Compile Include="edit\SimpleTagsPanel.xaml.cs">
+      <DependentUpon>SimpleTagsPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="edit\TagEditor.xaml.cs">
+      <DependentUpon>TagEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="edit\TagEditorDesignerModel.cs" />
+    <Compile Include="edit\TagEditorModel.cs" />
+    <Compile Include="find\FilterablePageCollection.cs" />
+    <Compile Include="find\FindTaggedPagesDesignerModel.cs" />
+    <Compile Include="find\HitHighlightedPageLink.xaml.cs">
+      <DependentUpon>HitHighlightedPageLink.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="find\HitHighlightedPageLinkDesignerModel.cs" />
+    <Compile Include="find\HitHighlightedPageLinkModel.cs" />
+    <Compile Include="find\TagSelector.xaml.cs">
+      <DependentUpon>TagSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="find\TagSelectorModel.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="manage\RemovableTag.xaml.cs">
+      <DependentUpon>RemovableTag.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="manage\RemovableTagModel.cs" />
+    <Compile Include="manage\TagManager.xaml.cs">
+      <DependentUpon>TagManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="manage\TagManagerDesignerModel.cs" />
+    <Compile Include="manage\TagManagerModel.cs" />
+    <Compile Include="nexus\AggregatedPageCollection.cs" />
+    <Compile Include="nexus\RelatedPageLink.xaml.cs">
+      <DependentUpon>RelatedPageLink.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="nexus\RelatedPageLinkDesignerModel.cs" />
+    <Compile Include="nexus\RelatedPageLinkModel.cs" />
+    <Compile Include="nexus\RelatedPages.xaml.cs">
+      <DependentUpon>RelatedPages.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="nexus\RelatedPagesDesignerModel.cs" />
+    <Compile Include="nexus\RelatedPagesModel.cs" />
+    <Compile Include="OneNoteProxy.cs" />
+    <Compile Include="Connect.cs" />
+    <Compile Include="find\FindTaggedPages.xaml.cs">
+      <DependentUpon>FindTaggedPages.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="find\FindTaggedPagesModel.cs" />
+    <Compile Include="Tagger\BackgroundTagger.cs" />
+    <Compile Include="Tagger\TaggingJob.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <None Include="WetHatOneNoteAddin.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ribbon.xml">
+      <SubType>Designer</SubType>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>7</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.OneNote">
+      <Guid>{0EA692EE-BB50-4E3C-AEF0-356D91732725}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ms-PublicLicense.rtf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.SQL.Server.Compact.4.0">
+      <Visible>False</Visible>
+      <ProductName>SQL Server Compact 4.0 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 4.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\tag 32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\settings 32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\tagSearch 32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="common\ui\HighlightedTagsPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="common\ui\ScopeSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="common\ui\TagInputBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="edit\HitHighlightedTagButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="edit\SimpleTagButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="edit\SimpleTagsPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="edit\TagEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="find\HitHighlightedPageLink.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="find\TagSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="manage\RemovableTag.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="manage\TagManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="find\FindTaggedPages.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="nexus\RelatedPageLink.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="nexus\RelatedPages.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\clear selection.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\kit.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\search-32x32 blue.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\copy-26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Add Tag 26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\refresh-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Remove Tag 26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\empty_filter-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\one_page-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\4-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Set Tag 26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\copy_link-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\tag 64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\tag128x128.png" />
+    <Resource Include="Resources\tagSearch128x128.png" />
+    <Resource Include="Resources\tagSettings128x128.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
