@@ -431,4 +431,7 @@ Tap or click link to navigate to page.</value>
   <data name="TaggingKit_About_Configuration" xml:space="preserve">
     <value>Configuration</value>
   </data>
+  <data name="FoundPages_MenuItem_MarkSelection" xml:space="preserve">
+    <value>Mark Selected Pages</value>
+  </data>
 </root>

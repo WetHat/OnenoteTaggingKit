@@ -84,6 +84,17 @@ namespace WetHatLab.OneNote.TaggingKit.find
                         foundPagesList.SelectAll();
                         break;
 
+                    case "MarkSelection":
+                        string[] marker = new string[] { "-✩-" };
+                        int pagesTagged = 0;
+                        foreach (var mdl in _model.Pages.Where((p) => p.IsSelected))
+                        {
+                            _model.OneNoteApp.TaggingService.Add(new Tagger.TaggingJob(mdl.PageID, marker, Tagger.TagOperation.UNITE));
+                            pagesTagged++;
+                        }
+                        tagsPanel.Notification = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_TaggingInProgress, pagesTagged);
+                        break;
+
                     case "CopyLinks":
                         string header =
 @"Version:0.9

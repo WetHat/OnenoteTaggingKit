@@ -1,7 +1,4 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
-////////////////////////////////////////////////////////////
-// Author: WetHat (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
-////////////////////////////////////////////////////////////
 using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
@@ -51,7 +48,7 @@ using System.Windows;
 //
 // You can specify all the values or you can default the Build and Revision Numbers by
 // using the '*' as shown below: [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.0.*")]
+[assembly: AssemblyVersion("3.1.*")]
 // removed the AssemblyFileVersion to force it to be equal to the AssemblyVersion
 // [assembly: AssemblyFileVersion("2.2.0.0")]
 [assembly: NeutralResourcesLanguageAttribute("")]
