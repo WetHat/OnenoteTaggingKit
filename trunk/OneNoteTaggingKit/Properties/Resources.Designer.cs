@@ -89,6 +89,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mark Selected Pages.
+        /// </summary>
+        public static string FoundPages_MenuItem_MarkSelection {
+            get {
+                return ResourceManager.GetString("FoundPages_MenuItem_MarkSelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refresh.
         /// </summary>
         public static string FoundPages_MenuItem_Refresh {

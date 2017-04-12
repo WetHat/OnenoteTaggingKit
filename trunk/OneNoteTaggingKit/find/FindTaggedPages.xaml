@@ -207,6 +207,18 @@
                         <Image Source="/OneNoteTaggingKit;component/Resources/copy_link-32.png" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.FoundPages_MenuItem_MarkSelection}}"
+                          Tag="MarkSelection"
+                          Click="Page_MenuItem_Click">
+                    <MenuItem.Icon>
+                        <TextBlock  Text="✩"
+                                    FontFamily="Segoe UI Symbol"
+                                    FontWeight="ExtraBold"
+                                    FontSize="20"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
         <StatusBar Grid.Row="5"
