@@ -434,4 +434,13 @@ Tap or click link to navigate to page.</value>
   <data name="FoundPages_MenuItem_MarkSelection" xml:space="preserve">
     <value>Mark Selected Pages</value>
   </data>
+  <data name="TagManager_PreferencesTab_DialogPreferences_UseWindowsSearch_Tooltip" xml:space="preserve">
+    <value>Uncheck this option on systems where the integration of OneNote with the Windows Search Service is broken (e.g after the Windows 10 creators update (1703))</value>
+  </data>
+  <data name="TagManager_PreferencesTab_OSGroup_Header" xml:space="preserve">
+    <value>Operating System Integration</value>
+  </data>
+  <data name="TagManager_PreferencesTab_OS_UseWindowsSearch" xml:space="preserve">
+    <value>Use Windows Search Service to find tagged pages (faster).</value>
+  </data>
 </root>

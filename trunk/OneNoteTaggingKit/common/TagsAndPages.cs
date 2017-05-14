@@ -84,10 +84,14 @@ namespace WetHatLab.OneNote.TaggingKit.common
         {
             // collect all page tags on pages which have page tags. Tag search appears to
             // be broken using work around
-            // ExtractTags(_onenote.FindPagesByMetadata(scopeID,
-            // OneNotePageProxy.META_NAME, includeUnindexedPages: includeUnindexedPages),
-            // selectedPagesOnly: false);
-            ExtractTags(_onenote.GetHierarchy(scopeID, HierarchyScope.hsPages), selectedPagesOnly: false, omitUntaggedPages: true);
+            if (Properties.Settings.Default.UseWindowsSearch)
+            {
+                ExtractTags(_onenote.FindPagesByMetadata(scopeID, OneNotePageProxy.META_NAME), selectedPagesOnly: false);
+            }
+            else
+            {
+                ExtractTags(_onenote.GetHierarchy(scopeID, HierarchyScope.hsPages), selectedPagesOnly: false, omitUntaggedPages: true);
+            }
 
             // attempt to automatically update the tag list, if we have collected all used tags
             HashSet<string> knownTags = new HashSet<String>(OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags));
