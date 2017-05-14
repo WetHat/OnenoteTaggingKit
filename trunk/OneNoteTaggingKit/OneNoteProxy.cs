@@ -220,23 +220,21 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <summary>
         /// Find pages by full text search
         /// </summary>
-        /// <param name="query">                query string</param>
-        /// <param name="scopeID">              
+        /// <param name="query">  query string</param>
+        /// <param name="scopeID">
         /// OneNote id of the scope to search for pages. This is the element ID of a
         /// notebook, section group, or section. If given as null or empty string scope is
         /// the entire set of notebooks open in OneNote.
         /// </param>
-        /// <param name="includeUnindexedPages">
-        /// true to include pages in the search which have not been indexed yet
-        /// </param>
-        public XDocument FindPages(string scopeID, string query, bool includeUnindexedPages = false)
+        /// <returns>XML page descriptors</returns>
+        public XDocument FindPages(string scopeID, string query)
         {
-            TraceLogger.Log(TraceCategory.Info(), "query={0}; Scope = {1}; includeUnindexedPages = {2}", query, scopeID, includeUnindexedPages);
+            TraceLogger.Log(TraceCategory.Info(), "query={0}; Scope = {1}", query, scopeID);
 
             return ExecuteMethodProtected<XDocument>(o =>
             {
                 string outXml;
-                o.FindPages(scopeID, query, out outXml, includeUnindexedPages, fDisplay: false, xsSchema: OneNoteSchema);
+                o.FindPages(scopeID, query, out outXml, false, fDisplay: false, xsSchema: OneNoteSchema);
                 return XDocument.Parse(outXml);
             });
         }
@@ -244,24 +242,21 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <summary>
         /// Find OneNote pages which have meta-data with a given key.
         /// </summary>
-        /// <param name="scopeID">              
+        /// <param name="scopeID">    
         /// search scope. The id of a node in the hierarchy (notebook, section group, or
         /// section) below which to search for content. If null or empty string, the search
         /// scope is the entire set of notebooks open in OneNote. for the search.
         /// </param>
-        /// <param name="metadataKey">          Key (name) of the meta-data</param>
-        /// <param name="includeUnindexedPages">
-        /// true to include pages not currently index by the Windows Search indexer
-        /// </param>
+        /// <param name="metadataKey">Key (name) of the meta-data</param>
         /// <returns>page descriptors of pages with the requested meta-data</returns>
-        public XDocument FindPagesByMetadata(string scopeID, string metadataKey, bool includeUnindexedPages = false)
+        public XDocument FindPagesByMetadata(string scopeID, string metadataKey)
         {
-            TraceLogger.Log(TraceCategory.Info(), "Scope = {0}; metaKey = {1}; includeUnindexedPages = {2}", scopeID, metadataKey, includeUnindexedPages);
+            TraceLogger.Log(TraceCategory.Info(), "Scope = {0}; metaKey = {1}", scopeID, metadataKey);
 
             return ExecuteMethodProtected<XDocument>(o =>
             {
                 string outXml;
-                o.FindMeta(scopeID, metadataKey, out outXml, includeUnindexedPages, OneNoteSchema);
+                o.FindMeta(scopeID, metadataKey, out outXml, false, OneNoteSchema);
 
                 return XDocument.Parse(outXml);
             });
