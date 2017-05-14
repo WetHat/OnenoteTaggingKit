@@ -256,12 +256,13 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <returns>page descriptors of pages with the requested meta-data</returns>
         public XDocument FindPagesByMetadata(string scopeID, string metadataKey, bool includeUnindexedPages = false)
         {
-            TraceLogger.Log(TraceCategory.Info(), "Scope = {0}; includeUnindexedPages = {1}", scopeID, includeUnindexedPages);
+            TraceLogger.Log(TraceCategory.Info(), "Scope = {0}; metaKey = {1}; includeUnindexedPages = {2}", scopeID, metadataKey, includeUnindexedPages);
 
             return ExecuteMethodProtected<XDocument>(o =>
             {
                 string outXml;
                 o.FindMeta(scopeID, metadataKey, out outXml, includeUnindexedPages, OneNoteSchema);
+
                 return XDocument.Parse(outXml);
             });
         }
