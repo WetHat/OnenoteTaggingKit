@@ -688,7 +688,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use Windows Search Service to find tagged pages (faster)..
+        ///   Looks up a localized string similar to Use Windows Search Service to find tagged pages..
         /// </summary>
         public static string TagManager_PreferencesTab_OS_UseWindowsSearch {
             get {

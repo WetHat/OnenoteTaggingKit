@@ -441,6 +441,6 @@ Tap or click link to navigate to page.</value>
     <value>Operating System Integration</value>
   </data>
   <data name="TagManager_PreferencesTab_OS_UseWindowsSearch" xml:space="preserve">
-    <value>Use Windows Search Service to find tagged pages (faster).</value>
+    <value>Use Windows Search Service to find tagged pages.</value>
   </data>
 </root>
