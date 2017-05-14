@@ -250,7 +250,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                                                             new XAttribute("y", "43"),
                                                             new XAttribute("z", "1")),
                                                new XElement(_one.GetName("Size"),
-                                                            new XAttribute("width", "210"),
+                                                            new XAttribute("width", "400"),
                                                             new XAttribute("height", "10"),
                                                             new XAttribute("isSetByUser", "true")),
                                                new XElement(_one.GetName("OEChildren"),
