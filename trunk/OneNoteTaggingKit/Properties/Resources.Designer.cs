@@ -661,6 +661,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Uncheck this option on systems where the integration of OneNote with the Windows Search Service is broken (e.g after the Windows 10 creators update (1703)).
+        /// </summary>
+        public static string TagManager_PreferencesTab_DialogPreferences_UseWindowsSearch_Tooltip {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_DialogPreferences_UseWindowsSearch_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dialog Preferences.
         /// </summary>
         public static string TagManager_PreferencesTab_DialogPreferencesGroup_Header {
@@ -675,6 +684,24 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TagManager_PreferencesTab_Header {
             get {
                 return ResourceManager.GetString("TagManager_PreferencesTab_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Windows Search Service to find tagged pages (faster)..
+        /// </summary>
+        public static string TagManager_PreferencesTab_OS_UseWindowsSearch {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_OS_UseWindowsSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operating System Integration.
+        /// </summary>
+        public static string TagManager_PreferencesTab_OSGroup_Header {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_OSGroup_Header", resourceCulture);
             }
         }
         
