@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,19 +9,19 @@ using WetHatLab.OneNote.TaggingKit.edit;
 
 namespace WetHatLab.OneNote.TaggingKit.common
 {
-
     /// <summary>
     /// Representation of an element in the hierarchy of the OneNote note tree
     /// </summary>
     /// <remarks>
-    /// Collections of instances of this class are typically used to describe a path to a OneNote page
+    /// Collections of instances of this class are typically used to describe a path to a
+    /// OneNote page
     /// </remarks>
     public class HierarchyElement : IKeyedItem<string>
     {
         /// <summary>
         /// create a new instance of an element in the OneNote object hierarchy.
         /// </summary>
-        /// <param name="id">unique element id</param>
+        /// <param name="id">  unique element id</param>
         /// <param name="name">user friendly element name</param>
         public HierarchyElement(string id, string name)
         {
@@ -34,6 +35,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         public string Name { get; private set; }
 
         #region IKeyedItem<string>
+
         /// <summary>
         /// get the unique key of this item
         /// </summary>
@@ -42,6 +44,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             get;
             private set;
         }
+
         #endregion IKeyedItem<string>
     }
 
@@ -50,24 +53,27 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// </summary>
     public class TaggedPage : IKeyedItem<string>
     {
-        bool _isSelected = false;
+        private bool _isSelected = false;
+
         /// <summary>
         /// OneNote hierarchy path to this page
         /// </summary>
-        IEnumerable<HierarchyElement> _path;
+        private IEnumerable<HierarchyElement> _path;
+
         /// <summary>
         /// Set of tags
         /// </summary>
-        ISet<TagPageSet> _tags = new HashSet<TagPageSet>();
+        private ISet<TagPageSet> _tags = new HashSet<TagPageSet>();
+
         /// <summary>
         /// page title
         /// </summary>
-        string _title;
+        private string _title;
 
         /// <summary>
         /// Names of tags as recorded in the page's meta section;
         /// </summary>
-        IEnumerable<string> _tagnames;
+        private IEnumerable<string> _tagnames;
 
         /// <summary>
         /// Create an internal representation of a page returned from FindMeta
@@ -93,7 +99,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             {
                 _tagnames = new string[0];
             }
-            
+
             // build the items path
             LinkedList<HierarchyElement> path = new LinkedList<HierarchyElement>();
             XElement e = page;
@@ -110,7 +116,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
             _path = path;
         }
-
 
         /// <summary>
         /// get the page's ID
@@ -133,7 +138,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Get the page's title.
         /// </summary>
-        public string Title {
+        public string Title
+        {
             get
             {
                 return _title;
@@ -143,7 +149,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 _title = value ?? String.Empty;
             }
         }
+
         #region IKeyedItem
+
         /// <summary>
         /// Get pages unique key suitable for hashing
         /// </summary>
@@ -151,13 +159,14 @@ namespace WetHatLab.OneNote.TaggingKit.common
         {
             get
             {
-                return  ID;
+                return ID;
             }
         }
+
         #endregion IKeyedItem
 
         /// <summary>
-        /// get the ollections of tags as recorded in the pages metadata
+        /// Get the collection of tags as recorded in the page's metadata.
         /// </summary>
         internal IEnumerable<string> TagNames
         {
@@ -177,6 +186,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 return _tags;
             }
         }
+
         /// <summary>
         /// Check two page objects for equality
         /// </summary>
