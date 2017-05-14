@@ -8,9 +8,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// Observable collections of tags and OneNote pages satisfying a search criterion.
     /// </summary>
     /// <remarks>
-    /// Provides a refineable unordered set of tags and pages. The page collection is
-    /// built by calling <see cref="FindTaggedPages"/> and can be progressively refined (filtered)
-    /// by adding filter tags (<see cref="AddTagToFilter"/>)
+    /// Provides a refineable unordered set of tags and pages. The page collection is built
+    /// by calling <see cref="FindTaggedPages" /> and can be progressively refined
+    /// (filtered) by adding filter tags ( <see cref="AddTagToFilter" />)
     /// </remarks>
     public class FilterablePageCollection : TagsAndPages
     {
@@ -43,16 +43,18 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// Find pages in OneNote.
         /// </summary>
         /// <remarks>
-        /// Calling this method may cause tags in the filter to become stale. It is the responsibility
-        /// of the caller to update tag objects it may have associated with the filter.
+        /// Calling this method may cause tags in the filter to become stale. It is the
+        /// responsibility of the caller to update tag objects it may have associated with
+        /// the filter.
         /// </remarks>
-        /// <param name="query">query string. if null or empty just the tags are provided</param>
-        /// <param name="scopeID">OneNote id of the scope to search for pages. This is the element ID of a notebook, section group, or section.
-        ///                       If given as null or empty string scope is the entire set of notebooks open in OneNote.
+        /// <param name="query">  query string. if null or empty just the tags are provided</param>
+        /// <param name="scopeID">
+        /// OneNote id of the scope to search for pages. This is the element ID of a
+        /// notebook, section group, or section. If given as null or empty string scope is
+        /// the entire set of notebooks open in OneNote.
         /// </param>
-        /// <param name="includeUnindexedPages">include pages which were not indexed so far</param>
-        /// <seealso cref="Filter"/>
-        internal void Find(string query, string scopeID, bool includeUnindexedPages = false)
+        /// <seealso cref="Filter" />
+        internal void Find(string query, string scopeID)
         {
             _filteredPages.Clear();
             _filterTags.Clear();
@@ -60,12 +62,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
             if (string.IsNullOrEmpty(query))
             {
                 // collect all tags used somewhere on a page
-                FindTaggedPages(scopeID, includeUnindexedPages);
+                FindTaggedPages(scopeID);
             }
             else
             {
                 // run a text search
-                FindTaggedPages(query, scopeID, includeUnindexedPages);
+                FindTaggedPages(query, scopeID);
             }
 
             // rebuild filter tags and filtered pages
@@ -133,8 +135,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// Filter pages by tag.
         /// </summary>
         /// <remarks>
-        ///   Filters pages down to a collection where all pages have this tag and also all tags from preceding
-        ///   calls to this method.
+        /// Filters pages down to a collection where all pages have this tag and also all
+        /// tags from preceding calls to this method.
         /// </remarks>
         /// <param name="tagName">tag to filter on</param>
         internal void AddTagToFilter(string tagName)

@@ -1,7 +1,4 @@
-﻿////////////////////////////////////////////////////////////
-// Author: WetHat
-// (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
-////////////////////////////////////////////////////////////
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Collections.Generic;
@@ -83,13 +80,14 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// notebook, section group, or section. If given as null or empty string scope is
         /// the entire set of notebooks open in OneNote.
         /// </param>
-        /// <param name="includeUnindexedPages">
-        /// true to include pages in the search which have not been indexed yet
-        /// </param>
-        internal void FindTaggedPages(string scopeID, bool includeUnindexedPages = false)
+        internal void FindTaggedPages(string scopeID)
         {
-            // collect all page tags on pages which have page tags.
-            ExtractTags(_onenote.FindPagesByMetadata(scopeID, OneNotePageProxy.META_NAME, includeUnindexedPages: false), selectedPagesOnly: false);
+            // collect all page tags on pages which have page tags. Tag search appears to
+            // be broken using work around
+            // ExtractTags(_onenote.FindPagesByMetadata(scopeID,
+            // OneNotePageProxy.META_NAME, includeUnindexedPages: includeUnindexedPages),
+            // selectedPagesOnly: false);
+            ExtractTags(_onenote.GetHierarchy(scopeID, HierarchyScope.hsPages), selectedPagesOnly: false, omitUntaggedPages: true);
 
             // attempt to automatically update the tag list, if we have collected all used tags
             HashSet<string> knownTags = new HashSet<String>(OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags));
@@ -112,18 +110,15 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Find pages by full text search
         /// </summary>
-        /// <param name="query">                query string</param>
+        /// <param name="query">  query string</param>
         /// <param name="scopeID">
         /// OneNote id of the scope to search for pages. This is the element ID of a
         /// notebook, section group, or section. If given as null or empty string scope is
         /// the entire set of notebooks open in OneNote.
         /// </param>
-        /// <param name="includeUnindexedPages">
-        /// true to include pages in the search which have not been indexed yet
-        /// </param>
-        internal void FindTaggedPages(string query, string scopeID, bool includeUnindexedPages = false)
+        internal void FindTaggedPages(string query, string scopeID)
         {
-            ExtractTags(_onenote.FindPages(scopeID, query, includeUnindexedPages), selectedPagesOnly: false);
+            ExtractTags(_onenote.FindPages(scopeID, query), selectedPagesOnly: false);
         }
 
         /// <summary>
@@ -157,9 +152,12 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Extract tags from page descriptors.
         /// </summary>
-        /// <param name="pageDescriptors">XML document describing pages in the OneNote hierarchy</param>
+        /// <param name="pageDescriptors">  
+        /// XML document describing pages in the OneNote hierarchy or search result.
+        /// </param>
         /// <param name="selectedPagesOnly">true to process only pages selected by user</param>
-        internal void ExtractTags(XDocument pageDescriptors, bool selectedPagesOnly)
+        /// <param name="omitUntaggedPages">drip untagged pages</param>
+        internal void ExtractTags(XDocument pageDescriptors, bool selectedPagesOnly, bool omitUntaggedPages = false)
         {
             // parse the search results
             _tags.Clear();
@@ -177,9 +175,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
                         continue;
                     }
                     // assign Tags
-
+                    int tagcount = 0;
                     foreach (string tagname in tp.TagNames)
                     {
+                        tagcount++;
                         TagPageSet t;
 
                         if (!tags.TryGetValue(tagname, out t))
@@ -190,10 +189,14 @@ namespace WetHatLab.OneNote.TaggingKit.common
                         t.AddPage(tp);
                         tp.Tags.Add(t);
                     }
-                    _pages.Add(tp.Key, tp);
+                    if (!omitUntaggedPages || tagcount > 0)
+                    {
+                        _pages.Add(tp.Key, tp);
+                    }
                 }
                 // bulk update for performance reasons
                 _tags.UnionWith(tags.Values);
+                TraceLogger.Log(TraceCategory.Info(), "Extracted {0} tags from {1} pages.", _tags.Count, _pages.Count);
             }
             catch (Exception ex)
             {

@@ -15,7 +15,8 @@ using WetHatLab.OneNote.TaggingKit.common.ui;
 namespace WetHatLab.OneNote.TaggingKit.find
 {
     /// <summary>
-    /// Contract for view models of the <see cref="WetHatLab.OneNote.TaggingKit.find.FindTaggedPages"/> windows
+    /// Contract for view models of the
+    /// <see cref="WetHatLab.OneNote.TaggingKit.find.FindTaggedPages" /> windows
     /// </summary>
     internal interface ITagSearchModel
     {
@@ -149,7 +150,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 _highlighter = new TextSplitter();
             }
 
-            await Task.Run(() => _searchResult.Find(query, LastScopeID, includeUnindexedPages: false), _cancelWorker.Token);
+            await Task.Run(() => _searchResult.Find(query, LastScopeID), _cancelWorker.Token);
             // restore filter tag selection
             foreach (string filterTag in _searchResult.Filter)
             {
@@ -177,7 +178,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
-        ///  Get the default scope
+        /// Get the default scope
         /// </summary>
         public SearchScope DefaultScope
         {
@@ -240,7 +241,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
         private string _currentPageTitle;
 
         /// <summary>
-        ///
         /// </summary>
         public string CurrentPageTitle
         {
@@ -400,7 +400,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
     /// <summary>
     /// A collection of tags represented by data context objects implementing the
-    /// <see cref="IHighlightableTagDataContext"/> contract.
+    /// <see cref="IHighlightableTagDataContext" /> contract.
     /// </summary>
     [ComVisible(false)]
     public class TagSource : ObservableSortedList<TagModelKey, string, TagSelectorModel>, ITagSource
