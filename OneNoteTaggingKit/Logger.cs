@@ -110,7 +110,7 @@ namespace WetHatLab.OneNote.TaggingKit
                                                       MessageBoxImage.Error);
             if (result == MessageBoxResult.OK)
             { // browse to the troubleshooting tips
-                string wikipage = "Troubleshooting%20Tips";
+                string wikipage = "Troubleshooting-Tips";
 
                 COMException ce = ex as COMException;
                 if (ce != null)

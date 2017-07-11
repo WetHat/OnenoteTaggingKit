@@ -134,7 +134,7 @@
     <value>..\resources\tag 32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TaggingKit_About_AddIn_Website" xml:space="preserve">
-    <value>https://onenotetaggingkit.codeplex.com/</value>
+    <value>https://github.com/WetHat/OnenoteTaggingKit/wiki</value>
   </data>
   <data name="TaggingKit_About_Appname" xml:space="preserve">
     <value>OneNote Tagging Kit</value>
@@ -329,7 +329,7 @@ Sorry for the inconvenience!</value>
     <value>Creation of dialog window failed</value>
   </data>
   <data name="TaggingKit_Wiki_Page" xml:space="preserve">
-    <value>https://onenotetaggingkit.codeplex.com/wikipage?title={0}</value>
+    <value>https://github.com/WetHat/OnenoteTaggingKit/wiki/{0}</value>
   </data>
   <data name="TagSearch_Error_Find" xml:space="preserve">
     <value>Search failed</value>
