@@ -1,0 +1,446 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ribbon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\ribbon.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="settings_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\settings 32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TagEditor_Tags_GroupBox_Title" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="TagEditor_Tags_GroupBox_ToolTip" xml:space="preserve">
+    <value>Tags to apply to one or more pages.</value>
+  </data>
+  <data name="tag_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tag 32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TaggingKit_About_AddIn_Website" xml:space="preserve">
+    <value>https://onenotetaggingkit.codeplex.com/</value>
+  </data>
+  <data name="TaggingKit_About_Appname" xml:space="preserve">
+    <value>OneNote Tagging Kit</value>
+  </data>
+  <data name="TaggingKit_About_Copyright" xml:space="preserve">
+    <value>Copyright (c) 2013-2017 WetHat Lab</value>
+  </data>
+  <data name="TaggingKit_About_Description" xml:space="preserve">
+    <value>OneNote Add-In for flexible tagging of OneNote pages</value>
+  </data>
+  <data name="TagManager_AboutTab_Header" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="TagManager_NewTagButton_Tooltip" xml:space="preserve">
+    <value>Tap or click to add tag to suggestions</value>
+  </data>
+  <data name="TagManager_NewTagTextbox_Tooltip" xml:space="preserve">
+    <value>Type one or more tags separated by ','. Press 'Enter' to add.</value>
+  </data>
+  <data name="TagManager_TagSuggestionsTab_Header" xml:space="preserve">
+    <value>Suggested Tags</value>
+  </data>
+  <data name="TagManager_TagSuggestionsTab_Tooltip" xml:space="preserve">
+    <value>Add new or remove unused tags available as suggestions in the tag editor. </value>
+  </data>
+  <data name="TagManager_Window_Title" xml:space="preserve">
+    <value>Manage Settings</value>
+  </data>
+  <data name="TagSearch_Scope_AllNotebooks_Label" xml:space="preserve">
+    <value>All Notebooks</value>
+  </data>
+  <data name="TagSearch_Scope_Notebook_Label" xml:space="preserve">
+    <value>This Notebook</value>
+  </data>
+  <data name="TagSearch_Scope_SectionGroup_Label" xml:space="preserve">
+    <value>This Section Group</value>
+  </data>
+  <data name="TagSearch_Scope_Section_Label" xml:space="preserve">
+    <value>This Section</value>
+  </data>
+  <data name="TagSearch_Pages_GroupBox_Title" xml:space="preserve">
+    <value>Found Pages</value>
+  </data>
+  <data name="TagSearch_Pages_GroupBox_Tooltip" xml:space="preserve">
+    <value>Pages marked with all selected tags </value>
+  </data>
+  <data name="TagSearch_Tags_GroupBox_Title" xml:space="preserve">
+    <value>Refinement Tags</value>
+  </data>
+  <data name="TagSearch_Tags_GroupBox_Tooltip" xml:space="preserve">
+    <value>Select one or more tags to show only pages having these tags.</value>
+  </data>
+  <data name="TagSearch_Window_Title" xml:space="preserve">
+    <value>Find Tagged Pages</value>
+  </data>
+  <data name="tagSearch_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tagsearch 32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TagSearch_ClearSelection_Button_Tooltip" xml:space="preserve">
+    <value>Tap to clear tag selection</value>
+  </data>
+  <data name="TagSearch_Scope_ComboBox_Tooltip" xml:space="preserve">
+    <value>Pick a scope to look for tagged pages</value>
+  </data>
+  <data name="TagSearch_Query_ComboBox_Tooltip" xml:space="preserve">
+    <value>Enter query and press enter to start search.</value>
+  </data>
+  <data name="TagSelector_Tooltip" xml:space="preserve">
+    <value>Tap or click to add or remove this tag from the filter.</value>
+  </data>
+  <data name="TaggingKit_Error_VersionLookup" xml:space="preserve">
+    <value>OneNote version lookup failed</value>
+  </data>
+  <data name="TaggingKit_ErrorBox_Title" xml:space="preserve">
+    <value>Severe {0}  Add-In Error</value>
+  </data>
+  <data name="copy_26" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\copy-26.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TagManager_ContextMenu_Copy" xml:space="preserve">
+    <value>Copy Tags</value>
+  </data>
+  <data name="RemoveTag_Button_Tooltip" xml:space="preserve">
+    <value>Tap or click to remove this tag from the list of selected tags.</value>
+  </data>
+  <data name="TagEditor_Suggestions_GroupBox_Title" xml:space="preserve">
+    <value>Suggested Tags</value>
+  </data>
+  <data name="TagEditor_Suggestions_GroupBox_Tooltip" xml:space="preserve">
+    <value>Tags you can add or remove from pages.</value>
+  </data>
+  <data name="refresh_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\refresh-32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TagEditor_Window_Title" xml:space="preserve">
+    <value>Tag Pages</value>
+  </data>
+  <data name="TagEditor_AddTags_Button_Tooltip" xml:space="preserve">
+    <value>Tap or click to add tags to the selected range of OneNote pages</value>
+  </data>
+  <data name="TagEditor_RemoveTags_Button_Tooltip" xml:space="preserve">
+    <value>Tap or click to remove the selected tags from a range of OneNote pages.</value>
+  </data>
+  <data name="TagEditor_ClearTags_Button_Tooltip" xml:space="preserve">
+    <value>Tap or click to clear tag selection.</value>
+  </data>
+  <data name="TagEditor_HithighlightedTag_Button_Tooltip" xml:space="preserve">
+    <value>Tap or click to select this tag.</value>
+  </data>
+  <data name="TagEditor_Tag_TextBox_Tooltip" xml:space="preserve">
+    <value>Type one or more tags separated by comma ',' and press 'Enter', or select from the list of tags matching the text you typed.</value>
+  </data>
+  <data name="TagInputBox_Filter_MenuItem_CurrentNote" xml:space="preserve">
+    <value>Tags from Current Page</value>
+  </data>
+  <data name="TagInputBox_Filter_MenuItem_CurrentSection" xml:space="preserve">
+    <value>Tags from Current Section</value>
+  </data>
+  <data name="TagInputBox_Filter_MenuItem_SelectedNotes" xml:space="preserve">
+    <value>Tags from Selected Pages</value>
+  </data>
+  <data name="TagInputBox_Input_Default" xml:space="preserve">
+    <value>Type a Tag.</value>
+  </data>
+  <data name="TagInputBox_Filter_Menu_Tooltip" xml:space="preserve">
+    <value>Add tags found on a range of OneNote pages to the input box</value>
+  </data>
+  <data name="TagEditor_ComboBox_Scope_CurrentNote" xml:space="preserve">
+    <value>Current Page</value>
+  </data>
+  <data name="TagEditor_ComboBox_Scope_SelectedNotes" xml:space="preserve">
+    <value>Selected Pages</value>
+  </data>
+  <data name="TagEditor_ComboBox_Scope_Tooltip" xml:space="preserve">
+    <value>Range of OneNote pages the tags will be applied to.</value>
+  </data>
+  <data name="TagInputBox_Popup_PresetNoResult" xml:space="preserve">
+    <value>No tags were found in the selected scope!</value>
+  </data>
+  <data name="TagEditor_Popup_NothingTagged" xml:space="preserve">
+    <value>No Pages were tagged! Please select a range that contains at least one page and try again.</value>
+  </data>
+  <data name="TagEditor_WarningMessageBox_Title" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="TagInputBox_ClearInput_Button_Tooltip" xml:space="preserve">
+    <value>Tap or click to clear tag input.</value>
+  </data>
+  <data name="TagInputBox_PresetsMenu_Header" xml:space="preserve">
+    <value>Presets</value>
+  </data>
+  <data name="TagEditor_SetTags_Button_Tooltip" xml:space="preserve">
+    <value>Tap or click to replace the tags on a range of OneNote pages with the selected tags.</value>
+  </data>
+  <data name="TagEditor_ComboBox_Scope_CurrentSection" xml:space="preserve">
+    <value>Current Section</value>
+  </data>
+  <data name="TagEditor_Popup_TaggingInProgress" xml:space="preserve">
+    <value>{0} page(s) added to the background tagging queue.
+
+OneNote may be less responsive while tagging is in progress.</value>
+  </data>
+  <data name="TaggingKit_ErrorBox_GenericSevereError" xml:space="preserve">
+    <value>{0}! »{1}«
+
+Click OK to browse troubleshooting tips and known issues. Click CANCEL to continue.
+
+If this is a new issue, please consider reporting it. Describe what you were trying to do and attach the add-in log file
+»{2}«
+
+Sorry for the inconvenience!</value>
+  </data>
+  <data name="TaggingKit_About_Framework" xml:space="preserve">
+    <value>.Net Framework</value>
+  </data>
+  <data name="TaggingKit_About_Logfile" xml:space="preserve">
+    <value>Logfile</value>
+  </data>
+  <data name="TaggingKit_About_Website" xml:space="preserve">
+    <value>Web</value>
+  </data>
+  <data name="TagEditor_Filter_Error" xml:space="preserve">
+    <value>Filter failed</value>
+  </data>
+  <data name="TagEditor_Input_Error" xml:space="preserve">
+    <value>Processing input failed</value>
+  </data>
+  <data name="TagEditor_TagUpdate_Error" xml:space="preserve">
+    <value>Updating page tags failed</value>
+  </data>
+  <data name="TagEditor_Error_WindowCreation" xml:space="preserve">
+    <value>Creation of dialog window failed</value>
+  </data>
+  <data name="TaggingKit_Wiki_Page" xml:space="preserve">
+    <value>https://onenotetaggingkit.codeplex.com/wikipage?title={0}</value>
+  </data>
+  <data name="TagSearch_Error_Find" xml:space="preserve">
+    <value>Search failed</value>
+  </data>
+  <data name="TagSearch_Error_PageNavigation" xml:space="preserve">
+    <value>Navigation to page failed</value>
+  </data>
+  <data name="TagSearch_Error_ScopeChange" xml:space="preserve">
+    <value>Changing search scope failed</value>
+  </data>
+  <data name="TagSearch_TagInput_Tooltip" xml:space="preserve">
+    <value>Type one or more names separated by comma ',' to locate matching tags in the refinement tags panel</value>
+  </data>
+  <data name="FoundPages_MenuItem_CopyLinks" xml:space="preserve">
+    <value>Copy Links to Pages</value>
+  </data>
+  <data name="TagSearch_Error_CopyLink" xml:space="preserve">
+    <value>Copying link to page failed</value>
+  </data>
+  <data name="TagManager_SuggestedTags_Header" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="TagSelector_FilterIndicator_Tooltip" xml:space="preserve">
+    <value>This tag is selected for filtering</value>
+  </data>
+  <data name="TagSelector_PageCount_Tooltip" xml:space="preserve">
+    <value>{0} of {1} pages tagged with '{2}' match the tag filter</value>
+  </data>
+  <data name="TagSearch_CheckBox_Tracking_Text" xml:space="preserve">
+    <value>← Check to turn on tag tracking</value>
+  </data>
+  <data name="TagSearch_StatusBar_Tooltip" xml:space="preserve">
+    <value>When tracking is on, tags from the current page are highlighted and the title of the current page is displayed in the status bar. Select one ore more of the highlighted tags to filter for pages related to the current page.</value>
+  </data>
+  <data name="TagEditor_NoTagsSelectedWarning" xml:space="preserve">
+    <value>No tags have been selected! This operation will not change anything.</value>
+  </data>
+  <data name="FoundPages_MenuItem_Deselect_All" xml:space="preserve">
+    <value>Clear  Selection</value>
+  </data>
+  <data name="FoundPages_MenuItem_Select_All" xml:space="preserve">
+    <value>Select All</value>
+  </data>
+  <data name="TagManager_PreferencesTab_Header" xml:space="preserve">
+    <value>Preferences</value>
+  </data>
+  <data name="TagManager_PreferencesTab_Tooltip" xml:space="preserve">
+    <value>Change Add-In Appearance and Behavior</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DialogPreferencesGroup_Header" xml:space="preserve">
+    <value>Dialog Preferences</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DialogPreferences_TagEditorOnTop" xml:space="preserve">
+    <value>'Tag Pages' dialog always on top</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DialogPreferences_TagEditorOnTopTooltip" xml:space="preserve">
+    <value>When checked, the 'Tag Pages' dialog is always on top of all other windows</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DialogPreferences_TagSearchOnTop" xml:space="preserve">
+    <value>'Find Tagged Pages' dialog always on top</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DialogPreferences_TagSearchOnTopTooltip" xml:space="preserve">
+    <value>When checked, the 'Find Tagged Pages' dialog is always on top of all other windows</value>
+  </data>
+  <data name="TagManager_Menu_Tooltip" xml:space="preserve">
+    <value>Tap or click to show actions for suggested tags</value>
+  </data>
+  <data name="TagSearch_Pages_Menu_Tooltip" xml:space="preserve">
+    <value>Tap to show actions for found pages</value>
+  </data>
+  <data name="TagSearch_PageItem_Tooltip" xml:space="preserve">
+    <value>Tap or click '❱' to select item.
+Tap or click link to navigate to page.</value>
+  </data>
+  <data name="TagManager_TagSuggestions_MenuItem_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="TagManager_TagSuggestions_MenuItem_Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="TagManager_TagSuggestions_MenuItem_Delete" xml:space="preserve">
+    <value>Delete Tag</value>
+  </data>
+  <data name="TagManager_TagSuggestions_MenuItem_Delete_Tooltip" xml:space="preserve">
+    <value>Delete this tag from the tag suggestions list and all pages</value>
+  </data>
+  <data name="TagManager_TagSuggestions_MenuItem_Rename" xml:space="preserve">
+    <value>Rename Tag</value>
+  </data>
+  <data name="TagManager_TagSuggestions_MenuItem_Rename_Tooltip" xml:space="preserve">
+    <value>Rename this tag on the tag suggestions list and on all pages</value>
+  </data>
+  <data name="FoundPages_MenuItem_Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="SuggestedTag_Menu_Tooltip" xml:space="preserve">
+    <value>Tap or Click to show available actions.</value>
+  </data>
+  <data name="TaggingKit_About_Configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="FoundPages_MenuItem_MarkSelection" xml:space="preserve">
+    <value>Mark Selected Pages</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DialogPreferences_UseWindowsSearch_Tooltip" xml:space="preserve">
+    <value>Uncheck this option on systems where the integration of OneNote with the Windows Search Service is broken (e.g after the Windows 10 creators update (1703))</value>
+  </data>
+  <data name="TagManager_PreferencesTab_OSGroup_Header" xml:space="preserve">
+    <value>Operating System Integration</value>
+  </data>
+  <data name="TagManager_PreferencesTab_OS_UseWindowsSearch" xml:space="preserve">
+    <value>Use Windows Search Service to find tagged pages.</value>
+  </data>
+</root>
