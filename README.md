@@ -1,7 +1,7 @@
 # OneNote Tagging Kit Add-In
 
-A free to-use add-in to add page tagging to OneNote for the desktop. Page taggs are based on the built-in OneNote
-tagging system and are shared to all connected OneNote cliens.
+A free to-use add-in to add page tagging to OneNote for the desktop. Page tags are based on the built-in OneNote
+tagging system and are shared to all connected OneNote clients.
 
 ## Feature Summary:
 
@@ -11,8 +11,15 @@ tagging system and are shared to all connected OneNote cliens.
 * Full compatibility with built-in OneNote tagging system, even if add-in is not installed.
 * Locating notes related to the OneNote page currently being viewed
 
-For system requirements, installation instructions, and user guide (with screenshots), please see the project documentation.
+Background information about tagging in general: [Why is Tagging Useful](https://github.com/WetHat/OnenoteTaggingKit/wiki/Use-of-Tags)
 
-For release notes about available releases, take a look at the Downloads section.
+For system requirements, installation instructions, and user guide,
+please see the [project wiki](https://github.com/WetHat/OnenoteTaggingKit/wiki).
 
-If you think the tagging kit is not working as it should, or if you have ideas for improvements, please create a new issue or check the toubleshooting tips
+For current and historical releases, check the [Releases](https://github.com/WetHat/OnenoteTaggingKit/releases) page.
+
+If you think the tagging kit is not working as it should, please check the [troubleshooting tips](https://github.com/WetHat/OnenoteTaggingKit/wiki/Troubleshooting-Tips)
+
+Any ideas for improvements? Please create a [feature request](https://github.com/WetHat/OnenoteTaggingKit/issues)
+
+![Logo](https://github.com/WetHat/OnenoteTaggingKit/wiki/images/logo100x100.png)
