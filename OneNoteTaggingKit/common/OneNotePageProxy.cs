@@ -283,7 +283,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
             // index="1" name="Test Tag 2" type="1" symbol="0" />
             IDictionary<string, string> tagToIndexMap = new Dictionary<string, string>();
             foreach (XElement tagdef in tagDefs.Where(d => d.Attribute("symbol").Value == "0"
-                                                      && _originalTags.Contains(d.Attribute("name").Value)))
+                                                      && (_originalTags.Contains(d.Attribute("name").Value)
+                                                          || "#808083".Equals(d.Attribute("fontColor").Value))))
             {
                 tagToIndexMap[tagdef.Attribute("name").Value] = tagdef.Attribute("index").Value;
                 // make sure type is equal to index so that type is unique
