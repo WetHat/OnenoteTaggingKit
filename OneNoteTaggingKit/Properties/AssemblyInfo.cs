@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("WetHat Lab")]
 [assembly: AssemblyProduct("OneNoteTaggingKit")]
-[assembly: AssemblyCopyright("Copyright © 2013-2016")]
+[assembly: AssemblyCopyright("Copyright © 2013-2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
