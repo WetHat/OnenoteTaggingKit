@@ -1,9 +1,9 @@
 # TagManagerModel Constructor 
  _**\[This is preliminary documentation and is subject to change.\]**_
 
-Create a new instance of the view model backing the <a href="1dd95e73-f701-a92b-b3f8-90e215d5c4ed">TagManager</a> dialog.
+Initializes a new instance of the <a href="0501014e-b454-6ea6-53dd-ea5cf4e8e537">TagManagerModel</a> class
 
-**Namespace:**&nbsp;<a href="6c09c3a7-2ecd-33d5-2ed0-acefd996500f">WetHatLab.OneNote.TaggingKit.manage</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 3.2.6524.26703
+**Namespace:**&nbsp;<a href="6c09c3a7-2ecd-33d5-2ed0-acefd996500f">WetHatLab.OneNote.TaggingKit.manage</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 3.3.6631.38362
 
 ## Syntax
 
@@ -16,7 +16,7 @@ internal TagManagerModel(
 
 
 #### Parameters
-&nbsp;<dl><dt>onenote</dt><dd>Type: <a href="a46a793f-b110-250f-657a-ecb64aa3bbf7">WetHatLab.OneNote.TaggingKit.OneNoteProxy</a><br />OneNote application object</dd></dl>
+&nbsp;<dl><dt>onenote</dt><dd>Type: <a href="a46a793f-b110-250f-657a-ecb64aa3bbf7">WetHatLab.OneNote.TaggingKit.OneNoteProxy</a><br /></dd></dl>
 
 ## See Also
 
