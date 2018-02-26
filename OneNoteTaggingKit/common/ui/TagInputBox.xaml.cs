@@ -14,7 +14,7 @@ using System.Windows.Media;
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
     /// <summary>
-    /// Event details for the <see cref="E:TagInputBox.TagInput"/> event
+    /// Event details for the <see cref="E:TagInputBox.TagInput" /> event
     /// </summary>
     [ComVisible(false)]
     public class TagInputEventArgs : RoutedEventArgs
@@ -28,8 +28,8 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// Create a new instance of the event details
         /// </summary>
-        /// <param name="routedEvent">routed event which fired</param>
-        /// <param name="source">object which fired the event</param>
+        /// <param name="routedEvent"> routed event which fired</param>
+        /// <param name="source">      object which fired the event</param>
         /// <param name="enterPressed">true if tag input is complete; false otherwise</param>
         internal TagInputEventArgs(RoutedEvent routedEvent, object source, bool enterPressed)
             : base(routedEvent, source)
@@ -39,10 +39,10 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     }
 
     /// <summary>
-    /// handlers for the <see cref="E:TagInputBox.TagInput"/> event
+    /// handlers for the <see cref="E:TagInputBox.TagInput" /> event
     /// </summary>
     /// <param name="sender">object emitting the event</param>
-    /// <param name="e">event details</param>
+    /// <param name="e">     event details</param>
     public delegate void TagInputEventHandler(object sender, TagInputEventArgs e);
 
     /// <summary>
@@ -52,12 +52,12 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     public partial class TagInputBox : UserControl
     {
         /// <summary>
-        /// Routed event fired for changes to the <see cref="Tags"/> property
+        /// Routed event fired for changes to the <see cref="Tags" /> property
         /// </summary>
         public static readonly RoutedEvent TagInputEvent = EventManager.RegisterRoutedEvent("TagInput", RoutingStrategy.Bubble, typeof(TagInputEventHandler), typeof(TagInputBox));
 
         /// <summary>
-        /// Routed event fired for changes to the <see cref="Tags"/> property
+        /// Routed event fired for changes to the <see cref="Tags" /> property
         /// </summary>
         public event TagInputEventHandler TagInput
         {
@@ -118,7 +118,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         {
             get
             {
-                return from t in OneNotePageProxy.ParseTags(tagInput.Text) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(t);
+                return from t in OneNotePageProxy.ParseTags(tagInput.Text) select t;
             }
             set
             {

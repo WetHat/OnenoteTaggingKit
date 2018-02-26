@@ -120,7 +120,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 // normalize tags
                 for (int i = 0; i < parsedTags.Length; i++)
                 {
-                    parsedTags[i] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(parsedTags[i].Trim());
+                    parsedTags[i] = parsedTags[i].Trim();
                 }
                 return parsedTags;
             }
@@ -297,7 +297,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
 
             // add new tag definitions, if needed
-            foreach (string tag in _tags)
+            foreach (string tag in PageTags)
             {
                 string strIndex;
                 if (!tagToIndexMap.TryGetValue(tag, out strIndex))
@@ -334,7 +334,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 }
             }
 
-            string strTags = string.Join(", ", _tags);
+            string strTags = string.Join(", ", PageTags);
 
             // create the <one:Meta> element for page tags, if needed
             if (_meta == null && _tags.Length > 0)

@@ -161,7 +161,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     IEnumerable<string> tags = tagInput.Tags;
                     if (e.TagInputComplete)
                     {
-                        _model.PageTags.AddAll(from t in tags where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(t));
+                        _model.PageTags.AddAll(from t in tags where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(TagFormatter.Format(t)));
                         tagInput.Clear();
                     }
                     suggestedTags.Highlighter = new TextSplitter(tagInput.Tags);

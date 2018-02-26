@@ -62,7 +62,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             {
                 _model.SuggestedTags.RemoveAll(toRemove);
 
-                string[] newTagNames = (from tn in OneNotePageProxy.ParseTags(rt_mdl.LocalName) select CultureInfo.CurrentCulture.TextInfo.ToTitleCase(tn)).ToArray();
+                string[] newTagNames = (from tn in OneNotePageProxy.ParseTags(rt_mdl.LocalName) select TagFormatter.Format(tn)).ToArray();
 
                 // create new tag models unless they already exist
                 List<RemovableTagModel> newTagModels = new List<RemovableTagModel>();
@@ -118,7 +118,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <param name="e">     event details</param>
         private void NewTagButton_Click(object sender, RoutedEventArgs e)
         {
-            _model.SuggestedTags.AddAll(from t in tagInput.Tags where !_model.SuggestedTags.ContainsKey(t) select new RemovableTagModel() { Tag = new TagPageSet(t) });
+            _model.SuggestedTags.AddAll(from t in tagInput.Tags where !_model.SuggestedTags.ContainsKey(t) select new RemovableTagModel() { Tag = new TagPageSet(TagFormatter.Format(t)) });
             suggestedTags.Highlighter = null;
             tagInput.Clear();
             _model.SaveChanges();

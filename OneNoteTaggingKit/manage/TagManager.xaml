@@ -66,6 +66,30 @@
                               IsChecked="{Binding Source={x:Static prop:Settings.Default},Path=UseWindowsSearch,Mode=TwoWay}" />
                     </StackPanel>
                 </GroupBox>
+                <GroupBox Header="{Binding Mode=OneTime,
+                                       Source={x:Static prop:Resources.TagManager_PreferencesTab_TagOptionsGroup_Header}}">
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox SelectedIndex="{Binding Source={x:Static prop:Settings.Default},Path=TagFormatting,Mode=TwoWay}"
+                                  ToolTip="{Binding Mode=OneTime,
+                                                    Source={x:Static prop:Resources.TagManager_PreferencesTab_TagFormat_ToolTip}}">
+                            <ComboBoxItem Content="{Binding Mode=OneTime,
+                                                            Source={x:Static prop:Resources.TagManager_PreferencesTab_TagFormat_Capitalized}}"
+                                          ToolTip="{Binding Mode=OneTime,
+                                                            Source={x:Static prop:Resources.TagManager_PreferencesTab_TagFormat_Capitalized_Tooltip}}"
+                                          Tag="Capitalized" />
+                            <ComboBoxItem Content="{Binding Mode=OneTime,
+                                                            Source={x:Static prop:Resources.TagManager_PreferencesTab_TagFormat_HashTag}}"
+                                           ToolTip="{Binding Mode=OneTime,
+                                                            Source={x:Static prop:Resources.TagManager_PreferencesTab_TagFormat_HashTag_Tooltip}}"
+                                          Tag="Hashtag" />
+                            <ComboBoxItem Content="{Binding Mode=OneTime,
+                                                            Source={x:Static prop:Resources.TagManager_PreferencesTab_TagFormat_AsEntered}}"
+                                          ToolTip="{Binding Mode=OneTime,
+                                                            Source={x:Static prop:Resources.TagManager_PreferencesTab_TagFormat_AsEntered_Tooltip}}"
+                                          Tag="AsEntered" />
+                        </ComboBox>
+                    </StackPanel>
+                </GroupBox>
             </StackPanel>
         </TabItem>
         <TabItem BorderThickness="0"
