@@ -84,6 +84,7 @@
     <Compile Include="common\ObservableSortedList.cs" />
     <Compile Include="common\OneNotePageProxy.cs" />
     <Compile Include="common\SuggestedTagsSource.cs" />
+    <Compile Include="common\TagFormatter.cs" />
     <Compile Include="common\TagsAndPages.cs" />
     <Compile Include="common\TaggedPage.cs" />
     <Compile Include="common\TagPageSet.cs" />

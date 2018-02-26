@@ -19,7 +19,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -702,6 +702,78 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TagManager_PreferencesTab_OSGroup_Header {
             get {
                 return ResourceManager.GetString("TagManager_PreferencesTab_OSGroup_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to As Entered.
+        /// </summary>
+        public static string TagManager_PreferencesTab_TagFormat_AsEntered {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_TagFormat_AsEntered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tags are &apos;as entered&apos;. No formatting is applied..
+        /// </summary>
+        public static string TagManager_PreferencesTab_TagFormat_AsEntered_Tooltip {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_TagFormat_AsEntered_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Capitalized.
+        /// </summary>
+        public static string TagManager_PreferencesTab_TagFormat_Capitalized {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_TagFormat_Capitalized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tags start with an uppercase chareacter..
+        /// </summary>
+        public static string TagManager_PreferencesTab_TagFormat_Capitalized_Tooltip {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_TagFormat_Capitalized_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HashTag.
+        /// </summary>
+        public static string TagManager_PreferencesTab_TagFormat_HashTag {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_TagFormat_HashTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Tags are lower case, without spaces, and start with a &apos;#&apos;.
+        /// </summary>
+        public static string TagManager_PreferencesTab_TagFormat_HashTag_Tooltip {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_TagFormat_HashTag_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tag Formatting Choices.
+        /// </summary>
+        public static string TagManager_PreferencesTab_TagFormat_ToolTip {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_TagFormat_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tag Options.
+        /// </summary>
+        public static string TagManager_PreferencesTab_TagOptionsGroup_Header {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_TagOptionsGroup_Header", resourceCulture);
             }
         }
         

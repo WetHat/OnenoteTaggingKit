@@ -443,4 +443,28 @@ Tap or click link to navigate to page.</value>
   <data name="TagManager_PreferencesTab_OS_UseWindowsSearch" xml:space="preserve">
     <value>Use Windows Search Service to find tagged pages.</value>
   </data>
+  <data name="TagManager_PreferencesTab_TagOptionsGroup_Header" xml:space="preserve">
+    <value>Tag Options</value>
+  </data>
+  <data name="TagManager_PreferencesTab_TagFormat_AsEntered" xml:space="preserve">
+    <value>As Entered</value>
+  </data>
+  <data name="TagManager_PreferencesTab_TagFormat_AsEntered_Tooltip" xml:space="preserve">
+    <value>Tags are 'as entered'. No formatting is applied.</value>
+  </data>
+  <data name="TagManager_PreferencesTab_TagFormat_Capitalized" xml:space="preserve">
+    <value>Capitalized</value>
+  </data>
+  <data name="TagManager_PreferencesTab_TagFormat_Capitalized_Tooltip" xml:space="preserve">
+    <value>Tags start with an uppercase chareacter.</value>
+  </data>
+  <data name="TagManager_PreferencesTab_TagFormat_HashTag" xml:space="preserve">
+    <value>HashTag</value>
+  </data>
+  <data name="TagManager_PreferencesTab_TagFormat_HashTag_Tooltip" xml:space="preserve">
+    <value>All Tags are lower case, without spaces, and start with a '#'</value>
+  </data>
+  <data name="TagManager_PreferencesTab_TagFormat_ToolTip" xml:space="preserve">
+    <value>Tag Formatting Choices</value>
+  </data>
 </root>

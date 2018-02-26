@@ -262,5 +262,17 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
                 this["UseWindowsSearch"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int TagFormatting {
+            get {
+                return ((int)(this["TagFormatting"]));
+            }
+            set {
+                this["TagFormatting"] = value;
+            }
+        }
     }
 }
