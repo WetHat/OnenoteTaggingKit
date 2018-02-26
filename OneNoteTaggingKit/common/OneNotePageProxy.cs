@@ -232,7 +232,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     _page.AddFirst(pageTagsDef);
                 }
 
-                // Create a outline for the page tags
+                // Create an outline for the page tags
                 //
                 //<one:Outline author="Peter Ernst" authorInitials="PE" lastModifiedBy="Peter Ernst" lastModifiedByInitials="PE" objectID="{E470786C-A904-4E9F-AC3B-0D9F36B6FC54}{14}{B0}" lastModifiedTime="2013-12-06T16:04:48.000Z">
                 //  <one:Position x="236.249984741211" y="42.1500015258789" z="0" />
@@ -283,12 +283,16 @@ namespace WetHatLab.OneNote.TaggingKit.common
             // index="1" name="Test Tag 2" type="1" symbol="0" />
             IDictionary<string, string> tagToIndexMap = new Dictionary<string, string>();
             foreach (XElement tagdef in tagDefs.Where(d => d.Attribute("symbol").Value == "0"
-                                                           && !string.IsNullOrEmpty(d.Attribute("fontColor").Value)
-                                                           && System.Drawing.ColorTranslator.ToHtml(Properties.Settings.Default.PageTagDef_Fontcolor).ToLower().Equals(d.Attribute("fontColor").Value.ToLower())))
+                                                      && _originalTags.Contains(d.Attribute("name").Value)))
             {
                 tagToIndexMap[tagdef.Attribute("name").Value] = tagdef.Attribute("index").Value;
-                // make sure type is equal to index so that index is unique
+                // make sure type is equal to index so that type is unique
                 tagdef.Attribute("type").Value = tagdef.Attribute("index").Value;
+                // remove any color attribute so that the title can show its original color
+                if (tagdef.Attribute("fontColor") != null)
+                {
+                    tagdef.Attribute("fontColor").Remove();
+                }
             }
 
             // add new tag definitions, if needed
@@ -302,7 +306,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
                                                    new XAttribute("index", strIndex),
                                                    new XAttribute("name", tag),
                                                    new XAttribute("type", strIndex),
-                                                   new XAttribute("fontColor", System.Drawing.ColorTranslator.ToHtml(Properties.Settings.Default.PageTagDef_Fontcolor)),
                                                    new XAttribute("symbol", "0"));
                     _page.AddFirst(tagdef);
                 }

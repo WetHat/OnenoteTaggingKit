@@ -8,9 +8,6 @@
     <Setting Name="KnownTags" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="PageTagDef_Fontcolor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">128, 128, 131</Value>
-    </Setting>
     <Setting Name="TagOutlineStyle_Name" Type="System.String" Scope="User">
       <Value Profile="(Default)">PagetagsStyle</Value>
     </Setting>
