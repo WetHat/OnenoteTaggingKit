@@ -1,16 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace WetHatLab.OneNote.TaggingKit.common
 {
     /// <summary>
-    /// The set of pages which have a specified tag in their &lt;one:Meta name="TaggingKit.PageTags" ...&gt; meta element.
+    /// The set of pages which have a specified tag in their &lt;one:Meta
+    /// name="TaggingKit.PageTags" ...&gt; meta element.
     /// </summary>
-    /// <remarks>A filter can be applied to constrain the number of tagged pages
-    /// <see cref="IntersectWith"/>
-    /// </remarks>
+    /// <remarks>A filter can be applied to constrain the number of tagged pages <see cref="IntersectWith" /></remarks>
     public class TagPageSet : IKeyedItem<string>, INotifyPropertyChanged
     {
         internal static readonly PropertyChangedEventArgs PAGES = new PropertyChangedEventArgs("Pages");
@@ -33,7 +31,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
         }
 
-        internal TagPageSet(string tagName) 
+        internal TagPageSet(string tagName)
         {
             TagName = tagName;
         }
@@ -42,7 +40,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         {
             get
             {
-                return  _pages;
+                return _pages;
             }
         }
 
@@ -84,6 +82,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 firePropertyChanged(FILTERED_PAGES);
             }
         }
+
         /// <summary>
         /// Apply an intersection filter to constrain the number of pages.
         /// </summary>
@@ -134,13 +133,16 @@ namespace WetHatLab.OneNote.TaggingKit.common
         {
             get { return TagName; }
         }
+
         #endregion IKeyedItem
 
         #region INotifyPropertyChanged
+
         /// <summary>
         /// Event to notify listeners about changes of properties.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
-        #endregion
+
+        #endregion INotifyPropertyChanged
     }
 }

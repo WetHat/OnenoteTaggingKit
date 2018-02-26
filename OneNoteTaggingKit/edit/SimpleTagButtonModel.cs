@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using System.Globalization;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 
@@ -7,20 +8,20 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     /// <summary>
     /// A simple view model for a tag consisting of just a name (key)
     /// </summary>
-    public class SimpleTagButtonModel : ISortableKeyedItem<TagModelKey,string>
+    public class SimpleTagButtonModel : ISortableKeyedItem<TagModelKey, string>
     {
         private string _tag;
 
         private TagModelKey _sortKey;
 
         /// <summary>
-        /// Create a new instance of a <see cref="SimpleTagButtonModel"/> object
+        /// Create a new instance of a <see cref="SimpleTagButtonModel" /> object
         /// </summary>
         /// <param name="tag">tag name</param>
         public SimpleTagButtonModel(string tag)
         {
             _tag = tag;
-            _sortKey = new TagModelKey(tag);
+            _sortKey = new TagModelKey(_tag);
         }
 
         /// <summary>
@@ -32,6 +33,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
 
         #region ISortableKeyedItem<TagModelKey,string>
+
         /// <summary>
         /// Get the key (name) of this tag
         /// </summary>
@@ -47,6 +49,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             get { return _sortKey; }
         }
+
         #endregion ISortableKeyedItem<TagModelKey,string>
     }
 }
