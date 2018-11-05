@@ -1,7 +1,6 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -20,10 +19,45 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     public class TagInputEventArgs : RoutedEventArgs
     {
         /// <summary>
+        /// </summary>
+        public enum TaggingAction
+        {
+            /// <summary>
+            /// No tagging action requested
+            /// </summary>
+            None,
+
+            /// <summary>
+            /// Add tags action requested.
+            /// </summary>
+            Add,
+
+            /// <summary>
+            /// Set tags action requested.
+            /// </summary>
+            Set,
+
+            /// <summary>
+            /// Remove tags action requested.
+            /// </summary>
+            Remove,
+
+            /// <summary>
+            /// Clear all selected tags
+            /// </summary>
+            Clear
+        }
+
+        /// <summary>
         /// Determine if tag input is complete
         /// </summary>
         /// <value>true if tag input is complete; false if tag input is still in progress</value>
         public bool TagInputComplete { get; private set; }
+
+        /// <summary>
+        /// Get the requested tagging action.
+        /// </summary>
+        public TaggingAction Action { get; private set; }
 
         /// <summary>
         /// Create a new instance of the event details
@@ -31,9 +65,11 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <param name="routedEvent"> routed event which fired</param>
         /// <param name="source">      object which fired the event</param>
         /// <param name="enterPressed">true if tag input is complete; false otherwise</param>
-        internal TagInputEventArgs(RoutedEvent routedEvent, object source, bool enterPressed)
+        /// <param name="action">      Keyboard modifier keys.</param>
+        internal TagInputEventArgs(RoutedEvent routedEvent, object source, bool enterPressed, TaggingAction action = TaggingAction.None)
             : base(routedEvent, source)
         {
+            Action = action;
             TagInputComplete = enterPressed;
         }
     }
@@ -158,7 +194,54 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         private void TagInput_KeyUp(object sender, KeyEventArgs e)
         {
             UpdateVisibility();
-            RaiseEvent(new TagInputEventArgs(TagInputEvent, this, e.Key == System.Windows.Input.Key.Enter));
+            TagInputEventArgs.TaggingAction action = TagInputEventArgs.TaggingAction.None;
+
+            bool complete = false;
+            if (e.Key == System.Windows.Input.Key.Escape)
+            {
+                Clear();
+                if ((Keyboard.Modifiers & ModifierKeys.Shift) != ModifierKeys.None)
+                {
+                    action = TagInputEventArgs.TaggingAction.Clear;
+                }
+            }
+            else if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                complete = true;
+
+                switch (Keyboard.Modifiers)
+                {
+                    case ModifierKeys.Shift:
+                        action = TagInputEventArgs.TaggingAction.Add;
+                        break;
+
+                    case ModifierKeys.Control:
+                        action = TagInputEventArgs.TaggingAction.Remove;
+                        break;
+
+                    default:
+                        if ((Keyboard.Modifiers & (ModifierKeys.Shift | ModifierKeys.Control)) != ModifierKeys.None)
+                        {
+                            action = TagInputEventArgs.TaggingAction.Set;
+                        }
+                        break;
+                }
+            }
+            else if ((Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.None)
+            {
+                if (e.Key == System.Windows.Input.Key.OemPlus || e.Key == System.Windows.Input.Key.Add)
+                {
+                    complete = true;
+                    action = TagInputEventArgs.TaggingAction.Add;
+                }
+                else if (e.Key == System.Windows.Input.Key.OemMinus || e.Key == System.Windows.Input.Key.OemMinus)
+                {
+                    complete = true;
+                    action = TagInputEventArgs.TaggingAction.Remove;
+                }
+            }
+
+            RaiseEvent(new TagInputEventArgs(TagInputEvent, this, complete, action));
             e.Handled = true;
         }
 
