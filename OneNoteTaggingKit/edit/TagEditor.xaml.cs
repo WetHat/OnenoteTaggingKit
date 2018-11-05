@@ -155,6 +155,10 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 if (tagInput.IsEmpty)
                 {
                     suggestedTags.Highlighter = new TextSplitter();
+                    if (e.Action == TagInputEventArgs.TaggingAction.Clear)
+                    {
+                        ClearTagsButton_Click(e.Source, e);
+                    }
                 }
                 else
                 {
@@ -162,7 +166,21 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     if (e.TagInputComplete)
                     {
                         _model.PageTags.AddAll(from t in tags where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(TagFormatter.Format(t)));
-                        tagInput.Clear();
+
+                        switch (e.Action)
+                        {
+                            case TagInputEventArgs.TaggingAction.Add:
+                                AddTagsToPageButton_Click(e.Source, e);
+                                break;
+
+                            case TagInputEventArgs.TaggingAction.Set:
+                                SetPageTagsButton_Click(e.Source, e);
+                                break;
+
+                            case TagInputEventArgs.TaggingAction.Remove:
+                                RemoveTagsFromPageButton_Click(e.Source, e);
+                                break;
+                        }
                     }
                     suggestedTags.Highlighter = new TextSplitter(tagInput.Tags);
                 }
