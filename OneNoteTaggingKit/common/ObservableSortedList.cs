@@ -46,9 +46,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
             #endregion IComparer<KeyValuePair<TSort, TValue>>
         };
 
-        private static IComparer<KeyValuePair<TSort, TValue>> _comparer = new Comparer<TSort, TValue>();
+        private static readonly IComparer<KeyValuePair<TSort, TValue>> _comparer = new Comparer<TSort, TValue>();
 
-        private static IComparer<KeyValuePair<int, TValue>> _indexComparer = new Comparer<int, TValue>();
+        private static readonly IComparer<KeyValuePair<int, TValue>> _indexComparer = new Comparer<int, TValue>();
 
         /// <summary>
         /// Get the number of items in the collection.
@@ -197,9 +197,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 {
                     // lookup insertion point
                     int insertionPoint = _sortedList.BinarySearch(new KeyValuePair<TSort, TValue>(item.SortKey, item), _comparer);
-#if DEBUG
-                    Debug.Assert(insertionPoint < 0, string.Format("Item with key {0} already present in list at index {1}", item.Key, insertionPoint));
-#endif
+
                     if (insertionPoint < 0)
                     {
                         _dictionary.Add(item.Key, item);
