@@ -1,15 +1,16 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
-using System.Linq;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
-using System;
-using System.Text;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {
@@ -27,6 +28,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         public FindTaggedPages()
         {
             InitializeComponent();
+            pBarCopy.Visibility = System.Windows.Visibility.Hidden;
         }
 
         #region IOneNotePageWindow<FindTaggedPagesModel>
@@ -96,56 +98,61 @@ namespace WetHatLab.OneNote.TaggingKit.find
                         break;
 
                     case "CopyLinks":
-                        string header =
-@"Version:0.9
+                        pBarCopy.Visibility = System.Windows.Visibility.Visible;
+                        string clip = await Task<string>.Run(() =>
+                       {
+                           string header =
+   @"Version:0.9
 StartHTML:{0:D6}
 EndHTML:{1:D6}
 StartFragment:{2:D6}
 EndFragment:{3:D6}
 StartSelection:{4:D6}
 EndSelection:{5:D6}";
-                        string htmlpre =
-@"<HTML>
+                           string htmlpre =
+   @"<HTML>
 <BODY>
 <!--StartFragment-->";
-                        StringBuilder links = new StringBuilder();
+                           StringBuilder links = new StringBuilder();
 
-                        foreach (var mdl in _model.Pages.Where((p) => p.IsSelected))
-                        {
-                            string pageTitle = mdl.LinkTitle;
-                            try
-                            {
-                                if (links.Length > 0)
-                                {
-                                    links.Append("<br />");
-                                }
-                                links.Append(@"<a href=""");
-                                links.Append(mdl.PageLink);
-                                links.Append(@""">");
-                                links.Append(mdl.LinkTitle);
-                                links.Append("</a>");
-                            }
-                            catch (Exception ex)
-                            {
-                                TraceLogger.Log(TraceCategory.Error(), "Link to page '{0}' could not be created: {1}", pageTitle, ex);
-                                TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_CopyLink, ex);
-                            }
-                        }
+                           foreach (var mdl in _model.Pages.Where((p) => p.IsSelected))
+                           {
+                               string pageTitle = mdl.LinkTitle;
+                               try
+                               {
+                                   if (links.Length > 0)
+                                   {
+                                       links.Append("<br />");
+                                   }
+                                   links.Append(@"<a href=""");
+                                   links.Append(mdl.PageLink);
+                                   links.Append(@""">");
+                                   links.Append(mdl.LinkTitle);
+                                   links.Append("</a>");
+                               }
+                               catch (Exception ex)
+                               {
+                                   TraceLogger.Log(TraceCategory.Error(), "Link to page '{0}' could not be created: {1}", pageTitle, ex);
+                                   TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_CopyLink, ex);
+                               }
+                           }
 
-                        string htmlpost =
-@"<!--EndFragment-->
+                           string htmlpost =
+   @"<!--EndFragment-->
 </BODY>
 </HTML>";
-                        string strLinks = links.ToString();
-                        string clip = string.Format(header,
-                            header.Length,
-                            header.Length + htmlpre.Length + strLinks.Length + htmlpost.Length,
-                            header.Length + htmlpre.Length,
-                            header.Length + htmlpre.Length + strLinks.Length,
-                            header.Length + htmlpre.Length,
-                            header.Length + htmlpre.Length + strLinks.Length)
-                            + htmlpre + strLinks + htmlpost;
+                           string strLinks = links.ToString();
+                           return string.Format(header,
+                               header.Length,
+                               header.Length + htmlpre.Length + strLinks.Length + htmlpost.Length,
+                               header.Length + htmlpre.Length,
+                               header.Length + htmlpre.Length + strLinks.Length,
+                               header.Length + htmlpre.Length,
+                               header.Length + htmlpre.Length + strLinks.Length)
+                               + htmlpre + strLinks + htmlpost;
+                       });
                         Clipboard.SetText(clip, TextDataFormat.Html);
+                        pBarCopy.Visibility = System.Windows.Visibility.Hidden;
                         break;
                 }
 

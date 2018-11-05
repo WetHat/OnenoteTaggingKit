@@ -467,4 +467,7 @@ Tap or click link to navigate to page.</value>
   <data name="TagManager_PreferencesTab_TagFormat_ToolTip" xml:space="preserve">
     <value>Tag Formatting Choices</value>
   </data>
+  <data name="TagSearch_Links_ProgressBar_Title" xml:space="preserve">
+    <value>Generating links ...</value>
+  </data>
 </root>

@@ -221,6 +221,19 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
+        <ProgressBar Name="pBarCopy"
+                     Visibility="Visible"
+                     Width="{Binding ElementName=pBarCopyText,Path=ActualWidth,Mode=OneWay}"
+                     Grid.Row="4" />
+        <TextBlock Name="pBarCopyText"
+                   Padding="10,0,10,0"
+                   FontWeight="Bold"
+                   Visibility="{Binding ElementName=pBarCopy, Path=Visibility}"
+                   Grid.Row="4"
+                   Background="Transparent"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Links_ProgressBar_Title}}" />
         <StatusBar Grid.Row="5"
                    MaxHeight="23"
                    ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_StatusBar_Tooltip}}">
