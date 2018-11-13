@@ -33,8 +33,8 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
     public class TaggingJob
     {
         private string _pageid;
-        private string[] _tags;
-        private TagOperation _op;
+        private readonly string[] _tags;
+        private readonly TagOperation _op;
 
         /// <summary>
         /// Create a new instance of a tagging job.
@@ -79,8 +79,6 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
             }
             HashSet<string> pagetags = new HashSet<string>(page.PageTags);
 
-            int countBefore = pagetags.Count;
-
             switch (_op)
             {
                 case TagOperation.SUBTRACT:
@@ -96,13 +94,10 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                     pagetags.UnionWith(_tags);
                     break;
             }
-            if ((pagetags.Count != countBefore) || _op == TagOperation.REPLACE)
-            {
-                string[] sortedTags = pagetags.ToArray();
-                Array.Sort<string>(sortedTags, (x, y) => string.Compare(x, y, true));
+            string[] sortedTags = pagetags.ToArray();
+            Array.Sort<string>(sortedTags, (x, y) => string.Compare(x, y, true));
 
-                page.PageTags = sortedTags;
-            }
+            page.PageTags = sortedTags;
             return page;
         }
     }
