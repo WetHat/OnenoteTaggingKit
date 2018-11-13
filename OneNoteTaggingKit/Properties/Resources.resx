@@ -470,4 +470,25 @@ Tap or click link to navigate to page.</value>
   <data name="TagSearch_Links_ProgressBar_Title" xml:space="preserve">
     <value>Generating links ...</value>
   </data>
+  <data name="TagManager_PreferencesTab_TagFormat_Label" xml:space="preserve">
+    <value>Tag Format</value>
+  </data>
+  <data name="TagManager_PreferencesTab_TagDisplay_Label" xml:space="preserve">
+    <value>Tag Display</value>
+  </data>
+  <data name="TagManager_PreferencesTab_TagDisplay_BelowTitle" xml:space="preserve">
+    <value>Below Page Title</value>
+  </data>
+  <data name="TagManager_PreferencesTab_TagDisplay_BelowTitle_Tooltip" xml:space="preserve">
+    <value>Place tags as text below the page title.</value>
+  </data>
+  <data name="TagManager_PreferencesTab_TagDisplay_InTitle" xml:space="preserve">
+    <value>Icon in Page Title</value>
+  </data>
+  <data name="TagManager_PreferencesTab_TagDisplay_InTitle_Tooltip" xml:space="preserve">
+    <value>Place tags at the top of a page directly beneath the title.</value>
+  </data>
+  <data name="TagManager_PreferencesTab_TagDisplay_Tooltip" xml:space="preserve">
+    <value>Location where the page tags are placed on a OneNote page.</value>
+  </data>
 </root>

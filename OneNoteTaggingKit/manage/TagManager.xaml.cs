@@ -1,7 +1,6 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -224,6 +223,10 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                 await _model.LoadSuggestedTagsAsync();
                 pBar.Visibility = System.Windows.Visibility.Hidden;
             }
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
         }
     }
 }

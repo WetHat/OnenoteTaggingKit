@@ -50,9 +50,9 @@
                                        Source={x:Static prop:Resources.TagManager_PreferencesTab_DialogPreferences_TagEditorOnTopTooltip}}"
                               IsChecked="{Binding Source={x:Static prop:Settings.Default},Path=TagEditorAlwaysOnTop,Mode=TwoWay}" />
                         <CheckBox Content="{Binding Mode=OneTime,
-                                       Source={x:Static prop:Resources.TagManager_PreferencesTab_DialogPreferences_TagSearchOnTop}}"
+                                            Source={x:Static prop:Resources.TagManager_PreferencesTab_DialogPreferences_TagSearchOnTop}}"
                               ToolTip="{Binding Mode=OneTime,
-                                       Source={x:Static prop:Resources.TagManager_PreferencesTab_DialogPreferences_TagSearchOnTopTooltip}}"
+                                        Source={x:Static prop:Resources.TagManager_PreferencesTab_DialogPreferences_TagSearchOnTopTooltip}}"
                               IsChecked="{Binding Source={x:Static prop:Settings.Default},Path=TagSearchAlwaysOnTop,Mode=TwoWay}" />
                     </StackPanel>
                 </GroupBox>
@@ -68,8 +68,24 @@
                 </GroupBox>
                 <GroupBox Header="{Binding Mode=OneTime,
                                        Source={x:Static prop:Resources.TagManager_PreferencesTab_TagOptionsGroup_Header}}">
-                    <StackPanel Orientation="Horizontal">
-                        <ComboBox SelectedIndex="{Binding Source={x:Static prop:Settings.Default},Path=TagFormatting,Mode=TwoWay}"
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Column="0"
+                               Grid.Row="0"
+                               HorizontalAlignment="Right"
+                               Content="{Binding Mode=OneTime,
+                                         Source={x:Static prop:Resources.TagManager_PreferencesTab_TagFormat_Label}}" />
+                        <ComboBox Grid.Column="1"
+                                  Grid.Row="0"
+                                  Padding="5"
+                                  SelectedIndex="{Binding Source={x:Static prop:Settings.Default},Path=TagFormatting,Mode=TwoWay}"
                                   ToolTip="{Binding Mode=OneTime,
                                                     Source={x:Static prop:Resources.TagManager_PreferencesTab_TagFormat_ToolTip}}">
                             <ComboBoxItem Content="{Binding Mode=OneTime,
@@ -88,7 +104,29 @@
                                                             Source={x:Static prop:Resources.TagManager_PreferencesTab_TagFormat_AsEntered_Tooltip}}"
                                           Tag="AsEntered" />
                         </ComboBox>
-                    </StackPanel>
+                        <Label Grid.Column="0"
+                               Grid.Row="1"
+                               HorizontalAlignment="Right"
+                               Content="{Binding Mode=OneTime,
+                                         Source={x:Static prop:Resources.TagManager_PreferencesTab_TagDisplay_Label}}" />
+                        <ComboBox Grid.Column="1"
+                                  Grid.Row="1"
+                                  Padding="5"
+                                  SelectedIndex="{Binding Source={x:Static prop:Settings.Default},Path=TagDisplay,Mode=TwoWay}"
+                                  ToolTip="{Binding Mode=OneTime,
+                                                    Source={x:Static prop:Resources.TagManager_PreferencesTab_TagDisplay_Tooltip}}" SelectionChanged="ComboBox_SelectionChanged">
+                            <ComboBoxItem Content="{Binding Mode=OneTime,
+                                                            Source={x:Static prop:Resources.TagManager_PreferencesTab_TagDisplay_BelowTitle}}"
+                                          ToolTip="{Binding Mode=OneTime,
+                                                            Source={x:Static prop:Resources.TagManager_PreferencesTab_TagDisplay_BelowTitle_Tooltip}}"
+                                          Tag="BelowTitle" />
+                            <ComboBoxItem Content="{Binding Mode=OneTime,
+                                                            Source={x:Static prop:Resources.TagManager_PreferencesTab_TagDisplay_InTitle}}"
+                                          ToolTip="{Binding Mode=OneTime,
+                                                            Source={x:Static prop:Resources.TagManager_PreferencesTab_TagDisplay_InTitle_Tooltip}}"
+                                          Tag="TitleTag" />
+                        </ComboBox>
+                    </Grid>
                 </GroupBox>
             </StackPanel>
         </TabItem>

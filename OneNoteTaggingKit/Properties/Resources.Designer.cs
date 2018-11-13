@@ -706,6 +706,60 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Below Page Title.
+        /// </summary>
+        public static string TagManager_PreferencesTab_TagDisplay_BelowTitle {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_TagDisplay_BelowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Place tags as text below the page title..
+        /// </summary>
+        public static string TagManager_PreferencesTab_TagDisplay_BelowTitle_Tooltip {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_TagDisplay_BelowTitle_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Icon in Page Title.
+        /// </summary>
+        public static string TagManager_PreferencesTab_TagDisplay_InTitle {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_TagDisplay_InTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Place tags at the top of a page directly beneath the title..
+        /// </summary>
+        public static string TagManager_PreferencesTab_TagDisplay_InTitle_Tooltip {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_TagDisplay_InTitle_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tag Display.
+        /// </summary>
+        public static string TagManager_PreferencesTab_TagDisplay_Label {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_TagDisplay_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location where the page tags are placed on a OneNote page..
+        /// </summary>
+        public static string TagManager_PreferencesTab_TagDisplay_Tooltip {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_TagDisplay_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to As Entered.
         /// </summary>
         public static string TagManager_PreferencesTab_TagFormat_AsEntered {
@@ -756,6 +810,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TagManager_PreferencesTab_TagFormat_HashTag_Tooltip {
             get {
                 return ResourceManager.GetString("TagManager_PreferencesTab_TagFormat_HashTag_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tag Format.
+        /// </summary>
+        public static string TagManager_PreferencesTab_TagFormat_Label {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_TagFormat_Label", resourceCulture);
             }
         }
         
