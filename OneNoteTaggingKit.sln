@@ -16,6 +16,62 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TaggingKitUML.odg = TaggingKitUML.odg
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wiki", "wiki", "{4256F6C6-82ED-45A1-9D59-0E40F171E950}"
+	ProjectSection(SolutionItems) = preProject
+		OnenoteTaggingKit.wiki\0x8004200C.md = OnenoteTaggingKit.wiki\0x8004200C.md
+		OnenoteTaggingKit.wiki\0x80042019.md = OnenoteTaggingKit.wiki\0x80042019.md
+		OnenoteTaggingKit.wiki\About Tab.md = OnenoteTaggingKit.wiki\About Tab.md
+		OnenoteTaggingKit.wiki\Facetted-Search.md = OnenoteTaggingKit.wiki\Facetted-Search.md
+		OnenoteTaggingKit.wiki\Find Notes by Tags.md = OnenoteTaggingKit.wiki\Find Notes by Tags.md
+		OnenoteTaggingKit.wiki\Find Related Notes.md = OnenoteTaggingKit.wiki\Find Related Notes.md
+		OnenoteTaggingKit.wiki\Finding Notes.md = OnenoteTaggingKit.wiki\Finding Notes.md
+		OnenoteTaggingKit.wiki\Home.md = OnenoteTaggingKit.wiki\Home.md
+		OnenoteTaggingKit.wiki\Manage Settings.md = OnenoteTaggingKit.wiki\Manage Settings.md
+		OnenoteTaggingKit.wiki\OneNote Version Check.md = OnenoteTaggingKit.wiki\OneNote Version Check.md
+		OnenoteTaggingKit.wiki\Organizing Notes with Page Tags.md = OnenoteTaggingKit.wiki\Organizing Notes with Page Tags.md
+		OnenoteTaggingKit.wiki\Preferences Tab.md = OnenoteTaggingKit.wiki\Preferences Tab.md
+		OnenoteTaggingKit.wiki\Searching-pages-by-Tags-or-Full-Text-Queries-does-not-work.md = OnenoteTaggingKit.wiki\Searching-pages-by-Tags-or-Full-Text-Queries-does-not-work.md
+		OnenoteTaggingKit.wiki\Sharing Tag Suggestions.md = OnenoteTaggingKit.wiki\Sharing Tag Suggestions.md
+		OnenoteTaggingKit.wiki\Suggested Tags Tab.md = OnenoteTaggingKit.wiki\Suggested Tags Tab.md
+		OnenoteTaggingKit.wiki\Tagging a Page.md = OnenoteTaggingKit.wiki\Tagging a Page.md
+		OnenoteTaggingKit.wiki\Tagging Kit Not Shown in Ribbon.md = OnenoteTaggingKit.wiki\Tagging Kit Not Shown in Ribbon.md
+		OnenoteTaggingKit.wiki\TaggingKit Installation.md = OnenoteTaggingKit.wiki\TaggingKit Installation.md
+		OnenoteTaggingKit.wiki\Troubleshooting-Tips.md = OnenoteTaggingKit.wiki\Troubleshooting-Tips.md
+		OnenoteTaggingKit.wiki\Use of Tags.md = OnenoteTaggingKit.wiki\Use of Tags.md
+		OnenoteTaggingKit.wiki\Working with Refinement Tags.md = OnenoteTaggingKit.wiki\Working with Refinement Tags.md
+		OnenoteTaggingKit.wiki\Working with the Search Result.md = OnenoteTaggingKit.wiki\Working with the Search Result.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{ED226E73-AE8D-43B6-999D-7FB4FCEEE358}"
+	ProjectSection(SolutionItems) = preProject
+		OnenoteTaggingKit.wiki\images\0x80042019_startSearchService.png = OnenoteTaggingKit.wiki\images\0x80042019_startSearchService.png
+		OnenoteTaggingKit.wiki\images\0x80042019_windowsSearch.png = OnenoteTaggingKit.wiki\images\0x80042019_windowsSearch.png
+		OnenoteTaggingKit.wiki\images\AboutTab.png = OnenoteTaggingKit.wiki\images\AboutTab.png
+		OnenoteTaggingKit.wiki\images\CopyTagSuggestions.png = OnenoteTaggingKit.wiki\images\CopyTagSuggestions.png
+		OnenoteTaggingKit.wiki\images\FacettedSearch.png = OnenoteTaggingKit.wiki\images\FacettedSearch.png
+		OnenoteTaggingKit.wiki\images\FindPagesButton.png = OnenoteTaggingKit.wiki\images\FindPagesButton.png
+		OnenoteTaggingKit.wiki\images\FindPagesByTags.png = OnenoteTaggingKit.wiki\images\FindPagesByTags.png
+		OnenoteTaggingKit.wiki\images\FindRelatedNotes.png = OnenoteTaggingKit.wiki\images\FindRelatedNotes.png
+		OnenoteTaggingKit.wiki\images\logo100x100.png = OnenoteTaggingKit.wiki\images\logo100x100.png
+		OnenoteTaggingKit.wiki\images\logo64x64.png = OnenoteTaggingKit.wiki\images\logo64x64.png
+		OnenoteTaggingKit.wiki\images\ON2010Version.png = OnenoteTaggingKit.wiki\images\ON2010Version.png
+		OnenoteTaggingKit.wiki\images\ONOptions.png = OnenoteTaggingKit.wiki\images\ONOptions.png
+		OnenoteTaggingKit.wiki\images\ONVersion.png = OnenoteTaggingKit.wiki\images\ONVersion.png
+		OnenoteTaggingKit.wiki\images\PreferencesTab.png = OnenoteTaggingKit.wiki\images\PreferencesTab.png
+		OnenoteTaggingKit.wiki\images\RefinementTags.png = OnenoteTaggingKit.wiki\images\RefinementTags.png
+		OnenoteTaggingKit.wiki\images\SearchResult.png = OnenoteTaggingKit.wiki\images\SearchResult.png
+		OnenoteTaggingKit.wiki\images\SettingsButton.png = OnenoteTaggingKit.wiki\images\SettingsButton.png
+		OnenoteTaggingKit.wiki\images\SuggestedTagsTab.png = OnenoteTaggingKit.wiki\images\SuggestedTagsTab.png
+		OnenoteTaggingKit.wiki\images\TaggedPage.png = OnenoteTaggingKit.wiki\images\TaggedPage.png
+		OnenoteTaggingKit.wiki\images\TaggingKitDisabled.png = OnenoteTaggingKit.wiki\images\TaggingKitDisabled.png
+		OnenoteTaggingKit.wiki\images\TaggingKitEnabled.png = OnenoteTaggingKit.wiki\images\TaggingKitEnabled.png
+		OnenoteTaggingKit.wiki\images\TaggingKitIntro.png = OnenoteTaggingKit.wiki\images\TaggingKitIntro.png
+		OnenoteTaggingKit.wiki\images\TaggingKitRibbon.png = OnenoteTaggingKit.wiki\images\TaggingKitRibbon.png
+		OnenoteTaggingKit.wiki\images\TagPagesButton.png = OnenoteTaggingKit.wiki\images\TagPagesButton.png
+		OnenoteTaggingKit.wiki\images\TagPagesDialog.png = OnenoteTaggingKit.wiki\images\TagPagesDialog.png
+		OnenoteTaggingKit.wiki\images\TroubleshootingTips_log.png = OnenoteTaggingKit.wiki\images\TroubleshootingTips_log.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +118,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4256F6C6-82ED-45A1-9D59-0E40F171E950} = {E3328959-CB0A-450E-90DC-5A20FEBA6014}
+		{ED226E73-AE8D-43B6-999D-7FB4FCEEE358} = {4256F6C6-82ED-45A1-9D59-0E40F171E950}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {280E8435-7A86-4871-B7A2-37A081E668D2}
