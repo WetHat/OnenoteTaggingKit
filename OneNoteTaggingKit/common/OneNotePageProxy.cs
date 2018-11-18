@@ -81,25 +81,20 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
         private XElement _markerTagDef;
 
-        internal OneNotePageProxy(OneNoteProxy onenoteApp, string pageID)
-        {
+        internal OneNotePageProxy(OneNoteProxy onenoteApp, string pageID) {
             _onenote = onenoteApp;
             PageID = pageID;
             LoadOneNotePage();
             var tagset = new HashSet<string>();
             // collect tags from various sources on the page
-            if (_meta != null)
-            {  // the meta tags
-                foreach (string t in ParseTags(_meta.Attribute("content").Value))
-                {
+            if (_meta != null) {  // the meta tags
+                foreach (string t in ParseTags(_meta.Attribute("content").Value)) {
                     tagset.Add(t);
                 }
             }
 
-            if (_markerTagDef != null && "99".Equals(_markerTagDef.Attribute("type").Value))
-            { // use the in-title tag
-                foreach (string t in ParseTags(_markerTagDef.Attribute("name").Value))
-                {
+            if (_markerTagDef != null && "99".Equals(_markerTagDef.Attribute("type").Value)) { // use the in-title tag
+                foreach (string t in ParseTags(_markerTagDef.Attribute("name").Value)) {
                     tagset.Add(t);
                 }
             }
@@ -108,26 +103,21 @@ namespace WetHatLab.OneNote.TaggingKit.common
             var indexmap = new Dictionary<string, XElement>();
             foreach (XElement tagDef in from td in _page.Elements(_one.GetName("TagDef"))
                                         where "0".Equals(td.Attribute("symbol").Value)
-                                        select td)
-            {
+                                        select td) {
                 indexmap[tagDef.Attribute("index").Value] = tagDef;
             }
             // get all the hidden title tags
-            foreach (XElement t in _titleOE.Elements(_one.GetName("Tag")))
-            {
+            foreach (XElement t in _titleOE.Elements(_one.GetName("Tag"))) {
                 XElement tagdef;
-                if (indexmap.TryGetValue(t.Attribute("index").Value, out tagdef))
-                {
+                if (indexmap.TryGetValue(t.Attribute("index").Value, out tagdef)) {
                     tagset.Add(tagdef.Attribute("name").Value);
                 }
             }
             _originalTags = tagset.ToArray();
         }
 
-        internal bool IsDeleted
-        {
-            get
-            {
+        internal bool IsDeleted {
+            get {
                 XAttribute recycleBinAtt = _page.Attribute("isInRecycleBin");
 
                 return recycleBinAtt != null ? bool.Parse(recycleBinAtt.Value) : false;
@@ -139,37 +129,29 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </summary>
         internal string PageID { get; private set; }
 
-        internal string[] PageTags
-        {
-            get
-            {
+        internal string[] PageTags {
+            get {
                 return _tags ?? _originalTags;
             }
 
-            set
-            {
+            set {
                 _tags = value;
             }
         }
 
-        internal string Title
-        {
-            get
-            {
+        internal string Title {
+            get {
                 return _titleOE != null ? Regex.Replace(_titleOE.Value, "<[^<>]*>", "") : "Untitled page";
             }
         }
 
-        internal static string[] ParseTags(string tags)
-        {
-            if (!string.IsNullOrEmpty(tags))
-            {
+        internal static string[] ParseTags(string tags) {
+            if (!string.IsNullOrEmpty(tags)) {
                 // remove all HTML markup
                 tags = Regex.Replace(tags, "<[^<>]+>", String.Empty);
                 string[] parsedTags = tags.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 // normalize tags
-                for (int i = 0; i < parsedTags.Length; i++)
-                {
+                for (int i = 0; i < parsedTags.Length; i++) {
                     parsedTags[i] = parsedTags[i].Trim();
                 }
                 return parsedTags;
@@ -180,32 +162,22 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Save all changes to the page to OneNote
         /// </summary>
-        internal void Update()
-        {
-            if (_tags != null)
-            {
+        internal void Update() {
+            if (_tags != null) {
                 string[] savedTags = _tags;
-                if (ApplyTagsToPage())
-                {
-                    try
-                    {
+                if (ApplyTagsToPage()) {
+                    try {
                         _onenote.UpdatePage(_pageDoc, _lastModified);
                         _tags = null;
-                    }
-                    catch (COMException ce)
-                    {
-                        unchecked
-                        {
-                            if (ce.ErrorCode == (int)0x80042010)
-                            { // try again after concurrent page modification
+                    } catch (COMException ce) {
+                        unchecked {
+                            if (ce.ErrorCode == (int)0x80042010) { // try again after concurrent page modification
                                 LoadOneNotePage();
                                 PageTags = savedTags;
                                 ApplyTagsToPage();
                                 _onenote.UpdatePage(_pageDoc, _lastModified);
                                 _tags = null;
-                            }
-                            else
-                            {
+                            } else {
                                 throw;
                             }
                         }
@@ -219,14 +191,11 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </summary>
         /// <param name="element"> element to add</param>
         /// <param name="sequence">index of element name in the schema sequence</param>
-        private void addElementToPage(XElement element, int sequence)
-        {
+        private void addElementToPage(XElement element, int sequence) {
             // locate a successor
-            for (int i = sequence; i < ELEMENT_SEQUENCE.Length; i++)
-            {
+            for (int i = sequence; i < ELEMENT_SEQUENCE.Length; i++) {
                 XElement first = _page.Elements(_one.GetName(ELEMENT_SEQUENCE[i])).FirstOrDefault();
-                if (first != null)
-                {
+                if (first != null) {
                     first.AddBeforeSelf(element);
                     return;
                 }
@@ -238,10 +207,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// Add tags to the page as specified by the <see cref="TagDisplay" /> enumeration.
         /// </summary>
         /// <returns><i>true</i> if a page update is needed; <i>false</i> otherwise</returns>
-        private bool ApplyTagsToPage()
-        {
-            if (_tags == null)
-            {
+        private bool ApplyTagsToPage() {
+            if (_tags == null) {
                 return false; // can only apply tags once
             }
 
@@ -251,18 +218,13 @@ namespace WetHatLab.OneNote.TaggingKit.common
             string newMetaContent = _meta != null ? _meta.Attribute("content").Value : String.Empty;
 
             XName tagName = _one.GetName("Tag");
-            if (string.IsNullOrEmpty(newMetaContent))
-            {
-                if (_pageTagsOE != null)
-                { // no more tags - remove tag display
-                    if (_pageTagsOE == _titleOE)
-                    { // in title tag
+            if (string.IsNullOrEmpty(newMetaContent)) {
+                if (_pageTagsOE != null) { // no more tags - remove tag display
+                    if (_pageTagsOE == _titleOE) { // in title tag
                         string markertagindex = _markerTagDef.Attribute("index").Value;
                         XElement markerTag = _titleOE.Elements(tagName).FirstOrDefault(t => t.Attribute("index").Value == markertagindex);
                         markerTag.Remove();
-                    }
-                    else
-                    { // below title tags
+                    } else { // below title tags
                         _onenote.DeletePageContent(PageID, _pageTagsOE.Parent.Parent.Attribute("objectID").Value);
                         _pageTagsOE.Parent.Parent.Remove();
                         _pageTagsOE = null;
@@ -271,42 +233,34 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 return true;
             }
 
-            if (_pageTagsOE == null)
-            { // make sure we update the page even if tags are unchanged
+            if (_pageTagsOE == null) { // make sure we update the page even if tags are unchanged
                 specChanged = true;
             }
             XName tagdefName = _one.GetName("TagDef");
-            if (specChanged)
-            {  // some differences detected - must update
+            if (specChanged) {  // some differences detected - must update
                 string markerTagIndex = _markerTagDef.Attribute("index").Value; ;
-                switch ((TagDisplay)Properties.Settings.Default.TagDisplay)
-                {
+                switch ((TagDisplay)Properties.Settings.Default.TagDisplay) {
                     case TagDisplay.BelowTitle:
                         // remove unwanted representation - in title tags
-                        if (_pageTagsOE != null && _pageTagsOE == _titleOE)
-                        {
+                        if (_pageTagsOE != null && _pageTagsOE == _titleOE) {
                             XElement tag = _pageTagsOE.Elements(tagName).FirstOrDefault(e => e.Attribute("index").Value == markerTagIndex);
-                            if (tag != null)
-                            {
+                            if (tag != null) {
                                 tag.Remove();
                             }
                             _pageTagsOE = null; // rebuild outline;
                         }
 
                         // update/create the tag outline
-                        if (_pageTagsOE != null)
-                        { // remove all old <one:T> text elements, but leave the marker tag in place.
+                        if (_pageTagsOE != null) { // remove all old <one:T> text elements, but leave the marker tag in place.
                             XName tName = _one.GetName("T");
-                            foreach (XElement t in _pageTagsOE.Elements(tName).ToArray())
-                            {
+                            foreach (XElement t in _pageTagsOE.Elements(tName).ToArray()) {
                                 t.Remove();
                             }
                             // Add comma separated tags
                             _pageTagsOE.Add(new XElement(tName, newMetaContent));
-                        }
-                        else
-                        { // build new outline for the tags
-                          // Create a style for the tags - if needed <one:QuickStyleDef index="1"
+                        } else { // build new outline for the tags
+                                 // Create a style for the tags - if needed
+                                 // <one:QuickStyleDef index="1"
 
                             // name="cite" fontColor="#595959" highlightColor="automatic"
                             // font="Calibri" fontSize="9"
@@ -315,8 +269,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                             IEnumerable<XElement> quickstyleDefs = _page.Elements(styledefName);
                             XElement tagStyle = quickstyleDefs.FirstOrDefault(d => d.Attribute("name").Value == Properties.Settings.Default.TagOutlineStyle_Name);
 
-                            if (tagStyle == null)
-                            { // new style required
+                            if (tagStyle == null) { // new style required
                                 tagStyle = new XElement(styledefName,
                                                new XAttribute("index", (quickstyleDefs.Count() + 1).ToString()),
                                                new XAttribute("name", Properties.Settings.Default.TagOutlineStyle_Name),
@@ -365,16 +318,14 @@ namespace WetHatLab.OneNote.TaggingKit.common
                         break;
 
                     case TagDisplay.InTitle:
-                        if (_pageTagsOE != null && _pageTagsOE != _titleOE)
-                        { // remove unwanted representation - below title tags
+                        if (_pageTagsOE != null && _pageTagsOE != _titleOE) { // remove unwanted representation - below title tags
                             _onenote.DeletePageContent(PageID, _pageTagsOE.Parent.Parent.Attribute("objectID").Value);
                             _pageTagsOE.Parent.Parent.Remove();
                             _pageTagsOE = _titleOE;
                         }
 
                         // tag the title if needed
-                        if (_titleOE.Elements(tagName).FirstOrDefault(e => markerTagIndex.Equals(e.Attribute("index").Value)) == null)
-                        {
+                        if (_titleOE.Elements(tagName).FirstOrDefault(e => markerTagIndex.Equals(e.Attribute("index").Value)) == null) {
                             _titleOE.AddFirst(new XElement(tagName,
                                                   new XAttribute("index", markerTagIndex),
                                                   new XAttribute("completed", "true")));
@@ -385,8 +336,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             return specChanged;
         }
 
-        private void LoadOneNotePage()
-        {
+        private void LoadOneNotePage() {
             _pageTagsOE = null;
             _pageDoc = _onenote.GetPage(PageID);
             _one = _pageDoc.Root.GetNamespaceOfPrefix("one");
@@ -411,8 +361,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             List<XElement> outlinesToDelete = new List<XElement>();
 
             // find <one:Outline> containing page tags.
-            if (_markerTagDef != null)
-            {
+            if (_markerTagDef != null) {
                 string defindex = _markerTagDef.Attribute("index").Value;
                 // locate the tag outline element looking like this
                 //<one:Outline author="Peter Ernst" authorInitials="PE" lastModifiedBy="Peter Ernst" lastModifiedByInitials="PE" objectID="{E470786C-A904-4E9F-AC3B-0D9F36B6FC54}{14}{B0}" lastModifiedTime="2013-12-06T16:04:48.000Z">
@@ -427,28 +376,22 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 //</one:Outline>
                 //
                 // For performance reasons we avoid Xpath!
-                foreach (var outline in _page.Elements(outlineName))
-                {
+                foreach (var outline in _page.Elements(outlineName)) {
                     // the outline we are looking for has one <one:OEChildren> element with
                     // one <one:OE> element containing a <one:Tag> with the given index
-                    if (_pageTagsOE == null)
-                    {
+                    if (_pageTagsOE == null) {
                         XElement OEChildren = outline.Element(_one.GetName("OEChildren"));
-                        if (OEChildren != null)
-                        {
+                        if (OEChildren != null) {
                             XElement OE = OEChildren.Element(_one.GetName("OE"));
-                            if (OE != null)
-                            {
+                            if (OE != null) {
                                 XElement tag = (from t in OE.Elements(_one.GetName("Tag"))
                                                 where t.Attribute("index").Value == defindex
                                                 select t).FirstOrDefault();
-                                if (tag != null)
-                                { // found the outline with page tags, get the text element containing the tags
+                                if (tag != null) { // found the outline with page tags, get the text element containing the tags
                                     _pageTagsOE = OE;
                                     // delete the Indents as they tend to cause errors
                                     XElement indents = outline.Element(_one.GetName("Indents"));
-                                    if (indents != null)
-                                    {
+                                    if (indents != null) {
                                         indents.Remove();
                                     }
                                     continue;
@@ -458,41 +401,32 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     }
                     outlinesToDelete.Add(outline); // enroll for deletion
                 }
-            }
-            else
-            { // just record all outline elements for deletion
-                foreach (var outline in _page.Elements(outlineName))
-                {
+            } else { // just record all outline elements for deletion
+                foreach (var outline in _page.Elements(outlineName)) {
                     outlinesToDelete.Add(outline);
                 }
             }
 
             // delete outlines to make updating the page as fast as possible, knowing that
             // the update method will keep these outlines actually on the page.
-            foreach (XElement outline in outlinesToDelete)
-            {
+            foreach (XElement outline in outlinesToDelete) {
                 outline.Remove();
             }
 
             XName titleName = _one.GetName("Title");
             XElement title = _page.Element(titleName);
-            if (title == null)
-            {
+            if (title == null) {
                 title = new XElement(titleName, _titleOE = new XElement(_one.GetName("OE")));
                 addElementToPage(title, TITLE_IDX);
-            }
-            else
-            {
+            } else {
                 _titleOE = title.Element(_one.GetName("OE"));
-                if (_markerTagDef != null && "99".Equals(_markerTagDef.Attribute("type").Value))
-                {
+                if (_markerTagDef != null && "99".Equals(_markerTagDef.Attribute("type").Value)) {
                     _pageTagsOE = _titleOE;
                 }
             }
         }
 
-        private bool UpdateTagSpec()
-        {
+        private bool UpdateTagSpec() {
             bool specChanged = false;
             // collect all tag definitions
             XName tagdefName = _one.GetName("TagDef");
@@ -515,35 +449,30 @@ namespace WetHatLab.OneNote.TaggingKit.common
             var tagnameToTagdefMap = new Dictionary<string, XElement>();
             int redundantTagCount = 0;
             foreach (XElement tagdef in tagDefs.Where(d => d.Attribute("symbol").Value == "0"
-                                                          && _originalTags.Contains(d.Attribute("name").Value)))
-            {
+                                                          && _originalTags.Contains(d.Attribute("name").Value))) {
                 string tagname = tagdef.Attribute("name").Value;
-                if (tagnameToTagdefMap.ContainsKey(tagname))
-                { // another tag with that name already exists.
-                  // Give that tag a unique name, so that if can be cleaned up later
+                if (tagnameToTagdefMap.ContainsKey(tagname)) { // another tag with that name already exists.
+                                                               // Give that tag a unique
+                                                               // name, so that if can be
+                                                               // cleaned up later
                     tagname = string.Format("{0}@#|{1}", tagname, redundantTagCount++);
                 }
                 tagnameToTagdefMap[tagname] = tagdef;
                 // make sure type is equal to index so that type is unique
                 tagdef.Attribute("type").Value = tagdef.Attribute("index").Value;
                 // remove any color attribute so that the title can show its original color
-                if (tagdef.Attribute("fontColor") != null)
-                {
+                if (tagdef.Attribute("fontColor") != null) {
                     tagdef.Attribute("fontColor").Remove();
                 }
             }
             XName tagName = _one.GetName("Tag");
             // add new tag definitions, if needed
-            foreach (string tag in PageTags)
-            {
+            foreach (string tag in PageTags) {
                 XElement tagdef;
                 string strIndex;
-                if (tagnameToTagdefMap.TryGetValue(tag, out tagdef))
-                {
+                if (tagnameToTagdefMap.TryGetValue(tag, out tagdef)) {
                     strIndex = tagdef.Attribute("index").Value;
-                }
-                else
-                { // create a new definition for this tag
+                } else { // create a new definition for this tag
                     strIndex = (nextTagDefIndex++).ToString(CultureInfo.InvariantCulture);
                     tagdef = new XElement(tagdefName, new XAttribute("index", strIndex),
                                                       new XAttribute("name", tag),
@@ -556,8 +485,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
                 XElement titleTag = _titleOE.Elements(tagName).FirstOrDefault(t => t.Attribute("index").Value == strIndex);
 
-                if (titleTag == null)
-                {
+                if (titleTag == null) {
                     _titleOE.AddFirst(new XElement(tagName,
                                                   new XAttribute("index", strIndex),
                                                   new XAttribute("completed", "true")));
@@ -570,12 +498,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
             // remove unused tags from the title; this also automatically removes their
             // definitions on next page update.
             // TODO: avoid quadratic lookup
-            foreach (XElement td in tagnameToTagdefMap.Values)
-            {
+            foreach (XElement td in tagnameToTagdefMap.Values) {
                 string strIndex = td.Attribute("index").Value;
                 XElement tag = _titleOE.Elements(tagName).FirstOrDefault(t => t.Attribute("index").Value == strIndex);
-                if (tag != null)
-                {
+                if (tag != null) {
                     tag.Remove();
                     specChanged = true;
                 }
@@ -584,39 +510,30 @@ namespace WetHatLab.OneNote.TaggingKit.common
             string strTags = string.Join(", ", PageTags);
 
             // create the <one:Meta> element for page tags, if needed
-            if (_tags.Length > 0)
-            { // we have tags to set
-                if (_meta == null)
-                {
+            if (_tags.Length > 0) { // we have tags to set
+                if (_meta == null) {
                     _meta = new XElement(_one.GetName("Meta"),
                                     new XAttribute("name", META_NAME));
                     addElementToPage(_meta, META_IDX);
                     specChanged = true;
                 }
                 _meta.SetAttributeValue("content", strTags);
-            }
-            else
-            {
-                if (_meta != null)
-                { // we cannot remove the meta element, so we just set it to the empty string.
+            } else {
+                if (_meta != null) { // we cannot remove the meta element, so we just set it to the empty string.
                     _meta.SetAttributeValue("content", string.Empty);
                     specChanged = true;
                 }
             }
 
             // create or update the marker tag definition
-            if (_markerTagDef != null)
-            { // existing tag definition recycling
-                switch ((TagDisplay)Properties.Settings.Default.TagDisplay)
-                {
+            if (_markerTagDef != null) { // existing tag definition recycling
+                switch ((TagDisplay)Properties.Settings.Default.TagDisplay) {
                     case TagDisplay.BelowTitle:
-                        if (!"23".Equals(_markerTagDef.Attribute("type").Value))
-                        {
+                        if (!"23".Equals(_markerTagDef.Attribute("type").Value)) {
                             _markerTagDef.SetAttributeValue("type", "23");
                             specChanged = true;
                         }
-                        if (!MarkerTagname.Equals(_markerTagDef.Attribute("type").Name))
-                        {
+                        if (!MarkerTagname.Equals(_markerTagDef.Attribute("type").Name)) {
                             _markerTagDef.SetAttributeValue("name", MarkerTagname);
                             specChanged = true;
                         }
@@ -624,24 +541,19 @@ namespace WetHatLab.OneNote.TaggingKit.common
                         break;
 
                     case TagDisplay.InTitle:
-                        if (!"99".Equals(_markerTagDef.Attribute("type").Value))
-                        {
+                        if (!"99".Equals(_markerTagDef.Attribute("type").Value)) {
                             _markerTagDef.SetAttributeValue("type", "99");
                             specChanged = true;
                         }
-                        if (!strTags.Equals(_markerTagDef.Attribute("name").Value))
-                        {
+                        if (!strTags.Equals(_markerTagDef.Attribute("name").Value)) {
                             _markerTagDef.SetAttributeValue("name", strTags);
                             specChanged = true;
                         }
                         break;
                 }
-            }
-            else
-            { // create a new tag definition
+            } else { // create a new tag definition
                 string strIndex = nextTagDefIndex.ToString(CultureInfo.InvariantCulture);
-                switch ((TagDisplay)Properties.Settings.Default.TagDisplay)
-                {
+                switch ((TagDisplay)Properties.Settings.Default.TagDisplay) {
                     case TagDisplay.BelowTitle:
                         _markerTagDef = new XElement(tagdefName,
                                             new XAttribute("index", strIndex),
