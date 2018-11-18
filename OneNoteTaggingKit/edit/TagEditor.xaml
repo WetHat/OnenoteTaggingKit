@@ -52,14 +52,17 @@
                     HorizontalAlignment="Left">
             <ComboBox Name="taggingScope"
                 HorizontalAlignment="Center"
-                SelectedIndex="0"
+                SelectedIndex="{Binding ScopeIndex}"
+                IsEnabled="{Binding ScopesEnabled}"
                 ItemsSource="{Binding TaggingScopes}"
                 DisplayMemberPath="Label"
                 VerticalAlignment="Bottom"
                 FontSize="14"
                 TextOptions.TextFormattingMode="Display"
                 ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_ComboBox_Scope_Tooltip}}"
-                IsTextSearchEnabled="True" IsEditable="False" Margin="0,0,0,2">
+                IsTextSearchEnabled="True"
+                IsEditable="False"
+                Margin="0,0,0,2">
                 <ComboBox.Effect>
                     <DropShadowEffect Color="LightBlue" />
                 </ComboBox.Effect>

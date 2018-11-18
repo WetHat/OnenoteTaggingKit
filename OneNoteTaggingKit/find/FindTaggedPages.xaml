@@ -189,7 +189,6 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.FoundPages_MenuItem_Select_All}}"
-                          Margin="0,5,0,5"
                           Tag="SelectAll" Click="Page_MenuItem_Click">
                     <MenuItem.Icon>
                         <TextBlock  Text=""
@@ -205,6 +204,13 @@
                           Click="Page_MenuItem_Click">
                     <MenuItem.Icon>
                         <Image Source="/OneNoteTaggingKit;component/Resources/copy_link-32.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.FoundPages_MenuItem_TagSelected}}"
+                          Tag="TagSelection"
+                          Click="Page_MenuItem_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/OneNoteTaggingKit;component/Resources/tag-bw-32.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.FoundPages_MenuItem_MarkSelection}}"

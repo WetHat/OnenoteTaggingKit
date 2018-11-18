@@ -116,6 +116,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tag Selected Pages.
+        /// </summary>
+        public static string FoundPages_MenuItem_TagSelected {
+            get {
+                return ResourceManager.GetString("FoundPages_MenuItem_TagSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap refresh_32 {

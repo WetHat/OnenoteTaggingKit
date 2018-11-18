@@ -491,4 +491,7 @@ Tap or click link to navigate to page.</value>
   <data name="TagManager_PreferencesTab_TagDisplay_Tooltip" xml:space="preserve">
     <value>Location where the page tags are placed on a OneNote page.</value>
   </data>
+  <data name="FoundPages_MenuItem_TagSelected" xml:space="preserve">
+    <value>Tag Selected Pages</value>
+  </data>
 </root>

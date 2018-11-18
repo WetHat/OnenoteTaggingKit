@@ -34,12 +34,10 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <summary>
         /// Create a new instance of the OneNote connector object.
         /// </summary>
-        public ConnectTaggingKitAddin()
-        {
+        public ConnectTaggingKitAddin() {
             // Upgrade Settings if necessary. On new version the UpdateRequired flag is
             // reset to default (true)
-            if (Properties.Settings.Default.UpdateRequired)
-            {
+            if (Properties.Settings.Default.UpdateRequired) {
                 Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.UpdateRequired = false;
             }
@@ -54,8 +52,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="custom">
         /// An empty array that you can use to pass host-specific data for use in the add-in.
         /// </param>
-        public void OnAddInsUpdate(ref Array custom)
-        {
+        public void OnAddInsUpdate(ref Array custom) {
             TraceLogger.Log(TraceCategory.Info(), "{0} update initiated; Arguments '{1}'", Properties.Resources.TaggingKit_About_Appname, custom);
         }
 
@@ -65,17 +62,14 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="custom">
         /// An empty array that you can use to pass host-specific data for use in the add-in.
         /// </param>
-        public void OnBeginShutdown(ref Array custom)
-        {
+        public void OnBeginShutdown(ref Array custom) {
             TraceLogger.Log(TraceCategory.Info(), "Beginning {0} shutdown; Arguments '{1}'", Properties.Resources.TaggingKit_About_Appname, custom);
-            if (_dialogmanager != null)
-            {
+            if (_dialogmanager != null) {
                 _dialogmanager.Dispose();
                 _dialogmanager = null;
             }
 
-            if (_onProxy != null)
-            {
+            if (_onProxy != null) {
                 _onProxy.Dispose();
                 _onProxy = null;
             }
@@ -92,18 +86,14 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="custom">     
         /// An empty array that you can use to pass host-specific data for use in the add-in
         /// </param>
-        public void OnConnection(object app, ext_ConnectMode ConnectMode, object AddInInst, ref Array custom)
-        {
-            try
-            {
+        public void OnConnection(object app, ext_ConnectMode ConnectMode, object AddInInst, ref Array custom) {
+            try {
                 TraceLogger.Log(TraceCategory.Info(), "Connection mode '{0}'", ConnectMode);
 
                 _onProxy = new OneNoteProxy(app as Microsoft.Office.Interop.OneNote.Application);
                 _dialogmanager = new AddInDialogManager();
                 TraceLogger.Flush();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 TraceLogger.Log(TraceCategory.Error(), "Connecting {0} failed: {1}", Properties.Resources.TaggingKit_About_Appname, ex);
                 TraceLogger.Flush();
                 throw;
@@ -120,11 +110,9 @@ namespace WetHatLab.OneNote.TaggingKit
         /// An empty array that you can use to pass host-specific data for use after the
         /// add-in unloads.
         /// </param>
-        public void OnDisconnection(ext_DisconnectMode RemoveMode, ref Array custom)
-        {
+        public void OnDisconnection(ext_DisconnectMode RemoveMode, ref Array custom) {
             TraceLogger.Log(TraceCategory.Info(), "Disconnecting; mode='{0}'; Arguments: '{1}'", RemoveMode, custom);
-            if (_dialogmanager != null)
-            {
+            if (_dialogmanager != null) {
                 _dialogmanager.Dispose();
                 _dialogmanager = null;
             }
@@ -132,8 +120,7 @@ namespace WetHatLab.OneNote.TaggingKit
             GC.Collect();
             GC.WaitForPendingFinalizers();
             if (RemoveMode == ext_DisconnectMode.ext_dm_HostShutdown
-                 || RemoveMode == ext_DisconnectMode.ext_dm_UserClosed)
-            {
+                 || RemoveMode == ext_DisconnectMode.ext_dm_UserClosed) {
                 // a dirty hack to make sure the ddlhost shuts down after an exception
                 // occurred. This is necessary to allow the add-in to be loaded
                 // successfully next time OneNote starts (a zombie dllhost would prevent that)
@@ -150,15 +137,11 @@ namespace WetHatLab.OneNote.TaggingKit
         /// An empty array that you can use to pass host-specific data for use when the
         /// add-in loads.
         /// </param>
-        public void OnStartupComplete(ref Array custom)
-        {
+        public void OnStartupComplete(ref Array custom) {
             TraceLogger.Log(TraceCategory.Info(), "Startup Arguments '{0}'", custom);
-            try
-            {
+            try {
                 XMLSchema s = _onProxy.OneNoteSchema; // cache the schema
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 TraceLogger.Log(TraceCategory.Error(), "{0} initialization failed: {1}", Properties.Resources.TaggingKit_About_Appname, ex);
                 TraceLogger.Flush();
                 throw;
@@ -176,8 +159,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// </summary>
         /// <param name="RibbonID">identifier of the ribbon</param>
         /// <returns>ribbon definition XML as string</returns>
-        public string GetCustomUI(string RibbonID)
-        {
+        public string GetCustomUI(string RibbonID) {
             TraceLogger.Log(TraceCategory.Info(), "UI configuration requested: {0}", RibbonID);
             return Properties.Resources.ribbon;
         }
@@ -189,8 +171,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// </summary>
         /// <remarks>Opens the page tag editor</remarks>
         /// <param name="ribbon">OneNote ribbon bar</param>
-        public void editTags(IRibbonControl ribbon)
-        {
+        public void editTags(IRibbonControl ribbon) {
             TraceLogger.Log(TraceCategory.Info(), "Show tag editor");
             _dialogmanager.Show<TagEditor, TagEditorModel>(() => new TagEditorModel(_onProxy));
         }
@@ -199,8 +180,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// Action to open the search tags UI
         /// </summary>
         /// <param name="ribbon">OneNote ribbon bar</param>
-        public void findTags(IRibbonControl ribbon)
-        {
+        public void findTags(IRibbonControl ribbon) {
             TraceLogger.Log(TraceCategory.Info(), "Show tag finder");
             _dialogmanager.Show<FindTaggedPages, FindTaggedPagesModel>(() => new FindTaggedPagesModel(_onProxy));
         }
@@ -209,8 +189,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// Action to open the "Related Pages" UI
         /// </summary>
         /// <param name="ribbon">OneNote ribbon bar</param>
-        public void relatedPages(IRibbonControl ribbon)
-        {
+        public void relatedPages(IRibbonControl ribbon) {
             TraceLogger.Log(TraceCategory.Info(), "Show related pages tracer");
             _dialogmanager.Show<RelatedPages, RelatedPagesModel>(() => new RelatedPagesModel(_onProxy));
         }
@@ -219,10 +198,9 @@ namespace WetHatLab.OneNote.TaggingKit
         /// Action to open a tag management dialog.
         /// </summary>
         /// <param name="ribbon"></param>
-        public void manageTags(IRibbonControl ribbon)
-        {
+        public void manageTags(IRibbonControl ribbon) {
             TraceLogger.Log(TraceCategory.Info(), "Show settings editor");
-            _dialogmanager.ShowDialog<TagManager, TagManagerModel>(() => new TagManagerModel(_onProxy));
+            AddInDialogManager.ShowDialog<TagManager, TagManagerModel>(() => new TagManagerModel(_onProxy));
         }
 
         /// <summary>
@@ -230,12 +208,10 @@ namespace WetHatLab.OneNote.TaggingKit
         /// </summary>
         /// <param name="imageName">name of image to get</param>
         /// <returns>image stream</returns>
-        public IStream GetImage(string imageName)
-        {
+        public IStream GetImage(string imageName) {
             MemoryStream mem = new MemoryStream();
 
-            switch (imageName)
-            {
+            switch (imageName) {
                 case "pageTags.png":
                     Properties.Resources.tag_32x32.Save(mem, ImageFormat.Png);
                     break;

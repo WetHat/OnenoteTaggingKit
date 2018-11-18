@@ -16,7 +16,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     internal interface ITagEditorModel
     {
         /// <summary>
-        /// Get the collection of tags on current OneNote page.
+        /// Get the collection of tags to apply to one or more OneNote pages.
         /// </summary>
         ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> PageTags { get; }
 
@@ -24,6 +24,10 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// Get the enumeration of tagging scopes
         /// </summary>
         IEnumerable<TaggingScopeDescriptor> TaggingScopes { get; }
+
+        int ScopeIndex { get; }
+
+        bool ScopesEnabled { get; }
     }
 
     /// <summary>
@@ -52,8 +56,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     /// </summary>
     public class TaggingScopeDescriptor
     {
-        internal TaggingScopeDescriptor(TaggingScope scope, string label)
-        {
+        internal TaggingScopeDescriptor(TaggingScope scope, string label) {
             Scope = scope;
             Label = label;
         }
@@ -82,40 +85,45 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     [ComVisible(false)]
     public class TagEditorModel : WindowViewModelBase, ITagEditorModel
     {
-        private static readonly PropertyChangedEventArgs PAGE_TITLE = new PropertyChangedEventArgs("PageTitle");
-
-        private SuggestedTagsSource<HitHighlightedTagButtonModel> _suggestionSource;
-
         private ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> _pageTags = new ObservableSortedList<TagModelKey, string, SimpleTagButtonModel>();
 
-        private TaggingScopeDescriptor[] _taggingScopes;
+        private readonly TaggingScopeDescriptor[] _taggingScopes;
 
-        public SuggestedTagsSource<HitHighlightedTagButtonModel> TagSuggestions
-        {
-            get
-            {
-                return _suggestionSource;
+        public SuggestedTagsSource<HitHighlightedTagButtonModel> TagSuggestions { get; internal set; }
+
+        [DefaultValue(TaggingScope.CurrentNote)]
+        internal TaggingScope Scope { get; set; }
+
+        public int ScopeIndex {
+            get {
+                return (int)Scope;
             }
-            internal set
-            {
-                _suggestionSource = value;
+            set {
+                Scope = (TaggingScope)value;
             }
         }
+
+        [DefaultValue(true)]
+        public bool ScopesEnabled {
+            get {
+                return Scope != TaggingScope.SelectedNotes || PagesToTag == null;
+            }
+        }
+
+        [DefaultValue(null)]
+        public IEnumerable<string> PagesToTag { get; set; }
 
         /// <summary>
         /// Collection of tags found in a OneNote hierarchy context (section, section
         /// group, notebook)
         /// </summary>
-        public TagsAndPages ContextTagCollection
-        {
-            get
-            {
+        public TagsAndPages ContextTagCollection {
+            get {
                 return new TagsAndPages(OneNoteApp);
             }
         }
 
-        internal TagEditorModel(OneNoteProxy onenote) : base(onenote)
-        {
+        internal TagEditorModel(OneNoteProxy onenote) : base(onenote) {
             _taggingScopes = new TaggingScopeDescriptor[] {
                new TaggingScopeDescriptor(TaggingScope.CurrentNote,Properties.Resources.TagEditor_ComboBox_Scope_CurrentNote),
                new TaggingScopeDescriptor(TaggingScope.SelectedNotes,Properties.Resources.TagEditor_ComboBox_Scope_SelectedNotes),
@@ -126,36 +134,30 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         #region ITagEditorModel
 
         /// <summary>
-        /// Get the collection of tags on the current page.
+        /// Get the collection of tags for tagging one or more OneNote pages.
         /// </summary>
-        public ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> PageTags
-        {
+        public ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> PageTags {
             get { return _pageTags; }
         }
 
         /// <summary>
         /// Get a collection of scopes available for tagging
         /// </summary>
-        public IEnumerable<TaggingScopeDescriptor> TaggingScopes
-        {
+        public IEnumerable<TaggingScopeDescriptor> TaggingScopes {
             get { return _taggingScopes; }
         }
 
         #endregion ITagEditorModel
 
-        internal int EnqueuePagesForTagging(TagOperation op, TaggingScope scope)
-        {
+        internal int EnqueuePagesForTagging(TagOperation op) {
             // bring suggestions up-to-date with new tags that may have been entered
             TagSuggestions.AddAll(from t in _pageTags where !TagSuggestions.ContainsKey(t.Key) select new HitHighlightedTagButtonModel() { TagName = t.TagName });
             TagSuggestions.Save();
 
-            TagsAndPages tc = new TagsAndPages(OneNoteApp);
-
             // covert scope to context
             TagContext ctx;
 
-            switch (scope)
-            {
+            switch (Scope) {
                 default:
                 case TaggingScope.CurrentNote:
                     ctx = TagContext.CurrentNote;
@@ -169,11 +171,19 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     ctx = TagContext.CurrentSection;
                     break;
             }
-            tc.LoadPageTags(ctx);
-            string[] pageTags = (from t in _pageTags.Values select t.TagName).ToArray();
+
+            IEnumerable<string> pageIDs = null;
+            if (ScopesEnabled) {
+                TagsAndPages tc = new TagsAndPages(OneNoteApp);
+                tc.LoadPageTags(ctx);
+                pageIDs = tc.Pages.Select(p => p.Key);
+            } else {
+                pageIDs = PagesToTag;
+            }
+
             int enqueuedPages = 0;
-            foreach (string pageID in (from p in tc.Pages select p.Key))
-            {
+            string[] pageTags = (from t in _pageTags.Values select t.TagName).ToArray();
+            foreach (string pageID in pageIDs) {
                 OneNoteApp.TaggingService.Add(new TaggingJob(pageID, pageTags, op));
                 enqueuedPages++;
             }

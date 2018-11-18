@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using System.Collections.Generic;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 
@@ -10,14 +10,13 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     /// </summary>
     public class TagEditorDesignerModel : ITagEditorModel
     {
-        ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> _pageTags = new ObservableSortedList<TagModelKey, string, SimpleTagButtonModel>();
-        ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel> _suggestedTags = new ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel>();
+        private ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> _pageTags = new ObservableSortedList<TagModelKey, string, SimpleTagButtonModel>();
+        private ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel> _suggestedTags = new ObservableSortedList<TagModelKey, string, HitHighlightedTagButtonModel>();
 
         /// <summary>
         /// Create a new instance of the view model
         /// </summary>
-        public TagEditorDesignerModel()
-        {
+        public TagEditorDesignerModel() {
             _suggestedTags.AddAll(new HitHighlightedTagButtonModel[] {
                 new HitHighlightedTagButtonModel() { TagName="Suggested Tag 1"},
                 new HitHighlightedTagButtonModel() { TagName="Suggested Tag 2"}
@@ -29,17 +28,27 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <summary>
         /// get the collection of page tags.
         /// </summary>
-        public ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> PageTags
-        {
+        public ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> PageTags {
             get { return _pageTags; }
+        }
+
+        public int ScopeIndex {
+            get {
+                return (int)TaggingScope.CurrentNote;
+            }
+        }
+
+        public bool ScopesEnabled {
+            get {
+                return true;
+            }
         }
 
         /// <summary>
         /// Get the design time collection of scopes
         /// </summary>
-        public IEnumerable<TaggingScopeDescriptor> TaggingScopes
-        {
-            get { return new TaggingScopeDescriptor[] { new TaggingScopeDescriptor(TaggingScope.CurrentNote,"Current Note")}; }
+        public IEnumerable<TaggingScopeDescriptor> TaggingScopes {
+            get { return new TaggingScopeDescriptor[] { new TaggingScopeDescriptor(TaggingScope.CurrentNote, "Current Note") }; }
         }
     }
 }
