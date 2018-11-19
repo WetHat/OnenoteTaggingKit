@@ -119,7 +119,7 @@ EndSelection:{5:D6}";
 <!--StartFragment-->";
                            StringBuilder links = new StringBuilder();
 
-                           foreach (var mdl in _model.Pages.Where((p) => p.IsSelected)) {
+                           foreach (var mdl in _model.Pages.Where(p => p.IsSelected && !p.IsInRecycleBin)) {
                                string pageTitle = mdl.LinkTitle;
                                try {
                                    if (links.Length > 0) {

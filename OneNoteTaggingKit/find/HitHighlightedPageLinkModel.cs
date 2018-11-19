@@ -1,5 +1,4 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
-// Author: WetHat | (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +9,7 @@ using WetHatLab.OneNote.TaggingKit.common;
 namespace WetHatLab.OneNote.TaggingKit.find
 {
     /// <summary>
-    /// Contract for view models supporting the <see cref="HitHighlightedPageLink"/> control.
+    /// Contract for view models supporting the <see cref="HitHighlightedPageLink" /> control.
     /// </summary>
     public interface IHitHighlightedPageLinkModel
     {
@@ -24,7 +23,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     }
 
     /// <summary>
-    /// Sortable key to support the ranked display of <see cref="HitHighlightedPageLink"/> controls.
+    /// Sortable key to support the ranked display of <see cref="HitHighlightedPageLink" /> controls.
     /// </summary>
     public class HitHighlightedPageLinkKey : IComparable<HitHighlightedPageLinkKey>, IEquatable<HitHighlightedPageLinkKey>
     {
@@ -32,8 +31,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private string _title;
 
-        internal HitHighlightedPageLinkKey(string pageTitle, string pageId)
-        {
+        internal HitHighlightedPageLinkKey(string pageTitle, string pageId) {
             _title = pageTitle.ToLower();
             PageID = pageId;
         }
@@ -46,10 +44,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Get number of hits of the query string against the page title
         /// </summary>
-        internal int HitCount
-        {
-            set
-            {
+        internal int HitCount {
+            set {
                 _hits = value;
             }
         }
@@ -60,32 +56,33 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// compare this key with another key.
         /// </summary>
         /// <param name="other">the other key to compare with</param>
-        /// <returns><list type="bullet">
-        /// <item>a negative number, if this instance of the key comes before the other key</item>
+        /// <returns>
+        /// <list type="bullet">
+        /// <item>
+        /// a negative number, if this instance of the key comes before the other key
+        /// </item>
         /// <item>0, if both keys are identical</item>
-        /// <item>a positive number, if this instance of the key comes after the other key</item>
+        /// <item>
+        /// a positive number, if this instance of the key comes after the other key
+        /// </item>
         /// </list>
         /// </returns>
-        /// <remarks>ordering takes into account the number of matches of the query against the page title</remarks>
-        public int CompareTo(HitHighlightedPageLinkKey other)
-        {
+        /// <remarks>
+        /// ordering takes into account the number of matches of the query against the page title
+        /// </remarks>
+        public int CompareTo(HitHighlightedPageLinkKey other) {
             int retval = 0;
-            if (_hits < other._hits)
-            {
+            if (_hits < other._hits) {
                 retval = 1;
-            }
-            else if (_hits > other._hits)
-            {
+            } else if (_hits > other._hits) {
                 retval = -1;
             }
 
-            if (retval == 0)
-            {
+            if (retval == 0) {
                 retval = _title.CompareTo(other._title);
             }
 
-            if (retval == 0)
-            {
+            if (retval == 0) {
                 retval = PageID.CompareTo(other.PageID);
             }
 
@@ -101,8 +98,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         /// <param name="other">the other key to chack against</param>
         /// <returns>true if both keys are equal; false if they are not</returns>
-        public bool Equals(HitHighlightedPageLinkKey other)
-        {
+        public bool Equals(HitHighlightedPageLinkKey other) {
             return PageID.Equals(other.PageID);
         }
 
@@ -110,10 +106,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
     }
 
     /// <summary>
-    /// View model to support the <see cref="HitHighlightedPageLink"/> control.
+    /// View model to support the <see cref="HitHighlightedPageLink" /> control.
     /// </summary>
-    /// <remarks>The view model describes a link to a OneNote page returned from a search operation.
-    /// <para>The search query is used to generate a hit highlighted rendering of a link to a OneNote page</para>
+    /// <remarks>
+    /// The view model describes a link to a OneNote page returned from a search operation.
+    /// <para>
+    /// The search query is used to generate a hit highlighted rendering of a link to a
+    /// OneNote page
+    /// </para>
     /// </remarks>
     public class HitHighlightedPageLinkModel : HitHighlightedPageLinkKey, ISortableKeyedItem<HitHighlightedPageLinkKey, string>, IHitHighlightedPageLinkModel, INotifyPropertyChanged
     {
@@ -136,12 +136,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// create a new instance of the view model.
         /// </summary>
-        /// <param name="tp">a OneNote page object</param>
-        /// <param name="highlighter">object to generate a highlight description of the link title</param>
-        /// <param name="onenote">OneNote application object proxy</param>
+        /// <param name="tp">         a OneNote page object</param>
+        /// <param name="highlighter">
+        /// object to generate a highlight description of the link title
+        /// </param>
+        /// <param name="onenote">    OneNote application object proxy</param>
         internal HitHighlightedPageLinkModel(TaggedPage tp, TextSplitter highlighter, OneNoteProxy onenote)
-            : base(tp.Title, tp.ID)
-        {
+            : base(tp.Title, tp.ID) {
             IsSelected = false;
             _page = tp;
             _highlights = highlighter.SplitText(_page.Title);
@@ -150,37 +151,36 @@ namespace WetHatLab.OneNote.TaggingKit.find
             _onenote = onenote;
         }
 
-        protected void fireNotifyPropertyChanged(PropertyChangedEventArgs propArgs)
-        {
-            if (PropertyChanged != null)
-            {
+        protected void fireNotifyPropertyChanged(PropertyChangedEventArgs propArgs) {
+            if (PropertyChanged != null) {
                 PropertyChanged(this, propArgs);
+            }
+        }
+
+        public bool IsInRecycleBin {
+            get {
+                return _page.IsInRecycleBin;
             }
         }
 
         /// <summary>
         /// Get the path to the page in the OneNote hierarchy
         /// </summary>
-        public IEnumerable<HierarchyElement> Path
-        {
-            get
-            {
+        public IEnumerable<HierarchyElement> Path {
+            get {
                 return _page.Path;
             }
         }
 
-        internal string PageLink
-        {
-            get
-            {
+        internal string PageLink {
+            get {
                 return _onenote.GetHyperlinkToObject(_page.ID, pageObjectID: null);
             }
         }
 
         #region IHitHighlightedPageLinkModel
 
-        public IList<TextFragment> HighlightedTitle
-        {
+        public IList<TextFragment> HighlightedTitle {
             get { return _highlights; }
         }
 
@@ -188,16 +188,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private string _markerSymbol;
 
-        public string MarkerSymbol
-        {
-            get
-            {
+        public string MarkerSymbol {
+            get {
                 return _markerSymbol;
             }
-            private set
-            {
-                if (!value.Equals(_markerSymbol))
-                {
+            private set {
+                if (!value.Equals(_markerSymbol)) {
                     _markerSymbol = value;
                     fireNotifyPropertyChanged(MARKER_SYMBOL);
                 }
@@ -206,39 +202,29 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private Brush _markerColor;
 
-        public Brush MarkerColor
-        {
-            get
-            {
+        public Brush MarkerColor {
+            get {
                 return _markerColor;
             }
-            private set
-            {
-                if (!value.Equals(_markerColor))
-                {
+            private set {
+                if (!value.Equals(_markerColor)) {
                     _markerColor = value;
                     fireNotifyPropertyChanged(MARKER_COLOR);
                 }
             }
         }
 
-        public bool IsSelected
-        {
-            get
-            {
+        public bool IsSelected {
+            get {
                 return _isSelected;
             }
-            set
-            {
+            set {
                 _isSelected = value;
 
-                if (_isSelected)
-                {
+                if (_isSelected) {
                     MarkerSymbol = "✔";
                     MarkerColor = Brushes.MediumSeaGreen;
-                }
-                else
-                {
+                } else {
                     MarkerSymbol = "❱";
                     MarkerColor = Brushes.DarkOrange;
                 }
@@ -254,18 +240,18 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Get the unique key of the OneNote page
         /// </summary>
-        public string Key
-        {
+        public string Key {
             get { return PageID; }
         }
 
         /// <summary>
         /// Get the sorting key of the page.
         /// </summary>
-        /// <remarks>Sort order is determined by the page title and the number of matches
-        /// of the search query for this particular page.</remarks>
-        public HitHighlightedPageLinkKey SortKey
-        {
+        /// <remarks>
+        /// Sort order is determined by the page title and the number of matches of the
+        /// search query for this particular page.
+        /// </remarks>
+        public HitHighlightedPageLinkKey SortKey {
             get { return this; }
         }
 
