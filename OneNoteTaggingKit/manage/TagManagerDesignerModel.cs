@@ -1,7 +1,6 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using System;
 using WetHatLab.OneNote.TaggingKit.common;
-using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.manage
 {
@@ -15,8 +14,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <summary>
         /// Create a new instance of the view model including some dummy data.
         /// </summary>
-        public TagManagerDesignerModel()
-        {
+        public TagManagerDesignerModel() {
             _tags.AddAll(new RemovableTagModel[] { new RemovableTagModel() { Tag = new TagPageSet("suggested tag 1") },
                                                    new RemovableTagModel() { Tag = new TagPageSet("suggested tag 2") }});
         }
@@ -24,18 +22,17 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <summary>
         /// Get the collection of tags used for suggestions.
         /// </summary>
-        public SuggestedTagsSource<RemovableTagModel> SuggestedTags
-        {
-            get
-            {
+        public SuggestedTagsSource<RemovableTagModel> SuggestedTags {
+            get {
                 return _tags;
             }
         }
 
-        public string Configuration
-        {
-            get
-            {
+        /// <summary>
+        /// Get the add-in build configuration.
+        /// </summary>
+        public string Configuration {
+            get {
                 return "Debug";
             }
         }
@@ -43,24 +40,21 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <summary>
         /// Get the version string for the addin
         /// </summary>
-        public string AddinVersion
-        {
+        public string AddinVersion {
             get { return "1.2.3.4"; }
         }
 
         /// <summary>
         /// Get the design time version of the .net framework
         /// </summary>
-        public string FrameworkVersion
-        {
+        public string FrameworkVersion {
             get { return Environment.Version.ToString(); }
         }
 
         /// <summary>
         /// Get the design time log file location
         /// </summary>
-        public string Logfile
-        {
+        public string Logfile {
             get { return TraceLogger.LogFile; }
         }
     }

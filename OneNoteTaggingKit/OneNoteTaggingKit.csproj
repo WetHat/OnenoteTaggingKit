@@ -139,17 +139,6 @@
     </Compile>
     <Compile Include="manage\TagManagerDesignerModel.cs" />
     <Compile Include="manage\TagManagerModel.cs" />
-    <Compile Include="nexus\AggregatedPageCollection.cs" />
-    <Compile Include="nexus\RelatedPageLink.xaml.cs">
-      <DependentUpon>RelatedPageLink.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="nexus\RelatedPageLinkDesignerModel.cs" />
-    <Compile Include="nexus\RelatedPageLinkModel.cs" />
-    <Compile Include="nexus\RelatedPages.xaml.cs">
-      <DependentUpon>RelatedPages.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="nexus\RelatedPagesDesignerModel.cs" />
-    <Compile Include="nexus\RelatedPagesModel.cs" />
     <Compile Include="OneNoteProxy.cs" />
     <Compile Include="Connect.cs" />
     <Compile Include="find\FindTaggedPages.xaml.cs">
@@ -301,14 +290,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="find\FindTaggedPages.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="nexus\RelatedPageLink.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="nexus\RelatedPages.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

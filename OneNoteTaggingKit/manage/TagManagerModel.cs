@@ -52,13 +52,11 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// Create a new instance of the view model backing the <see cref="TagManager" /> dialog.
         /// </summary>
         /// <param name="onenote">OneNote application object</param>
-        internal TagManagerModel(OneNoteProxy onenote) : base(onenote)
-        {
+        internal TagManagerModel(OneNoteProxy onenote) : base(onenote) {
             _tags = new TagsAndPages(OneNoteApp);
         }
 
-        internal async Task LoadSuggestedTagsAsync()
-        {
+        internal async Task LoadSuggestedTagsAsync() {
             // grab all tags
             await Task.Run(() =>
             {
@@ -69,11 +67,9 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             await _suggestedTags.LoadSuggestedTagsAsync();
 
             // update the tags loaded from the settings
-            foreach (var t in _suggestedTags.Values)
-            {
+            foreach (var t in _suggestedTags.Values) {
                 TagPageSet tag;
-                if (_tags.Tags.TryGetValue(t.TagName, out tag))
-                {
+                if (_tags.Tags.TryGetValue(t.TagName, out tag)) {
                     t.Tag = tag;
                 }
             }
@@ -88,10 +84,8 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// This collection includes all tags used on any OneNote pages and additional tags
         /// suggestions which were added manually
         /// </remarks>
-        public SuggestedTagsSource<RemovableTagModel> SuggestedTags
-        {
-            get
-            {
+        public SuggestedTagsSource<RemovableTagModel> SuggestedTags {
+            get {
                 return _suggestedTags;
             }
         }
@@ -99,10 +93,8 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <summary>
         /// Get the build configuration of the add-in
         /// </summary>
-        public string Configuration
-        {
-            get
-            {
+        public string Configuration {
+            get {
 #if DEBUG
                 return "Debug";
 #else
@@ -112,23 +104,25 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         }
 
         /// <summary>
-        /// Get the version of the addin.
+        /// Get the version of the add-in.
         /// </summary>
-        public string AddinVersion
-        {
-            get
-            {
+        public string AddinVersion {
+            get {
                 return Assembly.GetExecutingAssembly().GetName().Version.ToString();
             }
         }
 
-        public string FrameworkVersion
-        {
+        /// <summary>
+        /// Get the version of the .net framework running the tagging add-in.
+        /// </summary>
+        public string FrameworkVersion {
             get { return Environment.Version.ToString(); }
         }
 
-        public string Logfile
-        {
+        /// <summary>
+        /// Get the location of the add-in logfile
+        /// </summary>
+        public string Logfile {
             get { return TraceLogger.LogFile; }
         }
 
@@ -137,15 +131,11 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <summary>
         /// Get comma separated list of suggested tags.
         /// </summary>
-        public string TagList
-        {
-            get
-            {
+        public string TagList {
+            get {
                 StringBuilder tags = new StringBuilder();
-                foreach (var t in _suggestedTags.Values)
-                {
-                    if (tags.Length > 0)
-                    {
+                foreach (var t in _suggestedTags.Values) {
+                    if (tags.Length > 0) {
                         tags.Append(',');
                     }
                     tags.Append(t.TagName);
@@ -157,8 +147,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <summary>
         /// Persist any changes
         /// </summary>
-        internal void SaveChanges()
-        {
+        internal void SaveChanges() {
             _suggestedTags.Save();
         }
     }

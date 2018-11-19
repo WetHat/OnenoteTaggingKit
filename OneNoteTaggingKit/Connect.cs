@@ -11,7 +11,6 @@ using System.Runtime.InteropServices.ComTypes;
 using WetHatLab.OneNote.TaggingKit.edit;
 using WetHatLab.OneNote.TaggingKit.find;
 using WetHatLab.OneNote.TaggingKit.manage;
-using WetHatLab.OneNote.TaggingKit.nexus;
 
 namespace WetHatLab.OneNote.TaggingKit
 {
@@ -183,15 +182,6 @@ namespace WetHatLab.OneNote.TaggingKit
         public void findTags(IRibbonControl ribbon) {
             TraceLogger.Log(TraceCategory.Info(), "Show tag finder");
             _dialogmanager.Show<FindTaggedPages, FindTaggedPagesModel>(() => new FindTaggedPagesModel(_onProxy));
-        }
-
-        /// <summary>
-        /// Action to open the "Related Pages" UI
-        /// </summary>
-        /// <param name="ribbon">OneNote ribbon bar</param>
-        public void relatedPages(IRibbonControl ribbon) {
-            TraceLogger.Log(TraceCategory.Info(), "Show related pages tracer");
-            _dialogmanager.Show<RelatedPages, RelatedPagesModel>(() => new RelatedPagesModel(_onProxy));
         }
 
         /// <summary>

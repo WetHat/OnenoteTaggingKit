@@ -14,11 +14,18 @@ namespace WetHatLab.OneNote.TaggingKit.find
     public interface IHitHighlightedPageLinkModel
     {
         /// <summary>
-        /// Get a the hit highlighted page title.
+        /// Get a the hit highlighted page title of an item in the search result.
         /// </summary>
         IList<TextFragment> HighlightedTitle { get; }
 
+        /// <summary>
+        /// Get the 'bullet' symbol for an item in the search result.
+        /// </summary>
         string MarkerSymbol { get; }
+
+        /// <summary>
+        /// Get the color for the 'bullet' symbol for an item in the search result
+        /// </summary>
         Brush MarkerColor { get; }
     }
 
@@ -157,6 +164,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
 
+        /// <summary>
+        /// Determine if a page has been recycled and os read-only.
+        /// </summary>
         public bool IsInRecycleBin {
             get {
                 return _page.IsInRecycleBin;
@@ -164,7 +174,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
-        /// Get the path to the page in the OneNote hierarchy
+        /// Get the path to the page in the OneNote hierarchy.
         /// </summary>
         public IEnumerable<HierarchyElement> Path {
             get {
@@ -172,6 +182,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
 
+        /// <summary>
+        /// Get the hyperlink the OneNote page.
+        /// </summary>
         internal string PageLink {
             get {
                 return _onenote.GetHyperlinkToObject(_page.ID, pageObjectID: null);
@@ -180,6 +193,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         #region IHitHighlightedPageLinkModel
 
+        /// <summary>
+        /// Search result title with matching search terms highlighted.
+        /// </summary>
         public IList<TextFragment> HighlightedTitle {
             get { return _highlights; }
         }
@@ -188,6 +204,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private string _markerSymbol;
 
+        /// <summary>
+        /// Symbol to mark items in a page search result list.
+        /// </summary>
         public string MarkerSymbol {
             get {
                 return _markerSymbol;
@@ -202,6 +221,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private Brush _markerColor;
 
+        /// <summary>
+        /// Get the color used for marking matching search strings.
+        /// </summary>
         public Brush MarkerColor {
             get {
                 return _markerColor;
@@ -214,6 +236,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
 
+        /// <summary>
+        /// Determine if a page link is selected.
+        /// </summary>
         public bool IsSelected {
             get {
                 return _isSelected;

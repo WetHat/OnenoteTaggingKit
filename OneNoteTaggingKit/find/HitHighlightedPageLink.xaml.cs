@@ -1,6 +1,5 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 // Author: WetHat | (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
-using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,14 +23,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Event fired for clicks on links to OneNote pages.
         /// </summary>
-        public event RoutedEventHandler Click
-        {
+        public event RoutedEventHandler Click {
             add { AddHandler(ClickEvent, value); }
             remove { RemoveHandler(ClickEvent, value); }
         }
 
-        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
+        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {
             HitHighlightedPageLink link = sender as HitHighlightedPageLink;
             HitHighlightedPageLinkModel model = e.NewValue as HitHighlightedPageLinkModel;
             // build the highlighted inline Text
@@ -39,11 +36,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
             // rebuild the hithighlighted Title
             link.hithighlightedTitle.Inlines.Clear();
 
-            foreach (TextFragment f in model.HighlightedTitle)
-            {
+            foreach (TextFragment f in model.HighlightedTitle) {
                 Run r = new Run(f.Text);
-                if (f.IsMatch)
-                {
+                if (f.IsMatch) {
                     r.Background = Brushes.Yellow;
                 }
                 link.hithighlightedTitle.Inlines.Add(r);
@@ -62,10 +57,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
             //path.FontSize = 10;
             path.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
             path.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-            foreach (var he in model.Path)
-            {
-                if (path.Inlines.Count > 0)
-                {
+            foreach (var he in model.Path) {
+                if (path.Inlines.Count > 0) {
                     Run r = new Run(" ñ ");
                     r.FontFamily = new FontFamily("Symbol");
                     r.FontWeight = FontWeights.ExtraBold;
@@ -79,8 +72,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             TextBlock tb = new TextBlock();
             tb.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
 
-            foreach (Run r in link.hithighlightedTitle.Inlines)
-            {
+            foreach (Run r in link.hithighlightedTitle.Inlines) {
                 Run newR = new Run(r.Text);
                 newR.Background = r.Background;
                 newR.FontSize = r.FontSize + 2;
@@ -93,13 +85,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
             ToolTipService.SetShowDuration(link, 10000);
         }
 
-        public HitHighlightedPageLink()
-        {
+        /// <summary>
+        /// Create a new instance of an hit highligted item in a page search result,
+        /// </summary>
+        public HitHighlightedPageLink() {
             InitializeComponent();
         }
 
-        private void Hyperlink_Click(object sender, RoutedEventArgs e)
-        {
+        private void Hyperlink_Click(object sender, RoutedEventArgs e) {
             RaiseEvent(new RoutedEventArgs(ClickEvent));
         }
     }

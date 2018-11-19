@@ -32,12 +32,18 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             get { return _pageTags; }
         }
 
+        /// <summary>
+        /// Get the index of the selected tagging scope.
+        /// </summary>
         public int ScopeIndex {
             get {
                 return (int)TaggingScope.CurrentNote;
             }
         }
 
+        /// <summary>
+        /// Determine if the tagging scope can be changed.
+        /// </summary>
         public bool ScopesEnabled {
             get {
                 return true;

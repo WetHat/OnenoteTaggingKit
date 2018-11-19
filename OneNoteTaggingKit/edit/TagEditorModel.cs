@@ -89,11 +89,22 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private readonly TaggingScopeDescriptor[] _taggingScopes;
 
+        /// <summary>
+        /// Collection of tags suggested for page tagging.
+        /// </summary>
         public SuggestedTagsSource<HitHighlightedTagButtonModel> TagSuggestions { get; internal set; }
 
+        /// <summary>
+        /// Get or set the tagging scope.
+        /// </summary>
         [DefaultValue(TaggingScope.CurrentNote)]
         internal TaggingScope Scope { get; set; }
 
+        /// <summary>
+        /// Get or set the index of the selected tagging scope.
+        ///
+        /// <seealso cref="Scope" />
+        /// </summary>
         public int ScopeIndex {
             get {
                 return (int)Scope;
@@ -103,6 +114,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
+        /// <summary>
+        /// Determine if the tagging scope can be changed by the user.
+        /// </summary>
         [DefaultValue(true)]
         public bool ScopesEnabled {
             get {
