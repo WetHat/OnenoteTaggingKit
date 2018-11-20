@@ -3,7 +3,7 @@
 
 Initializes a new instance of the <a href="0501014e-b454-6ea6-53dd-ea5cf4e8e537">TagManagerModel</a> class
 
-**Namespace:**&nbsp;<a href="6c09c3a7-2ecd-33d5-2ed0-acefd996500f">WetHatLab.OneNote.TaggingKit.manage</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 3.3.6631.38362
+**Namespace:**&nbsp;<a href="6c09c3a7-2ecd-33d5-2ed0-acefd996500f">WetHatLab.OneNote.TaggingKit.manage</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 3.4.6897.30653
 
 ## Syntax
 
