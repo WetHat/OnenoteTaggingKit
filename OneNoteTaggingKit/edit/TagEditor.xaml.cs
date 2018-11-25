@@ -161,8 +161,10 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 _model.Scope = ((TaggingScopeDescriptor)taggingScope.SelectedItem).Scope;
 
                 int pagesTagged = _model.EnqueuePagesForTagging(op);
-
-                taggingScope.SelectedIndex = 0;
+                if (_model.ScopesEnabled) {
+                    // reset the scope to avoid unindended tagging of pages
+                    taggingScope.SelectedIndex = 0;
+                }
                 tagInput.Clear();
                 suggestedTags.Highlighter = new TextSplitter();
                 suggestedTags.Notification = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_TaggingInProgress, pagesTagged);
