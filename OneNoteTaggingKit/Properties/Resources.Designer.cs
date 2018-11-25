@@ -1022,6 +1022,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No taggable pages have been  selected in the search result!.
+        /// </summary>
+        public static string TagSearch_NoPagesSelectedWarning {
+            get {
+                return ResourceManager.GetString("TagSearch_NoPagesSelectedWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap or click &apos;❱&apos; to select item.
         ///Tap or click link to navigate to page..
         /// </summary>

@@ -78,23 +78,27 @@ namespace WetHatLab.OneNote.TaggingKit.find
                         break;
 
                     case "TagSelection":
-
-                        AddInDialogManager.ShowDialog<TagEditor, TagEditorModel>(() =>
-                        {
-                            var mdl = new TagEditorModel(_model.OneNoteApp);
-                            // configure the model
-                            mdl.Scope = TaggingScope.SelectedNotes;
-                            mdl.PagesToTag = from mp in _model.Pages
-                                             where mp.IsSelected
-                                             select mp.PageID;
-                            return mdl;
-                        });
+                        var pagesToTag = from mp in _model.Pages
+                                         where mp.IsSelected && !mp.IsInRecycleBin
+                                         select mp.PageID;
+                        if (pagesToTag.Count() == 0) {
+                            MessageBox.Show(Properties.Resources.TagSearch_NoPagesSelectedWarning, Properties.Resources.TagEditor_WarningMessageBox_Title, MessageBoxButton.OK);
+                        } else {
+                            AddInDialogManager.ShowDialog<TagEditor, TagEditorModel>(() =>
+                            {
+                                var mdl = new TagEditorModel(_model.OneNoteApp);
+                                // configure the model
+                                mdl.Scope = TaggingScope.SelectedNotes;
+                                mdl.PagesToTag = pagesToTag;
+                                return mdl;
+                            });
+                        }
                         break;
 
                     case "MarkSelection":
                         string[] marker = new string[] { "-✩-" };
                         int pagesTagged = 0;
-                        foreach (var mdl in _model.Pages.Where((p) => p.IsSelected)) {
+                        foreach (var mdl in _model.Pages.Where((p) => p.IsSelected && !p.IsInRecycleBin)) {
                             _model.OneNoteApp.TaggingService.Add(new Tagger.TaggingJob(mdl.PageID, marker, Tagger.TagOperation.UNITE));
                             pagesTagged++;
                         }

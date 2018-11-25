@@ -494,4 +494,7 @@ Tap or click link to navigate to page.</value>
   <data name="FoundPages_MenuItem_TagSelected" xml:space="preserve">
     <value>Tag Selected Pages</value>
   </data>
+  <data name="TagSearch_NoPagesSelectedWarning" xml:space="preserve">
+    <value>No taggable pages have been  selected in the search result!</value>
+  </data>
 </root>
