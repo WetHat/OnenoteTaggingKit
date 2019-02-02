@@ -11,7 +11,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("WetHat Lab")]
 [assembly: AssemblyProduct("OneNoteTaggingKit")]
-[assembly: AssemblyCopyright("Copyright © 2013-2018")]
+[assembly: AssemblyCopyright("Copyright © 2013-2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -47,7 +47,7 @@ using System.Windows;
 //
 // You can specify all the values or you can default the Build and Revision Numbers by
 // using the '*' as shown below: [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.4.*")]
+[assembly: AssemblyVersion("3.5.*")]
 // removed the AssemblyFileVersion to force it to be equal to the AssemblyVersion
 // [assembly: AssemblyFileVersion("2.2.0.0")]
 [assembly: NeutralResourcesLanguageAttribute("")]

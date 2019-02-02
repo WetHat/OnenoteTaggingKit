@@ -1,7 +1,7 @@
 # ObservableSortedList(*TSort*, *TKey*, *TValue*).AddAll Method 
  _**\[This is preliminary documentation and is subject to change.\]**_
 
-**Namespace:**&nbsp;<a href="bcdbab9c-63d1-48a4-6937-af53fb8d9a55">WetHatLab.OneNote.TaggingKit.common</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 3.4.6897.30653
+**Namespace:**&nbsp;<a href="bcdbab9c-63d1-48a4-6937-af53fb8d9a55">WetHatLab.OneNote.TaggingKit.common</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 3.5.6972.33231
 
 ## Syntax
 
