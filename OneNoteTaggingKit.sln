@@ -1,14 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2008
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneNoteTaggingKit", "OneNoteTaggingKit\OneNoteTaggingKit.csproj", "{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SetupTaggingKitWiX", "SetupTaggingKitWiX\SetupTaggingKitWiX.wixproj", "{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}"
-EndProject
-Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "TaggingKitSandcastle", "TaggingKitSandcastle\TaggingKitSandcastle.shfbproj", "{6B0CEDF0-E405-41D5-A62F-4A3B04BE3C83}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E3328959-CB0A-450E-90DC-5A20FEBA6014}"
 	ProjectSection(SolutionItems) = preProject
 		License.md = License.md
@@ -71,6 +65,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{ED226E
 		OnenoteTaggingKit.wiki\images\TagPagesDialog.png = OnenoteTaggingKit.wiki\images\TagPagesDialog.png
 		OnenoteTaggingKit.wiki\images\TroubleshootingTips_log.png = OnenoteTaggingKit.wiki\images\TroubleshootingTips_log.png
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneNoteTaggingKit", "OneNoteTaggingKit\OneNoteTaggingKit.csproj", "{C91F9302-AD53-4561-9FB4-7E6FB658CF7C}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SetupTaggingKitWiX", "SetupTaggingKitWiX\SetupTaggingKitWiX.wixproj", "{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}"
+EndProject
+Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "TaggingKitSandcastle", "TaggingKitSandcastle\TaggingKitSandcastle.shfbproj", "{6B0CEDF0-E405-41D5-A62F-4A3B04BE3C83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
