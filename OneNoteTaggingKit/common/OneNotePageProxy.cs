@@ -156,7 +156,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 }
                 return parsedTags;
             }
-            return null;
+            return new string[0];
         }
 
         /// <summary>
