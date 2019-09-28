@@ -16,27 +16,23 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     public partial class HitHighlightedTagButton : UserControl
     {
         /// <summary>
-        /// Click event for this button.
+        /// Routed event fired in responsse to button clicks or keyboard input.
         /// </summary>
-        public static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(HitHighlightedTagButton));
+        public static readonly RoutedEvent SingleTagInputEvent = EventManager.RegisterRoutedEvent("SingleTagInput", RoutingStrategy.Bubble, typeof(TagInputEventHandler), typeof(TagInputBox));
 
+        /// <summary>
+        /// Event fired in responsse to button clicks or keyboard input.
+        /// </summary>
+        public event TagInputEventHandler TagInput {
+            add { AddHandler(SingleTagInputEvent, value); }
+            remove { RemoveHandler(SingleTagInputEvent, value); }
+        }
         /// <summary>
         /// Create a new instance of the control
         /// </summary>
         public HitHighlightedTagButton()
         {
             InitializeComponent();
-        }
-
-        /// <summary>
-        /// Add or remove the click handler.
-        /// </summary>
-        /// <remarks>clr wrapper for routed event</remarks>
-        public event RoutedEventHandler Click
-        {
-            add { AddHandler(ClickEvent, value); }
-
-            remove { RemoveHandler(ClickEvent, value); }
         }
 
         private void createHitHighlightedTag(HitHighlightedTagButtonModel mdl)
@@ -74,7 +70,22 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            RaiseEvent(new RoutedEventArgs(ClickEvent,this));
+            HitHighlightedTagButtonModel mdl = DataContext as HitHighlightedTagButtonModel;
+
+            var args = new TagInputEventArgs(SingleTagInputEvent, this, new string[] { mdl.TagName }, null);
+            args.TagInputComplete = true;
+            RaiseEvent(args);
+        }
+
+        private void Button_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            HitHighlightedTagButtonModel mdl = DataContext as HitHighlightedTagButtonModel;
+            var args = new TagInputEventArgs(SingleTagInputEvent, this, new string[] { mdl.TagName }, e);
+            // Only keyboard entries which trigger an action get through
+            if (args.Action != TagInputEventArgs.TaggingAction.None) {
+                args.TagInputComplete = true;
+                RaiseEvent(args);
+            }
         }
     }
 }

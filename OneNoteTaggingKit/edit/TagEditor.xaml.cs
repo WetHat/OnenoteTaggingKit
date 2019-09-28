@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.Tagger;
@@ -46,16 +47,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
 
         #endregion IOneNotePageDialog<TagEditorModel>
-
-        private void OnSuggestedTagClick(object sender, RoutedEventArgs e) {
-            HitHighlightedTagButton btn = sender as HitHighlightedTagButton;
-            if (btn != null) {
-                HitHighlightedTagButtonModel mdl = btn.DataContext as HitHighlightedTagButtonModel;
-                if (mdl != null) {
-                    _model.PageTags.AddAll(new SimpleTagButtonModel[] { new SimpleTagButtonModel(mdl.TagName) });
-                }
-            }
-        }
 
         private void RemovePageTagButton_Click(object sender, RoutedEventArgs e) {
             if (_model != null) {
@@ -122,32 +113,34 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private void TagInputBox_Input(object sender, TagInputEventArgs e) {
             suggestedTags.Notification = String.Empty;
             try {
-                if (tagInput.IsEmpty) {
-                    suggestedTags.Highlighter = new TextSplitter();
-                    if (e.Action == TagInputEventArgs.TaggingAction.Clear) {
-                        ClearTagsButton_Click(e.Source, e);
-                    }
-                } else {
-                    IEnumerable<string> tags = tagInput.Tags;
-                    if (e.TagInputComplete) {
-                        _model.PageTags.AddAll(from t in tags where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(TagFormatter.Format(t)));
-                        switch (e.Action) {
-                            case TagInputEventArgs.TaggingAction.Add:
-                                AddTagsToPageButton_Click(e.Source, e);
-                                break;
+                if (e.TagInputComplete) {
+                    _model.PageTags.AddAll(from t in e.Tags where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(TagFormatter.Format(t)));
+                    switch (e.Action) {
+                        case TagInputEventArgs.TaggingAction.Add:
+                            AddTagsToPageButton_Click(e.Source, e);
+                            break;
 
-                            case TagInputEventArgs.TaggingAction.Set:
-                                SetPageTagsButton_Click(e.Source, e);
-                                break;
+                        case TagInputEventArgs.TaggingAction.Set:
+                            SetPageTagsButton_Click(e.Source, e);
+                            break;
 
-                            case TagInputEventArgs.TaggingAction.Remove:
-                                RemoveTagsFromPageButton_Click(e.Source, e);
-                                break;
-                        }
-                        tagInput.Clear();
+                        case TagInputEventArgs.TaggingAction.Remove:
+                            RemoveTagsFromPageButton_Click(e.Source, e);
+                            break;
+                        case TagInputEventArgs.TaggingAction.Clear:
+                            suggestedTags.Highlighter = new TextSplitter();
+                            ClearTagsButton_Click(e.Source, e);
+                            break;
                     }
-                    suggestedTags.Highlighter = new TextSplitter(tagInput.Tags);
                 }
+                if (sender is TagInputBox) {
+                    suggestedTags.Highlighter = new TextSplitter(e.Tags);
+                    var ctrl = sender as UserControl;
+                    if (ctrl != null) {
+                        tagInput.FocusInput();
+                    }
+                }
+
             } catch (Exception ex) {
                 TraceLogger.Log(TraceCategory.Error(), "Processing Tag input failed with {0}", ex);
                 TraceLogger.ShowGenericErrorBox(Properties.Resources.TagEditor_Input_Error, ex);

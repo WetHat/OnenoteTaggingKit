@@ -1,7 +1,7 @@
 # TagManager._CreateDelegate Method 
  _**\[This is preliminary documentation and is subject to change.\]**_
 
-**Namespace:**&nbsp;<a href="6c09c3a7-2ecd-33d5-2ed0-acefd996500f">WetHatLab.OneNote.TaggingKit.manage</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 3.5.6972.33231
+**Namespace:**&nbsp;<a href="6c09c3a7-2ecd-33d5-2ed0-acefd996500f.md">WetHatLab.OneNote.TaggingKit.manage</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 3.6.7210.17405
 
 ## Syntax
 
@@ -24,4 +24,4 @@ Type: <a href="http://msdn2.microsoft.com/en-us/library/y22acf51" target="_blank
 
 
 #### Reference
-<a href="1dd95e73-f701-a92b-b3f8-90e215d5c4ed">TagManager Class</a><br /><a href="6c09c3a7-2ecd-33d5-2ed0-acefd996500f">WetHatLab.OneNote.TaggingKit.manage Namespace</a><br />
+<a href="1dd95e73-f701-a92b-b3f8-90e215d5c4ed.md">TagManager Class</a><br /><a href="6c09c3a7-2ecd-33d5-2ed0-acefd996500f.md">WetHatLab.OneNote.TaggingKit.manage Namespace</a><br />

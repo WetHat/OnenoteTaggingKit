@@ -2,6 +2,7 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <WixToolPath>$(WIX)\bin</WixToolPath>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -48,6 +49,17 @@
       <Name>WixUIExtension</Name>
     </WixExtension>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="onenote-taggingkit-addin.install" />
+    <Folder Include="onenote-taggingkit-addin.install\tools" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ChocoBuild.ps1" />
+    <Content Include="onenote-taggingkit-addin.install\onenote-taggingkit-addin.install.nuspec" />
+    <Content Include="onenote-taggingkit-addin.install\onenotetaggingkit_256x256.png" />
+    <Content Include="onenote-taggingkit-addin.install\tools\chocolateyInstall.ps1" />
+    <Content Include="onenote-taggingkit-addin.install\tools\chocolateyUninstall.ps1" />
+  </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <UsingTask TaskName="HeatFile" AssemblyFile="$(WixToolPath)WixUtilExtension.dll" />
   <!--
@@ -55,16 +67,11 @@
 	Other similar extension points exist, see Wix.targets. -->
   <Target Name="BeforeBuild">
     <Message Text="WixToolPath=$(WixToolPath)" />
-    <HeatFile File="$(SolutionDir)\OneNoteTaggingKit\$(OutputPath)\OneNoteTaggingKit.dll"
-              ComponentGroupName="COMReg"
-              ToolPath="$(WixToolPath)"
-              OutputFile="$(ProjectDir)COMRegisteredFile.wxs"
-              PreprocessorVariable="var.OneNoteTaggingKit.TargetDir"
-              DirectoryRefId="INSTALLFOLDER" AutogenerateGuids="true"
-              GenerateGuidsNow="true"
-              RunAsSeparateProcess="true"
-              SuppressRootDirectory="true" />
+    <HeatFile File="$(SolutionDir)\OneNoteTaggingKit\$(OutputPath)\OneNoteTaggingKit.dll" ComponentGroupName="COMReg" ToolPath="$(WixToolPath)" OutputFile="$(ProjectDir)COMRegisteredFile.wxs" PreprocessorVariable="var.OneNoteTaggingKit.TargetDir" DirectoryRefId="INSTALLFOLDER" AutogenerateGuids="true" GenerateGuidsNow="true" RunAsSeparateProcess="true" SuppressRootDirectory="true" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>powershell -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command "&amp;{../../ChocoBuild.ps1 -dll %27$(SolutionDir)\OneNoteTaggingkit\$(OutDir)\OneNoteTaggingKit.dll%27 -template %27$(ProjectDir)/onenote-taggingkit-addin.install%27 }"</PostBuildEvent>
+  </PropertyGroup>
   <!--
 	<Target Name="AfterBuild">
 	</Target>

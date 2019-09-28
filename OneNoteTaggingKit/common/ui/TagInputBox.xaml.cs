@@ -13,75 +13,6 @@ using System.Windows.Media;
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
     /// <summary>
-    /// Event details for the <see cref="E:TagInputBox.TagInput" /> event
-    /// </summary>
-    [ComVisible(false)]
-    public class TagInputEventArgs : RoutedEventArgs
-    {
-        /// <summary>
-        /// </summary>
-        public enum TaggingAction
-        {
-            /// <summary>
-            /// No tagging action requested
-            /// </summary>
-            None,
-
-            /// <summary>
-            /// Add tags action requested.
-            /// </summary>
-            Add,
-
-            /// <summary>
-            /// Set tags action requested.
-            /// </summary>
-            Set,
-
-            /// <summary>
-            /// Remove tags action requested.
-            /// </summary>
-            Remove,
-
-            /// <summary>
-            /// Clear all selected tags
-            /// </summary>
-            Clear
-        }
-
-        /// <summary>
-        /// Determine if tag input is complete
-        /// </summary>
-        /// <value>true if tag input is complete; false if tag input is still in progress</value>
-        public bool TagInputComplete { get; private set; }
-
-        /// <summary>
-        /// Get the requested tagging action.
-        /// </summary>
-        public TaggingAction Action { get; private set; }
-
-        /// <summary>
-        /// Create a new instance of the event details
-        /// </summary>
-        /// <param name="routedEvent"> routed event which fired</param>
-        /// <param name="source">      object which fired the event</param>
-        /// <param name="enterPressed">true if tag input is complete; false otherwise</param>
-        /// <param name="action">      Keyboard modifier keys.</param>
-        internal TagInputEventArgs(RoutedEvent routedEvent, object source, bool enterPressed, TaggingAction action = TaggingAction.None)
-            : base(routedEvent, source)
-        {
-            Action = action;
-            TagInputComplete = enterPressed;
-        }
-    }
-
-    /// <summary>
-    /// handlers for the <see cref="E:TagInputBox.TagInput" /> event
-    /// </summary>
-    /// <param name="sender">object emitting the event</param>
-    /// <param name="e">     event details</param>
-    public delegate void TagInputEventHandler(object sender, TagInputEventArgs e);
-
-    /// <summary>
     /// Capture input of one or more tags separated by comma ','
     /// </summary>
     [ComVisible(false)]
@@ -154,13 +85,13 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         {
             get
             {
-                return from t in OneNotePageProxy.ParseTags(tagInput.Text) select t;
+                return  OneNotePageProxy.ParseTags(tagInput.Text);
             }
             set
             {
                 tagInput.Text = string.Join(",", value);
                 UpdateVisibility();
-                RaiseEvent(new TagInputEventArgs(TagInputEvent, this, enterPressed: false));
+                RaiseEvent(new TagInputEventArgs(TagInputEvent, this, value, null));
             }
         }
 
@@ -172,7 +103,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         internal void Clear()
         {
             tagInput.Text = String.Empty;
-            RaiseEvent(new TagInputEventArgs(TagInputEvent, this, enterPressed: false));
+            RaiseEvent(new TagInputEventArgs(TagInputEvent, this, null, null));
             UpdateVisibility();
         }
 
@@ -194,54 +125,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         private void TagInput_KeyUp(object sender, KeyEventArgs e)
         {
             UpdateVisibility();
-            TagInputEventArgs.TaggingAction action = TagInputEventArgs.TaggingAction.None;
-
-            bool complete = false;
-            if (e.Key == System.Windows.Input.Key.Escape)
-            {
-                Clear();
-                if ((Keyboard.Modifiers & ModifierKeys.Shift) != ModifierKeys.None)
-                {
-                    action = TagInputEventArgs.TaggingAction.Clear;
-                }
-            }
-            else if (e.Key == System.Windows.Input.Key.Enter)
-            {
-                complete = true;
-
-                switch (Keyboard.Modifiers)
-                {
-                    case ModifierKeys.Shift:
-                        action = TagInputEventArgs.TaggingAction.Add;
-                        break;
-
-                    case ModifierKeys.Control:
-                        action = TagInputEventArgs.TaggingAction.Remove;
-                        break;
-
-                    default:
-                        if ((Keyboard.Modifiers & (ModifierKeys.Shift | ModifierKeys.Control)) != ModifierKeys.None)
-                        {
-                            action = TagInputEventArgs.TaggingAction.Set;
-                        }
-                        break;
-                }
-            }
-            else if ((Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.None)
-            {
-                if (e.Key == System.Windows.Input.Key.OemPlus || e.Key == System.Windows.Input.Key.Add)
-                {
-                    complete = true;
-                    action = TagInputEventArgs.TaggingAction.Add;
-                }
-                else if (e.Key == System.Windows.Input.Key.OemMinus || e.Key == System.Windows.Input.Key.OemMinus)
-                {
-                    complete = true;
-                    action = TagInputEventArgs.TaggingAction.Remove;
-                }
-            }
-
-            RaiseEvent(new TagInputEventArgs(TagInputEvent, this, complete, action));
+            RaiseEvent(new TagInputEventArgs(TagInputEvent, this, Tags ,e));
             e.Handled = true;
         }
 
