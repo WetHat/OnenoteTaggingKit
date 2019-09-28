@@ -1,9 +1,7 @@
 # HighlightedTagsPanel.Header Property 
  _**\[This is preliminary documentation and is subject to change.\]**_
 
-Get or set the header control for the tags panel
-
-**Namespace:**&nbsp;<a href="043a9407-ac38-b3ac-7348-a6090af495ad.md">WetHatLab.OneNote.TaggingKit.common.ui</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 3.6.7210.17405
+**Namespace:**&nbsp;<a href="043a9407-ac38-b3ac-7348-a6090af495ad.md">WetHatLab.OneNote.TaggingKit.common.ui</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 3.6.7210.23673
 
 ## Syntax
 
