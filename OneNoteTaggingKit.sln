@@ -72,6 +72,19 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SetupTaggingKitWiX", "Setup
 EndProject
 Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "TaggingKitSandcastle", "TaggingKitSandcastle\TaggingKitSandcastle.shfbproj", "{6B0CEDF0-E405-41D5-A62F-4A3B04BE3C83}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "onenote-taggingkit-addin.install", "onenote-taggingkit-addin.install", "{53C0757D-FF7A-48A8-9470-D3400C3E607F}"
+	ProjectSection(SolutionItems) = preProject
+		onenote-taggingkit-addin.install\onenote-taggingkit-addin.install.nuspec = onenote-taggingkit-addin.install\onenote-taggingkit-addin.install.nuspec
+		onenote-taggingkit-addin.install\onenotetaggingkit_256x256.png = onenote-taggingkit-addin.install\onenotetaggingkit_256x256.png
+		onenote-taggingkit-addin.install\Update.ps1 = onenote-taggingkit-addin.install\Update.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{B976C01B-E500-41CD-885D-D88FDB9EC0D0}"
+	ProjectSection(SolutionItems) = preProject
+		onenote-taggingkit-addin.install\tools\chocolateyInstall.ps1 = onenote-taggingkit-addin.install\tools\chocolateyInstall.ps1
+		onenote-taggingkit-addin.install\tools\chocolateyUninstall.ps1 = onenote-taggingkit-addin.install\tools\chocolateyUninstall.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -122,6 +135,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{4256F6C6-82ED-45A1-9D59-0E40F171E950} = {E3328959-CB0A-450E-90DC-5A20FEBA6014}
 		{ED226E73-AE8D-43B6-999D-7FB4FCEEE358} = {4256F6C6-82ED-45A1-9D59-0E40F171E950}
+		{53C0757D-FF7A-48A8-9470-D3400C3E607F} = {E3328959-CB0A-450E-90DC-5A20FEBA6014}
+		{B976C01B-E500-41CD-885D-D88FDB9EC0D0} = {53C0757D-FF7A-48A8-9470-D3400C3E607F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {280E8435-7A86-4871-B7A2-37A081E668D2}

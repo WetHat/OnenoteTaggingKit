@@ -1,5 +1,5 @@
 $packageName   = 'onenote-taggingkit-addin.install'
-$url           = 'https://github.com/WetHat/OnenoteTaggingKit/releases/download/v__versionshort__/SetupTaggingKitWiX.__version__.msi'
+$url           = 'https://github.com/WetHat/OnenoteTaggingKit/releases/download/v3.5/SetupTaggingKitWiX.3.5.6972.33231.msi'
 $silentArgs    = '/qn' 
 $validExitCodes = @(0) 
 
