@@ -4,9 +4,8 @@ $releases = 'https://github.com/WetHat/OnenoteTaggingKit/releases'
 function global:au_SearchReplace {
     @{
        '.\tools\chocolateyInstall.ps1' = @{
-            '(?i)^(\s*\$url\s+=\s+'')[^'']+' = "`${1}$($Latest.URL32)"
-            '(?i)^(\s*-Checksum\s+'')[^'']+' = "`${1}$($Latest.Checksum32)"
-
+            '(?i)(\s*\$url\s+=\s+'')[^'']+' = "`${1}$($Latest.URL32)"
+            '(?i)(-Checksum\s+'')[^'']*'    = "`${1}$($Latest.Checksum32)"
         }
      }
 }
@@ -25,7 +24,7 @@ function global:au_GetLatest {
 
     $version = [regex]::Match($msi,'[\d.]+').value.trim('.')
     
-    @{ URL32 = "https:/github.vom/$url32"; Version = $version ; ChecksumType32 = 'sha256' }
+    @{ URL32 = "https://github.com$url32"; Version = $version ; ChecksumType32 = 'sha256' }
 }
 
 update-package -ChecksumFor 32
