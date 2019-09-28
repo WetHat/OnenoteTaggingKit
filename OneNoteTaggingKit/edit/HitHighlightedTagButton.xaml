@@ -11,6 +11,7 @@
     <Button  Background="White"
              BorderBrush="LightBlue"
              Click="Button_Click"
+             KeyUp="Button_KeyUp"
              ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_HithighlightedTag_Button_Tooltip}}">
         <TextBlock Name="hithighlightedTag" TextAlignment="Left" Foreground="DarkSlateBlue" FontWeight="Bold"/>
     </Button>

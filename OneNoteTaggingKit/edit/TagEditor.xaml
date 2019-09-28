@@ -152,7 +152,7 @@
                                   Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Suggestions_GroupBox_Title}}">
             <cui:HighlightedTagsPanel.TagTemplate>
                 <DataTemplate>
-                    <local:HitHighlightedTagButton Margin="0,5,5,0" Click="OnSuggestedTagClick" />
+                    <local:HitHighlightedTagButton Margin="0,5,5,0" TagInput = "TagInputBox_Input" />
                 </DataTemplate>
             </cui:HighlightedTagsPanel.TagTemplate>
         </cui:HighlightedTagsPanel>
