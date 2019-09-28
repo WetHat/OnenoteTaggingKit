@@ -4,16 +4,12 @@ $releases = 'https://github.com/WetHat/OnenoteTaggingKit/releases'
 function global:au_SearchReplace {
     @{
        '.\tools\chocolateyInstall.ps1' = @{
-            '(?i)^(\s*\$url\s+=\s+'')([^'']+'')' = "`${1}$($Latest.URL32)'"
+            '(?i)^(\s*\$url\s+=\s+'')[^'']+' = "`${1}$($Latest.URL32)"
+            '(?i)^(\s*-Checksum\s+'')[^'']+' = "`${1}$($Latest.Checksum32)"
 
         }
      }
 }
-
-Get-Content -Path 'E:\Lab\OnenoteTaggingKit\onenote-taggingkit-addin.install\tools\chocolateyInstall.ps1' | ForEach-Object {
-    $_ -replace '(?i)^(\s*\$url\s+=\s+'')([^'']+'')' , "`${1}bob'"
-}
-
 
 function global:au_GetLatest {
 
@@ -32,4 +28,4 @@ function global:au_GetLatest {
     @{ URL32 = "https:/github.vom/$url32"; Version = $version ; ChecksumType32 = 'sha256' }
 }
 
-# update-package -ChecksumFor 32
+update-package -ChecksumFor 32
