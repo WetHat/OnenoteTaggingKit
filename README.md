@@ -1,3 +1,6 @@
+[![GitHub release](https://img.shields.io/github/release/WetHat/OnenoteTaggingKit)](https://GitHub.com/WetHat/OnenoteTaggingKit/releases/)
+[![Github all releases](https://img.shields.io/github/downloads/WetHat/OnenoteTaggingKit/total.svg)](https://GitHub.com/WetHat/OnenoteTaggingKit/releases/)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/WetHat/OnenoteTaggingKit/graphs/commit-activity)
 # OneNote Tagging Kit Add-In
 
 A free to-use add-in to add page tagging to OneNote for the desktop. Page tags are based on the built-in OneNote
