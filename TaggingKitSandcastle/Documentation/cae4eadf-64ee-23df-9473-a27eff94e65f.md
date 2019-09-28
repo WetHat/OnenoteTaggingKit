@@ -1,7 +1,9 @@
 # HitHighlightedPageLinkModel.PageLink Property 
  _**\[This is preliminary documentation and is subject to change.\]**_
 
-**Namespace:**&nbsp;<a href="0e3a8efd-07d2-1709-b1cd-709153222081">WetHatLab.OneNote.TaggingKit.find</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 3.5.6972.33231
+Get the hyperlink the OneNote page.
+
+**Namespace:**&nbsp;<a href="0e3a8efd-07d2-1709-b1cd-709153222081.md">WetHatLab.OneNote.TaggingKit.find</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 3.6.7210.17405
 
 ## Syntax
 
@@ -18,4 +20,4 @@ Type: <a href="http://msdn2.microsoft.com/en-us/library/s1wwdcbf" target="_blank
 
 
 #### Reference
-<a href="4d4cd7ac-7006-c76d-d331-884873162922">HitHighlightedPageLinkModel Class</a><br /><a href="0e3a8efd-07d2-1709-b1cd-709153222081">WetHatLab.OneNote.TaggingKit.find Namespace</a><br />
+<a href="4d4cd7ac-7006-c76d-d331-884873162922.md">HitHighlightedPageLinkModel Class</a><br /><a href="0e3a8efd-07d2-1709-b1cd-709153222081.md">WetHatLab.OneNote.TaggingKit.find Namespace</a><br />
