@@ -134,7 +134,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     }
                 }
                 if (sender is TagInputBox) {
-                    suggestedTags.Highlighter = new TextSplitter(e.Tags);
+                    if (e.TagInputComplete) {
+                        suggestedTags.Highlighter = new TextSplitter();
+                        tagInput.Clear();
+                    } else {
+                        suggestedTags.Highlighter = new TextSplitter(e.Tags);
+                    }
                     var ctrl = sender as UserControl;
                     if (ctrl != null) {
                         tagInput.FocusInput();
