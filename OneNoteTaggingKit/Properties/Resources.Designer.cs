@@ -80,7 +80,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Clear  Selection.
+        ///   Looks up a localized string similar to Clear Selection.
         /// </summary>
         public static string FoundPages_MenuItem_Deselect_All {
             get {

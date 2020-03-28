@@ -168,6 +168,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.zh.resx" />
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -347,6 +348,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\tag-bw-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ribbon.zh.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

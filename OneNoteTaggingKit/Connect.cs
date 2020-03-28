@@ -40,6 +40,8 @@ namespace WetHatLab.OneNote.TaggingKit
                 Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.UpdateRequired = false;
             }
+            // Testing the Chinese localization
+            // WetHatLab.OneNote.TaggingKit.Properties.Resources.Culture = System.Globalization.CultureInfo.GetCultureInfo("zh");
             TraceLogger.Register();
         }
 
@@ -82,7 +84,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// Enumeration value that indicates the way the add-in was loaded.
         /// </param>
         /// <param name="AddInInst">  Reference to the add-in's own instance</param>
-        /// <param name="custom">     
+        /// <param name="custom">
         /// An empty array that you can use to pass host-specific data for use in the add-in
         /// </param>
         public void OnConnection(object app, ext_ConnectMode ConnectMode, object AddInInst, ref Array custom) {
@@ -105,7 +107,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="RemoveMode">
         /// Enumeration value that informs an add-in why it was unloaded
         /// </param>
-        /// <param name="custom">    
+        /// <param name="custom">
         /// An empty array that you can use to pass host-specific data for use after the
         /// add-in unloads.
         /// </param>

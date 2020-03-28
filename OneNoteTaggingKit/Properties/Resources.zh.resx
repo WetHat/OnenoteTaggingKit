@@ -118,17 +118,14 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ribbon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\ribbon.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="settings_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\settings 32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TagEditor_Tags_GroupBox_Title" xml:space="preserve">
-    <value>Tags</value>
+    <value>选中的标签</value>
   </data>
   <data name="TagEditor_Tags_GroupBox_ToolTip" xml:space="preserve">
-    <value>Tags to apply to one or more pages.</value>
+    <value>当前选择的标签</value>
   </data>
   <data name="tag_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\tag 32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -143,70 +140,70 @@
     <value>Copyright (c) 2013-2019 WetHat Lab</value>
   </data>
   <data name="TaggingKit_About_Description" xml:space="preserve">
-    <value>OneNote Add-In for flexible tagging of OneNote pages</value>
+    <value>OneNote页面标签插件</value>
   </data>
   <data name="TagManager_AboutTab_Header" xml:space="preserve">
-    <value>About</value>
+    <value>关于</value>
   </data>
   <data name="TagManager_NewTagButton_Tooltip" xml:space="preserve">
-    <value>Tap or click to add tag to suggestions</value>
+    <value>点击添加当前输入的标签</value>
   </data>
   <data name="TagManager_NewTagTextbox_Tooltip" xml:space="preserve">
-    <value>Type one or more tags separated by ','. Press 'Enter' to add.</value>
+    <value>输入标签名称，多个标签使用英文“,"分隔。按回车键添加输入的标签</value>
   </data>
   <data name="TagManager_TagSuggestionsTab_Header" xml:space="preserve">
-    <value>Suggested Tags</value>
+    <value>已有的标签</value>
   </data>
   <data name="TagManager_TagSuggestionsTab_Tooltip" xml:space="preserve">
-    <value>Add new or remove unused tags available as suggestions in the tag editor. </value>
+    <value>在这里添加新标签，删除、修改已有标签</value>
   </data>
   <data name="TagManager_Window_Title" xml:space="preserve">
-    <value>Manage Settings</value>
+    <value>设置</value>
   </data>
   <data name="TagSearch_Scope_AllNotebooks_Label" xml:space="preserve">
-    <value>All Notebooks</value>
+    <value>所有笔记本</value>
   </data>
   <data name="TagSearch_Scope_Notebook_Label" xml:space="preserve">
-    <value>This Notebook</value>
+    <value>此笔记本</value>
   </data>
   <data name="TagSearch_Scope_SectionGroup_Label" xml:space="preserve">
-    <value>This Section Group</value>
+    <value>此分区组</value>
   </data>
   <data name="TagSearch_Scope_Section_Label" xml:space="preserve">
-    <value>This Section</value>
+    <value>此分区</value>
   </data>
   <data name="TagSearch_Pages_GroupBox_Title" xml:space="preserve">
-    <value>Found Pages</value>
+    <value>找到的页面</value>
   </data>
   <data name="TagSearch_Pages_GroupBox_Tooltip" xml:space="preserve">
-    <value>Pages marked with all selected tags </value>
+    <value>有当前标签的页面 </value>
   </data>
   <data name="TagSearch_Tags_GroupBox_Title" xml:space="preserve">
-    <value>Refinement Tags</value>
+    <value>标签筛选</value>
   </data>
   <data name="TagSearch_Tags_GroupBox_Tooltip" xml:space="preserve">
-    <value>Select one or more tags to show only pages having these tags.</value>
+    <value>点击选择一个或多个标签，筛选出有所选标签的页面</value>
   </data>
   <data name="TagSearch_Window_Title" xml:space="preserve">
-    <value>Find Tagged Pages</value>
+    <value>查找有标签的页面</value>
   </data>
   <data name="tagSearch_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\tagsearch 32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TagSearch_ClearSelection_Button_Tooltip" xml:space="preserve">
-    <value>Tap to clear tag selection</value>
+    <value>点击清除当前的标签筛选结果</value>
   </data>
   <data name="TagSearch_Scope_ComboBox_Tooltip" xml:space="preserve">
-    <value>Pick a scope to look for tagged pages</value>
+    <value>选择筛选页面范围</value>
   </data>
   <data name="TagSearch_Query_ComboBox_Tooltip" xml:space="preserve">
-    <value>Enter query and press enter to start search.</value>
+    <value>输入关键词后按回车键开始查找</value>
   </data>
   <data name="TagSelector_Tooltip" xml:space="preserve">
-    <value>Tap or click to add or remove this tag from the filter.</value>
+    <value>点击后从筛选条件中添加/删除当前标签</value>
   </data>
   <data name="TaggingKit_Error_VersionLookup" xml:space="preserve">
-    <value>OneNote version lookup failed</value>
+    <value>OneNote版本号：获取失败</value>
   </data>
   <data name="TaggingKit_ErrorBox_Title" xml:space="preserve">
     <value>Severe {0}  Add-In Error</value>
@@ -215,286 +212,289 @@
     <value>..\resources\copy-26.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TagManager_ContextMenu_Copy" xml:space="preserve">
-    <value>Copy Tags</value>
+    <value>复制标签</value>
   </data>
   <data name="RemoveTag_Button_Tooltip" xml:space="preserve">
-    <value>Tap or click to remove this tag from the list of selected tags.</value>
+    <value>点击后从已选择的标签列表中移除当前标签</value>
   </data>
   <data name="TagEditor_Suggestions_GroupBox_Title" xml:space="preserve">
-    <value>Suggested Tags</value>
+    <value>已有的标签</value>
   </data>
   <data name="TagEditor_Suggestions_GroupBox_Tooltip" xml:space="preserve">
-    <value>Tags you can add or remove from pages.</value>
+    <value>已选中的标签，可在页面中添加/删除这些标签</value>
   </data>
   <data name="refresh_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\refresh-32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TagEditor_Window_Title" xml:space="preserve">
-    <value>Tag Pages</value>
+    <value>标签页面</value>
   </data>
   <data name="TagEditor_AddTags_Button_Tooltip" xml:space="preserve">
-    <value>Tap or click to add tags to the selected range of OneNote pages</value>
+    <value>点击后在当前范围的所有页面中添加已选择的标签</value>
   </data>
   <data name="TagEditor_RemoveTags_Button_Tooltip" xml:space="preserve">
-    <value>Tap or click to remove the selected tags from a range of OneNote pages.</value>
+    <value>点击后在当前范围的所有页面中删除已选择的标签</value>
   </data>
   <data name="TagEditor_ClearTags_Button_Tooltip" xml:space="preserve">
-    <value>Tap or click to clear tag selection.</value>
+    <value>点击后清除已选择的标签列表</value>
   </data>
   <data name="TagEditor_HithighlightedTag_Button_Tooltip" xml:space="preserve">
-    <value>Tap or click to select this tag.</value>
+    <value>点击后选择当前标签</value>
   </data>
   <data name="TagEditor_Tag_TextBox_Tooltip" xml:space="preserve">
-    <value>Type one or more tags separated by comma ',' and press 'Enter', or select from the list of tags matching the text you typed.</value>
+    <value>输入标签名称，多个标签用英文','分隔，输入完成后按回车键添加到筛选列表中； 输入关键词后将自动筛选已有标签，点击想要的标签后添加到筛选列表中</value>
   </data>
   <data name="TagInputBox_Filter_MenuItem_CurrentNote" xml:space="preserve">
-    <value>Tags from Current Page</value>
+    <value>当前页面的标签</value>
   </data>
   <data name="TagInputBox_Filter_MenuItem_CurrentSection" xml:space="preserve">
-    <value>Tags from Current Section</value>
+    <value>当前分区的标签</value>
   </data>
   <data name="TagInputBox_Filter_MenuItem_SelectedNotes" xml:space="preserve">
-    <value>Tags from Selected Pages</value>
+    <value>当前选中页面的标签</value>
   </data>
   <data name="TagInputBox_Input_Default" xml:space="preserve">
-    <value>Type a Tag.</value>
+    <value>输入标签名称</value>
   </data>
   <data name="TagInputBox_Filter_Menu_Tooltip" xml:space="preserve">
-    <value>Add tags found on a range of OneNote pages to the input box</value>
+    <value>将指定页面中已有的标签添加到输入框中</value>
   </data>
   <data name="TagEditor_ComboBox_Scope_CurrentNote" xml:space="preserve">
-    <value>Current Page</value>
+    <value>当前页面</value>
   </data>
   <data name="TagEditor_ComboBox_Scope_SelectedNotes" xml:space="preserve">
-    <value>Selected Pages</value>
+    <value>已选中的页面</value>
   </data>
   <data name="TagEditor_ComboBox_Scope_Tooltip" xml:space="preserve">
-    <value>Range of OneNote pages the tags will be applied to.</value>
+    <value>当前操作的页面范围</value>
   </data>
   <data name="TagInputBox_Popup_PresetNoResult" xml:space="preserve">
-    <value>No tags were found in the selected scope!</value>
+    <value>在选择的页面中没找到标签!</value>
   </data>
   <data name="TagEditor_Popup_NothingTagged" xml:space="preserve">
-    <value>No Pages were tagged! Please select a range that contains at least one page and try again.</value>
+    <value>没找到有标签的页面，请确定至少存在1个有标签的页面.</value>
   </data>
   <data name="TagEditor_WarningMessageBox_Title" xml:space="preserve">
-    <value>Warning</value>
+    <value>警告</value>
   </data>
   <data name="TagInputBox_ClearInput_Button_Tooltip" xml:space="preserve">
-    <value>Tap or click to clear tag input.</value>
+    <value>点击后清除已选择的标签</value>
   </data>
   <data name="TagInputBox_PresetsMenu_Header" xml:space="preserve">
-    <value>Presets</value>
+    <value>已有标签</value>
   </data>
   <data name="TagEditor_SetTags_Button_Tooltip" xml:space="preserve">
-    <value>Tap or click to replace the tags on a range of OneNote pages with the selected tags.</value>
+    <value>点击后在当前范围的所有页面中删除原有全部标签，替换为已选择的标签</value>
   </data>
   <data name="TagEditor_ComboBox_Scope_CurrentSection" xml:space="preserve">
-    <value>Current Section</value>
+    <value>当前分区</value>
   </data>
   <data name="TagEditor_Popup_TaggingInProgress" xml:space="preserve">
-    <value>{0} page(s) added to the background tagging queue.
+    <value>准备在 {0} 个页面中添加标签。
 
-OneNote may be less responsive while tagging is in progress.</value>
+添加标签的页面较多时，OneNote的响应速度可能会降低，请耐心等待。</value>
   </data>
   <data name="TaggingKit_ErrorBox_GenericSevereError" xml:space="preserve">
     <value>{0}! »{1}«
 
-Click OK to browse troubleshooting tips and known issues. Click CANCEL to continue.
+单击“确定”浏览疑难解答提示和已知问题。单击“取消”继续。
 
-If this is a new issue, please consider reporting it. Describe what you were trying to do and attach the add-in log file
+如果这是一个新问题，请向开发者提交错误报告，报告内容描述您试图执行的操作并附加程序日志文件。谢谢！
 »{2}«
 
-Sorry for the inconvenience!</value>
+很抱歉给您带来不便！</value>
   </data>
   <data name="TaggingKit_About_Framework" xml:space="preserve">
     <value>.Net Framework</value>
   </data>
   <data name="TaggingKit_About_Logfile" xml:space="preserve">
-    <value>Logfile</value>
+    <value>日志</value>
   </data>
   <data name="TaggingKit_About_Website" xml:space="preserve">
-    <value>Web</value>
+    <value>网址</value>
   </data>
   <data name="TagEditor_Filter_Error" xml:space="preserve">
-    <value>Filter failed</value>
+    <value>筛选失败！</value>
   </data>
   <data name="TagEditor_Input_Error" xml:space="preserve">
-    <value>Processing input failed</value>
+    <value>处理输入数据失败！</value>
   </data>
   <data name="TagEditor_TagUpdate_Error" xml:space="preserve">
-    <value>Updating page tags failed</value>
+    <value>更新页面标签失败！</value>
   </data>
   <data name="TagEditor_Error_WindowCreation" xml:space="preserve">
-    <value>Creation of dialog window failed</value>
+    <value>创建对话框窗口失败！</value>
   </data>
   <data name="TaggingKit_Wiki_Page" xml:space="preserve">
     <value>https://github.com/WetHat/OnenoteTaggingKit/wiki/{0}</value>
   </data>
   <data name="TagSearch_Error_Find" xml:space="preserve">
-    <value>Search failed</value>
+    <value>查找失败！</value>
   </data>
   <data name="TagSearch_Error_PageNavigation" xml:space="preserve">
-    <value>Navigation to page failed</value>
+    <value>打开指定页面失败！</value>
   </data>
   <data name="TagSearch_Error_ScopeChange" xml:space="preserve">
-    <value>Changing search scope failed</value>
+    <value>更改搜索范围失败！</value>
   </data>
   <data name="TagSearch_TagInput_Tooltip" xml:space="preserve">
-    <value>Type one or more names separated by comma ',' to locate matching tags in the refinement tags panel</value>
+    <value>输入标签名称，多个标签使用英文 ','分隔， 在标签列表中可以找到匹配的标签</value>
   </data>
   <data name="FoundPages_MenuItem_CopyLinks" xml:space="preserve">
-    <value>Copy Links to Pages</value>
+    <value>复制指向页面的链接</value>
   </data>
   <data name="TagSearch_Error_CopyLink" xml:space="preserve">
-    <value>Copying link to page failed</value>
+    <value>复制指向页面的链接失败！</value>
   </data>
   <data name="TagManager_SuggestedTags_Header" xml:space="preserve">
-    <value>Tags</value>
+    <value>已有标签</value>
   </data>
   <data name="TagSelector_FilterIndicator_Tooltip" xml:space="preserve">
-    <value>This tag is selected for filtering</value>
+    <value>用于筛选的标签</value>
   </data>
   <data name="TagSelector_PageCount_Tooltip" xml:space="preserve">
-    <value>{0} of {1} pages tagged with '{2}' match the tag filter</value>
+    <value>{0}/{1}，满足标签筛选条件的页面数量/标记 '{2}' 的页面总数量</value>
   </data>
   <data name="TagSearch_CheckBox_Tracking_Text" xml:space="preserve">
-    <value>← Check to turn on tag tracking</value>
+    <value>← 勾选后启用跟踪页面标签</value>
   </data>
   <data name="TagSearch_StatusBar_Tooltip" xml:space="preserve">
-    <value>When tracking is on, tags from the current page are highlighted and the title of the current page is displayed in the status bar. Select one ore more of the highlighted tags to filter for pages related to the current page.</value>
+    <value>启用页面标签跟踪时，当前页面中的标签将突出显示，当前页面的标题将显示在状态栏中。选择一个或多个突出显示的标签以筛选与当前页面相关的页面。</value>
   </data>
   <data name="TagEditor_NoTagsSelectedWarning" xml:space="preserve">
-    <value>No tags have been selected! This operation will not change anything.</value>
+    <value>未选择标签，操作无效</value>
   </data>
   <data name="FoundPages_MenuItem_Deselect_All" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>取消选择</value>
   </data>
   <data name="FoundPages_MenuItem_Select_All" xml:space="preserve">
-    <value>Select All</value>
+    <value>全选</value>
   </data>
   <data name="TagManager_PreferencesTab_Header" xml:space="preserve">
-    <value>Preferences</value>
+    <value>常规设置</value>
   </data>
   <data name="TagManager_PreferencesTab_Tooltip" xml:space="preserve">
-    <value>Change Add-In Appearance and Behavior</value>
+    <value>设置插件外观和行为</value>
   </data>
   <data name="TagManager_PreferencesTab_DialogPreferencesGroup_Header" xml:space="preserve">
-    <value>Dialog Preferences</value>
+    <value>对话框设置</value>
   </data>
   <data name="TagManager_PreferencesTab_DialogPreferences_TagEditorOnTop" xml:space="preserve">
-    <value>'Tag Pages' dialog always on top</value>
+    <value>'页面标签' 对话框始终在前面</value>
   </data>
   <data name="TagManager_PreferencesTab_DialogPreferences_TagEditorOnTopTooltip" xml:space="preserve">
-    <value>When checked, the 'Tag Pages' dialog is always on top of all other windows</value>
+    <value>勾选后，'页面标签' 对话框将始终位于其他窗口前面</value>
   </data>
   <data name="TagManager_PreferencesTab_DialogPreferences_TagSearchOnTop" xml:space="preserve">
-    <value>'Find Tagged Pages' dialog always on top</value>
+    <value>'查找页面标签' 对话框始终在前面</value>
   </data>
   <data name="TagManager_PreferencesTab_DialogPreferences_TagSearchOnTopTooltip" xml:space="preserve">
-    <value>When checked, the 'Find Tagged Pages' dialog is always on top of all other windows</value>
+    <value>勾选后， '查找页面标签' 对话框将始终位于其他窗口前面</value>
   </data>
   <data name="TagManager_Menu_Tooltip" xml:space="preserve">
-    <value>Tap or click to show actions for suggested tags</value>
+    <value>点击后显示对标签的操作菜单</value>
   </data>
   <data name="TagSearch_Pages_Menu_Tooltip" xml:space="preserve">
-    <value>Tap to show actions for found pages</value>
+    <value>点击后显示对筛选页面的操作菜单</value>
   </data>
   <data name="TagSearch_PageItem_Tooltip" xml:space="preserve">
-    <value>Tap or click '❱' to select item.
-Tap or click link to navigate to page.</value>
+    <value>点击 '❱' 选择页面，
+点击链接跳转到对应的页面.</value>
   </data>
   <data name="TagManager_TagSuggestions_MenuItem_Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>取消</value>
   </data>
   <data name="TagManager_TagSuggestions_MenuItem_Confirm" xml:space="preserve">
-    <value>Confirm</value>
+    <value>保存</value>
   </data>
   <data name="TagManager_TagSuggestions_MenuItem_Delete" xml:space="preserve">
-    <value>Delete Tag</value>
+    <value>删除标签</value>
   </data>
   <data name="TagManager_TagSuggestions_MenuItem_Delete_Tooltip" xml:space="preserve">
-    <value>Delete this tag from the tag suggestions list and all pages</value>
+    <value>删除此标签（所有页面中此标签都将被删除，但不会删除页面本身）</value>
   </data>
   <data name="TagManager_TagSuggestions_MenuItem_Rename" xml:space="preserve">
-    <value>Rename Tag</value>
+    <value>重命名标签</value>
   </data>
   <data name="TagManager_TagSuggestions_MenuItem_Rename_Tooltip" xml:space="preserve">
-    <value>Rename this tag on the tag suggestions list and on all pages</value>
+    <value>重命名此标签（所有页面中此标签都将被替换为新的标签名称）</value>
   </data>
   <data name="FoundPages_MenuItem_Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>刷新</value>
   </data>
   <data name="SuggestedTag_Menu_Tooltip" xml:space="preserve">
-    <value>Tap or Click to show available actions.</value>
+    <value>点击显示操作菜单</value>
   </data>
   <data name="TaggingKit_About_Configuration" xml:space="preserve">
-    <value>Configuration</value>
+    <value>版本配置</value>
   </data>
   <data name="FoundPages_MenuItem_MarkSelection" xml:space="preserve">
-    <value>Mark Selected Pages</value>
+    <value>修改选中页面的标签</value>
   </data>
   <data name="TagManager_PreferencesTab_DialogPreferences_UseWindowsSearch_Tooltip" xml:space="preserve">
-    <value>Uncheck this option on systems where the integration of OneNote with the Windows Search Service is broken (e.g after the Windows 10 creators update (1703))</value>
+    <value>OneNote未使用系统搜索服务时不要勾选此项目 (例如：Windows 10 creators update (1703))</value>
   </data>
   <data name="TagManager_PreferencesTab_OSGroup_Header" xml:space="preserve">
-    <value>Operating System Integration</value>
+    <value>操作系统功能集成</value>
   </data>
   <data name="TagManager_PreferencesTab_OS_UseWindowsSearch" xml:space="preserve">
-    <value>Use Windows Search Service to find tagged pages.</value>
+    <value>使用系统搜索服务查找页面标签（需要打开系统的搜索服务）</value>
   </data>
   <data name="TagManager_PreferencesTab_TagOptionsGroup_Header" xml:space="preserve">
-    <value>Tag Options</value>
+    <value>标签选项</value>
   </data>
   <data name="TagManager_PreferencesTab_TagFormat_AsEntered" xml:space="preserve">
-    <value>As Entered</value>
+    <value>原貌</value>
   </data>
   <data name="TagManager_PreferencesTab_TagFormat_AsEntered_Tooltip" xml:space="preserve">
-    <value>Tags are 'as entered'. No formatting is applied.</value>
+    <value>按标签输入时的格式</value>
   </data>
   <data name="TagManager_PreferencesTab_TagFormat_Capitalized" xml:space="preserve">
-    <value>Capitalized</value>
+    <value>首字母大写</value>
   </data>
   <data name="TagManager_PreferencesTab_TagFormat_Capitalized_Tooltip" xml:space="preserve">
-    <value>Tags start with an uppercase chareacter.</value>
+    <value>标签首字母将大写</value>
   </data>
   <data name="TagManager_PreferencesTab_TagFormat_HashTag" xml:space="preserve">
-    <value>HashTag</value>
+    <value>#标签</value>
   </data>
   <data name="TagManager_PreferencesTab_TagFormat_HashTag_Tooltip" xml:space="preserve">
-    <value>All Tags are lower case, without spaces, and start with a '#'</value>
+    <value>所有标签字母均小写，不能有空格，标签前添加'#'</value>
   </data>
   <data name="TagManager_PreferencesTab_TagFormat_ToolTip" xml:space="preserve">
-    <value>Tag Formatting Choices</value>
+    <value>标签格式选择</value>
   </data>
   <data name="TagSearch_Links_ProgressBar_Title" xml:space="preserve">
-    <value>Generating links ...</value>
+    <value>正在生成链接。。。</value>
   </data>
   <data name="TagManager_PreferencesTab_TagFormat_Label" xml:space="preserve">
-    <value>Tag Format</value>
+    <value>标签格式</value>
   </data>
   <data name="TagManager_PreferencesTab_TagDisplay_Label" xml:space="preserve">
-    <value>Tag Display</value>
+    <value>标签显示</value>
   </data>
   <data name="TagManager_PreferencesTab_TagDisplay_BelowTitle" xml:space="preserve">
-    <value>Below Page Title</value>
+    <value>页面标题下方</value>
   </data>
   <data name="TagManager_PreferencesTab_TagDisplay_BelowTitle_Tooltip" xml:space="preserve">
-    <value>Place tags as text below the page title.</value>
+    <value>标签文本将显示在页面标题文字下方</value>
   </data>
   <data name="TagManager_PreferencesTab_TagDisplay_InTitle" xml:space="preserve">
-    <value>Icon in Page Title</value>
+    <value>页面标题图标</value>
   </data>
   <data name="TagManager_PreferencesTab_TagDisplay_InTitle_Tooltip" xml:space="preserve">
-    <value>Place tags at the top of a page directly beneath the title.</value>
+    <value>标签图标显示页面标题文字下方，不显示标签文本内容。</value>
   </data>
   <data name="TagManager_PreferencesTab_TagDisplay_Tooltip" xml:space="preserve">
-    <value>Location where the page tags are placed on a OneNote page.</value>
+    <value>设置标签在OneNote页面上的显示位置</value>
   </data>
   <data name="FoundPages_MenuItem_TagSelected" xml:space="preserve">
-    <value>Tag Selected Pages</value>
+    <value>修改选中页面的标签</value>
   </data>
   <data name="TagSearch_NoPagesSelectedWarning" xml:space="preserve">
-    <value>No taggable pages have been  selected in the search result!</value>
+    <value>未选择筛选结果中的页面！</value>
+  </data>
+  <data name="ribbon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ribbon.zh.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>
