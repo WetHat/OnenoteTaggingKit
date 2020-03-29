@@ -1,9 +1,7 @@
 # TagInputEventHandler Delegate
  _**\[This is preliminary documentation and is subject to change.\]**_
 
-Handler for the TagInput or TagInput event.
-
-**Namespace:**&nbsp;<a href="043a9407-ac38-b3ac-7348-a6090af495ad.md">WetHatLab.OneNote.TaggingKit.common.ui</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 3.6.7210.17405
+**Namespace:**&nbsp;<a href="043a9407-ac38-b3ac-7348-a6090af495ad.md">WetHatLab.OneNote.TaggingKit.common.ui</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 3.7.7393.19279
 
 ## Syntax
 
@@ -17,7 +15,7 @@ public delegate void TagInputEventHandler(
 
 
 #### Parameters
-&nbsp;<dl><dt>sender</dt><dd>Type: <a href="http://msdn2.microsoft.com/en-us/library/e5kfa45b" target="_blank">System.Object</a><br />object emitting the event</dd><dt>e</dt><dd>Type: <a href="636c3979-dedc-2fb6-695e-4976b009150e.md">WetHatLab.OneNote.TaggingKit.common.ui.TagInputEventArgs</a><br />event details</dd></dl>
+&nbsp;<dl><dt>sender</dt><dd>Type: <a href="http://msdn2.microsoft.com/en-us/library/e5kfa45b" target="_blank">System.Object</a><br /></dd><dt>e</dt><dd>Type: <a href="636c3979-dedc-2fb6-695e-4976b009150e.md">WetHatLab.OneNote.TaggingKit.common.ui.TagInputEventArgs</a><br /></dd></dl>
 
 ## See Also
 

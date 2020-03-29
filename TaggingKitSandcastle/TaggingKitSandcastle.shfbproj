@@ -60,7 +60,7 @@
     <HtmlSdkLinkType>Msdn</HtmlSdkLinkType>
     <IncludeFavorites>True</IncludeFavorites>
     <BinaryTOC>True</BinaryTOC>
-    <CopyrightText>Copyright %28C%29 2013-2015 WetHat Lab</CopyrightText>
+    <CopyrightText>Copyright %28C%29 2013-2020 WetHat Lab</CopyrightText>
     <PlugInConfigurations>
     </PlugInConfigurations>
     <RootNamespaceTitle>OneNote Tagging Kit Namespaces</RootNamespaceTitle>
