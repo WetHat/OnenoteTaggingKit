@@ -3,7 +3,7 @@
   <ribbon>
     <tabs>
       <tab idMso="TabHome">
-        <group id="PageTagging" label="Page Tags" insertAfterMso="GroupTagging">
+        <group id="PageTagging" label="页面标签" insertAfterMso="GroupTagging">
           <button id="buttonTagPage"
                   label="标签页面"
                   size="large"
