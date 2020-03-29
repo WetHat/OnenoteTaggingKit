@@ -37,15 +37,18 @@
     <Feature Id="ProductFeature" Title="OneNote TaggingKit Add-In" Level="1">
       <ComponentGroupRef Id="ProductComponents" />
       <ComponentGroupRef Id="COMReg" />
+      <ComponentGroupRef Id="ChineseLocalization" />
     </Feature>
   </Product>
 
   <Fragment>
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
-        <Directory Id="CompanyFolder" Name="WetHat Lab">
-          <Directory Id="INSTALLFOLDER" Name="OneNoteTaggingKit" />
-        </Directory>
+          <Directory Id="CompanyFolder" Name="WetHat Lab">
+              <Directory Id="INSTALLFOLDER" Name="OneNoteTaggingKit">
+                  <Directory Id="Chinese_zh" Name="zh" />
+              </Directory>
+          </Directory>
       </Directory>
     </Directory>
   </Fragment>
@@ -64,6 +67,11 @@
         <RegistryValue Id="VAL_AppID"        Root="HKCU" Key="SOFTWARE\Classes\AppID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}"              Name="DllSurrogate" Type="string" Value="" Action="write" />
         <RegistryValue Id="VAL_CLSID"        Root="HKCU" Key="SOFTWARE\Classes\CLSID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}"              Name="AppID" Type="string" Value="{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}" Action="write" />
       </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="ChineseLocalization" Directory="Chinese_zh">
+        <Component Id="CMP_OneNoteTaggingKit.resources_zh" Guid="{AD69B358-0D5C-47C8-ADAE-EC437A5E0127}">
+            <File Id="FILE_OneNoteTaggingKit.resources_zh" Source="$(var.OneNoteTaggingKit.TargetDir)/zh/OneNoteTaggingKit.resources.dll" KeyPath="yes" />
+        </Component>
     </ComponentGroup>
   </Fragment>
 </Wix>
