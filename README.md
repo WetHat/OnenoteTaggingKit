@@ -26,3 +26,5 @@ If you think the tagging kit is not working as it should, please check the [trou
 Any ideas for improvements? Please create a [feature request](https://github.com/WetHat/OnenoteTaggingKit/issues)
 
 ![Logo](https://github.com/WetHat/OnenoteTaggingKit/wiki/images/logo100x100.png)
+
+# Contributors
