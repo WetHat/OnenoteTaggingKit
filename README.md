@@ -25,10 +25,16 @@ For current and historical releases, check the [Releases](https://github.com/Wet
 
 If you think the tagging kit is not working as it should, please check the [troubleshooting tips](https://github.com/WetHat/OnenoteTaggingKit/wiki/Troubleshooting-Tips)
 
-Any ideas for improvements? Please create a [feature request](https://github.com/WetHat/OnenoteTaggingKit/issues)
-
+<table><tr><td>
+  
 ![Logo](https://github.com/WetHat/OnenoteTaggingKit/wiki/images/logo100x100.png)
 
+</td><td>
+
+Any ideas for improvements? Please create a [feature request](https://github.com/WetHat/OnenoteTaggingKit/issues)
+
+</td></tr></table>
+  
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
