@@ -1,9 +1,7 @@
 [![GitHub release](https://img.shields.io/github/release/WetHat/OnenoteTaggingKit)](https://GitHub.com/WetHat/OnenoteTaggingKit/releases/)
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![Github all releases](https://img.shields.io/github/downloads/WetHat/OnenoteTaggingKit/total.svg)](https://GitHub.com/WetHat/OnenoteTaggingKit/releases/)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/WetHat/OnenoteTaggingKit/graphs/commit-activity)
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 
 # OneNote Tagging Kit Add-In
 
