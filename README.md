@@ -1,4 +1,7 @@
 [![GitHub release](https://img.shields.io/github/release/WetHat/OnenoteTaggingKit)](https://GitHub.com/WetHat/OnenoteTaggingKit/releases/)
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![Github all releases](https://img.shields.io/github/downloads/WetHat/OnenoteTaggingKit/total.svg)](https://GitHub.com/WetHat/OnenoteTaggingKit/releases/)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/WetHat/OnenoteTaggingKit/graphs/commit-activity)
 # OneNote Tagging Kit Add-In
@@ -28,3 +31,22 @@ Any ideas for improvements? Please create a [feature request](https://github.com
 ![Logo](https://github.com/WetHat/OnenoteTaggingKit/wiki/images/logo100x100.png)
 
 # Contributors
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/zhongguocn"><img src="https://avatars2.githubusercontent.com/u/38025627?v=4" width="100px;" alt=""/><br /><sub><b>zhongguocn</b></sub></a><br /><a href="#translation-zhongguocn" title="Translation">🌍</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
