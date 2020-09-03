@@ -27,7 +27,7 @@ This add-in for OneNote 2010 - 2019 (desktop) is based on the built-in OneNote t
     <!-- Important note about https://cdn.rawgit.com: Files are cached permanently after the first request. Use commit URLs when updating the icon. -->
     <iconUrl>https://rawcdn.githack.com/WetHat/OnenoteTaggingKit/5d4d78b24167b34a7bb95155f7beec71a89a542b/SetupTaggingKitWiX/onenote-taggingkit-addin.install/onenotetaggingkit_256x256.png</iconUrl>
     <releaseNotes>https://github.com/WetHat/OnenoteTaggingKit/releases</releaseNotes>
-    <packageSourceUrl>https://github.com/WetHat/OnenoteTaggingKit/tree/master/SetupTaggingKitWiX/onenote-taggingkit-addin.install</packageSourceUrl>
+    <packageSourceUrl>https://github.com/WetHat/OnenoteTaggingKit/tree/master/onenote-taggingkit-addin.install</packageSourceUrl>
     <projectSourceUrl>https://github.com/WetHat/OnenoteTaggingKit</projectSourceUrl>
     <docsUrl>https://github.com/WetHat/OnenoteTaggingKit/wiki</docsUrl>
     <bugTrackerUrl>https://github.com/WetHat/OnenoteTaggingKit/issues</bugTrackerUrl>
