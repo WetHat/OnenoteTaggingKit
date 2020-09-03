@@ -1,7 +1,9 @@
 # WindowViewModelBase.PropertyChanged Event
  _**\[This is preliminary documentation and is subject to change.\]**_
 
-**Namespace:**&nbsp;<a href="043a9407-ac38-b3ac-7348-a6090af495ad.md">WetHatLab.OneNote.TaggingKit.common.ui</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 3.7.7393.19279
+Event to notify registered handlers about property changes
+
+**Namespace:**&nbsp;<a href="043a9407-ac38-b3ac-7348-a6090af495ad.md">WetHatLab.OneNote.TaggingKit.common.ui</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 3.7.7393.32649
 
 ## Syntax
 

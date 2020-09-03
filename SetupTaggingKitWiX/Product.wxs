@@ -60,12 +60,12 @@
       </Component>
 
       <Component Id="REG_Addin">
-        <RegistryValue Id="VAL_LoadBehavior" Root="HKCU" Key="SOFTWARE\Microsoft\Office\OneNote\AddIns\WetHatLab.OneNote.TaggingKitAddin" Name="LoadBehavior" Type="integer" Value="00000003" Action="write" KeyPath="yes" />
-        <RegistryValue Id="VAL_FriendlyName" Root="HKCU" Key="SOFTWARE\Microsoft\Office\OneNote\AddIns\WetHatLab.OneNote.TaggingKitAddin" Name="FriendlyName" Type="string" Value="OneNote Tagging Addin" Action="write" />
-        <RegistryValue Id="VAL_Description"  Root="HKCU" Key="SOFTWARE\Microsoft\Office\OneNote\AddIns\WetHatLab.OneNote.TaggingKitAddin" Name="Description"  Type="string" Value="Edit / Manage OneNote Page Tags" Action="write" />
+        <RegistryValue Id="VAL_LoadBehavior" Root="HKLM" Key="SOFTWARE\Microsoft\Office\OneNote\AddIns\WetHatLab.OneNote.TaggingKitAddin" Name="LoadBehavior" Type="integer" Value="00000003" Action="write" KeyPath="yes" />
+        <RegistryValue Id="VAL_FriendlyName" Root="HKLM" Key="SOFTWARE\Microsoft\Office\OneNote\AddIns\WetHatLab.OneNote.TaggingKitAddin" Name="FriendlyName" Type="string" Value="OneNote Tagging Addin" Action="write" />
+        <RegistryValue Id="VAL_Description"  Root="HKLM" Key="SOFTWARE\Microsoft\Office\OneNote\AddIns\WetHatLab.OneNote.TaggingKitAddin" Name="Description"  Type="string" Value="Edit / Manage OneNote Page Tags" Action="write" />
 
-        <RegistryValue Id="VAL_AppID"        Root="HKCU" Key="SOFTWARE\Classes\AppID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}"              Name="DllSurrogate" Type="string" Value="" Action="write" />
-        <RegistryValue Id="VAL_CLSID"        Root="HKCU" Key="SOFTWARE\Classes\CLSID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}"              Name="AppID" Type="string" Value="{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}" Action="write" />
+        <RegistryValue Id="VAL_AppID"        Root="HKLM" Key="SOFTWARE\Classes\AppID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}"              Name="DllSurrogate" Type="string" Value="" Action="write" />
+        <RegistryValue Id="VAL_CLSID"        Root="HKLM" Key="SOFTWARE\Classes\CLSID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}"              Name="AppID" Type="string" Value="{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}" Action="write" />
       </Component>
     </ComponentGroup>
     <ComponentGroup Id="ChineseLocalization" Directory="Chinese_zh">

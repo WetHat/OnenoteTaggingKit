@@ -1,7 +1,9 @@
 # TagEditorModel.ScopeIndex Property 
  _**\[This is preliminary documentation and is subject to change.\]**_
 
-**Namespace:**&nbsp;<a href="60ca3730-00cd-fce3-4009-523f3952fd9e.md">WetHatLab.OneNote.TaggingKit.edit</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 3.7.7393.19279
+Get or set the index of the selected tagging scope. 
+
+**Namespace:**&nbsp;<a href="60ca3730-00cd-fce3-4009-523f3952fd9e.md">WetHatLab.OneNote.TaggingKit.edit</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 3.7.7393.32649
 
 ## Syntax
 
@@ -21,4 +23,4 @@ Type: <a href="http://msdn2.microsoft.com/en-us/library/td2s409d" target="_blank
 
 
 #### Reference
-<a href="d0783a73-0ba1-b750-13e8-e19b790c09dd.md">TagEditorModel Class</a><br /><a href="60ca3730-00cd-fce3-4009-523f3952fd9e.md">WetHatLab.OneNote.TaggingKit.edit Namespace</a><br />
+<a href="d0783a73-0ba1-b750-13e8-e19b790c09dd.md">TagEditorModel Class</a><br /><a href="60ca3730-00cd-fce3-4009-523f3952fd9e.md">WetHatLab.OneNote.TaggingKit.edit Namespace</a><br /><a href="d14a67c9-7066-44f8-6ffa-6a9f40ea8371.md">TagEditorModel.Scope</a><br />

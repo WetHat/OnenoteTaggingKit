@@ -17,7 +17,8 @@ Gets the <a href="http://msdn2.microsoft.com/en-us/library/42892f65" target="_bl
 Creates a shallow copy of the current <a href="http://msdn2.microsoft.com/en-us/library/e5kfa45b" target="_blank">Object</a>.
  (Inherited from <a href="http://msdn2.microsoft.com/en-us/library/e5kfa45b" target="_blank">Object</a>.)</td></tr><tr><td>![Protected method](media/protmethod.gif "Protected method")![Static member](media/static.gif "Static member")</td><td><a href="fdbdda9d-2b84-e725-659f-060764e74b96.md">ParseTags</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="http://msdn2.microsoft.com/en-us/library/7bxwbwt2" target="_blank">ToString</a></td><td>
 Returns a string that represents the current object.
- (Inherited from <a href="http://msdn2.microsoft.com/en-us/library/e5kfa45b" target="_blank">Object</a>.)</td></tr><tr><td>![Protected method](media/protmethod.gif "Protected method")</td><td><a href="4e82bde1-11ef-dfb9-86c3-748468253059.md">Update</a></td><td /></tr></table>&nbsp;
+ (Inherited from <a href="http://msdn2.microsoft.com/en-us/library/e5kfa45b" target="_blank">Object</a>.)</td></tr><tr><td>![Protected method](media/protmethod.gif "Protected method")</td><td><a href="4e82bde1-11ef-dfb9-86c3-748468253059.md">Update</a></td><td>
+Save all changes to the page to OneNote</td></tr></table>&nbsp;
 <a href="#onenotepageproxy-methods">Back to Top</a>
 
 ## See Also
