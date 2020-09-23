@@ -67,6 +67,15 @@
         <RegistryValue Id="VAL_AppID"        Root="HKLM" Key="SOFTWARE\Classes\AppID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}"              Name="DllSurrogate" Type="string" Value="" Action="write" />
         <RegistryValue Id="VAL_CLSID"        Root="HKLM" Key="SOFTWARE\Classes\CLSID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}"              Name="AppID" Type="string" Value="{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}" Action="write" />
       </Component>
+      <Component Id="REG_Addin_CU">
+        <!-- same for HKCU just in case -->
+        <RegistryValue Id="VAL_LoadBehavior1" Root="HKCU" Key="SOFTWARE\Microsoft\Office\OneNote\AddIns\WetHatLab.OneNote.TaggingKitAddin" Name="LoadBehavior" Type="integer" Value="00000003" Action="write" KeyPath="yes" />
+        <RegistryValue Id="VAL_FriendlyName1" Root="HKCU" Key="SOFTWARE\Microsoft\Office\OneNote\AddIns\WetHatLab.OneNote.TaggingKitAddin" Name="FriendlyName" Type="string" Value="OneNote Tagging Addin" Action="write" />
+        <RegistryValue Id="VAL_Description1"  Root="HKCU" Key="SOFTWARE\Microsoft\Office\OneNote\AddIns\WetHatLab.OneNote.TaggingKitAddin" Name="Description"  Type="string" Value="Edit / Manage OneNote Page Tags" Action="write" />
+
+        <RegistryValue Id="VAL_AppID1"        Root="HKCU" Key="SOFTWARE\Classes\AppID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}"              Name="DllSurrogate" Type="string" Value="" Action="write" />
+        <RegistryValue Id="VAL_CLSID1"        Root="HKCU" Key="SOFTWARE\Classes\CLSID\{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}"              Name="AppID" Type="string" Value="{C3CE0D94-89A1-4C7E-9633-C496FF3DC4FF}" Action="write" />
+      </Component>
     </ComponentGroup>
     <ComponentGroup Id="ChineseLocalization" Directory="Chinese_zh">
         <Component Id="CMP_OneNoteTaggingKit.resources_zh" Guid="{AD69B358-0D5C-47C8-ADAE-EC437A5E0127}">
