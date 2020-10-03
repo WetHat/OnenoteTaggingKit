@@ -170,7 +170,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             switch (itm.Tag.ToString())
             {
                 case "Copy":
-                    Clipboard.SetData(DataFormats.Text, _model.TagList);
+                    Clipboard.SetData(DataFormats.UnicodeText, _model.TagList);
                     tagInput.FocusInput();
                     break;
 
