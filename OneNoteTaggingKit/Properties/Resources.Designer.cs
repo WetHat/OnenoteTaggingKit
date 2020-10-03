@@ -429,7 +429,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copyright (c) 2013-2019 WetHat Lab.
+        ///   Looks up a localized string similar to Copyright (c) 2013-2020 WetHat Lab.
         /// </summary>
         public static string TaggingKit_About_Copyright {
             get {
