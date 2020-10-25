@@ -85,13 +85,15 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 ExtractTags(_onenote.GetHierarchy(scopeID, HierarchyScope.hsPages), selectedPagesOnly: false, omitUntaggedPages: true);
             }
 
-            // attempt to automatically update the tag list, if we have collected all used tags
+            // attempt to automatically update the tag suggestions, if we have collected all used tags
             HashSet<string> knownTags = new HashSet<String>(OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags));
             int countBefore = knownTags.Count;
 
             // update the list of known tags by adding tags from search result
             foreach (KeyValuePair<string, TagPageSet> t in _tags) {
-                knownTags.Add(t.Key);
+                if (!t.Key.EndsWith(Properties.Settings.Default.ImportOneNoteTagMarker)) {
+                    knownTags.Add(t.Key);
+                }
             }
 
             if (countBefore != knownTags.Count) { // updated tag suggestions
@@ -143,7 +145,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Extract tags from page descriptors.
         /// </summary>
-        /// <param name="pageDescriptors">  
+        /// <param name="pageDescriptors">
         /// XML document describing pages in the OneNote hierarchy or search result.
         /// </param>
         /// <param name="selectedPagesOnly">true to process only pages selected by user</param>

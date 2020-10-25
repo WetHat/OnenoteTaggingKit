@@ -165,7 +165,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         internal int EnqueuePagesForTagging(TagOperation op) {
             // bring suggestions up-to-date with new tags that may have been entered
-            TagSuggestions.AddAll(from t in _pageTags where !TagSuggestions.ContainsKey(t.Key) select new HitHighlightedTagButtonModel() { TagName = t.TagName });
+            TagSuggestions.AddAll(from t in _pageTags
+                                  where !TagSuggestions.ContainsKey(t.Key) && !t.Key.EndsWith(Properties.Settings.Default.ImportOneNoteTagMarker)
+                                  select new HitHighlightedTagButtonModel() { TagName = t.TagName });
             TagSuggestions.Save();
 
             // covert scope to context

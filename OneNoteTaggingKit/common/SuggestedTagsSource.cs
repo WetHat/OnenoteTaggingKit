@@ -174,7 +174,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
         private T[] LoadSuggestedTagsAction()
         {
-            return (from string t in OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags) select new T() { TagName = t }).ToArray();
+            return (from string t in OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags)
+                    select new T() { TagName = t }).ToArray();
         }
 
         /// <summary>
