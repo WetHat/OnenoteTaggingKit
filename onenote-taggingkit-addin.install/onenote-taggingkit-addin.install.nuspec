@@ -4,7 +4,7 @@
   <metadata>
     <id>onenote-taggingkit-addin.install</id>
     <title>OneNote Tagging Kit Add-In</title>
-    <version>3.7.7551.20257</version>
+    <version>3.7.7581.19466</version>
     <authors>WetHat</authors>
     <owners>WetHat</owners>
     <summary>A free to-use add-in to add social tagging to OneNote for the desktop</summary>
@@ -21,7 +21,7 @@ This add-in for OneNote 2010 - 2019 (desktop) is based on the built-in OneNote t
     </description>
     <projectUrl>https://github.com/WetHat/OnenoteTaggingKit</projectUrl>
     <tags>admin onenote tagging addin onenote2010 onenote2013 onenote2016 taxonomy categorization</tags>
-    <copyright>WetHat Lab 2015-2019</copyright>
+    <copyright>WetHat Lab 2015-2020</copyright>
     <licenseUrl>https://github.com/WetHat/OnenoteTaggingKit/blob/master/license.md</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <!-- Important note about https://cdn.rawgit.com: Files are cached permanently after the first request. Use commit URLs when updating the icon. -->
