@@ -61,7 +61,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
         // the OneNote application object
         private OneNoteProxy _onenote;
 
-        private readonly string[] _originalTags;
         private XElement _page;
 
         private XDocument _pageDoc; // the OneNote page document
@@ -71,6 +70,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// an outline of the page.
         /// </summary>
         private XElement _pageTagsOE;
+
+        private readonly string[] _originalTags;
 
         /// <summary>
         /// The array of page tags.
@@ -99,7 +100,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 }
             }
 
-            // get all tag definitions which could be page tags from.
+            // get all tag definitions which could be page tags from the page header.
             var indexmap = new Dictionary<string, XElement>();
             foreach (XElement tagDef in from td in _page.Elements(_one.GetName("TagDef"))
                                         where "0".Equals(td.Attribute("symbol").Value)
@@ -443,9 +444,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
                                                    //  </one:OE>
                                                    //</one:Title>
 
-            // Locate tag definitions for existing page tags and record them <one:TagDef
-            // index="0" name="Test Tag 1" type="0" symbol="0" /> <one:TagDef index="1"
-            // name="Test Tag 2" type="1" symbol="0" />
+            // Locate tag definitions for existing page tags and record them:
+            // <one:TagDef index="0" name="Test Tag 1" type="0" symbol="0" />
+            // <one:TagDef index="1" name="Test Tag 2" type="1" symbol="0" />
             var tagnameToTagdefMap = new Dictionary<string, XElement>();
             int redundantTagCount = 0;
             foreach (XElement tagdef in tagDefs.Where(d => d.Attribute("symbol").Value == "0"
