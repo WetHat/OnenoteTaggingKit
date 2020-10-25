@@ -91,7 +91,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
             // update the list of known tags by adding tags from search result
             foreach (KeyValuePair<string, TagPageSet> t in _tags) {
-                if (!t.Key.EndsWith(Properties.Settings.Default.ImportOneNoteTagMarker)) {
+                if (!t.Value.IsImported) {
                     knownTags.Add(t.Key);
                 }
             }

@@ -165,7 +165,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 return tags;
             }
 
-            return tagSource.Tags.Values;
+            return from t in tagSource.Tags.Values where !t.IsImported select t ;
         }
 
         private async void Filter_MenuItem_Click(object sender, RoutedEventArgs e)
