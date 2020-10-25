@@ -67,7 +67,7 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                         catch (Exception e)
                         {
                             lastPage = null;
-                            TraceLogger.ShowGenericErrorBox("page tagging failed", e);
+                            TraceLogger.ShowGenericErrorBox("Page tagging failed", e);
                         }
                     }
                 }
