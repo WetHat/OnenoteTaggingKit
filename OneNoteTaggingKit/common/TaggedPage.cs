@@ -164,7 +164,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         /// <summary>
-        /// Get or set the collection of tags on this page
+        /// Get the collection of tags on this page
         /// </summary>
         internal ISet<TagPageSet> Tags {
             get {
