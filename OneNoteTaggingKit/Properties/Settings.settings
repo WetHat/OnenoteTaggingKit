@@ -69,7 +69,16 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="ImportOneNoteTagMarker" Type="System.String" Scope="User">
-      <Value Profile="(Default)">🔖</Value>
+      <Value Profile="(Default)">📑</Value>
+    </Setting>
+    <Setting Name="ImportHashtagMarker" Type="System.String" Scope="User">
+      <Value Profile="(Default)">📜</Value>
+    </Setting>
+    <Setting Name="MapOneNoteTags" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="MapHashTags" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

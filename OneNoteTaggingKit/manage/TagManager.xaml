@@ -136,6 +136,11 @@
                               ToolTip="{Binding Mode=OneTime,
                                        Source={x:Static prop:Resources.TagManager_PreferencesTab_Map_OneNoteTags_Tooltip}}"
                               IsChecked="{Binding Source={x:Static prop:Settings.Default},Path=MapOneNoteTags,Mode=TwoWay}" />
+                        <CheckBox Content="{Binding Mode=OneTime,
+                                       Source={x:Static prop:Resources.TagManager_PreferencesTab_Map_HashTags}}"
+                              ToolTip="{Binding Mode=OneTime,
+                                       Source={x:Static prop:Resources.TagManager_PreferencesTab_Map_HashTags_Tooltip}}"
+                              IsChecked="{Binding Source={x:Static prop:Settings.Default},Path=MapHashTags,Mode=TwoWay}" />
                     </StackPanel>
                 </GroupBox>
             </StackPanel>

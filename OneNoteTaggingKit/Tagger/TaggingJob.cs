@@ -85,6 +85,7 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
             // collect the genuine page tags
             HashSet<string> pagetags = new HashSet<string>(from name in page.PageTags
                                                            where !name.EndsWith(Properties.Settings.Default.ImportOneNoteTagMarker)
+                                                                 && !name.EndsWith(Properties.Settings.Default.ImportHashtagMarker)
                                                            select name);
 
             switch (_op)
@@ -110,7 +111,10 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                 // add the OneNote tags with import marker appended
                 pagetags.UnionWith(from ot in page.OneNoteTags select ot + Properties.Settings.Default.ImportOneNoteTagMarker);
             }
-
+            if (Properties.Settings.Default.MapHashTags) {
+                // add the OneNote tags with import marker appended
+                pagetags.UnionWith(from ot in page.HashTags select ot + Properties.Settings.Default.ImportHashtagMarker);
+            }
             string[] sortedTags = pagetags.ToArray();
             Array.Sort<string>(sortedTags, (x, y) => string.Compare(x, y, true));
 

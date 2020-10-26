@@ -497,4 +497,31 @@
   <data name="ribbon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ribbon.zh.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="TagEditor_ResyncTags_Button_Tooltip" xml:space="preserve">
+    <value>Tap or click to re-synchronize tag display with tags from page content, if tag mapping is enabled in 'Settings', and also the page tag database.</value>
+    <comment>translate</comment>
+  </data>
+  <data name="TagManager_PreferencesTab_TagMappingGroup_Header" xml:space="preserve">
+    <value>Map Tags from Page Content to Page Tags</value>
+    <comment>translate</comment>
+  </data>
+  <data name="resync_64x64" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\resync_64x64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TagManager_PreferencesTab_Map_OneNoteTags" xml:space="preserve">
+    <value>Map OneNote Tags to Page Tags</value>
+    <comment>translate</comment>
+  </data>
+  <data name="TagManager_PreferencesTab_Map_OneNoteTags_Tooltip" xml:space="preserve">
+    <value>When checked maps OneNote tags to page tags so that they can participate in facetted search</value>
+    <comment>translate</comment>
+  </data>
+  <data name="TagManager_PreferencesTab_Map_HashTags" xml:space="preserve">
+    <value>Map Hashtags in page text to Page Tags</value>
+    <comment>translate</comment>
+  </data>
+  <data name="TagManager_PreferencesTab_Map_HashTags_Tooltip" xml:space="preserve">
+    <value>When checked, hashtags found in page text are mapped to page tags, so that they can participate in facetted search.</value>
+    <comment>translate</comment>
+  </data>
 </root>

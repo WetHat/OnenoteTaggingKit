@@ -167,7 +167,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             // bring suggestions up-to-date with new tags that may have been entered
             TagSuggestions.AddAll(from t in _pageTags
                                   where !TagSuggestions.ContainsKey(t.Key)
-                                  && !t.Key.EndsWith(Properties.Settings.Default.ImportOneNoteTagMarker)
+                                        && !t.Key.EndsWith(Properties.Settings.Default.ImportOneNoteTagMarker)
+                                        && !t.Key.EndsWith(Properties.Settings.Default.ImportHashtagMarker)
                                   select new HitHighlightedTagButtonModel() { TagName = t.TagName });
             TagSuggestions.Save();
 

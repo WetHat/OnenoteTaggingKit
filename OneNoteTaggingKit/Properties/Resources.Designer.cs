@@ -144,6 +144,16 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap resync_64x64 {
+            get {
+                object obj = ResourceManager.GetObject("resync_64x64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;customUI xmlns=&quot;http://schemas.microsoft.com/office/2006/01/customui&quot; loadImage=&quot;GetImage&quot;&gt;
         ///  &lt;ribbon&gt;
@@ -317,6 +327,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TagEditor_RemoveTags_Button_Tooltip {
             get {
                 return ResourceManager.GetString("TagEditor_RemoveTags_Button_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap or click to re-synchronize tag display with tags from page content, if tag mapping is enabled in &apos;Settings&apos;, and also the page tag database.  .
+        /// </summary>
+        public static string TagEditor_ResyncTags_Button_Tooltip {
+            get {
+                return ResourceManager.GetString("TagEditor_ResyncTags_Button_Tooltip", resourceCulture);
             }
         }
         
@@ -697,6 +716,42 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Map Hashtags in Page Text to Page Tags.
+        /// </summary>
+        public static string TagManager_PreferencesTab_Map_HashTags {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_Map_HashTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When checked, hashtags found in page text are mapped to page tags, so that they can participate in facetted search..
+        /// </summary>
+        public static string TagManager_PreferencesTab_Map_HashTags_Tooltip {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_Map_HashTags_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Map OneNote Tags to Page Tags.
+        /// </summary>
+        public static string TagManager_PreferencesTab_Map_OneNoteTags {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_Map_OneNoteTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When checked, maps OneNote tags to page tags so that they can participate in facetted search.
+        /// </summary>
+        public static string TagManager_PreferencesTab_Map_OneNoteTags_Tooltip {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_Map_OneNoteTags_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Use Windows Search Service to find tagged pages..
         /// </summary>
         public static string TagManager_PreferencesTab_OS_UseWindowsSearch {
@@ -837,6 +892,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TagManager_PreferencesTab_TagFormat_ToolTip {
             get {
                 return ResourceManager.GetString("TagManager_PreferencesTab_TagFormat_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Map Tags from Page Content to Page Tags.
+        /// </summary>
+        public static string TagManager_PreferencesTab_TagMappingGroup_Header {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_TagMappingGroup_Header", resourceCulture);
             }
         }
         

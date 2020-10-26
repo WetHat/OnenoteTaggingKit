@@ -65,7 +65,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
         internal bool IsImported {
             get {
-                return TagName.EndsWith(Properties.Settings.Default.ImportOneNoteTagMarker);
+                return TagName.EndsWith(Properties.Settings.Default.ImportOneNoteTagMarker)
+                       || TagName.EndsWith(Properties.Settings.Default.ImportHashtagMarker);
             }
         }
         internal bool RemovePage(TaggedPage pg)

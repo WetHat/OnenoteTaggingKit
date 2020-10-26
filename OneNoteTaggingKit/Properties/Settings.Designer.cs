@@ -289,13 +289,49 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("🔖")]
+        [global::System.Configuration.DefaultSettingValueAttribute("📑")]
         public string ImportOneNoteTagMarker {
             get {
                 return ((string)(this["ImportOneNoteTagMarker"]));
             }
             set {
                 this["ImportOneNoteTagMarker"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("📜")]
+        public string ImportHashtagMarker {
+            get {
+                return ((string)(this["ImportHashtagMarker"]));
+            }
+            set {
+                this["ImportHashtagMarker"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MapOneNoteTags {
+            get {
+                return ((bool)(this["MapOneNoteTags"]));
+            }
+            set {
+                this["MapOneNoteTags"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MapHashTags {
+            get {
+                return ((bool)(this["MapHashTags"]));
+            }
+            set {
+                this["MapHashTags"] = value;
             }
         }
     }

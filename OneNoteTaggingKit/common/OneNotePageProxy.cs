@@ -43,6 +43,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
         private readonly string MarkerTagname = "Page Tags";
 
+        private static readonly Regex _hashtag_matcher = new Regex(@"(?<=(^|\s))#\w+", RegexOptions.Compiled);
+        private static readonly Regex _number_matcher = new Regex(@"^#\d*$", RegexOptions.Compiled);
         // Sequence of elements below the page tag
         //<xsd:element name="TagDef" type="TagDef" minOccurs="0" maxOccurs="unbounded"/>
         //<xsd:element name="QuickStyleDef" type="QuickStyleDef" minOccurs="0" maxOccurs="unbounded"/>
@@ -81,7 +83,12 @@ namespace WetHatLab.OneNote.TaggingKit.common
         private XElement _titleOE;
 
         private XElement _markerTagDef;
+        private static HashSet<string> GetOutlineHashtagSet(XElement outline) {
+            return new HashSet<string>(from Match m in _hashtag_matcher.Matches(outline.Value)
+                                       where  !_number_matcher.Match(m.Value).Success
+                                       select m.Value);
 
+        }
         internal OneNotePageProxy(OneNoteProxy onenoteApp, string pageID) {
             _onenote = onenoteApp;
             PageID = pageID;
@@ -115,6 +122,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 }
             }
             _originalTags = tagset.ToArray();
+            // extract the OneNoe tags
+            OneNoteTags = (from td in _page.Elements(_one.GetName("TagDef"))
+                           where td != _markerTagDef && !tagset.Contains(td.Attribute("name").Value)
+                           select td.Attribute("name").Value).ToArray();
         }
 
         internal bool IsDeleted {
@@ -139,6 +150,16 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 _tags = value;
             }
         }
+
+        /// <summary>
+        /// Get the OneNote paragraph tags found on the page
+        /// </summary>
+        internal string[] OneNoteTags { get; private set; }
+
+        /// <summary>
+        /// Get the hashtags found in page test content
+        /// </summary>
+        internal string[] HashTags { get; private set; }
 
         internal string Title {
             get {
@@ -361,6 +382,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             // Note: Page updates will actually leave those removed outlines on the page.
             List<XElement> outlinesToDelete = new List<XElement>();
 
+            var hashtags = new HashSet<string>();
             // find <one:Outline> containing page tags.
             if (_markerTagDef != null) {
                 string defindex = _markerTagDef.Attribute("index").Value;
@@ -396,18 +418,27 @@ namespace WetHatLab.OneNote.TaggingKit.common
                                         indents.Remove();
                                     }
                                     continue;
+                                } else if (Properties.Settings.Default.MapHashTags) {
+                                    hashtags.UnionWith(GetOutlineHashtagSet(outline));
                                 }
                             }
                         }
+                    } else if (Properties.Settings.Default.MapHashTags) {
+                        hashtags.UnionWith(GetOutlineHashtagSet(outline));
                     }
                     outlinesToDelete.Add(outline); // enroll for deletion
                 }
             } else { // just record all outline elements for deletion
                 foreach (var outline in _page.Elements(outlineName)) {
+                    if (Properties.Settings.Default.MapHashTags) {
+                        hashtags.UnionWith(GetOutlineHashtagSet(outline));
+                    }
                     outlinesToDelete.Add(outline);
                 }
             }
-
+            if (Properties.Settings.Default.MapHashTags) {
+                HashTags = hashtags.ToArray();
+            }
             // delete outlines to make updating the page as fast as possible, knowing that
             // the update method will keep these outlines actually on the page.
             foreach (XElement outline in outlinesToDelete) {
@@ -426,7 +457,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 }
             }
         }
-
         private bool UpdateTagSpec() {
             bool specChanged = false;
             // collect all tag definitions
