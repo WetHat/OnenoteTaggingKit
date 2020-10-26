@@ -68,7 +68,7 @@
                 </ComboBox.Effect>
             </ComboBox>
             <Button Name="addTags"
-                Margin="20,0,0,0"
+                Margin="10,0,0,0"
                 BorderBrush="LightBlue"
                 Background="Honeydew"
                 VerticalAlignment="Top"
@@ -95,6 +95,17 @@
                 ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_RemoveTags_Button_Tooltip}}"
                 Click="RemoveTagsFromPageButton_Click">
                 <Image Source="/OneNoteTaggingKit;component/Resources/Remove Tag 26.png" Width="26" Height="26" />
+            </Button>
+            <Button
+                Margin="10,0,00,0"
+                Style="{StaticResource controlEffectStyle}"
+                Background="Ivory"
+                VerticalAlignment="Center"
+                Width="22"
+                Height="22"
+                ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_ResyncTags_Button_Tooltip}}"
+                Click="ResyncTagsFromPageButton_Click">
+                <Image Source="/OneNoteTaggingKit;component/Resources/resync_64x64.png" Width="16" Height="16" />
             </Button>
         </StackPanel>
         <GroupBox Name="selectedTags"  Grid.Row="1"

@@ -89,7 +89,14 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 MessageBox.Show(Properties.Resources.TagEditor_NoTagsSelectedWarning, Properties.Resources.TagEditor_WarningMessageBox_Title, MessageBoxButton.OK);
             }
         }
-
+        private void ResyncTagsFromPageButton_Click(object sender, RoutedEventArgs e) {
+            if (_model != null) {
+                ApplyPageTags(TagOperation.RESYNC);
+                if (e != null) {
+                    e.Handled = true;
+                }
+            }
+        }
         private async void Window_Loaded(object sender, RoutedEventArgs e) {
             tagInput.FocusInput();
             if (_model != null) {

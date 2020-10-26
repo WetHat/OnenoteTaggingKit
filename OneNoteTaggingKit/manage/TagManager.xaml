@@ -128,6 +128,16 @@
                         </ComboBox>
                     </Grid>
                 </GroupBox>
+                <GroupBox Header="{Binding Mode=OneTime,
+                                       Source={x:Static prop:Resources.TagManager_PreferencesTab_TagMappingGroup_Header}}">
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox Content="{Binding Mode=OneTime,
+                                       Source={x:Static prop:Resources.TagManager_PreferencesTab_Map_OneNoteTags}}"
+                              ToolTip="{Binding Mode=OneTime,
+                                       Source={x:Static prop:Resources.TagManager_PreferencesTab_Map_OneNoteTags_Tooltip}}"
+                              IsChecked="{Binding Source={x:Static prop:Settings.Default},Path=MapOneNoteTags,Mode=TwoWay}" />
+                    </StackPanel>
+                </GroupBox>
             </StackPanel>
         </TabItem>
         <TabItem BorderThickness="0"

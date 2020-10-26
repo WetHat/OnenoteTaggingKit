@@ -24,7 +24,11 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
         /// <summary>
         /// Replace page tags.
         /// </summary>
-        REPLACE
+        REPLACE,
+        /// <summary>
+        /// Resynchronize tags with the internal tag data.
+        /// </summary>
+        RESYNC
     }
 
     /// <summary>
@@ -77,7 +81,11 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                 page.Update();
                 page = new OneNotePageProxy(onenote, _pageid);
             }
-            HashSet<string> pagetags = new HashSet<string>(page.PageTags);
+
+            // collect the genuine page tags
+            HashSet<string> pagetags = new HashSet<string>(from name in page.PageTags
+                                                           where !name.EndsWith(Properties.Settings.Default.ImportOneNoteTagMarker)
+                                                           select name);
 
             switch (_op)
             {
@@ -93,7 +101,16 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                     pagetags.Clear();
                     pagetags.UnionWith(_tags);
                     break;
+                case TagOperation.RESYNC:
+                    // Just resync the displayed tags with the recorded tags.
+                    break;
+
             }
+            if (Properties.Settings.Default.MapOneNoteTags) {
+                // add the OneNote tags with import marker appended
+                pagetags.UnionWith(from ot in page.OneNoteTags select ot + Properties.Settings.Default.ImportOneNoteTagMarker);
+            }
+
             string[] sortedTags = pagetags.ToArray();
             Array.Sort<string>(sortedTags, (x, y) => string.Compare(x, y, true));
 
