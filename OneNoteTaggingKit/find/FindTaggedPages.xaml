@@ -72,6 +72,7 @@
                          x:Name="tagInput"
                          TagInput="TagInputBox_Input"
                          ContextTagsSource="{Binding ContextTags, Mode=OneWay}"
+                         IncludeMappedTags="True"
                          ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_TagInput_Tooltip}}"
                          Margin="3,5,2,0" />
         <cui:HighlightedTagsPanel Grid.Row="2"
