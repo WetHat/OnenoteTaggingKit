@@ -47,17 +47,28 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         }
 
         /// <summary>
+        /// Dependency property for the handling of mapped page tags.
+        /// </summary>
+        public static readonly DependencyProperty IncludeMappedTagsProperty = DependencyProperty.Register("IncludeMappedTags", typeof(bool), typeof(TagInputBox),new PropertyMetadata(false));
+
+        /// <summary>
         /// Get or set a collection which provides tags from a OneNote context.
         /// </summary>
-        public TagsAndPages ContextTagsSource
-        {
-            get
-            {
+        public TagsAndPages ContextTagsSource {
+            get {
                 return GetValue(ContextTagsSourceProperty) as TagsAndPages;
             }
-            set
-            {
+            set {
                 SetValue(ContextTagsSourceProperty, value);
+            }
+        }
+
+        public bool IncludeMappedTags {
+            get {
+                return (bool)GetValue(IncludeMappedTagsProperty);
+            }
+            set {
+                SetValue(IncludeMappedTagsProperty, value);
             }
         }
 
@@ -165,7 +176,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 return tags;
             }
 
-            return from t in tagSource.Tags.Values where !t.IsImported select t ;
+            return tagSource.Tags.Values;
         }
 
         private async void Filter_MenuItem_Click(object sender, RoutedEventArgs e)
@@ -181,8 +192,15 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
 
                 TagContext filter = (TagContext)Enum.Parse(typeof(TagContext), itm.Tag.ToString());
                 IEnumerable<TagPageSet> tags = await GetContextTagsAsync(filter);
+                if (IncludeMappedTags) {
+                    Tags = from t in tags select t.TagName;
+                }
+                else {
+                    Tags = from t in tags
+                           where !t.IsImported
+                           select t.TagName;
+                }
 
-                Tags = from t in tags select t.TagName;
                 if (string.IsNullOrEmpty(tagInput.Text))
                 {
                     filterPopup.IsOpen = true;
