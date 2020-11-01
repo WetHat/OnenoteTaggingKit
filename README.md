@@ -45,7 +45,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/zhongguocn"><img src="https://avatars2.githubusercontent.com/u/38025627?v=4" width="100px;" alt=""/><br /><sub><b>zhongguocn</b></sub></a><br /><a href="#translation-zhongguocn" title="Translation">🌍</a></td>
-    <td align="center"><a href="https://github.com/JohnEricson"><img src="https://avatars0.githubusercontent.com/u/946327?v=4" width="100px;" alt=""/><br /><sub><b>JohnEricson</b></sub></a><br /><a href="#ideas-JohnEricson" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/JohnEricson"><img src="https://avatars0.githubusercontent.com/u/946327?v=4" width="100px;" alt=""/><br /><sub><b>JohnEricson</b></sub></a><br /><a href="#ideas-JohnEricson" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/WetHat/OnenoteTaggingKit/commits?author=JohnEricson" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/muguu"><img src="https://avatars3.githubusercontent.com/u/3179431?v=4" width="100px;" alt=""/><br /><sub><b>muratg</b></sub></a><br /><a href="#ideas-muguu" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
