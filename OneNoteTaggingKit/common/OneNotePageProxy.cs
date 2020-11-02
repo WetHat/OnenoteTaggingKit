@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using WetHatLab.OneNote.TaggingKit.Tagger;
 
 namespace WetHatLab.OneNote.TaggingKit.common
 {
@@ -197,14 +198,19 @@ namespace WetHatLab.OneNote.TaggingKit.common
                         _tags = null;
                     } catch (COMException ce) {
                         unchecked {
-                            if (ce.ErrorCode == (int)0x80042010) { // try again after concurrent page modification
-                                LoadOneNotePage();
-                                PageTags = savedTags;
-                                ApplyTagsToPage();
-                                _onenote.UpdatePage(_pageDoc, _lastModified);
-                                _tags = null;
-                            } else {
-                                throw;
+                            switch ((uint)ce.ErrorCode) {
+                                case 0x80042010: // concurrent page modification
+                                    TraceLogger.Log(TraceCategory.Error(), "The last modified date does not match. Concurrent page modification: {0}\n Rescheduling tagging job.", ce.Message);
+                                    _onenote.TaggingService.Add(new TaggingJob(PageID, savedTags, TagOperation.REPLACE));
+                                    break;
+
+                                case 0x80042030: // blocked by modal dialog
+                                    TraceLogger.ShowGenericErrorBox(Properties.Resources.TaggingKit_Blocked, ce);
+                                    _onenote.TaggingService.Add(new TaggingJob(PageID, savedTags, TagOperation.REPLACE));
+                                    break;
+
+                                default:
+                                    throw;
                             }
                         }
                     }
