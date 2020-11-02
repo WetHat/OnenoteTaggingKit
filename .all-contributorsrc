@@ -11,7 +11,27 @@
       "avatar_url": "https://avatars2.githubusercontent.com/u/38025627?v=4",
       "profile": "https://github.com/zhongguocn",
       "contributions": [
-        "translation"
+        "translation",
+        "test"
+      ]
+    },
+    {
+      "login": "JohnEricson",
+      "name": "JohnEricson",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/946327?v=4",
+      "profile": "https://github.com/JohnEricson",
+      "contributions": [
+        "ideas",
+        "test"
+      ]
+    },
+    {
+      "login": "muguu",
+      "name": "muratg",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/3179431?v=4",
+      "profile": "https://github.com/muguu",
+      "contributions": [
+        "ideas"
       ]
     }
   ],
