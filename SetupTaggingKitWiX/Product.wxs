@@ -29,9 +29,9 @@
     <MediaTemplate EmbedCab="yes" />
 
     <!-- Check existence of the appropriate .net framework -->
-    <PropertyRef Id="NETFRAMEWORK45" />
-    <Condition Message="This add-in requires .NET Framework 4.5. Please install the .NET Framework then run this installer again.">
-      <![CDATA[Installed OR NETFRAMEWORK45]]>
+    <PropertyRef Id="WIX_IS_NETFRAMEWORK_452_OR_LATER_INSTALLED" />
+    <Condition Message="This add-in requires .NET Framework 4.5.2 Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_452_OR_LATER_INSTALLED]]>
     </Condition>
 
     <Feature Id="ProductFeature" Title="OneNote TaggingKit Add-In" Level="1">
