@@ -369,13 +369,20 @@ namespace WetHatLab.OneNote.TaggingKit
                     if (retries >= 0) {
                         switch ((uint)ce.ErrorCode) {
                             case 0x8001010A:
-                                TraceLogger.Log(TraceCategory.Info(),ce.Message);
+                                TraceLogger.Log(TraceCategory.Info(), ce.Message);
                                 Thread.Sleep(1000); // wait until COM Server becomes responsive
                                 break;
 
                             case 0x80042030:
                                 TraceLogger.ShowGenericErrorBox(Properties.Resources.TaggingKit_Blocked, ce);
                                 break;
+
+                            default:
+                                TraceLogger.Log(TraceCategory.Error(), "Unrecoverable COM exception while executing OneNote method: {0}", ce.Message);
+                                TraceLogger.Log(TraceCategory.Error(), ce.StackTrace);
+                                TraceLogger.Log(TraceCategory.Error(), "Re-throwing exception");
+                                throw;
+
                         }
                     } else {
                         TraceLogger.Log(TraceCategory.Error(), "Unrecoverable COM exception while executing OneNote method: {0}", ce.Message);
