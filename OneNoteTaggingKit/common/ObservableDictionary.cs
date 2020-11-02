@@ -38,7 +38,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// Get the nature of the change to the <see cref="ObservableDictionary&lt;TKey,TValue&gt;"/> instance.
         /// </summary>
         public NotifyDictionaryChangedAction Action { get; private set; }
-        
+
         /// <summary>
         /// Get the items involved in the change to the <see cref="ObservableDictionary&lt;TKey,TValue&gt;"/> instance
         /// </summary>
@@ -106,18 +106,17 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="items">items to unite with the items in this dictionary</param>
         public void UnionWith(IEnumerable<TValue> items)
         {
-            LinkedList<TValue> added = new LinkedList<TValue>();
-            foreach (TValue item in items)
-            {
-                if (!_dictionary.ContainsKey(item.Key))
-                {
-                    added.AddLast(item);
-                    _dictionary.Add(item.Key, item);
+            lock (_dictionary) {
+                LinkedList<TValue> added = new LinkedList<TValue>();
+                foreach (TValue item in items) {
+                    if (!_dictionary.ContainsKey(item.Key)) {
+                        added.AddLast(item);
+                        _dictionary.Add(item.Key, item);
+                    }
                 }
-            }
-            if (added.First != null)
-            {
-                fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey,TValue>(added,NotifyDictionaryChangedAction.Add));
+                if (added.First != null) {
+                    fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey, TValue>(added, NotifyDictionaryChangedAction.Add));
+                }
             }
         }
 
@@ -127,22 +126,20 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="items">items to remove</param>
         public void ExceptWith(IEnumerable<TValue> items)
         {
-            LinkedList<TValue> removed = new LinkedList<TValue>();
-            foreach (TValue item in items)
-            {
-                if (_dictionary.ContainsKey(item.Key))
-                {
-                    removed.AddLast(item);
+            lock (_dictionary) {
+                LinkedList<TValue> removed = new LinkedList<TValue>();
+                foreach (TValue item in items) {
+                    if (_dictionary.ContainsKey(item.Key)) {
+                        removed.AddLast(item);
+                    }
                 }
-            }
 
-            if (removed.First != null)
-            {
-                foreach (TValue item in removed)
-                {
-                    _dictionary.Remove(item.Key);
+                if (removed.First != null) {
+                    foreach (TValue item in removed) {
+                        _dictionary.Remove(item.Key);
+                    }
+                    fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey, TValue>(removed, NotifyDictionaryChangedAction.Remove));
                 }
-                fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey, TValue>(removed, NotifyDictionaryChangedAction.Remove));
             }
         }
 
@@ -153,25 +150,23 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="items">items to intersect with</param>
         public void IntersectWith(IEnumerable<TValue> items)
         {
-            LinkedList<TValue> removed = new LinkedList<TValue>();
+            lock (_dictionary) {
+                LinkedList<TValue> removed = new LinkedList<TValue>();
 
-            HashSet<TValue> itemSet = new HashSet<TValue>(items);
+                HashSet<TValue> itemSet = new HashSet<TValue>(items);
 
-            foreach (TValue item in _dictionary.Values)
-            {
-                if (!itemSet.Contains(item))
-                {
-                    removed.AddLast(item);
+                foreach (TValue item in _dictionary.Values) {
+                    if (!itemSet.Contains(item)) {
+                        removed.AddLast(item);
+                    }
                 }
-            }
 
-            if (removed.First != null)
-            {
-                foreach (TValue item in removed)
-                {
-                    _dictionary.Remove(item.Key);
+                if (removed.First != null) {
+                    foreach (TValue item in removed) {
+                        _dictionary.Remove(item.Key);
+                    }
+                    fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey, TValue>(removed, NotifyDictionaryChangedAction.Remove));
                 }
-                fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey,TValue>(removed,NotifyDictionaryChangedAction.Remove));
             }
         }
 
@@ -183,15 +178,16 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// false, if the item was already present in the dictionary</returns>
         private bool Add(TValue value)
         {
-            TValue found;
-            bool added = false;
-            if (!_dictionary.TryGetValue(value.Key, out found))
-            {
-                _dictionary.Add(value.Key, value);
-                added = true;
-                fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey, TValue>(value, NotifyDictionaryChangedAction.Add));
+            lock (_dictionary) {
+                TValue found;
+                bool added = false;
+                if (!_dictionary.TryGetValue(value.Key, out found)) {
+                    _dictionary.Add(value.Key, value);
+                    added = true;
+                    fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey, TValue>(value, NotifyDictionaryChangedAction.Add));
+                }
+                return added;
             }
-            return added;
         }
 
         #region IDictionary<TKey,TValue>
@@ -203,7 +199,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <returns>true if an item with the given key is contained in the dictionary; false otherwise</returns>
         public bool ContainsKey(TKey key)
         {
-            return _dictionary.ContainsKey(key);
+            lock (_dictionary) {
+                return _dictionary.ContainsKey(key);
+            }
         }
 
         /// <summary>
@@ -235,10 +233,12 @@ namespace WetHatLab.OneNote.TaggingKit.common
             TValue found;
 
             bool removed;
-            if (removed = _dictionary.TryGetValue(key, out found))
-            {
-                _dictionary.Remove(key);
-                fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey, TValue>(found, NotifyDictionaryChangedAction.Remove));
+            lock (_dictionary) {
+                if (removed = _dictionary.TryGetValue(key, out found)) {
+                    _dictionary.Remove(key);
+                    fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey, TValue>(found, NotifyDictionaryChangedAction.Remove));
+                }
+
             }
             return removed;
         }
@@ -248,8 +248,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </summary>
         public void Clear()
         {
-            _dictionary.Clear();
-            fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey, TValue>());
+            lock (_dictionary) {
+                _dictionary.Clear();
+                fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey, TValue>());
+            }
         }
 
         /// <summary>
@@ -261,7 +263,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         /// <summary>
-        /// get an enuerator for the entries in the dictionary.
+        /// get an enumerator for the entries in the dictionary.
         /// </summary>
         /// <returns></returns>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
@@ -287,7 +289,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <returns></returns>
         public bool TryGetValue(TKey key, out TValue value)
         {
-            return _dictionary.TryGetValue(key, out value);
+            lock (_dictionary) {
+                return _dictionary.TryGetValue(key, out value);
+            }
         }
 
         /// <summary>
@@ -299,7 +303,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
         {
             get
             {
-                return _dictionary[key];
+                lock (_dictionary) {
+                    return _dictionary[key];
+                }
             }
             set
             {
@@ -333,7 +339,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="arrayIndex">start index in the array for the copy</param>
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            _dictionary.CopyTo(array, arrayIndex);
+            lock (_dictionary) {
+                _dictionary.CopyTo(array, arrayIndex);
+            }
         }
 
         /// <summary>
@@ -353,12 +361,13 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <returns>true, if the item was found and successfully removed; false otherwise</returns>
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            bool removed = _dictionary.Remove(item);
-            if (removed)
-            {
-                fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey,TValue>(item.Value,NotifyDictionaryChangedAction.Remove));
+            lock (_dictionary) {
+                bool removed = _dictionary.Remove(item);
+                if (removed) {
+                    fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey, TValue>(item.Value, NotifyDictionaryChangedAction.Remove));
+                }
+                return removed;
             }
-            return removed;
         }
 
         /// <summary>
