@@ -524,4 +524,8 @@
     <value>When checked, hashtags found in page text are mapped to page tags, so that they can participate in facetted search.</value>
     <comment>translate</comment>
   </data>
+  <data name="TaggingKit_Blocked" xml:space="preserve">
+    <value>A modal OneNote dialog is  blocking background tagging. Close all OneNote dialogs! </value>
+    <comment>translate</comment>
+  </data>
 </root>

@@ -518,4 +518,7 @@ Tap or click link to navigate to page.</value>
   <data name="TagManager_PreferencesTab_Map_OneNoteTags_Tooltip" xml:space="preserve">
     <value>When checked, maps OneNote tags to page tags so that they can participate in facetted search</value>
   </data>
+  <data name="TaggingKit_Blocked" xml:space="preserve">
+    <value>A modal OneNote dialog is blocking background tagging. Close all OneNote dialogs! </value>
+  </data>
 </root>

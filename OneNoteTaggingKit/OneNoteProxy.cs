@@ -242,7 +242,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <summary>
         /// Find OneNote pages which have meta-data with a given key.
         /// </summary>
-        /// <param name="scopeID">    
+        /// <param name="scopeID">
         /// search scope. The id of a node in the hierarchy (notebook, section group, or
         /// section) below which to search for content. If null or empty string, the search
         /// scope is the entire set of notebooks open in OneNote. for the search.
@@ -366,13 +366,18 @@ namespace WetHatLab.OneNote.TaggingKit
                 }
                 catch (COMException ce)
                 {
-                    if ((uint)ce.ErrorCode == 0x8001010A && retries >= 0)
-                    { // RPC_E_SERVERCALL_RETRYLATER
-                        TraceLogger.Log(TraceCategory.Info(), "OneNote busy. Retrying method invocation ...");
-                        Thread.Sleep(1000); // wait until COM Server becomes responsive
-                    }
-                    else
-                    {
+                    if (retries >= 0) {
+                        switch ((uint)ce.ErrorCode) {
+                            case 0x8001010A:
+                                TraceLogger.Log(TraceCategory.Info(),ce.Message);
+                                Thread.Sleep(1000); // wait until COM Server becomes responsive
+                                break;
+
+                            case 0x80042030:
+                                TraceLogger.ShowGenericErrorBox(Properties.Resources.TaggingKit_Blocked, ce);
+                                break;
+                        }
+                    } else {
                         TraceLogger.Log(TraceCategory.Error(), "Unrecoverable COM exception while executing OneNote method: {0}", ce.Message);
                         TraceLogger.Log(TraceCategory.Error(), ce.StackTrace);
                         TraceLogger.Log(TraceCategory.Error(), "Re-throwing exception");

@@ -43,10 +43,11 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
         private readonly string MarkerTagname = "Page Tags";
 
-        private static readonly Regex _hashtag_matcher = new Regex(@"(?<=(^|\s))#\w+", RegexOptions.Compiled);
-        private static readonly Regex _number_matcher = new Regex(@"^#\d*$", RegexOptions.Compiled);
+        private static readonly Regex _hashtag_matcher = new Regex(@"(?<=(^|\s))#\w{3,}", RegexOptions.Compiled);
+        private static readonly Regex _number_matcher = new Regex(@"^#[oObB]{0,1}\d*$", RegexOptions.Compiled);
+        private static readonly Regex _hex_matcher = new Regex(@"^#[xX]{0,1}[\dABCDEFabcdef]{0,6}$", RegexOptions.Compiled);
         // Sequence of elements below the page tag
-        //<xsd:element name="TagDef" type="TagDef" minOccurs="0" maxOccurs="unbounded"/>
+        //<xsd:element name="TagDef" type="TagDef" minOccurs="0" maxOccurs="unbounded"/>[
         //<xsd:element name="QuickStyleDef" type="QuickStyleDef" minOccurs="0" maxOccurs="unbounded"/>
         //<xsd:element name="XPSFile" type="XPSFile" minOccurs="0" maxOccurs="unbounded"/>
         //<xsd:element name="Meta" type="Meta" minOccurs="0" maxOccurs="unbounded"/>
@@ -84,10 +85,13 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
         private XElement _markerTagDef;
         private static HashSet<string> GetOutlineHashtagSet(XElement outline) {
-            return new HashSet<string>(from Match m in _hashtag_matcher.Matches(outline.Value)
-                                       where  !_number_matcher.Match(m.Value).Success
-                                       select m.Value);
-
+            var tagset = new HashSet<string>();
+            foreach (var oe in outline.Descendants("OE")) {
+                tagset.UnionWith(from Match m in _hashtag_matcher.Matches(oe.Value)
+                                 where!_number_matcher.Match(m.Value).Success && !_hex_matcher.Match(m.Value).Success
+                                 select m.Value);
+            }
+            return tagset;
         }
         internal OneNotePageProxy(OneNoteProxy onenoteApp, string pageID) {
             _onenote = onenoteApp;

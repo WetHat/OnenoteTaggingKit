@@ -493,6 +493,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A modal OneNote dialog is blocking background tagging. Close all OneNote dialogs! .
+        /// </summary>
+        public static string TaggingKit_Blocked {
+            get {
+                return ResourceManager.GetString("TaggingKit_Blocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OneNote version lookup failed.
         /// </summary>
         public static string TaggingKit_Error_VersionLookup {

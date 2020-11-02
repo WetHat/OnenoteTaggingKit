@@ -48,7 +48,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// Get the info tracing category
         /// </summary>
         /// <param name="callerName">name of the calling method. Provided by the compiler</param>
-        /// <param name="line">      
+        /// <param name="line">
         /// caller line number from where logging is requested. Provided by the compiler
         /// </param>
         /// <returns>category instance</returns>
@@ -61,7 +61,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// Get the warning tracing category
         /// </summary>
         /// <param name="callerName">name of the calling method. Provided by the compiler</param>
-        /// <param name="line">      
+        /// <param name="line">
         /// caller line number from where logging is requested. Provided by the compiler
         /// </param>
         /// <returns>category instance</returns>
@@ -74,7 +74,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// Get the error tracing category
         /// </summary>
         /// <param name="callerName">name of the calling method. Provided by the compiler</param>
-        /// <param name="line">      
+        /// <param name="line">
         /// caller line number from where logging is requested. Provided by the compiler
         /// </param>
         /// <returns>category instance</returns>
@@ -98,7 +98,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="ex">     exception</param>
         internal static void ShowGenericErrorBox(string message, Exception ex)
         {
-            TraceLogger.Log(TraceCategory.Error(), "{0}: {1}", message, ex);
+            TraceLogger.Log(TraceCategory.Error(), "{0}\n\n{1}", message, ex);
             Trace.Flush();
             MessageBoxResult result = MessageBox.Show(string.Format(Properties.Resources.TaggingKit_ErrorBox_GenericSevereError,
                                                                     message,
@@ -120,9 +120,11 @@ namespace WetHatLab.OneNote.TaggingKit
                         case 0x80042019:
                             wikipage = "0x80042019";
                             break;
-
                         case 0x8004200C:
                             wikipage = "0x8004200C";
+                            break;
+                        case 0x80042030:
+                            wikipage = "0x80042030";
                             break;
                     }
                 }
