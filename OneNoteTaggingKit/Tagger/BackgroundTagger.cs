@@ -1,6 +1,7 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using System;
 using System.Collections.Concurrent;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
@@ -51,22 +52,36 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                 TraceLogger.Log(TraceCategory.Info(), "Background tagging service started");
                 try
                 {
-                    OneNotePageProxy lastPage = null;
+                    OneNotePageProxy lastPage = null; // reuse pages among subsequent jobs
                     while (!_jobs.IsCompleted)
                     {
                         TaggingJob j = _jobs.Take();
                         cancel.ThrowIfCancellationRequested();
-                        try
-                        {
+                        try {
                             lastPage = j.Execute(_onenote, lastPage);
-                            if (lastPage != null && _jobs.Count == 0)
-                            { // no more pending pages - must update the last one and stop carrying forward
+                            if (lastPage != null && _jobs.Count == 0) { // no more pending pages - must update the last one and stop carrying forward
                                 lastPage.Update();
                                 lastPage = null;
                             }
-                        }
-                        catch (Exception e)
-                        {
+                        } catch (COMException ce) {
+                            switch ((uint)ce.ErrorCode) {
+                                case 0x80042010: // concurrent page modification
+                                    TraceLogger.Log(TraceCategory.Error(), "The last modified date does not match. Concurrent page modification: {0}\n Rescheduling tagging job.", ce.Message);
+                                    lastPage = null; //stop recycling this page
+                                    _onenote.TaggingService.Add(j);
+                                    break;
+
+                                case 0x80042030: // blocked by modal dialog
+                                    // let user close the dialog
+                                    TraceLogger.ShowGenericErrorBox(Properties.Resources.TaggingKit_Blocked, ce);
+                                    lastPage = null; // stop recycling this page
+                                    _onenote.TaggingService.Add(j);
+                                    break;
+                                default:
+                                    TraceLogger.ShowGenericErrorBox("Page tagging failed", ce);
+                                    break;
+                            }
+                        } catch (Exception e) {
                             lastPage = null;
                             TraceLogger.ShowGenericErrorBox("Page tagging failed", e);
                         }
