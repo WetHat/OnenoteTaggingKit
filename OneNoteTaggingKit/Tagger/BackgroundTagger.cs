@@ -50,12 +50,26 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
             return tf.StartNew(() =>
             {
                 TraceLogger.Log(TraceCategory.Info(), "Background tagging service started");
-                try
-                {
+                DateTime lastnotification = DateTime.MinValue;
+                int jobcount = 0;
+                int lastreportedCount = 0;
+                try {
                     OneNotePageProxy lastPage = null; // reuse pages among subsequent jobs
-                    while (!_jobs.IsCompleted)
-                    {
+
+                    while (!_jobs.IsCompleted) {
+                        DateTime now = DateTime.Now;
+                        int delta = jobcount - lastreportedCount;
+
+                        if (_jobs.Count == 0
+                            && delta > 10
+                            && (now - lastnotification).TotalMinutes > 2) { // do not spam notifications
+                            AddInDialogManager.ShowNotification(Properties.Resources.TaggingKit_About_Appname,
+                                                                string.Format(Properties.Resources.TaggingKit_Notification, delta));
+                            lastnotification = now;
+                            lastreportedCount = jobcount;
+                        }
                         TaggingJob j = _jobs.Take();
+                        jobcount++;
                         cancel.ThrowIfCancellationRequested();
                         try {
                             lastPage = j.Execute(_onenote, lastPage);
@@ -86,9 +100,7 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                             TraceLogger.ShowGenericErrorBox("Page tagging failed", e);
                         }
                     }
-                }
-                catch (InvalidOperationException)
-                {
+                } catch (InvalidOperationException) {
                     TraceLogger.Log(TraceCategory.Warning(), "Background tagging job queue depleted");
                     TraceLogger.Flush();
                 }

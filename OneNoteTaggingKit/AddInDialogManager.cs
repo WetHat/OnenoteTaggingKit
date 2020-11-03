@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Interop;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 
@@ -19,6 +20,7 @@ namespace WetHatLab.OneNote.TaggingKit
         private Dictionary<Type, System.Windows.Window> _SingletonWindows = new Dictionary<Type, System.Windows.Window>();
         private bool _disposed = false;
 
+        static NotifyIcon _notifier = null;
         private void UnregisterWindow(Type windowType) {
             lock (_SingletonWindows) {
                 _SingletonWindows.Remove(windowType);
@@ -63,6 +65,26 @@ namespace WetHatLab.OneNote.TaggingKit
             } else if (screenTop + screenHeight < w.Top + w.Height) {
                 w.Top = screenTop + screenHeight - w.Height;
             }
+        }
+
+        public static void ShowNotification(string title, string text) {
+            var thread = new Thread(() => {
+                if (_notifier == null) {
+                    _notifier = new NotifyIcon() {
+                        Visible = true, // no systray icon
+                        // Icon = System.Drawing.SystemIcons.Information,
+                        Icon = Properties.Resources.kit,
+                        //BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info
+                    };
+                }
+                _notifier.ShowBalloonTip(0, title, text, System.Windows.Forms.ToolTipIcon.Info);
+                // Turn this thread into an UI thread
+                System.Windows.Threading.Dispatcher.Run();
+            });
+
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.IsBackground = true;
+            thread.Start();
         }
 
         /// <summary>
