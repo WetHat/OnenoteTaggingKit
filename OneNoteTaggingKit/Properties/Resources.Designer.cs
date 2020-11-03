@@ -125,6 +125,16 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        public static System.Drawing.Icon kit {
+            get {
+                object obj = ResourceManager.GetObject("kit", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap refresh_32 {
@@ -532,6 +542,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TaggingKit_ErrorBox_Title {
             get {
                 return ResourceManager.GetString("TaggingKit_ErrorBox_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} pages tagged!.
+        /// </summary>
+        public static string TaggingKit_Notification {
+            get {
+                return ResourceManager.GetString("TaggingKit_Notification", resourceCulture);
             }
         }
         

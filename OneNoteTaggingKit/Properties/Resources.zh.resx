@@ -528,4 +528,11 @@
     <value>A modal OneNote dialog is  blocking background tagging. Close all OneNote dialogs! </value>
     <comment>translate</comment>
   </data>
+  <data name="kit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\kit.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TaggingKit_Notification" xml:space="preserve">
+    <value>{0} pages tagged!</value>
+    <comment>translate</comment>
+  </data>
 </root>
