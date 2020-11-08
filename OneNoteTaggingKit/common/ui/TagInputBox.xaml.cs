@@ -136,7 +136,10 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         private void TagInput_KeyUp(object sender, KeyEventArgs e)
         {
             UpdateVisibility();
-            RaiseEvent(new TagInputEventArgs(TagInputEvent, this, Tags ,e));
+            if (e.Key == System.Windows.Input.Key.Escape && Keyboard.Modifiers == ModifierKeys.None) {
+                Clear(); // clear any tag input
+            }
+            RaiseEvent(new TagInputEventArgs(TagInputEvent, this, Tags, e));
             e.Handled = true;
         }
 
