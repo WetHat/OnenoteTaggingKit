@@ -34,7 +34,7 @@ This add-in for OneNote 2010 - 2019 (desktop) is based on the built-in OneNote t
     <!--<mailingListUrl></mailingListUrl>-->
     <!-- =============================== -->
     <dependencies>
-      <dependency id="dotnet4.5" version="4.5.0.0" />
+      <dependency id="dotnet4.5.2" version="4.5.2" />
     </dependencies>
   </metadata>
   <files>
