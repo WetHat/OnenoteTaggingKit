@@ -44,8 +44,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
         private readonly string MarkerTagname = "Page Tags";
 
-        private static readonly Regex _hashtag_matcher = new Regex(@"(?<=(^|\s))#\w{3,}", RegexOptions.Compiled);
-        private static readonly Regex _number_matcher = new Regex(@"^#\d*\w{0,1}\d*$|^#[xX]{0,1}[\dABCDEFabcdef]+", RegexOptions.Compiled);
+        private static readonly Regex _hashtag_matcher = new Regex(@"(?<=(^|[^\w]))#\w{3,}", RegexOptions.Compiled);
+        private static readonly Regex _number_matcher = new Regex(@"^#\d*\w{0,1}\d*$|^#[xX]{0,1}[\dABCDEFabcdef]+$", RegexOptions.Compiled);
 
         // Sequence of elements below the page tag
         //<xsd:element name="TagDef" type="TagDef" minOccurs="0" maxOccurs="unbounded"/>[
