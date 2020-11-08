@@ -341,7 +341,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap or click to re-synchronize tag display with tags from page content, if tag mapping is enabled in &apos;Settings&apos;, and also the page tag database.  .
+        ///   Looks up a localized string similar to Tap or click to re-synchronize tag display with the tag database. If tag mapping is enabled in &apos;Settings&apos;, the mapping of tags in page text to page tags is updated..
         /// </summary>
         public static string TagEditor_ResyncTags_Button_Tooltip {
             get {
@@ -503,7 +503,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A modal OneNote dialog is blocking background tagging. Close all OneNote dialogs! .
+        ///   Looks up a localized string similar to A modal OneNote dialog is blocking background tagging. Close all OneNote dialogs to continue! .
         /// </summary>
         public static string TaggingKit_Blocked {
             get {
@@ -753,7 +753,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to When checked, hashtags found in page text are mapped to page tags, so that they can participate in facetted search..
+        ///   Looks up a localized string similar to When checked hashtags in page text are mapped to page tags, so that they can participate in facetted search..
         /// </summary>
         public static string TagManager_PreferencesTab_Map_HashTags_Tooltip {
             get {
@@ -771,7 +771,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to When checked, maps OneNote tags to page tags so that they can participate in facetted search.
+        ///   Looks up a localized string similar to When checked maps OneNote tags to page tags so that they can participate in facetted search.
         /// </summary>
         public static string TagManager_PreferencesTab_Map_OneNoteTags_Tooltip {
             get {

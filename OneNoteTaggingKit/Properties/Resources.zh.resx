@@ -498,41 +498,33 @@
     <value>..\Resources\ribbon.zh.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="TagEditor_ResyncTags_Button_Tooltip" xml:space="preserve">
-    <value>Tap or click to re-synchronize tag display with tags from page content, if tag mapping is enabled in 'Settings', and also the page tag database.</value>
-    <comment>translate</comment>
+    <value>点击或单击以将标记显示与标记数据库重新同步。如果在"设置"中启用了标记映射，则页面文本中标记与页面标记的映射将更新。</value>
   </data>
   <data name="TagManager_PreferencesTab_TagMappingGroup_Header" xml:space="preserve">
-    <value>Map Tags from Page Content to Page Tags</value>
-    <comment>translate</comment>
+    <value>将标签从页面内容映射到页面标签</value>
   </data>
   <data name="resync_64x64" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\resync_64x64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TagManager_PreferencesTab_Map_OneNoteTags" xml:space="preserve">
-    <value>Map OneNote Tags to Page Tags</value>
-    <comment>translate</comment>
+    <value>将 OneNote 标签映射到页面标签</value>
   </data>
   <data name="TagManager_PreferencesTab_Map_OneNoteTags_Tooltip" xml:space="preserve">
-    <value>When checked maps OneNote tags to page tags so that they can participate in facetted search</value>
-    <comment>translate</comment>
+    <value>当选中地图 OneNote 标记到页面标记，以便他们可以参与对脸搜索</value>
   </data>
   <data name="TagManager_PreferencesTab_Map_HashTags" xml:space="preserve">
-    <value>Map Hashtags in page text to Page Tags</value>
-    <comment>translate</comment>
+    <value>将页面文本中的哈希标签映射到页面标签</value>
   </data>
   <data name="TagManager_PreferencesTab_Map_HashTags_Tooltip" xml:space="preserve">
-    <value>When checked, hashtags found in page text are mapped to page tags, so that they can participate in facetted search.</value>
-    <comment>translate</comment>
+    <value>当选中页面文本中的井号标签映射到页面标记时，它们可以参与对字搜索。</value>
   </data>
   <data name="TaggingKit_Blocked" xml:space="preserve">
-    <value>A modal OneNote dialog is  blocking background tagging. Close all OneNote dialogs! </value>
-    <comment>translate</comment>
+    <value>模态 OneNote 对话框阻止背景标记。关闭所有 OneNote 对话框以继续！</value>
   </data>
   <data name="kit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\kit.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TaggingKit_Notification" xml:space="preserve">
-    <value>{0} pages tagged!</value>
-    <comment>translate</comment>
+    <value>{0} 页标记！</value>
   </data>
 </root>
