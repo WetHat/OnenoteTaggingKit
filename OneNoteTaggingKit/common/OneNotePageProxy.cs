@@ -46,7 +46,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
         private static readonly Regex _hashtag_matcher = new Regex(@"(?<=(^|[^\w]))#\w{3,}", RegexOptions.Compiled);
         private static readonly Regex _number_matcher = new Regex(@"^#\d*\w{0,1}\d*$|^#[xX]{0,1}[\dABCDEFabcdef]+$", RegexOptions.Compiled);
-
+        private static readonly Regex _tag_matcher = new Regex(@"<(a|span)[^<>]+>", RegexOptions.Compiled);
         // Sequence of elements below the page tag
         //<xsd:element name="TagDef" type="TagDef" minOccurs="0" maxOccurs="unbounded"/>[
         //<xsd:element name="QuickStyleDef" type="QuickStyleDef" minOccurs="0" maxOccurs="unbounded"/>
@@ -88,7 +88,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
         private HashSet<string> GetOutlineHashtagSet(XElement outline) {
             var tagset = new HashSet<string>();
             foreach (var t in outline.Descendants(_one.GetName("T"))) {
-                tagset.UnionWith(from Match m in _hashtag_matcher.Matches(t.Value)
+                // remove some tags from the text
+                string txt = _tag_matcher.Replace(t.Value, string.Empty);
+                tagset.UnionWith(from Match m in _hashtag_matcher.Matches(txt)
                                  where!_number_matcher.Match(m.Value).Success
                                  select m.Value);
             }
