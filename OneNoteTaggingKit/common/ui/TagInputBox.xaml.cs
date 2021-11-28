@@ -168,17 +168,6 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         private IEnumerable<TagPageSet> GetContextTagsAction(TagContext filter, TagsAndPages tagSource)
         {
             tagSource.LoadPageTags(filter);
-
-            if (filter == TagContext.SelectedNotes)
-            {
-                HashSet<TagPageSet> tags = new HashSet<TagPageSet>();
-                foreach (var p in (from pg in tagSource.Pages where pg.Value.IsSelected select pg.Value))
-                {
-                    tags.UnionWith(p.Tags);
-                }
-                return tags;
-            }
-
             return tagSource.Tags.Values;
         }
 
