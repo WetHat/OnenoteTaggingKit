@@ -1,7 +1,5 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 ////////////////////////////////////////////////////////////
-// Author: WetHat (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
-////////////////////////////////////////////////////////////
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -42,7 +40,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             _selectedScope = _scopes[0];
 
             TagsAndPages c = new TagsAndPages(null);
-            c.ExtractTags(XDocument.Parse(_strXml), false);
+            c.BuildTagSet(XDocument.Parse(_strXml), false);
 
             TextSplitter splitter = new TextSplitter("Cool");
 
