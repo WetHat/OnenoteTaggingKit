@@ -55,6 +55,16 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         /// <summary>
+        /// Collection of IDs of pre-selected OneNote pages.
+        /// </summary>
+        /// <remarks>
+        /// If not set, the pages selected in the current section of the
+        /// OneNote app will be used.
+        /// </remarks>
+        /// <seealso cref="LoadPageTags"/>
+        internal IEnumerable<string> SelectedPages { get; set; } = null;
+
+        /// <summary>
         /// Get a dictionary of pages.
         /// </summary>
         internal ObservableDictionary<string, TaggedPage> Pages {
@@ -80,9 +90,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
             // collect all page tags on pages which have page tags. Tag search appears to
             // be broken using work around
             if (Properties.Settings.Default.UseWindowsSearch) {
-                ExtractTags(_onenote.FindPagesByMetadata(scopeID, OneNotePageProxy.META_NAME), selectedPagesOnly: false);
+                BuildTagSet(_onenote.FindPagesByMetadata(scopeID, OneNotePageProxy.META_NAME), selectedPagesOnly: false);
             } else {
-                ExtractTags(_onenote.GetHierarchy(scopeID, HierarchyScope.hsPages), selectedPagesOnly: false, omitUntaggedPages: true);
+                BuildTagSet(_onenote.GetHierarchy(scopeID, HierarchyScope.hsPages), selectedPagesOnly: false, omitUntaggedPages: true);
             }
 
             // attempt to automatically update the tag suggestions, if we have collected all used tags
@@ -113,7 +123,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// the entire set of notebooks open in OneNote.
         /// </param>
         internal void FindTaggedPages(string query, string scopeID) {
-            ExtractTags(_onenote.FindPages(scopeID, query), selectedPagesOnly: false);
+            BuildTagSet(_onenote.FindPages(scopeID, query), selectedPagesOnly: false);
         }
 
         /// <summary>
@@ -126,22 +136,66 @@ namespace WetHatLab.OneNote.TaggingKit.common
             switch (context) {
                 default:
                 case TagContext.CurrentNote:
-                    ExtractTags(_onenote.GetHierarchy(_onenote.CurrentPageID, HierarchyScope.hsSelf),
+                    BuildTagSet(_onenote.GetHierarchy(_onenote.CurrentPageID, HierarchyScope.hsSelf),
                                          selectedPagesOnly: false);
                     break;
 
                 case TagContext.CurrentSection:
-                    ExtractTags(_onenote.GetHierarchy(_onenote.CurrentSectionID, HierarchyScope.hsPages),
+                    BuildTagSet(_onenote.GetHierarchy(_onenote.CurrentSectionID, HierarchyScope.hsPages),
                                           selectedPagesOnly: false);
                     break;
 
                 case TagContext.SelectedNotes:
-                    ExtractTags(_onenote.GetHierarchy(_onenote.CurrentSectionID, HierarchyScope.hsPages),
-                                          selectedPagesOnly: true);
+                    if (SelectedPages != null) {
+                        // todo merge docs for selected pages
+                        BuildTagSet(from id in SelectedPages
+                                    select _onenote.GetHierarchy(id, HierarchyScope.hsSelf).Root,
+                                    selectedPagesOnly: false);
+                    } else {
+                        BuildTagSet(_onenote.GetHierarchy(_onenote.CurrentSectionID, HierarchyScope.hsPages),
+                                              selectedPagesOnly: true);
+                    }
                     break;
             }
         }
+        /// <summary>
+        /// Extract tags from OneNote page descriptors.
+        /// </summary>
+        /// <param name="pages">
+        /// XML elemets describing pages in the OneNote hierarchy or search result.
+        /// </param>
+        /// <param name="selectedPagesOnly">true to process only pages selected by user</param>
+        /// <param name="omitUntaggedPages">drop untagged pages</param>
+        void BuildTagSet(IEnumerable<XElement>pages, bool selectedPagesOnly, bool omitUntaggedPages = false) {
+            _tags.Clear();
+            _pages.Clear();
+            Dictionary<string, TagPageSet> tags = new Dictionary<string, TagPageSet>();
+            foreach (XElement page in pages) {
+                TaggedPage tp = new TaggedPage(page);
+                if (selectedPagesOnly && !tp.IsSelected) {
+                    continue;
+                }
+                // assign Tags
+                int tagcount = 0;
+                foreach (string tagname in tp.TagNames) {
+                    tagcount++;
+                    TagPageSet t;
 
+                    if (!tags.TryGetValue(tagname, out t)) {
+                        t = new TagPageSet(tagname);
+                        tags.Add(tagname, t);
+                    }
+                    t.AddPage(tp);
+                    tp.Tags.Add(t);
+                }
+                if (!omitUntaggedPages || tagcount > 0) {
+                    _pages.Add(tp.Key, tp);
+                }
+            }
+            // bulk update for performance reasons
+            _tags.UnionWith(tags.Values);
+            TraceLogger.Log(TraceCategory.Info(), "Extracted {0} tags from {1} pages.", _tags.Count, _pages.Count);
+        }
         /// <summary>
         /// Extract tags from page descriptors.
         /// </summary>
@@ -150,39 +204,11 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </param>
         /// <param name="selectedPagesOnly">true to process only pages selected by user</param>
         /// <param name="omitUntaggedPages">drop untagged pages</param>
-        internal void ExtractTags(XDocument pageDescriptors, bool selectedPagesOnly, bool omitUntaggedPages = false) {
+        internal void BuildTagSet(XDocument pageDescriptors, bool selectedPagesOnly, bool omitUntaggedPages = false) {
             // parse the search results
-            _tags.Clear();
-            _pages.Clear();
             try {
                 XNamespace one = pageDescriptors.Root.GetNamespaceOfPrefix("one");
-
-                Dictionary<string, TagPageSet> tags = new Dictionary<string, TagPageSet>();
-                foreach (XElement page in pageDescriptors.Descendants(one.GetName("Page"))) {
-                    TaggedPage tp = new TaggedPage(page);
-                    if (selectedPagesOnly && !tp.IsSelected) {
-                        continue;
-                    }
-                    // assign Tags
-                    int tagcount = 0;
-                    foreach (string tagname in tp.TagNames) {
-                        tagcount++;
-                        TagPageSet t;
-
-                        if (!tags.TryGetValue(tagname, out t)) {
-                            t = new TagPageSet(tagname);
-                            tags.Add(tagname, t);
-                        }
-                        t.AddPage(tp);
-                        tp.Tags.Add(t);
-                    }
-                    if (!omitUntaggedPages || tagcount > 0) {
-                        _pages.Add(tp.Key, tp);
-                    }
-                }
-                // bulk update for performance reasons
-                _tags.UnionWith(tags.Values);
-                TraceLogger.Log(TraceCategory.Info(), "Extracted {0} tags from {1} pages.", _tags.Count, _pages.Count);
+                BuildTagSet(pageDescriptors.Descendants(one.GetName("Page")), selectedPagesOnly, omitUntaggedPages);
             } catch (Exception ex) {
                 TraceLogger.Log(TraceCategory.Error(), "Parsing Hierarchy data failed: {0}", ex);
                 TraceLogger.Flush();
