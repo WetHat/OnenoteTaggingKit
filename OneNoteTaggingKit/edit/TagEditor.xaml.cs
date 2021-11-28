@@ -1,6 +1,5 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -167,7 +166,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
                 int pagesTagged = _model.EnqueuePagesForTagging(op);
                 if (_model.ScopesEnabled) {
-                    // reset the scope to avoid unindended tagging of pages
+                    // reset the scope to avoid unintended tagging of pages
                     taggingScope.SelectedIndex = 0;
                 }
                 tagInput.Clear();
