@@ -124,16 +124,29 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
+        /// <summary>
+        /// Collection of OneNote page IDs for tagging.
+        /// </summary>
         [DefaultValue(null)]
-        public IEnumerable<string> PagesToTag { get; set; }
+        public IEnumerable<string> PagesToTag {
+            get { return ContextTagCollection.SelectedPages; }
+            set {
+                ContextTagCollection.SelectedPages = value;
+            }
+        }
 
+        TagsAndPages _contextTags;
         /// <summary>
         /// Collection of tags found in a OneNote hierarchy context (section, section
         /// group, notebook)
         /// </summary>
+
         public TagsAndPages ContextTagCollection {
             get {
-                return new TagsAndPages(OneNoteApp);
+                if (_contextTags == null) {
+                    _contextTags = new TagsAndPages(OneNoteApp);
+                }
+                return _contextTags;
             }
         }
 
@@ -192,7 +205,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
             IEnumerable<string> pageIDs = null;
             if (ScopesEnabled) {
-                TagsAndPages tc = new TagsAndPages(OneNoteApp);
+                TagsAndPages tc = ContextTagCollection;
                 tc.LoadPageTags(ctx);
                 pageIDs = tc.Pages.Select(p => p.Key);
             } else {
