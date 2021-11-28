@@ -26,6 +26,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
         Visibility FilterIndicatorVisibility { get; }
 
         /// <summary>
+        /// Get the visibility of the page count feedback
+        /// </summary>
+        Visibility PageCountVisibility { get; }
+
+        /// <summary>
         /// Get the tooltip for a tag filter button.
         /// </summary>
         string PageCountTooltip { get; }
@@ -62,6 +67,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     public class TagSelectorModel : DependencyObject, ISortableKeyedItem<TagModelKey, string>, ITagSelectorModel, IHighlightableTagDataContext, INotifyPropertyChanged
     {
         internal static readonly PropertyChangedEventArgs FILTER_INDICATOR_VISIBILITY = new PropertyChangedEventArgs("FilterIndicatorVisibility");
+        internal static readonly PropertyChangedEventArgs PAGE_COUNT_VISIBILITY = new PropertyChangedEventArgs("PageCountVisibility");
         internal static readonly PropertyChangedEventArgs FILTERED_PAGE_COUNT = new PropertyChangedEventArgs("FilteredPageCount");
         internal static readonly PropertyChangedEventArgs PAGE_COUNT_TOOLTIP = new PropertyChangedEventArgs("PageCountTooltip");
 
@@ -158,6 +164,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     _isChecked = value;
                     firePropertyChanged(IS_CHECKED);
                     firePropertyChanged(FILTER_INDICATOR_VISIBILITY);
+                    firePropertyChanged(PAGE_COUNT_VISIBILITY);
                     firePropertyChanged(VISIBILITY);
                 }
             }
@@ -173,7 +180,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
-        /// Get the visibility of the tag in the UI.
+        /// Get the visibility of the tag in the tag selection UI.
         /// </summary>
         public Visibility Visibility {
             get {
@@ -182,10 +189,20 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
-        /// Get the visibility of te filter indicator
+        /// Get the visibility of the filter indicator
         /// </summary>
         public Visibility FilterIndicatorVisibility {
             get { return IsChecked ? Visibility.Visible : Visibility.Collapsed; }
+        }
+
+        /// <summary>
+        /// Get the visibility of the page count indicator.
+        /// </summary>
+        public Visibility PageCountVisibility {
+            get {
+                return FilterIndicatorVisibility == Visibility.Visible ?
+                    Visibility.Collapsed : Visibility.Visible;
+            }
         }
 
         /// <summary>

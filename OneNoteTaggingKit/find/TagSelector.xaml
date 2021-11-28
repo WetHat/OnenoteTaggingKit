@@ -21,9 +21,10 @@
                        Focusable="False" />
             <TextBlock VerticalAlignment="Bottom"
                        Focusable="False"
+                       Visibility="{Binding PageCountVisibility, Mode=OneWay}"
                        Background="Transparent"
                        ToolTip="{Binding PageCountTooltip}">
-                <Run Text=" (" /><Run Text="{Binding FilteredPageCount,Mode=OneWay}" /><Run Text=")" />
+                <Run Text=" ⬇"/><Run Text="{Binding FilteredPageCount,Mode=OneWay}"/>
             </TextBlock>
             <TextBlock VerticalAlignment="Bottom"
                        Visibility="{Binding FilterIndicatorVisibility}"
