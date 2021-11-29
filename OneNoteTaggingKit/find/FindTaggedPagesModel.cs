@@ -336,6 +336,16 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
 
+        /// <summary>
+        /// Select all tags with fully matching highligting pattern for
+        /// search refinenment.
+        /// </summary>
+        internal void SelectAllFullyHighlightedTags() {
+            foreach (TagSelectorModel t in from ht in Tags.Values where ht.IsFullMatch select ht) {
+                t.IsChecked = true;
+            }
+        }
+
         internal void NavigateTo(string pageID) {
             OneNoteApp.NavigateTo(pageID);
         }

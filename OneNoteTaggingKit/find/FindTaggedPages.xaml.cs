@@ -202,10 +202,10 @@ EndSelection:{5:D6}";
         private async void ClearSelectionButton_Click(object sender, RoutedEventArgs e) {
             pBar.Visibility = System.Windows.Visibility.Visible;
             await _model.ClearTagFilterAsync();
-            pBar.Visibility = System.Windows.Visibility.Hidden;
             foreach (var t in _model.Tags.Values) {
                 t.IsChecked = false;
             }
+            pBar.Visibility = System.Windows.Visibility.Hidden;
             e.Handled = true;
         }
 
@@ -241,7 +241,10 @@ EndSelection:{5:D6}";
         }
 
         private void TagInputBox_Input(object sender, TagInputEventArgs e) {
-            if (!e.TagInputComplete) {
+            if (e.TagInputComplete) {
+                // select all tags with full matches
+                _model.SelectAllFullyHighlightedTags();
+            } else {
                 tagsPanel.Highlighter = new TextSplitter(tagInput.Tags);
             }
         }
