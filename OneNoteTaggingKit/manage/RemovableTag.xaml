@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:WetHatLab.OneNote.TaggingKit.manage"
              xmlns:prop="clr-namespace:WetHatLab.OneNote.TaggingKit.Properties"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" DataContextChanged="OnDataContextChanged">
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" DataContextChanged="OnDataContextChanged"
+             Visibility="{Binding Visibility, Mode=OneWay}">
     <Menu BorderThickness="1"
           BorderBrush="LightBlue"
           Background="White"

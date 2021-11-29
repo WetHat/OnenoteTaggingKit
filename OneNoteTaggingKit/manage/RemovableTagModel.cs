@@ -20,6 +20,10 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         internal static readonly PropertyChangedEventArgs MARKER_VISIBILIY = new PropertyChangedEventArgs("RemoveMarkerVisibility");
         internal static readonly PropertyChangedEventArgs CAN_REMOVE = new PropertyChangedEventArgs("CanRemove");
         internal static readonly PropertyChangedEventArgs LOCAL_NAME = new PropertyChangedEventArgs("LocalName");
+        /// <summary>
+        /// predefined event descriptor for <see cref="E:PropertyChanged"/> event fired for the <see cref="Visibility"/> property
+        /// </summary>
+        internal static readonly PropertyChangedEventArgs VISIBILITY_Property = new PropertyChangedEventArgs("Visibility");
 
         /// <summary>
         /// Create a new instance of the view model.
@@ -102,6 +106,24 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         }
 
         /// <summary>
+        /// Set a filter string which is used to determine the appearance of the <see cref="HitHighlightedTagButton"/>
+        /// control.
+        /// </summary>
+        /// <remarks>
+        /// Setting this property has a side effect on the <see cref="Visibility"/> property.
+        /// The appropriate <see cref="E:WetHatLab.OneNote.TaggingKit.edit.PropertyChanged"/> events are fired as necessary.
+        /// </remarks>
+        public override TextSplitter Highlighter {
+            set {
+                Visibility visBefore = Visibility;
+                base.Highlighter = value;
+                if (visBefore != Visibility) {
+                    firePropertyChanged(VISIBILITY_Property);
+                }
+            }
+        }
+
+        /// <summary>
         /// Get the color of the tag use count indicator.
         /// </summary>
         public Brush UseCountColor
@@ -109,6 +131,15 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             get
             {
                 return CanRemove ? Brushes.Red : Brushes.Black;
+            }
+        }
+
+        /// <summary>
+        /// Get the visibility the associated <see cref="HitHighlightedTagButton"/> control has.
+        /// </summary>
+        public Visibility Visibility {
+            get {
+                return Highlighter.SplitPattern == null || HasHighlights ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
             }
         }
     }
