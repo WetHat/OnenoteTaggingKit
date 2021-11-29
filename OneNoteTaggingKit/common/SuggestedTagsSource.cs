@@ -29,10 +29,11 @@ namespace WetHatLab.OneNote.TaggingKit.common
     public class SuggestedTagDataContext : IHighlightableTagDataContext, ISortableKeyedItem<TagModelKey, string>, INotifyPropertyChanged
     {
         private bool _hasHighlights;
-        private IEnumerable<TextFragment> _highlightedTagName;
+        private IList<TextFragment> _highlightedTagName;
         private string _tagName;
         private TagModelKey _sortkey;
 
+        private static readonly TextSplitter sDefaultSplitter = new TextSplitter();
         ///<summary>
         /// predefined event descriptor for the <see cref="E:WetHatLab.OneNote.TaggingKit.common.PropertyChanged"/> event fired for changes to the <see cref="HighlightedTagName"/> property
         ///</summary>
@@ -50,8 +51,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
         }
 
-        internal string TagName
-        {
+        internal string TagName {
             get
             {
                 return _tagName;
@@ -59,15 +59,17 @@ namespace WetHatLab.OneNote.TaggingKit.common
             set
             {
                 _tagName = value;
-                _highlightedTagName = new TextSplitter().SplitText(_tagName);
                 _sortkey = new TagModelKey(_tagName);
+                _highlightedTagName = Highlighter.SplitText(_tagName);
                 firePropertyChanged(HIGHLIGHTED_TAGNAME);
             }
         }
 
-        internal IEnumerable<TextFragment> HighlightedTagName { get { return _highlightedTagName; } }
+        internal IList<TextFragment> HighlightedTagName { get { return _highlightedTagName; } }
 
         #region IHighlightableTagDataContext
+
+        TextSplitter _highlighter = sDefaultSplitter;
 
         /// <summary>
         /// Set a filter string which is used to determine the appearance of the <see cref="HitHighlightedTagButton"/>
@@ -79,14 +81,17 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </remarks>
         public virtual TextSplitter Highlighter
         {
+            get { return _highlighter; }
             set
             {
-                bool before = _hasHighlights;
-                _highlightedTagName = value.SplitText(TagName);
-                _hasHighlights = _highlightedTagName.IsHighlighted();
-                if (_hasHighlights || before != _hasHighlights)
-                {
-                    firePropertyChanged(HIGHLIGHTED_TAGNAME);
+                _highlighter = value;
+                if (TagName != null) {
+                    bool before = _hasHighlights;
+                    _highlightedTagName = _highlighter.SplitText(TagName);
+                    _hasHighlights = _highlightedTagName.IsHighlighted();
+                    if (_hasHighlights || before != _hasHighlights) {
+                        firePropertyChanged(HIGHLIGHTED_TAGNAME);
+                    }
                 }
             }
         }
@@ -100,6 +105,16 @@ namespace WetHatLab.OneNote.TaggingKit.common
             get { return _hasHighlights; }
         }
 
+        /// <summary>
+        /// Determine if the tag is a complete match to a pattern.
+        /// </summary>
+        public bool IsFullMatch {
+            get {
+                return _highlightedTagName != null
+                        && _highlightedTagName.Count == 1
+                        && _highlightedTagName[0].IsMatch;
+            }
+        }
         #endregion IHighlightableTagDataContext
 
         #region ISortableKeyedItem<TagModelKey,string>

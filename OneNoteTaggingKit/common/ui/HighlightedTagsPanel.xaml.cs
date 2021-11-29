@@ -34,6 +34,11 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// highlights in visible
         /// </remarks>
         bool HasHighlights { get; }
+
+        /// <summary>
+        /// Determine if the tag name fully matches the highlighting pattern.
+        /// </summary>
+        bool IsFullMatch { get; }
     }
 
     /// <summary>

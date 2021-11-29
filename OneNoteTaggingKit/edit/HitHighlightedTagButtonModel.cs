@@ -16,8 +16,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// predefined event descriptor for <see cref="E:PropertyChanged"/> event fired for the <see cref="Visibility"/> property
         /// </summary>
         internal static readonly PropertyChangedEventArgs VISIBILITY_Property = new PropertyChangedEventArgs("Visibility");
-        
-        bool _isFiltered = false;
+
 
         /// <summary>
         /// Create a new instance of the control
@@ -25,19 +24,19 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         public HitHighlightedTagButtonModel()
         {
         }
-       
+
         /// <summary>
-        /// Get the visibility the associated <see cref="HitHighlightedTagButton"/> control has. 
+        /// Get the visibility the associated <see cref="HitHighlightedTagButton"/> control has.
         /// </summary>
         public Visibility Visibility
         {
             get
             {
-                return !_isFiltered || HasHighlights ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+                return Highlighter.SplitPattern == null || HasHighlights ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
             }
         }
 
-        
+
         /// <summary>
         /// Set a filter string which is used to determine the appearance of the <see cref="HitHighlightedTagButton"/>
         /// control.
@@ -46,16 +45,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// Setting this property has a side effect on the <see cref="Visibility"/> property.
         /// The appropriate <see cref="E:WetHatLab.OneNote.TaggingKit.edit.PropertyChanged"/> events are fired as necessary.
         /// </remarks>
-        public override TextSplitter Highlighter
-        {
-            set
-            {
+        public override TextSplitter Highlighter {
+            set {
                 Visibility visBefore = Visibility;
-
-                _isFiltered = value.SplitPattern != null;
                 base.Highlighter = value;
-                if (visBefore != Visibility)
-                {
+                if (visBefore != Visibility) {
                     firePropertyChanged(VISIBILITY_Property);
                 }
             }

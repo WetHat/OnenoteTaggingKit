@@ -77,7 +77,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private TagPageSet _tag;
         private readonly TagModelKey _key;
-        private IEnumerable<TextFragment> _highlightedTagName;
+        private IList<TextFragment> _highlightedTagName;
         private bool _isFiltered;
 
         /// <summary>
@@ -269,6 +269,16 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         public bool HasHighlights { get; private set; }
 
+        /// <summary>
+        /// Determine if the tag name fully mateches the highlighting pattern.
+        /// </summary>
+        public bool IsFullMatch {
+            get {
+                return _highlightedTagName != null
+                    && _highlightedTagName.Count == 1
+                    && _highlightedTagName[0].IsMatch;
+            }
+        }
         #endregion IHighlightableTagDataContext
     }
 }
