@@ -241,11 +241,14 @@ EndSelection:{5:D6}";
         }
 
         private void TagInputBox_Input(object sender, TagInputEventArgs e) {
-            if (e.TagInputComplete) {
+            if (e.TagInputComplete && !tagInput.IsEmpty) {
                 // select all tags with full matches
                 _model.SelectAllFullyHighlightedTags();
             } else {
                 tagsPanel.Highlighter = new TextSplitter(tagInput.Tags);
+            }
+            if (e.Action == TagInputEventArgs.TaggingAction.Clear) {
+                ClearSelectionButton_Click(sender, e);
             }
         }
 

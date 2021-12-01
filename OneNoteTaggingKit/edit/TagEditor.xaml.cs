@@ -137,19 +137,17 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                             suggestedTags.Highlighter = new TextSplitter();
                             ClearTagsButton_Click(e.Source, e);
                             break;
+                        default:
+                            if (tagInput.IsEmpty) {
+                                suggestedTags.Highlighter = new TextSplitter();
+                            }
+                            break;
                     }
+                } else {
+                    suggestedTags.Highlighter = new TextSplitter(e.Tags);
                 }
                 if (sender is TagInputBox) {
-                    if (e.TagInputComplete) {
-                        suggestedTags.Highlighter = new TextSplitter();
-                        tagInput.Clear();
-                    } else {
-                        suggestedTags.Highlighter = new TextSplitter(e.Tags);
-                    }
-                    var ctrl = sender as UserControl;
-                    if (ctrl != null) {
-                        tagInput.FocusInput();
-                    }
+                    tagInput.FocusInput();
                 }
 
             } catch (Exception ex) {

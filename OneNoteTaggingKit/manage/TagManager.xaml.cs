@@ -193,15 +193,12 @@ namespace WetHatLab.OneNote.TaggingKit.manage
 
         private void TagInputBox_Input(object sender, TagInputEventArgs e)
         {
-            if (e.TagInputComplete)
+            suggestedTags.Highlighter = new TextSplitter(tagInput.Tags);
+            if (e.TagInputComplete && !tagInput.IsEmpty)
             {
                 NewTagButton_Click(sender, e);
             }
-            else
-            {
-                suggestedTags.Highlighter = new TextSplitter(tagInput.Tags);
-                e.Handled = true;
-            }
+            e.Handled = true;
         }
 
         private void Hyperlink_RequestLogNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
