@@ -72,12 +72,24 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             }
         }
 
+        DateTime _lastInput;
+        void InputTimer_Tick(object sender, EventArgs e) {
+            if ((DateTime.Now - _lastInput) > _inputTimer.Interval) {
+                _inputTimer.Stop();
+                RaiseEvent(new TagInputEventArgs(TagInputEvent, this, Tags, null));
+            }
+        }
+
+        private System.Windows.Threading.DispatcherTimer _inputTimer;
         /// <summary>
         /// Create a new instance of a input box for tag names.
         /// </summary>
         public TagInputBox()
         {
             InitializeComponent();
+            _inputTimer = new System.Windows.Threading.DispatcherTimer();
+            _inputTimer.Interval = new TimeSpan(0, 0, 0, 0, 400);
+            _inputTimer.Tick += new EventHandler(InputTimer_Tick);
         }
 
         /// <summary>
@@ -114,7 +126,11 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         internal void Clear()
         {
             tagInput.Text = String.Empty;
-            RaiseEvent(new TagInputEventArgs(TagInputEvent, this, null, null));
+            _inputTimer.Stop();
+            var e = new TagInputEventArgs(TagInputEvent, this, Tags, null);
+            e.TagInputComplete = true;
+            e.Action = TagInputEventArgs.TaggingAction.Clear;
+            RaiseEvent(e);
             UpdateVisibility();
         }
 
@@ -135,11 +151,24 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
 
         private void TagInput_KeyUp(object sender, KeyEventArgs e)
         {
-            UpdateVisibility();
-            if (e.Key == System.Windows.Input.Key.Escape && Keyboard.Modifiers == ModifierKeys.None) {
-                Clear(); // clear any tag input
+            TagInputEventArgs evt = new TagInputEventArgs(TagInputEvent, this, Tags, e);
+
+            if (e.Key == Key.Escape) {
+                tagInput.Text = String.Empty;
             }
-            RaiseEvent(new TagInputEventArgs(TagInputEvent, this, Tags, e));
+            UpdateVisibility();
+
+            if (evt.TagInputComplete) {
+                // raise event immediately
+                _inputTimer.Stop();
+                RaiseEvent(evt);
+            } else {
+                // wait for more input
+                _lastInput = DateTime.Now;
+                if  (!_inputTimer.IsEnabled) {
+                    _inputTimer.Start();
+                }
+            }
             e.Handled = true;
         }
 
