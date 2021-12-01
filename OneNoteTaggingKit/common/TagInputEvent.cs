@@ -73,7 +73,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// Get the requested tagging action.
         /// </summary>
-        public TaggingAction Action { get; private set; }
+        public TaggingAction Action { get; set; }
 
         /// <summary>
         /// Get the tags.
@@ -96,8 +96,8 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             Action = TaggingAction.None;
             if (e != null) {
                 if (e.Key == System.Windows.Input.Key.Escape) {
+                    TagInputComplete = true;
                     if ((Keyboard.Modifiers & ModifierKeys.Shift) != ModifierKeys.None) {
-                        TagInputComplete = true;
                         Action = TaggingAction.Clear;
                     }
                 } else if (e.Key == System.Windows.Input.Key.Enter) {
