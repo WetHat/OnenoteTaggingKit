@@ -12,7 +12,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     /// View model for the <see cref="HitHighlightedTagButton"/> control.
     /// </summary>
     public class HitHighlightedTagButtonModel : SuggestedTagDataContext
-    { /// <summary>
+    {
+        /// <summary>
         /// predefined event descriptor for <see cref="E:PropertyChanged"/> event fired for the <see cref="Visibility"/> property
         /// </summary>
         internal static readonly PropertyChangedEventArgs VISIBILITY_Property = new PropertyChangedEventArgs("Visibility");
