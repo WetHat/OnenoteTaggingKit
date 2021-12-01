@@ -129,7 +129,6 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             _inputTimer.Stop();
             var e = new TagInputEventArgs(TagInputEvent, this, Tags, null);
             e.TagInputComplete = true;
-            e.Action = TagInputEventArgs.TaggingAction.Clear;
             RaiseEvent(e);
             UpdateVisibility();
         }
