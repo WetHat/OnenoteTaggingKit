@@ -1,4 +1,5 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
@@ -20,6 +21,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         internal static readonly PropertyChangedEventArgs MARKER_VISIBILIY = new PropertyChangedEventArgs("RemoveMarkerVisibility");
         internal static readonly PropertyChangedEventArgs CAN_REMOVE = new PropertyChangedEventArgs("CanRemove");
         internal static readonly PropertyChangedEventArgs LOCAL_NAME = new PropertyChangedEventArgs("LocalName");
+
         /// <summary>
         /// predefined event descriptor for <see cref="E:PropertyChanged"/> event fired for the <see cref="Visibility"/> property
         /// </summary>
