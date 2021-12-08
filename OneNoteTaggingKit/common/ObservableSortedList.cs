@@ -124,10 +124,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
         {
             int index = -1;
             TValue found;
-            if (_dictionary.TryGetValue(key, out found))
-            {
+            if (_dictionary.TryGetValue(key, out found)) {
                 // lookup the index in the sorted list
-                index = _sortedList.BinarySearch(new KeyValuePair<TSort, TValue>(found.SortKey, found), DefaultComparer);
+                index = _sortedList.BinarySearch(new KeyValuePair<TSort, TValue>(found.SortKey, found), ItemComparer);
             }
 
             return index;
@@ -229,7 +228,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 if (!_dictionary.ContainsKey(item.Key))
                 {
                     // lookup insertion point
-                    int insertionPoint = _sortedList.BinarySearch(new KeyValuePair<TSort, TValue>(item.SortKey, item), DefaultComparer);
+                    int insertionPoint = _sortedList.BinarySearch(new KeyValuePair<TSort, TValue>(item.SortKey, item), ItemComparer);
 
                     if (insertionPoint < 0)
                     {
