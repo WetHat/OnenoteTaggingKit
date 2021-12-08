@@ -527,4 +527,10 @@
   <data name="TaggingKit_Notification" xml:space="preserve">
     <value>{0} 页标记！</value>
   </data>
+  <data name="TagManager_ContextMenu_SortByName" xml:space="preserve">
+    <value>按名称排序</value>
+  </data>
+  <data name="TagManager_ContextMenu_SortByUsage" xml:space="preserve">
+    <value>按用法排序</value>
+  </data>
 </root>

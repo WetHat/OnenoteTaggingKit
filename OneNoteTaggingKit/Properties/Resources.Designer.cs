@@ -654,6 +654,24 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sort By Name.
+        /// </summary>
+        public static string TagManager_ContextMenu_SortByName {
+            get {
+                return ResourceManager.GetString("TagManager_ContextMenu_SortByName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sort By Usage.
+        /// </summary>
+        public static string TagManager_ContextMenu_SortByUsage {
+            get {
+                return ResourceManager.GetString("TagManager_ContextMenu_SortByUsage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap or click to show actions for suggested tags.
         /// </summary>
         public static string TagManager_Menu_Tooltip {

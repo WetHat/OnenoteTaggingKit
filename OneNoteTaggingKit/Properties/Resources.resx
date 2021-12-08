@@ -527,4 +527,10 @@ Tap or click link to navigate to page.</value>
   <data name="TaggingKit_Notification" xml:space="preserve">
     <value>{0} pages tagged!</value>
   </data>
+  <data name="TagManager_ContextMenu_SortByName" xml:space="preserve">
+    <value>Sort By Name</value>
+  </data>
+  <data name="TagManager_ContextMenu_SortByUsage" xml:space="preserve">
+    <value>Sort By Usage</value>
+  </data>
 </root>
