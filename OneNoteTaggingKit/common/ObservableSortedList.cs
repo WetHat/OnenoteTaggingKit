@@ -38,6 +38,13 @@ namespace WetHatLab.OneNote.TaggingKit.common
         {
             #region IComparer<KeyValuePair<TSort, TValue>>
 
+            /// <summary>
+            /// Compare instances of <see cref="KeyValuePair{TSort, TValue}"/> using
+            /// the `Key` property.
+            /// </summary>
+            /// <param name="x">First object</param>
+            /// <param name="y">Second object</param>
+            /// <returns>Comparison result -1,0,1 if x $lt; y; x == y; x &gt; y</returns>
             public int Compare(KeyValuePair<TSort, TValue> x, KeyValuePair<TSort, TValue> y)
             {
                 return x.Key.CompareTo(y.Key);
@@ -46,9 +53,12 @@ namespace WetHatLab.OneNote.TaggingKit.common
             #endregion IComparer<KeyValuePair<TSort, TValue>>
         };
 
-        private static readonly IComparer<KeyValuePair<TSort, TValue>> _comparer = new Comparer<TSort, TValue>();
+        /// <summary>
+        /// The defaault comparer which sorts the data by name.
+        /// </summary>
+        public static readonly IComparer<KeyValuePair<TSort, TValue>> DefaultComparer = new Comparer<TSort, TValue>();
 
-        private static readonly IComparer<KeyValuePair<int, TValue>> _indexComparer = new Comparer<int, TValue>();
+        private static readonly IComparer<KeyValuePair<int, TValue>> sIndexComparer = new Comparer<int, TValue>();
 
         /// <summary>
         /// Get the number of items in the collection.
@@ -56,6 +66,29 @@ namespace WetHatLab.OneNote.TaggingKit.common
         public int Count
         {
             get { return _sortedList.Count; }
+        }
+
+        IComparer<KeyValuePair<TSort, TValue>> _comparer = DefaultComparer;
+        /// <summary>
+        /// Set a comparer to determine the sort order of the list.
+        /// </summary>
+        /// <remarks>
+        /// Setting a comparer triggers a sort of the data in the list.
+        /// The default comparer is available in the static property
+        /// <see cref="DefaultComparer"/>.
+        /// </remarks>
+        public IComparer<KeyValuePair<TSort, TValue>> ItemComparer {
+            private get { return _comparer; }
+            set {
+                if (_comparer != value) {
+                    // save the current content
+                    List < TValue> saved = new List<TValue>(from it in _sortedList select it.Value);
+                    Clear();
+                    _comparer = value;
+                    // re-add the saved content with a new comparer
+                    AddAll(saved);
+                }
+            }
         }
 
         /// <summary>
@@ -94,7 +127,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             if (_dictionary.TryGetValue(key, out found))
             {
                 // lookup the index in the sorted list
-                index = _sortedList.BinarySearch(new KeyValuePair<TSort, TValue>(found.SortKey, found), _comparer);
+                index = _sortedList.BinarySearch(new KeyValuePair<TSort, TValue>(found.SortKey, found), DefaultComparer);
             }
 
             return index;
@@ -134,7 +167,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     toDelete.Add(new KeyValuePair<int, TValue>(index, _dictionary[key]));
                 }
             }
-            toDelete.Sort(_indexComparer);
+            toDelete.Sort(sIndexComparer);
 
             while (toDelete.Count > 0)
             {
@@ -196,7 +229,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 if (!_dictionary.ContainsKey(item.Key))
                 {
                     // lookup insertion point
-                    int insertionPoint = _sortedList.BinarySearch(new KeyValuePair<TSort, TValue>(item.SortKey, item), _comparer);
+                    int insertionPoint = _sortedList.BinarySearch(new KeyValuePair<TSort, TValue>(item.SortKey, item), DefaultComparer);
 
                     if (insertionPoint < 0)
                     {
@@ -211,7 +244,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     }
                 }
             }
-            toAdd.Sort(_indexComparer);
+            toAdd.Sort(sIndexComparer);
 
             // process the sorted list of items to add in reverse order so that we do not
             // have to correct indices
@@ -239,7 +272,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     lastItemIndex = toAdd.Count - 1;
                 }
 
-                batch.Sort(_comparer);
+                batch.Sort(ItemComparer);
 
                 _sortedList.InsertRange(insertionPoint, batch);
 
