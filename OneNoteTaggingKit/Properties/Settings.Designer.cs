@@ -12,7 +12,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.7.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -32,18 +32,6 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
             }
             set {
                 this["UpdateRequired"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string KnownTags {
-            get {
-                return ((string)(this["KnownTags"]));
-            }
-            set {
-                this["KnownTags"] = value;
             }
         }
         
@@ -332,6 +320,30 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
             }
             set {
                 this["MapHashTags"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringDictionary CustomPresets {
+            get {
+                return ((global::System.Collections.Specialized.StringDictionary)(this["CustomPresets"]));
+            }
+            set {
+                this["CustomPresets"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" />")]
+        public global::System.Collections.Specialized.StringCollection KnownTagsCollection {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["KnownTagsCollection"]));
+            }
+            set {
+                this["KnownTagsCollection"] = value;
             }
         }
     }

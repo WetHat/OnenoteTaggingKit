@@ -189,7 +189,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
         private T[] LoadSuggestedTagsAction()
         {
-            return (from string t in OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags)
+            return (from string t in Properties.Settings.Default.KnownTagsCollection
                     select new T() { TagName = t }).ToArray();
         }
 
@@ -198,7 +198,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </summary>
         internal void Save()
         {
-            Properties.Settings.Default.KnownTags = string.Join(",", from v in Values select v.TagName);
+            Properties.Settings.Default.KnownTagsCollection.Clear();
+            Properties.Settings.Default.KnownTagsCollection.AddRange((from v in Values select v.TagName).ToArray());
         }
 
         #region ITagSource

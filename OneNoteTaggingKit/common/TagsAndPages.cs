@@ -96,7 +96,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
 
             // attempt to automatically update the tag suggestions, if we have collected all used tags
-            HashSet<string> knownTags = new HashSet<String>(OneNotePageProxy.ParseTags(Properties.Settings.Default.KnownTags));
+            HashSet<string> knownTags = new HashSet<String>(from string s in Properties.Settings.Default.KnownTagsCollection select s);
             int countBefore = knownTags.Count;
 
             // update the list of known tags by adding tags from search result
@@ -109,7 +109,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
             if (countBefore != knownTags.Count) { // updated tag suggestions
                 string[] sortedTags = knownTags.ToArray();
                 Array.Sort(sortedTags);
-                Properties.Settings.Default.KnownTags = string.Join(",", sortedTags);
+                Properties.Settings.Default.KnownTagsCollection.Clear();
+                Properties.Settings.Default.KnownTagsCollection.AddRange(sortedTags);
             }
         }
 

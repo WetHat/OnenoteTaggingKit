@@ -3,11 +3,13 @@ using Extensibility;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.OneNote;
 using System;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.edit;
 using WetHatLab.OneNote.TaggingKit.find;
 using WetHatLab.OneNote.TaggingKit.manage;
@@ -36,9 +38,18 @@ namespace WetHatLab.OneNote.TaggingKit
         public ConnectTaggingKitAddin() {
             // Upgrade Settings if necessary. On new version the UpdateRequired flag is
             // reset to default (true)
+            if (Properties.Settings.Default.CustomPresets == null) {
+                Properties.Settings.Default.CustomPresets = new StringDictionary();
+            }
             if (Properties.Settings.Default.UpdateRequired) {
                 Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.UpdateRequired = false;
+
+                string knownTags = Properties.Settings.Default.GetPreviousVersion("KnownTags") as string;
+                if (knownTags != null) {
+                    Properties.Settings.Default.KnownTagsCollection.Clear();
+                    Properties.Settings.Default.KnownTagsCollection.AddRange(OneNotePageProxy.ParseTags(knownTags));
+                }
             }
             // Testing the Chinese localization
             // WetHatLab.OneNote.TaggingKit.Properties.Resources.Culture = System.Globalization.CultureInfo.GetCultureInfo("zh");
