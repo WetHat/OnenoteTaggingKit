@@ -1,5 +1,6 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -45,6 +46,17 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     [ComVisible(false)]
     public class TagManagerModel : WindowViewModelBase, ITagManagerModel
     {
+        private class UseCountComparer : IComparer<KeyValuePair<TagModelKey, RemovableTagModel>>
+        {
+            #region IComparer<KeyValuePair<TagModelKey, RemovableTagModel>>
+            public int Compare(KeyValuePair<TagModelKey, RemovableTagModel> x, KeyValuePair<TagModelKey, RemovableTagModel> y) {
+                int res = x.Value.UseCount.CompareTo(y.Value.UseCount);
+                return res == 0 ? x.Key.CompareTo(y.Key) : res;
+                }
+
+            #endregion IComparer<KeyValuePair<TagModelKey, RemovableTagModel>>
+        };
+        private static readonly UseCountComparer sUseCountComparer = new UseCountComparer();
         private SuggestedTagsSource<RemovableTagModel> _suggestedTags = new SuggestedTagsSource<RemovableTagModel>();
         private TagsAndPages _tags;
 
@@ -54,6 +66,15 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <param name="onenote">OneNote application object</param>
         internal TagManagerModel(OneNoteProxy onenote) : base(onenote) {
             _tags = new TagsAndPages(OneNoteApp);
+        }
+
+        internal void SortByTagName () {
+            _suggestedTags.ItemComparer = SuggestedTagsSource<RemovableTagModel>.DefaultComparer;
+        }
+
+
+        internal void SortByUsage() {
+            _suggestedTags.ItemComparer =sUseCountComparer;
         }
 
         internal async Task LoadSuggestedTagsAsync() {

@@ -243,6 +243,20 @@
                                 <Image Source="/OneNoteTaggingKit;component/Resources/copy-26.png" />
                             </MenuItem.Icon>
                         </MenuItem>
+                        <Separator Background="Black"/>
+                        <MenuItem x:Name="byName"
+                                  Click="MenuItem_Click"
+                                  IsCheckable="True"
+                                  IsChecked="True"
+                                  Tag="SortByName"
+                                  Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_ContextMenu_SortByName}}"/>
+
+                        <MenuItem x:Name="byUsage"
+                                  Click="MenuItem_Click"
+                                  IsCheckable="True"
+                                  IsChecked="False"
+                                  Tag="SortByUsage"
+                                  Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_ContextMenu_SortByUsage}}"/>
                     </MenuItem>
                 </Menu>
                 <ProgressBar Name="pBar"

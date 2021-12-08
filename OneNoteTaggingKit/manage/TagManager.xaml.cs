@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -167,27 +168,36 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         private async void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             var itm = sender as MenuItem;
-            switch (itm.Tag.ToString())
-            {
-                case "Copy":
-                    Clipboard.SetData(DataFormats.UnicodeText, _model.TagList);
-                    tagInput.FocusInput();
-                    break;
-
-                case "Refresh":
-                    if (pBar.Visibility == System.Windows.Visibility.Hidden)
-                    {
-                        pBar.Visibility = System.Windows.Visibility.Visible;
+            if (pBar.Visibility == System.Windows.Visibility.Hidden) {
+                pBar.Visibility = System.Windows.Visibility.Visible;
+                switch (itm.Tag.ToString()) {
+                    case "Copy":
+                        Clipboard.SetData(DataFormats.UnicodeText, _model.TagList);
+                        tagInput.FocusInput();
+                        break;
+                    case "Refresh":
                         await _model.LoadSuggestedTagsAsync();
-                        if (tagInput.Tags != null)
-                        {
+                        if (tagInput.Tags != null) {
                             suggestedTags.Highlighter = new TextSplitter(tagInput.Tags);
                         }
-                        pBar.Visibility = System.Windows.Visibility.Hidden;
-                    }
-                    Properties.Settings.Default.Save();
-                    TraceLogger.Flush();
-                    break;
+                        pBar.Visibility = Visibility.Hidden;
+
+                        Properties.Settings.Default.Save();
+                        break;
+                    case "SortByName":
+                       _model.SortByTagName();
+                        byName.IsChecked = true;
+                        byUsage.IsChecked = false;
+
+                        break;
+                    case "SortByUsage":
+                        _model.SortByUsage();
+                        byName.IsChecked = false;
+                        byUsage.IsChecked = true;
+                        break;
+                }
+                TraceLogger.Flush();
+                pBar.Visibility = Visibility.Hidden;
             }
         }
 
