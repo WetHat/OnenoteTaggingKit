@@ -11,8 +11,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     /// <summary>
     /// View model for the <see cref="HitHighlightedTagButton"/> control.
     /// </summary>
-    public class HitHighlightedTagButtonModel : SuggestedTagDataContext
-    {
+    public class HitHighlightedTagButtonModel : SuggestedTagDataContext {
         /// <summary>
         /// predefined event descriptor for <see cref="E:PropertyChanged"/> event fired for the <see cref="Visibility"/> property
         /// </summary>
@@ -22,8 +21,19 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <summary>
         /// Create a new instance of the control
         /// </summary>
-        public HitHighlightedTagButtonModel()
-        {
+        public HitHighlightedTagButtonModel() {
+        }
+
+        bool _isSuggested = true;
+        /// <summary>
+        /// Determine if tag should shown/hidden as suggested.
+        /// </summary>
+        public bool IsSuggested {
+            get => _isSuggested;
+            set {
+                _isSuggested = value;
+                firePropertyChanged(VISIBILITY_Property);
+            }
         }
 
         /// <summary>
@@ -33,10 +43,10 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         {
             get
             {
-                return Highlighter.SplitPattern == null || HasHighlights ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+                return IsSuggested
+                    && (Highlighter.SplitPattern == null || HasHighlights) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
             }
         }
-
 
         /// <summary>
         /// Set a filter string which is used to determine the appearance of the <see cref="HitHighlightedTagButton"/>

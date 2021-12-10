@@ -1,5 +1,6 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -54,7 +55,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 if (tagBtn != null) {
                     SimpleTagButtonModel mdl = tagBtn.DataContext as SimpleTagButtonModel;
                     if (mdl != null) {
-                        _model.PageTags.RemoveAll(new string[] { mdl.TagName });
+                        var names = new string[] { mdl.TagName };
+                        _model.PageTags.RemoveAll(names);
+                        SuggestTags(names,true);
                     }
                 }
             }
@@ -110,10 +113,28 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private void ClearTagsButton_Click(object sender, RoutedEventArgs e) {
             if (_model != null) {
+                SuggestTags(from pt in _model.PageTags select pt.TagName, true);
                 _model.PageTags.Clear();
                 tagInput.FocusInput();
             }
             e.Handled = true;
+        }
+
+        /// <summary>
+        /// Hide or show tags from the list of suggested tags.
+        /// </summary>
+        /// <param name="tagnames">list of tagnames</param>
+        /// <param name="suggest">
+        /// `true` to show tags in the list of suggested tags,
+        /// `false` to hide the tags.
+        /// </param>
+        private void SuggestTags(IEnumerable<string> tagnames, bool suggest) {
+            foreach (string tagname in tagnames) {
+                HitHighlightedTagButtonModel mdl;
+                if (_model.TagSuggestions.TryGetValue(tagname, out mdl)) {
+                    mdl.IsSuggested = suggest;
+                }
+            }
         }
 
         private void TagInputBox_Input(object sender, TagInputEventArgs e) {
@@ -121,6 +142,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             try {
                 if (e.TagInputComplete) {
                     _model.PageTags.AddAll(from t in e.Tags where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(TagFormatter.Format(t)));
+                    SuggestTags(e.Tags,false);
                     switch (e.Action) {
                         case TagInputEventArgs.TaggingAction.Add:
                             AddTagsToPageButton_Click(e.Source, e);
