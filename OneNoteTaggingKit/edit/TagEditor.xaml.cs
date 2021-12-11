@@ -204,5 +204,17 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private void SelectMatchingTagsButton_Click(object sender, RoutedEventArgs e) {
             selectMatchingTags();
         }
+
+        private void SuggestedTagButton_Click(object sender, TagInputEventArgs e) {
+            HitHighlightedTagButton btn = sender as HitHighlightedTagButton;
+            HitHighlightedTagButtonModel mdl = btn.DataContext as HitHighlightedTagButtonModel;
+            if (mdl != null) {
+                mdl.IsSuggested = false;
+                if (!_model.PageTags.ContainsKey(mdl.TagName)) {
+                    _model.PageTags.AddAll(new SimpleTagButtonModel[] { new SimpleTagButtonModel(mdl.TagName) });
+                }
+            }
+
+        }
     }
 }
