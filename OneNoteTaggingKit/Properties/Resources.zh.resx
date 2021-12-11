@@ -533,4 +533,7 @@
   <data name="TagManager_ContextMenu_SortByUsage" xml:space="preserve">
     <value>按用法排序</value>
   </data>
+  <data name="TagEditor_Select_Matching_Tags_Button_Tooltip" xml:space="preserve">
+    <value>点击或单击以选择所有完全匹配的标记</value>
+  </data>
 </root>

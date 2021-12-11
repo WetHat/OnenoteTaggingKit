@@ -350,6 +350,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tap or click to select all fully matching tags..
+        /// </summary>
+        public static string TagEditor_Select_Matching_Tags_Button_Tooltip {
+            get {
+                return ResourceManager.GetString("TagEditor_Select_Matching_Tags_Button_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap or click to replace the tags on a range of OneNote pages with the selected tags..
         /// </summary>
         public static string TagEditor_SetTags_Button_Tooltip {

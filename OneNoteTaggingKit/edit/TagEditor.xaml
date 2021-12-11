@@ -167,6 +167,22 @@
                 </DataTemplate>
             </cui:HighlightedTagsPanel.TagTemplate>
         </cui:HighlightedTagsPanel>
+        <Button Grid.Row="3"
+                Width="26"
+                Background="Transparent"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Right"
+                BorderThickness="0" BorderBrush="LightBlue"
+                Margin="0,0,25,0"
+                ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Select_Matching_Tags_Button_Tooltip}}"
+                Click="SelectMatchingTagsButton_Click">
+            <TextBlock Text=""
+                       FontWeight="Heavy"
+                       FontFamily="Segoe UI Symbol"
+                       FontSize="20"
+                       HorizontalAlignment="Stretch"
+                       Margin="0,-2,0,0" />
+        </Button>
         <ProgressBar Name="pBar" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" />
     </Grid>
 </Window>

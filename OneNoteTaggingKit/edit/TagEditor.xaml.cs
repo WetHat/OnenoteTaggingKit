@@ -57,7 +57,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     if (mdl != null) {
                         var names = new string[] { mdl.TagName };
                         _model.PageTags.RemoveAll(names);
-                        SuggestTags(names,true);
+                        // suggest that tag again
+                        HitHighlightedTagButtonModel tbm;
+                        if (_model.TagSuggestions.TryGetValue(mdl.TagName, out tbm)) {
+                            tbm.IsSuggested = true;
+                        }
                     }
                 }
             }
@@ -113,36 +117,27 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         private void ClearTagsButton_Click(object sender, RoutedEventArgs e) {
             if (_model != null) {
-                SuggestTags(from pt in _model.PageTags select pt.TagName, true);
+                // suggest all tags again
+                foreach (var mdl in from ts in _model.TagSuggestions
+                                    where !ts.IsSuggested
+                                    select ts) {
+                    mdl.IsSuggested = true;
+                }
                 _model.PageTags.Clear();
                 tagInput.FocusInput();
             }
             e.Handled = true;
         }
 
-        /// <summary>
-        /// Hide or show tags from the list of suggested tags.
-        /// </summary>
-        /// <param name="tagnames">list of tagnames</param>
-        /// <param name="suggest">
-        /// `true` to show tags in the list of suggested tags,
-        /// `false` to hide the tags.
-        /// </param>
-        private void SuggestTags(IEnumerable<string> tagnames, bool suggest) {
-            foreach (string tagname in tagnames) {
-                HitHighlightedTagButtonModel mdl;
-                if (_model.TagSuggestions.TryGetValue(tagname, out mdl)) {
-                    mdl.IsSuggested = suggest;
-                }
-            }
-        }
-
         private void TagInputBox_Input(object sender, TagInputEventArgs e) {
             suggestedTags.Notification = String.Empty;
             try {
                 if (e.TagInputComplete) {
-                    _model.PageTags.AddAll(from t in e.Tags where !_model.PageTags.ContainsKey(t) select new SimpleTagButtonModel(TagFormatter.Format(t)));
-                    SuggestTags(e.Tags,false);
+                    selectMatchingTags();
+                    // create new tags
+                     _model.PageTags.AddAll(from t in e.Tags
+                                            where !_model.PageTags.ContainsSortKey(new TagModelKey(t))
+                                            select new SimpleTagButtonModel(TagFormatter.Format(t)));
                     switch (e.Action) {
                         case TagInputEventArgs.TaggingAction.Add:
                             AddTagsToPageButton_Click(e.Source, e);
@@ -196,6 +191,19 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 TraceLogger.Log(TraceCategory.Error(), "Applying tags to page failed: {0}", xe);
                 TraceLogger.ShowGenericErrorBox(Properties.Resources.TagEditor_TagUpdate_Error, xe);
             }
+        }
+
+        void selectMatchingTags() {
+            SimpleTagButtonModel _select_tag(HitHighlightedTagButtonModel mdl) {
+                mdl.IsSuggested = false;
+                return new SimpleTagButtonModel(mdl.TagName);
+            }
+            _model.PageTags.AddAll(from t in _model.TagSuggestions.Values
+                                   where t.IsFullMatch && t.IsSuggested
+                                   select _select_tag(t));
+        }
+        private void SelectMatchingTagsButton_Click(object sender, RoutedEventArgs e) {
+            selectMatchingTags();
         }
     }
 }
