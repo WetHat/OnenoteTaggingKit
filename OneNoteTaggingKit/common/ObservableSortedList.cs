@@ -18,10 +18,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// </remarks>
     /// <typeparam name="TValue">item type providing sortable keys</typeparam>
     /// <typeparam name="TKey">unique key type</typeparam>
-    /// <typeparam name="TSort">sort key type</typeparam>
+    /// <typeparam name="TSort">sort key type. Sort keys are not required to be unique</typeparam>
     public class ObservableSortedList<TSort, TKey, TValue> : INotifyCollectionChanged, IEnumerable<TValue>
         where TValue : ISortableKeyedItem<TSort, TKey>
-        where TKey : IEquatable<TKey>
+        where TKey : IEquatable<TKey>, IComparable<TKey>
         where TSort : IComparable<TSort>
     {
         /// <summary>
@@ -33,8 +33,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
         private List<KeyValuePair<TSort, TValue>> _sortedList = new List<KeyValuePair<TSort, TValue>>(INITIAL_CAPACITY);
         private Dictionary<TKey, TValue> _dictionary = new Dictionary<TKey, TValue>(INITIAL_CAPACITY);
 
-        private class Comparer<TSort, TValue> : IComparer<KeyValuePair<TSort, TValue>>
-                                                where TSort : IComparable<TSort>
+        #region Comparers
+        private class SimpleComparer<TSort, TValue> : IComparer<KeyValuePair<TSort, TValue>>
+                                                      where TSort : IComparable<TSort>
         {
             #region IComparer<KeyValuePair<TSort, TValue>>
 
@@ -45,20 +46,41 @@ namespace WetHatLab.OneNote.TaggingKit.common
             /// <param name="x">First object</param>
             /// <param name="y">Second object</param>
             /// <returns>Comparison result -1,0,1 if x $lt; y; x == y; x &gt; y</returns>
-            public int Compare(KeyValuePair<TSort, TValue> x, KeyValuePair<TSort, TValue> y)
-            {
+            public int Compare(KeyValuePair<TSort, TValue> x, KeyValuePair<TSort, TValue> y) {
                 return x.Key.CompareTo(y.Key);
             }
 
             #endregion IComparer<KeyValuePair<TSort, TValue>>
         };
 
+        private class Comparer<TSort, TValue> : IComparer<KeyValuePair<TSort, TValue>>
+                                                where TSort : IComparable<TSort>
+                                                where TValue : ISortableKeyedItem<TSort, TKey>
+        {
+            #region IComparer<KeyValuePair<TSort, TValue>>
+
+            /// <summary>
+            /// Compare instances of <see cref="KeyValuePair{TSort, TValue}"/> using
+            /// the `Key` property and the key of the value.
+            /// </summary>
+            /// <param name="x">First object</param>
+            /// <param name="y">Second object</param>
+            /// <returns>Comparison result -1,0,1 if x $lt; y; x == y; x &gt; y</returns>
+            public int Compare(KeyValuePair<TSort, TValue> x, KeyValuePair<TSort, TValue> y)
+            {
+                var result = x.Key.CompareTo(y.Key);
+                return result == 0 ? x.Value.Key.CompareTo(y.Value.Key) : result;
+            }
+
+            #endregion IComparer<KeyValuePair<TSort, TValue>>
+        };
+        #endregion Comparers
         /// <summary>
-        /// The defaault comparer which sorts the data by name.
+        /// The default comparer which sorts the data by name.
         /// </summary>
         public static readonly IComparer<KeyValuePair<TSort, TValue>> DefaultComparer = new Comparer<TSort, TValue>();
-
-        private static readonly IComparer<KeyValuePair<int, TValue>> sIndexComparer = new Comparer<int, TValue>();
+        static readonly IComparer<KeyValuePair<TSort, TValue>> sSimpleComparer = new SimpleComparer<TSort, TValue>();
+        static readonly IComparer<KeyValuePair<int, TValue>> sIndexComparer = new SimpleComparer<int,TValue>();
 
         /// <summary>
         /// Get the number of items in the collection.
@@ -110,9 +132,20 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         /// <summary>
+        /// Determine if the list contains at least one item with a given sort key.
+        /// </summary>
+        /// <remarks>Sort keys are not unique. The list may contain more than
+        /// one item with the same sort key.</remarks>
+        /// <param name="sortkey">the sorting key to check</param>
+        /// <returns>true if the given item is contained in the list; false otherwise</returns>
+        public bool ContainsSortKey(TSort sortkey) {
+           return _sortedList.BinarySearch(new KeyValuePair<TSort, TValue>(sortkey,default(TValue)), sSimpleComparer) >=0 ;
+        }
+
+        /// <summary>
         /// Try to retrieve a value from the list with a given key
         /// </summary>
-        /// <param name="key">  key of the item</param>
+        /// <param name="key">key of the item</param>
         /// <param name="value">found vale or null</param>
         /// <returns>true if a value was found for the key provided</returns>
         public bool TryGetValue(TKey key, out TValue value)
