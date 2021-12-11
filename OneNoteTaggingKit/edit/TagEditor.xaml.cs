@@ -133,6 +133,10 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             suggestedTags.Notification = String.Empty;
             try {
                 if (e.TagInputComplete) {
+                    if (tagInput.IsEmpty) {
+                        // make sure highlighting is uptodate
+                        suggestedTags.Highlighter = new TextSplitter();
+                    }
                     selectMatchingTags();
                     // create new tags
                      _model.PageTags.AddAll(from t in e.Tags
@@ -153,11 +157,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                         case TagInputEventArgs.TaggingAction.Clear:
                             suggestedTags.Highlighter = new TextSplitter();
                             ClearTagsButton_Click(e.Source, e);
-                            break;
-                        default:
-                            if (tagInput.IsEmpty) {
-                                suggestedTags.Highlighter = new TextSplitter();
-                            }
                             break;
                     }
                 } else {
