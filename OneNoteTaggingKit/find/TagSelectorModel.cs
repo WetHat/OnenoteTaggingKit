@@ -275,8 +275,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
         public bool IsFullMatch {
             get {
                 return _highlightedTagName != null
-                    && _highlightedTagName.Count == 1
-                    && _highlightedTagName[0].IsMatch;
+                       && _highlightedTagName.Count > 0
+                       && _highlightedTagName[0].IsMatch
+                       && (_highlightedTagName.Count == 1
+                           || (_highlightedTagName.Count == 2
+                               && (_highlightedTagName[1].Text.Equals(Properties.Settings.Default.ImportOneNoteTagMarker)
+                                  || _highlightedTagName[1].Text.Equals(Properties.Settings.Default.ImportHashtagMarker))));
             }
         }
         #endregion IHighlightableTagDataContext
