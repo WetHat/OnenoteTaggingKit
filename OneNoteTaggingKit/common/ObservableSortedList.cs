@@ -19,7 +19,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// <typeparam name="TValue">item type providing sortable keys</typeparam>
     /// <typeparam name="TKey">unique key type</typeparam>
     /// <typeparam name="TSort">sort key type. Sort keys are not required to be unique</typeparam>
-    public class ObservableSortedList<TSort, TKey, TValue> : INotifyCollectionChanged, IEnumerable<TValue>
+    public class ObservableSortedList<TSort, TKey, TValue> : IReadOnlyList<TValue>, INotifyCollectionChanged, IEnumerable<TValue>
         where TValue : ISortableKeyedItem<TSort, TKey>
         where TKey : IEquatable<TKey>, IComparable<TKey>
         where TSort : IComparable<TSort>
@@ -120,6 +120,15 @@ namespace WetHatLab.OneNote.TaggingKit.common
         {
             get { return from e in _sortedList select e.Value; }
         }
+
+        #region IReadOnlyList<TValue>
+        /// <summary>
+        /// Gets the element at the specified index.
+        /// </summary>
+        /// <param name="i">index</param>
+        /// <returns>The i-th element in the list</returns>
+        public TValue this[int i]  => _sortedList[i].Value;
+        #endregion IReadOnlyList<TValue>
 
         /// <summary>
         /// Determine if the list contains an item with a given key
