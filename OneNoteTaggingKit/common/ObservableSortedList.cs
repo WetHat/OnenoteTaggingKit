@@ -19,7 +19,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// <typeparam name="TValue">item type providing sortable keys</typeparam>
     /// <typeparam name="TKey">unique key type</typeparam>
     /// <typeparam name="TSort">sort key type. Sort keys are not required to be unique</typeparam>
-    public class ObservableSortedList<TSort, TKey, TValue> : IReadOnlyList<TValue>, INotifyCollectionChanged, IEnumerable<TValue>
+    public class ObservableSortedList<TSort, TKey, TValue> : IReadOnlyList<TValue>, INotifyCollectionChanged, IEnumerable<TValue>, IDisposable
         where TValue : ISortableKeyedItem<TSort, TKey>
         where TKey : IEquatable<TKey>, IComparable<TKey>
         where TSort : IComparable<TSort>
@@ -347,7 +347,12 @@ namespace WetHatLab.OneNote.TaggingKit.common
         {
             return Values.GetEnumerator();
         }
-
         #endregion IEnumerable<TValue>
+
+        #region IDisposable
+        public virtual void Dispose() {
+            CollectionChanged = null;
+        }
+        #endregion IDisposable
     }
 }
