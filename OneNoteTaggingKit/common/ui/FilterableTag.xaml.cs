@@ -10,9 +10,16 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// <summary>
     /// A control to render tags which can be filtered.
     /// </summary>
+    /// <remarks>
+    ///     Works with view models of class <see cref="FilterableTagModel"/>
+    ///     or its subclasses.
+    /// </remarks>
     public partial class FilterableTag : UserControl
     {
         #region TagSelectedEvent
+        /// <summary>
+        /// Definition of the <see cref="TagSelected"/> event.
+        /// </summary>
         public static readonly RoutedEvent TagSelectedEvent = EventManager.RegisterRoutedEvent(
             nameof(TagSelected),
             RoutingStrategy.Bubble,
@@ -25,6 +32,10 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         public event RoutedEventHandler TagSelected {
             add { AddHandler(TagSelectedEvent, value); }
             remove { RemoveHandler(TagSelectedEvent, value); }
+        }
+        private void tagBtn_Checked(object sender, RoutedEventArgs e) {
+            var mdl = DataContext as FilterableTagModel;
+            RaiseEvent(new TagSelectedEventArgs(TagSelectedEvent, this, mdl.IsSelected));
         }
         #endregion TagSelectedEvent
         void UpdateTagNameHighlight(IList<TextFragment> highlightedName) {
@@ -68,10 +79,6 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 UpdateTagNameHighlight(newMdl.HighlightedTagName);
                 newMdl.PropertyChanged += OnModelPropertyChanged;
             }
-        }
-        private void tagBtn_Checked(object sender, RoutedEventArgs e) {
-            var mdl = DataContext as FilterableTagModel;
-            RaiseEvent(new TagSelectedEventArgs(TagSelectedEvent,this, mdl));
         }
     }
 }

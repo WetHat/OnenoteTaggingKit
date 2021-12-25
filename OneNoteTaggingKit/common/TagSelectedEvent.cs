@@ -10,27 +10,26 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// <param name="e">     event details</param>
     public delegate void TagSelectedEventHandler(object sender, TagSelectedEventArgs e);
 
-
     /// <summary>
     /// Event details for tag selection events.
     /// </summary>
     public class TagSelectedEventArgs: RoutedEventArgs
     {
         /// <summary>
-        /// Get the data context for the selected tag.
+        /// Get the selection status.
         /// </summary>
-        public FilterableTagModel SelectedTag { get; }
+        public bool IsSelected { get; }
 
         /// <summary>
         /// Create a new instance of event details for tag selection events.
         /// </summary>
         /// <param name="routedEvent">The event that was fired</param>
-        /// <param name="source">The oject which raised the event</param>
-        /// <param name="tag">the tag's data context.</param>
+        /// <param name="source">The object which raised the event</param>
+        /// <param name="is_selected">Flag to indicate the selection status.</param>
         public TagSelectedEventArgs(RoutedEvent routedEvent,
-                                    object source, FilterableTagModel tag)
+                                    object source, bool is_selected)
             : base(routedEvent, source) {
-            SelectedTag = tag;
+            IsSelected = is_selected;
         }
     }
 }
