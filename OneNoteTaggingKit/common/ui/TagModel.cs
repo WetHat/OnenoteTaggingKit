@@ -34,8 +34,6 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// The visibility of the tag.
         /// </summary>
-        /// <remarks>This value is typically computed by
-        /// <see cref="ComputeTagVisibility"/></remarks>
         public Visibility TagVisibility {
             get => _tagVisibility;
             protected set {
