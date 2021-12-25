@@ -6,11 +6,15 @@ using System.Windows;
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
     /// <summary>
-    ///  A basic implementation for tags which can be selected.
+    ///  A basic implementation of a view model for tags which can be filtered.
     /// </summary>
     /// <remarks>
-    ///     To assist the selection process, instances of this class provide
-    ///     tag name highlighting via the <see cref="Highlighter"/> property.
+    ///     Tag visibility is dermined by:
+    ///     <list type="bullet">
+    ///         <item>Selection status. Selected tags are collapsed.</item>
+    ///         <item>Highlighting patterns defined by the
+    ///               <see cref="Highlighter"/> property.</item>
+    ///     </list>
     /// </remarks>
     public class FilterableTagModel : TagModel {
 
@@ -46,6 +50,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// Get/set the tag selection flag.
         /// </summary>
+        /// <remarks>Selected tags are collapsed.</remarks>
         public bool IsSelected {
             get => _isSelected;
             set {
@@ -125,7 +130,9 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// of the tag name which match one or more strings.
         /// </summary>
         /// <remarks>
-        /// Setting this property has a side effect on the property <see cref="HighlightedTagName"/>.
+        ///     Setting this property has a side effect on the property
+        ///     <see cref="HighlightedTagName"/>.
+        ///     Tags which do not match the highlighting pattern are collapsed.
         /// </remarks>
         public TextSplitter Highlighter {
             get => _highlighter;

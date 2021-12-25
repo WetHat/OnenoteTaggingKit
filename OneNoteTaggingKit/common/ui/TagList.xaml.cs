@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Specialized;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -89,10 +88,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                     int newItemCount = e.NewItems.Count;
                     for (int i = 0; i < newItemCount; i++) {
                         FrameworkElement tagControl = tpl.LoadContent() as FrameworkElement;
-                        var ctx = e.NewItems[i] as TagModel;
-                        if (ctx != null) {
-                            tagControl.DataContext = ctx;
-                        }
+                        tagControl.DataContext = e.NewItems[i];
                         tagsPanel.Children.Insert(i + e.NewStartingIndex, tagControl);
                     }
                     break;

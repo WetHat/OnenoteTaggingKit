@@ -8,7 +8,7 @@ using System.Windows.Media;
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
     /// <summary>
-    /// A control to present selectable tags.
+    /// A control to render tags which can be filtered.
     /// </summary>
     public partial class FilterableTag : UserControl
     {
