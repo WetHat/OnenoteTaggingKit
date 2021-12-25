@@ -80,16 +80,28 @@
   <ItemGroup>
     <Compile Include="AddInDialogManager.cs" />
     <Compile Include="common\KeyedItems.cs" />
+    <Compile Include="common\KnownTagsSource.cs" />
     <Compile Include="common\ObservableDictionary.cs" />
     <Compile Include="common\ObservableSortedList.cs" />
     <Compile Include="common\OneNotePageProxy.cs" />
+    <Compile Include="common\ui\SelectableTagDesignerModel.cs" />
     <Compile Include="common\SuggestedTagsSource.cs" />
     <Compile Include="common\TagFormatter.cs" />
     <Compile Include="common\TagInputEvent.cs" />
     <Compile Include="common\TagsAndPages.cs" />
     <Compile Include="common\TaggedPage.cs" />
     <Compile Include="common\TagPageSet.cs" />
+    <Compile Include="common\TagSelectedEvent.cs" />
+    <Compile Include="common\ObservableTagList.cs" />
     <Compile Include="common\ui\AddInWindowsContracts.cs" />
+    <Compile Include="common\ui\SelectableTag.xaml.cs">
+      <DependentUpon>SelectableTag.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="common\ui\SelectableTagModel.cs" />
+    <Compile Include="common\ui\TagModel.cs" />
+    <Compile Include="common\ui\TagList.xaml.cs">
+      <DependentUpon>TagList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="common\ui\HighlightedTagsPanel.xaml.cs">
       <DependentUpon>HighlightedTagsPanel.xaml</DependentUpon>
     </Compile>
@@ -101,12 +113,9 @@
     </Compile>
     <Compile Include="common\ui\TagModelKey.cs" />
     <Compile Include="common\TextSplitter.cs" />
+    <Compile Include="common\ui\ViewModelBase.cs" />
     <Compile Include="common\ui\WindowViewModelBase.cs" />
     <Compile Include="COMReadonlyStreamAdapter.cs" />
-    <Compile Include="edit\HitHighlightedTagButton.xaml.cs">
-      <DependentUpon>HitHighlightedTagButton.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="edit\HitHighlightedTagButtonModel.cs" />
     <Compile Include="edit\SimpleTagButton.xaml.cs">
       <DependentUpon>SimpleTagButton.xaml</DependentUpon>
     </Compile>
@@ -249,6 +258,14 @@
     <Resource Include="Resources\tagSearch 32x32.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="common\ui\SelectableTag.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="common\ui\TagList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="common\ui\HighlightedTagsPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -258,10 +275,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="common\ui\TagInputBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="edit\HitHighlightedTagButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
