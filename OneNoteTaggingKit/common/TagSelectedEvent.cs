@@ -19,7 +19,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Get the data context for the selected tag.
         /// </summary>
-        public SelectableTagModel SelectedTag { get; }
+        public FilterableTagModel SelectedTag { get; }
 
         /// <summary>
         /// Create a new instance of event details for tag selection events.
@@ -28,7 +28,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="source">The oject which raised the event</param>
         /// <param name="tag">the tag's data context.</param>
         public TagSelectedEventArgs(RoutedEvent routedEvent,
-                                    object source, SelectableTagModel tag)
+                                    object source, FilterableTagModel tag)
             : base(routedEvent, source) {
             SelectedTag = tag;
         }

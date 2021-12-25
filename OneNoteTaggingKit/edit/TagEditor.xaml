@@ -163,7 +163,7 @@
                     Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Suggestions_GroupBox_Title}}">
             <cui:TagList.TagTemplate>
                 <DataTemplate>
-                    <cui:SelectableTag Margin="0,5,5,0"
+                    <cui:FilterableTag Margin="0,5,5,0"
                                        TagSelected="SelectableTag_TagSelected"
                                        ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_HithighlightedTag_Button_Tooltip}}"/>
                 </DataTemplate>

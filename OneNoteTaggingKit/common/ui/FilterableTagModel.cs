@@ -12,7 +12,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     ///     To assist the selection process, instances of this class provide
     ///     tag name highlighting via the <see cref="Highlighter"/> property.
     /// </remarks>
-    public class SelectableTagModel : TagModel {
+    public class FilterableTagModel : TagModel {
 
         /// <summary>
         /// Get/set the name of the tag.
@@ -151,7 +151,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// Create a new instance of a data context for selectable tags.
         /// </summary>
-        public SelectableTagModel() {
+        public FilterableTagModel() {
         }
     }
 }

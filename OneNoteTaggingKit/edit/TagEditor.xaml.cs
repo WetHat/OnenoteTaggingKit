@@ -54,7 +54,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                         var names = new string[] { mdl.TagName };
                         _model.PageTags.RemoveAll(names);
                         // suggest that tag again
-                        SelectableTagModel stm;
+                        FilterableTagModel stm;
                         if (_model.TagSuggestions.TryGetValue(mdl.TagName, out stm)) {
                             stm.IsSelected = false;
                         }
@@ -115,7 +115,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private void ClearTagsButton_Click(object sender, RoutedEventArgs e) {
             if (_model != null) {
                 // suggest all tags again
-                foreach (var mdl in from SelectableTagModel ts in _model.TagSuggestions
+                foreach (var mdl in from FilterableTagModel ts in _model.TagSuggestions
                                     where ts.IsSelected
                                     select ts) {
                     mdl.IsSelected = false;
@@ -190,7 +190,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
 
         void selectMatchingTags() {
-            SimpleTagButtonModel _select_tag(SelectableTagModel mdl) {
+            SimpleTagButtonModel _select_tag(FilterableTagModel mdl) {
                 mdl.IsSelected = true;
                 return new SimpleTagButtonModel(mdl.TagName);
             }
@@ -203,8 +203,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
 
         private void SelectableTag_TagSelected(object sender, RoutedEventArgs e) {
-            var btn = sender as SelectableTag;
-            if (btn.DataContext is SelectableTagModel mdl) {
+            var btn = sender as FilterableTag;
+            if (btn.DataContext is FilterableTagModel mdl) {
                 if (mdl.IsSelected && !_model.PageTags.ContainsKey(mdl.TagName)) {
                     _model.PageTags.AddAll(new SimpleTagButtonModel[] { new SimpleTagButtonModel(mdl.TagName) });
                 }

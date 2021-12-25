@@ -10,14 +10,14 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// <summary>
     /// A control to present selectable tags.
     /// </summary>
-    public partial class SelectableTag : UserControl
+    public partial class FilterableTag : UserControl
     {
         #region TagSelectedEvent
         public static readonly RoutedEvent TagSelectedEvent = EventManager.RegisterRoutedEvent(
             nameof(TagSelected),
             RoutingStrategy.Bubble,
             typeof(RoutedEventHandler),
-            typeof(SelectableTag));
+            typeof(FilterableTag));
 
         /// <summary>
         /// Track changes to tag (de)selection.
@@ -44,9 +44,9 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <param name="sender">View model that changed its state.</param>
         /// <param name="args">Event details.</param>
         void OnModelPropertyChanged(object sender, PropertyChangedEventArgs args) {
-            if (sender is SelectableTagModel stm) {
+            if (sender is FilterableTagModel stm) {
                 switch (args.PropertyName) {
-                    case nameof(SelectableTagModel.HighlightedTagName):
+                    case nameof(FilterableTagModel.HighlightedTagName):
                         UpdateTagNameHighlight(stm.HighlightedTagName);
                         break;
                 }
@@ -55,22 +55,22 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// Create a new instance of a control to provide tag selection.
         /// </summary>
-        public SelectableTag() {
+        public FilterableTag() {
             InitializeComponent();
         }
 
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {
-            if (e.OldValue is SelectableTagModel oldMdl) {
+            if (e.OldValue is FilterableTagModel oldMdl) {
                 oldMdl.Dispose();
             }
 
-            if (e.NewValue is SelectableTagModel newMdl) {
+            if (e.NewValue is FilterableTagModel newMdl) {
                 UpdateTagNameHighlight(newMdl.HighlightedTagName);
                 newMdl.PropertyChanged += OnModelPropertyChanged;
             }
         }
         private void tagBtn_Checked(object sender, RoutedEventArgs e) {
-            var mdl = DataContext as SelectableTagModel;
+            var mdl = DataContext as FilterableTagModel;
             RaiseEvent(new TagSelectedEventArgs(TagSelectedEvent,this, mdl));
         }
     }

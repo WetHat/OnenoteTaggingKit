@@ -14,8 +14,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// <remarks>
     /// Tags in this list are typically used to suggest tags.
     /// </remarks>
-    /// <typeparam name="T">A <see cref="SelectableTagModel"/> or a subclass of it.</typeparam>
-    public class KnownTagsSource<T> : ObservableTagList<T> where T : SelectableTagModel,new()
+    /// <typeparam name="T">A <see cref="FilterableTagModel"/> or a subclass of it.</typeparam>
+    public class KnownTagsSource<T> : ObservableTagList<T> where T : FilterableTagModel,new()
     {
         /// <summary>
         /// Asynchronously load all known tags from the persisted settings.

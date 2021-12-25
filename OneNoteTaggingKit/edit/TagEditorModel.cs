@@ -26,7 +26,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <summary>
         /// Collection of tags suggested for page tagging.
         /// </summary>
-        KnownTagsSource<SelectableTagModel> TagSuggestions { get; }
+        KnownTagsSource<FilterableTagModel> TagSuggestions { get; }
         /// <summary>
         /// Get the enumeration of tagging scopes.
         /// </summary>
@@ -133,7 +133,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 new TaggingScopeDescriptor(TaggingScope.SelectedNotes,Properties.Resources.TagEditor_ComboBox_Scope_SelectedNotes),
                 new TaggingScopeDescriptor(TaggingScope.CurrentSection,Properties.Resources.TagEditor_ComboBox_Scope_CurrentSection),
             };
-            TagSuggestions = new KnownTagsSource<SelectableTagModel>();
+            TagSuggestions = new KnownTagsSource<FilterableTagModel>();
         }
 
         #region ITagEditorModel
@@ -148,7 +148,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <summary>
         /// Collection of tags suggested for page tagging.
         /// </summary>
-        public KnownTagsSource<SelectableTagModel> TagSuggestions { get; }
+        public KnownTagsSource<FilterableTagModel> TagSuggestions { get; }
 
         /// <summary>
         /// Get a collection of scopes available for tagging
@@ -178,7 +178,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                                   where !TagSuggestions.ContainsKey(t.Key)
                                         && !t.Key.EndsWith(Properties.Settings.Default.ImportOneNoteTagMarker)
                                         && !t.Key.EndsWith(Properties.Settings.Default.ImportHashtagMarker)
-                                  select new SelectableTagModel() { TagName = t.TagName });
+                                  select new FilterableTagModel() { TagName = t.TagName });
             TagSuggestions.Save();
 
             // covert scope to context
