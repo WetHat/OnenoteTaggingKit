@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Windows;
 
 namespace WetHatLab.OneNote.TaggingKit.common.ui
@@ -61,22 +59,6 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             }
         }
 
-        Visibility _tagVisibility = Visibility.Visible;
-        /// <summary>
-        /// The visibility of the tag.
-        /// </summary>
-        /// <remarks>This value is typically computed by
-        /// <see cref="ComputeTagVisibility"/></remarks>
-        public Visibility TagVisibility {
-            get => _tagVisibility;
-            private set {
-                if (_tagVisibility != value) {
-                    _tagVisibility = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
         /// <summary>
         /// Compute the visibility based on changes to the <see cref="IsSelected"/>
         /// and/or <see cref="HighlightedTagName"/> property.
@@ -84,26 +66,6 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         protected virtual Visibility ComputeTagVisibility() {
             return IsSelected || (Highlighter.SplitPattern != null && !HasHighlights) ?
                 Visibility.Collapsed : Visibility.Visible;
-        }
-
-        string _tagIndicator = string.Empty;
-        /// <summary>
-        /// Get/set the tag indicator.
-        /// </summary>
-        /// <remarks>
-        ///     The indicator string is displayed after the tag name and is
-        ///     expected to be composed of characters from the 'Segoe UI Symbol'
-        ///     font family. Indicator strings are supposed to provide meta
-        ///     information for the tag.
-        /// </remarks>
-        public string TagIndicator {
-            get => _tagIndicator;
-            set {
-                if (!_tagIndicator.Equals(value)) {
-                    _tagIndicator = value;
-                    RaisePropertyChanged();
-                }
-            }
         }
 
         /// <summary>
@@ -154,11 +116,6 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                        && (htn.Count == 1
                            || (htn.Count == 2 && IsImported));
             }
-        }
-        /// <summary>
-        /// Create a new instance of a data context for selectable tags.
-        /// </summary>
-        public FilterableTagModel() {
         }
     }
 }

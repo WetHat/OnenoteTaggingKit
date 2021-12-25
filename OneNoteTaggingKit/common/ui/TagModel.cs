@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Windows;
 
 namespace WetHatLab.OneNote.TaggingKit.common.ui
@@ -28,6 +27,42 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 _tagName = value;
                 SortKey = new TagModelKey(value);
                 RaisePropertyChanged();
+            }
+        }
+
+        Visibility _tagVisibility = Visibility.Visible;
+        /// <summary>
+        /// The visibility of the tag.
+        /// </summary>
+        /// <remarks>This value is typically computed by
+        /// <see cref="ComputeTagVisibility"/></remarks>
+        public Visibility TagVisibility {
+            get => _tagVisibility;
+            protected set {
+                if (_tagVisibility != value) {
+                    _tagVisibility = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        string _tagIndicator = string.Empty;
+        /// <summary>
+        /// Get/set the tag indicator.
+        /// </summary>
+        /// <remarks>
+        ///     The indicator string is displayed after the tag name and is
+        ///     expected to be composed of characters from the 'Segoe UI Symbol'
+        ///     font family. Indicator strings are intended to provide meta
+        ///     information for the tag.
+        /// </remarks>
+        public string TagIndicator {
+            get => _tagIndicator;
+            set {
+                if (!_tagIndicator.Equals(value)) {
+                    _tagIndicator = value;
+                    RaisePropertyChanged();
+                }
             }
         }
         /// <summary>
