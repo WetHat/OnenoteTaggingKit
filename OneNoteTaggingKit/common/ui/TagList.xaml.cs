@@ -70,7 +70,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                     // by simulating a change event
                     tl.OnTagSourceContentChanged(tl,
                                  new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add,
-                                                                      tl.TagSource.ToTagList()));
+                                                                      tl.TagSource.ToTagList(),0));
                 }
             }
         }
@@ -93,7 +93,6 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                         if (ctx != null) {
                             tagControl.DataContext = ctx;
                         }
-
                         tagsPanel.Children.Insert(i + e.NewStartingIndex, tagControl);
                     }
                     break;
