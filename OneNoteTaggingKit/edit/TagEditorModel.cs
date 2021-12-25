@@ -6,13 +6,15 @@ using System.Runtime.InteropServices;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.Tagger;
-using System;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
     /// <summary>
     /// Contract used by the tag editor view model
     /// </summary>
+    /// <remarks>
+    /// Promarily used to implement the designer model.
+    /// </remarks>
     /// <seealso cref="WetHatLab.OneNote.TaggingKit.edit.TagEditor" />
     internal interface ITagEditorModel
     {
@@ -26,10 +28,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// </summary>
         KnownTagsSource<SelectableTagModel> TagSuggestions { get; }
         /// <summary>
-        /// Get the enumeration of tagging scopes
+        /// Get the enumeration of tagging scopes.
         /// </summary>
         IEnumerable<TaggingScopeDescriptor> TaggingScopes { get; }
 
+        TagsAndPages ContextTagCollection { get; }
         int ScopeIndex { get; }
 
         bool ScopesEnabled { get; }
@@ -78,22 +81,18 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     }
 
     /// <summary>
-    /// View Model to support the tag editor dialog.
+    /// View Model to support the tag editor dialog <see cref="TagEditor"/>.
     /// </summary>
     /// <remarks>
     /// Maintains data models for:
     /// <list type="bullet">
-    /// <item>Tags selection</item>
-    /// <item>suggested tags</item>
+    ///     <item>Tags selection</item>
+    ///     <item>Suggested tags</item>
     /// </list>
     /// </remarks>
     [ComVisible(false)]
     public class TagEditorModel : WindowViewModelBase, ITagEditorModel
     {
-        private ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> _pageTags = new ObservableSortedList<TagModelKey, string, SimpleTagButtonModel>();
-
-        private readonly TaggingScopeDescriptor[] _taggingScopes;
-
         /// <summary>
         /// Get or set the tagging scope.
         /// </summary>
@@ -106,34 +105,55 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <seealso cref="Scope" />
         /// </summary>
         public int ScopeIndex {
-            get {
-                return (int)Scope;
-            }
-            set {
-                Scope = (TaggingScope)value;
-            }
+            get => (int)Scope;
+            set => Scope=(TaggingScope)value;
         }
 
         /// <summary>
         /// Determine if the tagging scope can be changed by the user.
         /// </summary>
-        [DefaultValue(true)]
-        public bool ScopesEnabled {
-            get {
-                return Scope != TaggingScope.SelectedNotes || PagesToTag == null;
-            }
-        }
+        public bool ScopesEnabled => Scope != TaggingScope.SelectedNotes || PagesToTag == null;
 
         /// <summary>
         /// Collection of OneNote page IDs for tagging.
         /// </summary>
         [DefaultValue(null)]
         public IEnumerable<string> PagesToTag {
-            get { return ContextTagCollection.SelectedPages; }
-            set {
-                ContextTagCollection.SelectedPages = value;
-            }
+            get => ContextTagCollection.SelectedPages;
+            set => ContextTagCollection.SelectedPages = value;
         }
+
+        /// <summary>
+        /// Create a new view model for the <see cref="TagEditor"/> dialog.
+        /// </summary>
+        /// <param name="onenote">The OneNote proxy object</param>
+        public TagEditorModel(OneNoteProxy onenote) : base(onenote) {
+            TaggingScopes = new TaggingScopeDescriptor[] {
+                new TaggingScopeDescriptor(TaggingScope.CurrentNote,Properties.Resources.TagEditor_ComboBox_Scope_CurrentNote),
+                new TaggingScopeDescriptor(TaggingScope.SelectedNotes,Properties.Resources.TagEditor_ComboBox_Scope_SelectedNotes),
+                new TaggingScopeDescriptor(TaggingScope.CurrentSection,Properties.Resources.TagEditor_ComboBox_Scope_CurrentSection),
+            };
+            TagSuggestions = new KnownTagsSource<SelectableTagModel>();
+        }
+
+        #region ITagEditorModel
+
+        /// <summary>
+        /// Get the collection of tags that will be used for tagging one or more
+        /// OneNote pages.
+        /// </summary>
+        public ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> PageTags { get; }
+            = new ObservableSortedList<TagModelKey, string, SimpleTagButtonModel>();
+
+        /// <summary>
+        /// Collection of tags suggested for page tagging.
+        /// </summary>
+        public KnownTagsSource<SelectableTagModel> TagSuggestions { get; }
+
+        /// <summary>
+        /// Get a collection of scopes available for tagging
+        /// </summary>
+        public IEnumerable<TaggingScopeDescriptor> TaggingScopes { get; }
 
         TagsAndPages _contextTags;
         /// <summary>
@@ -150,41 +170,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
         }
 
-        internal TagEditorModel(OneNoteProxy onenote) : base(onenote) {
-            _taggingScopes = new TaggingScopeDescriptor[] {
-               new TaggingScopeDescriptor(TaggingScope.CurrentNote,Properties.Resources.TagEditor_ComboBox_Scope_CurrentNote),
-               new TaggingScopeDescriptor(TaggingScope.SelectedNotes,Properties.Resources.TagEditor_ComboBox_Scope_SelectedNotes),
-               new TaggingScopeDescriptor(TaggingScope.CurrentSection,Properties.Resources.TagEditor_ComboBox_Scope_CurrentSection),
-            };
-            TagSuggestions = new KnownTagsSource<SelectableTagModel>();
-        }
-
-        #region ITagEditorModel
-
-        /// <summary>
-        /// Get the collection of tags for tagging one or more OneNote pages.
-        /// </summary>
-        public ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> PageTags {
-            get { return _pageTags; }
-        }
-
-        /// <summary>
-        /// Collection of tags suggested for page tagging.
-        /// </summary>
-        public KnownTagsSource<SelectableTagModel> TagSuggestions { get; }
-
-        /// <summary>
-        /// Get a collection of scopes available for tagging
-        /// </summary>
-        public IEnumerable<TaggingScopeDescriptor> TaggingScopes {
-            get { return _taggingScopes; }
-        }
-
         #endregion ITagEditorModel
 
         internal int EnqueuePagesForTagging(TagOperation op) {
             // bring suggestions up-to-date with new tags that may have been entered
-            TagSuggestions.AddAll(from t in _pageTags
+            TagSuggestions.AddAll(from t in PageTags
                                   where !TagSuggestions.ContainsKey(t.Key)
                                         && !t.Key.EndsWith(Properties.Settings.Default.ImportOneNoteTagMarker)
                                         && !t.Key.EndsWith(Properties.Settings.Default.ImportHashtagMarker)
@@ -219,7 +209,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
 
             int enqueuedPages = 0;
-            string[] pageTags = (from t in _pageTags.Values select t.TagName).ToArray();
+            string[] pageTags = (from t in PageTags.Values select t.TagName).ToArray();
             foreach (string pageID in pageIDs) {
                 OneNoteApp.TaggingService.Add(new TaggingJob(pageID, pageTags, op));
                 enqueuedPages++;
@@ -228,10 +218,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             TraceLogger.Flush();
             return enqueuedPages;
         }
-
+        #region IDisposable
         public override void Dispose() {
             base.Dispose();
             TagSuggestions.Dispose();
         }
+        #endregion IDisposable
     }
 }

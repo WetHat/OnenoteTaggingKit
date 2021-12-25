@@ -35,11 +35,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <summary>
         /// Get the index of the selected tagging scope.
         /// </summary>
-        public int ScopeIndex {
-            get {
-                return (int)TaggingScope.CurrentNote;
-            }
-        }
+        public int ScopeIndex => (int)TaggingScope.CurrentNote;
 
         /// <summary>
         /// Determine if the tagging scope can be changed.
@@ -58,5 +54,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
 
         public KnownTagsSource<SelectableTagModel> TagSuggestions => _suggestedTags;
+
+        public TagsAndPages ContextTagCollection => new TagsAndPages(null);
     }
 }
