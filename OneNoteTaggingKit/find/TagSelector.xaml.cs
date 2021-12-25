@@ -23,7 +23,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private void OnDatacontextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            TagSelectorModel oldMdl = e.NewValue as TagSelectorModel;
+            TagSelectorModel oldMdl = e.OldValue as TagSelectorModel;
             if (oldMdl != null)
             {
                 oldMdl.PropertyChanged -= mdl_PropertyChanged;
