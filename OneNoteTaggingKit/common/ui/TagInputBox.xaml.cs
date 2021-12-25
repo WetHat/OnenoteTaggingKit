@@ -13,7 +13,7 @@ using System.Windows.Media;
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
     /// <summary>
-    /// Capture input of one or more tags separated by comma ','
+    /// An input control for a comma separated list of tag names.
     /// </summary>
     [ComVisible(false)]
     public partial class TagInputBox : UserControl
@@ -31,46 +31,51 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             add { AddHandler(TagInputEvent, value); }
             remove { RemoveHandler(TagInputEvent, value); }
         }
+        #region ContextTagsSourceProperty
+        /// <summary>
+        /// Backing store for the context tags source property <see cref="ContextTagsSource"/>
+        /// </summary>
+        public static readonly DependencyProperty ContextTagsSourceProperty = DependencyProperty.Register(
+            nameof(ContextTagsSource),
+            typeof(TagsAndPages),
+            typeof(TagInputBox),
+            new PropertyMetadata(OnContextTagSourceChanged));
 
         /// <summary>
-        /// Dependency property for the context tags source
+        /// Get or set a collection which provides page tags from
+        /// a OneNote context.
         /// </summary>
-        public static readonly DependencyProperty ContextTagsSourceProperty = DependencyProperty.Register("ContextTagsSource", typeof(TagsAndPages), typeof(TagInputBox), new PropertyMetadata(OnContextTagSourceChanged));
+        public TagsAndPages ContextTagsSource {
+            get => GetValue(ContextTagsSourceProperty) as TagsAndPages;
+            set => SetValue(ContextTagsSourceProperty, value);
+        }
 
         private static void OnContextTagSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            TagInputBox ib = d as TagInputBox;
-            if (ib != null)
-            {
+            if (d is TagInputBox ib) {
                 ib.presetsMenu.Visibility = e.NewValue != null ? Visibility.Visible : Visibility.Collapsed;
             }
         }
+        #endregion ContextTagsSourceProperty
+        #region IncludeMappedTagsProperty
+        /// <summary>
+        /// Backing store for the <see cref="IncludeMappedTags"/> property.
+        /// </summary>
+        public static readonly DependencyProperty IncludeMappedTagsProperty = DependencyProperty.Register(
+            nameof(IncludeMappedTags),
+            typeof(bool),
+            typeof(TagInputBox),
+            new PropertyMetadata(false));
 
         /// <summary>
-        /// Dependency property for the handling of mapped page tags.
+        /// Get/set a flag to include or exclude mapped (imported) page tags
+        /// found in the <see cref="ContextTagsSource"/>.
         /// </summary>
-        public static readonly DependencyProperty IncludeMappedTagsProperty = DependencyProperty.Register("IncludeMappedTags", typeof(bool), typeof(TagInputBox),new PropertyMetadata(false));
-
-        /// <summary>
-        /// Get or set a collection which provides tags from a OneNote context.
-        /// </summary>
-        public TagsAndPages ContextTagsSource {
-            get {
-                return GetValue(ContextTagsSourceProperty) as TagsAndPages;
-            }
-            set {
-                SetValue(ContextTagsSourceProperty, value);
-            }
-        }
-
         public bool IncludeMappedTags {
-            get {
-                return (bool)GetValue(IncludeMappedTagsProperty);
-            }
-            set {
-                SetValue(IncludeMappedTagsProperty, value);
-            }
+            get => (bool)GetValue(IncludeMappedTagsProperty);
+            set => SetValue(IncludeMappedTagsProperty, value);
         }
+        #endregion IncludeMappedTagsProperty
 
         DateTime _lastInput;
         void InputTimer_Tick(object sender, EventArgs e) {
@@ -96,20 +101,17 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// Check if the tag input is empty
         /// </summary>
         /// <value>true if no input is available; false otherwise</value>
-        internal bool IsEmpty
+        public bool IsEmpty => string.IsNullOrEmpty(tagInput.Text);
+        /// <summary>
+        /// Get/set the list of tag names.
+        /// </summary>
+        /// <remarks>
+        ///     The tag names are displayed as comma separated list in the
+        ///     input box.
+        /// </remarks>
+        public IEnumerable<string> Tags
         {
-            get
-            {
-                return string.IsNullOrEmpty(tagInput.Text);
-            }
-        }
-
-        internal IEnumerable<string> Tags
-        {
-            get
-            {
-                return  OneNotePageProxy.ParseTags(tagInput.Text);
-            }
+            get => OneNotePageProxy.ParseTags(tagInput.Text);
             set
             {
                 tagInput.Text = string.Join(",", value);
@@ -118,11 +120,15 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             }
         }
 
-        internal bool FocusInput()
-        {
-            return tagInput.Focus();
-        }
+        /// <summary>
+        /// Set focus on the tag input box.
+        /// </summary>
+        /// <returns></returns>
+        public bool FocusInput() => tagInput.Focus();
 
+        /// <summary>
+        /// Clear any tag input and raise the TagInput event.
+        /// </summary>
         internal void Clear()
         {
             tagInput.Text = String.Empty;
@@ -203,8 +209,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         {
             try
             {
-                if (ContextTagsSource == null)
-                {
+                if (ContextTagsSource == null) {
                     return;
                 }
 
