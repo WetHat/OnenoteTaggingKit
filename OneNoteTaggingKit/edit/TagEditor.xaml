@@ -6,6 +6,7 @@
         xmlns:prop="clr-namespace:WetHatLab.OneNote.TaggingKit.Properties"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:TagEditorDesignerModel}}"
         xmlns:TaggingKit="clr-namespace:WetHatLab.OneNote.TaggingKit"
         x:Class="WetHatLab.OneNote.TaggingKit.edit.TagEditor"
         Height="{Binding Source={x:Static prop:Settings.Default},Path=TagEditorWindow_Height,Mode=TwoWay}"
@@ -18,7 +19,6 @@
         Name="tagEditorWindow"
         mc:Ignorable="d"
         ShowInTaskbar="True"
-        d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:TagEditorDesignerModel}}"
         WindowStyle="ThreeDBorderWindow"
         Title="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Window_Title}}"
         Icon="/OneNoteTaggingKit;component/Resources/tag128x128.png"
@@ -155,18 +155,20 @@
                          ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Tooltip}}"
                          ContextTagsSource="{Binding ContextTagCollection}"
                          TagInput="TagInputBox_Input" />
-        <cui:HighlightedTagsPanel Grid.Row="3"
-                                  x:Name="suggestedTags"
-                                  Margin="5,0,5,0"
-                                  Background="Transparent"
-                                  TagSource="{Binding TagSuggestions,Mode=OneWay}"
-                                  Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Suggestions_GroupBox_Title}}">
-            <cui:HighlightedTagsPanel.TagTemplate>
+        <cui:TagList Grid.Row="3"
+                    x:Name="suggestedTags"
+                    Margin="5,0,5,0"
+                    Background="Transparent"
+                    TagSource="{Binding Path=TagSuggestions,Mode=OneWay}"
+                    Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Suggestions_GroupBox_Title}}">
+            <cui:TagList.TagTemplate>
                 <DataTemplate>
-                    <local:HitHighlightedTagButton Margin="0,5,5,0" TagInput = "SuggestedTagButton_Click" />
+                    <cui:SelectableTag Margin="0,5,5,0"
+                                       TagSelected="SelectableTag_TagSelected"
+                                       ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_HithighlightedTag_Button_Tooltip}}"/>
                 </DataTemplate>
-            </cui:HighlightedTagsPanel.TagTemplate>
-        </cui:HighlightedTagsPanel>
+            </cui:TagList.TagTemplate>
+        </cui:TagList>
         <Button Grid.Row="3"
                 Width="26"
                 Background="Transparent"

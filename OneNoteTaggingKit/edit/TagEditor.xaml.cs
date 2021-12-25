@@ -1,20 +1,17 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.Tagger;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
-    internal delegate HitHighlightedTagButton TagButtonFactory(object dataContext);
-
     /// <summary>
     /// The <i>Tag Editor</i> dialog.
     /// </summary>
@@ -41,7 +38,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
             set {
                 _model = value;
-                _model.TagSuggestions = new SuggestedTagsSource<HitHighlightedTagButtonModel>();
                 DataContext = _model;
             }
         }
@@ -58,9 +54,9 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                         var names = new string[] { mdl.TagName };
                         _model.PageTags.RemoveAll(names);
                         // suggest that tag again
-                        HitHighlightedTagButtonModel tbm;
-                        if (_model.TagSuggestions.TryGetValue(mdl.TagName, out tbm)) {
-                            tbm.IsSuggested = true;
+                        SelectableTagModel stm;
+                        if (_model.TagSuggestions.TryGetValue(mdl.TagName, out stm)) {
+                            stm.IsSelected = false;
                         }
                     }
                 }
@@ -106,22 +102,23 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private async void Window_Loaded(object sender, RoutedEventArgs e) {
             tagInput.FocusInput();
             if (_model != null) {
-                await _model.TagSuggestions.LoadSuggestedTagsAsync().ContinueWith((x) => { pBar.Visibility = System.Windows.Visibility.Hidden; }, TaskScheduler.FromCurrentSynchronizationContext());
+                await _model.TagSuggestions.LoadKnownTagsAsync().ContinueWith((x) => { pBar.Visibility = System.Windows.Visibility.Hidden; }, TaskScheduler.FromCurrentSynchronizationContext());
             }
         }
 
-        private void editTags_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+        private void editTags_Closing(object sender, CancelEventArgs e) {
             Properties.Settings.Default.Save();
+            _model.Dispose();
             Trace.Flush();
         }
 
         private void ClearTagsButton_Click(object sender, RoutedEventArgs e) {
             if (_model != null) {
                 // suggest all tags again
-                foreach (var mdl in from ts in _model.TagSuggestions
-                                    where !ts.IsSuggested
+                foreach (var mdl in from SelectableTagModel ts in _model.TagSuggestions
+                                    where ts.IsSelected
                                     select ts) {
-                    mdl.IsSuggested = true;
+                    mdl.IsSelected = false;
                 }
                 _model.PageTags.Clear();
                 tagInput.FocusInput();
@@ -135,7 +132,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 if (e.TagInputComplete) {
                     if (tagInput.IsEmpty) {
                         // make sure highlighting is uptodate
-                        suggestedTags.Highlighter = new TextSplitter();
+                        _model.TagSuggestions.Highlighter = new TextSplitter();
                     }
                     selectMatchingTags();
                     // create new tags
@@ -155,12 +152,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                             RemoveTagsFromPageButton_Click(e.Source, e);
                             break;
                         case TagInputEventArgs.TaggingAction.Clear:
-                            suggestedTags.Highlighter = new TextSplitter();
+                            _model.TagSuggestions.Highlighter = new TextSplitter();
                             ClearTagsButton_Click(e.Source, e);
                             break;
                     }
                 } else {
-                    suggestedTags.Highlighter = new TextSplitter(e.Tags);
+                    _model.TagSuggestions.Highlighter = new TextSplitter(e.Tags);
                 }
                 if (sender is TagInputBox) {
                     tagInput.FocusInput();
@@ -184,7 +181,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                     taggingScope.SelectedIndex = 0;
                 }
                 tagInput.Clear();
-                suggestedTags.Highlighter = new TextSplitter();
+                _model.TagSuggestions.Highlighter = new TextSplitter();
                 suggestedTags.Notification = pagesTagged == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_TaggingInProgress, pagesTagged);
             } catch (Exception xe) {
                 TraceLogger.Log(TraceCategory.Error(), "Applying tags to page failed: {0}", xe);
@@ -193,28 +190,25 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
 
         void selectMatchingTags() {
-            SimpleTagButtonModel _select_tag(HitHighlightedTagButtonModel mdl) {
-                mdl.IsSuggested = false;
+            SimpleTagButtonModel _select_tag(SelectableTagModel mdl) {
+                mdl.IsSelected = true;
                 return new SimpleTagButtonModel(mdl.TagName);
             }
             _model.PageTags.AddAll(from t in _model.TagSuggestions.Values
-                                   where t.IsFullMatch && t.IsSuggested
+                                   where t.IsFullMatch && !t.IsSelected
                                    select _select_tag(t));
         }
         private void SelectMatchingTagsButton_Click(object sender, RoutedEventArgs e) {
             selectMatchingTags();
         }
 
-        private void SuggestedTagButton_Click(object sender, TagInputEventArgs e) {
-            HitHighlightedTagButton btn = sender as HitHighlightedTagButton;
-            HitHighlightedTagButtonModel mdl = btn.DataContext as HitHighlightedTagButtonModel;
-            if (mdl != null) {
-                mdl.IsSuggested = false;
-                if (!_model.PageTags.ContainsKey(mdl.TagName)) {
+        private void SelectableTag_TagSelected(object sender, RoutedEventArgs e) {
+            var btn = sender as SelectableTag;
+            if (btn.DataContext is SelectableTagModel mdl) {
+                if (mdl.IsSelected && !_model.PageTags.ContainsKey(mdl.TagName)) {
                     _model.PageTags.AddAll(new SimpleTagButtonModel[] { new SimpleTagButtonModel(mdl.TagName) });
                 }
             }
-
         }
     }
 }

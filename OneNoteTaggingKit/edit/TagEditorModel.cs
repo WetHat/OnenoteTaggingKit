@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.Tagger;
+using System;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
@@ -20,6 +21,10 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// </summary>
         ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> PageTags { get; }
 
+        /// <summary>
+        /// Collection of tags suggested for page tagging.
+        /// </summary>
+        KnownTagsSource<SelectableTagModel> TagSuggestions { get; }
         /// <summary>
         /// Get the enumeration of tagging scopes
         /// </summary>
@@ -90,15 +95,10 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private readonly TaggingScopeDescriptor[] _taggingScopes;
 
         /// <summary>
-        /// Collection of tags suggested for page tagging.
-        /// </summary>
-        public SuggestedTagsSource<HitHighlightedTagButtonModel> TagSuggestions { get; internal set; }
-
-        /// <summary>
         /// Get or set the tagging scope.
         /// </summary>
         [DefaultValue(TaggingScope.CurrentNote)]
-        internal TaggingScope Scope { get; set; }
+        public TaggingScope Scope { get; set; }
 
         /// <summary>
         /// Get or set the index of the selected tagging scope.
@@ -156,6 +156,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                new TaggingScopeDescriptor(TaggingScope.SelectedNotes,Properties.Resources.TagEditor_ComboBox_Scope_SelectedNotes),
                new TaggingScopeDescriptor(TaggingScope.CurrentSection,Properties.Resources.TagEditor_ComboBox_Scope_CurrentSection),
             };
+            TagSuggestions = new KnownTagsSource<SelectableTagModel>();
         }
 
         #region ITagEditorModel
@@ -166,6 +167,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         public ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> PageTags {
             get { return _pageTags; }
         }
+
+        /// <summary>
+        /// Collection of tags suggested for page tagging.
+        /// </summary>
+        public KnownTagsSource<SelectableTagModel> TagSuggestions { get; }
 
         /// <summary>
         /// Get a collection of scopes available for tagging
@@ -182,7 +188,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                                   where !TagSuggestions.ContainsKey(t.Key)
                                         && !t.Key.EndsWith(Properties.Settings.Default.ImportOneNoteTagMarker)
                                         && !t.Key.EndsWith(Properties.Settings.Default.ImportHashtagMarker)
-                                  select new HitHighlightedTagButtonModel() { TagName = t.TagName });
+                                  select new SelectableTagModel() { TagName = t.TagName });
             TagSuggestions.Save();
 
             // covert scope to context
@@ -221,6 +227,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             TraceLogger.Log(TraceCategory.Info(), "{0} page(s) enqueued for tagging with '{1}' using {2}", enqueuedPages, string.Join(";", pageTags), op);
             TraceLogger.Flush();
             return enqueuedPages;
+        }
+
+        public override void Dispose() {
+            base.Dispose();
+            TagSuggestions.Dispose();
         }
     }
 }
