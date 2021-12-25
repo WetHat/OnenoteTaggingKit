@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="WetHatLab.OneNote.TaggingKit.common.ui.SelectableTag"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:SelectableTagDesignerModel}}"
+             xmlns:local="clr-namespace:WetHatLab.OneNote.TaggingKit.common.ui"
+             mc:Ignorable="d"
+             Visibility="{Binding TagVisibility, Mode=OneWay}"
+             DataContextChanged="OnDataContextChanged"
+             x:Name="self">
+    <ToggleButton Name="tagBtn"
+                  Background="White"
+                  IsChecked="{Binding Path=IsSelected}"
+                  Checked="tagBtn_Checked"
+                  Focusable="{Binding ElementName=self,Path=Focusable, Mode=OneWay}"
+                  BorderBrush="LightBlue"
+                  BorderThickness="2">
+        <ToggleButton.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="3"/>
+            </Style>
+        </ToggleButton.Resources>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Name="tagName"
+                       VerticalAlignment="Bottom"
+                       Foreground="DarkSlateBlue"
+                       FontWeight="Bold"
+                       Focusable="False"/>
+            <TextBlock x:Name="tagIndicator"
+                       VerticalAlignment="Bottom"
+                       Background="Transparent"
+                       Foreground="Red"
+                       Focusable="False"
+                       FontFamily="Segoe UI Symbol"
+                       Text="{Binding TagIndicator}" />
+        </StackPanel>
+    </ToggleButton>
+</UserControl>
