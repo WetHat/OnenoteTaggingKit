@@ -38,9 +38,6 @@ namespace WetHatLab.OneNote.TaggingKit
         public ConnectTaggingKitAddin() {
             // Upgrade Settings if necessary. On new version the UpdateRequired flag is
             // reset to default (true)
-            if (Properties.Settings.Default.CustomPresets == null) {
-                Properties.Settings.Default.CustomPresets = new StringDictionary();
-            }
             if (Properties.Settings.Default.UpdateRequired) {
                 Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.UpdateRequired = false;
