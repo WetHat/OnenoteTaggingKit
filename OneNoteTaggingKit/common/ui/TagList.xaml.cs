@@ -97,9 +97,6 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                     int oldItemCount = e.OldItems.Count;
                     for (int i = 0; i < oldItemCount; i++) {
                         var ctrl = tagsPanel.Children[i] as FrameworkElement;
-                        if (ctrl != null) {
-                            ctrl.DataContext = null;
-                        }
                         tagsPanel.Children.RemoveAt(e.OldStartingIndex);
                     }
                     break;
