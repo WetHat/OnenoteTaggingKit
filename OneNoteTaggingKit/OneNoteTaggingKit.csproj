@@ -85,6 +85,10 @@
     <Compile Include="common\ObservableSortedList.cs" />
     <Compile Include="common\OneNotePageProxy.cs" />
     <Compile Include="common\SuggestedTagsSource.cs" />
+    <Compile Include="common\ui\SelectedTagModel.cs" />
+    <Compile Include="common\ui\Tag.xaml.cs">
+      <DependentUpon>Tag.xaml</DependentUpon>
+    </Compile>
     <Compile Include="common\TagFormatter.cs" />
     <Compile Include="common\TagInputEvent.cs" />
     <Compile Include="common\TagsAndPages.cs" />
@@ -115,13 +119,6 @@
     <Compile Include="common\ui\ViewModelBase.cs" />
     <Compile Include="common\ui\WindowViewModelBase.cs" />
     <Compile Include="COMReadonlyStreamAdapter.cs" />
-    <Compile Include="edit\SimpleTagButton.xaml.cs">
-      <DependentUpon>SimpleTagButton.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="edit\SimpleTagButtonModel.cs" />
-    <Compile Include="edit\SimpleTagsPanel.xaml.cs">
-      <DependentUpon>SimpleTagsPanel.xaml</DependentUpon>
-    </Compile>
     <Compile Include="edit\TagEditor.xaml.cs">
       <DependentUpon>TagEditor.xaml</DependentUpon>
     </Compile>
@@ -257,6 +254,10 @@
     <Resource Include="Resources\tagSearch 32x32.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="common\ui\Tag.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="common\ui\FilterableTag.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -274,14 +275,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="common\ui\TagInputBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="edit\SimpleTagButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="edit\SimpleTagsPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

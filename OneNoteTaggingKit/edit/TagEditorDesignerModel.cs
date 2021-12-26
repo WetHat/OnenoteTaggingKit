@@ -10,7 +10,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     /// </summary>
     public class TagEditorDesignerModel : ITagEditorModel
     {
-        private ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> _pageTags = new ObservableSortedList<TagModelKey, string, SimpleTagButtonModel>();
+        private ObservableTagList<SelectedTagModel> _pageTags = new ObservableTagList<SelectedTagModel>();
         private KnownTagsSource<FilterableTagModel> _suggestedTags = new KnownTagsSource<FilterableTagModel>();
 
         /// <summary>
@@ -22,15 +22,20 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 new FilterableTagModel() { TagName="Suggested Tag 2"}
             });
 
-            _pageTags.AddAll(new SimpleTagButtonModel[] { new SimpleTagButtonModel("tag 1"), new SimpleTagButtonModel("tag 2") });
+            _pageTags.AddAll(new SelectedTagModel[] {
+                new SelectedTagModel() {
+                    TagName = "tag 1"
+                },
+                new SelectedTagModel() {
+                    TagName = "tag 2"
+                }
+            });
         }
 
         /// <summary>
         /// get the collection of page tags.
         /// </summary>
-        public ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> PageTags {
-            get { return _pageTags; }
-        }
+        public ObservableTagList<SelectedTagModel> SelectedTags => _pageTags;
 
         /// <summary>
         /// Get the index of the selected tagging scope.

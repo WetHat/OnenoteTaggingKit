@@ -21,7 +21,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// <summary>
         /// Get the collection of tags to apply to one or more OneNote pages.
         /// </summary>
-        ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> PageTags { get; }
+        ObservableTagList<SelectedTagModel> SelectedTags { get; }
 
         /// <summary>
         /// Collection of tags suggested for page tagging.
@@ -142,8 +142,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// Get the collection of tags that will be used for tagging one or more
         /// OneNote pages.
         /// </summary>
-        public ObservableSortedList<TagModelKey, string, SimpleTagButtonModel> PageTags { get; }
-            = new ObservableSortedList<TagModelKey, string, SimpleTagButtonModel>();
+        public ObservableTagList<SelectedTagModel> SelectedTags { get; } = new ObservableTagList<SelectedTagModel>();
 
         /// <summary>
         /// Collection of tags suggested for page tagging.
@@ -174,10 +173,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         internal int EnqueuePagesForTagging(TagOperation op) {
             // bring suggestions up-to-date with new tags that may have been entered
-            TagSuggestions.AddAll(from t in PageTags
-                                  where !TagSuggestions.ContainsKey(t.Key)
-                                        && !t.Key.EndsWith(Properties.Settings.Default.ImportOneNoteTagMarker)
-                                        && !t.Key.EndsWith(Properties.Settings.Default.ImportHashtagMarker)
+            TagSuggestions.AddAll(from t in SelectedTags.Values
+                                  where t.SelectableTag == null
                                   select new FilterableTagModel() { TagName = t.TagName });
             TagSuggestions.Save();
 
@@ -209,7 +206,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
 
             int enqueuedPages = 0;
-            string[] pageTags = (from t in PageTags.Values select t.TagName).ToArray();
+            string[] pageTags = (from t in SelectedTags.Values select t.TagName).ToArray();
             foreach (string pageID in pageIDs) {
                 OneNoteApp.TaggingService.Add(new TaggingJob(pageID, pageTags, op));
                 enqueuedPages++;
@@ -219,9 +216,13 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             return enqueuedPages;
         }
         #region IDisposable
+        /// <summary>
+        /// Dispose all observable tag lists.
+        /// </summary>
         public override void Dispose() {
             base.Dispose();
             TagSuggestions.Dispose();
+            SelectedTags.Dispose();
         }
         #endregion IDisposable
     }
