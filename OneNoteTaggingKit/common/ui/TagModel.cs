@@ -3,6 +3,22 @@ using System.Windows;
 
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
+
+    /// <summary>
+    /// Interface to be used by designer model.
+    /// </summary>
+    public interface ITagModel
+    {
+        /// <summary>
+        /// Get the Name of a tag.
+        /// </summary>
+        string TagName { get; }
+        /// <summary>
+        /// Get the tg indicator.
+        /// </summary>
+        string TagIndicator { get; }
+    }
+
     /// <summary>
     /// A basic data context implementation for showing tags in list views.
     /// </summary>
@@ -12,7 +28,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     ///     highlighting.
     /// </remarks>
     [ComVisible(false)]
-    public class TagModel : ViewModelBase, ISortableKeyedItem<TagModelKey, string>
+    public class TagModel : ViewModelBase, ISortableKeyedItem<TagModelKey, string>, ITagModel
     {
         string _tagName = string.Empty;
         /// <summary>

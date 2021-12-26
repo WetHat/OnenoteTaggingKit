@@ -41,6 +41,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
 
         public Tag() {
             InitializeComponent();
+            tagIndicator.FontSize = tagBtn.FontSize - 1.0;
         }
 
 
