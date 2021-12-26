@@ -101,7 +101,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// Check if the tag input is empty
         /// </summary>
         /// <value>true if no input is available; false otherwise</value>
-        public bool IsEmpty => string.IsNullOrEmpty(tagInput.Text);
+        public bool IsEmpty => string.IsNullOrWhiteSpace(tagInput.Text);
         /// <summary>
         /// Get/set the list of tag names.
         /// </summary>
