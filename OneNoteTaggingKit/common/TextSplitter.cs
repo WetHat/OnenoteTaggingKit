@@ -47,7 +47,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// </remarks>
     public class TextSplitter
     {
-        private static Regex escaper = new Regex(@"([\(\)\[\]\{\}\\\.\+\*])", RegexOptions.Compiled);
+        private static Regex escaper = new Regex(@"([\(\)\[\]\{\}\\\.\+\*\?])", RegexOptions.Compiled);
         private Regex _pattern;
 
         /// <summary>
