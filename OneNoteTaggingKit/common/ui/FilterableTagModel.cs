@@ -4,7 +4,8 @@ using System.Windows;
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
     /// <summary>
-    ///  A basic implementation of a view model for tags which can be filtered.
+    ///  A basic implementation of a view model for tags which can be filtered
+    ///  base on a pattern.
     /// </summary>
     /// <remarks>
     ///     Tag visibility is dermined by:
@@ -44,27 +45,12 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             }
         }
 
-        bool _isSelected = false;
         /// <summary>
-        /// Get/set the tag selection flag.
-        /// </summary>
-        /// <remarks>Selected tags are collapsed.</remarks>
-        public bool IsSelected {
-            get => _isSelected;
-            set {
-                _isSelected = value;
-                TagVisibility = ComputeTagVisibility();
-                TagIndicator = ComputeTagIndicator();
-                RaisePropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Compute the visibility based on changes to the <see cref="IsSelected"/>
-        /// and/or <see cref="HighlightedTagName"/> property.
+        /// Compute the visibility based on changes to the
+        /// <see cref="HighlightedTagName"/> property.
         /// </summary>
         protected virtual Visibility ComputeTagVisibility() {
-            return IsSelected || (Highlighter.SplitPattern != null && !HasHighlights) ?
+            return Highlighter.SplitPattern != null && !HasHighlights ?
                 Visibility.Collapsed : Visibility.Visible;
         }
 

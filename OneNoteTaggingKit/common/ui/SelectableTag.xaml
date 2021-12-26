@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WetHatLab.OneNote.TaggingKit.common.ui.FilterableTag"
+﻿<UserControl x:Class="WetHatLab.OneNote.TaggingKit.common.ui.SelectableTag"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"

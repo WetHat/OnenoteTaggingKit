@@ -110,7 +110,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         private void ClearTagsButton_Click(object sender, RoutedEventArgs e) {
             if (_model != null) {
                 // suggest all tags again
-                foreach (var mdl in from FilterableTagModel ts in _model.TagSuggestions
+                foreach (var mdl in from SelectableTagModel ts in _model.TagSuggestions
                                     where ts.IsSelected
                                     select ts) {
                     mdl.IsSelected = false;
@@ -194,8 +194,8 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
 
         private void SelectableTag_TagSelected(object sender, RoutedEventArgs e) {
-            var btn = sender as FilterableTag;
-            if (btn.DataContext is FilterableTagModel mdl) {
+            var btn = sender as SelectableTag;
+            if (btn.DataContext is SelectableTagModel mdl) {
                 if (mdl.IsSelected && !_model.SelectedTags.ContainsKey(mdl.TagName)) {
                     _model.SelectedTags.AddAll(new SelectedTagModel[] {
                         new SelectedTagModel() {

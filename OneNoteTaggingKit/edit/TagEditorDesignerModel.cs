@@ -11,15 +11,15 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     public class TagEditorDesignerModel : ITagEditorModel
     {
         private ObservableTagList<SelectedTagModel> _pageTags = new ObservableTagList<SelectedTagModel>();
-        private KnownTagsSource<FilterableTagModel> _suggestedTags = new KnownTagsSource<FilterableTagModel>();
+        private KnownTagsSource<SelectableTagModel> _suggestedTags = new KnownTagsSource<SelectableTagModel>();
 
         /// <summary>
         /// Create a new instance of the view model
         /// </summary>
         public TagEditorDesignerModel() {
-            _suggestedTags.AddAll(new FilterableTagModel[] {
-                new FilterableTagModel() { TagName="Suggested Tag 1"},
-                new FilterableTagModel() { TagName="Suggested Tag 2"}
+            _suggestedTags.AddAll(new SelectableTagModel[] {
+                new SelectableTagModel() { TagName="Suggested Tag 1"},
+                new SelectableTagModel() { TagName="Suggested Tag 2"}
             });
 
             _pageTags.AddAll(new SelectedTagModel[] {
@@ -58,7 +58,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             get { return new TaggingScopeDescriptor[] { new TaggingScopeDescriptor(TaggingScope.CurrentNote, "Current Note") }; }
         }
 
-        public KnownTagsSource<FilterableTagModel> TagSuggestions => _suggestedTags;
+        public KnownTagsSource<SelectableTagModel> TagSuggestions => _suggestedTags;
 
         public TagsAndPages ContextTagCollection => new TagsAndPages(null);
     }

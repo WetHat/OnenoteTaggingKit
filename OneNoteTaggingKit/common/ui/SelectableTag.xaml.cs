@@ -11,10 +11,10 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// A control to render tags which can be filtered.
     /// </summary>
     /// <remarks>
-    ///     Works with view models of class <see cref="FilterableTagModel"/>
+    ///     Works with view models of class <see cref="SelectableTagModel"/>
     ///     or its subclasses.
     /// </remarks>
-    public partial class FilterableTag : UserControl
+    public partial class SelectableTag : UserControl
     {
         #region TagSelectedEvent
         /// <summary>
@@ -24,7 +24,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             nameof(TagSelected),
             RoutingStrategy.Bubble,
             typeof(RoutedEventHandler),
-            typeof(FilterableTag));
+            typeof(SelectableTag));
 
         /// <summary>
         /// Track changes to tag (de)selection.
@@ -34,7 +34,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             remove { RemoveHandler(TagSelectedEvent, value); }
         }
         private void tagBtn_Checked(object sender, RoutedEventArgs e) {
-            var mdl = DataContext as FilterableTagModel;
+            var mdl = DataContext as SelectableTagModel;
             RaiseEvent(new TagSelectedEventArgs(TagSelectedEvent, this, mdl.IsSelected));
         }
         #endregion TagSelectedEvent
@@ -55,9 +55,9 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <param name="sender">View model that changed its state.</param>
         /// <param name="args">Event details.</param>
         void OnModelPropertyChanged(object sender, PropertyChangedEventArgs args) {
-            if (sender is FilterableTagModel stm) {
+            if (sender is SelectableTagModel stm) {
                 switch (args.PropertyName) {
-                    case nameof(FilterableTagModel.HighlightedTagName):
+                    case nameof(SelectableTagModel.HighlightedTagName):
                         UpdateTagNameHighlight(stm.HighlightedTagName);
                         break;
                 }
@@ -66,16 +66,16 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// Create a new instance of a control to provide tag selection.
         /// </summary>
-        public FilterableTag() {
+        public SelectableTag() {
             InitializeComponent();
         }
 
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {
-            if (e.OldValue is FilterableTagModel oldMdl) {
+            if (e.OldValue is SelectableTagModel oldMdl) {
                 oldMdl.Dispose();
             }
 
-            if (e.NewValue is FilterableTagModel newMdl) {
+            if (e.NewValue is SelectableTagModel newMdl) {
                 UpdateTagNameHighlight(newMdl.HighlightedTagName);
                 newMdl.PropertyChanged += OnModelPropertyChanged;
             }

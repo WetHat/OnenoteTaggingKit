@@ -85,6 +85,7 @@
     <Compile Include="common\ObservableSortedList.cs" />
     <Compile Include="common\OneNotePageProxy.cs" />
     <Compile Include="common\SuggestedTagsSource.cs" />
+    <Compile Include="common\ui\SelectableTagModel.cs" />
     <Compile Include="common\ui\SelectedTagModel.cs" />
     <Compile Include="common\ui\Tag.xaml.cs">
       <DependentUpon>Tag.xaml</DependentUpon>
@@ -97,8 +98,8 @@
     <Compile Include="common\TagSelectedEvent.cs" />
     <Compile Include="common\ObservableTagList.cs" />
     <Compile Include="common\ui\AddInWindowsContracts.cs" />
-    <Compile Include="common\ui\FilterableTag.xaml.cs">
-      <DependentUpon>FilterableTag.xaml</DependentUpon>
+    <Compile Include="common\ui\SelectableTag.xaml.cs">
+      <DependentUpon>SelectableTag.xaml</DependentUpon>
     </Compile>
     <Compile Include="common\ui\FilterableTagModel.cs" />
     <Compile Include="common\ui\TagDesignerModel.cs" />
@@ -259,7 +260,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="common\ui\FilterableTag.xaml">
+    <Page Include="common\ui\SelectableTag.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
