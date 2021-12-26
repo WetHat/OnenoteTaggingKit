@@ -10,8 +10,8 @@
                   Background="White"
                   Click="tagBtn_Click"
                   Focusable="True"
-                  BorderBrush="DarkGoldenrod"
-                  BorderThickness="2">
+                  BorderBrush="Coral"
+                  BorderThickness="1">
         <Button.Resources>
             <Style TargetType="Border">
                 <Setter Property="CornerRadius" Value="3"/>
