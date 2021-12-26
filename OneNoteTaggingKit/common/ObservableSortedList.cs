@@ -22,8 +22,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     public class ObservableSortedList<TSort, TKey, TValue> : IReadOnlyList<TValue>, INotifyCollectionChanged, IEnumerable<TValue>, IDisposable
         where TValue : ISortableKeyedItem<TSort, TKey>
         where TKey : IEquatable<TKey>, IComparable<TKey>
-        where TSort : IComparable<TSort>
-    {
+        where TSort : IComparable<TSort> {
         /// <summary>
         /// Event to notify about changes to this collection.
         /// </summary>
@@ -35,8 +34,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
         #region Comparers
         private class SimpleComparer<TSort, TValue> : IComparer<KeyValuePair<TSort, TValue>>
-                                                      where TSort : IComparable<TSort>
-        {
+                                                      where TSort : IComparable<TSort> {
             #region IComparer<KeyValuePair<TSort, TValue>>
 
             /// <summary>
@@ -55,8 +53,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
         private class Comparer<TSort, TValue> : IComparer<KeyValuePair<TSort, TValue>>
                                                 where TSort : IComparable<TSort>
-                                                where TValue : ISortableKeyedItem<TSort, TKey>
-        {
+                                                where TValue : ISortableKeyedItem<TSort, TKey> {
             #region IComparer<KeyValuePair<TSort, TValue>>
 
             /// <summary>
@@ -66,8 +63,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             /// <param name="x">First object</param>
             /// <param name="y">Second object</param>
             /// <returns>Comparison result -1,0,1 if x $lt; y; x == y; x &gt; y</returns>
-            public int Compare(KeyValuePair<TSort, TValue> x, KeyValuePair<TSort, TValue> y)
-            {
+            public int Compare(KeyValuePair<TSort, TValue> x, KeyValuePair<TSort, TValue> y) {
                 var result = x.Key.CompareTo(y.Key);
                 return result == 0 ? x.Value.Key.CompareTo(y.Value.Key) : result;
             }
@@ -80,13 +76,12 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </summary>
         public static readonly IComparer<KeyValuePair<TSort, TValue>> DefaultComparer = new Comparer<TSort, TValue>();
         static readonly IComparer<KeyValuePair<TSort, TValue>> sSimpleComparer = new SimpleComparer<TSort, TValue>();
-        static readonly IComparer<KeyValuePair<int, TValue>> sIndexComparer = new SimpleComparer<int,TValue>();
+        static readonly IComparer<KeyValuePair<int, TValue>> sIndexComparer = new SimpleComparer<int, TValue>();
 
         /// <summary>
         /// Get the number of items in the collection.
         /// </summary>
-        public int Count
-        {
+        public int Count {
             get { return _sortedList.Count; }
         }
 
@@ -104,7 +99,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             set {
                 if (_comparer != value) {
                     // save the current content
-                    List < TValue> saved = new List<TValue>(from it in _sortedList select it.Value);
+                    List<TValue> saved = new List<TValue>(from it in _sortedList select it.Value);
                     Clear();
                     _comparer = value;
                     // re-add the saved content with a new comparer
@@ -116,8 +111,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Get all items in the collection.
         /// </summary>
-        public IEnumerable<TValue> Values
-        {
+        public IEnumerable<TValue> Values {
             get { return from e in _sortedList select e.Value; }
         }
 
@@ -127,7 +121,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </summary>
         /// <param name="i">index</param>
         /// <returns>The i-th element in the list</returns>
-        public TValue this[int i]  => _sortedList[i].Value;
+        public TValue this[int i] => _sortedList[i].Value;
         #endregion IReadOnlyList<TValue>
 
         /// <summary>
@@ -135,8 +129,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </summary>
         /// <param name="key">key to check</param>
         /// <returns>true if the given item is contained in the list; false otherwise</returns>
-        public bool ContainsKey(TKey key)
-        {
+        public bool ContainsKey(TKey key) {
             return _dictionary.ContainsKey(key);
         }
 
@@ -148,7 +141,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="sortkey">the sorting key to check</param>
         /// <returns>true if the given item is contained in the list; false otherwise</returns>
         public bool ContainsSortKey(TSort sortkey) {
-           return _sortedList.BinarySearch(new KeyValuePair<TSort, TValue>(sortkey,default(TValue)), sSimpleComparer) >=0 ;
+            return _sortedList.BinarySearch(new KeyValuePair<TSort, TValue>(sortkey, default(TValue)), sSimpleComparer) >= 0;
         }
 
         /// <summary>
@@ -157,13 +150,11 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="key">key of the item</param>
         /// <param name="value">found vale or null</param>
         /// <returns>true if a value was found for the key provided</returns>
-        public bool TryGetValue(TKey key, out TValue value)
-        {
+        public bool TryGetValue(TKey key, out TValue value) {
             return _dictionary.TryGetValue(key, out value);
         }
 
-        private int IndexOfKey(TKey key)
-        {
+        private int IndexOfKey(TKey key) {
             int index = -1;
             TValue found;
             if (_dictionary.TryGetValue(key, out found)) {
@@ -175,11 +166,22 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         /// <summary>
+        /// Dispose items when they are removed from the list.
+        /// </summary>
+        /// <remarks>Only applies to items implementing IDisposavle.</remarks>
+        public bool DisposeRemovedItems { get; set; } = false;
+
+        /// <summary>
         /// Clear all items from the collection.
         /// </summary>
         /// <remarks>Notifies all listeners about the change</remarks>
         public void Clear()
         {
+            if (typeof(TValue) is IDisposable && DisposeRemovedItems) {
+                foreach (IDisposable itm in Values) {
+                    itm.Dispose();
+                }
+            }
             _sortedList.Clear();
             _dictionary.Clear();
             NotifyCollectionChangedEventArgs args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
@@ -210,6 +212,12 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
             toDelete.Sort(sIndexComparer);
 
+            // Dispose items to be removed
+            if (typeof(TValue) is IDisposable && DisposeRemovedItems) {
+                foreach (IDisposable itm in from x in toDelete select x.Value) {
+                    itm.Dispose();
+                }
+            }
             while (toDelete.Count > 0)
             {
                 LinkedList<KeyValuePair<int, TValue>> batch = new LinkedList<KeyValuePair<int, TValue>>();
