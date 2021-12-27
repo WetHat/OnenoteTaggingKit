@@ -84,7 +84,6 @@
     <Compile Include="common\ObservableDictionary.cs" />
     <Compile Include="common\ObservableSortedList.cs" />
     <Compile Include="common\OneNotePageProxy.cs" />
-    <Compile Include="common\SuggestedTagsSource.cs" />
     <Compile Include="common\ui\SelectableTagModel.cs" />
     <Compile Include="common\ui\SelectedTagModel.cs" />
     <Compile Include="common\ui\Tag.xaml.cs">
