@@ -114,7 +114,7 @@
                                   Padding="5"
                                   SelectedIndex="{Binding Source={x:Static prop:Settings.Default},Path=TagDisplay,Mode=TwoWay}"
                                   ToolTip="{Binding Mode=OneTime,
-                                                    Source={x:Static prop:Resources.TagManager_PreferencesTab_TagDisplay_Tooltip}}" SelectionChanged="ComboBox_SelectionChanged">
+                                                    Source={x:Static prop:Resources.TagManager_PreferencesTab_TagDisplay_Tooltip}}">
                             <ComboBoxItem Content="{Binding Mode=OneTime,
                                                             Source={x:Static prop:Resources.TagManager_PreferencesTab_TagDisplay_BelowTitle}}"
                                           ToolTip="{Binding Mode=OneTime,
@@ -187,19 +187,19 @@
                                 Text="✙"
                                 TextAlignment="Center" />
                 </Button>
-                <cui:HighlightedTagsPanel x:Name="suggestedTags"
-                                          Grid.Row="1"
-                                          Grid.Column="0"
-                                          Grid.ColumnSpan="2"
-                                          Header="{Binding Mode=OneTime,
-                                                           Source={x:Static prop:Resources.TagManager_SuggestedTags_Header}}"
-                                          TagSource="{Binding SuggestedTags}">
-                    <cui:HighlightedTagsPanel.TagTemplate>
+                <cui:TagList x:Name="suggestedTags"
+                             Grid.Row="1"
+                             Grid.Column="0"
+                             Grid.ColumnSpan="2"
+                             Header="{Binding Mode=OneTime,
+                                              Source={x:Static prop:Resources.TagManager_SuggestedTags_Header}}"
+                             TagSource="{Binding SuggestedTags}">
+                    <cui:TagList.TagTemplate>
                         <DataTemplate>
                             <local:RemovableTag Margin="0,5,5,0" Action="Tag_Action" />
                         </DataTemplate>
-                    </cui:HighlightedTagsPanel.TagTemplate>
-                </cui:HighlightedTagsPanel>
+                    </cui:TagList.TagTemplate>
+                </cui:TagList>
                 <Menu Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                       BorderThickness="0"
                       Margin="0,0,8,0"
@@ -250,7 +250,6 @@
                                   IsChecked="True"
                                   Tag="SortByName"
                                   Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_ContextMenu_SortByName}}"/>
-
                         <MenuItem x:Name="byUsage"
                                   Click="MenuItem_Click"
                                   IsCheckable="True"
@@ -265,6 +264,33 @@
                              Grid.ColumnSpan="2"
                              Visibility="Visible" />
             </Grid>
+        </TabItem>
+        <TabItem BorderThickness="0"
+                 Header="Custom Presets">
+            <StackPanel Orientation="Vertical">
+                <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" AllowDrop="True">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn Header="Name">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="100" Header="Refinement Tags">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="RefinementTags"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>
         </TabItem>
         <TabItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_AboutTab_Header}}">
             <RichTextBox Margin="5,5,5,0"

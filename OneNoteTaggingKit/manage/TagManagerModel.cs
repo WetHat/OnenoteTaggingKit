@@ -22,7 +22,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <summary>
         /// Get the collection of all tags used for suggestions.
         /// </summary>
-        SuggestedTagsSource<RemovableTagModel> SuggestedTags { get; }
+        KnownTagsSource<RemovableTagModel> SuggestedTags { get; }
 
         /// <summary>
         /// Get the add-in version.
@@ -57,7 +57,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             #endregion IComparer<KeyValuePair<TagModelKey, RemovableTagModel>>
         };
         private static readonly UseCountComparer sUseCountComparer = new UseCountComparer();
-        private SuggestedTagsSource<RemovableTagModel> _suggestedTags = new SuggestedTagsSource<RemovableTagModel>();
+        private KnownTagsSource<RemovableTagModel> _suggestedTags = new KnownTagsSource<RemovableTagModel>();
         private TagsAndPages _tags;
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         }
 
         internal void SortByTagName () {
-            _suggestedTags.ItemComparer = SuggestedTagsSource<RemovableTagModel>.DefaultComparer;
+            _suggestedTags.ItemComparer = KnownTagsSource<RemovableTagModel>.DefaultComparer;
         }
 
 
@@ -85,7 +85,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                 _tags.FindTaggedPages(String.Empty);
             });
             // get the known suggestions (this populates the UI)
-            await _suggestedTags.LoadSuggestedTagsAsync();
+            await _suggestedTags.LoadKnownTagsAsync();
 
             // update the tags loaded from the settings
             foreach (var t in _suggestedTags.Values) {
@@ -105,7 +105,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// This collection includes all tags used on any OneNote pages and additional tags
         /// suggestions which were added manually
         /// </remarks>
-        public SuggestedTagsSource<RemovableTagModel> SuggestedTags {
+        public KnownTagsSource<RemovableTagModel> SuggestedTags {
             get {
                 return _suggestedTags;
             }

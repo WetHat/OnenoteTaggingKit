@@ -71,11 +71,12 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                     RemovableTagModel tagmodel;
                     if (!_model.SuggestedTags.TryGetValue(newName, out tagmodel))
                     {
+                        // renamed to non-existing tag
                         tagmodel = new RemovableTagModel() { Tag = new TagPageSet(newName) };
                         newTagModels.Add(tagmodel);
                     }
                     else if (tagmodel.Tag == null && rt_mdl.Tag != null)
-                    {
+                    { // renamed to existing tag
                         tagmodel.Tag = new TagPageSet(newName);
                     }
 
@@ -119,7 +120,6 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         private void NewTagButton_Click(object sender, RoutedEventArgs e)
         {
             _model.SuggestedTags.AddAll(from t in tagInput.Tags where !_model.SuggestedTags.ContainsKey(t) select new RemovableTagModel() { Tag = new TagPageSet(TagFormatter.Format(t)) });
-            suggestedTags.Highlighter = null;
             tagInput.Clear();
             _model.SaveChanges();
             e.Handled = true;
@@ -178,7 +178,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                     case "Refresh":
                         await _model.LoadSuggestedTagsAsync();
                         if (tagInput.Tags != null) {
-                            suggestedTags.Highlighter = new TextSplitter(tagInput.Tags);
+                            _model.SuggestedTags.Highlighter = new TextSplitter(tagInput.Tags);
                         }
                         pBar.Visibility = Visibility.Hidden;
 
@@ -203,7 +203,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
 
         private void TagInputBox_Input(object sender, TagInputEventArgs e)
         {
-            suggestedTags.Highlighter = new TextSplitter(tagInput.Tags);
+            _model.SuggestedTags.Highlighter = new TextSplitter(tagInput.Tags);
             if (e.TagInputComplete && !tagInput.IsEmpty)
             {
                 NewTagButton_Click(sender, e);
@@ -230,10 +230,6 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                 await _model.LoadSuggestedTagsAsync();
                 pBar.Visibility = System.Windows.Visibility.Hidden;
             }
-        }
-
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
         }
     }
 }

@@ -1,46 +1,54 @@
-﻿<UserControl x:Class="WetHatLab.OneNote.TaggingKit.manage.RemovableTag"
+﻿<UserControl x:Name="self"
+             x:Class="WetHatLab.OneNote.TaggingKit.manage.RemovableTag"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:WetHatLab.OneNote.TaggingKit.manage"
              xmlns:prop="clr-namespace:WetHatLab.OneNote.TaggingKit.Properties"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" DataContextChanged="OnDataContextChanged"
-             Visibility="{Binding Visibility, Mode=OneWay}">
-    <Menu BorderThickness="1"
-          BorderBrush="LightBlue"
-          Background="White"
-          PreviewKeyDown="tagNameEditBox_PreviewKeyDown"
+             Visibility="{Binding TagVisibility, Mode=OneWay}">
+    <Menu BorderThickness="0"
+          BorderBrush="Red"
+          Background="Transparent"
           ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.SuggestedTag_Menu_Tooltip}}">
         <MenuItem Name="actionMenu"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
-                  Background="Transparent">
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  Background="Transparent"
+                  Padding="0">
             <MenuItem.Resources>
                 <Style TargetType="{x:Type MenuItem}">
                     <Setter Property="FontSize" Value="16" />
                     <Setter Property="BorderThickness" Value="1" />
-                    <Setter Property="BorderBrush" Value="LightBlue" />
+                    <Setter Property="BorderBrush" Value="LightGray" />
                     <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.MenuColorKey}}" />
                 </Style>
             </MenuItem.Resources>
             <MenuItem.Header>
-                <TextBlock FontSize="12"
-                           Margin="-5,0,-6,2"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" >
                     <TextBox Name="tagNameEditBox"
+                             FontSize="12"
                              Visibility="Collapsed"
                              Background="Yellow"
-                             Text="{Binding LocalName}"
-                             VerticalAlignment="Bottom"
+                             Text="{Binding Path=LocalName,Mode=OneWay}"
                              BorderThickness="0"
-                             Margin="0,0,0,-4"
-                             PreviewKeyDown="tagNameEditBox_PreviewKeyDown" /><TextBlock Name="highlighedTag"
-                                                                       Visibility="Visible"
-                                                                       Foreground="DarkSlateBlue"
-                                                                       FontWeight="Bold"
-                                                                       Text="asd" /><Run Text="(" Foreground="{Binding UseCountColor,Mode=OneWay}" /><Run Text="{Binding UseCount, Mode=OneWay}" Foreground="{Binding UseCountColor,Mode=OneWay}" /><Run Text=")" Foreground="{Binding UseCountColor,Mode=OneWay}" />
-                </TextBlock>
+                             VerticalAlignment="Center"
+                             LostKeyboardFocus="tagNameEditBox_LostFocus"
+                             KeyUp="tagNameEditBox_KeyUp" />
+                    <TextBlock Name="tagName"
+                               FontSize="12"
+                               VerticalAlignment="Center"
+                               FontWeight="Bold"
+                               Focusable="False"/>
+                    <TextBlock x:Name="tagIndicator"
+                               FontSize="12"
+                               VerticalAlignment="Center"
+                               Background="Transparent"
+                               Foreground="{Binding IndicatorForeground}"
+                               Focusable="False"
+                               FontFamily="Segoe UI Symbol"
+                               Text="{Binding Path=TagIndicator}" />
+                </StackPanel>
             </MenuItem.Header>
             <MenuItem Name="cancelAction"
                       Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_TagSuggestions_MenuItem_Cancel}}"
@@ -71,7 +79,6 @@
             <MenuItem Name="renameAction"
                       Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_TagSuggestions_MenuItem_Rename}}"
                       ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_TagSuggestions_MenuItem_Rename_Tooltip}}"
-                      Margin="0,5,0,5"
                       Tag="RenameTag"
                       Click="MenuItem_Click">
                 <MenuItem.Icon>

@@ -1,11 +1,14 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using WetHatLab.OneNote.TaggingKit.common;
 
 namespace WetHatLab.OneNote.TaggingKit.manage
 {
@@ -15,6 +18,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     [ComVisible(false)]
     public partial class RemovableTag : UserControl
     {
+        #region ActionEvent
         /// <summary>
         /// Click event for this button.
         /// </summary>
@@ -26,50 +30,53 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         public RemovableTag()
         {
             InitializeComponent();
-            HideConfirmation();
             DisableEditing();
+            ShowActions();
         }
 
         /// <summary>
-        /// Add or remove the click handler.
+        /// Add or remove the handler for tag edit actions.
         /// </summary>
-        /// <remarks>clr wrapper for routed event</remarks>
         internal event RoutedEventHandler Action
         {
             add { AddHandler(ActionEvent, value); }
-
             remove { RemoveHandler(ActionEvent, value); }
         }
-
+        #endregion ActionEvent
+        /// <summary>
+        /// Hoopk up to the view model when it is set.
+        /// </summary>
+        /// <param name="sender">The UI control where the data context is set</param>
+        /// <param name="e">Event details</param>
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             RemovableTag t = sender as RemovableTag;
 
-            RemovableTagModel mdl = t.DataContext as RemovableTagModel;
-            if (mdl != null)
-            {
+            if (t.DataContext is RemovableTagModel mdl) {
                 mdl.PropertyChanged += mdl_PropertyChanged;
-                mdl_PropertyChanged(mdl, RemovableTagModel.HIGHLIGHTED_TAGNAME);
+                mdl_PropertyChanged(mdl, new PropertyChangedEventArgs(nameof(RemovableTagModel.HighlightedTagName)));
             }
         }
 
-        private void mdl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        /// <summary>
+        /// Track property changes in the view model.
+        /// </summary>
+        /// <param name="sender">The view model whose property changed</param>
+        /// <param name="e">Property event details</param>
+        private void mdl_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            RemovableTagModel mdl = sender as RemovableTagModel;
-            if (mdl != null)
-            {
-                if (e == RemovableTagModel.HIGHLIGHTED_TAGNAME)
-                {
-                    highlighedTag.Inlines.Clear();
-                    highlighedTag.Inlines.AddRange(mdl.HighlightedTagName.Select((f) =>
-                    {
-                        Run r = new Run(f.Text);
-                        if (f.IsMatch)
-                        {
-                            r.Background = Brushes.Yellow;
-                        }
-                        return r;
-                    }));
+            if (sender is RemovableTagModel mdl) {
+                switch (e.PropertyName) {
+                    case nameof(RemovableTagModel.HighlightedTagName):
+                        tagName.Inlines.Clear();
+                        tagName.Inlines.AddRange(mdl.HighlightedTagName.Select((f) => {
+                            Run r = new Run(f.Text);
+                            if (f.IsMatch) {
+                                r.Background = Brushes.Yellow;
+                            }
+                            return r;
+                        }));
+                        break;
                 }
             }
         }
@@ -83,7 +90,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             deleteAction.Visibility = Visibility.Collapsed;
         }
 
-        private void HideConfirmation()
+        private void ShowActions()
         {
             confirmAction.Visibility = Visibility.Collapsed;
             cancelAction.Visibility = Visibility.Collapsed;
@@ -94,19 +101,23 @@ namespace WetHatLab.OneNote.TaggingKit.manage
 
         private void EnableEditing()
         {
+            tagName.Visibility = Visibility.Collapsed;
             tagNameEditBox.Visibility = Visibility.Visible;
-            highlighedTag.Visibility = Visibility.Collapsed;
             tagNameEditBox.Focus();
             tagNameEditBox.SelectAll();
         }
 
         private void DisableEditing()
         {
+            tagName.Visibility = Visibility.Visible;
             tagNameEditBox.Visibility = Visibility.Collapsed;
-            highlighedTag.Visibility = Visibility.Visible;
-            tagNameEditBox.Focus();
         }
 
+        /// <summary>
+        /// Process clicks on the menu items associated with this tag.
+        /// </summary>
+        /// <param name="sender">Menu item that was clicked.</param>
+        /// <param name="e">Event details</param>
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             MenuItem itm = sender as MenuItem;
@@ -114,50 +125,73 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             switch (itm.Tag.ToString())
             {
                 case "DeleteTag":
-                    Tag = itm.Tag;
-                    if (mdl.CanRemove)
-                    {
-                        RaiseEvent(new RoutedEventArgs(ActionEvent, this));
-                    }
-                    else
-                    {
-                        ShowConfirmation();
-                        actionMenu.IsSubmenuOpen = true;
-                    }
+                    Tag = itm.Tag; // Remember the action for the confiramtion stage
+                    ShowConfirmation();
+                    actionMenu.IsSubmenuOpen = true;
                     break;
 
                 case "RenameTag":
-                    Tag = itm.Tag;
+                    Tag = itm.Tag; // Remember the action for the confiramtion stage
                     EnableEditing();
                     ShowConfirmation();
+                    actionMenu.IsSubmenuOpen = false;
                     break;
 
                 case "CancelAction":
-                    HideConfirmation();
+                    if ("RenameTag".Equals(Tag)) {
+                        // revert any name edits.
+                        mdl.LocalName = mdl.TagName;
+                    }
                     DisableEditing();
+                    ShowActions();
+                    actionMenu.IsSubmenuOpen = false;
                     break;
 
                 case "ConfirmAction":
-                    HideConfirmation();
                     DisableEditing();
-                    if (!"RenameTag".Equals(itm.Tag) || mdl.LocalName.Equals(mdl.TagName, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        RaiseEvent(new RoutedEventArgs(ActionEvent, this));
+                    ShowActions();
+                    actionMenu.IsSubmenuOpen = false;
+                    switch (Tag) {
+                        case "RenameTag":
+                            mdl.LocalName = tagNameEditBox.Text.Trim();
+                            if (!mdl.LocalName.Equals(mdl.TagName, StringComparison.CurrentCultureIgnoreCase)) {
+                                // Process rename
+                                RaiseEvent(new RoutedEventArgs(ActionEvent, this));
+                            }
+                            break;
+                        default:
+                            RaiseEvent(new RoutedEventArgs(ActionEvent, this));
+                            break;
                     }
-
                     break;
             }
         }
 
-        private void tagNameEditBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void tagNameEditBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             RemovableTagModel mdl = DataContext as RemovableTagModel;
-            if (e.Key == System.Windows.Input.Key.Escape)
-            {
-                e.Handled = true;
-                HideConfirmation();
-                DisableEditing();
+            switch (e.Key) {
+                case System.Windows.Input.Key.Escape:
+                    mdl.LocalName = mdl.TagName;
+                    DisableEditing();
+                    ShowActions();
+                    actionMenu.IsSubmenuOpen = false;
+                    e.Handled = true;
+                    break;
+                case System.Windows.Input.Key.Enter:
+                    ShowConfirmation();
+                    actionMenu.IsSubmenuOpen = true;
+                    break;
             }
+        }
+        private void tagNameEditBox_LostFocus(object sender, RoutedEventArgs e) {
+            if (DataContext is RemovableTagModel mdl
+                && mdl.LocalName.Equals(tagNameEditBox.Text)) {
+                DisableEditing();
+                ShowActions();
+                actionMenu.IsSubmenuOpen = false;
+            }
+            e.Handled = true;
         }
     }
 }

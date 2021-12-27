@@ -1,9 +1,7 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows;
 using System.Windows.Media;
 using WetHatLab.OneNote.TaggingKit.common;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.manage
 {
@@ -11,137 +9,96 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     /// View model backing a <see cref="RemovableTag" /> user control.
     /// </summary>
     /// <remarks>
-    /// Provides properties to enable/disable a tag for removal and to adjust the
-    /// presentation of the corresponding UI element.
+    /// Provides properties to allow adding/removing/renaming
+    /// tags
     /// </remarks>
-    public class RemovableTagModel : SuggestedTagDataContext
+    public class RemovableTagModel : FilterableTagModel
     {
-        internal static readonly PropertyChangedEventArgs USE_COUNT = new PropertyChangedEventArgs("UseCount");
-        internal static readonly PropertyChangedEventArgs USE_COUNT_COLOR = new PropertyChangedEventArgs("UseCountColor");
-        internal static readonly PropertyChangedEventArgs MARKER_VISIBILIY = new PropertyChangedEventArgs("RemoveMarkerVisibility");
-        internal static readonly PropertyChangedEventArgs CAN_REMOVE = new PropertyChangedEventArgs("CanRemove");
-        internal static readonly PropertyChangedEventArgs LOCAL_NAME = new PropertyChangedEventArgs("LocalName");
-
-        /// <summary>
-        /// predefined event descriptor for <see cref="E:PropertyChanged"/> event fired for the <see cref="Visibility"/> property
-        /// </summary>
-        internal static readonly PropertyChangedEventArgs VISIBILITY_Property = new PropertyChangedEventArgs("Visibility");
-
         /// <summary>
         /// Create a new instance of the view model.
         /// </summary>
         public RemovableTagModel()
         {
+            UseCount = 0;
+        }
+
+        /// <summary>
+        /// Get(set the tag name.
+        /// </summary>
+        public override string TagName {
+            get => base.TagName;
+            set {
+                base.TagName = value;
+                LocalName = value;
+            }
         }
 
         private TagPageSet _tag;
 
         /// <summary>
-        /// Get or set the Tag for the view model.
+        /// Get or set the page tag which keeps track of the pages having this
+        /// tag.
         /// </summary>
         /// <remarks>
-        /// The tag is used to provide the page count (number of pages with this tag)
+        /// The page tag is used to provide the page count
+        /// (number of pages with this tag). If the page count is 0, the
+        /// tag isn't used anywhere.
         /// </remarks>
-        internal TagPageSet Tag
-        {
-            get
-            {
-                return _tag;
-            }
-            set
-            {
+        internal TagPageSet Tag {
+            get => _tag;
+            set {
                 _tag = value;
                 TagName = value.TagName;
-                LocalName = value.TagName;
                 UseCount = value.Pages.Count;
             }
         }
 
-        private string _localName;
-
-        public string LocalName
-        {
-            get
-            {
-                return _localName;
-            }
-            set
-            {
-                _localName = value;
-                firePropertyChanged(LOCAL_NAME);
-            }
-        }
-
+        private string _localName = string.Empty;
         /// <summary>
-        /// Check whether the tag can be removed
+        /// Get/set the editable tag name.
         /// </summary>
-        /// <value>true, if the tag has a page count of 0 and can be removed; false otherwise</value>
-        public bool CanRemove
-        {
-            get { return UseCount == 0; }
+        /// <remarks>Use in edit controls to allow modifications without
+        /// affecting the original tag name.
+        /// </remarks>
+        public string LocalName {
+            get => _localName;
+            set {
+                _localName = value;
+                RaisePropertyChanged();
+            }
         }
 
-        private int _useCount = 0;
+        private int _useCount = -1;
 
         /// <summary>
         /// Get the number of pages having this tag.
         /// </summary>
+        /// <value>If 0, the tag is not  used anywhere.</value>
         public int UseCount
         {
-            get { return _useCount; }
-            internal set
+            get => _useCount;
+            set
             {
                 if (_useCount != value)
                 {
-                    int oldValue = _useCount;
                     _useCount = value;
-                    firePropertyChanged(USE_COUNT);
-
-                    if (value == 0 || oldValue == 0)
-                    {
-                        firePropertyChanged(MARKER_VISIBILIY);
-                        firePropertyChanged(CAN_REMOVE);
-                        firePropertyChanged(USE_COUNT_COLOR);
-                    }
+                    // Compute the presentation of the indicator
+                    TagIndicator = string.Format("({0})", UseCount);
+                    IndicatorForeground = UseCount == 0 ? Brushes.Red : Brushes.Black;
                 }
             }
         }
-
-        /// <summary>
-        /// Set a filter string which is used to determine the appearance of the <see cref="HitHighlightedTagButton"/>
-        /// control.
-        /// </summary>
-        /// <remarks>
-        /// Setting this property has a side effect on the <see cref="Visibility"/> property.
-        /// The appropriate <see cref="E:WetHatLab.OneNote.TaggingKit.edit.PropertyChanged"/> events are fired as necessary.
-        /// </remarks>
-        public override TextSplitter Highlighter {
-            set {
-                Visibility visBefore = Visibility;
-                base.Highlighter = value;
-                if (visBefore != Visibility) {
-                    firePropertyChanged(VISIBILITY_Property);
-                }
-            }
-        }
-
+        Brush _indicatorForeground = Brushes.Red;
         /// <summary>
         /// Get the color of the tag use count indicator.
         /// </summary>
-        public Brush UseCountColor
-        {
-            get
-            {
-                return CanRemove ? Brushes.Red : Brushes.Black;
-            }
-        }
-
-        /// <summary>
-        /// Get the visibility the associated <see cref="HitHighlightedTagButton"/> control has.
-        /// </summary>
-        public Visibility Visibility {
-            get {
-                return Highlighter.SplitPattern == null || HasHighlights ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+        public Brush IndicatorForeground {
+            get => _indicatorForeground;
+            set {
+                if (_indicatorForeground != value) {
+                    _indicatorForeground = value;
+                    RaisePropertyChanged();
+                }
             }
         }
     }
