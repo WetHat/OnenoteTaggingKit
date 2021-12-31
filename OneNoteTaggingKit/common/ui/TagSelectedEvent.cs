@@ -1,7 +1,6 @@
 ﻿using System.Windows;
-using WetHatLab.OneNote.TaggingKit.common.ui;
 
-namespace WetHatLab.OneNote.TaggingKit.common
+namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
     /// <summary>
     /// Delegate for tag selection events

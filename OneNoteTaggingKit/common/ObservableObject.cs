@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace WetHatLab.OneNote.TaggingKit.common.ui
+namespace WetHatLab.OneNote.TaggingKit.common
 {
     /// <summary>
     /// Base class for objects which expose observable properties.

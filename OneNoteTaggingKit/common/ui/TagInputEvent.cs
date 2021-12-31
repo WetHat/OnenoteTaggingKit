@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
-namespace WetHatLab.OneNote.TaggingKit.common.ui
+namespace WetHatLab.OneNote.TaggingKit.common
 {
     /// <summary>
     /// Handler for the <see cref="E:TagInputBox.TagInput"/>
