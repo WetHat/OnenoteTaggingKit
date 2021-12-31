@@ -2,13 +2,11 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Windows;
-using System.Windows.Data;
 
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
     /// <summary>
-    /// Base class for view models which expose observable properties.
+    /// Base class for objects which expose observable properties.
     /// </summary>
     /// <remarks>
     ///     To support working with view models in background tasks
@@ -18,7 +16,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     ///     provided in this base class.
     /// </remarks>
     [ComVisible(false)]
-    public class ViewModelBase : INotifyPropertyChanged, IDisposable
+    public class ObservableObject : INotifyPropertyChanged, IDisposable
     {
         #region INotifyPropertyChanged
 
