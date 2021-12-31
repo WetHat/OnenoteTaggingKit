@@ -90,11 +90,11 @@
       <DependentUpon>Tag.xaml</DependentUpon>
     </Compile>
     <Compile Include="common\TagFormatter.cs" />
-    <Compile Include="common\TagInputEvent.cs" />
+    <Compile Include="common\ui\TagInputEvent.cs" />
     <Compile Include="common\TagsAndPages.cs" />
     <Compile Include="common\TaggedPage.cs" />
     <Compile Include="common\TagPageSet.cs" />
-    <Compile Include="common\TagSelectedEvent.cs" />
+    <Compile Include="common\ui\TagSelectedEvent.cs" />
     <Compile Include="common\ObservableTagList.cs" />
     <Compile Include="common\ui\AddInWindowsContracts.cs" />
     <Compile Include="common\ui\SelectableTag.xaml.cs">
@@ -117,7 +117,7 @@
     </Compile>
     <Compile Include="common\ui\TagModelKey.cs" />
     <Compile Include="common\TextSplitter.cs" />
-    <Compile Include="common\ui\ViewModelBase.cs" />
+    <Compile Include="common\ObservableObject.cs" />
     <Compile Include="common\ui\WindowViewModelBase.cs" />
     <Compile Include="COMReadonlyStreamAdapter.cs" />
     <Compile Include="edit\TagEditor.xaml.cs">
@@ -152,6 +152,8 @@
       <DependentUpon>FindTaggedPages.xaml</DependentUpon>
     </Compile>
     <Compile Include="find\FindTaggedPagesModel.cs" />
+    <Compile Include="presets\CustomPresetModel.cs" />
+    <Compile Include="presets\CustomPresetsList.cs" />
     <Compile Include="Tagger\BackgroundTagger.cs" />
     <Compile Include="Tagger\TaggingJob.cs" />
   </ItemGroup>
