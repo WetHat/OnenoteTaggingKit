@@ -1,6 +1,5 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace WetHatLab.OneNote.TaggingKit.common
 {
@@ -9,84 +8,103 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// name="TaggingKit.PageTags" ...&gt; meta element.
     /// </summary>
     /// <remarks>A filter can be applied to constrain the number of tagged pages <see cref="IntersectWith" /></remarks>
-    public class TagPageSet : IKeyedItem<string>, INotifyPropertyChanged
+    public class TagPageSet : ObservableObject, IKeyedItem<string>
     {
-        internal static readonly PropertyChangedEventArgs PAGES = new PropertyChangedEventArgs("Pages");
-        internal static readonly PropertyChangedEventArgs FILTERED_PAGES = new PropertyChangedEventArgs("FilteredPages");
-
-        private readonly HashSet<TaggedPage> _pages = new HashSet<TaggedPage>();
-
-        private HashSet<TaggedPage> _filteredPages;
-
+        /// <summary>
+        /// Utility function to get tha base name of a tag without the type
+        /// postfix.
+        /// </summary>
+        /// <param name="tagname">Tag name with type postfix</param>
+        /// <returns>Tag name without type postfix.</returns>
+        internal static string TagBasename(string tagname) {
+            if (tagname.EndsWith(Properties.Settings.Default.ImportOneNoteTagMarker)) {
+                return tagname.Substring(0, tagname.Length - Properties.Settings.Default.ImportOneNoteTagMarker.Length);
+            } else if (tagname.EndsWith(Properties.Settings.Default.ImportHashtagMarker)) {
+                return tagname.Substring(0, tagname.Length - Properties.Settings.Default.ImportHashtagMarker.Length);
+            } else {
+                return tagname;
+            }
+        }
         /// <summary>
         /// Get name of the tag.
         /// </summary>
-        public string TagName { get; private set; }
+        public string TagName { get; }
 
-        private void firePropertyChanged(PropertyChangedEventArgs args)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, args);
+        string _tagType = string.Empty;
+        /// <summary>
+        /// The tag's type.
+        /// </summary>
+        /// <value>A marker character for imported tags; Empty string otherwise</value>
+        public string TagType {
+            get => _tagType;
+            set {
+                if ((Properties.Settings.Default.ImportOneNoteTagMarker.Equals(value)
+                        && !Properties.Settings.Default.ImportOneNoteTagMarker.Equals(_tagType))
+                    || (!_tagType.Equals(value) && !string.IsNullOrWhiteSpace(value)))
+
+                if (_tagType != value) {
+                    _tagType = value;
+                    RaisePropertyChanged();
+                }
             }
         }
 
-        internal TagPageSet(string tagName)
+        /// <summary>
+        /// Create a new instance object representing pages having a specific tag.
+        /// </summary>
+        /// <param name="tagName">Name of tag without type annotation.</param>
+        public TagPageSet(string tagName)
         {
             TagName = tagName;
         }
 
-        internal ISet<TaggedPage> Pages
-        {
-            get
-            {
-                return _pages;
-            }
-        }
+        ISet<TaggedPage> _pages = new HashSet<TaggedPage>();
+        /// <summary>
+        /// Get the set of pages having the tag represented by this object.
+        /// </summary>
+        public ISet<TaggedPage> Pages { get => _pages; }
 
-        internal ISet<TaggedPage> FilteredPages
-        {
-            get
-            {
-                return _filteredPages ?? _pages;
-            }
-        }
-
-        internal bool AddPage(TaggedPage pg)
-        {
-            bool added = _pages.Add(pg);
-
-            if (added)
-            {
-                firePropertyChanged(PAGES);
-            }
-            return added;
-        }
-
-        internal bool IsImported {
+        int _filteredPageCount = 0;
+        /// <summary>
+        /// Observable property of the number of pages after filter application.
+        /// </summary>
+        public int FilteredPageCount {
             get {
-                return TagName.EndsWith(Properties.Settings.Default.ImportOneNoteTagMarker)
-                       || TagName.EndsWith(Properties.Settings.Default.ImportHashtagMarker);
+               return _filteredPages == null ? Pages.Count :  _filteredPageCount;
+            }
+            set {
+                if (_filteredPageCount != value) {
+                    _filteredPageCount = value;
+                    RaisePropertyChanged();
+                }
             }
         }
-        internal bool RemovePage(TaggedPage pg)
-        {
-            bool removed = _pages.Remove(pg);
 
-            if (removed)
-            {
-                firePropertyChanged(PAGES);
-            }
-            return removed;
-        }
+        ISet<TaggedPage> _filteredPages = null;
+        /// <summary>
+        /// Get the set of tags after filtering.
+        /// </summary>
+        /// <value>
+        /// If no filter is applied returns the set of all pages
+        /// associated wth this tag otherwise returnes the set of
+        /// pages with the filter applied.
+        /// </value>
+        internal ISet<TaggedPage> FilteredPages => _filteredPages ?? _pages;
 
-        internal void ClearFilter()
+        /// <summary>
+        /// Associate a page with this page.
+        /// </summary>
+        /// <param name="pg">Page having this tag.</param>
+        /// <returns></returns>
+        internal bool AddPage(TaggedPage pg) => Pages.Add(pg);
+
+        /// <summary>
+        /// Clear the tag filter.
+        /// </summary>
+        public void ClearFilter()
         {
-            if (_filteredPages != null)
-            {
-                _filteredPages = null;
-                firePropertyChanged(FILTERED_PAGES);
-            }
+            _filteredPages = null;
+            FilteredPageCount = Pages.Count;
         }
 
         /// <summary>
@@ -95,27 +113,21 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="filter"></param>
         internal void IntersectWith(IEnumerable<TaggedPage> filter)
         {
-            int countBefore = FilteredPages.Count;
-            _filteredPages = new HashSet<TaggedPage>(_pages);
-            _filteredPages.IntersectWith(filter);
-
-            if (countBefore != FilteredPages.Count)
-            {
-                firePropertyChanged(FILTERED_PAGES);
-            }
+            _filteredPages = new HashSet<TaggedPage>(filter);
+            FilteredPages.IntersectWith(Pages);
+            FilteredPageCount = FilteredPages.Count;
         }
 
+        #region IKeyedItem
         /// <summary>
-        /// Determine if two tags a are equal
+        /// Determine if two tags a are equal based on their tagname.
         /// </summary>
         /// <param name="obj">the other tag for equality test</param>
         /// <returns>true if both tags are equal; false otherwise</returns>
-        public override bool Equals(object obj)
-        {
+        public override bool Equals(object obj) {
             TagPageSet other = obj as TagPageSet;
 
-            if (other != null)
-            {
+            if (other != null) {
                 return TagName.Equals(other.TagName);
             }
             return false;
@@ -125,12 +137,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// Get the tag's hashcode.
         /// </summary>
         /// <returns>hashcode</returns>
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             return TagName.GetHashCode();
         }
-
-        #region IKeyedItem
 
         /// <summary>
         /// Get the tag's sortable key
@@ -141,14 +150,5 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         #endregion IKeyedItem
-
-        #region INotifyPropertyChanged
-
-        /// <summary>
-        /// Event to notify listeners about changes of properties.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion INotifyPropertyChanged
     }
 }

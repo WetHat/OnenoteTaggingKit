@@ -51,6 +51,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
         string TagName { get; }
 
         /// <summary>
+        /// Get the tag's type marker.
+        /// </summary>
+        string TagType { get; }
+
+        /// <summary>
         /// Get the visibility of a tag in the UI.
         /// </summary>
         Visibility Visibility { get; }
@@ -102,13 +107,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         private void OnTagPropertyChanged(object sender, PropertyChangedEventArgs e) {
-            if (e == TagPageSet.FILTERED_PAGES) {
-                Dispatcher.Invoke(() =>
-                {
+            switch (e.PropertyName) {
+                case nameof(TagPageSet.FilteredPageCount):
+                    Dispatcher.Invoke(() => {
                     firePropertyChanged(FILTERED_PAGE_COUNT);
                     firePropertyChanged(PAGE_COUNT_TOOLTIP);
-                    firePropertyChanged(VISIBILITY);
-                });
+                    firePropertyChanged(VISIBILITY); });
+                break;
             }
         }
 
@@ -173,11 +178,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Get the tag's name
         /// </summary>
-        public string TagName {
-            get {
-                return _tag.TagName;
-            }
-        }
+        public string TagName => _tag.TagName;
+
+        /// <summary>
+        /// Get the tag's type marker.
+        /// </summary>
+        public string TagType => _tag.TagType;
 
         /// <summary>
         /// Get the visibility of the tag in the tag selection UI.
@@ -275,10 +281,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
         public bool IsFullMatch {
             get {
                 return _highlightedTagName != null
-                       && _highlightedTagName.Count > 0
-                       && _highlightedTagName[0].IsMatch
-                       && (_highlightedTagName.Count == 1
-                           || (_highlightedTagName.Count == 2 && Tag.IsImported));
+                       && _highlightedTagName.Count == 1
+                       && _highlightedTagName[0].IsMatch;
             }
         }
         #endregion IHighlightableTagDataContext

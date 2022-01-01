@@ -81,23 +81,18 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                 page.Update();
                 page = new OneNotePageProxy(onenote, _pageid);
             }
-
             // collect the genuine page tags
             HashSet<string> pagetags = new HashSet<string>(from name in page.PageTags
-                                                           where !name.EndsWith(Properties.Settings.Default.ImportOneNoteTagMarker)
-                                                                 && !name.EndsWith(Properties.Settings.Default.ImportHashtagMarker)
-                                                           select name);
+                                                           select TagPageSet.TagBasename(name));
 
             switch (_op)
             {
                 case TagOperation.SUBTRACT:
                     pagetags.ExceptWith(_tags);
                     break;
-
                 case TagOperation.UNITE:
                     pagetags.UnionWith(_tags);
                     break;
-
                 case TagOperation.REPLACE:
                     pagetags.Clear();
                     pagetags.UnionWith(_tags);
@@ -107,13 +102,32 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                     break;
 
             }
+
+            if (Properties.Settings.Default.MapHashTags) {
+                // remove all unmarked hashtag
+                pagetags.ExceptWith(page.HashTags); // remove unmarked hashtags
+                // re-add ALL hashtags with marker appended
+                pagetags.UnionWith(from ot in page.HashTags select ot + Properties.Settings.Default.ImportHashtagMarker);
+            } else {
+                // if there are imported hashtags, tags prefer them over page tags
+                var hashTags = new HashSet<string>(page.HashTags);
+                hashTags.IntersectWith(pagetags); // tags which are also embedded hashtags
+                pagetags.UnionWith(from ot in hashTags select ot + Properties.Settings.Default.ImportHashtagMarker);
+            }
+
             if (Properties.Settings.Default.MapOneNoteTags) {
-                // add the OneNote tags with import marker appended
+                // remove all unmarked OneNote tags
+                pagetags.ExceptWith(page.OneNoteTags);
+                // and re-add ALL OneNote tags with a marker
                 pagetags.UnionWith(from ot in page.OneNoteTags select ot + Properties.Settings.Default.ImportOneNoteTagMarker);
             }
-            if (Properties.Settings.Default.MapHashTags) {
-                // add the OneNote tags with import marker appended
-                pagetags.UnionWith(from ot in page.HashTags select ot + Properties.Settings.Default.ImportHashtagMarker);
+            else {
+                // if there are imported OneNote tags, prefer them over page tags
+                var ONtags = new HashSet<string>(page.OneNoteTags);
+                ONtags.IntersectWith(pagetags); // tags which are also OneNote tags
+                pagetags.ExceptWith(ONtags); // remove ON tags
+                // re-add them with marker
+                pagetags.UnionWith(from ot in ONtags select ot + Properties.Settings.Default.ImportOneNoteTagMarker);
             }
             string[] sortedTags = pagetags.ToArray();
             Array.Sort<string>(sortedTags, (x, y) => string.Compare(x, y, true));

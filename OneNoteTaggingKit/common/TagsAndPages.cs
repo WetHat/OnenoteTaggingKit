@@ -101,9 +101,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
             // update the list of known tags by adding tags from search result
             foreach (KeyValuePair<string, TagPageSet> t in _tags) {
-                if (!t.Value.IsImported) {
-                    knownTags.Add(t.Key);
-                }
+                knownTags.Add(t.Key);
             }
 
             if (countBefore != knownTags.Count) { // updated tag suggestions
@@ -182,10 +180,14 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     tagcount++;
                     TagPageSet t;
 
-                    if (!tags.TryGetValue(tagname, out t)) {
-                        t = new TagPageSet(tagname);
-                        tags.Add(tagname, t);
+                    // recognize imported tags
+                    string tagBasename = TagPageSet.TagBasename(tagname);
+                    string tagType = tagname.Substring(tagBasename.Length);
+                    if (!tags.TryGetValue(tagBasename, out t)) {
+                        t = new TagPageSet(tagBasename);
+                        tags.Add(tagBasename, t);
                     }
+                    t.TagType = tagType;
                     t.AddPage(tp);
                     tp.Tags.Add(t);
                 }

@@ -20,6 +20,11 @@
                        FontWeight="Bold"
                        Focusable="False" />
             <TextBlock VerticalAlignment="Bottom"
+                       Foreground="DarkSlateBlue"
+                       FontWeight="Bold"
+                       Focusable="False"
+                       Text="{Binding  Path=TagType}"/>
+            <TextBlock VerticalAlignment="Bottom"
                        Focusable="False"
                        Visibility="{Binding PageCountVisibility, Mode=OneWay}"
                        Background="Transparent"

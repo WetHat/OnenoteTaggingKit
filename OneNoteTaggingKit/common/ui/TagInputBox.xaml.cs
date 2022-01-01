@@ -222,7 +222,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 }
                 else {
                     Tags = from t in tags
-                           where !t.IsImported
+                           where t.TagType==string.Empty
                            select t.TagName;
                 }
 

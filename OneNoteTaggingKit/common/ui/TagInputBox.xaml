@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:WetHatLab.OneNote.TaggingKit.common.ui"
              xmlns:prop="clr-namespace:WetHatLab.OneNote.TaggingKit.Properties"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              d:DesignHeight="37.313" d:DesignWidth="300">
     <UserControl.Resources>
@@ -49,7 +49,8 @@
               Margin="0,0,5,0"
               ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagInputBox_Filter_Menu_Tooltip}}"
               VerticalAlignment="Center" >
-            <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagInputBox_PresetsMenu_Header}}" FontSize="14"
+            <MenuItem x:Name="presetsTopItem"
+                      Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagInputBox_PresetsMenu_Header}}" FontSize="14"
                       TextOptions.TextFormattingMode="Display">
                 <MenuItem.Resources>
                     <Style TargetType="{x:Type MenuItem}">
@@ -82,6 +83,7 @@
                         <Image Source="/OneNoteTaggingKit;component/Resources/4-32.png" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <Separator x:Name="customPresets"/>
             </MenuItem>
         </Menu>
         <Label Grid.Column="1"
