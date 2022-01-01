@@ -76,7 +76,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                         newTagModels.Add(tagmodel);
                     }
                     else if (tagmodel.Tag == null && rt_mdl.Tag != null)
-                    { // renamed to existing tag
+                    { // renamed to existing tag which is not used anywhere
                         tagmodel.Tag = new TagPageSet(newName);
                     }
 
