@@ -91,7 +91,7 @@
             </cui:HighlightedTagsPanel.Header>
             <cui:HighlightedTagsPanel.TagTemplate>
                 <DataTemplate>
-                    <local:TagSelector Margin="0,5,5,0" />
+                    <local:FilterTagSelector Margin="0,5,5,0" />
                 </DataTemplate>
             </cui:HighlightedTagsPanel.TagTemplate>
         </cui:HighlightedTagsPanel>

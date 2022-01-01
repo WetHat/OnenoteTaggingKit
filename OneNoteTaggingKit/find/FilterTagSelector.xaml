@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WetHatLab.OneNote.TaggingKit.find.TagSelector"
+﻿<UserControl x:Class="WetHatLab.OneNote.TaggingKit.find.FilterTagSelector"
              Name="self"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

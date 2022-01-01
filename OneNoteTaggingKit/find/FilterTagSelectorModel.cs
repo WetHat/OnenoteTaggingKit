@@ -11,7 +11,7 @@ using WetHatLab.OneNote.TaggingKit.common.ui;
 namespace WetHatLab.OneNote.TaggingKit.find
 {
     /// <summary>
-    /// Contact for view models supporting the <see cref="TagSelector" /> control.
+    /// Contract for view models supporting the <see cref="TagSelector" /> control.
     /// </summary>
     public interface ITagSelectorModel
     {
@@ -62,14 +62,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
     }
 
     /// <summary>
-    /// View model to support the <see cref="TagSelector" /> control.
+    /// View model to support the <see cref="FilterrTagSelector" /> control.
     /// </summary>
-    /// Implements the
-    /// <see cref="INotifyPropertyChanged" />
-    /// interface to update the UI after property changes.
-    /// <remarks></remarks>
     [ComVisible(false)]
-    public class TagSelectorModel : DependencyObject, ISortableKeyedItem<TagModelKey, string>, ITagSelectorModel, IHighlightableTagDataContext, INotifyPropertyChanged
+    public class FilterTagSelectorModel : DependencyObject, ISortableKeyedItem<TagModelKey, string>, ITagSelectorModel, IHighlightableTagDataContext, INotifyPropertyChanged
     {
         internal static readonly PropertyChangedEventArgs FILTER_INDICATOR_VISIBILITY = new PropertyChangedEventArgs("FilterIndicatorVisibility");
         internal static readonly PropertyChangedEventArgs PAGE_COUNT_VISIBILITY = new PropertyChangedEventArgs("PageCountVisibility");
@@ -89,7 +85,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// Create a new view model instance from a tag.
         /// </summary>
         /// <param name="tag">tag object</param>
-        internal TagSelectorModel(TagPageSet tag) {
+        internal FilterTagSelectorModel(TagPageSet tag) {
             _tag = tag;
             _key = new TagModelKey(tag.TagName);
             tag.PropertyChanged += OnTagPropertyChanged;
@@ -101,7 +97,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         /// <param name="tag">        tag object</param>
         /// <param name="propHandler">listener for property changes</param>
-        internal TagSelectorModel(TagPageSet tag, PropertyChangedEventHandler propHandler)
+        internal FilterTagSelectorModel(TagPageSet tag, PropertyChangedEventHandler propHandler)
             : this(tag) {
             PropertyChanged += propHandler;
         }

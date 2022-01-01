@@ -132,10 +132,10 @@
     </Compile>
     <Compile Include="find\HitHighlightedPageLinkDesignerModel.cs" />
     <Compile Include="find\HitHighlightedPageLinkModel.cs" />
-    <Compile Include="find\TagSelector.xaml.cs">
-      <DependentUpon>TagSelector.xaml</DependentUpon>
+    <Compile Include="find\FilterTagSelector.xaml.cs">
+      <DependentUpon>FilterTagSelector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="find\TagSelectorModel.cs" />
+    <Compile Include="find\FilterTagSelectorModel.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="manage\RemovableTag.xaml.cs">
       <DependentUpon>RemovableTag.xaml</DependentUpon>
@@ -289,7 +289,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="find\TagSelector.xaml">
+    <Page Include="find\FilterTagSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

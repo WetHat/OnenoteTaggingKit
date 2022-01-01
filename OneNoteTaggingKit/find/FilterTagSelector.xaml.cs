@@ -11,24 +11,24 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// Interaction logic for TagSelector.xaml
     /// </summary>
     [ComVisible(false)]
-    public partial class TagSelector : UserControl
+    public partial class FilterTagSelector : UserControl
     {
         /// <summary>
         /// Create a new instance of the button control
         /// </summary>
-        public TagSelector()
+        public FilterTagSelector()
         {
             InitializeComponent();
         }
 
         private void OnDatacontextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            TagSelectorModel oldMdl = e.OldValue as TagSelectorModel;
+            FilterTagSelectorModel oldMdl = e.OldValue as FilterTagSelectorModel;
             if (oldMdl != null)
             {
                 oldMdl.PropertyChanged -= mdl_PropertyChanged;
             }
-            TagSelectorModel mdl = e.NewValue as TagSelectorModel;
+            FilterTagSelectorModel mdl = e.NewValue as FilterTagSelectorModel;
             if (mdl != null)
             {
                 mdl.PropertyChanged += mdl_PropertyChanged;
@@ -38,7 +38,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         void buildHighlightedTagname()
         {
-            TagSelectorModel mdl = DataContext as TagSelectorModel;
+            FilterTagSelectorModel mdl = DataContext as FilterTagSelectorModel;
             if (mdl != null)
             {
                 tagName.Inlines.Clear();
@@ -55,8 +55,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
         void mdl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            TagSelectorModel mdl = sender as TagSelectorModel;
-            if (e == TagSelectorModel.HIT_HIGHLIGHTED_TAGNAME)
+            FilterTagSelectorModel mdl = sender as FilterTagSelectorModel;
+            if (e == FilterTagSelectorModel.HIT_HIGHLIGHTED_TAGNAME)
             {
                 buildHighlightedTagname();
             }

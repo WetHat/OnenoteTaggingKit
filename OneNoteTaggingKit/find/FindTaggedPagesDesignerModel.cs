@@ -46,7 +46,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
             _pages.AddAll(from TaggedPage tp in c.Pages.Values select new HitHighlightedPageLinkModel(tp, splitter, null));
 
-            _tags.AddAll(from t in c.Tags.Values select new TagSelectorModel(t));
+            _tags.AddAll(from t in c.Tags.Values select new FilterTagSelectorModel(t));
         }
 
         /// <summary>

@@ -143,7 +143,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             await Task.Run(() => _searchResult.Find(query, LastScopeID), _cancelWorker.Token);
             // restore filter tag selection
             foreach (string filterTag in _searchResult.Filter) {
-                TagSelectorModel mdl;
+                FilterTagSelectorModel mdl;
                 if (Tags.TryGetValue(filterTag, out mdl)) {
                     mdl.IsChecked = true;
                 }
@@ -285,8 +285,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
         #endregion tag tracking
 
         private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs args) {
-            TagSelectorModel mdl = sender as TagSelectorModel;
-            if (mdl != null && args == TagSelectorModel.IS_CHECKED) {
+            FilterTagSelectorModel mdl = sender as FilterTagSelectorModel;
+            if (mdl != null && args == FilterTagSelectorModel.IS_CHECKED) {
                 if (mdl.IsChecked) {
                     AddTagToFilterAsync(mdl.Tag);
                 } else {
@@ -300,7 +300,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
             switch (e.Action) {
                 case NotifyDictionaryChangedAction.Add:
-                    a = () => Tags.AddAll(from i in e.Items select new TagSelectorModel(i, OnModelPropertyChanged)); ;
+                    a = () => Tags.AddAll(from i in e.Items select new FilterTagSelectorModel(i, OnModelPropertyChanged)); ;
                     break;
 
                 case NotifyDictionaryChangedAction.Remove:
@@ -341,7 +341,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// search refinenment.
         /// </summary>
         internal void SelectAllFullyHighlightedTags() {
-            foreach (TagSelectorModel t in from ht in Tags.Values where ht.IsFullMatch select ht) {
+            foreach (FilterTagSelectorModel t in from ht in Tags.Values where ht.IsFullMatch select ht) {
                 t.IsChecked = true;
             }
         }
@@ -365,7 +365,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// <see cref="IHighlightableTagDataContext" /> contract.
     /// </summary>
     [ComVisible(false)]
-    public class TagSource : ObservableSortedList<TagModelKey, string, TagSelectorModel>, ITagSource
+    public class TagSource : ObservableSortedList<TagModelKey, string, FilterTagSelectorModel>, ITagSource
     {
         #region ITagSource
 

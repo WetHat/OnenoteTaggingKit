@@ -26,7 +26,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
 
         /// <summary>
         /// Compute the visibility based on changes to the <see cref="IsSelected"/>
-        /// and/or <see cref="HighlightedTagName"/> property.
+        /// and/or <see cref="FilterableTagModel.HighlightedTagName"/> property.
         /// </summary>
         protected override Visibility ComputeTagVisibility() {
             if (IsSelected) {
