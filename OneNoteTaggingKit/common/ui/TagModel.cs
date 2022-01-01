@@ -28,7 +28,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     ///     highlighting.
     /// </remarks>
     [ComVisible(false)]
-    public class TagModel :ObservableObject, ISortableKeyedItem<TagModelKey, string>, ITagModel
+    public class TagModel : ObservableObject, ISortableKeyedItem<TagModelKey, string>, ITagModel
     {
         string _tagName = string.Empty;
         /// <summary>
