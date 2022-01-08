@@ -1,9 +1,10 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.ComponentModel;
+using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Media;
 
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
-
     /// <summary>
     /// Interface to be used by designer model.
     /// </summary>
@@ -13,10 +14,20 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// Get the Name of a tag.
         /// </summary>
         string TagName { get; }
+
+        /// <summary>
+        /// Get the tag type.
+        /// </summary>
+        string TagType { get; }
         /// <summary>
         /// Get the tg indicator.
         /// </summary>
         string TagIndicator { get; }
+
+        /// <summary>
+        /// Get the tag indicator foreground color.
+        /// </summary>
+        Brush TagIndicatorColor { get; }
     }
 
     /// <summary>
@@ -37,7 +48,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <remarks>
         ///     Setter should be called only once in construction context.
         /// </remarks>
-        public virtual string TagName {
+        public string TagName {
             get => _tagName;
             set {
                 _tagName = value;
@@ -60,9 +71,36 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             }
         }
 
+        Brush _tagIndicatorColor = Brushes.Red;
+        /// <summary>
+        /// Get/set the forground color of the tag indicator
+        /// </summary>
+        public Brush TagIndicatorColor {
+            get => _tagIndicatorColor;
+            set {
+                if (_tagIndicatorColor != value) {
+                    _tagIndicatorColor = value;
+                }
+            }
+        }
+
+        string _tagType = string.Empty;
+        /// <summary>
+        /// Get the foreground color for the tag indicator.
+        /// </summary>
+        public string TagType {
+            get => _tagType;
+            protected set {
+                if (!_tagType.Equals(value)) {
+                    _tagType = value;
+                    RaisePropertyChanged();
+                }
+
+            }
+        }
         string _tagIndicator = string.Empty;
         /// <summary>
-        /// Get/set the tag indicator.
+        /// Get/set the tag indicator (postfix string).
         /// </summary>
         /// <remarks>
         ///     The indicator string is displayed after the tag name and is
@@ -79,16 +117,6 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 }
             }
         }
-        /// <summary>
-        /// Determine if the tag is an imported or a managed page tag.
-        /// </summary>
-        public bool IsImported {
-            get {
-                return TagName.EndsWith(Properties.Settings.Default.ImportOneNoteTagMarker)
-                       || TagName.EndsWith(Properties.Settings.Default.ImportHashtagMarker);
-            }
-        }
-
         #region ISortableKeyedItem<TagModelKey, string>
         /// <summary>
         /// Get a key for this tag which is suitable for sorting the tag models-
@@ -102,5 +130,25 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         public string Key => TagName;
 
         #endregion ISortableKeyedItem<TagModelKey, string>
+
+
+        /// <summary>
+        /// Create a new view model for tags.
+        /// </summary>
+        public TagModel() {
+            PropertyChanged += TagModelPropertyChanged;
+        }
+
+        /// <summary>
+        /// Property change handler listening to changes to instances of this
+        /// class.
+        /// </summary>
+        /// <remarks>Derived classes can override this handler to deal with
+        /// property dependencies.</remarks>
+        /// <param name="sender">The object which raised a property
+        /// change event</param>
+        /// <param name="e">Event details</param>
+        protected virtual void TagModelPropertyChanged(object sender, PropertyChangedEventArgs e) {
+        }
     }
 }
