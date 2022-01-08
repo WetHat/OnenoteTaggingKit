@@ -96,7 +96,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// Track changes in the tag view model.
         /// </summary>
         /// <param name="sender">The view model which raised the event.</param>
-        /// <param name="e">Event details</param>
+        /// <param name="e">Event details.</param>
         protected override void TagModelPropertyChanged(object sender, PropertyChangedEventArgs e) {
             base.TagModelPropertyChanged(sender, e);
             switch(e.PropertyName) {
