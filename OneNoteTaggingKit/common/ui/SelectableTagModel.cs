@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
+    /// <summary>
+    /// View model for tags which change state when they are selected.
+    /// </summary>
     public class SelectableTagModel : FilterableTagModel
     {
         bool _isSelected = false;
@@ -18,8 +16,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             get => _isSelected;
             set {
                 _isSelected = value;
-                TagVisibility = ComputeTagVisibility();
-                TagIndicator = ComputeTagIndicator();
+                UpdateTagVisibility();
                 RaisePropertyChanged();
             }
         }
@@ -28,12 +25,12 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// Compute the visibility based on changes to the <see cref="IsSelected"/>
         /// and/or <see cref="FilterableTagModel.HighlightedTagName"/> property.
         /// </summary>
-        protected override Visibility ComputeTagVisibility() {
+        protected override void UpdateTagVisibility() {
             if (IsSelected) {
-                return Visibility.Collapsed;
+                TagVisibility = Visibility.Collapsed;
+            } else {
+                base.UpdateTagVisibility();
             }
-
-            return base.ComputeTagVisibility();
         }
     }
 }

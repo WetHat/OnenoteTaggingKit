@@ -1,46 +1,24 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
     /// <summary>
     ///  A basic implementation of a view model for tags which can be filtered
-    ///  base on a pattern.
+    ///  based on a pattern.
     /// </summary>
-    /// <remarks>
-    ///     Tag visibility is dermined by:
-    ///     <list type="bullet">
-    ///         <item>Selection status. Selected tags are collapsed.</item>
-    ///         <item>Highlighting patterns defined by the
-    ///               <see cref="Highlighter"/> property.</item>
-    ///     </list>
-    /// </remarks>
     public class FilterableTagModel : TagModel {
-
-        /// <summary>
-        /// Get/set the name of the tag.
-        /// </summary>
-        /// <remarks>
-        /// Updates the <see cref="HighlightedTagName"/> property when set.
-        /// </remarks>
-        public override string TagName {
-            get => base.TagName;
-            set {
-                base.TagName = value;
-                HighlightedTagName = Highlighter.SplitText(value);
-            }
-        }
-
         IList<TextFragment> _highlightedTagName = new TextFragment[]{};
         /// <summary>
         /// Get/set the list of tagname highlights.
         /// </summary>
         public IList<TextFragment> HighlightedTagName {
             get => _highlightedTagName;
-            set {
+            private set {
                 _highlightedTagName = value;
                 HasHighlights = value.IsHighlighted();
-                TagVisibility = ComputeTagVisibility();
+                UpdateTagVisibility();
                 RaisePropertyChanged();
             }
         }
@@ -49,19 +27,9 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// Compute the visibility based on changes to the
         /// <see cref="HighlightedTagName"/> property.
         /// </summary>
-        protected virtual Visibility ComputeTagVisibility() {
-            return Highlighter.SplitPattern != null && !HasHighlights ?
+        protected virtual void UpdateTagVisibility() {
+            TagVisibility = Highlighter.SplitPattern != null && !HasHighlights ?
                 Visibility.Collapsed : Visibility.Visible;
-        }
-
-        /// <summary>
-        /// Compute the tag indicator when the <see cref="IsSelected"/>
-        /// property changes.
-        /// </summary>
-        /// <returns>The new tag indicator string using 'Segoe UI Symbol'
-        /// font characters</returns>
-        protected string ComputeTagIndicator() {
-            return string.Empty;
         }
 
         static readonly TextSplitter sDefaultSplitter = new TextSplitter();
@@ -100,7 +68,20 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                  return htn.Count > 0
                        && htn[0].IsMatch
                        && (htn.Count == 1
-                           || (htn.Count == 2 && IsImported));
+                           || (htn.Count == 2 && TagType != string.Empty));
+            }
+        }
+        /// <summary>
+        /// Handle property changes in this instance.
+        /// </summary>
+        /// <param name="sender">Object which raised the change event</param>
+        /// <param name="e">Event details</param>
+        protected override void TagModelPropertyChanged(object sender, PropertyChangedEventArgs e) {
+            base.TagModelPropertyChanged(sender, e);
+            switch (e.PropertyName) {
+                case nameof(FilterableTagModel.TagName):
+                    HighlightedTagName = Highlighter.SplitText(TagName);
+                    break;
             }
         }
     }
