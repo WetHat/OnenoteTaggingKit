@@ -166,9 +166,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="selectedPagesOnly">true to process only pages selected by user</param>
         /// <param name="omitUntaggedPages">drop untagged pages</param>
         void BuildTagSet(IEnumerable<XElement>pages, bool selectedPagesOnly, bool omitUntaggedPages = false) {
-            _tags.Clear();
-            _pages.Clear();
-            Dictionary<string, TagPageSet> tags = new Dictionary<string, TagPageSet>();
+            Dictionary<string, TagPageSet> tags  = new Dictionary<string, TagPageSet>();
+            Dictionary<string, TaggedPage> taggedpages = new Dictionary<string, TaggedPage>();
+
             foreach (XElement page in pages) {
                 TaggedPage tp = new TaggedPage(page);
                 if (selectedPagesOnly && !tp.IsSelected) {
@@ -178,25 +178,30 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 int tagcount = 0;
                 foreach (string tagname in tp.TagNames) {
                     tagcount++;
+                    Tuple<string, string> parsedTag = TagPageSet.ParseTagName(tagname);
                     TagPageSet t;
 
-                    // recognize imported tags
-                    string tagBasename = TagPageSet.TagBasename(tagname);
-                    string tagType = tagname.Substring(tagBasename.Length);
-                    if (!tags.TryGetValue(tagBasename, out t)) {
-                        t = new TagPageSet(tagBasename);
-                        tags.Add(tagBasename, t);
+                    if (!tags.TryGetValue(parsedTag.Item1, out t)) {
+                        t = new TagPageSet(parsedTag);
+                        tags.Add(t.TagName, t);
+                    } else {
+                        t.TagType = parsedTag.Item2;
                     }
-                    t.TagType = tagType;
+
                     t.AddPage(tp);
                     tp.Tags.Add(t);
                 }
                 if (!omitUntaggedPages || tagcount > 0) {
-                    _pages.Add(tp.Key, tp);
+                    taggedpages.Add(tp.Key, tp);
                 }
             }
-            // bulk update for performance reasons
-            _tags.UnionWith(tags.Values);
+            // bulk update of pages
+            _pages.IntersectWith(taggedpages.Values); // remove obsolete tags
+            _pages.UnionWith(taggedpages.Values); // add new tags
+
+            // bulk update of tags
+            _tags.IntersectWith(tags.Values); // remove obsolete tags
+            _tags.UnionWith(tags.Values); // add new tags
             TraceLogger.Log(TraceCategory.Info(), "Extracted {0} tags from {1} pages.", _tags.Count, _pages.Count);
         }
         /// <summary>
