@@ -1,4 +1,5 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using System;
 using System.Collections.Generic;
 
 namespace WetHatLab.OneNote.TaggingKit.common
@@ -11,38 +12,43 @@ namespace WetHatLab.OneNote.TaggingKit.common
     public class TagPageSet : ObservableObject, IKeyedItem<string>
     {
         /// <summary>
-        /// Utility function to get tha base name of a tag without the type
-        /// postfix.
+        /// Utility function to get base name and type of a page tag.
         /// </summary>
         /// <param name="tagname">Tag name with type postfix</param>
-        /// <returns>Tag name without type postfix.</returns>
-        internal static string TagBasename(string tagname) {
+        /// <returns>Tag basename and type.</returns>
+        internal static Tuple<string,string> ParseTagName(string tagname) {
+            string basename;
+
             if (tagname.EndsWith(Properties.Settings.Default.ImportOneNoteTagMarker)) {
-                return tagname.Substring(0, tagname.Length - Properties.Settings.Default.ImportOneNoteTagMarker.Length);
+                basename = tagname.Substring(0, tagname.Length - Properties.Settings.Default.ImportOneNoteTagMarker.Length);
             } else if (tagname.EndsWith(Properties.Settings.Default.ImportHashtagMarker)) {
-                return tagname.Substring(0, tagname.Length - Properties.Settings.Default.ImportHashtagMarker.Length);
+                basename = tagname.Substring(0, tagname.Length - Properties.Settings.Default.ImportHashtagMarker.Length);
             } else {
-                return tagname;
+                basename = tagname;
             }
+
+            return new Tuple<string, string>(
+                basename,
+                basename.Length == tagname.Length ? string.Empty : tagname.Substring(basename.Length));
         }
         /// <summary>
         /// Get name of the tag.
         /// </summary>
+        /// <value>Name of the tag without type annotation.</value>
         public string TagName { get; }
 
         string _tagType = string.Empty;
         /// <summary>
         /// The tag's type.
         /// </summary>
-        /// <value>A marker character for imported tags; Empty string otherwise</value>
+        /// <value>A marker emoji for imported tags; Empty string otherwise</value>
         public string TagType {
             get => _tagType;
             set {
-                if ((Properties.Settings.Default.ImportOneNoteTagMarker.Equals(value)
-                        && !Properties.Settings.Default.ImportOneNoteTagMarker.Equals(_tagType))
-                    || (!_tagType.Equals(value) && !string.IsNullOrWhiteSpace(value)))
-
-                if (_tagType != value) {
+                if (_tagType != value
+                    && (Properties.Settings.Default.ImportOneNoteTagMarker.Equals(value)
+                        && (!Properties.Settings.Default.ImportOneNoteTagMarker.Equals(_tagType)
+                             || (!_tagType.Equals(value) && !string.IsNullOrWhiteSpace(value))))) {
                     _tagType = value;
                     RaisePropertyChanged();
                 }
@@ -50,12 +56,28 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         /// <summary>
+        /// Determine if a filter has been applied to the pages with this
+        /// tag.
+        /// </summary>
+        public bool IsFiltered => FilteredPageCount != Pages.Count;
+
+        /// <summary>
+        /// Initialize a new instance of a page tag.
+        /// </summary>
+        /// <param name="parsedName">
+        ///     The parsed tag name consisting of base name
+        ///     and type as returned by  <see cref="ParseTagName(string)"/>
+        /// </param>
+        public TagPageSet(Tuple<string, string> parsedName) {
+            TagName = parsedName.Item1;
+            TagType = parsedName.Item2;
+        }
+
+        /// <summary>
         /// Create a new instance object representing pages having a specific tag.
         /// </summary>
-        /// <param name="tagName">Name of tag without type annotation.</param>
-        public TagPageSet(string tagName)
-        {
-            TagName = tagName;
+        /// <param name="tagName">Name of tag with type annotation.</param>
+        public TagPageSet(string tagName) : this(ParseTagName(tagName)) {
         }
 
         ISet<TaggedPage> _pages = new HashSet<TaggedPage>();
