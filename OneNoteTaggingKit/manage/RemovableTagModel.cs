@@ -1,4 +1,5 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using System.ComponentModel;
 using System.Windows.Media;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
@@ -20,17 +21,6 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         public RemovableTagModel()
         {
             UseCount = 0;
-        }
-
-        /// <summary>
-        /// Get(set the tag name.
-        /// </summary>
-        public override string TagName {
-            get => base.TagName;
-            set {
-                base.TagName = value;
-                LocalName = value;
-            }
         }
 
         private TagPageSet _tag;
@@ -99,6 +89,21 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                     _indicatorForeground = value;
                     RaisePropertyChanged();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Track changes in the tag view model.
+        /// </summary>
+        /// <param name="sender">The view model which raised the event.</param>
+        /// <param name="e">Event details</param>
+        protected override void TagModelPropertyChanged(object sender, PropertyChangedEventArgs e) {
+            base.TagModelPropertyChanged(sender, e);
+            switch(e.PropertyName) {
+                case nameof(RemovableTagModel.TagName):
+                    LocalName = TagName;
+                    break;
+
             }
         }
     }
