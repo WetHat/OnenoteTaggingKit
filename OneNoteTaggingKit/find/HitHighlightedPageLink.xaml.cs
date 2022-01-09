@@ -1,5 +1,4 @@
-﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
-// Author: WetHat | (C) Copyright 2013 - 2016 WetHat Lab, all rights reserved
+﻿// Author: WetHat | (C) Copyright 2013 - 2022 WetHat Lab, all rights reserved
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +14,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     [ComVisible(false)]
     public partial class HitHighlightedPageLink : UserControl
     {
+        #region ClickEvent
         /// <summary>
         /// Routed Event for clicks on links to OneNote pages.
         /// </summary>
@@ -27,7 +27,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             add { AddHandler(ClickEvent, value); }
             remove { RemoveHandler(ClickEvent, value); }
         }
-
+        #endregion ClickEvent
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {
             HitHighlightedPageLink link = sender as HitHighlightedPageLink;
             HitHighlightedPageLinkModel model = e.NewValue as HitHighlightedPageLinkModel;
