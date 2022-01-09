@@ -118,8 +118,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="query">  query string</param>
         /// <param name="scopeID">
         /// OneNote id of the scope to search for pages. This is the element ID of a
-        /// notebook, section group, or section. If given as null or empty string scope is
-        /// the entire set of notebooks open in OneNote.
+        /// notebook, section group, or section. If given as null or empty string;
+        /// scope is the entire set of notebooks open in OneNote.
         /// </param>
         internal void FindTaggedPages(string query, string scopeID) {
             BuildTagSet(_onenote.FindPages(scopeID, query), selectedPagesOnly: false);
