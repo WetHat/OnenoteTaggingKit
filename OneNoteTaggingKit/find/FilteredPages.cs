@@ -23,11 +23,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
         private ISet<TagPageSet> _filterTags = new HashSet<TagPageSet>();
 
         /// <summary>
-        /// Set of pages after selected refinement tags have been applied.
-        /// </summary>
-        private ObservableDictionary<string, TaggedPage> _filteredPages = new ObservableDictionary<string, TaggedPage>();
-
-        /// <summary>
         /// The current text query used to search for pages.
         /// </summary>
         private string _query;
@@ -65,22 +60,22 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 FindTaggedPages(query, scopeID);
             }
 
-            _filteredPages.Clear();
+            MatchingPages.Clear();
             _filterTags.IntersectWith(Tags.Values); // remove obsolete tags
             // re-apply the tag filter and remove obsolete tags
             int filtersApplied = 0;
             foreach (TagPageSet tag in _filterTags)
             {
                 if (filtersApplied++ == 0) {
-                    _filteredPages.UnionWith(tag.Pages);
+                    MatchingPages.UnionWith(tag.Pages);
                 } else {
-                    _filteredPages.IntersectWith(tag.Pages);
+                    MatchingPages.IntersectWith(tag.Pages);
                 }
             }
             if (filtersApplied == 0 && !string.IsNullOrEmpty(query))
             {   // as there are no filters we simply show the entire
                 // query result
-                _filteredPages.UnionWith(base.Pages.Values);
+                MatchingPages.UnionWith(base.Pages.Values);
             }
             ApplyFilterToTags();
         }
@@ -88,7 +83,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Get the dictionary of pages
         /// </summary>
-        internal ObservableDictionary<string, TaggedPage> MatchingPages => _filteredPages;
+        public ObservableDictionary<string, TaggedPage> MatchingPages = new ObservableDictionary<string, TaggedPage>();
 
         /// <summary>
         /// Get the set of tag names used for filtering
@@ -102,10 +97,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
         internal void ClearTagFilter()
         {
             _filterTags.Clear();
-            _filteredPages.Clear();
+            MatchingPages.Clear();
             if (!string.IsNullOrEmpty(_query))
             {
-                _filteredPages.UnionWith(base.Pages.Values);
+                MatchingPages.UnionWith(base.Pages.Values);
             }
             foreach (TagPageSet tag in Tags.Values)
             {
@@ -125,10 +120,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
         {
             if (_filterTags.Add(tag))
             {
-                if (_filteredPages.Count == 0) {
-                    _filteredPages.UnionWith(tag.FilteredPages);
+                if (MatchingPages.Count == 0) {
+                    MatchingPages.UnionWith(tag.FilteredPages);
                 } else {
-                    _filteredPages.IntersectWith(tag.FilteredPages);
+                    MatchingPages.IntersectWith(tag.FilteredPages);
                 }
                 ApplyFilterToTags();
             }
@@ -145,13 +140,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     ClearTagFilter();
                 } else {
                     // recompute filtered pages from scratch
-                    _filteredPages.Clear();
+                    MatchingPages.Clear();
                     int tagsApplied = 0;
                     foreach (TagPageSet tps in _filterTags) {
                         if (tagsApplied++ == 0) {
-                            _filteredPages.UnionWith(tps.Pages);
+                            MatchingPages.UnionWith(tps.Pages);
                         } else {
-                            _filteredPages.IntersectWith(tps.Pages);
+                            MatchingPages.IntersectWith(tps.Pages);
                         }
                     }
                     ApplyFilterToTags();
@@ -175,7 +170,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             {
                 foreach (TagPageSet tag in Tags.Values)
                 {
-                    tag.IntersectWith(_filteredPages.Values);
+                    tag.IntersectWith(MatchingPages.Values);
                 }
             }
         }
