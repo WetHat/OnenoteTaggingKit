@@ -44,20 +44,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
 
         #endregion IOneNotePageDialog<TagEditorModel>
 
-        private void SelectedTag_TagSelected(object sender, RoutedEventArgs e) {
-            if (_model != null) {
-                tagInput.FocusInput();
-                if (e.OriginalSource is Tag tagBtn
-                    && tagBtn.DataContext is SelectedTagModel mdl) {
-                    if (mdl.SelectableTag != null) {
-                        // de-select that tag
-                        mdl.SelectableTag.IsSelected = false;
-                    }
-                    _model.SelectedTags.RemoveAll(new string[] { mdl.Key });
-                }
-            }
-        }
-
         private void AddTagsToPageButton_Click(object sender, RoutedEventArgs e) {
             if (_model != null && _model.SelectedTags.Count > 0) {
                 ApplyPageTags(TagOperation.UNITE);
@@ -193,7 +179,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             selectMatchingTags();
         }
 
-        private void SelectableTag_TagClick(object sender, RoutedEventArgs e) {
+        private void SelectableTag_TagSelected(object sender, RoutedEventArgs e) {
             var btn = sender as SelectableTag;
             if (btn.DataContext is SelectableTagModel mdl) {
                 if (mdl.IsSelected && !_model.SelectedTags.ContainsKey(mdl.TagName)) {
@@ -202,6 +188,20 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                             SelectableTag = mdl
                         }
                     });
+                }
+            }
+        }
+
+        private void SelectedTag_TagClick(object sender, RoutedEventArgs e) {
+            if (_model != null) {
+                tagInput.FocusInput();
+                if (e.OriginalSource is Tag tagBtn
+                    && tagBtn.DataContext is SelectedTagModel mdl) {
+                    if (mdl.SelectableTag != null) {
+                        // de-select that tag
+                        mdl.SelectableTag.IsSelected = false;
+                    }
+                    _model.SelectedTags.RemoveAll(new string[] { mdl.Key });
                 }
             }
         }
