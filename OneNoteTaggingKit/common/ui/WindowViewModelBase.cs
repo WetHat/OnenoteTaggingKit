@@ -2,12 +2,9 @@
 // Author: WetHat
 // (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
 ////////////////////////////////////////////////////////////
-using Microsoft.Office.Interop.OneNote;
 using System;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
