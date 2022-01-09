@@ -6,6 +6,7 @@
         xmlns:cui="clr-namespace:WetHatLab.OneNote.TaggingKit.common.ui"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        x:Name="self"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type local:FindTaggedPagesDesignerModel}}"
         WindowStyle="ThreeDBorderWindow"
@@ -75,26 +76,20 @@
                          IncludeMappedTags="True"
                          ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_TagInput_Tooltip}}"
                          Margin="3,5,2,0" />
-        <cui:HighlightedTagsPanel Grid.Row="2"
-                                  x:Name="tagsPanel"
-                                  Margin="0,0,2,0"
-                                  TagSource="{Binding Tags, Mode=OneWay}"
-                                  ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Tags_GroupBox_Tooltip}}"
-                                  Background="Transparent">
-            <cui:HighlightedTagsPanel.Header>
-                <TextBlock>
-                  <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Tags_GroupBox_Title}}" />
-                  <Run Text=" (" />
-                  <Run Text="{Binding TagCount, Mode=OneWay}" />
-                  <Run Text=")" />
-                </TextBlock>
-            </cui:HighlightedTagsPanel.Header>
-            <cui:HighlightedTagsPanel.TagTemplate>
+        <cui:TagList x:Name="tagsPanel"
+                     Grid.Row="2"
+                     Margin="0,0,2,0"
+                     TagSource="{Binding Path=TagSource, Mode=OneWay}"
+                     ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Tags_GroupBox_Tooltip}}"
+                     Header="{Binding ElementName=self,Path=TagPanelHeader, Mode=OneWay}">
+            <cui:TagList.TagTemplate>
                 <DataTemplate>
-                    <local:FilterTagSelector Margin="0,5,5,0" />
+                    <cui:SelectableTag Margin="0,5,5,0"
+                                       ToolTip="{Binding Path=ToolTip, Mode=OneWay}"/>
                 </DataTemplate>
-            </cui:HighlightedTagsPanel.TagTemplate>
-        </cui:HighlightedTagsPanel>
+
+            </cui:TagList.TagTemplate>
+        </cui:TagList>
         <ProgressBar Name="pBar"
                      Grid.Row="2" />
         <Button Name="clearSelectionButton"  Grid.Row="2"
@@ -122,15 +117,8 @@
                   Background="Transparent"
                   Margin="0,0,2,0"
                   MinHeight="100"
+                  Header="{Binding ElementName=self, Path=PagePanelHeader, Mode=OneWay}"
                   ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Pages_GroupBox_Tooltip}}">
-            <GroupBox.Header>
-                <TextBlock>
-                  <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Pages_GroupBox_Title}}" />
-                  <Run Text=" (" />
-                  <Run Text="{Binding PageCount, Mode=OneWay}" />
-                  <Run Text=")" />
-                </TextBlock>
-            </GroupBox.Header>
             <ListBox Name="foundPagesList"
                      Background="Transparent"
                      SelectionMode="Extended"

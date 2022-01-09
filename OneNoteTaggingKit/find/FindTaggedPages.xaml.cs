@@ -1,6 +1,6 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using System;
-using System.ComponentModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -21,7 +21,45 @@ namespace WetHatLab.OneNote.TaggingKit.find
     [ComVisible(false)]
     public partial class FindTaggedPages : Window, IOneNotePageWindow<FindTaggedPagesModel>
     {
-        private FindTaggedPagesModel _model;
+        #region TagPanelHeaderProperty
+        /// <summary>
+        /// Backing store for observable property <see cref="TagPanelHeader"/>
+        /// </summary>
+        public static readonly DependencyProperty TagPanelHeaderProperty = DependencyProperty.Register(
+            nameof(TagPanelHeader),
+            typeof(string),
+            typeof(FindTaggedPages),
+            new FrameworkPropertyMetadata("Refinement Tags"));
+
+        /// <summary>
+        /// Get/set the tag panel header text.
+        /// </summary>
+        public string TagPanelHeader {
+            get => GetValue(TagPanelHeaderProperty) as string;
+            set => SetValue(TagPanelHeaderProperty, value);
+        }
+
+        #endregion PageCountProperty
+
+        #region PagePanelHeaderProperty
+        /// <summary>
+        /// Backing store for observable property <see cref="PagePanelHeader"/>
+        /// </summary>
+        public static readonly DependencyProperty PagePanelHeaderProperty = DependencyProperty.Register(
+            nameof(PagePanelHeader),
+            typeof(string),
+            typeof(FindTaggedPages),
+            new FrameworkPropertyMetadata("Pages"));
+
+        /// <summary>
+        /// Get/set the tag panel header text.
+        /// </summary>
+        public string PagePanelHeader {
+            get => GetValue(TagPanelHeaderProperty) as string;
+            set => SetValue(TagPanelHeaderProperty, value);
+        }
+
+        #endregion PagePanelHeaderProperty
 
         /// <summary>
         /// Create a new instance of the find tags window
@@ -30,9 +68,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
             InitializeComponent();
             pBarCopy.Visibility = System.Windows.Visibility.Hidden;
         }
-
         #region IOneNotePageWindow<FindTaggedPagesModel>
 
+        private FindTaggedPagesModel _model;
         /// <summary>
         /// get or set the view model backing this UI
         /// </summary>
@@ -42,12 +80,26 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
             set {
                 _model = value;
-                _model.PropertyChanged += _model_PropertyChanged;
                 DataContext = _model;
+                _model.FilteredPages.CollectionChanged += FilteredPages_CollectionChanged;
+                _model.TagSource.CollectionChanged += TagSource_CollectionChanged;
+                _model.DependencyPropertyChanged += _model_DependencyPropertyChanged;
             }
         }
 
         #endregion IOneNotePageWindow<FindTaggedPagesModel>
+
+        private void TagSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+            Dispatcher.Invoke(() => TagPanelHeader = string.Format("{0} ({1})",
+                                                        Properties.Resources.TagSearch_Tags_GroupBox_Title,
+                                                        _model.TagSource.Count));
+        }
+
+        private void FilteredPages_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+            Dispatcher.Invoke(() => PagePanelHeader = string.Format("{0} ({1})",
+                                                        Properties.Resources.TagSearch_Pages_GroupBox_Title,
+                                                        _model.FilteredPages.Count));
+        }
 
         #region UI events
 
@@ -78,7 +130,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                         break;
 
                     case "TagSelection":
-                        var pagesToTag = from mp in _model.Pages
+                        var pagesToTag = from mp in _model.FilteredPages
                                          where mp.IsSelected && !mp.IsInRecycleBin
                                          select mp.PageID;
                         if (pagesToTag.Count() == 0) {
@@ -98,7 +150,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     case "MarkSelection":
                         string[] marker = new string[] { "-✩-" };
                         int pagesTagged = 0;
-                        foreach (var mdl in _model.Pages.Where((p) => p.IsSelected && !p.IsInRecycleBin)) {
+                        foreach (var mdl in _model.FilteredPages.Where((p) => p.IsSelected && !p.IsInRecycleBin)) {
                             _model.OneNoteApp.TaggingService.Add(new Tagger.TaggingJob(mdl.PageID, marker, Tagger.TagOperation.UNITE));
                             pagesTagged++;
                         }
@@ -123,7 +175,7 @@ EndSelection:{5:D6}";
 <!--StartFragment-->";
                            StringBuilder links = new StringBuilder();
 
-                           foreach (var mdl in _model.Pages.Where(p => p.IsSelected && !p.IsInRecycleBin)) {
+                           foreach (var mdl in _model.FilteredPages.Where(p => p.IsSelected && !p.IsInRecycleBin)) {
                                string pageTitle = mdl.LinkTitle;
                                try {
                                    if (links.Length > 0) {
@@ -202,8 +254,8 @@ EndSelection:{5:D6}";
         private async void ClearSelectionButton_Click(object sender, RoutedEventArgs e) {
             pBar.Visibility = System.Windows.Visibility.Visible;
             await _model.ClearTagFilterAsync();
-            foreach (var t in _model.Tags.Values) {
-                t.IsChecked = false;
+            foreach (var t in _model.TagSource.Values) {
+                t.IsSelected = false;
             }
             pBar.Visibility = System.Windows.Visibility.Hidden;
             e.Handled = true;
@@ -241,7 +293,7 @@ EndSelection:{5:D6}";
         }
 
         private void TagInputBox_Input(object sender, TagInputEventArgs e) {
-            tagsPanel.Highlighter = tagInput.IsEmpty ? new TextSplitter() : new TextSplitter(e.Tags);
+            _model.TagSource.Highlighter = tagInput.IsEmpty ? new TextSplitter() : new TextSplitter(e.Tags);
             if (e.TagInputComplete && !tagInput.IsEmpty) {
                 // select all tags with full matches
                 _model.SelectAllFullyHighlightedTags();
@@ -281,10 +333,8 @@ EndSelection:{5:D6}";
 
         #endregion UI events
 
-        private void _model_PropertyChanged(object sender, PropertyChangedEventArgs e) {
-            if (e == FindTaggedPagesModel.PAGE_COUNT) {
-                foundPagesList.UnselectAll();
-            } else if (e == FindTaggedPagesModel.CURRENT_TAGS) {
+        private void _model_DependencyPropertyChanged(object sender, DependencyPropertyChangedEventArgs e) {
+           if (e.Property == FindTaggedPagesModel.CurrentPageTagsProperty) {
                 // update query if necessary
                 string thisScopID;
                 switch (scopeSelect.SelectedScope) {
@@ -309,7 +359,7 @@ EndSelection:{5:D6}";
                         pBar.Visibility = System.Windows.Visibility.Visible;
                         string query = searchComboBox.Text;
                         _model.FindPagesAsync(query, scopeSelect.SelectedScope).Wait();
-                        tagInput.Tags = ViewModel.CurrentTags;
+                        tagInput.Tags = ViewModel.CurrentPageTags;
                         pBar.Visibility = System.Windows.Visibility.Hidden;
                         searchComboBox.SelectedValue = query;
                     } catch (System.Exception ex) {
@@ -317,7 +367,7 @@ EndSelection:{5:D6}";
                         TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_ScopeChange, ex);
                     }
                 } else {
-                    tagInput.Tags = ViewModel.CurrentTags;
+                    tagInput.Tags = ViewModel.CurrentPageTags;
                 }
             }
         }
