@@ -49,7 +49,11 @@ namespace WetHatLab.OneNote.TaggingKit.common
         IEnumerator<object> IEnumerable<object>.GetEnumerator() => GetEnumerator();
         #endregion IObservableTagList
 
-        Dispatcher _dispatcher;
+        /// <summary>
+        /// The dispatcher in whose contect this observable list instance was
+        /// created in.
+        /// </summary>
+        protected Dispatcher OriginalDispatcher { get; }
 
         /// <summary>
         /// Event raised when the list of tags has changed,
@@ -60,7 +64,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </remarks>
         public override event NotifyCollectionChangedEventHandler CollectionChanged {
             add {
-                var adapter = new EventAdapter(_dispatcher, value);
+                var adapter = new EventAdapter(OriginalDispatcher, value);
                 base.CollectionChanged += adapter.Handler;
             }
             remove {
@@ -104,7 +108,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </remarks>
         public ObservableTagList() {
             DisposeRemovedItems = true;
-            _dispatcher = Dispatcher.CurrentDispatcher;
+            OriginalDispatcher = Dispatcher.CurrentDispatcher;
         }
 
         #region IDisposable
