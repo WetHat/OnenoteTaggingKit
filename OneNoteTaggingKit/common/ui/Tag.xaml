@@ -20,12 +20,12 @@
         </Button.Resources>
         <StackPanel Orientation="Horizontal">
             <TextBlock Name="tagName"
-                       Text="{Binding Path=TagName}"
+                       Text="{Binding Path=TagName, Mode=OneWay}"
                        VerticalAlignment="Center"
                        Foreground="DarkSlateBlue"
                        FontWeight="Bold"
                        Focusable="False"/>
-            <TextBlock Text="{Binding Path=TagType}"
+            <TextBlock Text="{Binding Path=TagType, Mode=OneWay}"
                        VerticalAlignment="Center"
                        Foreground="DarkSlateBlue"
                        FontWeight="Bold"
@@ -33,10 +33,10 @@
             <TextBlock x:Name="tagIndicator"
                        VerticalAlignment="Center"
                        Background="Transparent"
-                       Foreground="{Binding Path=TagIndicatorColor}"
+                       Foreground="{Binding Path=TagIndicatorColor, Mode=OneWay}"
                        Focusable="False"
                        FontFamily="Segoe UI Symbol"
-                       Text="{Binding Path=TagIndicator}" />
+                       Text="{Binding Path=TagIndicator, Mode=OneWay}" />
         </StackPanel>
     </Button>
 </UserControl>
