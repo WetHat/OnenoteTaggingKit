@@ -45,8 +45,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// </summary>
     /// <remarks>Search queries are run in the background</remarks>
     [ComVisible(false)]
-    public class FindTaggedPagesModel : WindowViewModelBase, IFindTaggedPagesModel
-    {
+    public class FindTaggedPagesModel : WindowViewModelBase, IFindTaggedPagesModel {
         #region CurrentPageTitleProperty
         /// <summary>
         /// Backing store for observable property <see cref="CurrentPageTitle"/>
@@ -71,7 +70,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
         public static readonly DependencyProperty CurrentPageTagsProperty = DependencyProperty.Register(
             nameof(CurrentPageTags),
             typeof(IEnumerable<string>),
-            typeof(FindTaggedPagesModel));
+            typeof(FindTaggedPagesModel),
+            new FrameworkPropertyMetadata(new string[]{}));
 
         /// <summary>
         /// Get/set the list of tags found on the current OneNote page.
@@ -113,7 +113,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         public TagsAndPages ContextTags { get { return new TagsAndPages(OneNoteApp); } }
 
-        public string LastScopeID { get; set; }
+        /// <summary>
+        ///  Get/set the OneNote element id of the current search scope.
+        /// </summary>
+        public string CurrentScopeID { get; set; }
 
         /// <summary>
         /// FindTaggedPages pages matching a search criterion in the background.
@@ -123,19 +126,19 @@ namespace WetHatLab.OneNote.TaggingKit.find
         internal async Task FindPagesAsync(string query, SearchScope scope) {
             switch (scope) {
                 case SearchScope.Notebook:
-                    LastScopeID = OneNoteApp.CurrentNotebookID;
+                    CurrentScopeID = OneNoteApp.CurrentNotebookID;
                     break;
 
                 case SearchScope.SectionGroup:
-                    LastScopeID = OneNoteApp.CurrentSectionGroupID;
+                    CurrentScopeID = OneNoteApp.CurrentSectionGroupID;
                     break;
 
                 case SearchScope.Section:
-                    LastScopeID = OneNoteApp.CurrentSectionID;
+                    CurrentScopeID = OneNoteApp.CurrentSectionID;
                     break;
 
                 default:
-                    LastScopeID = String.Empty;
+                    CurrentScopeID = String.Empty;
                     break;
             }
 
@@ -161,7 +164,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 _highlighter = new TextSplitter();
             }
 
-            await Task.Run(() => _filteredTagsAndPages.Find(query, LastScopeID), _cancelWorker.Token);
+            await Task.Run(() => _filteredTagsAndPages.Find(query, CurrentScopeID), _cancelWorker.Token);
         }
 
         internal Task ClearTagFilterAsync() {
@@ -286,6 +289,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// Dispose the view model.
         /// </summary>
         public override void Dispose() {
+            base.Dispose();
             _cancelWorker.Cancel();
             EndTracking();
         }

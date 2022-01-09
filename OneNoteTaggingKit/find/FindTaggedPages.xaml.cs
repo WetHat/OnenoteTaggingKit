@@ -362,7 +362,7 @@ EndSelection:{5:D6}";
                         thisScopID = string.Empty;
                         break;
                 }
-                if (!thisScopID.Equals(ViewModel.LastScopeID)) { // rerun the query for the current scope
+                if (!thisScopID.Equals(ViewModel.CurrentScopeID)) { // rerun the query for the current scope
                     try {
                         pBar.Visibility = System.Windows.Visibility.Visible;
                         string query = searchComboBox.Text;
