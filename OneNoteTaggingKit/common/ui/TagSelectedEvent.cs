@@ -3,13 +3,6 @@
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
     /// <summary>
-    /// Delegate for tag selection events
-    /// </summary>
-    /// <param name="sender">object emitting the event</param>
-    /// <param name="e">     event details</param>
-    public delegate void TagSelectedEventHandler(object sender, TagSelectedEventArgs e);
-
-    /// <summary>
     /// Event details for tag selection events.
     /// </summary>
     public class TagSelectedEventArgs: RoutedEventArgs
