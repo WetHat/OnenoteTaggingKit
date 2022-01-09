@@ -21,8 +21,11 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     public partial class Tag : UserControl
     {
         #region TagSelectedEvent
-        public static readonly RoutedEvent TagSelectedEvent = EventManager.RegisterRoutedEvent(
-            nameof(TagSelected),
+        /// <summary>
+        /// Definition of the click routed event.
+        /// </summary>
+        public static readonly RoutedEvent TagClickEvent = EventManager.RegisterRoutedEvent(
+            nameof(TagClick),
             RoutingStrategy.Bubble,
             typeof(RoutedEventHandler),
             typeof(Tag));
@@ -30,20 +33,21 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// Track changes to tag (de)selection.
         /// </summary>
-        public event RoutedEventHandler TagSelected {
-            add { AddHandler(TagSelectedEvent, value); }
-            remove { RemoveHandler(TagSelectedEvent, value); }
+        public event RoutedEventHandler TagClick {
+            add { AddHandler(TagClickEvent, value); }
+            remove { RemoveHandler(TagClickEvent, value); }
         }
         private void tagBtn_Click(object sender, RoutedEventArgs e) {
-            RaiseEvent(new TagSelectedEventArgs(TagSelectedEvent, this, true));
+            RaiseEvent(new TagSelectedEventArgs(TagClickEvent, this, true));
         }
         #endregion TagSelectedEvent
 
+        /// <summary>
+        /// Initialize a new instance of a tag control.
+        /// </summary>
         public Tag() {
             InitializeComponent();
             tagIndicator.FontSize = tagBtn.FontSize - 1.0;
         }
-
-
     }
 }

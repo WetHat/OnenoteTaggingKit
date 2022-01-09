@@ -25,10 +25,15 @@
                        Foreground="DarkSlateBlue"
                        FontWeight="Bold"
                        Focusable="False"/>
+            <TextBlock Text="{Binding Path=TagType}"
+                       VerticalAlignment="Center"
+                       Foreground="DarkSlateBlue"
+                       FontWeight="Bold"
+                       Focusable="False"/>
             <TextBlock x:Name="tagIndicator"
                        VerticalAlignment="Center"
                        Background="Transparent"
-                       Foreground="Red"
+                       Foreground="{Binding Path=TagIndicatorColor}"
                        Focusable="False"
                        FontFamily="Segoe UI Symbol"
                        Text="{Binding Path=TagIndicator}" />
