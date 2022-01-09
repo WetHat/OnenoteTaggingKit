@@ -91,9 +91,21 @@ namespace WetHatLab.OneNote.TaggingKit.find
             get => _pageTag;
             set {
                 _pageTag = value;
+                _pageTag.PropertyChanged += _pageTag_PropertyChanged;
                 TagName = _pageTag.TagName;
                 TagType = _pageTag.TagType;
                 UpdateTagIndicator();
+            }
+        }
+
+        private void _pageTag_PropertyChanged(object sender, PropertyChangedEventArgs e) {
+            switch(e.PropertyName) {
+                case nameof(TagPageSet.FilteredPageCount):
+                    UpdateTagVisibility();
+                    if (TagVisibility == Visibility.Visible) {
+                        UpdateTagIndicator();
+                    }
+                    break;
             }
         }
 
