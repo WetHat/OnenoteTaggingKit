@@ -125,7 +125,7 @@
                      BorderThickness="0"
                      SelectionChanged="ListBox_SelectionChanged"
                      ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_PageItem_Tooltip}}"
-                     ItemsSource="{Binding Pages, Mode=OneWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                     ItemsSource="{Binding FilteredPages, Mode=OneWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <local:HitHighlightedPageLink Margin="-5,0,0,0" Click="Hyperlink_Click" />
