@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using WetHatLab.OneNote.TaggingKit.common;
@@ -13,14 +12,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
     [ComVisible(false)]
     public class RefinementTagsSource : FilterableTagsSource<RefinementTagModel>
     {
-        FilteredPages _pages;
+        FilteredPages _filteredPages;
         /// <summary>
         /// Initialize a instance of an observable collection of
         /// refinement tag view models.
         /// </summary>
         /// <param name="pages">Observable collection of OneNote page tags.</param>
         public RefinementTagsSource(FilteredPages pages) {
-            _pages = pages;
+            _filteredPages = pages;
             pages.Tags.CollectionChanged += Tags_CollectionChanged;
             Tags_CollectionChanged(
                 this,
@@ -48,9 +47,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 case nameof(RefinementTagModel.IsSelected):
                     if (sender is RefinementTagModel mdl) {
                         if (mdl.IsSelected) {
-                            _pages.AddTagToFilter(mdl.PageTag);
+                            _filteredPages.AddTagToFilter(mdl.PageTag);
                         } else {
-                            _pages.RemoveTagFromFilter(mdl.PageTag);
+                            _filteredPages.RemoveTagFromFilter(mdl.PageTag);
                         }
                     }
                     break;
