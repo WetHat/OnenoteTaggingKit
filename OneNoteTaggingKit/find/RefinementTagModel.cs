@@ -46,6 +46,15 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     break;
             }
         }
+        void UpdateTagIndicator() {
+            if (IsSelected) {
+                TagIndicator = "";
+                TagIndicatorColor = Brushes.Red;
+            } else {
+                TagIndicator = string.Format("⬇ {0}", PageTag.FilteredPageCount);
+                TagIndicatorColor = Brushes.Black;
+            }
+        }
 
         /// <summary>
         /// Handle base class property changes.
@@ -56,13 +65,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             base.TagModelPropertyChanged(sender, e);
             switch (e.PropertyName) {
                 case nameof(IsSelected):
-                    if (IsSelected) {
-                        TagIndicator = "";
-                        TagIndicatorColor = Brushes.Red;
-                    } else {
-                        TagIndicator = string.Format("⬇ {0}", PageTag.FilteredPageCount);
-                        TagIndicatorColor = Brushes.Black;
-                    }
+                    UpdateTagIndicator();
                     break;
             }
         }
@@ -80,10 +83,19 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
 
+        TagPageSet _pageTag = null;
         /// <summary>
         /// Get/set the page tag object.
         /// </summary>
-        public TagPageSet PageTag {get; set; }
+        public TagPageSet PageTag {
+            get => _pageTag;
+            set {
+                _pageTag = value;
+                TagName = _pageTag.TagName;
+                TagType = _pageTag.TagType;
+                UpdateTagIndicator();
+            }
+        }
 
         string _tooltip = string.Empty;
         /// <summary>
