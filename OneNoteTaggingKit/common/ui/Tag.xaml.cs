@@ -20,7 +20,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// </summary>
     public partial class Tag : UserControl
     {
-        #region TagSelectedEvent
+        #region TagClickEvent
         /// <summary>
         /// Definition of the click routed event.
         /// </summary>
