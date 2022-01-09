@@ -55,8 +55,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// Get/set the tag panel header text.
         /// </summary>
         public string PagePanelHeader {
-            get => GetValue(TagPanelHeaderProperty) as string;
-            set => SetValue(TagPanelHeaderProperty, value);
+            get => GetValue(PagePanelHeaderProperty) as string;
+            set => SetValue(PagePanelHeaderProperty, value);
         }
 
         #endregion PagePanelHeaderProperty
@@ -82,23 +82,31 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 _model = value;
                 DataContext = _model;
                 _model.FilteredPages.CollectionChanged += FilteredPages_CollectionChanged;
+                UpdatePagePanelHeader();
                 _model.TagSource.CollectionChanged += TagSource_CollectionChanged;
+                UpdateTagPanelHeader();
                 _model.DependencyPropertyChanged += _model_DependencyPropertyChanged;
             }
         }
 
         #endregion IOneNotePageWindow<FindTaggedPagesModel>
 
+        void UpdateTagPanelHeader() {
+            TagPanelHeader = string.Format("{0} ({1})",
+                                                       Properties.Resources.TagSearch_Tags_GroupBox_Title,
+                                                       _model.TagSource.Count);
+        }
         private void TagSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
-            Dispatcher.Invoke(() => TagPanelHeader = string.Format("{0} ({1})",
-                                                        Properties.Resources.TagSearch_Tags_GroupBox_Title,
-                                                        _model.TagSource.Count));
+            Dispatcher.Invoke(() => UpdateTagPanelHeader());
         }
 
-        private void FilteredPages_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
-            Dispatcher.Invoke(() => PagePanelHeader = string.Format("{0} ({1})",
+        void UpdatePagePanelHeader() {
+            PagePanelHeader = string.Format("{0} ({1})",
                                                         Properties.Resources.TagSearch_Pages_GroupBox_Title,
-                                                        _model.FilteredPages.Count));
+                                                        _model.FilteredPages.Count);
+        }
+        private void FilteredPages_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+        Dispatcher.Invoke(() => UpdatePagePanelHeader());
         }
 
         #region UI events
