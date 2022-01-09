@@ -193,7 +193,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             selectMatchingTags();
         }
 
-        private void SelectableTag_TagSelected(object sender, RoutedEventArgs e) {
+        private void SelectableTag_TagClick(object sender, RoutedEventArgs e) {
             var btn = sender as SelectableTag;
             if (btn.DataContext is SelectableTagModel mdl) {
                 if (mdl.IsSelected && !_model.SelectedTags.ContainsKey(mdl.TagName)) {

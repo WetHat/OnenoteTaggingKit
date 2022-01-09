@@ -117,7 +117,7 @@
             <cui:TagList.TagTemplate>
                 <DataTemplate>
                     <cui:Tag Margin="0,5,5,0"
-                            TagSelected="SelectedTag_TagSelected"
+                            TagClick="SelectedTag_TagClick"
                             ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_HithighlightedTag_Button_Tooltip}}"/>
                 </DataTemplate>
             </cui:TagList.TagTemplate>
