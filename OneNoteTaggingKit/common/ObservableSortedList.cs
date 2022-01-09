@@ -23,10 +23,16 @@ namespace WetHatLab.OneNote.TaggingKit.common
         where TValue : ISortableKeyedItem<TSort, TKey>
         where TKey : IEquatable<TKey>, IComparable<TKey>
         where TSort : IComparable<TSort> {
+
+        private event NotifyCollectionChangedEventHandler _collectionChanged;
         /// <summary>
         /// Event to notify about changes to this collection.
         /// </summary>
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public virtual event NotifyCollectionChangedEventHandler CollectionChanged {
+            add { _collectionChanged += value; }
+            remove { _collectionChanged -= value; }
+        }
+
 
         private const int INITIAL_CAPACITY = 200;
         private List<KeyValuePair<TSort, TValue>> _sortedList = new List<KeyValuePair<TSort, TValue>>(INITIAL_CAPACITY);
@@ -185,10 +191,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             _sortedList.Clear();
             _dictionary.Clear();
             NotifyCollectionChangedEventArgs args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
-            if (CollectionChanged != null)
-            {
-                CollectionChanged(this, args);
-            }
+            _collectionChanged?.Invoke(this, args);
         }
 
         /// <summary>
@@ -251,13 +254,13 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 _sortedList.RemoveRange(startindex, n);
 
                 // fire the event to inform listeners
-                if (CollectionChanged != null)
+                if (_collectionChanged != null)
                 {
                     // fire event for this batch
                     NotifyCollectionChangedEventArgs args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove,
                                                                                                  olditems,
                                                                                                  startindex);
-                    CollectionChanged(this, args);
+                    _collectionChanged(this, args);
                 }
             }
         }
@@ -325,13 +328,13 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
                 _sortedList.InsertRange(insertionPoint, batch);
 
-                if (CollectionChanged != null)
+                if (_collectionChanged != null)
                 {
                     NotifyCollectionChangedEventArgs args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add,
                                                                                           (from b in batch select b.Value).ToList(),
                                                                                           insertionPoint);
 
-                    CollectionChanged(this, args);
+                    _collectionChanged(this, args);
                 }
             }
         }
@@ -359,7 +362,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
         #region IDisposable
         public virtual void Dispose() {
-            CollectionChanged = null;
+            _collectionChanged = null;
         }
         #endregion IDisposable
     }
