@@ -81,9 +81,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
-        /// Get the dictionary of pages
+        /// Get the dictionary of pages.
         /// </summary>
-        public ObservableDictionary<string, TaggedPage> MatchingPages = new ObservableDictionary<string, TaggedPage>();
+        public ObservableDictionary<string, TaggedPage> MatchingPages { get; } = new ObservableDictionary<string, TaggedPage>();
 
         /// <summary>
         /// Get the set of tag names used for filtering
