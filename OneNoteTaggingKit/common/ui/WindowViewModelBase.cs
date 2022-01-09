@@ -15,12 +15,17 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     /// Base class for view models supporting the MVVM pattern for top level add-in windows.
     /// </summary>
     [ComVisible(false)]
-    public abstract class WindowViewModelBase : DependencyObject, INotifyPropertyChanged, IDisposable
+    public abstract class WindowViewModelBase : DependencyObject, IDisposable
     {
         /// <summary>
         /// Get the OneNote application object proxy.
         /// </summary>
         public OneNoteProxy OneNoteApp { get; private set; }
+
+        /// <summary>
+        /// Event raised when any dependency property changed.
+        /// </summary>
+        public event EventHandler<DependencyPropertyChangedEventArgs> DependencyPropertyChanged;
 
         /// <summary>
         /// Initialize this base class
@@ -31,55 +36,21 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             OneNoteApp = app;
         }
 
-        #region INotifyPropertyChanged
-
         /// <summary>
-        /// Event to notify registered handlers about property changes
+        /// Forward dependency property changes to registered listeners.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion INotifyPropertyChanged
-
-        /// <summary>
-        /// Notify listeners subscribed to the <see cref="E:WetHatLab.OneNote.TaggingKit.common.PropertyChanged"/> about changes to model properties.
-        /// </summary>
-        /// <remarks>typically this method is used together with a number of static PropertyChangedEventArgs members.
-        /// <example>
-        /// <code>
-        ///   static readonly PropertyChangedEventArgs PAGE_TITLE = new PropertyChangedEventArgs("PageTitle");
-        ///   ....
-        ///   fireNotifyPropertyChanged(PAGE_TITLE);
-        /// </code>
-        /// </example>
-        /// </remarks>
-        /// <param name="propArgs">event and property details</param>
-        protected void fireNotifyPropertyChanged(PropertyChangedEventArgs propArgs)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, propArgs);
-            }
-        }
-
-        /// <summary>
-        /// Notify listeners subscribed to the <see cref="E:WetHatLab.OneNote.TaggingKit.common.PropertyChanged"/> about changes to model properties.
-        /// </summary>
-        /// <remarks>Notification is performed in a given thread context</remarks>
-        /// <param name="dispatcher">thread context to use</param>
-        /// <param name="propArgs">event and property details</param>
-        protected void fireNotifyPropertyChanged(Dispatcher dispatcher, PropertyChangedEventArgs propArgs)
-        {
-            dispatcher.Invoke(() => fireNotifyPropertyChanged(propArgs));
+        /// <param name="e"></param>
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e) {
+            base.OnPropertyChanged(e);
+            DependencyPropertyChanged?.Invoke(this, e);
         }
 
         #region IDisposable
-
         /// <summary>
         /// Unsubscribe all listeners.
         /// </summary>
-        public virtual void Dispose()
-        {
-            PropertyChanged = null;
+        public virtual void Dispose() {
+            DependencyPropertyChanged = null;
         }
 
         #endregion IDisposable
