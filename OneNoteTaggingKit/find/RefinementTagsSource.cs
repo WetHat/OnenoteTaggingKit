@@ -46,11 +46,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
             switch (e.PropertyName) {
                 case nameof(RefinementTagModel.IsSelected):
                     if (sender is RefinementTagModel mdl) {
-                        if (mdl.IsSelected) {
-                            _filteredPages.AddTagToFilter(mdl.PageTag);
-                        } else {
-                            _filteredPages.RemoveTagFromFilter(mdl.PageTag);
-                        }
+                        OriginalDispatcher.Invoke(() => {
+                            if (mdl.IsSelected) {
+                                _filteredPages.AddTagToFilter(mdl.PageTag);
+                            } else {
+                                _filteredPages.RemoveTagFromFilter(mdl.PageTag);
+                            }
+                        });
                     }
                     break;
             }
