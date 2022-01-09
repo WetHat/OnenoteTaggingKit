@@ -45,10 +45,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
         public string TagType {
             get => _tagType;
             set {
-                if (_tagType != value
+                if (!_tagType.Equals(value)
                     && (Properties.Settings.Default.ImportOneNoteTagMarker.Equals(value)
-                        && (!Properties.Settings.Default.ImportOneNoteTagMarker.Equals(_tagType)
-                             || (!_tagType.Equals(value) && !string.IsNullOrWhiteSpace(value))))) {
+                        ||!string.IsNullOrWhiteSpace(value))) {
                     _tagType = value;
                     RaisePropertyChanged();
                 }
