@@ -84,6 +84,7 @@
     <Compile Include="common\ObservableDictionary.cs" />
     <Compile Include="common\ObservableSortedList.cs" />
     <Compile Include="common\OneNotePageProxy.cs" />
+    <Compile Include="common\FilterableTagsSource.cs" />
     <Compile Include="common\ui\SelectableTagModel.cs" />
     <Compile Include="common\ui\SelectedTagModel.cs" />
     <Compile Include="common\ui\Tag.xaml.cs">
@@ -106,9 +107,6 @@
     <Compile Include="common\ui\TagList.xaml.cs">
       <DependentUpon>TagList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="common\ui\HighlightedTagsPanel.xaml.cs">
-      <DependentUpon>HighlightedTagsPanel.xaml</DependentUpon>
-    </Compile>
     <Compile Include="common\ui\ScopeSelector.xaml.cs">
       <DependentUpon>ScopeSelector.xaml</DependentUpon>
     </Compile>
@@ -125,17 +123,15 @@
     </Compile>
     <Compile Include="edit\TagEditorDesignerModel.cs" />
     <Compile Include="edit\TagEditorModel.cs" />
-    <Compile Include="find\FilterablePageCollection.cs" />
+    <Compile Include="find\FilteredPages.cs" />
     <Compile Include="find\FindTaggedPagesDesignerModel.cs" />
     <Compile Include="find\HitHighlightedPageLink.xaml.cs">
       <DependentUpon>HitHighlightedPageLink.xaml</DependentUpon>
     </Compile>
     <Compile Include="find\HitHighlightedPageLinkDesignerModel.cs" />
     <Compile Include="find\HitHighlightedPageLinkModel.cs" />
-    <Compile Include="find\FilterTagSelector.xaml.cs">
-      <DependentUpon>FilterTagSelector.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="find\FilterTagSelectorModel.cs" />
+    <Compile Include="find\RefinementTagModel.cs" />
+    <Compile Include="find\RefinementTagsSource.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="manage\RemovableTag.xaml.cs">
       <DependentUpon>RemovableTag.xaml</DependentUpon>
@@ -269,10 +265,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="common\ui\HighlightedTagsPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="common\ui\ScopeSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -286,10 +278,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="find\HitHighlightedPageLink.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="find\FilterTagSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
