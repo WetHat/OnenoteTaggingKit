@@ -83,7 +83,7 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
             }
             // collect the genuine page tags
             HashSet<string> pagetags = new HashSet<string>(from name in page.PageTags
-                                                           select TagPageSet.TagBasename(name));
+                                                           select TagPageSet.ParseTagName(name).Item1);
 
             switch (_op)
             {
