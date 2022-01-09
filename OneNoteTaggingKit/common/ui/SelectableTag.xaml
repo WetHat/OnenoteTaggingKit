@@ -26,10 +26,15 @@
                        Foreground="DarkSlateBlue"
                        FontWeight="Bold"
                        Focusable="False"/>
+            <TextBlock Text="{Binding Path=TagType, Mode=OneWay}"
+                       VerticalAlignment="Center"
+                       Foreground="DarkSlateBlue"
+                       FontWeight="Bold"
+                       Focusable="False"/>
             <TextBlock x:Name="tagIndicator"
                        VerticalAlignment="Bottom"
                        Background="Transparent"
-                       Foreground="{Binding Path=TagIndicatorColor}"
+                       Foreground="{Binding Path=TagIndicatorColor, Mode=OneWay}"
                        Focusable="False"
                        FontFamily="Segoe UI Symbol"
                        Text="{Binding TagIndicator}" />
