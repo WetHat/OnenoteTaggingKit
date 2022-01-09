@@ -29,7 +29,7 @@
             <TextBlock x:Name="tagIndicator"
                        VerticalAlignment="Bottom"
                        Background="Transparent"
-                       Foreground="Red"
+                       Foreground="{Binding Path=TagIndicatorColor}"
                        Focusable="False"
                        FontFamily="Segoe UI Symbol"
                        Text="{Binding TagIndicator}" />
