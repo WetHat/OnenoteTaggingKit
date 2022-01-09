@@ -80,6 +80,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             set {
                 if (_tagIndicatorColor != value) {
                     _tagIndicatorColor = value;
+                    RaisePropertyChanged();
                 }
             }
         }
