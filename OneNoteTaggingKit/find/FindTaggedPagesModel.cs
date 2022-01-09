@@ -71,7 +71,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             nameof(CurrentPageTags),
             typeof(IEnumerable<string>),
             typeof(FindTaggedPagesModel),
-            new FrameworkPropertyMetadata(new string[]{}));
+            new FrameworkPropertyMetadata(new string[] { }));
 
         /// <summary>
         /// Get/set the list of tags found on the current OneNote page.
@@ -84,19 +84,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         // the collection of pages matching filter criteria.
         private FilteredPages _filteredTagsAndPages;
-
-        // pages in the search result exposed to the UI
-        private ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel> _pages = new ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel>();
-
         private CancellationTokenSource _cancelWorker = new CancellationTokenSource();
         private TextSplitter _highlighter;
 
-        private readonly RefinementTagsSource _tags;
         internal FindTaggedPagesModel(OneNoteProxy onenote) : base(onenote) {
             _filteredTagsAndPages = new FilteredPages(onenote);
-            _tags = new RefinementTagsSource(_filteredTagsAndPages);
+            TagSource = new RefinementTagsSource(_filteredTagsAndPages);
             // track changes in filter result
-            _filteredTagsAndPages.Pages.CollectionChanged += HandlePageCollectionChanges;
+            _filteredTagsAndPages.MatchingPages.CollectionChanged += HandlePageCollectionChanges;
 
             CurrentPageTitle = Properties.Resources.TagSearch_CheckBox_Tracking_Text;
             // load the search history
@@ -195,23 +190,18 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// get the collection of all OneNote page tags.
         /// </summary>
-        public RefinementTagsSource TagSource => _tags;
+        public RefinementTagsSource TagSource { get; }
 
         /// <summary>
-        /// get the collection of filtered pages.
+        /// Get the collection of filtered pages.
         /// </summary>
-        public ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel> FilteredPages {
-            get => _pages;
-        }
+        public ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel> FilteredPages
+            { get; } = new ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel>();
 
         /// <summary>
         /// Get the default scope
         /// </summary>
-        public SearchScope DefaultScope {
-            get {
-                return (SearchScope)Properties.Settings.Default.DefaultScope;
-            }
-        }
+        public SearchScope DefaultScope => (SearchScope)Properties.Settings.Default.DefaultScope;
 
         #endregion
 
@@ -258,17 +248,18 @@ namespace WetHatLab.OneNote.TaggingKit.find
             Action a = null;
             switch (e.Action) {
                 case NotifyDictionaryChangedAction.Add:
-                    a = () => _pages.AddAll(from i in e.Items select new HitHighlightedPageLinkModel(i, _highlighter, OneNoteApp));
+                    a = () => FilteredPages.AddAll(from i in e.Items select new HitHighlightedPageLinkModel(i, _highlighter, OneNoteApp));
                     break;
 
                 case NotifyDictionaryChangedAction.Remove:
-                    a = () => _pages.RemoveAll(from i in e.Items select i.Key);
+                    a = () => FilteredPages.RemoveAll(from i in e.Items select i.Key);
                     break;
 
                 case NotifyDictionaryChangedAction.Reset:
-                    a = () => _pages.Clear();
+                    a = () => FilteredPages.Clear();
                     break;
             }
+            Dispatcher.Invoke(a);
         }
 
         /// <summary>
