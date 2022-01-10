@@ -43,6 +43,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             switch (e.PropertyName) {
                 case nameof(TagPageSet.FilteredPageCount):
                     Tooltip = String.Format(Properties.Resources.TagSelector_PageCount_Tooltip, PageTag.FilteredPages.Count,PageTag.Pages.Count);
+                    UpdateTagIndicator();
                     break;
             }
         }
@@ -66,6 +67,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             switch (e.PropertyName) {
                 case nameof(IsSelected):
                     UpdateTagIndicator();
+                    UpdateTagVisibility();
                     break;
             }
         }
