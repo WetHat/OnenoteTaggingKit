@@ -38,7 +38,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// notebook, section group, or section. If given as null or empty string scope is
         /// the entire set of notebooks open in OneNote.
         /// </param>
-        /// <seealso cref="Filter" />
         internal void Find(string query, string scopeID) {
             _query = query;
             if (string.IsNullOrEmpty(query)) {
