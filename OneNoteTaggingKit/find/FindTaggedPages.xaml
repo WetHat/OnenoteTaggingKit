@@ -81,7 +81,7 @@
                 <DataTemplate>
                     <cui:Tag Margin="0,5,5,0"
                             TagClick="Tag_TagClick"
-                            ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSelector_Tooltip}}" />
+                            ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.RemoveTag_Button_Tooltip}}" />
                 </DataTemplate>
             </cui:TagList.TagTemplate>
         </cui:TagList>
