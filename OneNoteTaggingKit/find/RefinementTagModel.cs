@@ -42,7 +42,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         private void OnTagPropertyChanged(object sender, PropertyChangedEventArgs e) {
             switch (e.PropertyName) {
                 case nameof(TagPageSet.FilteredPageCount):
-                    Tooltip = String.Format(Properties.Resources.TagSelector_PageCount_Tooltip, PageTag.FilteredPageCount, PageTag.Pages.Count, TagName);
+                    Tooltip = String.Format(Properties.Resources.TagSelector_PageCount_Tooltip, PageTag.FilteredPages.Count,PageTag.Pages.Count);
                     break;
             }
         }
