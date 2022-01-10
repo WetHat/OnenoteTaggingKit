@@ -51,7 +51,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 TagIndicator = "";
                 TagIndicatorColor = Brushes.Red;
             } else {
-                TagIndicator = string.Format("⬇ {0}", PageTag.FilteredPageCount);
+                TagIndicator = string.Format(" ↓{0}", PageTag.FilteredPageCount);
                 TagIndicatorColor = Brushes.Black;
             }
         }
@@ -76,8 +76,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
         protected override void UpdateTagVisibility() {
             if (PageTag.FilteredPageCount == 0) {
                 TagVisibility = Visibility.Collapsed;
-            } else if (IsSelected) {
-                TagVisibility = Visibility.Visible;
             } else {
                 base.UpdateTagVisibility();
             }
