@@ -24,6 +24,7 @@
             set {
                 _selectableTag = value;
                 TagName = value.TagName;
+                TagType = value.TagType;
             }
         }
 
