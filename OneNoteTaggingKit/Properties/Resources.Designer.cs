@@ -1241,6 +1241,24 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refinement Tags.
+        /// </summary>
+        public static string TagSearch_SelectedTags_GroupBox_Title {
+            get {
+                return ResourceManager.GetString("TagSearch_SelectedTags_GroupBox_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected filter tags.
+        /// </summary>
+        public static string TagSearch_SelectedTags_GroupBox_Tooltip {
+            get {
+                return ResourceManager.GetString("TagSearch_SelectedTags_GroupBox_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to When tracking is on, tags from the current page are highlighted and the title of the current page is displayed in the status bar. Select one ore more of the highlighted tags to filter for pages related to the current page..
         /// </summary>
         public static string TagSearch_StatusBar_Tooltip {
@@ -1259,7 +1277,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Refinement Tags.
+        ///   Looks up a localized string similar to Page Tags.
         /// </summary>
         public static string TagSearch_Tags_GroupBox_Title {
             get {
@@ -1286,16 +1304,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This tag is selected for filtering.
-        /// </summary>
-        public static string TagSelector_FilterIndicator_Tooltip {
-            get {
-                return ResourceManager.GetString("TagSelector_FilterIndicator_Tooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} of {1} pages tagged with &apos;{2}&apos; match the tag filter.
+        ///   Looks up a localized string similar to {0}/{1} page(s) with this tag match the filter.
         /// </summary>
         public static string TagSelector_PageCount_Tooltip {
             get {

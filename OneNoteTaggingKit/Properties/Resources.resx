@@ -182,7 +182,7 @@
     <value>Pages marked with all selected tags </value>
   </data>
   <data name="TagSearch_Tags_GroupBox_Title" xml:space="preserve">
-    <value>Refinement Tags</value>
+    <value>Page Tags</value>
   </data>
   <data name="TagSearch_Tags_GroupBox_Tooltip" xml:space="preserve">
     <value>Select one or more tags to show only pages having these tags.</value>
@@ -352,11 +352,8 @@ Sorry for the inconvenience!</value>
   <data name="TagManager_SuggestedTags_Header" xml:space="preserve">
     <value>Tags</value>
   </data>
-  <data name="TagSelector_FilterIndicator_Tooltip" xml:space="preserve">
-    <value>This tag is selected for filtering</value>
-  </data>
   <data name="TagSelector_PageCount_Tooltip" xml:space="preserve">
-    <value>{0} of {1} pages tagged with '{2}' match the tag filter</value>
+    <value>{0}/{1} page(s) with this tag match the filter</value>
   </data>
   <data name="TagSearch_CheckBox_Tracking_Text" xml:space="preserve">
     <value>← Check to turn on tag tracking</value>
@@ -535,5 +532,11 @@ Tap or click link to navigate to page.</value>
   </data>
   <data name="TagEditor_Select_Matching_Tags_Button_Tooltip" xml:space="preserve">
     <value>Tap or click to select all fully matching tags.</value>
+  </data>
+  <data name="TagSearch_SelectedTags_GroupBox_Title" xml:space="preserve">
+    <value>Refinement Tags</value>
+  </data>
+  <data name="TagSearch_SelectedTags_GroupBox_Tooltip" xml:space="preserve">
+    <value>Selected filter tags</value>
   </data>
 </root>

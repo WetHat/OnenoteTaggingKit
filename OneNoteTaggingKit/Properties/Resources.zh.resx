@@ -179,7 +179,7 @@
     <value>有当前标签的页面 </value>
   </data>
   <data name="TagSearch_Tags_GroupBox_Title" xml:space="preserve">
-    <value>标签筛选</value>
+    <value>页面标签</value>
   </data>
   <data name="TagSearch_Tags_GroupBox_Tooltip" xml:space="preserve">
     <value>点击选择一个或多个标签，筛选出有所选标签的页面</value>
@@ -349,11 +349,8 @@
   <data name="TagManager_SuggestedTags_Header" xml:space="preserve">
     <value>已有标签</value>
   </data>
-  <data name="TagSelector_FilterIndicator_Tooltip" xml:space="preserve">
-    <value>用于筛选的标签</value>
-  </data>
   <data name="TagSelector_PageCount_Tooltip" xml:space="preserve">
-    <value>{0}/{1}，满足标签筛选条件的页面数量/标记 '{2}' 的页面总数量</value>
+    <value>具有此标记的{0}/{1}网页与过滤器匹配</value>
   </data>
   <data name="TagSearch_CheckBox_Tracking_Text" xml:space="preserve">
     <value>← 勾选后启用跟踪页面标签</value>
@@ -535,5 +532,11 @@
   </data>
   <data name="TagEditor_Select_Matching_Tags_Button_Tooltip" xml:space="preserve">
     <value>点击或单击以选择所有完全匹配的标记</value>
+  </data>
+  <data name="TagSearch_SelectedTags_GroupBox_Title" xml:space="preserve">
+    <value>过滤标签</value>
+  </data>
+  <data name="TagSearch_SelectedTags_GroupBox_Tooltip" xml:space="preserve">
+    <value>过滤器标签选择</value>
   </data>
 </root>
