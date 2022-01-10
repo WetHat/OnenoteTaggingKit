@@ -38,11 +38,12 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" MinHeight="100" />
+            <RowDefinition Height="*" MinHeight="50" MaxHeight="100"/>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="3*" MinHeight="100" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="6*" MinHeight="100" />
+            <RowDefinition Height="Auto" MaxHeight="23"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -69,30 +70,22 @@
                   KeyUp="SearchComboBox_KeyUp"
                   ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Query_ComboBox_Tooltip}}" />
         </DockPanel>
-        <cui:TagInputBox Grid.Row="1"
-                         x:Name="tagInput"
-                         TagInput="TagInputBox_Input"
-                         ContextTagsSource="{Binding ContextTags, Mode=OneWay}"
-                         IncludeMappedTags="True"
-                         ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_TagInput_Tooltip}}"
-                         Margin="3,5,2,0" />
-        <cui:TagList x:Name="tagsPanel"
-                     Grid.Row="2"
-                     Margin="0,0,2,0"
-                     TagSource="{Binding Path=TagSource, Mode=OneWay}"
-                     ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Tags_GroupBox_Tooltip}}"
-                     Header="{Binding ElementName=self,Path=TagPanelHeader, Mode=OneWay}">
+        <cui:TagList Grid.Row="1"
+                    x:Name="selectedTags"
+                    Margin="5,0,5,0"
+                    Background="Transparent"
+                    TagSource="{Binding Path=SelectedRefinementTags,Mode=OneWay}"
+                    ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_SelectedTags_GroupBox_Tooltip}}"
+                    Header="{Binding ElementName=self,Path=RefinementTagsPanelHeader, Mode=OneWay}" >
             <cui:TagList.TagTemplate>
                 <DataTemplate>
-                    <cui:SelectableTag Margin="0,5,5,0"
-                                       ToolTip="{Binding Path=ToolTip, Mode=OneWay}"/>
+                    <cui:Tag Margin="0,5,5,0"
+                            TagClick="Tag_TagClick"
+                            ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSelector_Tooltip}}" />
                 </DataTemplate>
-
             </cui:TagList.TagTemplate>
         </cui:TagList>
-        <ProgressBar Name="pBar"
-                     Grid.Row="2" />
-        <Button Name="clearSelectionButton"  Grid.Row="2"
+        <Button Name="clearSelectionButton"  Grid.Row="1"
                 VerticalAlignment="Top"  HorizontalAlignment="Right"
                 Click="ClearSelectionButton_Click"
                 BorderThickness="0" BorderBrush="LightBlue"
@@ -101,7 +94,45 @@
                 Margin="0,0,12,0">
             <Image  MaxWidth="32" Height="24" HorizontalAlignment="Center" VerticalAlignment="Bottom" Source="/OneNoteTaggingKit;component/Resources/clear selection.png" />
         </Button>
-        <GridSplitter Grid.Row="3"
+        <GridSplitter Grid.Row="2"
+                      VerticalAlignment="Top"
+                      ResizeBehavior="PreviousAndNext"
+                      ResizeDirection="Rows" Height="5" HorizontalAlignment="Stretch">
+            <GridSplitter.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0.0">
+                    <GradientStop Color="Blue" Offset="1" />
+                    <GradientStop Color="PaleGoldenrod" Offset="0.67" />
+                </LinearGradientBrush>
+            </GridSplitter.Background>
+        </GridSplitter>
+        <DockPanel Grid.Row="3">
+            <cui:TagInputBox DockPanel.Dock="Top"
+                             x:Name="tagInput"
+                             TagInput="TagInputBox_Input"
+                             ContextTagsSource="{Binding ContextTags, Mode=OneWay}"
+                             IncludeMappedTags="True"
+                             ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_TagInput_Tooltip}}"
+                             Margin="3,5,2,0" />
+            <cui:TagList x:Name="tagsPanel"
+                         Margin="0,0,2,0"
+                         TagSource="{Binding Path=TagSource, Mode=OneWay}"
+                         ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Tags_GroupBox_Tooltip}}"
+                         Header="{Binding ElementName=self,Path=TagPanelHeader, Mode=OneWay}">
+                <cui:TagList.TagTemplate>
+                    <DataTemplate>
+                        <cui:SelectableTag Margin="0,5,5,0"
+                                           ToolTip="{Binding Path=Tooltip, Mode=OneWay}"
+                                           TagSelected="SelectableTag_TagSelected"/>
+                    </DataTemplate>
+
+                </cui:TagList.TagTemplate>
+            </cui:TagList>
+        </DockPanel>
+        <ProgressBar Grid.Row="3"
+                     x:Name="pBar"
+                     VerticalAlignment="Center"
+                     Margin="0,50,0,0"/>
+        <GridSplitter Grid.Row="4"
                       VerticalAlignment="Top"
                       ResizeBehavior="PreviousAndNext"
                       ResizeDirection="Rows" Height="5" HorizontalAlignment="Stretch">
@@ -112,7 +143,7 @@
                 </LinearGradientBrush>
             </GridSplitter.Background>
         </GridSplitter>
-        <GroupBox Grid.Row="4"
+        <GroupBox Grid.Row="5"
                   HorizontalAlignment="Stretch"
                   Background="Transparent"
                   Margin="0,0,2,0"
@@ -133,8 +164,8 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </GroupBox>
-        <Menu Name="foundPagesMenu"
-              Grid.Row="4"
+        <Menu Grid.Row="5"
+              x:Name="foundPagesMenu"
               BorderThickness="0"
               Background="Transparent"
               Margin="0,0,12,0"
@@ -157,12 +188,12 @@
                           Tag="Refresh"
                           Click="Page_MenuItem_Click">
                     <MenuItem.Icon>
-                        <TextBlock  Text=""
-                                    FontFamily="Segoe UI Symbol"
-                                    FontWeight="ExtraBold"
-                                    FontSize="14"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Center" />
+                        <TextBlock Text=""
+                                   FontFamily="Segoe UI Symbol"
+                                   FontWeight="ExtraBold"
+                                   FontSize="14"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.FoundPages_MenuItem_Deselect_All}}"
@@ -216,21 +247,20 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <ProgressBar Name="pBarCopy"
+        <ProgressBar Grid.Row="5"
+                     x:Name="pBarCopy"
                      Visibility="Visible"
-                     Width="{Binding ElementName=pBarCopyText,Path=ActualWidth,Mode=OneWay}"
-                     Grid.Row="4" />
-        <TextBlock Name="pBarCopyText"
+                     Width="{Binding ElementName=pBarCopyText,Path=ActualWidth,Mode=OneWay}" />
+        <TextBlock Grid.Row="5"
+                   x:Name="pBarCopyText"
                    Padding="10,0,10,0"
                    FontWeight="Bold"
                    Visibility="{Binding ElementName=pBarCopy, Path=Visibility}"
-                   Grid.Row="4"
                    Background="Transparent"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Links_ProgressBar_Title}}" />
-        <StatusBar Grid.Row="5"
-                   MaxHeight="23"
+        <StatusBar Grid.Row="6"
                    ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_StatusBar_Tooltip}}">
             <StatusBarItem>
                 <CheckBox Background="LightGreen"

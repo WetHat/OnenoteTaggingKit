@@ -31,6 +31,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
         ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel> FilteredPages { get; }
 
         /// <summary>
+        /// View models of tags currently selected for refinement.
+        /// </summary>
+        ObservableTagList<SelectedTagModel> SelectedRefinementTags { get; }
+        /// <summary>
         /// Get the default search scope
         /// </summary>
         SearchScope DefaultScope { get; }
@@ -195,15 +199,19 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Get the collection of filtered pages.
         /// </summary>
-        public ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel> FilteredPages
-            { get; } = new ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel>();
+        public ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel> FilteredPages { get; } = new ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel>();
 
         /// <summary>
         /// Get the default scope
         /// </summary>
         public SearchScope DefaultScope => (SearchScope)Properties.Settings.Default.DefaultScope;
 
-        #endregion
+        /// <summary>
+        /// Get the observable list of tags selected for refinement.
+        /// </summary>
+        public ObservableTagList<SelectedTagModel> SelectedRefinementTags { get; } = new ObservableTagList<SelectedTagModel>();
+
+        #endregion IFindTaggedPagesModel
 
         #region tag tracking
         private Timer _tracker;

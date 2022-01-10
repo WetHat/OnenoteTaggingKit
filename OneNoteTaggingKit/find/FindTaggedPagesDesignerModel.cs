@@ -58,6 +58,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
         public ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel> FilteredPages => _pageModels;
 
         /// <summary>
+        /// Observable list of tags selected for refinement.
+        /// </summary>
+        public ObservableTagList<SelectedTagModel> SelectedRefinementTags { get; } = new ObservableTagList<SelectedTagModel>();
+        /// <summary>
         /// Get the design time collection of tags
         /// </summary>
         public RefinementTagsSource TagSource => _tags;

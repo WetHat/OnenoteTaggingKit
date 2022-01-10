@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.edit;
@@ -38,7 +39,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
             get => GetValue(TagPanelHeaderProperty) as string;
             set => SetValue(TagPanelHeaderProperty, value);
         }
-
+        void UpdateTagPanelHeader() {
+            TagPanelHeader = _model.SelectedRefinementTags.Count == 0
+                ? string.Format("{0} ({1})",
+                                Properties.Resources.TagSearch_Tags_GroupBox_Title,
+                                _model.TagSource.Count)
+                : string.Format("{0} (Ո)",
+                                Properties.Resources.TagSearch_Tags_GroupBox_Title);
+        }
         #endregion PageCountProperty
 
         #region PagePanelHeaderProperty
@@ -58,8 +66,37 @@ namespace WetHatLab.OneNote.TaggingKit.find
             get => GetValue(PagePanelHeaderProperty) as string;
             set => SetValue(PagePanelHeaderProperty, value);
         }
-
+        void UpdatePagePanelHeader() {
+            PagePanelHeader = string.Format("{0} ({1})",
+                                                        Properties.Resources.TagSearch_Pages_GroupBox_Title,
+                                                        _model.FilteredPages.Count);
+        }
         #endregion PagePanelHeaderProperty
+
+        #region RefinementTagsPanelHeaderProperty
+        /// <summary>
+        /// Backing store for observable property <see cref="RefinementTagsPanelHeader"/>
+        /// </summary>
+        public static readonly DependencyProperty RefinementTagsPanelHeaderProperty = DependencyProperty.Register(
+            nameof(RefinementTagsPanelHeader),
+            typeof(string),
+            typeof(FindTaggedPages),
+            new FrameworkPropertyMetadata("Filter tags"));
+
+        /// <summary>
+        /// Get/set the tag panel header text.
+        /// </summary>
+        public string RefinementTagsPanelHeader {
+            get => GetValue(RefinementTagsPanelHeaderProperty) as string;
+            set => SetValue(RefinementTagsPanelHeaderProperty, value);
+        }
+
+        void UpdateRefinementTagsPanelHeader() {
+            RefinementTagsPanelHeader = string.Format("{0} ({1})",
+                                                       Properties.Resources.TagSearch_SelectedTags_GroupBox_Title,
+                                                       _model.SelectedRefinementTags.Count);
+        }
+        #endregion RefinementTagsPanelHeaderProperty
 
         /// <summary>
         /// Create a new instance of the find tags window
@@ -86,24 +123,20 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 _model.TagSource.CollectionChanged += TagSource_CollectionChanged;
                 UpdateTagPanelHeader();
                 _model.DependencyPropertyChanged += _model_DependencyPropertyChanged;
+                _model.SelectedRefinementTags.CollectionChanged += SelectedRefinementTags_CollectionChanged;
+                UpdateRefinementTagsPanelHeader();
             }
+        }
+
+        private void SelectedRefinementTags_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+            UpdateRefinementTagsPanelHeader();
+            UpdateTagPanelHeader();
         }
 
         #endregion IOneNotePageWindow<FindTaggedPagesModel>
 
-        void UpdateTagPanelHeader() {
-            TagPanelHeader = string.Format("{0} ({1})",
-                                                       Properties.Resources.TagSearch_Tags_GroupBox_Title,
-                                                       _model.TagSource.Count);
-        }
         private void TagSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
             Dispatcher.Invoke(() => UpdateTagPanelHeader());
-        }
-
-        void UpdatePagePanelHeader() {
-            PagePanelHeader = string.Format("{0} ({1})",
-                                                        Properties.Resources.TagSearch_Pages_GroupBox_Title,
-                                                        _model.FilteredPages.Count);
         }
         private void FilteredPages_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
         Dispatcher.Invoke(() => UpdatePagePanelHeader());
@@ -232,7 +265,6 @@ EndSelection:{5:D6}";
 
             Trace.Flush();
         }
-
         private void Hyperlink_Click(object sender, RoutedEventArgs e) {
             try {
                 HitHighlightedPageLink l = sender as HitHighlightedPageLink;
@@ -262,9 +294,10 @@ EndSelection:{5:D6}";
         private async void ClearSelectionButton_Click(object sender, RoutedEventArgs e) {
             pBar.Visibility = System.Windows.Visibility.Visible;
             await _model.ClearTagFilterAsync();
-            foreach (var t in _model.TagSource.Values) {
-                t.IsSelected = false;
+            foreach (var t in _model.SelectedRefinementTags.Values) {
+                t.SelectableTag.IsSelected = false;
             }
+            _model.SelectedRefinementTags.Clear();
             pBar.Visibility = System.Windows.Visibility.Hidden;
             e.Handled = true;
         }
@@ -338,9 +371,44 @@ EndSelection:{5:D6}";
             // start tracking current page
             ViewModel.BeginTracking();
         }
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            foreach (HitHighlightedPageLinkModel pl in e.RemovedItems) {
+                pl.IsSelected = false;
+            }
+            foreach (HitHighlightedPageLinkModel pl in e.AddedItems) {
+                pl.IsSelected = true;
+            }
+        }
 
+        private void Tag_TagClick(object sender, RoutedEventArgs e) {
+            if (_model != null) {
+                tagInput.FocusInput();
+                if (e.OriginalSource is Tag tagBtn
+                    && tagBtn.DataContext is SelectedTagModel mdl) {
+                    if (mdl.SelectableTag != null) {
+                        // de-select that tag
+                        mdl.SelectableTag.IsSelected = false;
+                    }
+                    _model.SelectedRefinementTags.RemoveAll(new string[] { mdl.Key });
+                }
+            }
+        }
+
+        private void SelectableTag_TagSelected(object sender, RoutedEventArgs e) {
+            var btn = sender as SelectableTag;
+            if (btn.DataContext is SelectableTagModel mdl) {
+                if (mdl.IsSelected && !_model.SelectedRefinementTags.ContainsKey(mdl.TagName)) {
+                    _model.SelectedRefinementTags.AddAll(new SelectedTagModel[] {
+                        new SelectedTagModel() {
+                            SelectableTag = mdl,
+                            TagIndicator = "",
+                            TagIndicatorColor = Brushes.Red
+                        }
+                    });
+                }
+            }
+        }
         #endregion UI events
-
         private void _model_DependencyPropertyChanged(object sender, DependencyPropertyChangedEventArgs e) {
            if (e.Property == FindTaggedPagesModel.CurrentPageTagsProperty) {
                 // update query if necessary
@@ -377,15 +445,6 @@ EndSelection:{5:D6}";
                 } else {
                     tagInput.Tags = ViewModel.CurrentPageTags;
                 }
-            }
-        }
-
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            foreach (HitHighlightedPageLinkModel pl in e.RemovedItems) {
-                pl.IsSelected = false;
-            }
-            foreach (HitHighlightedPageLinkModel pl in e.AddedItems) {
-                pl.IsSelected = true;
             }
         }
     }
