@@ -9,6 +9,38 @@ using System.Windows.Threading;
 namespace WetHatLab.OneNote.TaggingKit.common
 {
     /// <summary>
+    /// Adapter class to facilitate raising events in a given tread context.
+    /// </summary>
+    public class EventAdapter
+    {
+        NotifyCollectionChangedEventHandler _originalHandler;
+        Dispatcher _dispatcher;
+        /// <summary>
+        /// Initialize a new event adapter object.
+        /// </summary>
+        /// <param name="d">
+        ///     Dispatcher to use for raising events.
+        /// </param>
+        /// <param name="handler">
+        ///     Event handler to call in the given dispatcher's context.
+        /// </param>
+        public EventAdapter(Dispatcher d, NotifyCollectionChangedEventHandler handler) {
+            _dispatcher = d;
+            _originalHandler = handler;
+        }
+
+        /// <summary>
+        /// Event handler adapter which calls the original event in the specified
+        /// thread context.
+        /// </summary>
+        /// <param name="sender">Object which raised the event.</param>
+        /// <param name="args">Event details.</param>
+        public void Handler(object sender, NotifyCollectionChangedEventArgs args) {
+            _dispatcher.Invoke(() => _originalHandler(sender, args));
+        }
+    }
+
+    /// <summary>
     /// Contract for read-only, observable lists of tag models.
     /// </summary>
     public interface IObservableTagList : IEnumerable, INotifyCollectionChanged, IReadOnlyList<object>, IDisposable
@@ -69,33 +101,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
             remove {
                 throw new NotImplementedException("Event handlers cannot be removed!");
-            }
-        }
-
-        /// <summary>
-        /// Adapter class facilitate raising events in the tread context this list
-        /// instance was created in,.
-        /// </summary>
-        private class EventAdapter
-        {
-            NotifyCollectionChangedEventHandler _originalHandler;
-            Dispatcher _dispatcher;
-            /// <summary>
-            /// initialize a new event adapter object.
-            /// </summary>
-            /// <param name="d">
-            ///     Dispatcher of the thread which created the observable list.
-            /// </param>
-            /// <param name="handler">
-            ///     Event handler to call in the given dispater's context.
-            /// </param>
-            public EventAdapter(Dispatcher d, NotifyCollectionChangedEventHandler handler) {
-                _dispatcher = d;
-                _originalHandler = handler;
-            }
-
-            public void Handler(object sender, NotifyCollectionChangedEventArgs args) {
-                _dispatcher.Invoke(() => _originalHandler(sender, args));
             }
         }
 
