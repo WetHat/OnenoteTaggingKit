@@ -15,9 +15,11 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         public bool IsSelected {
             get => _isSelected;
             set {
-                _isSelected = value;
-                UpdateTagVisibility();
-                RaisePropertyChanged();
+                if (_isSelected != value) {
+                    _isSelected = value;
+                    UpdateTagVisibility();
+                    RaisePropertyChanged();
+                }
             }
         }
 
