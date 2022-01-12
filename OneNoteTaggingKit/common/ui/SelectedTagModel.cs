@@ -23,6 +23,7 @@
             get => _selectableTag;
             set {
                 _selectableTag = value;
+                _selectableTag.IsSelected = true;
                 TagName = value.TagName;
                 TagType = value.TagType;
             }
