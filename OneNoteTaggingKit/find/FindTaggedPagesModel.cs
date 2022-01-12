@@ -5,9 +5,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Threading;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
@@ -170,8 +172,19 @@ namespace WetHatLab.OneNote.TaggingKit.find
             return Task.Run(() => _filteredTagsAndPages.ClearTagFilter(), _cancelWorker.Token);
         }
 
-        internal Task AddTagToFilterAsync(TagPageSet tag) {
-            return Task.Run(() => _filteredTagsAndPages.AddTagToFilter(tag), _cancelWorker.Token);
+        /// <summary>
+        /// Add a single tag to the refinement filter.
+        /// </summary>
+        /// <param name="tag">View model of the tag</param>
+        internal void AddTagToFilter(RefinementTagModel tag) {
+            if (!SelectedRefinementTags.ContainsKey(tag.Key)) {
+                SelectedRefinementTags.AddAll(new SelectedTagModel[] {
+                    new SelectedTagModel() {
+                        SelectableTag = tag,
+                        TagIndicator = "",
+                        TagIndicatorColor = Brushes.Red
+                    } });
+            }
         }
 
         internal Task RemoveTagFromFilterAsync(TagPageSet tag) {
@@ -271,13 +284,19 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
-        /// Select all tags with fully matching highligting pattern for
-        /// search refinenment.
+        /// Select all tags for refinement which exactly match the given names.
         /// </summary>
-        internal void SelectAllFullyHighlightedTags() {
-            foreach (RefinementTagModel t in from ht in TagSource.Values where ht.IsFullMatch select ht) {
-                t.IsSelected = true;
-            }
+        /// <param name="tagnames">Collection of tag names.</param>
+        public Task AddAllFullyMatchingTagsAsync(IEnumerable<string> tagnames) {
+            // determine the pattern
+            return Task.Run(() => {
+                foreach (var tagname in tagnames) {
+                    RefinementTagModel rtm;
+                    if (TagSource.TryGetValue(tagname, out rtm)) {
+                        AddTagToFilter(rtm);
+                    }
+                }
+            },_cancelWorker.Token);
         }
 
         internal void NavigateTo(string pageID) {

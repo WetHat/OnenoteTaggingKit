@@ -539,4 +539,7 @@ Tap or click link to navigate to page.</value>
   <data name="TagSearch_SelectedTags_GroupBox_Tooltip" xml:space="preserve">
     <value>Tap or click tags to remove them from the filter.</value>
   </data>
+  <data name="TagSearch_Select_Matching_Tags_Button_Tooltip" xml:space="preserve">
+    <value>Tap or click to add all tags from the selected preset to the filter.</value>
+  </data>
 </root>

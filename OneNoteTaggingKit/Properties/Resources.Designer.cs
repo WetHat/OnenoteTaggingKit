@@ -1241,6 +1241,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tap or click to add all tags from the selected preset to the filter..
+        /// </summary>
+        public static string TagSearch_Select_Matching_Tags_Button_Tooltip {
+            get {
+                return ResourceManager.GetString("TagSearch_Select_Matching_Tags_Button_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap or click to remove this tag from the filter..
         /// </summary>
         public static string TagSearch_SelectedTag_Tooltip {

@@ -330,28 +330,28 @@ EndSelection:{5:D6}";
             Keyboard.Focus(searchComboBox);
         }
 
-        private void TagInputBox_Input(object sender, TagInputEventArgs e) {
+        private async void TagInputBox_Input(object sender, TagInputEventArgs e) {
             _model.TagSource.Highlighter = tagInput.IsEmpty ? new TextSplitter() : new TextSplitter(e.Tags);
             if (e.TagInputComplete && !tagInput.IsEmpty) {
-                // select all tags with full matches
-                _model.SelectAllFullyHighlightedTags();
-            }
-            if (e.Action == TagInputEventArgs.TaggingAction.Clear) {
+                // select all tags with exact full matches
+                await _model.AddAllFullyMatchingTagsAsync(tagInput.Tags);
+            } else if (e.Action == TagInputEventArgs.TaggingAction.Clear) {
                 ClearSelectionButton_Click(sender, e);
             }
         }
 
-        private void ScopeSelector_ScopeChanged(object sender, ScopeChangedEventArgs e) {
+        private async void ScopeSelector_ScopeChanged(object sender, ScopeChangedEventArgs e) {
             try {
-                pBar.Visibility = System.Windows.Visibility.Visible;
+                pBar.Visibility = Visibility.Visible;
                 string query = searchComboBox.Text;
                 // using ContinueWith until I've discovered how to do implement async
                 // events properly
-                _model.FindPagesAsync(query, scopeSelect.SelectedScope).ContinueWith(tsk => Dispatcher.Invoke(() =>
-                {
-                    pBar.Visibility = System.Windows.Visibility.Hidden;
+                await _model.FindPagesAsync(query, scopeSelect.SelectedScope);
+                Dispatcher.Invoke(() => {
+                    pBar.Visibility = Visibility.Hidden;
                     searchComboBox.SelectedValue = query;
-                }));
+                });
+
             } catch (System.Exception ex) {
                 TraceLogger.Log(TraceCategory.Error(), "Changing search scope failed: {0}", ex);
                 TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_ScopeChange, ex);
@@ -393,16 +393,8 @@ EndSelection:{5:D6}";
 
         private void SelectableTag_TagSelected(object sender, RoutedEventArgs e) {
             var btn = sender as SelectableTag;
-            if (btn.DataContext is SelectableTagModel mdl) {
-                if (mdl.IsSelected && !_model.SelectedRefinementTags.ContainsKey(mdl.TagName)) {
-                    _model.SelectedRefinementTags.AddAll(new SelectedTagModel[] {
-                        new SelectedTagModel() {
-                            SelectableTag = mdl,
-                            TagIndicator = "",
-                            TagIndicatorColor = Brushes.Red
-                        }
-                    });
-                }
+            if (btn.DataContext is RefinementTagModel mdl) {
+                _model.AddTagToFilter(mdl);
             }
         }
         #endregion UI events
@@ -442,6 +434,12 @@ EndSelection:{5:D6}";
                 } else {
                     tagInput.Tags = ViewModel.CurrentPageTags;
                 }
+            }
+        }
+
+        private async void SelectMatchingTagsButton_Click(object sender, RoutedEventArgs e) {
+            if (!tagInput.IsEmpty) {
+                await _model.AddAllFullyMatchingTagsAsync(tagInput.Tags);
             }
         }
     }
