@@ -48,7 +48,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
                                 Properties.Resources.TagSearch_Tags_GroupBox_Title);
         }
         #endregion PageCountProperty
-
         #region PagePanelHeaderProperty
         /// <summary>
         /// Backing store for observable property <see cref="PagePanelHeader"/>
@@ -72,7 +71,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
                                                         _model.FilteredPages.Count);
         }
         #endregion PagePanelHeaderProperty
-
         #region RefinementTagsPanelHeaderProperty
         /// <summary>
         /// Backing store for observable property <see cref="RefinementTagsPanelHeader"/>
@@ -97,7 +95,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
                                                        _model.SelectedRefinementTags.Count);
         }
         #endregion RefinementTagsPanelHeaderProperty
-
         /// <summary>
         /// Create a new instance of the find tags window
         /// </summary>
