@@ -106,9 +106,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
         {
             if (FilterTags.Add(tag))
             {
-                if (MatchingPages.Count == 0) {
+                if (FilterTags.Count == 1) {
                     MatchingPages.UnionWith(tag.FilteredPages);
-                } else {
+                } else if (MatchingPages.Count > 0) {
                     MatchingPages.IntersectWith(tag.FilteredPages);
                 }
                 ApplyFilterToTags();
