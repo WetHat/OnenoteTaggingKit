@@ -185,7 +185,7 @@
     <value>Page Tags</value>
   </data>
   <data name="TagSearch_Tags_GroupBox_Tooltip" xml:space="preserve">
-    <value>Select one or more tags to show only pages having these tags.</value>
+    <value>Select one or more tags to filter pages</value>
   </data>
   <data name="TagSearch_Window_Title" xml:space="preserve">
     <value>Find Tagged Pages</value>
@@ -202,8 +202,8 @@
   <data name="TagSearch_Query_ComboBox_Tooltip" xml:space="preserve">
     <value>Enter query and press enter to start search.</value>
   </data>
-  <data name="TagSelector_Tooltip" xml:space="preserve">
-    <value>Tap or click to add or remove this tag from the filter.</value>
+  <data name="TagSearch_SelectedTag_Tooltip" xml:space="preserve">
+    <value>Tap or click to remove this tag from the filter.</value>
   </data>
   <data name="TaggingKit_Error_VersionLookup" xml:space="preserve">
     <value>OneNote version lookup failed</value>
@@ -352,8 +352,8 @@ Sorry for the inconvenience!</value>
   <data name="TagManager_SuggestedTags_Header" xml:space="preserve">
     <value>Tags</value>
   </data>
-  <data name="TagSelector_PageCount_Tooltip" xml:space="preserve">
-    <value>{0}/{1} page(s) with this tag match the filter</value>
+  <data name="TagSearch_Tag_Tooltip" xml:space="preserve">
+    <value>This tag has {0}/{1} pages in common with the current filter. Tap or click to add this tag.</value>
   </data>
   <data name="TagSearch_CheckBox_Tracking_Text" xml:space="preserve">
     <value>← Check to turn on tag tracking</value>
@@ -537,6 +537,6 @@ Tap or click link to navigate to page.</value>
     <value>Refinement Tags</value>
   </data>
   <data name="TagSearch_SelectedTags_GroupBox_Tooltip" xml:space="preserve">
-    <value>Selected filter tags</value>
+    <value>Tap or click tags to remove them from the filter.</value>
   </data>
 </root>

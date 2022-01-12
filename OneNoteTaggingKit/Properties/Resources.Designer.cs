@@ -1241,6 +1241,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tap or click to remove this tag from the filter..
+        /// </summary>
+        public static string TagSearch_SelectedTag_Tooltip {
+            get {
+                return ResourceManager.GetString("TagSearch_SelectedTag_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refinement Tags.
         /// </summary>
         public static string TagSearch_SelectedTags_GroupBox_Title {
@@ -1250,7 +1259,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Selected filter tags.
+        ///   Looks up a localized string similar to Tap or click tags to remove them from the filter..
         /// </summary>
         public static string TagSearch_SelectedTags_GroupBox_Tooltip {
             get {
@@ -1264,6 +1273,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TagSearch_StatusBar_Tooltip {
             get {
                 return ResourceManager.GetString("TagSearch_StatusBar_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This tag has {0}/{1} pages in common with the current filter. Tap or click to add this tag..
+        /// </summary>
+        public static string TagSearch_Tag_Tooltip {
+            get {
+                return ResourceManager.GetString("TagSearch_Tag_Tooltip", resourceCulture);
             }
         }
         
@@ -1286,7 +1304,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select one or more tags to show only pages having these tags..
+        ///   Looks up a localized string similar to Select one or more tags to filter pages.
         /// </summary>
         public static string TagSearch_Tags_GroupBox_Tooltip {
             get {
@@ -1300,24 +1318,6 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TagSearch_Window_Title {
             get {
                 return ResourceManager.GetString("TagSearch_Window_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0}/{1} page(s) with this tag match the filter.
-        /// </summary>
-        public static string TagSelector_PageCount_Tooltip {
-            get {
-                return ResourceManager.GetString("TagSelector_PageCount_Tooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tap or click to add or remove this tag from the filter..
-        /// </summary>
-        public static string TagSelector_Tooltip {
-            get {
-                return ResourceManager.GetString("TagSelector_Tooltip", resourceCulture);
             }
         }
     }
