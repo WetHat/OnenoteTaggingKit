@@ -122,7 +122,7 @@
                              Margin="3,5,2,0" />
             <cui:TagList Grid.Row="1" x:Name="tagsPanel"
                          Margin="0,0,2,0"
-                         TagSource="{Binding Path=TagSource, Mode=OneWay}"
+                         TagSource="{Binding Path=PageTagsSource, Mode=OneWay}"
                          ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Tags_GroupBox_Tooltip}}"
                          Header="{Binding ElementName=self,Path=TagPanelHeader, Mode=OneWay}">
                 <cui:TagList.TagTemplate>

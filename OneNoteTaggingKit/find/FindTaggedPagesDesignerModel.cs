@@ -64,7 +64,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Get the design time collection of tags
         /// </summary>
-        public RefinementTagsSource TagSource => _tags;
+        public RefinementTagsSource PageTagsSource => _tags;
 
         /// <summary>
         /// Get the design time default scope

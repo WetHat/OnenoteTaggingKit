@@ -43,7 +43,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             TagPanelHeader = _model.SelectedRefinementTags.Count == 0
                 ? string.Format("{0} ({1})",
                                 Properties.Resources.TagSearch_Tags_GroupBox_Title,
-                                _model.TagSource.Count)
+                                _model.PageTagsSource.Count)
                 : string.Format("{0} (Ո)",
                                 Properties.Resources.TagSearch_Tags_GroupBox_Title);
         }
@@ -117,7 +117,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 DataContext = _model;
                 _model.FilteredPages.CollectionChanged += FilteredPages_CollectionChanged;
                 UpdatePagePanelHeader();
-                _model.TagSource.CollectionChanged += TagSource_CollectionChanged;
+                _model.PageTagsSource.CollectionChanged += TagSource_CollectionChanged;
                 UpdateTagPanelHeader();
                 _model.DependencyPropertyChanged += _model_DependencyPropertyChanged;
                 _model.SelectedRefinementTags.CollectionChanged += SelectedRefinementTags_CollectionChanged;
@@ -331,7 +331,7 @@ EndSelection:{5:D6}";
         }
 
         private async void TagInputBox_Input(object sender, TagInputEventArgs e) {
-            _model.TagSource.Highlighter = tagInput.IsEmpty ? new TextSplitter() : new TextSplitter(e.Tags);
+            _model.PageTagsSource.Highlighter = tagInput.IsEmpty ? new TextSplitter() : new TextSplitter(e.Tags);
             if (e.TagInputComplete && !tagInput.IsEmpty) {
                 // select all tags with exact full matches
                 await _model.AddAllFullyMatchingTagsAsync(tagInput.Tags);
@@ -439,7 +439,11 @@ EndSelection:{5:D6}";
 
         private async void SelectMatchingTagsButton_Click(object sender, RoutedEventArgs e) {
             if (!tagInput.IsEmpty) {
-                await _model.AddAllFullyMatchingTagsAsync(tagInput.Tags);
+                if (tagInput.IsPreset) {
+                    await _model.AddAllFullyMatchingTagsAsync(tagInput.Tags);
+                } else {
+                    await _model.AddAllFullyHighlightedTagsAsync();
+                }
             }
         }
     }

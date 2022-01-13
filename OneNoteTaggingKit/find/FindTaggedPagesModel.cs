@@ -25,7 +25,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Get the collection of tags
         /// </summary>
-        RefinementTagsSource TagSource { get; }
+        RefinementTagsSource PageTagsSource { get; }
 
         /// <summary>
         /// Get the collection of pages with particular tags
@@ -95,7 +95,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         internal FindTaggedPagesModel(OneNoteProxy onenote) : base(onenote) {
             _filteredTagsAndPages = new FilteredPages(onenote);
-            TagSource = new RefinementTagsSource(_filteredTagsAndPages);
+            PageTagsSource = new RefinementTagsSource(_filteredTagsAndPages);
             // track changes in filter result
             _filteredTagsAndPages.MatchingPages.CollectionChanged += HandlePageCollectionChanges;
 
@@ -205,9 +205,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         #region IFindTaggedPagesModel
         /// <summary>
-        /// get the collection of all OneNote page tags.
+        /// get the collection of all tags found on OneNote pages.
         /// </summary>
-        public RefinementTagsSource TagSource { get; }
+        public RefinementTagsSource PageTagsSource { get; }
 
         /// <summary>
         /// Get the collection of filtered pages.
@@ -288,15 +288,28 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         /// <param name="tagnames">Collection of tag names.</param>
         public Task AddAllFullyMatchingTagsAsync(IEnumerable<string> tagnames) {
-            // determine the pattern
             return Task.Run(() => {
                 foreach (var tagname in tagnames) {
                     RefinementTagModel rtm;
-                    if (TagSource.TryGetValue(tagname, out rtm)) {
+                    if (PageTagsSource.TryGetValue(tagname, out rtm)) {
                         AddTagToFilter(rtm);
                     }
                 }
             },_cancelWorker.Token);
+        }
+
+        /// <summary>
+        /// Select all tags whith fully highlighted names for refinement.
+        /// </summary>
+        public Task AddAllFullyHighlightedTagsAsync() {
+            // determine the pattern
+            return Task.Run(() => {
+                foreach (var tag in from tm in PageTagsSource.Values
+                                    where tm.IsFullMatch && !tm.IsSelected
+                                    select tm) {
+                    AddTagToFilter(tag);
+                }
+            }, _cancelWorker.Token);
         }
 
         internal void NavigateTo(string pageID) {
