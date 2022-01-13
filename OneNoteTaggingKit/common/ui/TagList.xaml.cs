@@ -96,7 +96,6 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 case NotifyCollectionChangedAction.Remove:
                     int oldItemCount = e.OldItems.Count;
                     for (int i = 0; i < oldItemCount; i++) {
-                        var ctrl = tagsPanel.Children[i] as FrameworkElement;
                         tagsPanel.Children.RemoveAt(e.OldStartingIndex);
                     }
                     break;
