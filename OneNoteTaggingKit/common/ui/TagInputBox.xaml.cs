@@ -121,9 +121,14 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         }
 
         /// <summary>
+        ///  Get a flag indicating whether the <see cref="Tags"/> property
+        ///  contains a preset.
+        /// </summary>
+        public bool IsPreset { get; private set; }
+        /// <summary>
         /// Set focus on the tag input box.
         /// </summary>
-        /// <returns></returns>
+        /// <remarks>`true` if focus was changed.</remarks>
         public bool FocusInput() => tagInput.Focus();
 
         /// <summary>
@@ -135,6 +140,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             _inputTimer.Stop();
             var e = new TagInputEventArgs(TagInputEvent, this, Tags, null);
             e.TagInputComplete = true;
+            IsPreset = false;
             RaiseEvent(e);
             UpdateVisibility();
         }
@@ -160,6 +166,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
 
             if (e.Key == Key.Escape) {
                 tagInput.Text = String.Empty;
+                IsPreset = false;
             }
             UpdateVisibility();
 
@@ -168,6 +175,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 _inputTimer.Stop();
                 RaiseEvent(evt);
             } else {
+                IsPreset = false;
                 // wait for more input
                 _lastInput = DateTime.Now;
                 if  (!_inputTimer.IsEnabled) {
@@ -180,6 +188,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         private void ClearInputButton_Click(object sender, RoutedEventArgs e)
         {
             Clear();
+            IsPreset = false;
             e.Handled = true;
         }
 
@@ -216,6 +225,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 MenuItem itm = sender as MenuItem;
 
                 TagContext filter = (TagContext)Enum.Parse(typeof(TagContext), itm.Tag.ToString());
+                IsPreset =  filter == TagContext.CurrentNote;
                 IEnumerable<TagPageSet> tags = await GetContextTagsAsync(filter);
                 if (IncludeMappedTags) {
                     Tags = from t in tags select t.TagName;
