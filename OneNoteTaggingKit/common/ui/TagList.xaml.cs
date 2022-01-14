@@ -152,14 +152,14 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 } else {
                     //tl.notificationText.Text = notification;
                     tl.notificationPopup.IsOpen = true;
-                    DispatcherTimer closeTimer = new DispatcherTimer(TimeSpan.FromSeconds(5),
+                    DispatcherTimer closeTimer = new DispatcherTimer(tl.NotificationDisplayTime,
                         DispatcherPriority.Normal,
                         (sender, e) => {
                             var timer = sender as DispatcherTimer;
                             if (timer != null) {
                                 timer.Stop();
                                 if (tl.notificationPopup.IsOpen) {
-                                    tl.notificationPopup.IsOpen = false;
+                                    tl.Notification = string.Empty;
                                 }
                             }
                         }, tl.Dispatcher);
@@ -167,7 +167,6 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 }
             }
         }
-
         /// <summary>
         /// Get or set the popup notification which is displayed for a few second
         /// over this list control.
@@ -186,6 +185,11 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             e.Handled = true;
         }
 
+        /// <summary>
+        /// Get or set the timespan the notification is displayed.
+        /// </summary>
+        /// <value>The default timespan is 5 seconds.</value>
+        public TimeSpan NotificationDisplayTime { get; set; } = TimeSpan.FromSeconds(5);
         /// <summary>
         /// Create a new component instance.
         /// </summary>
