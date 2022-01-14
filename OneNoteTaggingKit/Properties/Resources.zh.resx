@@ -542,4 +542,7 @@
   <data name="TagSearch_Select_Matching_Tags_Button_Tooltip" xml:space="preserve">
     <value>点击或单击以将所选预设中的所有标记添加到筛选器中</value>
   </data>
+  <data name="TagSearch_TagsIgnored" xml:space="preserve">
+    <value>标记"{0}"被忽略，因为它们在范围"{1}"的任何页面上都找不到！</value>
+  </data>
 </root>

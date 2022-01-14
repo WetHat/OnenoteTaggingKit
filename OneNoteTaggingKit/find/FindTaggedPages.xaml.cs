@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.edit;
@@ -334,7 +333,7 @@ EndSelection:{5:D6}";
             _model.PageTagsSource.Highlighter = tagInput.IsEmpty ? new TextSplitter() : new TextSplitter(e.Tags);
             if (e.TagInputComplete && !tagInput.IsEmpty) {
                 // select all tags with exact full matches
-                await _model.AddAllFullyMatchingTagsAsync(tagInput.Tags);
+                await SelectAllMatchingTagsAsync();
             } else if (e.Action == TagInputEventArgs.TaggingAction.Clear) {
                 ClearSelectionButton_Click(sender, e);
             }
@@ -437,14 +436,42 @@ EndSelection:{5:D6}";
             }
         }
 
-        private async void SelectMatchingTagsButton_Click(object sender, RoutedEventArgs e) {
+        async Task SelectAllMatchingTagsAsync() {
             if (!tagInput.IsEmpty) {
                 if (tagInput.IsPreset) {
-                    await _model.AddAllFullyMatchingTagsAsync(tagInput.Tags);
+                    await _model.ClearTagFilterAsync();
+                    var failedTags = await _model.AddAllFullyMatchingTagsAsync(tagInput.Tags);
+                    if (failedTags.Count > 0) {
+                        string scopeName;
+                        switch (scopeSelect.SelectedScope) {
+                            case SearchScope.Section:
+                                scopeName = Properties.Resources.TagSearch_Scope_Section_Label;
+                                break;
+                            case SearchScope.SectionGroup:
+                                scopeName = Properties.Resources.TagSearch_Scope_SectionGroup_Label;
+                                break;
+                            case SearchScope.Notebook:
+                                scopeName = Properties.Resources.TagSearch_Scope_Notebook_Label;
+                                break;
+                            case SearchScope.AllNotebooks:
+                                scopeName = Properties.Resources.TagSearch_Scope_AllNotebooks_Label;
+                                break;
+                            default:
+                                scopeName = "Unknown Scope";
+                                break;
+
+                        }
+                        selectedTags.Notification = string.Format(Properties.Resources.TagSearch_TagsIgnored,
+                                                                  string.Join(",",from s in failedTags select s),
+                                                                  scopeName);
+                    }
                 } else {
                     await _model.AddAllFullyHighlightedTagsAsync();
                 }
             }
+        }
+        private async void SelectMatchingTagsButton_Click(object sender, RoutedEventArgs e) {
+           await SelectAllMatchingTagsAsync();
         }
     }
 }

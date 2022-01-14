@@ -542,4 +542,7 @@ Tap or click link to navigate to page.</value>
   <data name="TagSearch_Select_Matching_Tags_Button_Tooltip" xml:space="preserve">
     <value>Tap or click to add all tags from the selected preset to the filter.</value>
   </data>
+  <data name="TagSearch_TagsIgnored" xml:space="preserve">
+    <value>The tag(s) '{0}' were ignored, because they were not found on any pages in scope '{1}'!</value>
+  </data>
 </root>

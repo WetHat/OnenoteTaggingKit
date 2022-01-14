@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,8 +19,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// Contract for view models of the
     /// <see cref="WetHatLab.OneNote.TaggingKit.find.FindTaggedPages" /> windows
     /// </summary>
-    internal interface IFindTaggedPagesModel
-    {
+    internal interface IFindTaggedPagesModel {
         /// <summary>
         /// Get the collection of tags
         /// </summary>
@@ -254,8 +252,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 tap.LoadPageTags(TagContext.CurrentNote);
                 TaggedPage tp = tap.Pages.Values.FirstOrDefault();
                 if (tp != null) {
-                    Dispatcher.Invoke(() =>
-                    {
+                    Dispatcher.Invoke(() => {
                         CurrentPageTags = (from t in tp.Tags select t.TagName).ToArray();
                         CurrentPageTitle = tp.Title;
                     });
@@ -287,14 +284,20 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// Select all tags for refinement which exactly match the given names.
         /// </summary>
         /// <param name="tagnames">Collection of tag names.</param>
-        public Task AddAllFullyMatchingTagsAsync(IEnumerable<string> tagnames) {
-            return Task.Run(() => {
+        /// <remarks>Non-existing tags are ignored.</remarks>
+        /// <returns>List of non-existing tags.</returns>
+        public Task<IReadOnlyList<string>> AddAllFullyMatchingTagsAsync(IEnumerable<string> tagnames) {
+            return Task<IReadOnlyList<string>>.Run(() => {
+                var failed = new List<string>();
                 foreach (var tagname in tagnames) {
                     RefinementTagModel rtm;
                     if (PageTagsSource.TryGetValue(tagname, out rtm)) {
                         AddTagToFilter(rtm);
+                    } else {
+                        failed.Add(tagname);
                     }
                 }
+                return (IReadOnlyList<string>)failed;
             },_cancelWorker.Token);
         }
 

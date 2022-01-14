@@ -1322,6 +1322,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The tag(s) &apos;{0}&apos; were ignored, because they were not found on any pages in scope &apos;{1}&apos;!.
+        /// </summary>
+        public static string TagSearch_TagsIgnored {
+            get {
+                return ResourceManager.GetString("TagSearch_TagsIgnored", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Find Tagged Pages.
         /// </summary>
         public static string TagSearch_Window_Title {
