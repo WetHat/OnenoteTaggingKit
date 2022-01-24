@@ -3,11 +3,25 @@ using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Windows.Interop;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.Tagger;
 
 namespace WetHatLab.OneNote.TaggingKit
 {
+    class SectionQuickFilingCallback : IQuickFilingDialogCallback {
+        AutoResetEvent _semaphore = new AutoResetEvent(false);
+        public string SelectedSectionId { get; private set; }
+        public void OnDialogClosed(IQuickFilingDialog dialog) {
+            SelectedSectionId = dialog.SelectedItem;
+            _semaphore.Set();
+        }
+
+        public bool WaitOne() {
+            return _semaphore.WaitOne();
+        }
+    }
+
     /// <summary>
     /// Proxy class to make method calls into the OneNote application object which are
     /// protected against recoverable errors and offer a tagging specific API.
@@ -218,6 +232,45 @@ namespace WetHatLab.OneNote.TaggingKit
         }
 
         /// <summary>
+        ///   Create a new, minimal page in a OneNote section.
+        /// </summary>
+        /// <param name="sectionID"> ID of the section to create the page in </param>
+        /// <returns> OneNote ID of the new page </returns>
+        public string CreateNewPage(string sectionID) {
+            return ExecuteMethodProtected<string>((o) => {
+                string id;
+                o.CreateNewPage(sectionID, out id, NewPageStyle.npsBlankPageWithTitle);
+                return id;
+            });
+        }
+
+        /// <summary>
+        /// Open the OneNote _QuickFiling_ to let the user choose a section.
+        /// </summary>
+        /// <param name="owner">The window that owns this section chooser dialog.</param>
+        /// <param name="description">Purpose of the selection.</param>
+        /// <returns>The OneNote ID of the chosen section.</returns>
+        public string QuickSectionFilingDialog(System.Windows.Window owner,
+                                               string description) {
+            TraceLogger.Log(TraceCategory.Info(), "Opening OneNote QuickFiling dialog");
+            return ExecuteMethodProtected<string>(o => {
+                var qfd = o.QuickFiling();
+                qfd.ParentWindowHandle = (ulong)(new WindowInteropHelper(owner).Handle.ToInt64());
+                qfd.TreeDepth = HierarchyElement.heSections;
+                qfd.Description = description;
+                qfd.AddButton("Select Section",
+                              HierarchyElement.heSections,
+                              HierarchyElement.heNone, true);
+                qfd.SetRecentResults(RecentResultType.rrtSearch, true, false, false);
+                var callback = new SectionQuickFilingCallback();
+                qfd.Run(callback);
+
+                _ = callback.WaitOne();
+                return callback.SelectedSectionId;
+            });
+        }
+
+        /// <summary>
         /// Find pages by full text search
         /// </summary>
         /// <param name="query">  query string</param>
@@ -268,7 +321,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <remarks>Only basic information (as of OneNote 2010) is returned.</remarks>
         /// <param name="nodeID">id of the starting node</param>
         /// <param name="scope"> scope of the nodes to return</param>
-        /// <returns>XML document describing the nodes in the OneNote hierarchy</returns>
+        /// <returns>XML document describing the nodes in the OneNote hierarchy tree</returns>
         /// <exception cref="COMException">Call to OneNote failed</exception>
         public XDocument GetHierarchy(string nodeID, HierarchyScope scope)
         {
