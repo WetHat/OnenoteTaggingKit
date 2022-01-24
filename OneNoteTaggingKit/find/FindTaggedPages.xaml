@@ -249,6 +249,13 @@
                         <Image Source="/OneNoteTaggingKit;component/Resources/copy_link-32.png" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="Save Search Result to Page"
+                          Tag="SaveSearch"
+                          Click="Page_MenuItem_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/OneNoteTaggingKit;component/Resources/OnePage-32.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.FoundPages_MenuItem_TagSelected}}"
                           Tag="TagSelection"
                           Click="Page_MenuItem_Click">
