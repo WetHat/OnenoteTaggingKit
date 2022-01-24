@@ -9,14 +9,42 @@ using WetHatLab.OneNote.TaggingKit.Tagger;
 
 namespace WetHatLab.OneNote.TaggingKit
 {
+    /// <summary>
+    /// Callback implementation for the _OneNote_ QuickFiling dialog.
+    /// </summary>
+    /// <remarks>
+    ///     Instances of this class provide a semaphore which calling treads
+    ///     can use to wait until the dialog is closed. See <see cref="WaitOne()"/>.
+    /// </remarks>
     class SectionQuickFilingCallback : IQuickFilingDialogCallback {
         AutoResetEvent _semaphore = new AutoResetEvent(false);
         public string SelectedSectionId { get; private set; }
+
+        /// <summary>
+        /// Determine if the dialog was cancelled.
+        /// </summary>
+        /// <value>`true` if the user pressed the `Cancel` button.</value>
+        public bool IsCancelled { get; private set; }
+        /// <summary>
+        /// Collect the relevant data when the QuickFiling dialog is finished.
+        /// </summary>
+        /// <param name="dialog">The instance of the _QuickFiling_ dialog which raised the event.</param>
         public void OnDialogClosed(IQuickFilingDialog dialog) {
             SelectedSectionId = dialog.SelectedItem;
+            IsCancelled = dialog.PressedButton < 0;
             _semaphore.Set();
         }
 
+        /// <summary>
+        /// Allow calling threads to wait until the dialog is closed.
+        /// </summary>
+        /// <remarks>
+        ///     Blocks the current thread until the QuickFiling dialog is closed.
+        /// </remarks>
+        /// <returns>
+        ///     `true` if the current instance receives a signal.
+        ///     If the current instance is never signaled, WaitOne() never returns.
+        /// </returns>
         public bool WaitOne() {
             return _semaphore.WaitOne();
         }
@@ -250,13 +278,13 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <param name="owner">The window that owns this section chooser dialog.</param>
         /// <param name="description">Purpose of the selection.</param>
         /// <returns>The OneNote ID of the chosen section.</returns>
-        public string QuickSectionFilingDialog(System.Windows.Window owner,
-                                               string description) {
+        public string SectionChooser(System.Windows.Window owner, string description) {
             TraceLogger.Log(TraceCategory.Info(), "Opening OneNote QuickFiling dialog");
             return ExecuteMethodProtected<string>(o => {
                 var qfd = o.QuickFiling();
                 qfd.ParentWindowHandle = (ulong)(new WindowInteropHelper(owner).Handle.ToInt64());
                 qfd.TreeDepth = HierarchyElement.heSections;
+                qfd.Title = "Select OneNote Section";
                 qfd.Description = description;
                 qfd.AddButton("Select Section",
                               HierarchyElement.heSections,
