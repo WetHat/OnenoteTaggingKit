@@ -38,8 +38,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         #region Events
         private void chooseSection_Click(object sender, RoutedEventArgs e) {
-            string sectionid = ViewModel.OneNoteApp.QuickSectionFilingDialog(self,
-                                                                            "Pick a section where to save the search result:");
+            string sectionid = ViewModel.OneNoteApp.SectionChooser(self,
+                                                                   "Pick a section where to save the search result:");
         }
 
         private void self_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
@@ -58,6 +58,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
         private void saveSearchBtn_Click(object sender, RoutedEventArgs e) {
             // TODO Create a new 'Saved Search' OneNote page in the selected
             // section in the background
+            self.Close();
+        }
+
+        private void cancelBtn_Click(object sender, RoutedEventArgs e) {
             self.Close();
         }
         #endregion Events

@@ -54,7 +54,8 @@
             <Button x:Name="cancelBtn"
                     Margin="5,5,5,5"
                     Padding="5,0,5,0"
-                    Content="Cancel"/>
+                    Content="Cancel"
+                    Click="cancelBtn_Click"/>
         </StackPanel>
     </StackPanel>
 </Window>
