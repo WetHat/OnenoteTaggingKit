@@ -132,6 +132,10 @@
     <Compile Include="find\HitHighlightedPageLinkModel.cs" />
     <Compile Include="find\RefinementTagModel.cs" />
     <Compile Include="find\RefinementTagsSource.cs" />
+    <Compile Include="find\SaveSearch.xaml.cs">
+      <DependentUpon>SaveSearch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="find\SaveSearchModel.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="manage\RemovableTag.xaml.cs">
       <DependentUpon>RemovableTag.xaml</DependentUpon>
@@ -150,6 +154,10 @@
     <Compile Include="find\FindTaggedPagesModel.cs" />
     <Compile Include="presets\CustomPresetModel.cs" />
     <Compile Include="presets\CustomPresetsList.cs" />
+    <Compile Include="presets\NewPreset.xaml.cs">
+      <DependentUpon>NewPreset.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="presets\NewPresetModel.cs" />
     <Compile Include="Tagger\BackgroundTagger.cs" />
     <Compile Include="Tagger\TaggingJob.cs" />
   </ItemGroup>
@@ -281,6 +289,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="find\SaveSearch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="manage\RemovableTag.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -290,6 +302,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="find\FindTaggedPages.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="presets\NewPreset.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -352,6 +368,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\resync_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OnePage-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\OnePage-32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
