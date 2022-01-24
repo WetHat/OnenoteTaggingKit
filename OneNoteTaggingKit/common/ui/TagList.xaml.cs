@@ -178,10 +178,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         #endregion NotificationProperty
 
         private void handlePopupPointerAction(object sender, RoutedEventArgs e) {
-            Popup p = sender as Popup;
-            if (p != null) {
-                p.IsOpen = false;
-            }
+            Notification = string.Empty;
             e.Handled = true;
         }
 
