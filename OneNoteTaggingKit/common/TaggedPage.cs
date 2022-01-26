@@ -85,7 +85,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             if (selected != null && "all".Equals(selected.Value)) {
                 _isSelected = true;
             }
-            XElement meta = page.Elements(one.GetName("Meta")).FirstOrDefault(m => OneNotePage.TAGS_META_NAME.Equals(m.Attribute("name").Value));
+            XElement meta = page.Elements(one.GetName("Meta")).FirstOrDefault(m => MetaCollection.PageTagsMetaKey.Equals(m.Attribute("name").Value));
             if (meta != null) {
                 _tagnames = OneNotePage.ParseTags(meta.Attribute("content").Value);
             } else {

@@ -91,7 +91,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             // collect all page tags on pages which have page tags. Tag search appears to
             // be broken using work around
             if (Properties.Settings.Default.UseWindowsSearch) {
-                BuildTagSet(_onenote.FindPagesByMetadata(scopeID, OneNotePage.TAGS_META_NAME), selectedPagesOnly: false);
+                BuildTagSet(_onenote.FindPagesByMetadata(scopeID, MetaCollection.PageTagsMetaKey), selectedPagesOnly: false);
             } else {
                 BuildTagSet(_onenote.GetHierarchy(scopeID, HierarchyScope.hsPages), selectedPagesOnly: false, omitUntaggedPages: true);
             }
