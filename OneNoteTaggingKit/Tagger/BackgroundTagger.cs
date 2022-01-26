@@ -4,8 +4,7 @@ using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Threading;
-using WetHatLab.OneNote.TaggingKit.common;
+using WetHatLab.OneNote.TaggingKit.PageBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.Tagger
 {
@@ -54,7 +53,7 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                 int jobcount = 0;
                 int lastreportedCount = 0;
                 try {
-                    OneNotePageProxy lastPage = null; // reuse pages among subsequent jobs
+                    OneNotePage lastPage = null; // reuse pages among subsequent jobs
 
                     while (!_jobs.IsCompleted) {
                         DateTime now = DateTime.Now;

@@ -13,6 +13,7 @@ using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.edit;
 using WetHatLab.OneNote.TaggingKit.find;
 using WetHatLab.OneNote.TaggingKit.manage;
+using WetHatLab.OneNote.TaggingKit.PageBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit
 {
@@ -45,7 +46,7 @@ namespace WetHatLab.OneNote.TaggingKit
                 string knownTags = Properties.Settings.Default.GetPreviousVersion("KnownTags") as string;
                 if (knownTags != null) {
                     Properties.Settings.Default.KnownTagsCollection.Clear();
-                    Properties.Settings.Default.KnownTagsCollection.AddRange(OneNotePageProxy.ParseTags(knownTags));
+                    Properties.Settings.Default.KnownTagsCollection.AddRange(OneNotePage.ParseTags(knownTags));
                 }
             }
             // Testing the Chinese localization

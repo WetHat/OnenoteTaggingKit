@@ -8,13 +8,13 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.Tagger;
 
-namespace WetHatLab.OneNote.TaggingKit.common
+namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 {
     /// <summary>
     /// Local representation of a OneNote Page
     /// </summary>
     /// <remarks>Supports tag related operations.</remarks>
-    internal class OneNotePageProxy
+    internal class OneNotePage
     {
         /// <summary>
         /// Enumeration of way to display tags on a Onenote Page
@@ -32,7 +32,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             InTitle
         }
 
-        internal static readonly String META_NAME = "TaggingKit.PageTags";
+        internal const String TAGS_META_NAME = "TaggingKit.PageTags";
 
         private const int META_IDX = 3;
 
@@ -96,7 +96,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
             return tagset;
         }
-        internal OneNotePageProxy(OneNoteProxy onenoteApp, string pageID) {
+        internal OneNotePage(OneNoteProxy onenoteApp, string pageID) {
             _onenote = onenoteApp;
             PageID = pageID;
             LoadOneNotePage();
@@ -377,7 +377,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             _page = _pageDoc.Root;
 
             XName metaName = _one.GetName("Meta");
-            _meta = _page.Elements(metaName).FirstOrDefault(m => m.Attribute("name").Value == META_NAME);
+            _meta = _page.Elements(metaName).FirstOrDefault(m => m.Attribute("name").Value == TAGS_META_NAME);
 
             _lastModified = DateTime.Parse(_page.Attribute("lastModifiedTime").Value);
 
@@ -556,7 +556,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             if (_tags.Length > 0) { // we have tags to set
                 if (_meta == null) {
                     _meta = new XElement(_one.GetName("Meta"),
-                                    new XAttribute("name", META_NAME));
+                                    new XAttribute("name", TAGS_META_NAME));
                     addElementToPage(_meta, META_IDX);
                     specChanged = true;
                 }

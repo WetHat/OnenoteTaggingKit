@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
+using WetHatLab.OneNote.TaggingKit.PageBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.Tagger
 {
@@ -66,11 +67,11 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
         /// <param name="onenote">OneNote application proxy object</param>
         /// <param name="page">   an unsaved OneNote page which has been tagged previously</param>
         /// <returns>Unsaved, tagged OneNote page.</returns>
-        internal OneNotePageProxy Execute(OneNoteProxy onenote, OneNotePageProxy page)
+        internal OneNotePage Execute(OneNoteProxy onenote, OneNotePage page)
         {
             if (page == null)
             {
-                page = new OneNotePageProxy(onenote, _pageid);
+                page = new OneNotePage(onenote, _pageid);
                 if (page.IsDeleted)
                 {
                     return null;
@@ -79,7 +80,7 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
             else if (!_pageid.Equals(page.PageID))
             {  // cannot continue with the given page
                 page.Update();
-                page = new OneNotePageProxy(onenote, _pageid);
+                page = new OneNotePage(onenote, _pageid);
             }
             // collect the genuine page tags
             HashSet<string> pagetags = new HashSet<string>(from name in page.PageTags

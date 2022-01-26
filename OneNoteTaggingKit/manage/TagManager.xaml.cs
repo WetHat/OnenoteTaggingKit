@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
+using WetHatLab.OneNote.TaggingKit.PageBuilder;
 using WetHatLab.OneNote.TaggingKit.Tagger;
 
 namespace WetHatLab.OneNote.TaggingKit.manage
@@ -62,7 +62,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             {
                 _model.SuggestedTags.RemoveAll(toRemove);
 
-                string[] newTagNames = (from tn in OneNotePageProxy.ParseTags(rt_mdl.LocalName) select TagFormatter.Format(tn)).ToArray();
+                string[] newTagNames = (from tn in OneNotePage.ParseTags(rt_mdl.LocalName) select TagFormatter.Format(tn)).ToArray();
 
                 // create new tag models unless they already exist
                 List<RemovableTagModel> newTagModels = new List<RemovableTagModel>();

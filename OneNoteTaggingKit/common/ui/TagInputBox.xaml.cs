@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using WetHatLab.OneNote.TaggingKit.PageBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
@@ -111,7 +112,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// </remarks>
         public IEnumerable<string> Tags
         {
-            get => OneNotePageProxy.ParseTags(tagInput.Text);
+            get => OneNotePage.ParseTags(tagInput.Text);
             set
             {
                 tagInput.Text = string.Join(",", value);

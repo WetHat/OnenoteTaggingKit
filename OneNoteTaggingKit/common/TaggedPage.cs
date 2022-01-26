@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using WetHatLab.OneNote.TaggingKit.PageBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.common
 {
@@ -84,9 +85,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
             if (selected != null && "all".Equals(selected.Value)) {
                 _isSelected = true;
             }
-            XElement meta = page.Elements(one.GetName("Meta")).FirstOrDefault(m => OneNotePageProxy.META_NAME.Equals(m.Attribute("name").Value));
+            XElement meta = page.Elements(one.GetName("Meta")).FirstOrDefault(m => OneNotePage.TAGS_META_NAME.Equals(m.Attribute("name").Value));
             if (meta != null) {
-                _tagnames = OneNotePageProxy.ParseTags(meta.Attribute("content").Value);
+                _tagnames = OneNotePage.ParseTags(meta.Attribute("content").Value);
             } else {
                 _tagnames = new string[0];
             }

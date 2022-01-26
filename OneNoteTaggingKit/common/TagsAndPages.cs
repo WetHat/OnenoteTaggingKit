@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using WetHatLab.OneNote.TaggingKit.PageBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.common
 {
@@ -90,7 +91,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             // collect all page tags on pages which have page tags. Tag search appears to
             // be broken using work around
             if (Properties.Settings.Default.UseWindowsSearch) {
-                BuildTagSet(_onenote.FindPagesByMetadata(scopeID, OneNotePageProxy.META_NAME), selectedPagesOnly: false);
+                BuildTagSet(_onenote.FindPagesByMetadata(scopeID, OneNotePage.TAGS_META_NAME), selectedPagesOnly: false);
             } else {
                 BuildTagSet(_onenote.GetHierarchy(scopeID, HierarchyScope.hsPages), selectedPagesOnly: false, omitUntaggedPages: true);
             }
