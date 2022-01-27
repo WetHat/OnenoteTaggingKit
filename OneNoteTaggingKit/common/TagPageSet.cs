@@ -9,22 +9,30 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// name="TaggingKit.PageTags" ...&gt; meta element.
     /// </summary>
     /// <remarks>A filter can be applied to constrain the number of tagged pages <see cref="IntersectWith" /></remarks>
-    public class TagPageSet : ObservableObject, IKeyedItem<string>
-    {
+    public class TagPageSet : ObservableObject, IKeyedItem<string> {
+
+        /// <summary>
+        /// The type markers to watch out for on tag names.
+        /// </summary>
+        private static readonly string[] _typeMarker = new string[] {
+                Properties.Settings.Default.ImportOneNoteTagMarker,
+                Properties.Settings.Default.ImportHashtagMarker
+        };
         /// <summary>
         /// Utility function to get base name and type of a page tag.
         /// </summary>
         /// <param name="tagname">Tag name with type postfix</param>
         /// <returns>Tag basename and type.</returns>
         internal static Tuple<string,string> ParseTagName(string tagname) {
-            string basename;
-
-            if (tagname.EndsWith(Properties.Settings.Default.ImportOneNoteTagMarker)) {
-                basename = tagname.Substring(0, tagname.Length - Properties.Settings.Default.ImportOneNoteTagMarker.Length);
-            } else if (tagname.EndsWith(Properties.Settings.Default.ImportHashtagMarker)) {
-                basename = tagname.Substring(0, tagname.Length - Properties.Settings.Default.ImportHashtagMarker.Length);
-            } else {
-                basename = tagname;
+            string basename = null;
+            foreach (var marker in _typeMarker) {
+                if (tagname.EndsWith(marker)) {
+                    basename = tagname.Substring(0, tagname.Length - marker.Length);
+                    break;
+                }
+            }
+            if (basename == null) {
+                basename = tagname.Trim();
             }
 
             return new Tuple<string, string>(
@@ -37,17 +45,20 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <value>Name of the tag without type annotation.</value>
         public string TagName { get; }
 
-        string _tagType = string.Empty;
+        string _tagType = null;
         /// <summary>
         /// The tag's type.
         /// </summary>
         /// <value>A marker emoji for imported tags; Empty string otherwise</value>
         public string TagType {
-            get => _tagType;
+            get => _tagType??string.Empty;
             set {
-                if (!_tagType.Equals(value)
-                    && (Properties.Settings.Default.ImportOneNoteTagMarker.Equals(value)
-                        ||!string.IsNullOrWhiteSpace(value))) {
+                if (_tagType == null) {
+                    _tagType = value;
+                    RaisePropertyChanged();
+                } else if (_tagType.Length > 0
+                           && !_tagType.Equals(value)
+                           && Properties.Settings.Default.ImportOneNoteTagMarker.Equals(value)) {
                     _tagType = value;
                     RaisePropertyChanged();
                 }
