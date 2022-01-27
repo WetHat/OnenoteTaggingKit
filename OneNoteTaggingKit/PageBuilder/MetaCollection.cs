@@ -16,7 +16,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     ///     <item><see cref="SearchScope"/>/></item>
     /// </list>
     /// </summary>
-    public class MetaCollection : StructureElementCollection<Meta> {
+    public class MetaCollection : PageStructureObjectCollection<Meta> {
 
         /// <summary>
         /// The Meta key of page tags.
@@ -91,10 +91,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             return m;
         }
         /// <summary>
-        /// Intitialize the collection of Meta tags from an OneNote page.
+        /// Intitialize the collection Meta element proxies from an OneNote page.
         /// </summary>
         /// <param name="page">The OneNote page XML document.</param>
-        public MetaCollection(XDocument page) : base(page, page.Root.GetNamespaceOfPrefix("one").GetName("Meta")) {
+        public MetaCollection(XDocument page) : base(page, PagePosition.Meta) {
         }
     }
 }
