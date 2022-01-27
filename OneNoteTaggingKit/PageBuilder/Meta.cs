@@ -10,7 +10,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     /// <summary>
     /// The meta information on a OneNote page.
     /// </summary>
-    public class Meta : KeyedObjectBase {
+    public class Meta : NamedObjectBase {
 
         /// <summary>
         /// Get/set the value of the Meta element.
@@ -33,10 +33,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// key/value pair.
         /// </summary>
         /// <param name="ns">The Xml NameSpace to use.</param>
-        /// <param name="key">The unique key of the Meta element</param>
+        /// <param name="name">The unique name of the Meta element</param>
         /// <param name="value">The value associated with the key.</param>
-        public Meta(XNamespace ns,string key, string value)
-            : base (ns.GetName("Meta"),key) {
+        public Meta(XNamespace ns,string name, string value)
+            : base (ns.GetName("Meta"),name) {
             Value = value;
         }
     }

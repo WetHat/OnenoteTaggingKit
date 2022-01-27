@@ -29,7 +29,6 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         ///  <remarks>For backwards compatibility this key should never change.</remarks>
         public const string SearchScopeMetaKey = "TaggingKit.SearchScope";
 
-
         Meta _pageTags;
         /// <summary>
         /// Get the comma separated list of page tags on this page.
@@ -80,7 +79,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         protected override Meta CreateElement(XElement e) {
             Meta m = new Meta(e);
             // watch out for well known Meta XML elements.
-            switch (m.Key) {
+            switch (m.Name) {
                 case PageTagsMetaKey:
                     _pageTags = m;
                     break;
