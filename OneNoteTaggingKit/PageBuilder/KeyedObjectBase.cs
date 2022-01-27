@@ -24,7 +24,8 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         }
 
         /// <summary>
-        /// Initialize an keyed OneNote page element existing ,
+        /// Initialize a keyed OneNote page object proxy with a
+        /// XML element existing on a OneNote page.
         /// </summary>
         /// <remarks>
         ///     Keyed element must have a `name` property containing a key
