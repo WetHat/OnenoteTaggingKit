@@ -83,8 +83,9 @@
     <Compile Include="common\KnownTagsSource.cs" />
     <Compile Include="common\ObservableDictionary.cs" />
     <Compile Include="common\ObservableSortedList.cs" />
+    <Compile Include="PageBuilder\DefinitionObjectBase.cs" />
+    <Compile Include="PageBuilder\DefinitionObjectCollection.cs" />
     <Compile Include="PageBuilder\KeyedObjectBase.cs" />
-    <Compile Include="PageBuilder\KeyedObjectCollection.cs" />
     <Compile Include="PageBuilder\Meta.cs" />
     <Compile Include="PageBuilder\MetaCollection.cs" />
     <Compile Include="PageBuilder\OneNotePage.cs" />
@@ -158,6 +159,8 @@
     <Compile Include="find\FindTaggedPagesModel.cs" />
     <Compile Include="PageBuilder\PageObjectBase.cs" />
     <Compile Include="PageBuilder\PageStructureObjectCollection.cs" />
+    <Compile Include="PageBuilder\TagDef.cs" />
+    <Compile Include="PageBuilder\TagDefCollection.cs" />
     <Compile Include="Tagger\BackgroundTagger.cs" />
     <Compile Include="Tagger\TaggingJob.cs" />
   </ItemGroup>
