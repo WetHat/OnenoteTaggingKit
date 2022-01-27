@@ -348,5 +348,17 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
                 this["KnownTagsCollection"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("🏷")]
+        public string PageTagMarker {
+            get {
+                return ((string)(this["PageTagMarker"]));
+            }
+            set {
+                this["PageTagMarker"] = value;
+            }
+        }
     }
 }
