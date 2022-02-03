@@ -85,9 +85,10 @@
     <Compile Include="common\ObservableSortedList.cs" />
     <Compile Include="PageBuilder\DefinitionObjectBase.cs" />
     <Compile Include="PageBuilder\DefinitionObjectCollection.cs" />
-    <Compile Include="PageBuilder\KeyedObjectBase.cs" />
+    <Compile Include="PageBuilder\NamedObjectBase.cs" />
     <Compile Include="PageBuilder\Meta.cs" />
     <Compile Include="PageBuilder\MetaCollection.cs" />
+    <Compile Include="PageBuilder\OE.cs" />
     <Compile Include="PageBuilder\OneNotePage.cs" />
     <Compile Include="common\FilterableTagsSource.cs" />
     <Compile Include="common\ui\SelectableTagModel.cs" />
@@ -158,9 +159,16 @@
     </Compile>
     <Compile Include="find\FindTaggedPagesModel.cs" />
     <Compile Include="PageBuilder\PageObjectBase.cs" />
+    <Compile Include="PageBuilder\PageObjectCollectionBase.cs" />
+    <Compile Include="PageBuilder\PageStructureObjectBase.cs" />
     <Compile Include="PageBuilder\PageStructureObjectCollection.cs" />
+    <Compile Include="PageBuilder\QuickStyleDef.cs" />
+    <Compile Include="PageBuilder\QuickStyleDefCollection.cs" />
+    <Compile Include="PageBuilder\Tag.cs" />
+    <Compile Include="PageBuilder\TagCollection.cs" />
     <Compile Include="PageBuilder\TagDef.cs" />
     <Compile Include="PageBuilder\TagDefCollection.cs" />
+    <Compile Include="PageBuilder\Title.cs" />
     <Compile Include="Tagger\BackgroundTagger.cs" />
     <Compile Include="Tagger\TaggingJob.cs" />
   </ItemGroup>

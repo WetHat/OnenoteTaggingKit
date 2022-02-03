@@ -1,7 +1,6 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -10,6 +9,71 @@ using WetHatLab.OneNote.TaggingKit.Tagger;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 {
+    /// <summary>
+    /// Enumeration of ways to display tags on a Onenote Page
+    /// </summary>
+    public enum TagDisplay
+    {
+        /// <summary>
+        /// Display tags as comma separated text below the title.
+        /// </summary>
+        BelowTitle,
+
+        /// <summary>
+        /// Display the tags a single OneNote tag whose name is comma separated tag names.
+        /// </summary>
+        InTitle
+    }
+
+    /// <summary>Sequence positions of page structure elements</summary>
+    /// <remarks>
+    /// <code lang="xml">
+    /// // Sequence of elements below the page tag
+    /// <xsd:element name="TagDef" type="TagDef" minOccurs="0" maxOccurs="unbounded"/>[
+    /// <xsd:element name="QuickStyleDef" type="QuickStyleDef" minOccurs="0" maxOccurs="unbounded"/>
+    /// <xsd:element name="XPSFile" type="XPSFile" minOccurs="0" maxOccurs="unbounded"/>
+    /// <xsd:element name="Meta" type="Meta" minOccurs="0" maxOccurs="unbounded"/>
+    /// <xsd:element name="MediaPlaylist" type="MediaPlaylist" minOccurs="0"/>
+    /// <xsd:element name="MeetingInfo" type="MeetingInfo" minOccurs="0"/>
+    /// <xsd:element name="PageSettings" type="PageSettings" minOccurs="0"/>
+    /// <xsd:element name="Title" type="Title" minOccurs="0"/>
+    /// </code>
+    /// </remarks>
+    public enum PageSchemaPosition
+    {
+        /// <summary>
+        /// Position of tag definition elements on a OneNote page.
+        /// </summary>
+        TagDef = 0,
+        // <summary>
+        /// Position of style definition elements on a OneNote page.
+        /// </summary>
+        QuickStyleDef = 1,
+
+        XPSFile = 2,
+
+        /// <summary>
+        /// Position of _Meta_ elements on a OneNote page.
+        /// </summary>
+        Meta = 3,
+
+        MediaPlaylist = 4,
+
+        MeetingInfo = 5,
+
+        PageSettings = 6,
+
+        /// <summary>
+        /// Position of the _Title_ element on a OneNote page.
+        /// </summary>
+        Title = 7,
+
+        /// <summary>
+        /// Position of the _Outline_ elements on a OneNote page.
+        /// </summary>
+        Outline = 8
+    }
+
     /// <summary>
     /// Local representation of a OneNote Page
     /// </summary>
@@ -20,126 +84,184 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     ///     <item>limited page editing</item>
     ///     </list>
     /// </remarks>
-    internal class OneNotePage
-    {
-        /// <summary>
-        /// Enumeration of way to display tags on a Onenote Page
-        /// </summary>
-        private enum TagDisplay
-        {
-            /// <summary>
-            /// Display tags as comma separated text below the title.
-            /// </summary>
-            BelowTitle,
-
-            /// <summary>
-            /// Display the tags a single OneNote tag whose name is comma separated tag names.
-            /// </summary>
-            InTitle
-        }
-
+    public class OneNotePage {
         private const int QUICKSTYLEDEF_IDX = 1;
 
-        private const int TAGDEF_IDX = 0;
-
         private const int TITLE_IDX = 7;
-
-        private readonly string MarkerTagname = "Page Tags";
 
         private static readonly Regex _hashtag_matcher = new Regex(@"(?<=(^|[^\w]))#\w{3,}", RegexOptions.Compiled);
         private static readonly Regex _number_matcher = new Regex(@"^#\d*\w{0,1}\d*$|^#[xX]{0,1}[\dABCDEFabcdef]+$", RegexOptions.Compiled);
         private static readonly Regex _tag_matcher = new Regex(@"<(a|span)[^<>]+>", RegexOptions.Compiled);
-        // Sequence of elements below the page tag
-        //<xsd:element name="TagDef" type="TagDef" minOccurs="0" maxOccurs="unbounded"/>[
-        //<xsd:element name="QuickStyleDef" type="QuickStyleDef" minOccurs="0" maxOccurs="unbounded"/>
-        //<xsd:element name="XPSFile" type="XPSFile" minOccurs="0" maxOccurs="unbounded"/>
-        //<xsd:element name="Meta" type="Meta" minOccurs="0" maxOccurs="unbounded"/>
-        //<xsd:element name="MediaPlaylist" type="MediaPlaylist" minOccurs="0"/>
-        //<xsd:element name="MeetingInfo" type="MeetingInfo" minOccurs="0"/>
-        //<xsd:element name="PageSettings" type="PageSettings" minOccurs="0"/>
-        //<xsd:element name="Title" type="Title" minOccurs="0"/>
-        private static readonly String[] ELEMENT_SEQUENCE = { "TagDef", "QuickStyleDef", "XPSFile", "Meta", "MediaPlaylist", "MeetingInfo", "PageSettings", "Title" };
 
+        /// <summary>
+        /// The sequence of structure elements in which elements have to
+        /// appear on a OneNote page.
+        /// </summary>
+        /// <remarks>
+        /// The schema for stucture elements on a OneNote page is defined as:
+        /// <code lang="xml">
+        /// // Sequence of elements below the page tag
+        /// <xsd:element name="TagDef" type="TagDef" minOccurs="0" maxOccurs="unbounded"/>[
+        /// <xsd:element name="QuickStyleDef" type="QuickStyleDef" minOccurs="0" maxOccurs="unbounded"/>
+        /// <xsd:element name="XPSFile" type="XPSFile" minOccurs="0" maxOccurs="unbounded"/>
+        /// <xsd:element name="Meta" type="Meta" minOccurs="0" maxOccurs="unbounded"/>
+        /// <xsd:element name="MediaPlaylist" type="MediaPlaylist" minOccurs="0"/>
+        /// <xsd:element name="MeetingInfo" type="MeetingInfo" minOccurs="0"/>
+        /// <xsd:element name="PageSettings" type="PageSettings" minOccurs="0"/>
+        /// <xsd:element name="Title" type="Title" minOccurs="0"/>
+        /// </code>
+        /// </remarks>
+
+        static readonly string[] PositionNames = new string[] { "TagDef", "QuickStyleDef", "XPSFile", "Meta", "MediaPlaylist", "MeetingInfo", "PageSettings", "Title", "Outline" };
+
+        /// <summary>
+        /// Map available structure element proxies to page location indices.
+        /// </summary>
+        static readonly Dictionary<Type, int> _typeToIndex = new Dictionary<Type, int>() {
+            [typeof(TagDef)] = (int)PageSchemaPosition.TagDef,
+            [typeof(QuickStyleDef)] = (int)PageSchemaPosition.QuickStyleDef,
+            [typeof(Meta)] = (int)PageSchemaPosition.Meta,
+            [typeof(Title)] = (int)PageSchemaPosition.Title,
+        };
+
+        XElement[] PageAnchors = new XElement[] { null, null, null, null, null, null, null, null, null };
+        QuickStyleDefCollection _styles;
         MetaCollection _meta; // Page Meta information
+        TagDefCollection _tagdef; // OneNote tag definitions.
 
         private DateTime _lastModified;
-        private XNamespace _one;
+        /// <summary>
+        /// Get the XML namespace for elements in OneNote XML page documents.
+        /// </summary>
+        public XNamespace Namespace { get; private set; }
 
         // the OneNote application object
         private OneNoteProxy _onenote;
 
-        private XElement _page;
-
-        private XDocument _pageDoc; // the OneNote page document
+        /// <summary>
+        /// Get a XML Name for elements on a OneNote page document.
+        /// </summary>
+        /// <param name="localname"></param>
+        /// <returns>XML name in the OneNote page document namespace.</returns>
+        public XName GetName(string localname) => Namespace.GetName(localname);
 
         /// <summary>
-        /// &lt;one:OE&gt; element holding marker tag. This is either a title OE or a OE in
-        /// an outline of the page.
+        /// Get the XML document of the OneNote page
         /// </summary>
-        private XElement _pageTagsOE;
+        public XDocument Document { get; private set; }
+        /// <summary>
+        /// Get he XML Root element of the OneNote page document.
+        /// </summary>
+        public XElement Root { get; private set; }
 
-        private readonly string[] _originalTags;
+        OE _belowTitleTags;
 
         /// <summary>
-        /// The array of page tags.
+        /// Get the proxy object for the 'one:Title' element of the OneNote page
+        /// document.
         /// </summary>
-        private string[] _tags;
+        public Title Title { get; private set; }
 
-        private XElement _titleOE;
-
-        private XElement _markerTagDef;
-        private HashSet<string> GetOutlineHashtagSet(XElement outline) {
-            var tagset = new HashSet<string>();
-            foreach (var t in outline.Descendants(_one.GetName("T"))) {
-                // remove some tags from the text
-                string txt = _tag_matcher.Replace(t.Value, string.Empty);
-                tagset.UnionWith(from Match m in _hashtag_matcher.Matches(txt)
-                                 where!_number_matcher.Match(m.Value).Success
-                                 select m.Value);
-            }
-            return tagset;
-        }
         internal OneNotePage(OneNoteProxy onenoteApp, string pageID) {
             _onenote = onenoteApp;
             PageID = pageID;
-            LoadOneNotePage();
-            var tagset = new HashSet<string>();
-            // collect tags from various sources on the page
-            foreach (string t in ParseTags(_meta.PageTags)) {
-                tagset.Add(t);
-            }
-            if (_markerTagDef != null && "99".Equals(_markerTagDef.Attribute("type").Value)) { // use the in-title tag
-                foreach (string t in ParseTags(_markerTagDef.Attribute("name").Value)) {
-                    tagset.Add(t);
-                }
+            Document = _onenote.GetPage(PageID); // get the page's XML document
+            Root = Document.Root;
+            Namespace = Document.Root.GetNamespaceOfPrefix("one");
+            _lastModified = DateTime.Parse(Root.Attribute("lastModifiedTime").Value);
+
+            // recognize some page content
+
+            _styles = new QuickStyleDefCollection(this);
+            _meta = new MetaCollection(this);
+            _tagdef = new TagDefCollection(this);
+
+            XElement title = Root.Element(GetName(nameof(Title)));
+            if (title == null) {
+                // a title is required for tagging
+                Title = new Title(this, "Untitled Page");
+            } else {
+                Title = new Title(this, title);
+                // inspect the title tags an mark some of them as page tags
+                _tagdef.DefineKnownPageTags(from i in Title.Tags.TagIndices
+                                            let td = _tagdef[i]
+                                            where td.Symbol == 0
+                                            select td.TagName);
             }
 
-            // get all tag definitions which could be page tags from the page header.
-            var indexmap = new Dictionary<string, XElement>();
-            foreach (XElement tagDef in from td in _page.Elements(_one.GetName("TagDef"))
-                                        where "0".Equals(td.Attribute("symbol").Value)
-                                        select td) {
-                indexmap[tagDef.Attribute("index").Value] = tagDef;
-            }
-            // get all the hidden title tags
-            foreach (XElement t in _titleOE.Elements(_one.GetName("Tag"))) {
-                XElement tagdef;
-                if (indexmap.TryGetValue(t.Attribute("index").Value, out tagdef)) {
-                    tagset.Add(tagdef.Attribute("name").Value);
+            // make sure all tags recorded in the page's meta informations are defined
+            _tagdef.DefineKnownPageTags(_meta.PageTags.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+
+            // For performance reasons we are going to delete all outlines not related to tags
+            // Note: Page updates will actually leave those removed outlines on the page.
+            List<XElement> outlinesToDelete = new List<XElement>();
+            XName outlineName = GetName("Outline");
+
+            // For performance reasons we avoid Xpath!
+            HashSet<string> hashtagset = new HashSet<string>();
+            foreach (var outline in Root.Elements(outlineName).ToList()) {
+                XElement OEChildren = outline.Element(GetName("OEChildren"));
+                if (OEChildren != null) {
+                    // further inspect that outline
+                    if (_tagdef.BelowTitleMarkerDef != null) {
+                        // there is a below title taglist on the page
+                        // the outline we are looking for has one <one:OEChildren> element with
+                        // one <one:OE> element containing a <one:Tag> with the given index
+                        // The tag outline element lookis like this
+                        // <one:Outline author="Peter Ernst" authorInitials="PE" lastModifiedBy="Peter Ernst" lastModifiedByInitials="PE" objectID="{E470786C-A904-4E9F-AC3B-0D9F36B6FC54}{14}{B0}" lastModifiedTime="2013-12-06T16:04:48.000Z">
+                        //   <one:Position x="236.249984741211" y="42.1500015258789" z="0" />
+                        //   <one:Size width="90.8847274780273" height="10.9862976074219" />
+                        //   <one:OEChildren>
+                        //     <one:OE objectID="{E470786C-A904-4E9F-AC3B-0D9F36B6FC54}{15}{B0}" lastModifiedTime="2013-12-06T16:04:48.000Z" quickStyleIndex="1" creationTime="2013-12-06T16:03:50.000Z">
+                        //       <one:Tag index="0" completed="true" creationDate="2013-12-06T15:55:59.000Z" completionDate="2013-12-06T15:55:59.000Z" />
+                        //       <one:T><![CDATA[Gdfgdf, sdfdsf]]></one:T>
+                        //     </one:OE>
+                        //   </one:OEChildren>
+                        // </one:Outline>
+
+                        XElement oelement = OEChildren.Element(GetName("OE"));
+                        if (oelement != null) {
+                            // make a proxy for that
+                            var oe = new OE(oelement);
+                            if (oe.Tags.ContainsTag(_tagdef.BelowTitleMarkerDef.Index)) {
+                                _belowTitleTags = oe;
+                                // collect these tags too
+                                _tagdef.DefineKnownPageTags(ParseTags(oe.Element.Value));
+                                // delete the Indents as they tend to cause errors
+                                XElement indents = outline.Element(GetName("Indents"));
+                                if (indents != null) {
+                                    indents.Remove();
+                                }
+                                continue; // keep this outline
+                            }
+                        }
+                    }
+                    if (Properties.Settings.Default.MapHashTags) {
+                        // make sure all hashtags in that outline are defined
+                        foreach (var t in outline.Descendants(GetName("T"))) {
+                            // remove some non-sensical tags from the text
+                            string txt = _tag_matcher.Replace(t.Value, string.Empty);
+                            hashtagset.UnionWith(from Match m in _hashtag_matcher.Matches(txt)
+                                                 where !_number_matcher.Match(m.Value).Success
+                                                 select m.Value);
+                        }
+                    }
                 }
+                outline.Remove();
             }
-            _originalTags = tagset.ToArray();
-            // extract the OneNoe tags
-            OneNoteTags = (from td in _page.Elements(_one.GetName("TagDef"))
-                           where td != _markerTagDef && !tagset.Contains(td.Attribute("name").Value)
-                           select td.Attribute("name").Value).ToArray();
+            if (hashtagset != null) {
+                _tagdef.DefineContentHashtags(hashtagset);
+            }
         }
 
-        internal bool IsDeleted {
+        /// <summary>
+        /// Determine if this page is in the recycle bin.
+        /// </summary>
+        public bool IsDeleted {
             get {
-                XAttribute recycleBinAtt = _page.Attribute("isInRecycleBin");
 
-                return recycleBinAtt != null ? bool.Parse(recycleBinAtt.Value) : false;
+                XAttribute recycleBinAtt = Root.Attribute("isInRecycleBin");
+                return recycleBinAtt != null && "true".Equals(recycleBinAtt.Value);
             }
         }
 
@@ -148,33 +270,23 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         internal string PageID { get; private set; }
 
-        internal string[] PageTags {
-            get {
-                return _tags ?? _originalTags;
-            }
-
-            set {
-                _tags = value;
-            }
+        /// <summary>
+        /// Get/set the page tags.
+        /// </summary>
+        /// <value>Collection of tag names without type annotation</value>
+        public IEnumerable<string> PageTags {
+            get => from TagDef def in _tagdef.DefinedPageTags
+                   where _tagdef.GetProcessClassification(def) == TagProcessClassification.PageTag
+                   select def.TagName;
+            set => _tagdef.DefinePageTags(value);
         }
 
         /// <summary>
-        /// Get the OneNote paragraph tags found on the page
+        /// Parse a comma separated list of tag names into an array.
         /// </summary>
-        internal string[] OneNoteTags { get; private set; }
-
-        /// <summary>
-        /// Get the hashtags found in page test content
-        /// </summary>
-        internal string[] HashTags { get; private set; }
-
-        internal string Title {
-            get {
-                return _titleOE != null ? Regex.Replace(_titleOE.Value, "<[^<>]*>", "") : "Untitled page";
-            }
-        }
-
-        internal static string[] ParseTags(string tags) {
+        /// <param name="tags">comma separated list of tags</param>
+        /// <returns>array of tag names</returns>
+        public static string[] ParseTags(string tags) {
             if (!string.IsNullOrEmpty(tags)) {
                 // remove all HTML markup
                 tags = Regex.Replace(tags, "<[^<>]+>", String.Empty);
@@ -192,28 +304,26 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// Save all changes to the page to OneNote
         /// </summary>
         internal void Update() {
-            if (_tags != null) {
-                string[] savedTags = _tags;
-                if (ApplyTagsToPage()) {
-                    try {
-                        _onenote.UpdatePage(_pageDoc, _lastModified);
-                        _tags = null;
-                    } catch (COMException ce) {
-                        unchecked {
-                            switch ((uint)ce.ErrorCode) {
-                                case 0x80042010: // concurrent page modification
-                                    TraceLogger.Log(TraceCategory.Error(), "The last modified date does not match. Concurrent page modification: {0}\n Rescheduling tagging job.", ce.Message);
-                                    _onenote.TaggingService.Add(new TaggingJob(PageID, savedTags, TagOperation.REPLACE));
-                                    break;
+            string[] savedTags = (from TagDef def in _tagdef.DefinedPageTags
+                                  select def.Name).ToArray();
+            if (ApplyTagsToPage()) {
+                try {
+                    _onenote.UpdatePage(Document, _lastModified);
+                } catch (COMException ce) {
+                    unchecked {
+                        switch ((uint)ce.ErrorCode) {
+                            case 0x80042010: // concurrent page modification
+                                TraceLogger.Log(TraceCategory.Error(), "The last modified date does not match. Concurrent page modification: {0}\n Rescheduling tagging job.", ce.Message);
+                                _onenote.TaggingService.Add(new TaggingJob(PageID, savedTags, TagOperation.REPLACE));
+                                break;
 
-                                case 0x80042030: // blocked by modal dialog
-                                    TraceLogger.ShowGenericErrorBox(Properties.Resources.TaggingKit_Blocked, ce);
-                                    _onenote.TaggingService.Add(new TaggingJob(PageID, savedTags, TagOperation.REPLACE));
-                                    break;
+                            case 0x80042030: // blocked by modal dialog
+                                TraceLogger.ShowGenericErrorBox(Properties.Resources.TaggingKit_Blocked, ce);
+                                _onenote.TaggingService.Add(new TaggingJob(PageID, savedTags, TagOperation.REPLACE));
+                                break;
 
-                                default:
-                                    throw;
-                            }
+                            default:
+                                throw;
                         }
                     }
                 }
@@ -221,386 +331,133 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         }
 
         /// <summary>
-        /// Add a new element at the correct position to a page
+        /// Add a page structure element at the correct location on a
+        /// OneNote page XML document.
         /// </summary>
-        /// <param name="element"> element to add</param>
-        /// <param name="sequence">index of element name in the schema sequence</param>
-        private void addElementToPage(XElement element, int sequence) {
-            // locate a successor
-            for (int i = sequence; i < ELEMENT_SEQUENCE.Length; i++) {
-                XElement first = _page.Elements(_one.GetName(ELEMENT_SEQUENCE[i])).FirstOrDefault();
-                if (first != null) {
-                    first.AddBeforeSelf(element);
-                    return;
+        /// <remarks>
+        ///     Makes use of an internal lookup table containing anchor elements
+        ///     known to be at certain schema positions.
+        /// </remarks>
+        /// <param name="obj">The proxy object containing the element to add to the page.</param>
+        public void Add(PageStructureObjectBase obj) {
+            int p = _typeToIndex[obj.GetType()];
+            XElement anchor = PageAnchors[p];
+            if (anchor == null) {
+                // need to go searching
+                for (int i = p; i < PositionNames.Length; i++) {
+                    var localname = PositionNames[i];
+                    anchor = Root.Element(obj.GetName(localname));
+                    if (anchor != null) {
+                        PageAnchors[i] = anchor; // remember that
+                        break;
+                    }
                 }
             }
-            _page.Add(element);
+            if (anchor != null) {
+                anchor.AddBeforeSelf(obj.Element);
+            } else {
+                Root.Add(obj.Element);
+            }
+            PageAnchors[p] = obj.Element;
         }
-
         /// <summary>
         /// Add tags to the page as specified by the <see cref="TagDisplay" /> enumeration.
         /// </summary>
         /// <returns><i>true</i> if a page update is needed; <i>false</i> otherwise</returns>
         private bool ApplyTagsToPage() {
-            if (_tags == null) {
-                return false; // can only apply tags once
-            }
-
-            bool specChanged = UpdateTagSpec();
-
-            // get the new set of tags
-            XName tagName = _one.GetName("Tag");
-            if (string.IsNullOrEmpty(_meta.PageTags)) {
-                if (_pageTagsOE != null) { // no more tags - remove tag display
-                    if (_pageTagsOE == _titleOE) { // in title tag
-                        string markertagindex = _markerTagDef.Attribute("index").Value;
-                        XElement markerTag = _titleOE.Elements(tagName).FirstOrDefault(t => t.Attribute("index").Value == markertagindex);
-                        markerTag.Remove();
-                    } else { // below title tags
-                        _onenote.DeletePageContent(PageID, _pageTagsOE.Parent.Parent.Attribute("objectID").Value);
-                        _pageTagsOE.Parent.Parent.Remove();
-                        _pageTagsOE = null;
-                    }
-                }
-                return true;
-            }
-
-            if (_pageTagsOE == null) { // make sure we update the page even if tags are unchanged
-                specChanged = true;
-            }
-            XName tagdefName = _one.GetName("TagDef");
-            if (specChanged) {  // some differences detected - must update
-                string markerTagIndex = _markerTagDef.Attribute("index").Value; ;
-                switch ((TagDisplay)Properties.Settings.Default.TagDisplay) {
-                    case TagDisplay.BelowTitle:
-                        // remove unwanted representation - in title tags
-                        if (_pageTagsOE != null && _pageTagsOE == _titleOE) {
-                            XElement tag = _pageTagsOE.Elements(tagName).FirstOrDefault(e => e.Attribute("index").Value == markerTagIndex);
-                            if (tag != null) {
-                                tag.Remove();
-                            }
-                            _pageTagsOE = null; // rebuild outline;
-                        }
-
-                        // update/create the tag outline
-                        if (_pageTagsOE != null) { // remove all old <one:T> text elements, but leave the marker tag in place.
-                            XName tName = _one.GetName("T");
-                            foreach (XElement t in _pageTagsOE.Elements(tName).ToArray()) {
-                                t.Remove();
-                            }
-                            // Add comma separated tags
-                            _pageTagsOE.Add(new XElement(tName, _meta.PageTags));
-                        } else { // build new outline for the tags
-                                 // Create a style for the tags - if needed
-                                 // <one:QuickStyleDef index="1"
-
-                            // name="cite" fontColor="#595959" highlightColor="automatic"
-                            // font="Calibri" fontSize="9"
-                            XName styledefName = _one.GetName("QuickStyleDef");
-
-                            IEnumerable<XElement> quickstyleDefs = _page.Elements(styledefName);
-                            XElement tagStyle = quickstyleDefs.FirstOrDefault(d => d.Attribute("name").Value == Properties.Settings.Default.TagOutlineStyle_Name);
-
-                            if (tagStyle == null) { // new style required
-                                tagStyle = new XElement(styledefName,
-                                               new XAttribute("index", (quickstyleDefs.Count() + 1).ToString()),
-                                               new XAttribute("name", Properties.Settings.Default.TagOutlineStyle_Name),
-                                               new XAttribute("fontColor", "#595959"),
-                                               new XAttribute("highlightColor", "automatic"),
-                                               new XAttribute("bold", Properties.Settings.Default.TagOutlineStyle_Font.Bold.ToString().ToLower()),
-                                               new XAttribute("italic", Properties.Settings.Default.TagOutlineStyle_Font.Italic.ToString().ToLower()),
-                                               new XAttribute("font", Properties.Settings.Default.TagOutlineStyle_Font.Name),
-                                               new XAttribute("fontSize", Properties.Settings.Default.TagOutlineStyle_Font.Size));
-
-                                addElementToPage(tagStyle, QUICKSTYLEDEF_IDX);
-                            }
-                            // create a tag outline
-                            // Create an outline for the page tags
-                            //
-                            //<one:Outline author="Peter Ernst" authorInitials="PE" lastModifiedBy="Peter Ernst" lastModifiedByInitials="PE" objectID="{E470786C-A904-4E9F-AC3B-0D9F36B6FC54}{14}{B0}" lastModifiedTime="2013-12-06T16:04:48.000Z">
-                            //  <one:Position x="236.249984741211" y="42.1500015258789" z="0" />
-                            //  <one:Size width="90.8847274780273" height="10.9862976074219" />
-                            //  <one:OEChildren>
-                            //    <one:OE objectID="{E470786C-A904-4E9F-AC3B-0D9F36B6FC54}{15}{B0}" lastModifiedTime="2013-12-06T16:04:48.000Z" quickStyleIndex="1" creationTime="2013-12-06T16:03:50.000Z">
-                            //      <one:Tag index="0" completed="true" creationDate="2013-12-06T15:55:59.000Z" completionDate="2013-12-06T15:55:59.000Z" />
-                            //      <one:T><![CDATA[Gdfgdf, sdfdsf]]></one:T>
-                            //    </one:OE>
-                            //  </one:OEChildren>
-                            //</one:Outline>
-                            XElement outline = new XElement(_one.GetName("Outline"),
-                                               new XElement(_one.GetName("Position"),
-                                                            new XAttribute("x", "236"),
-                                                            new XAttribute("y", "43"),
-                                                            new XAttribute("z", "0")),
-                                               new XElement(_one.GetName("Size"),
-                                                            new XAttribute("width", "400"),
-                                                            new XAttribute("height", "10"),
-                                                            new XAttribute("isSetByUser", "true")),
-                                               new XElement(_one.GetName("OEChildren"),
-                                             (_pageTagsOE = new XElement(_one.GetName("OE"),
-                                                                         new XAttribute("quickStyleIndex", tagStyle.Attribute("index").Value),
-                                                                         new XElement(tagName,
-                                                                                      new XAttribute("index", _markerTagDef.Attribute("index").Value),
-                                                                                      new XAttribute("completed", "true")),
-                                                                         new XElement(_one.GetName("T"), _meta.PageTags )))));
-                            _page.Add(outline);
-                        }
-                        // turn off spell checking
-                        _pageTagsOE.SetAttributeValue("lang", "yo");
-                        break;
-
-                    case TagDisplay.InTitle:
-                        if (_pageTagsOE != null && _pageTagsOE != _titleOE) { // remove unwanted representation - below title tags
-                            _onenote.DeletePageContent(PageID, _pageTagsOE.Parent.Parent.Attribute("objectID").Value);
-                            _pageTagsOE.Parent.Parent.Remove();
-                            _pageTagsOE = _titleOE;
-                        }
-
-                        // tag the title if needed
-                        if (_titleOE.Elements(tagName).FirstOrDefault(e => markerTagIndex.Equals(e.Attribute("index").Value)) == null) {
-                            _titleOE.AddFirst(new XElement(tagName,
-                                                  new XAttribute("index", markerTagIndex),
-                                                  new XAttribute("completed", "true")));
-                        }
-                        break;
-                }
-            }
-            return specChanged;
-        }
-
-        private void LoadOneNotePage() {
-            _pageTagsOE = null;
-            _pageDoc = _onenote.GetPage(PageID);
-            _one = _pageDoc.Root.GetNamespaceOfPrefix("one");
-            _page = _pageDoc.Root;
-
-            _meta = new MetaCollection(_pageDoc);
-
-            _lastModified = DateTime.Parse(_page.Attribute("lastModifiedTime").Value);
-
-            XName outlineName = _one.GetName("Outline");
-
-            // find the various tag definitions <one:TagDef> used to add textual tags to
-            // the page title<one:TagDef index="0" name="Tags" type="23" symbol="26" />
-            _markerTagDef = _page.Elements(_one.GetName("TagDef")).FirstOrDefault(d => ("26".Equals(d.Attribute("symbol").Value)
-                                                                                       && ("99".Equals(d.Attribute("type").Value)
-                                                                                           || (MarkerTagname.Equals(d.Attribute("name").Value) && "23".Equals(d.Attribute("type").Value))
-                                                                                          )
-                                                                                       ));
-            // For performance reasons we are going to delete all outlines not related to tags
-            // Note: Page updates will actually leave those removed outlines on the page.
-            List<XElement> outlinesToDelete = new List<XElement>();
-
-            var hashtags = new HashSet<string>();
-            // find <one:Outline> containing page tags.
-            if (_markerTagDef != null) {
-                string defindex = _markerTagDef.Attribute("index").Value;
-                // locate the tag outline element looking like this
-                //<one:Outline author="Peter Ernst" authorInitials="PE" lastModifiedBy="Peter Ernst" lastModifiedByInitials="PE" objectID="{E470786C-A904-4E9F-AC3B-0D9F36B6FC54}{14}{B0}" lastModifiedTime="2013-12-06T16:04:48.000Z">
-                //  <one:Position x="236.249984741211" y="42.1500015258789" z="0" />
-                //  <one:Size width="90.8847274780273" height="10.9862976074219" />
-                //  <one:OEChildren>
-                //    <one:OE objectID="{E470786C-A904-4E9F-AC3B-0D9F36B6FC54}{15}{B0}" lastModifiedTime="2013-12-06T16:04:48.000Z" quickStyleIndex="1" creationTime="2013-12-06T16:03:50.000Z">
-                //      <one:Tag index="0" completed="true" creationDate="2013-12-06T15:55:59.000Z" completionDate="2013-12-06T15:55:59.000Z" />
-                //      <one:T><![CDATA[Gdfgdf, sdfdsf]]></one:T>
-                //    </one:OE>
-                //  </one:OEChildren>
-                //</one:Outline>
-                //
-                // For performance reasons we avoid Xpath!
-                foreach (var outline in _page.Elements(outlineName)) {
-                    // the outline we are looking for has one <one:OEChildren> element with
-                    // one <one:OE> element containing a <one:Tag> with the given index
-                    if (_pageTagsOE == null) {
-                        XElement OEChildren = outline.Element(_one.GetName("OEChildren"));
-                        if (OEChildren != null) {
-                            XElement OE = OEChildren.Element(_one.GetName("OE"));
-                            if (OE != null) {
-                                XElement tag = (from t in OE.Elements(_one.GetName("Tag"))
-                                                where t.Attribute("index").Value == defindex
-                                                select t).FirstOrDefault();
-                                if (tag != null) { // found the outline with page tags, get the text element containing the tags
-                                    _pageTagsOE = OE;
-                                    // delete the Indents as they tend to cause errors
-                                    XElement indents = outline.Element(_one.GetName("Indents"));
-                                    if (indents != null) {
-                                        indents.Remove();
-                                    }
-                                    continue;
-                                } else if (Properties.Settings.Default.MapHashTags) {
-                                    hashtags.UnionWith(GetOutlineHashtagSet(outline));
-                                }
-                            }
-                        }
-                    } else if (Properties.Settings.Default.MapHashTags) {
-                        hashtags.UnionWith(GetOutlineHashtagSet(outline));
-                    }
-                    outlinesToDelete.Add(outline); // enroll for deletion
-                }
-            } else { // just record all outline elements for deletion
-                foreach (var outline in _page.Elements(outlineName)) {
-                    if (Properties.Settings.Default.MapHashTags) {
-                        hashtags.UnionWith(GetOutlineHashtagSet(outline));
-                    }
-                    outlinesToDelete.Add(outline);
-                }
-            }
-            if (Properties.Settings.Default.MapHashTags) {
-                HashTags = hashtags.ToArray();
-            }
-            // delete outlines to make updating the page as fast as possible, knowing that
-            // the update method will keep these outlines actually on the page.
-            foreach (XElement outline in outlinesToDelete) {
-                outline.Remove();
-            }
-
-            XName titleName = _one.GetName("Title");
-            XElement title = _page.Element(titleName);
-            if (title == null) {
-                title = new XElement(titleName, _titleOE = new XElement(_one.GetName("OE")));
-                addElementToPage(title, TITLE_IDX);
-            } else {
-                _titleOE = title.Element(_one.GetName("OE"));
-                if (_markerTagDef != null && "99".Equals(_markerTagDef.Attribute("type").Value)) {
-                    _pageTagsOE = _titleOE;
-                }
-            }
-        }
-        private bool UpdateTagSpec() {
-            bool specChanged = false;
-            // collect all tag definitions
-            XName tagdefName = _one.GetName("TagDef");
-            IEnumerable<XElement> tagDefs = _page.Elements(tagdefName);
-
-            int nextTagDefIndex = tagDefs.Count(); // next index for creating new tags
-                                                   // add new tags to the page title and remove obsolete ones
-                                                   // <one:Title lang="de">
-                                                   //  <one:OE objectID="{9A0ACA13-6D63-4137-8821-5D7C5408BB6C}{15}{B0}" lastModifiedTime="2013-12-08T14:08:11.000Z" quickStyleIndex="0" author="Peter Ernst" authorInitials="PE" lastModifiedBy="Peter Ernst" lastModifiedByInitials="PE" creationTime="2013-12-08T14:08:11.000Z">
-                                                   //    <one:Tag index="0" completed="true" creationDate="2013-12-06T20:31:43.000Z" completionDate="2013-12-06T20:31:43.000Z" />
-                                                   //    <one:Tag index="1" completed="true" creationDate="2013-12-06T20:34:05.000Z" completionDate="2013-12-06T20:34:05.000Z" />
-                                                   //    <one:Tag index="2" completed="true" creationDate="2013-12-06T20:35:41.000Z" completionDate="2013-12-06T20:35:41.000Z" />
-                                                   //    <one:T><![CDATA[Test Addin ]]></one:T>
-                                                   //  </one:OE>
-                                                   //</one:Title>
-
-            // Locate tag definitions for existing page tags and record them:
-            // <one:TagDef index="0" name="Test Tag 1" type="0" symbol="0" />
-            // <one:TagDef index="1" name="Test Tag 2" type="1" symbol="0" />
-            var tagnameToTagdefMap = new Dictionary<string, XElement>();
-            int redundantTagCount = 0;
-            foreach (XElement tagdef in tagDefs.Where(d => d.Attribute("symbol").Value == "0"
-                                                          && _originalTags.Contains(d.Attribute("name").Value))) {
-                string tagname = tagdef.Attribute("name").Value;
-                if (tagnameToTagdefMap.ContainsKey(tagname)) { // another tag with that name already exists.
-                                                               // Give that tag a unique
-                                                               // name, so that if can be
-                                                               // cleaned up later
-                    tagname = string.Format("{0}@#|{1}", tagname, redundantTagCount++);
-                }
-                tagnameToTagdefMap[tagname] = tagdef;
-                // make sure type is equal to index so that type is unique
-                tagdef.Attribute("type").Value = tagdef.Attribute("index").Value;
-                // remove any color attribute so that the title can show its original color
-                if (tagdef.Attribute("fontColor") != null) {
-                    tagdef.Attribute("fontColor").Remove();
-                }
-            }
-            XName tagName = _one.GetName("Tag");
-            // add new tag definitions, if needed
-            foreach (string tag in PageTags) {
-                XElement tagdef;
-                string strIndex;
-                if (tagnameToTagdefMap.TryGetValue(tag, out tagdef)) {
-                    strIndex = tagdef.Attribute("index").Value;
-                } else { // create a new definition for this tag
-                    strIndex = (nextTagDefIndex++).ToString(CultureInfo.InvariantCulture);
-                    tagdef = new XElement(tagdefName, new XAttribute("index", strIndex),
-                                                      new XAttribute("name", tag),
-                                                      new XAttribute("type", strIndex),
-                                                      new XAttribute("symbol", "0"));
-                    _page.AddFirst(tagdef);
-                }
-
-                // tag the title with an invisible tag if needed
-
-                XElement titleTag = _titleOE.Elements(tagName).FirstOrDefault(t => t.Attribute("index").Value == strIndex);
-
-                if (titleTag == null) {
-                    _titleOE.AddFirst(new XElement(tagName,
-                                                  new XAttribute("index", strIndex),
-                                                  new XAttribute("completed", "true")));
-                    specChanged = true;
-                }
-
-                tagnameToTagdefMap.Remove(tag); // remove used tag
-            }
-
-            // remove unused tags from the title; this also automatically removes their
-            // definitions on next page update.
-            // TODO: avoid quadratic lookup
-            foreach (XElement td in tagnameToTagdefMap.Values) {
-                string strIndex = td.Attribute("index").Value;
-                XElement tag = _titleOE.Elements(tagName).FirstOrDefault(t => t.Attribute("index").Value == strIndex);
-                if (tag != null) {
-                    tag.Remove();
-                    specChanged = true;
-                }
-            }
-
+            bool specChanged = _tagdef.IsModified;
             // update the meta information of the page
-            _meta.PageTags = string.Join(", ", PageTags);
-            specChanged = _meta.IsModified;
+            string taglist = string.Join(", ", PageTags);
+            _meta.PageTags = taglist;
+            specChanged = specChanged || _meta.IsModified;
 
-            // create or update the marker tag definition
-            if (_markerTagDef != null) { // existing tag definition recycling
-                switch ((TagDisplay)Properties.Settings.Default.TagDisplay) {
-                    case TagDisplay.BelowTitle:
-                        if (!"23".Equals(_markerTagDef.Attribute("type").Value)) {
-                            _markerTagDef.SetAttributeValue("type", "23");
-                            specChanged = true;
+            // Cleanup obsolete Tag display
+            switch ((TagDisplay)Properties.Settings.Default.TagDisplay) {
+                case TagDisplay.InTitle:
+                    if (_belowTitleTags != null && !string.IsNullOrEmpty(_belowTitleTags.ElementId)) {
+                        if (_tagdef.BelowTitleMarkerDef != null) {
+                            // this tag definition has to go
+                            _tagdef.BelowTitleMarkerDef.Dispose();
                         }
-                        if (!MarkerTagname.Equals(_markerTagDef.Attribute("type").Name)) {
-                            _markerTagDef.SetAttributeValue("name", MarkerTagname);
-                            specChanged = true;
-                        }
-
-                        break;
-
-                    case TagDisplay.InTitle:
-                        if (!"99".Equals(_markerTagDef.Attribute("type").Value)) {
-                            _markerTagDef.SetAttributeValue("type", "99");
-                            specChanged = true;
-                        }
-                        if (!_meta.PageTags.Equals(_markerTagDef.Attribute("name").Value)) {
-                            _markerTagDef.SetAttributeValue("name", _meta.PageTags);
-                            specChanged = true;
-                        }
-                        break;
-                }
-            } else { // create a new tag definition
-                string strIndex = nextTagDefIndex.ToString(CultureInfo.InvariantCulture);
-                switch ((TagDisplay)Properties.Settings.Default.TagDisplay) {
-                    case TagDisplay.BelowTitle:
-                        _markerTagDef = new XElement(tagdefName,
-                                            new XAttribute("index", strIndex),
-                                            new XAttribute("symbol", "26"),
-                                            new XAttribute("name", MarkerTagname),
-                                            new XAttribute("type", "23"));
-
-                        break;
-
-                    case TagDisplay.InTitle:
-                        _markerTagDef = new XElement(tagdefName,
-                                            new XAttribute("index", strIndex),
-                                            new XAttribute("symbol", "26"),
-                                            new XAttribute("name", _meta.PageTags),
-                                            new XAttribute("type", "99"));
-                        break;
-                }
-                _page.AddFirst(_markerTagDef);
-                specChanged = true;
+                        // the corresponding outline too
+                        _onenote.DeletePageContent(PageID, _belowTitleTags.Element.Parent.Parent.Attribute("objectID").Value);
+                        specChanged = true;
+                    }
+                    break;
+                case TagDisplay.BelowTitle:
+                    if (_tagdef.InTitleMarkerDef != null) {
+                        Title.Tags.RemoveTag(_tagdef.InTitleMarkerDef.Index);
+                        _tagdef.InTitleMarkerDef.Dispose();
+                        specChanged = true;
+                    }
+                    break;
             }
-            return specChanged;
+
+            TagCollection titletags = Title.Tags;
+            var pagetagset = new HashSet<int>(from TagDef def in _tagdef.DefinedPageTags
+                                              select def.Index);
+            var titletagset = new HashSet<int>(from int i in titletags.TagIndices
+                                               where !_tagdef[i].IsDisposed
+                                               select i);
+            titletagset.UnionWith(from TagDef def in _tagdef.DefinedPageTags
+                                  select def.Index);
+
+            switch ((TagDisplay)Properties.Settings.Default.TagDisplay) {
+                case TagDisplay.InTitle:
+                    TagDef inTitleMarker = _tagdef.DefineProcessTag(taglist, TagProcessClassification.InTitleMarker);
+                    titletagset.Add(inTitleMarker.Index);
+                    specChanged = true;
+                    break;
+                case TagDisplay.BelowTitle:
+                    if (_tagdef.InTitleMarkerDef != null) {
+                        titletagset.Remove(_tagdef.InTitleMarkerDef.Index);
+                        _tagdef.InTitleMarkerDef.Dispose();
+                        specChanged = true;
+                    }
+                    if (_belowTitleTags == null) {
+                        // create a new outline for below-title tags
+                        //
+                        //<one:Outline author="Peter Ernst" authorInitials="PE" lastModifiedBy="Peter Ernst" lastModifiedByInitials="PE" objectID="{E470786C-A904-4E9F-AC3B-0D9F36B6FC54}{14}{B0}" lastModifiedTime="2013-12-06T16:04:48.000Z">
+                        //  <one:Position x="236.249984741211" y="42.1500015258789" z="0" />
+                        //  <one:Size width="90.8847274780273" height="10.9862976074219" />
+                        //  <one:OEChildren>
+                        //    <one:OE objectID="{E470786C-A904-4E9F-AC3B-0D9F36B6FC54}{15}{B0}" lastModifiedTime="2013-12-06T16:04:48.000Z" quickStyleIndex="1" creationTime="2013-12-06T16:03:50.000Z">
+                        //      <one:Tag index="0" completed="true" creationDate="2013-12-06T15:55:59.000Z" completionDate="2013-12-06T15:55:59.000Z" />
+                        //      <one:T><![CDATA[Gdfgdf, sdfdsf]]></one:T>
+                        //    </one:OE>
+                        //  </one:OEChildren>
+                        //</one:Outline>
+                        XElement oe;
+                        XElement outline = new XElement(GetName("Outline"),
+                                           new XElement(GetName("Position"),
+                                               new XAttribute("x", "236"),
+                                               new XAttribute("y", "43"),
+                                               new XAttribute("z", "0")),
+                                           new XElement(GetName("Size"),
+                                               new XAttribute("width", "400"),
+                                               new XAttribute("height", "10"),
+                                               new XAttribute("isSetByUser", "true")),
+                                           new XElement(GetName("OEChildren"),
+                                         (oe = new XElement(GetName("OE"),
+                                                  new XAttribute("quickStyleIndex", _styles.TagOutlineStyleDef.Index),
+                                                  new XElement(GetName("T"), taglist)))));
+                        Root.Add(outline);
+                        _belowTitleTags = new OE(oe);
+                        specChanged = true;
+                    }
+                    // turn spellcheck off for tag lists.
+                    _belowTitleTags.Element.SetAttributeValue("lang", "yo");
+
+                    TagDef belowTitleMarker = _tagdef.DefineProcessTag(TagDefCollection.sBelowTitleMarkerName, TagProcessClassification.BelowTitleMarker);
+
+                    // add marker tag
+                    _belowTitleTags.Tags.TagIndices = new int[] { belowTitleMarker.Index };
+
+                    break;
+            }
+
+            titletags.TagIndices = titletagset;
+            return specChanged || _tagdef.IsModified;
         }
     }
 }

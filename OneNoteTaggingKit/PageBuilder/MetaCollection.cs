@@ -42,7 +42,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     _pageTags.Value = value;
                     IsModified = true;
                 } else if (!string.IsNullOrWhiteSpace(value)) {
-                    _pageTags = new Meta(ElementName.Namespace, PageTagsMetaKey, value);
+                    _pageTags = new Meta(Page, PageTagsMetaKey, value);
                     Add(_pageTags);
                 }
             }
@@ -62,7 +62,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     _searchScope.Value = value;
                     IsModified = true;
                 } else if (!string.IsNullOrWhiteSpace(value)) {
-                    _searchScope = new Meta(ElementName.Namespace, SearchScopeMetaKey, value);
+                    _searchScope = new Meta(Page, SearchScopeMetaKey, value);
                     Add(_searchScope);
                 }
             }
@@ -76,8 +76,8 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <returns>
         ///     A new instance of a <see cref="Meta"/> object.
         /// </returns>
-        protected override Meta CreateElement(XElement e) {
-            Meta m = new Meta(e);
+        protected override Meta CreateElemenProxy(XElement e) {
+            Meta m = new Meta(Page,e);
             // watch out for well known Meta XML elements.
             switch (m.Name) {
                 case PageTagsMetaKey:
@@ -92,8 +92,8 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <summary>
         /// Intitialize the collection Meta element proxies from an OneNote page.
         /// </summary>
-        /// <param name="page">The OneNote page XML document.</param>
-        public MetaCollection(XDocument page) : base(page, PagePosition.Meta) {
+        /// <param name="page">The OneNote page proxy object.</param>
+        public MetaCollection(OneNotePage page) : base(page, page.GetName(nameof(Meta))) {
         }
     }
 }

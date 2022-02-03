@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 {
@@ -19,32 +18,24 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// given name found on a OneNote page XML document .
         /// </summary>
         /// <param name="page">The OneNote page Xml document.</param>
-        /// <param name="position">THe position of elemnts of this type on a OneNote page.</param>
-        public DefinitionObjectCollection(XDocument page,PagePosition position) : base (page,position) {
-            foreach (var m in page.Root.Elements(ElementName)) {
-                Items.InsertRange(0, from xe in page.Root.Elements(ElementName)
-                                        select CreateElement(xe));
-            }
-        }
-
-        /// <summary>
-        /// Dispose a definition.
-        /// </summary>
-        /// <remarks>
-        ///     The XML element associated with the item is removed from the
-        ///     page, but the item's slot in the collection is not recycled.
-        /// </remarks>
-        /// <param name="index">Index of the item to dispose</param>
-        public void Dispose(int index) {
-            Items[index].Dispose();
+        /// <param name="name">XML name of the elements in this collection.</param>
+        public DefinitionObjectCollection(OneNotePage page, XName name) : base (page, name) {
         }
 
         /// <summary>
         /// Add a new proxy obkect to the end of the collection.
         /// </summary>
         /// <param name="proxy"></param>
-        public override void Add(T proxy) {
+        protected override void Add(T proxy) {
             proxy.Index = Items.Count;
+            base.Add(proxy);
         }
+
+        /// <summary>
+        /// Get the definition proxy object at a given list position.
+        /// </summary>
+        /// <param name="index">Index of the proxy object.</param>
+        /// <returns></returns>
+        public T this[int index] => Items[index];
     }
 }

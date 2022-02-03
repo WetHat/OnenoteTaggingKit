@@ -10,23 +10,24 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     ///     Definition objects are referred to by index by page content
     ///     elements.
     /// </remarks>
-    public class DefinitionObjectBase : KeyedObjectBase, IDisposable {
+    public class DefinitionObjectBase : NamedObjectBase, IDisposable {
 
-        int _index;
         /// <summary>
-        /// Get the index of the definition object
+        /// Get/set the index of the definition object.
         /// </summary>
         public int Index {
-            get => _index;
+            get {
+                string value = GetAttributeValue("index");
+                return value != null ? int.Parse(value) : default(int);
+            }
             set {
-                _index = value;
                 SetAttributeValue("index", value.ToString());
             }
         }
 
         /// <summary>
-        /// Initialize a definition object proxy with a
-        /// XML element existing on a OneNote page.
+        /// Initialize a definition element proxy with a
+        /// XML element selected from an OneNote page document.
         /// </summary>
         /// <remarks>
         ///     Definition elements must have:
@@ -38,21 +39,26 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         ///               definition</item>
         ///     </list>
         /// </remarks>
+        /// <param name="page">Proxy of the page which owns this object.</param>
         /// <param name="element">
         ///     An XML element with an index attribute
         ///     on a OneNote page.
         /// </param>
-        public DefinitionObjectBase(XElement element) : base(element) {
-            _index = int.Parse(GetAttributeValue("index"));
+        protected DefinitionObjectBase(OneNotePage page,XElement element) : base(page,element) {
         }
 
         /// <summary>
         /// Initialize a new keyed OneNote page element
         /// </summary>
-        /// <param name="name">The Xml element name</param>
-        /// <param name="key">the unique name</param>
-        /// <param name="index">the index of the element</param>
-        protected DefinitionObjectBase(XName name, int index, string key) : base(name, key) {
+        /// <remarks>
+        ///     The index of the object is supposed to be defined by the owning
+        ///     collection.
+        /// </remarks>
+        /// <param name="page">Proxy of the page which owns this object.</param>
+        /// <param name="element">The Xml element for this proxy.</param>
+        /// <param name="name">the value of the `name` attribute.</param>
+        /// <param name="index">Defintion index.</param>
+        protected DefinitionObjectBase(OneNotePage page,XElement element, string name, int index) : base(page,element, name) {
             Index = index;
         }
 
@@ -66,7 +72,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         public void Dispose() {
             if (!IsDisposed) {
-                Element.Remove();
+                Remove();
             }
             Element = null;
         }

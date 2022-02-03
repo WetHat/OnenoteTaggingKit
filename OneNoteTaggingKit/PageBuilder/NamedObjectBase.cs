@@ -3,16 +3,13 @@
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 {
     /// <summary>
-    /// Base class for OneNote page objects which must have a name which is
-    /// for some derived some unique in a page.
+    /// Base class for proxy objeccts containing a XML element with
+    /// a `name` attribute.
     /// </summary>
-    /// <remarks>
-    ///     The XML page element must have a `name` attribute.
-    /// </remarks>
-    public class NamedObjectBase : PageObjectBase
+    public class NamedObjectBase : PageStructureObjectBase
     {
         /// <summary>
-        /// Get/set the name of the page element.
+        /// Get/set the name of the element.
         /// </summary>
         public string Name {
             get => GetAttributeValue("name");
@@ -20,25 +17,29 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         }
 
         /// <summary>
-        /// Initialize a named OneNote page object proxy with a
-        /// XML element existing on a OneNote page.
+        /// Initialize a proxy object with a
+        /// XML element selected from a OneNote page document.
         /// </summary>
         /// <remarks>
-        ///     The element must have a `name` property.
+        ///     The element must have a `name` attribute.
         /// </remarks>
+        /// <param name="page">Proxy of the page which owns this object.</param>
         /// <param name="element">
         ///     An XML element of an keyed element existing
         ///     on a OneNote page.
         /// </param>
-        public NamedObjectBase(XElement element) : base(element) { }
+        ///
+        protected NamedObjectBase(OneNotePage page, XElement element) : base(page,element) { }
 
         /// <summary>
-        /// Initialize a new keyed OneNote page element
+        /// Initialize a proxy containing a new XML element.
         /// </summary>
-        /// <param name="name">The Xml element name</param>
-        /// <param name="nameAtt">The name attribute value</param>
-        protected NamedObjectBase(XName name,string nameAtt) : base(new XElement(name,
-                                                                     new XAttribute("name", key))) {
+        /// <param name="page">Proxy of the page which owns this object.</param>
+        /// <param name="element">The XML element of the proxy.</param>
+        /// <param name="name">The name attribute value</param>
+        protected NamedObjectBase(OneNotePage page, XElement element ,string name)
+            : base(page,element) {
+            Name = name;
         }
     }
 }

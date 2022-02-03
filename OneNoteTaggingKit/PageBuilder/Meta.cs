@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 {
     /// <summary>
-    /// The meta information on a OneNote page.
+    /// Proxy for a `one:Meta`meta element on a OneNote page document.
     /// </summary>
     public class Meta : NamedObjectBase {
 
@@ -23,21 +18,22 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <summary>
         /// Initialize a Meta proxy object from an existing Meta XML element on a
         /// OneNote page.</summary>
-        /// <param name="meta"></param>
-        public Meta (XElement meta) :base (meta) {
-            Value = GetAttributeValue("content");
+        /// <param name="page">Proxy of the page which owns this object.</param>
+        /// <param name="element"></param>
+        public Meta (OneNotePage page, XElement element) :base (page, element) {
         }
 
         /// <summary>
-        /// Initialize a new instance of a Meta proxy object for a given
-        /// key/value pair.
+        /// Initialize a proxy with a new 'one:Meta' XML element.
         /// </summary>
-        /// <param name="ns">The Xml NameSpace to use.</param>
-        /// <param name="name">The unique name of the Meta element</param>
-        /// <param name="value">The value associated with the key.</param>
-        public Meta(XNamespace ns,string name, string value)
-            : base (ns.GetName("Meta"),name) {
-            Value = value;
+        /// <param name="page">Proxy of the page which owns this object.</param>
+        /// <param name="name">The `name` attribute value of the Meta element</param>
+        /// <param name="value">The `content` attibute value of the meta element.</param>
+        public Meta(OneNotePage page, string name, string value)
+            : base (page,
+                    new XElement(page.GetName(nameof(Meta)),
+                        new XAttribute("content",value)),
+                    name) {
         }
     }
 }

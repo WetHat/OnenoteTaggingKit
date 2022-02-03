@@ -20,7 +20,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <summary>
         /// Check decorators for equality.
         /// </summary>
-        /// <param name="obj">decorator to check for equality</param>
+        /// <param name="obj">proxy object to check for equality</param>
         /// <returns>true, if both decorators decorate the same XML element; false otherwise</returns>
         public override bool Equals(object obj) {
             PageObjectBase other = obj as PageObjectBase;
@@ -29,7 +29,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         }
 
         /// <summary>
-        /// Get the hash code or this decorator.
+        /// Get the hash code of this decorator.
         /// </summary>
         /// <returns>hash code</returns>
         public override int GetHashCode() {
@@ -37,7 +37,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         }
 
         /// <summary>
-        /// Get a fully qualified name
+        /// Get a fully qualified element name
         /// </summary>
         /// <param name="name">local name</param>
         /// <returns>fully qualified name</returns>
@@ -46,58 +46,24 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         }
 
         /// <summary>
-        /// Remove element from its parent.
+        /// Get the Namespace the XML element associated with this proxy object
+        /// exists in.
+        /// </summary>
+        public XNamespace Namespace => Element.Name.Namespace;
+
+        /// <summary>
+        /// Remove XML  element from its parent.
         /// </summary>
         public virtual void Remove() {
             Element.Remove();
         }
 
         /// <summary>
-        /// Create a new instance of a OneNote page element
-        /// </summary>
-        /// <param name="name">Element name</param>
-        /// <param name="children">zero or more child elements</param>
-        protected PageObjectBase(XName name, params PageObjectBase[] children) {
-            Element = new XElement(name);
-            Element.Add(Unwrap(children));
-        }
-
-        /// <summary>
-        /// Create and decorate an XML element in a OneNote page document.
-        /// </summary>
-        /// <param name="name">Element name</param>
-        /// <param name="children">collection of child elements</param>
-        protected PageObjectBase(XName name, IEnumerable<PageObjectBase> children) {
-            Element = new XElement(name);
-            Element.Add(Unwrap(children));
-        }
-
-        /// <summary>
-        /// Decorate an existing XML element.
+        /// Initialize proxy object with an existing XML element.
         /// </summary>
         /// <param name="element">XML element to decorate</param>
         protected PageObjectBase(XElement element) {
             Element = element;
-        }
-
-        /// <summary>
-        /// Create an decorator instance
-        /// </summary>
-        /// <remarks>
-        ///   Use the <see cref="Element"/> method to set the XML element to decorate.
-        /// </remarks>
-        protected PageObjectBase() {
-        }
-
-        /// <summary>
-        /// Unwrap decorated elements
-        /// </summary>
-        /// <param name="elements">collection of decorated elements</param>
-        /// <returns>unwrapped XML elements</returns>
-        protected static IEnumerable<XElement> Unwrap(IEnumerable<PageObjectBase> elements) {
-            foreach (var element in elements) {
-                yield return element.Element;
-            }
         }
 
         /// <summary>
