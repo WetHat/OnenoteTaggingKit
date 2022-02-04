@@ -52,7 +52,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         /// <param name="e">A `one:QuickStyleDef` XML element.</param>
         /// <returns></returns>
-        protected override QuickStyleDef CreateElemenProxy(XElement e) {
+        protected override QuickStyleDef CreateElementProxy(XElement e) {
             var def = new QuickStyleDef(Page, e);
             if (Properties.Settings.Default.TagOutlineStyle_Name.Equals(def.Name)) {
                 _tagStyle = def;

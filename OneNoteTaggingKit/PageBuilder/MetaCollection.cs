@@ -76,7 +76,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <returns>
         ///     A new instance of a <see cref="Meta"/> object.
         /// </returns>
-        protected override Meta CreateElemenProxy(XElement e) {
+        protected override Meta CreateElementProxy(XElement e) {
             Meta m = new Meta(Page,e);
             // watch out for well known Meta XML elements.
             switch (m.Name) {

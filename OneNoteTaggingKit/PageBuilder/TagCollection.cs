@@ -95,7 +95,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         /// <param name="e">The `one:Tag` XML element</param>
         /// <returns>A new instance of a proxy object for the tag element.</returns>
-        protected override Tag CreateElemenProxy(XElement e) {
+        protected override Tag CreateElementProxy(XElement e) {
             var t = new Tag(e);
             _tags.Add(t.Index);
             return t;
