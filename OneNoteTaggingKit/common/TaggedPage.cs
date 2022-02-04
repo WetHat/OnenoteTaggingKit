@@ -58,7 +58,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// This function does **not** handle HTML markup in the taglist.
         /// </remarks>
         /// <param name="taglist">Array of tags.</param>
-        /// <returns></returns>
+        /// <returns>Array of parsed tags.</returns>
         public static string[] ParseTaglist(string taglist) {
             return taglist.Split(sTagListSeparator, StringSplitOptions.RemoveEmptyEntries);
         }
@@ -100,7 +100,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
             XElement meta = page.Elements(one.GetName("Meta")).FirstOrDefault(m => MetaCollection.PageTagsMetaKey.Equals(m.Attribute("name").Value));
             if (meta != null) {
-                _tagnames = meta.Attribute("content").Value.Split(',');
+                _tagnames = ParseTaglist(meta.Attribute("content").Value);
             } else {
                 _tagnames = new string[0];
             }
