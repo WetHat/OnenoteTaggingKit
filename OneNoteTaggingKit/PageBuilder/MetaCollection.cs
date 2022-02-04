@@ -39,8 +39,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             }
             set {
                 if (_pageTags != null) {
-                    _pageTags.Value = value;
-                    IsModified = true;
+                    if (!_pageTags.Value.Equals(value)) {
+                        _pageTags.Value = value;
+                        IsModified = true;
+                    }
                 } else if (!string.IsNullOrWhiteSpace(value)) {
                     _pageTags = new Meta(Page, PageTagsMetaKey, value);
                     Add(_pageTags);
