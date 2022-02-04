@@ -91,7 +91,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                 return TagProcessClassification.InTitleMarker;
                             case BelowTitleMarkerType:
                                 if (sBelowTitleMarkerName.Equals(def.Name)
-                                    || Properties.Settings.Default.PageTagMarker.Equals(def.TagType)) {
+                                    || def.Name.EndsWith(Properties.Settings.Default.PageTagMarker)) {
                                     return TagProcessClassification.BelowTitleMarker;
                                 } else {
                                     return TagProcessClassification.OneNoteTag;
@@ -257,17 +257,20 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         /// <param name="e">XML tag definition element from a OneNote page.</param>
         /// <returns>Ne instance of a tag definition proxy object.</returns>
-        protected override TagDef CreateElemenProxy(XElement e) {
-            var pagetag = new TagDef(Page,e);
-            switch (GetProcessClassification(pagetag)) {
+        protected override TagDef CreateElementProxy(XElement e) {
+            var tagdef = new TagDef(Page,e);
+            switch (GetProcessClassification(tagdef)) {
                 case TagProcessClassification.BelowTitleMarker:
-                    BelowTitleMarkerDef = pagetag;
+                    BelowTitleMarkerDef = tagdef;
                     break;
                 case TagProcessClassification.InTitleMarker:
-                    InTitleMarkerDef = pagetag;
+                    InTitleMarkerDef = tagdef;
                     break;
             }
-            return pagetag;
+            // We do not pick up page tags here because we are not certain
+            // that they qualify. May be somebody has used tags with symbol=0
+            // somewhere on the page.
+            return tagdef;
         }
 
         /// <summary>
