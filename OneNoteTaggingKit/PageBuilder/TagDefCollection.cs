@@ -126,11 +126,15 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 case TagProcessClassification.BelowTitleMarker:
                     if (BelowTitleMarkerDef == null) {
                         BelowTitleMarkerDef = newdef = new TagDef(Page, tagname, Items.Count, Properties.Settings.Default.PageTagMarker, BelowTitleMarkerType, cMarkerSymbol);
+                    } else {
+                        return BelowTitleMarkerDef;
                     }
                     break;
                 case TagProcessClassification.InTitleMarker:
                     if (InTitleMarkerDef == null) {
                         InTitleMarkerDef = newdef = new TagDef(Page, tagname, Items.Count, string.Empty, InTitleMarkerType,cMarkerSymbol);
+                    } else {
+                        return InTitleMarkerDef;
                     }
                     break;
                 case TagProcessClassification.PageTag:
@@ -247,7 +251,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             }
             // use the in-title tag to define more page tags.
             if (InTitleMarkerDef != null) {
-                DefineKnownPageTags(InTitleMarkerDef.Name.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+                DefineKnownPageTags(TaggedPage.ParseTaglist(InTitleMarkerDef.Name));
             }
         }
         /// <summary>
