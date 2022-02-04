@@ -103,10 +103,7 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                     break;
 
             }
-            string[] sortedTags = pagetags.ToArray();
-            Array.Sort<string>(sortedTags, (x, y) => string.Compare(x, y, true));
-
-            page.PageTags = sortedTags;
+            page.PageTags = pagetags;
             return page;
         }
     }
