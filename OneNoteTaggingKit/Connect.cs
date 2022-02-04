@@ -46,7 +46,7 @@ namespace WetHatLab.OneNote.TaggingKit
                 string knownTags = Properties.Settings.Default.GetPreviousVersion("KnownTags") as string;
                 if (knownTags != null) {
                     Properties.Settings.Default.KnownTagsCollection.Clear();
-                    Properties.Settings.Default.KnownTagsCollection.AddRange(OneNotePage.ParseTags(knownTags));
+                    Properties.Settings.Default.KnownTagsCollection.AddRange(TaggedPage.ParseTaglist(knownTags));
                 }
             }
             // Testing the Chinese localization

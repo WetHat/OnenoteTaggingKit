@@ -112,7 +112,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// </remarks>
         public IEnumerable<string> Tags
         {
-            get => OneNotePage.ParseTags(tagInput.Text);
+            get => TaggedPage.ParseTaglist(tagInput.Text);
             set
             {
                 tagInput.Text = string.Join(",", value);

@@ -62,7 +62,8 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             {
                 _model.SuggestedTags.RemoveAll(toRemove);
 
-                string[] newTagNames = (from tn in OneNotePage.ParseTags(rt_mdl.LocalName) select TagFormatter.Format(tn)).ToArray();
+                string[] newTagNames = (from tn in TaggedPage.ParseTaglist(rt_mdl.LocalName)
+                                        select TagFormatter.Format(tn)).ToArray();
 
                 // create new tag models unless they already exist
                 List<RemovableTagModel> newTagModels = new List<RemovableTagModel>();
