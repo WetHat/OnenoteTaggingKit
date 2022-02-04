@@ -265,33 +265,6 @@
                              Visibility="Visible" />
             </Grid>
         </TabItem>
-        <TabItem BorderThickness="0"
-                 Header="Custom Presets">
-            <StackPanel Orientation="Vertical">
-                <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" AllowDrop="True">
-                    <ListView.View>
-                        <GridView>
-                            <GridView.Columns>
-                                <GridViewColumn Header="Name">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Name}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Width="100" Header="Refinement Tags">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="RefinementTags"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView.Columns>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </StackPanel>
-        </TabItem>
         <TabItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_AboutTab_Header}}">
             <RichTextBox Margin="5,5,5,0"
                          Background="Transparent"
