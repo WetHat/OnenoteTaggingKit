@@ -367,7 +367,8 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         private bool ApplyTagsToPage() {
             bool specChanged = _tagdef.IsModified;
             // update the meta information of the page
-            string taglist = string.Join(", ", PageTags);
+            string taglist = string.Join(", ", from TagDef td in _tagdef.DefinedPageTags
+                                               select td.Name);
             _meta.PageTags = taglist;
             specChanged = specChanged || _meta.IsModified;
 
