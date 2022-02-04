@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Xml.Linq;
+using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.Tagger;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
@@ -91,7 +93,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 
         private static readonly Regex _hashtag_matcher = new Regex(@"(?<=(^|[^\w]))#\w{3,}", RegexOptions.Compiled);
         private static readonly Regex _number_matcher = new Regex(@"^#\d*\w{0,1}\d*$|^#[xX]{0,1}[\dABCDEFabcdef]+$", RegexOptions.Compiled);
-        private static readonly Regex _tag_matcher = new Regex(@"<(a|span)[^<>]+>", RegexOptions.Compiled);
+        private static readonly Regex _tag_matcher = new Regex(@"</*(a|span)[^<>]+>", RegexOptions.Compiled);
 
         /// <summary>
         /// The sequence of structure elements in which elements have to
@@ -185,12 +187,12 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 // inspect the title tags an mark some of them as page tags
                 _tagdef.DefineKnownPageTags(from i in Title.Tags.TagIndices
                                             let td = _tagdef[i]
-                                            where td.Symbol == 0
+                                            where _tagdef.GetProcessClassification(td) == TagProcessClassification.PageTag
                                             select td.TagName);
             }
 
             // make sure all tags recorded in the page's meta informations are defined
-            _tagdef.DefineKnownPageTags(_meta.PageTags.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+            _tagdef.DefineKnownPageTags(TaggedPage.ParseTaglist(_meta.PageTags));
 
             // For performance reasons we are going to delete all outlines not related to tags
             // Note: Page updates will actually leave those removed outlines on the page.
@@ -286,16 +288,12 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         /// <param name="tags">comma separated list of tags</param>
         /// <returns>array of tag names</returns>
-        public static string[] ParseTags(string tags) {
+        static IEnumerable<string> ParseTags(string tags) {
             if (!string.IsNullOrEmpty(tags)) {
                 // remove all HTML markup
-                tags = Regex.Replace(tags, "<[^<>]+>", String.Empty);
-                string[] parsedTags = tags.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                // normalize tags
-                for (int i = 0; i < parsedTags.Length; i++) {
-                    parsedTags[i] = parsedTags[i].Trim();
-                }
-                return parsedTags;
+                return from string tag in TaggedPage.ParseTaglist(tags)
+                       where !tag.Contains("&#") // no Emoji HTML entities
+                       select _tag_matcher.Replace(tag,string.Empty).Trim(); // remove HTML Markup
             }
             return new string[0];
         }
@@ -368,6 +366,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             bool specChanged = _tagdef.IsModified;
             // update the meta information of the page
             string taglist = string.Join(", ", from TagDef td in _tagdef.DefinedPageTags
+                                               orderby td.TagName.ToLower().TrimStart('#') ascending
                                                select td.Name);
             _meta.PageTags = taglist;
             specChanged = specChanged || _meta.IsModified;
@@ -445,6 +444,13 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         Root.Add(outline);
                         _belowTitleTags = new OE(oe);
                         specChanged = true;
+                    } else if (specChanged) {
+                        // update the tag text
+                        var T = _belowTitleTags.Element.Element(GetName("T"));
+                        if (T == null) {
+                            _belowTitleTags.Element.Add(new XElement(GetName("T")));
+                        }
+                        T.Value = taglist;
                     }
                     // turn spellcheck off for tag lists.
                     _belowTitleTags.Element.SetAttributeValue("lang", "yo");
