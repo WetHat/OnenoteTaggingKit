@@ -60,7 +60,12 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="taglist">Array of tags.</param>
         /// <returns>Array of parsed tags.</returns>
         public static string[] ParseTaglist(string taglist) {
-            return taglist.Split(sTagListSeparator, StringSplitOptions.RemoveEmptyEntries);
+            var tags =  taglist.Split(sTagListSeparator, StringSplitOptions.RemoveEmptyEntries);
+            // trim tags
+            for(int i = 0; i < tags.Length; i++) {
+                tags[i] = tags[i].Trim();
+            }
+            return tags;
         }
         private readonly bool _isSelected = false;
 
