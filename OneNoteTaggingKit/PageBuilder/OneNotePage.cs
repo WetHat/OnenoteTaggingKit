@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.Tagger;
@@ -87,13 +86,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     ///     </list>
     /// </remarks>
     public class OneNotePage {
-        private const int QUICKSTYLEDEF_IDX = 1;
-
-        private const int TITLE_IDX = 7;
-
         private static readonly Regex _hashtag_matcher = new Regex(@"(?<=(^|[^\w]))#\w{3,}", RegexOptions.Compiled);
         private static readonly Regex _number_matcher = new Regex(@"^#\d*\w{0,1}\d*$|^#[xX]{0,1}[\dABCDEFabcdef]+$", RegexOptions.Compiled);
-        private static readonly Regex _tag_matcher = new Regex(@"</*(a|span)[^<>]+>", RegexOptions.Compiled);
+        private static readonly Regex _tag_matcher = new Regex(@"</*(a|span)[^<>]*>", RegexOptions.Compiled);
 
         /// <summary>
         /// The sequence of structure elements in which elements have to
@@ -158,6 +153,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 
         OE _belowTitleTags;
 
+        HashSet<string> _hashtags = new HashSet<string>(); // imported hashtags
         /// <summary>
         /// Get the proxy object for the 'one:Title' element of the OneNote page
         /// document.
@@ -200,7 +196,6 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             XName outlineName = GetName("Outline");
 
             // For performance reasons we avoid Xpath!
-            HashSet<string> hashtagset = new HashSet<string>();
             foreach (var outline in Root.Elements(outlineName).ToList()) {
                 XElement OEChildren = outline.Element(GetName("OEChildren"));
                 if (OEChildren != null) {
@@ -243,16 +238,13 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         foreach (var t in outline.Descendants(GetName("T"))) {
                             // remove some non-sensical tags from the text
                             string txt = _tag_matcher.Replace(t.Value, string.Empty);
-                            hashtagset.UnionWith(from Match m in _hashtag_matcher.Matches(txt)
+                            _hashtags.UnionWith(from Match m in _hashtag_matcher.Matches(txt)
                                                  where !_number_matcher.Match(m.Value).Success
                                                  select m.Value);
                         }
                     }
                 }
                 outline.Remove();
-            }
-            if (hashtagset != null) {
-                _tagdef.DefineContentHashtags(hashtagset);
             }
         }
 
@@ -302,6 +294,8 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// Save all changes to the page to OneNote
         /// </summary>
         internal void Update() {
+
+            // define import tags
             string[] savedTags = (from TagDef def in _tagdef.DefinedPageTags
                                   select def.Name).ToArray();
             if (ApplyTagsToPage()) {
@@ -340,7 +334,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         public void Add(PageStructureObjectBase obj) {
             int p = _typeToIndex[obj.GetType()];
             XElement anchor = PageAnchors[p];
-            if (anchor == null) {
+            if (anchor == null || anchor.Parent == null) {
                 // need to go searching
                 for (int i = p; i < PositionNames.Length; i++) {
                     var localname = PositionNames[i];
@@ -363,6 +357,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         /// <returns><i>true</i> if a page update is needed; <i>false</i> otherwise</returns>
         private bool ApplyTagsToPage() {
+            // import tags from page content
+            _tagdef.ImporteOneNoteTags();
+            _tagdef.ImportContentHashtags(_hashtags);
             bool specChanged = _tagdef.IsModified;
             // update the meta information of the page
             string taglist = string.Join(", ", from TagDef td in _tagdef.DefinedPageTags
