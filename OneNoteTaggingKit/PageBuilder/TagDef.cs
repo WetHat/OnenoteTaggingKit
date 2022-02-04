@@ -48,7 +48,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         static readonly string[] sTypePriority = new string[] {
             string.Empty, // genuine page tags
             Properties.Settings.Default.ImportOneNoteTagMarker,
-            Properties.Settings.Default.ImportOneNoteTagMarker,
+            Properties.Settings.Default.ImportHashtagMarker,
         };
 
         string _tagType = string.Empty;
