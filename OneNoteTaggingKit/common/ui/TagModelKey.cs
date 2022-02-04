@@ -19,7 +19,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <param name="tagname">name of the tag</param>
         internal TagModelKey(string tagname)
         {
-            _tagKey = tagname.ToLower();
+            _tagKey = tagname.ToLower().TrimStart('#');
         }
 
         #region IComparable<TagModelKey>
