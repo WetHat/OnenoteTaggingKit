@@ -42,11 +42,8 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         public PageObjectCollectionBase(XName name,XElement owner) {
             ElementName = name;
             // collect existing
-            var root = owner;
-            foreach (var m in root.Elements(ElementName)) {
-                Items.InsertRange(0, from xe in root.Elements(ElementName)
-                                     select CreateElemenProxy(xe));
-            }
+            Items.InsertRange(0, from xe in owner.Elements(name)
+                                 select CreateElementProxy(xe));
         }
 
         /// <summary>
@@ -69,7 +66,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="e">
         ///     XML element selected from a OneNote page document.</param>
         /// <returns>An instance of a proxy object of type T.</returns>
-        protected abstract T CreateElemenProxy(XElement e);
+        protected abstract T CreateElementProxy(XElement e);
 
     }
 }
