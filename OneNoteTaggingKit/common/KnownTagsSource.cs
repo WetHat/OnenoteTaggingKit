@@ -25,6 +25,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
         private T[] LoadPersistedTags() {
             return (from string t in Properties.Settings.Default.KnownTagsCollection
+                    where !string.IsNullOrWhiteSpace(t)
                     select new T() { TagName = t} ).ToArray();
         }
 
