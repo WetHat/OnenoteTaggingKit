@@ -23,7 +23,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         }
 
         /// <summary>
-        /// Add a new proxy obkect to the end of the collection.
+        /// Add a new proxy object to the end of the collection.
         /// </summary>
         /// <param name="proxy"></param>
         protected override void Add(T proxy) {
