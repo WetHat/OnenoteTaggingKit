@@ -215,7 +215,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <summary>
         /// Import OneNote tags found in the page content.
         /// </summary>
-        public void ImporteOneNoteTags() {
+        public void ImportOneNoteTags() {
             if (Properties.Settings.Default.MapOneNoteTags) {
                 // define mapped OneNote tags
                 var onTags = new HashSet<string>(from TagDef _ in Items
