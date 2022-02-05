@@ -545,4 +545,7 @@ Tap or click link to navigate to page.</value>
   <data name="TagSearch_TagsIgnored" xml:space="preserve">
     <value>The tag(s) '{0}' were ignored, because they were not found on any pages in scope '{1}'!</value>
   </data>
+  <data name="refreshPage_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refreshPage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

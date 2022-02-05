@@ -10,6 +10,12 @@
                   screentip="Add tags to or remove tags from OneNote pages."
                   onAction="editTags"
                   image="pageTags.png" />
+           <button id="refreshPage"
+                    label="Refresh Page"
+                    size="normal"
+                    screentip="Refresh Active Page Content (Saved Searches/Content Tags)"
+                    onAction="refreshPage"
+                    image="refreshPage.png" />
           <button id="buttonSearchTags"
                   label="Find Pages"
                   size="normal"

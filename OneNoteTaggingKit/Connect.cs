@@ -14,6 +14,7 @@ using WetHatLab.OneNote.TaggingKit.edit;
 using WetHatLab.OneNote.TaggingKit.find;
 using WetHatLab.OneNote.TaggingKit.manage;
 using WetHatLab.OneNote.TaggingKit.PageBuilder;
+using WetHatLab.OneNote.TaggingKit.Tagger;
 
 namespace WetHatLab.OneNote.TaggingKit
 {
@@ -203,7 +204,19 @@ namespace WetHatLab.OneNote.TaggingKit
             TraceLogger.Log(TraceCategory.Info(), "Show settings editor");
             AddInDialogManager.ShowDialog<TagManager, TagManagerModel>(() => new TagManagerModel(_onProxy));
         }
+        /// <summary>
+        /// Action to refresh the current page.
+        /// </summary>
+        /// <param name="ribbon"></param>
+        public void refreshPage(IRibbonControl ribbon) {
+            TraceLogger.Log(TraceCategory.Info(), "Refresh current page");
+            if (_onProxy != null && !string.IsNullOrEmpty(_onProxy.CurrentPageID)) {
+                _onProxy.TaggingService.Add(new TaggingJob(_onProxy.CurrentPageID,
+                                                           new string[] { },
+                                                           TagOperation.RESYNC));
+            }
 
+        }
         /// <summary>
         /// Get images for ribbon bar buttons
         /// </summary>
@@ -216,11 +229,12 @@ namespace WetHatLab.OneNote.TaggingKit
                 case "pageTags.png":
                     Properties.Resources.tag_32x32.Save(mem, ImageFormat.Png);
                     break;
-
+                case "refreshPage.png":
+                    Properties.Resources.refreshPage_32x32.Save(mem, ImageFormat.Png);
+                    break;
                 case "managePageTags.png":
                     Properties.Resources.settings_32x32.Save(mem, ImageFormat.Png);
                     break;
-
                 case "findPageTags.png":
                     Properties.Resources.tagSearch_32x32.Save(mem, ImageFormat.Png);
                     break;

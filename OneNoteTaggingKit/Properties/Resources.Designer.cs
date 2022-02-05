@@ -145,6 +145,16 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap refreshPage_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("refreshPage_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap or click to remove this tag from the list of selected tags..
         /// </summary>
         public static string RemoveTag_Button_Tooltip {
