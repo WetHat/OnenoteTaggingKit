@@ -301,6 +301,12 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             if (ApplyTagsToPage()) {
                 try {
                     _onenote.UpdatePage(Document, _lastModified);
+                    if ((TagDisplay)Properties.Settings.Default.TagDisplay == TagDisplay.InTitle
+                        && _belowTitleTags != null) {
+                        // delete obsolete outline with tag list
+                        // the corresponding outline too
+                        _onenote.DeletePageContent(PageID, _belowTitleTags.Element.Parent.Parent.Attribute("objectID").Value);
+                    }
                 } catch (COMException ce) {
                     unchecked {
                         switch ((uint)ce.ErrorCode) {
@@ -358,7 +364,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <returns><i>true</i> if a page update is needed; <i>false</i> otherwise</returns>
         private bool ApplyTagsToPage() {
             // import tags from page content
-            _tagdef.ImporteOneNoteTags();
+            _tagdef.ImportOneNoteTags();
             _tagdef.ImportContentHashtags(_hashtags);
             bool specChanged = _tagdef.IsModified;
             // update the meta information of the page
@@ -367,28 +373,6 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                                select td.Name);
             _meta.PageTags = taglist;
             specChanged = specChanged || _meta.IsModified;
-
-            // Cleanup obsolete Tag display
-            switch ((TagDisplay)Properties.Settings.Default.TagDisplay) {
-                case TagDisplay.InTitle:
-                    if (_belowTitleTags != null && !string.IsNullOrEmpty(_belowTitleTags.ElementId)) {
-                        if (_tagdef.BelowTitleMarkerDef != null) {
-                            // this tag definition has to go
-                            _tagdef.BelowTitleMarkerDef.Dispose();
-                        }
-                        // the corresponding outline too
-                        _onenote.DeletePageContent(PageID, _belowTitleTags.Element.Parent.Parent.Attribute("objectID").Value);
-                        specChanged = true;
-                    }
-                    break;
-                case TagDisplay.BelowTitle:
-                    if (_tagdef.InTitleMarkerDef != null) {
-                        Title.Tags.RemoveTag(_tagdef.InTitleMarkerDef.Index);
-                        _tagdef.InTitleMarkerDef.Dispose();
-                        specChanged = true;
-                    }
-                    break;
-            }
 
             TagCollection titletags = Title.Tags;
             var pagetagset = new HashSet<int>(from TagDef def in _tagdef.DefinedPageTags
@@ -401,12 +385,19 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 
             switch ((TagDisplay)Properties.Settings.Default.TagDisplay) {
                 case TagDisplay.InTitle:
+                    if (_belowTitleTags != null && !string.IsNullOrEmpty(_belowTitleTags.ElementId)) {
+                        // The now also obsolete outline containing the tag list will
+                        // be removed from the page in 'Update' to avoid a concurrent
+                        // page modification.
+                        specChanged = true;
+                    }
                     TagDef inTitleMarker = _tagdef.DefineProcessTag(taglist, TagProcessClassification.InTitleMarker);
                     titletagset.Add(inTitleMarker.Index);
                     specChanged = true;
                     break;
                 case TagDisplay.BelowTitle:
                     if (_tagdef.InTitleMarkerDef != null) {
+                        // cleanup obsolete tag display
                         titletagset.Remove(_tagdef.InTitleMarkerDef.Index);
                         _tagdef.InTitleMarkerDef.Dispose();
                         specChanged = true;
