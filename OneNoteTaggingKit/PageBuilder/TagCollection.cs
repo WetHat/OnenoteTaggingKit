@@ -50,9 +50,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <summary>
         /// Determine if the collection contains a tag with a given index.
         /// </summary>
-        /// <param name="i">Tag index.</param>
+        /// <param name="tag">Tag definition.</param>
         /// <returns>`true` if the tag is in the collection.</returns>
-        public bool ContainsTag(int i) => _tags.Contains(i);
+        public bool Contains(TagDef tag) => _tags.Contains(tag.Index);
 
         /// <summary>
         /// Remove a tag with a given index.

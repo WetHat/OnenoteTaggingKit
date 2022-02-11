@@ -220,7 +220,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         if (oelement != null) {
                             // make a proxy for that
                             var oe = new OE(oelement);
-                            if (oe.Tags.ContainsTag(_tagdef.BelowTitleMarkerDef.Index)) {
+                            if (oe.Tags.Contains(_tagdef.BelowTitleMarkerDef)) {
                                 _belowTitleTags = oe;
                                 // collect these tags too
                                 _tagdef.DefineKnownPageTags(ParseTags(oe.Element.Value));
@@ -294,7 +294,6 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// Save all changes to the page to OneNote
         /// </summary>
         internal void Update() {
-
             // define import tags
             string[] savedTags = (from TagDef def in _tagdef.DefinedPageTags
                                   select def.Name).ToArray();
@@ -385,7 +384,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 case TagDisplay.InTitle:
                     if (_belowTitleTags != null && !string.IsNullOrEmpty(_belowTitleTags.ElementId)) {
                         // The now also obsolete outline containing the tag list will
-                        // be removed from the page in 'Update' to avoid a concurrent
+                        // be removed from the page in 'Update' to avoid concurrent
                         // page modification.
                         specChanged = true;
                     }
