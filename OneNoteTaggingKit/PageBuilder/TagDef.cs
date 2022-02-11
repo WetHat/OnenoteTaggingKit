@@ -68,6 +68,22 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         }
 
         /// <summary>
+        /// Determine if two tag definitions are equal.
+        /// </summary>
+        /// <param name="obj">The _other_ tagdefinition.</param>
+        /// <returns>``true` if both tags have the same index.</returns>
+        public override bool Equals(object obj) {
+            TagDef td = obj as TagDef;
+            return td != null && td.Index == Index;
+        }
+
+        /// <summary>
+        /// Get the hash code for this tag definition.
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode() => Index.GetHashCode();
+
+        /// <summary>
         /// Initialize a tag definition proxy object with a TagDef
         /// XML element from an OneNote page.
         /// </summary>

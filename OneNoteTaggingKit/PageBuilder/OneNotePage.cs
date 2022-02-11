@@ -181,8 +181,8 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             } else {
                 Title = new Title(this, title);
                 // inspect the title tags an mark some of them as page tags
-                _tagdef.DefineKnownPageTags(from i in Title.Tags.TagIndices
-                                            let td = _tagdef[i]
+                _tagdef.DefineKnownPageTags(from t in Title.Tags
+                                            let td = _tagdef[t.Index]
                                             where _tagdef.GetProcessClassification(td) == TagProcessClassification.PageTag
                                             select td.TagName);
             }
@@ -375,13 +375,11 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             specChanged = specChanged || _meta.IsModified;
 
             TagCollection titletags = Title.Tags;
-            var pagetagset = new HashSet<int>(from TagDef def in _tagdef.DefinedPageTags
-                                              select def.Index);
-            var titletagset = new HashSet<int>(from int i in titletags.TagIndices
-                                               where !_tagdef[i].IsDisposed
-                                               select i);
-            titletagset.UnionWith(from TagDef def in _tagdef.DefinedPageTags
-                                  select def.Index);
+            var titletagset = new HashSet<TagDef>(from Tag t in titletags
+                                               let td = _tagdef[t.Index]
+                                               where !td.IsDisposed
+                                               select td);
+            titletagset.UnionWith(_tagdef.DefinedPageTags);
 
             switch ((TagDisplay)Properties.Settings.Default.TagDisplay) {
                 case TagDisplay.InTitle:
@@ -392,13 +390,13 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         specChanged = true;
                     }
                     TagDef inTitleMarker = _tagdef.DefineProcessTag(taglist, TagProcessClassification.InTitleMarker);
-                    titletagset.Add(inTitleMarker.Index);
+                    titletagset.Add(inTitleMarker);
                     specChanged = true;
                     break;
                 case TagDisplay.BelowTitle:
                     if (_tagdef.InTitleMarkerDef != null) {
                         // cleanup obsolete tag display
-                        titletagset.Remove(_tagdef.InTitleMarkerDef.Index);
+                        titletagset.Remove(_tagdef.InTitleMarkerDef);
                         _tagdef.InTitleMarkerDef.Dispose();
                         specChanged = true;
                     }
@@ -446,12 +444,12 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     TagDef belowTitleMarker = _tagdef.DefineProcessTag(TagDefCollection.sBelowTitleMarkerName, TagProcessClassification.BelowTitleMarker);
 
                     // add marker tag
-                    _belowTitleTags.Tags.TagIndices = new int[] { belowTitleMarker.Index };
+                    _belowTitleTags.Tags.Add(belowTitleMarker);
 
                     break;
             }
 
-            titletags.TagIndices = titletagset;
+            titletags.Tags = titletagset;
             return specChanged || _tagdef.IsModified;
         }
     }

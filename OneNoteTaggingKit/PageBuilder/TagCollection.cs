@@ -15,19 +15,21 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 
         HashSet<int> _tags = new HashSet<int>();
         /// <summary>
-        /// Get/set the tags in this collection.
+        /// Set the tags in this collection.
         /// </summary>
         /// <remarks>
-        ///     Tags are identified by their tag definition index.
+        ///     Tags are identified by their tag definitions.
         /// </remarks>
-        public IEnumerable<int> TagIndices {
-            get => _tags;
+        public IEnumerable<TagDef> Tags {
             set {
-                var tagset = new HashSet<int>(value);
-                foreach (var ti in tagset) {
-                    if (!_tags.Contains(ti)) {
+
+                var tagset = new HashSet<int>();
+                foreach (var td in value) {
+                    int i = td.Index;
+                    tagset.Add(i);
+                    if (_tags.Add(i)) {
                         // add that tag
-                        Add(new Tag(OE, ti));
+                        Add(new Tag(OE, i));
                     }
                 }
 
@@ -57,7 +59,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         /// <param name="i">Tag index.</param>
         /// <returns>`true` if the tag was sucessfully removed from the collection.</returns>
-        public bool RemoveTag(int i) {
+        public bool Remove(int i) {
             if (_tags.Remove(i)) {
                 int index = Items.FindIndex((t) => t.Index == i);
                 if (index >= 0) {
@@ -85,9 +87,25 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="proxy">Tag proxy pbject to add</param>
         protected override void Add(Tag proxy) {
             base.Add(proxy);
-            _tags.Add(proxy.Index);
-            OE.Element.AddFirst(proxy.Element);
+            if (_tags.Add(proxy.Index)) {
+                OE.Element.AddFirst(proxy.Element);
+            }
+        }
 
+        /// <summary>
+        /// Add a tag by definition.
+        /// </summary>
+        /// <param name="tag">Definition of the tag to add.</param>
+        public bool Add (TagDef tag) {
+            int i = tag.Index;
+            if (_tags.Add(tag.Index)) {
+                // this is a new tag
+                Add(new Tag(OE, i));
+                return true;
+            }
+            else {
+                return false;
+            }
         }
         /// <summary>
         /// Create a tag proxy object for tags collected from an content element
