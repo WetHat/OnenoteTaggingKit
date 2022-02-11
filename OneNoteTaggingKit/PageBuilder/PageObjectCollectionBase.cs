@@ -1,8 +1,6 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
@@ -11,7 +9,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     /// A collection of proxy objects for XML elements of the same type,
     /// </summary>
     /// <typeparam name="T">Proxy object type.</typeparam>
-    public abstract class PageObjectCollectionBase<T> where T : PageObjectBase
+    public abstract class PageObjectCollectionBase<T> : IEnumerable<T> where T : PageObjectBase
     {
         /// <summary>
         /// Get the name of the XML elements in this collection.
@@ -68,5 +66,17 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <returns>An instance of a proxy object of type T.</returns>
         protected abstract T CreateElementProxy(XElement e);
 
+        #region IEnumerable<T>
+        /// <summary>
+        /// Get the enumerator of items in this collection.
+        /// </summary>
+        /// <returns>Item enumerator</returns>
+        public IEnumerator<T> GetEnumerator() => Items.GetEnumerator();
+        /// <summary>
+        /// Get the enumerator of objects in this collection.
+        /// </summary>
+        /// <returns>Object enumerator</returns>
+        IEnumerator IEnumerable.GetEnumerator() => Items.GetEnumerator();
+        #endregion IEnumerable<T>
     }
 }
