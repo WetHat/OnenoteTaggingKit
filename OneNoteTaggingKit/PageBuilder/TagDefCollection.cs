@@ -77,7 +77,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         /// <param name="def">The tag definition to classify.</param>
         /// <returns>The classification.</returns>
-        public TagProcessClassification GetProcessClassification(TagDef def) {
+        public static TagProcessClassification GetProcessClassification(TagDef def) {
             if (def.Symbol == 0) {
                 if (Properties.Settings.Default.ImportHashtagMarker.Equals(def.TagType)) {
                     return TagProcessClassification.ImportedHashTag;
@@ -172,7 +172,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 
             // loop over the already known tag definitions to find matches.
             foreach (TagDef tagdef in Items) {
-                if (tagset.Remove(tagdef.TagName)) {
+                if (tagdef.Symbol == 0 && tagset.Remove(tagdef.TagName)) {
                     TagDef found;
                     if (!_pageTagDictionary.TryGetValue(tagdef.TagName, out found)) {
                         RegisterPageTagDefinition(tagdef);
@@ -300,10 +300,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         }
 
         /// <summary>
-        /// Get the collection of defined page tags.
+        /// Get the collection of defined page tags and imported tags.
         /// </summary>
-        /// <value>Collection of tag definitions.</value>
-        public IEnumerable<TagDef> DefinedPageTags {
+        /// <value>Collection of tag definitions for page tags and import tags.</value>
+        public IEnumerable<TagDef> DefinedTags {
             get {
                 return from TagDef _ in _pageTagDictionary.Values
                        where !_.IsDisposed
