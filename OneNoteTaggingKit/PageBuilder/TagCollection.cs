@@ -27,7 +27,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 foreach (var td in value) {
                     int i = td.Index;
                     tagset.Add(i);
-                    if (_tags.Add(i)) {
+                    if (!_tags.Contains(i)) {
                         // add that tag
                         Add(new Tag(OE, i));
                     }
@@ -57,12 +57,14 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <summary>
         /// Remove a tag with a given index.
         /// </summary>
-        /// <param name="i">Tag index.</param>
+        /// <param name="tag">Definition of tag to remove.</param>
         /// <returns>`true` if the tag was sucessfully removed from the collection.</returns>
-        public bool Remove(int i) {
+        public bool Remove(TagDef tag) {
+            int i = tag.Index;
             if (_tags.Remove(i)) {
                 int index = Items.FindIndex((t) => t.Index == i);
                 if (index >= 0) {
+                    Items[i].Remove();
                     Items.RemoveAt(index);
                     return true;
                 }
@@ -98,7 +100,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="tag">Definition of the tag to add.</param>
         public bool Add (TagDef tag) {
             int i = tag.Index;
-            if (_tags.Add(tag.Index)) {
+            if (!_tags.Contains(tag.Index)) {
                 // this is a new tag
                 Add(new Tag(OE, i));
                 return true;
