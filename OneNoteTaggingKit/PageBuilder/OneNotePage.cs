@@ -88,7 +88,6 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     public class OneNotePage {
         private static readonly Regex _hashtag_matcher = new Regex(@"(?<=(^|[^\w]))#\w{3,}", RegexOptions.Compiled);
         private static readonly Regex _number_matcher = new Regex(@"^#\d*\w{0,1}\d*$|^#[xX]{0,1}[\dABCDEFabcdef]+$", RegexOptions.Compiled);
-        private static readonly Regex _tag_matcher = new Regex(@"</*(a|span)[^<>]*>", RegexOptions.Compiled);
 
         /// <summary>
         /// The sequence of structure elements in which elements have to
@@ -151,7 +150,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         public XElement Root { get; private set; }
 
-        OE _belowTitleTags;
+        OETaglist _belowTitleTags;
 
         HashSet<string> _hashtags = new HashSet<string>(); // imported hashtags
         /// <summary>
@@ -183,7 +182,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 // inspect the title tags an mark some of them as page tags
                 _tagdef.DefineKnownPageTags(from t in Title.Tags
                                             let td = _tagdef[t.Index]
-                                            where _tagdef.GetProcessClassification(td) == TagProcessClassification.PageTag
+                                            where TagDefCollection.GetProcessClassification(td) == TagProcessClassification.PageTag
                                             select td.TagName);
             }
 
@@ -200,7 +199,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 XElement OEChildren = outline.Element(GetName("OEChildren"));
                 if (OEChildren != null) {
                     // further inspect that outline
-                    if (_tagdef.BelowTitleMarkerDef != null) {
+                    if (_tagdef.BelowTitleMarkerDef != null && _belowTitleTags == null) {
                         // there is a below title taglist on the page
                         // the outline we are looking for has one <one:OEChildren> element with
                         // one <one:OE> element containing a <one:Tag> with the given index
@@ -221,9 +220,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                             // make a proxy for that
                             var oe = new OE(oelement);
                             if (oe.Tags.Contains(_tagdef.BelowTitleMarkerDef)) {
-                                _belowTitleTags = oe;
+                                _belowTitleTags = new OETaglist(oe);
                                 // collect these tags too
-                                _tagdef.DefineKnownPageTags(ParseTags(oe.Element.Value));
+                                _tagdef.DefineKnownPageTags(_belowTitleTags.PageTags);
                                 // delete the Indents as they tend to cause errors
                                 XElement indents = outline.Element(GetName("Indents"));
                                 if (indents != null) {
@@ -237,7 +236,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         // make sure all hashtags in that outline are defined
                         foreach (var t in outline.Descendants(GetName("T"))) {
                             // remove some non-sensical tags from the text
-                            string txt = _tag_matcher.Replace(t.Value, string.Empty);
+                            string txt = OETaglist.HTMLtag_matcher.Replace(t.Value, string.Empty);
                             _hashtags.UnionWith(from Match m in _hashtag_matcher.Matches(txt)
                                                  where !_number_matcher.Match(m.Value).Success
                                                  select m.Value.Trim());
@@ -269,25 +268,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         /// <value>Collection of tag names without type annotation</value>
         public IEnumerable<string> PageTags {
-            get => from TagDef def in _tagdef.DefinedPageTags
-                   where _tagdef.GetProcessClassification(def) == TagProcessClassification.PageTag
+            get => from TagDef def in _tagdef.DefinedTags
+                   where TagDefCollection.GetProcessClassification(def) == TagProcessClassification.PageTag
                    select def.TagName;
             set => _tagdef.DefinePageTags(value);
-        }
-
-        /// <summary>
-        /// Parse a comma separated list of tag names into an array.
-        /// </summary>
-        /// <param name="tags">comma separated list of tags</param>
-        /// <returns>array of tag names</returns>
-        static IEnumerable<string> ParseTags(string tags) {
-            if (!string.IsNullOrEmpty(tags)) {
-                // remove all HTML markup
-                return from string tag in TaggedPage.ParseTaglist(tags)
-                       where !tag.Contains("&#") // no Emoji HTML entities
-                       select _tag_matcher.Replace(tag,string.Empty).Trim(); // remove HTML Markup
-            }
-            return new string[0];
         }
 
         /// <summary>
@@ -295,13 +279,14 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         internal void Update() {
             // define import tags
-            string[] savedTags = (from TagDef def in _tagdef.DefinedPageTags
+            string[] savedTags = (from TagDef def in _tagdef.DefinedTags
                                   select def.Name).ToArray();
             if (ApplyTagsToPage()) {
                 try {
                     _onenote.UpdatePage(Document, _lastModified);
-                    if ((TagDisplay)Properties.Settings.Default.TagDisplay == TagDisplay.InTitle
-                        && _belowTitleTags != null) {
+                    if (_belowTitleTags != null &&
+                        ((TagDisplay)Properties.Settings.Default.TagDisplay == TagDisplay.InTitle
+                         || _tagdef.DefinedTags.FirstOrDefault() == null)) {
                         // delete obsolete outline with tag list
                         // the corresponding outline too
                         _onenote.DeletePageContent(PageID, _belowTitleTags.Element.Parent.Parent.Attribute("objectID").Value);
@@ -362,23 +347,26 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         /// <returns><i>true</i> if a page update is needed; <i>false</i> otherwise</returns>
         private bool ApplyTagsToPage() {
-            // import tags from page content
-            _tagdef.ImportOneNoteTags();
-            _tagdef.ImportContentHashtags(_hashtags);
-            bool specChanged = _tagdef.IsModified;
-            // update the meta information of the page
-            string taglist = string.Join(", ", from TagDef td in _tagdef.DefinedPageTags
-                                               orderby td.TagName.ToLower().TrimStart('#') ascending
-                                               select td.Name);
-            _meta.PageTags = taglist;
-            specChanged = specChanged || _meta.IsModified;
-
             TagCollection titletags = Title.Tags;
+            // get all page tags from the tags the title may have
             var titletagset = new HashSet<TagDef>(from Tag t in titletags
                                                let td = _tagdef[t.Index]
                                                where !td.IsDisposed
                                                select td);
-            titletagset.UnionWith(_tagdef.DefinedPageTags);
+            titletagset.UnionWith(_tagdef.DefinedTags); // add the defined tags
+
+            // import tags from page content (if enabled)
+            _tagdef.ImportOneNoteTags();
+            _tagdef.ImportContentHashtags(_hashtags);
+
+            bool specChanged = _tagdef.IsModified;
+
+            var tags = (from TagDef td in _tagdef.DefinedTags
+                        orderby td.TagName.ToLower().TrimStart('#') ascending
+                        select td).ToList();
+            // update the meta information of the page
+            _meta.PageTags = string.Join(",", from TagDef td in tags select td.Name);
+            specChanged = specChanged || _meta.IsModified;
 
             switch ((TagDisplay)Properties.Settings.Default.TagDisplay) {
                 case TagDisplay.InTitle:
@@ -388,9 +376,19 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         // page modification.
                         specChanged = true;
                     }
-                    TagDef inTitleMarker = _tagdef.DefineProcessTag(taglist, TagProcessClassification.InTitleMarker);
-                    titletagset.Add(inTitleMarker);
-                    specChanged = true;
+                    if (tags.Count == 0) {
+                        // remove marker
+                        if (_tagdef.InTitleMarkerDef != null) {
+                            titletagset.Remove(_tagdef.InTitleMarkerDef);
+                            _tagdef.InTitleMarkerDef.Dispose();
+                            specChanged = true;
+                        }
+                    } else {
+                        TagDef inTitleMarker = _tagdef.DefineProcessTag(
+                            string.Join(", ", from TagDef td in tags select td.Name),
+                            TagProcessClassification.InTitleMarker);
+                        titletagset.Add(inTitleMarker);
+                    }
                     break;
                 case TagDisplay.BelowTitle:
                     if (_tagdef.InTitleMarkerDef != null) {
@@ -399,6 +397,8 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         _tagdef.InTitleMarkerDef.Dispose();
                         specChanged = true;
                     }
+                    TagDef belowTitleMarker = _tagdef.DefineProcessTag(TagDefCollection.sBelowTitleMarkerName, TagProcessClassification.BelowTitleMarker);
+
                     if (_belowTitleTags == null) {
                         // create a new outline for below-title tags
                         //
@@ -412,39 +412,26 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         //    </one:OE>
                         //  </one:OEChildren>
                         //</one:Outline>
-                        XElement oe;
                         XElement outline = new XElement(GetName("Outline"),
-                                           new XElement(GetName("Position"),
-                                               new XAttribute("x", "236"),
-                                               new XAttribute("y", "43"),
-                                               new XAttribute("z", "0")),
-                                           new XElement(GetName("Size"),
-                                               new XAttribute("width", "400"),
-                                               new XAttribute("height", "10"),
-                                               new XAttribute("isSetByUser", "true")),
-                                           new XElement(GetName("OEChildren"),
-                                         (oe = new XElement(GetName("OE"),
-                                                  new XAttribute("quickStyleIndex", _styles.TagOutlineStyleDef.Index),
-                                                  new XElement(GetName("T"), taglist)))));
+                                               new XElement(GetName("Position"),
+                                                   new XAttribute("x", "236"),
+                                                   new XAttribute("y", "43"),
+                                                   new XAttribute("z", "0")),
+                                               new XElement(GetName("Size"),
+                                                   new XAttribute("width", "400"),
+                                                   new XAttribute("height", "10"),
+                                                   new XAttribute("isSetByUser", "true")),
+                                               new XElement(GetName("OEChildren"),
+                                (_belowTitleTags = new OETaglist(belowTitleMarker,
+                                                                  _styles.TagOutlineStyleDef,
+                                                                  tags)).Element));
+
                         Root.Add(outline);
-                        _belowTitleTags = new OE(oe);
                         specChanged = true;
                     } else if (specChanged) {
-                        // update the tag text
-                        var T = _belowTitleTags.Element.Element(GetName("T"));
-                        if (T == null) {
-                            _belowTitleTags.Element.Add(new XElement(GetName("T")));
-                        }
-                        T.Value = taglist;
+                        // update the tag list
+                        _belowTitleTags.Taglist = tags;
                     }
-                    // turn spellcheck off for tag lists.
-                    _belowTitleTags.Element.SetAttributeValue("lang", "yo");
-
-                    TagDef belowTitleMarker = _tagdef.DefineProcessTag(TagDefCollection.sBelowTitleMarkerName, TagProcessClassification.BelowTitleMarker);
-
-                    // add marker tag
-                    _belowTitleTags.Tags.Add(belowTitleMarker);
-
                     break;
             }
 
