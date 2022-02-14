@@ -9,7 +9,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <summary>
         /// Get the collection of tag proxies for this content element.
         /// </summary>
-        public TagCollection Tags { get; }
+        public TagCollection Tags { get; protected set; }
 
         /// <summary>
         /// Get the unique OneNote id of that element.
@@ -30,6 +30,15 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             set {
                 SetAttributeValue("quickStyleIndex", value.ToString());
             }
+        }
+
+        /// <summary>
+        /// Initialize a new instance of a `one:OE` proxy with data from
+        /// a generic paragraph proxy.
+        /// </summary>
+        /// <param name="source">The proxy sourcing the data.</param>
+        protected OE(OE source) : base(source.Element) {
+            Tags = source.Tags;
         }
 
         /// <summary>
