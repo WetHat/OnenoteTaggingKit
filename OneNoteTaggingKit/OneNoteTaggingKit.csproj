@@ -89,6 +89,7 @@
     <Compile Include="PageBuilder\Meta.cs" />
     <Compile Include="PageBuilder\MetaCollection.cs" />
     <Compile Include="PageBuilder\OE.cs" />
+    <Compile Include="PageBuilder\OETaglist.cs" />
     <Compile Include="PageBuilder\OneNotePage.cs" />
     <Compile Include="common\FilterableTagsSource.cs" />
     <Compile Include="common\ui\SelectableTagModel.cs" />
