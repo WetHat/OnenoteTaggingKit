@@ -14,12 +14,12 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <summary>
         /// Get the name of the XML elements in this collection.
         /// </summary>
-        protected XName ElementName { get; }
+        public XName ElementName { get; }
 
         /// <summary>
         /// Get the XML namesapace associated with this collection.
         /// </summary>
-        protected XNamespace Namespace => ElementName.Namespace;
+        public XNamespace Namespace => ElementName.Namespace;
 
         /// <summary>
         /// The list of proxy objects in this collection.
