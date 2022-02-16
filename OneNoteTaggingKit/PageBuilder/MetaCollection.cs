@@ -46,6 +46,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 } else if (!string.IsNullOrWhiteSpace(value)) {
                     _pageTags = new Meta(Page, PageTagsMetaKey, value);
                     Add(_pageTags);
+                    IsModified = true;
                 }
             }
         }
