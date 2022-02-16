@@ -61,7 +61,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         Dictionary<string, TagDef> _pageTagDictionary = new Dictionary<string, TagDef>();
 
-        void RegisterPageTagDefinition(TagDef t) {
+        void RegisterTagDefinition(TagDef t) {
             TagDef found;
             if (_pageTagDictionary.TryGetValue(t.TagName, out found)) {
                 if (found.IsDisposed) {
@@ -143,15 +143,15 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     break;
                 case TagProcessClassification.PageTag:
                     newdef = new TagDef(Page, tagname, Items.Count, string.Empty, Items.Count, 0);
-                    RegisterPageTagDefinition(newdef);
+                    RegisterTagDefinition(newdef);
                     break;
                 case TagProcessClassification.ImportedOneNoteTag:
                     newdef = new TagDef(Page, tagname, Items.Count, Properties.Settings.Default.ImportOneNoteTagMarker, Items.Count, 0);
-                    RegisterPageTagDefinition(newdef);
+                    RegisterTagDefinition(newdef);
                     break;
                 case TagProcessClassification.ImportedHashTag:
                     newdef = new TagDef(Page, tagname, Items.Count, Properties.Settings.Default.ImportHashtagMarker, Items.Count, 0);
-                    RegisterPageTagDefinition(newdef);
+                    RegisterTagDefinition(newdef);
                     break;
             }
 
@@ -175,7 +175,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 if (tagdef.Symbol == 0 && tagset.Remove(tagdef.TagName)) {
                     TagDef found;
                     if (!_pageTagDictionary.TryGetValue(tagdef.TagName, out found)) {
-                        RegisterPageTagDefinition(tagdef);
+                        RegisterTagDefinition(tagdef);
                     }
                     tagdef.TagType = string.Empty; // update to regular tag type
                 }
@@ -192,22 +192,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="hashtags">list of hashtags to import</param>
         public void ImportContentHashtags(IEnumerable<string> hashtags) {
             if (Properties.Settings.Default.MapHashTags) {
-                var hashtagset = new HashSet<string>(hashtags);
-                // loop over the already known tag definitions to find matches.
-                foreach (TagDef tagdef in Items) {
-                    if (!tagdef.IsDisposed) {
-                        if (hashtagset.Remove(tagdef.TagName)) {
-                            tagdef.TagType = Properties.Settings.Default.ImportHashtagMarker;
-                            RegisterPageTagDefinition(tagdef);
-                        } else if (GetProcessClassification(tagdef) == TagProcessClassification.ImportedHashTag) {
-                            // dispose that definition if it is a hashtag
-                            tagdef.Dispose();
-                        }
+                foreach (string hashtagname in hashtags) {
+                    if (!_pageTagDictionary.ContainsKey(hashtagname) || _pageTagDictionary[hashtagname].IsDisposed) {
+                        _ =  DefineProcessTag(hashtagname, TagProcessClassification.ImportedHashTag);
                     }
-                }
-                // for all remaining hashtags we need to create new definitions
-                foreach (string name in hashtagset) {
-                    _ = DefineProcessTag(name, TagProcessClassification.ImportedHashTag);
                 }
             }
         }
@@ -217,25 +205,14 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         public void ImportOneNoteTags() {
             if (Properties.Settings.Default.MapOneNoteTags) {
-                // define mapped OneNote tags
-                var onTags = new HashSet<string>(from TagDef _ in Items
-                                                 where GetProcessClassification(_) == TagProcessClassification.OneNoteTag
-                                                 select _.Name);
-                foreach (var tagdef in Items) {
-                    if (!tagdef.IsDisposed) {
-                        if (onTags.Remove(tagdef.TagName)) {
-                            // found existing tag which we can use
-                            tagdef.TagType = Properties.Settings.Default.ImportOneNoteTagMarker;
-                            RegisterPageTagDefinition(tagdef);
-                        } else if (GetProcessClassification(tagdef) == TagProcessClassification.ImportedOneNoteTag) {
-                            // that tag is no longer on the page
-                            tagdef.Dispose();
-                        }
-                    }
-                }
-
                 // Need import tag definitions for the remaining unmatched OneNote tags.
-                foreach (string ontagname in onTags) {
+                foreach (string ontagname in (from TagDef td in Items
+                                              where GetProcessClassification(td) == TagProcessClassification.OneNoteTag
+                                                    && (!_pageTagDictionary.ContainsKey(td.Name)
+                                                        || _pageTagDictionary[td.Name].IsDisposed)
+                                              select td.Name).ToList()) {
+                    // create import tags for OneNote paragraph tags which are not already
+                    // page tags
                     _ = DefineProcessTag(ontagname, TagProcessClassification.ImportedOneNoteTag);
                 }
             }
