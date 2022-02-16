@@ -186,8 +186,11 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                             select td.TagName);
             }
 
-            // make sure all tags recorded in the page's meta informations are defined
+            // make sure all tags recorded in the page's meta information are defined
             _tagdef.DefineKnownPageTags(TaggedPage.ParseTaglist(_meta.PageTags));
+            if (_tagdef.InTitleMarkerDef != null) {
+                _tagdef.DefineKnownPageTags(TaggedPage.ParseTaglist(_tagdef.InTitleMarkerDef.Name));
+            }
 
             // For performance reasons we are going to delete all outlines not related to tags
             // Note: Page updates will actually leave those removed outlines on the page.
@@ -350,9 +353,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             TagCollection titletags = Title.Tags;
             // get all page tags from the tags the title may have
             var titletagset = new HashSet<TagDef>(from Tag t in titletags
-                                               let td = _tagdef[t.Index]
-                                               where !td.IsDisposed
-                                               select td);
+                                                  let td = _tagdef[t.Index]
+                                                  where !td.IsDisposed
+                                                  select td);
             // add the defined tags. At this point just genuine page tags
             titletagset.UnionWith(_tagdef.DefinedTags);
 
@@ -377,18 +380,28 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         // page modification.
                         specChanged = true;
                     }
+
                     if (tags.Count == 0) {
-                        // remove marker
                         if (_tagdef.InTitleMarkerDef != null) {
                             titletagset.Remove(_tagdef.InTitleMarkerDef);
                             _tagdef.InTitleMarkerDef.Dispose();
                             specChanged = true;
                         }
-                    } else {
+                    } else if (_tagdef.InTitleMarkerDef == null) {
                         TagDef inTitleMarker = _tagdef.DefineProcessTag(
-                            string.Join(", ", from TagDef td in tags select td.Name),
-                            TagProcessClassification.InTitleMarker);
-                        titletagset.Add(inTitleMarker);
+                                                    string.Join(", ", from TagDef td in tags select td.Name),
+                                                    TagProcessClassification.InTitleMarker);
+                        titletagset.Add(_tagdef.InTitleMarkerDef);
+                        specChanged = true;
+                    } else {
+                        string oldname =  _tagdef.InTitleMarkerDef.Name;
+                        string newname = string.Join(", ", from TagDef td in tags select td.Name);
+                        if (!oldname.Equals(newname)) {
+                            // tag display changed
+                            _tagdef.InTitleMarkerDef.Name = newname;
+                            specChanged = true;
+                        }
+                        titletagset.Add(_tagdef.InTitleMarkerDef);
                     }
                     break;
                 case TagDisplay.BelowTitle:
@@ -398,9 +411,16 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         _tagdef.InTitleMarkerDef.Dispose();
                         specChanged = true;
                     }
-                    TagDef belowTitleMarker = _tagdef.DefineProcessTag(TagDefCollection.sBelowTitleMarkerName, TagProcessClassification.BelowTitleMarker);
 
-                    if (_belowTitleTags == null) {
+                    if (tags.Count == 0) {
+                        if (_belowTitleTags != null) {
+                            // Enable removal of the taglist outline by the
+                            // `Update` method.
+                            specChanged = true;
+                        }
+                    } else if (_belowTitleTags == null) {
+                        TagDef belowTitleMarker = _tagdef.DefineProcessTag(TagDefCollection.sBelowTitleMarkerName, TagProcessClassification.BelowTitleMarker);
+
                         // create a new outline for below-title tags
                         //
                         //<one:Outline author="Peter Ernst" authorInitials="PE" lastModifiedBy="Peter Ernst" lastModifiedByInitials="PE" objectID="{E470786C-A904-4E9F-AC3B-0D9F36B6FC54}{14}{B0}" lastModifiedTime="2013-12-06T16:04:48.000Z">
@@ -429,15 +449,25 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 
                         Root.Add(outline);
                         specChanged = true;
-                    } else if (specChanged) {
-                        // update the tag list
+                    } else {
                         _belowTitleTags.Taglist = tags;
+                        _belowTitleTags.QuickStyleIndex = _styles.TagOutlineStyleDef.Index;
+                        // force page update to make sure tag display is in sync
+                        specChanged = true;
                     }
                     break;
             }
+            if (!specChanged) {
+                // make sure the title tags are up-to-date
+                if (titletagset.Any((td) => !titletags.Contains(td))) {
+                    titletags.Tags = titletagset;
+                    specChanged = true;
+                }
+            } else {
+                titletags.Tags = titletagset;
+            }
 
-            titletags.Tags = titletagset;
-            return specChanged || _tagdef.IsModified;
+            return specChanged || _tagdef.IsModified || _styles.IsModified;
         }
     }
 }
