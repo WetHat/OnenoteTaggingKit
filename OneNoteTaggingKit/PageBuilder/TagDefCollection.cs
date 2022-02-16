@@ -163,9 +163,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <summary>
         /// Make sure all known regular page tags are defined.
         /// </summary>
-        /// <remarks>This function should not be used for tagnames
-        /// with type annotation e.g import markers.</remarks>
-        /// <param name="tags">Names of regular page tags (not imported).</param>
+        /// <remarks>This function only picks tagnames
+        /// without type annotation e.g import markers.</remarks>
+        /// <param name="tags">Names of tags (with or without type annotation).</param>
         public void DefineKnownPageTags(IEnumerable<string> tags) {
             var tagset = new HashSet<string>(from string _ in tags
                                              let parsed = TagPageSet.ParseTagName(_)
