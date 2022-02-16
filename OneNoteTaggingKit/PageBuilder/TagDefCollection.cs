@@ -131,6 +131,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     if (BelowTitleMarkerDef == null) {
                         BelowTitleMarkerDef = newdef = new TagDef(Page, tagname, Items.Count, Properties.Settings.Default.PageTagMarker, BelowTitleMarkerType, cMarkerSymbol);
                     } else {
+                        BelowTitleMarkerDef.Name = tagname;
                         return BelowTitleMarkerDef;
                     }
                     break;
@@ -138,6 +139,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     if (InTitleMarkerDef == null) {
                         InTitleMarkerDef = newdef = new TagDef(Page, tagname, Items.Count, string.Empty, InTitleMarkerType,cMarkerSymbol);
                     } else {
+                        InTitleMarkerDef.Name = tagname;
                         return InTitleMarkerDef;
                     }
                     break;
