@@ -193,7 +193,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         public void ImportContentHashtags(IEnumerable<string> hashtags) {
             if (Properties.Settings.Default.MapHashTags) {
                 foreach (string hashtagname in hashtags) {
-                    if (!_pageTagDictionary.ContainsKey(hashtagname) || _pageTagDictionary[hashtagname].IsDisposed) {
+                    TagDef found;
+                    if (!_pageTagDictionary.TryGetValue(hashtagname, out found)
+                        || found.IsDisposed) {
                         _ =  DefineProcessTag(hashtagname, TagProcessClassification.ImportedHashTag);
                     }
                 }
@@ -208,12 +210,14 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 // Need import tag definitions for the remaining unmatched OneNote tags.
                 foreach (string ontagname in (from TagDef td in Items
                                               where GetProcessClassification(td) == TagProcessClassification.OneNoteTag
-                                                    && (!_pageTagDictionary.ContainsKey(td.Name)
-                                                        || _pageTagDictionary[td.Name].IsDisposed)
                                               select td.Name).ToList()) {
-                    // create import tags for OneNote paragraph tags which are not already
-                    // page tags
-                    _ = DefineProcessTag(ontagname, TagProcessClassification.ImportedOneNoteTag);
+                    TagDef found;
+                    if (!_pageTagDictionary.TryGetValue(ontagname, out found)
+                        || found.IsDisposed) {
+                        // create import tags for OneNote paragraph tags which are not already
+                        // page tags
+                        _ = DefineProcessTag(ontagname, TagProcessClassification.ImportedOneNoteTag);
+                    }
                 }
             }
         }
