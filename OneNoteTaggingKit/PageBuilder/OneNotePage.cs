@@ -353,7 +353,8 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                                let td = _tagdef[t.Index]
                                                where !td.IsDisposed
                                                select td);
-            titletagset.UnionWith(_tagdef.DefinedTags); // add the defined tags
+            // add the defined tags. At this point just genuine page tags
+            titletagset.UnionWith(_tagdef.DefinedTags);
 
             // import tags from page content (if enabled)
             _tagdef.ImportOneNoteTags();
