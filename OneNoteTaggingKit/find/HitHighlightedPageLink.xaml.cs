@@ -57,15 +57,20 @@ namespace WetHatLab.OneNote.TaggingKit.find
             //path.FontSize = 10;
             path.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
             path.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-            foreach (var he in model.Path) {
+
+            var tp = model.Page;
+
+            for (var p = tp.Parent; p != null; p = p.Parent) {
                 if (path.Inlines.Count > 0) {
                     Run r = new Run(" ñ ");
                     r.FontFamily = new FontFamily("Symbol");
                     r.FontWeight = FontWeights.ExtraBold;
                     r.Foreground = Brushes.Black;
-                    path.Inlines.Add(r);
+                    path.Inlines.InsertBefore(path.Inlines.FirstInline, r);
+                    path.Inlines.InsertBefore(path.Inlines.FirstInline, new Run(p.Name));
+                } else {
+                    path.Inlines.Add(new Run(p.Name));
                 }
-                path.Inlines.Add(new Run(he.Name));
             }
             stack.Children.Add(path);
 

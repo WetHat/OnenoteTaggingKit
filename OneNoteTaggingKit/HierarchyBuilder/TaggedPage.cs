@@ -35,11 +35,6 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         private readonly bool _isSelected = false;
 
         /// <summary>
-        /// OneNote hierarchy path to this page
-        /// </summary>
-        private readonly IEnumerable<HierarchyNode> _path;
-
-        /// <summary>
         /// Set of tags
         /// </summary>
         private readonly ISet<TagPageSet> _tags = new HashSet<TagPageSet>();
@@ -58,8 +53,9 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         /// Create an internal representation of a page returned from FindMeta
         /// </summary>
         /// <param name="page">&lt;one:Page&gt; element</param>
-        internal TaggedPage(XElement page) : base(page,HierarchyElement.hePages)  {
-            XNamespace one = page.GetNamespaceOfPrefix("one");
+        /// <param name="parent">The parent node of the page.</param>
+        internal TaggedPage(XElement page,HierarchyNode parent) : base(page,parent,HierarchyElement.hePages)  {
+            XNamespace one = page.Name.Namespace;
             var rbin = page.Attribute("isInRecycleBin");
             IsInRecycleBin = "true".Equals(rbin != null ? rbin.Value : String.Empty);
             XAttribute selected = page.Attribute("selected");
@@ -72,15 +68,6 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
             } else {
                 _tagnames = new string[0];
             }
-
-            // build the items path
-            LinkedList<HierarchyNode> path = new LinkedList<HierarchyNode>();
-            XElement e = page;
-            while (e.Parent != null) {
-                e = e.Parent;
-                path.AddFirst(new HierarchyNode(e));
-            }
-            _path = path;
         }
 
         /// <summary>
@@ -90,22 +77,11 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         public bool IsInRecycleBin { get; private set; }
 
         /// <summary>
-        /// get the page's ID
-        /// </summary>
-        public string ID { get; private set; }
-
-        /// <summary>
         /// Get the selection status of the page
         /// </summary>
         public bool IsSelected {
             get { return _isSelected; }
         }
-
-        /// <summary>
-        /// Get the path to this OneNote page in the OneNote hierarchy.
-        /// </summary>
-        public IEnumerable<HierarchyNode> Path { get { return _path; } }
-
 
         #region IKeyedItem
 

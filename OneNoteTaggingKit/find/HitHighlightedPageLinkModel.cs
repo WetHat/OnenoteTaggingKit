@@ -176,15 +176,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
 
-        /// <summary>
-        /// Get the path to the page in the OneNote hierarchy.
-        /// </summary>
-        public IEnumerable<HierarchyNode> Path {
-            get {
-                return Page.Path;
-            }
-        }
-
         #region IHitHighlightedPageLinkModel
 
         /// <summary>

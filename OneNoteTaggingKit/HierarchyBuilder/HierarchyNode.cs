@@ -16,15 +16,30 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         /// <summary>
         /// Get the node type.
         /// </summary>
-        public HierarchyElement NodeType { get;  }
+        public HierarchyElement NodeType { get; }
+
+        /// <summary>
+        /// Get the parent node.
+        /// </summary>
+        /// <value>`null` if the node is a root node or the parent node is unknown.</value>
+        public HierarchyNode Parent { get; }
+
         /// <summary>
         /// create a new instance of an element in the OneNote object hierarchy.
         /// </summary>
         /// <param name="hierarchyNode">A node in the OneNote page hierarchy.</param>
+        /// <param name="parent">
+        ///     The parent node in the page hierarchy.
+        ///     `null` if this is a root node (`one:Notebook``) or the parent
+        ///     node is unknown.
+        /// </param>
         /// <param name="type">The element type, if kmown</param>
-        public HierarchyNode(XElement hierarchyNode, HierarchyElement type = HierarchyElement.heNone) {
+        public HierarchyNode(XElement hierarchyNode,
+                             HierarchyNode parent,
+                             HierarchyElement type = HierarchyElement.heNone ) {
             ID = (string)hierarchyNode.Attribute("ID");
             Name = (string)hierarchyNode.Attribute("name");
+            Parent = parent;
             NodeType = type;
         }
 
