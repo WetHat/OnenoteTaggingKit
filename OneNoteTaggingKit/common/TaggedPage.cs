@@ -8,7 +8,7 @@ using WetHatLab.OneNote.TaggingKit.PageBuilder;
 namespace WetHatLab.OneNote.TaggingKit.common
 {
     /// <summary>
-    /// Representation of an element in the hierarchy of the OneNote note tree
+    /// Representation of an element in the hierarchy of the OneNote page tree.d
     /// </summary>
     /// <remarks>
     /// Collections of instances of this class are typically used to describe a path to a
