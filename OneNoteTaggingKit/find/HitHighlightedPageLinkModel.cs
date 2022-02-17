@@ -125,8 +125,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
     public class HitHighlightedPageLinkModel : HitHighlightedPageLinkKey, ISortableKeyedItem<HitHighlightedPageLinkKey, string>, IHitHighlightedPageLinkModel, INotifyPropertyChanged
     {
         private IList<TextFragment> _highlights;
-        private TaggedPage _page;
-        private OneNoteProxy _onenote;
 
         private static readonly PropertyChangedEventArgs MARKER_SYMBOL = new PropertyChangedEventArgs("MarkerSymbol");
         private static readonly PropertyChangedEventArgs MARKER_COLOR = new PropertyChangedEventArgs("MarkerColor");
@@ -141,21 +139,25 @@ namespace WetHatLab.OneNote.TaggingKit.find
         #endregion INotifyPropertyChanged
 
         /// <summary>
+        /// Get the pave object backing this viwe model.
+        /// </summary>
+        public TaggedPage Page { get; }
+
+        /// <summary>
         /// create a new instance of the view model.
         /// </summary>
         /// <param name="tp">         a OneNote page object</param>
         /// <param name="highlighter">
         /// object to generate a highlight description of the link title
         /// </param>
-        /// <param name="onenote">    OneNote application object proxy</param>
-        internal HitHighlightedPageLinkModel(TaggedPage tp, TextSplitter highlighter, OneNoteProxy onenote)
+        internal HitHighlightedPageLinkModel(TaggedPage tp, TextSplitter highlighter)
             : base(tp.Title, tp.ID) {
+            Page = tp;
             IsSelected = false;
-            _page = tp;
-            _highlights = highlighter.SplitText(_page.Title);
+
+            _highlights = highlighter.SplitText(tp.Title);
 
             HitCount = _highlights.Count((f) => f.IsMatch);
-            _onenote = onenote;
         }
 
         protected void fireNotifyPropertyChanged(PropertyChangedEventArgs propArgs) {
@@ -169,7 +171,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         public bool IsInRecycleBin {
             get {
-                return _page.IsInRecycleBin;
+                return Page.IsInRecycleBin;
             }
         }
 
@@ -178,16 +180,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         public IEnumerable<HierarchyElement> Path {
             get {
-                return _page.Path;
-            }
-        }
-
-        /// <summary>
-        /// Get the hyperlink the OneNote page.
-        /// </summary>
-        internal string PageLink {
-            get {
-                return _onenote.GetHyperlinkToObject(_page.ID, pageObjectID: null);
+                return Page.Path;
             }
         }
 
@@ -258,7 +251,18 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         #endregion IHitHighlightedPageLinkModel
 
-        internal string LinkTitle { get { return _page.Title; } }
+        /// <summary>
+        /// Get the hyperling to the OneNote page,
+        /// </summary>
+        /// <param name="onenote">The OneNote application proxy.</param>
+        /// <returns>Hyperlink</returns>
+        public string GetHyperlink(OneNoteProxy onenote) {
+            return onenote.GetHyperlinkToObject(Page.ID, pageObjectID: null);
+        }
+        /// <summary>
+        /// Get the hyperlink title for this page
+        /// </summary>
+        public string LinkTitle { get { return Page.Title; } }
 
         #region ISortableKeyedItem<HitHighlightedPageLinkKey,string>
 

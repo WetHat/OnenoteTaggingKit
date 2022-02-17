@@ -266,7 +266,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             Action a = null;
             switch (e.Action) {
                 case NotifyDictionaryChangedAction.Add:
-                    a = () => FilteredPages.AddAll(from i in e.Items select new HitHighlightedPageLinkModel(i, _highlighter, OneNoteApp));
+                    a = () => FilteredPages.AddAll(from i in e.Items select new HitHighlightedPageLinkModel(i, _highlighter));
                     break;
 
                 case NotifyDictionaryChangedAction.Remove:

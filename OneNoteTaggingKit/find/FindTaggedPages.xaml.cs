@@ -220,18 +220,18 @@ EndSelection:{5:D6}";
                            StringBuilder links = new StringBuilder();
 
                            foreach (var mdl in _model.FilteredPages.Where(p => !p.IsInRecycleBin)) {
-                               string pageTitle = mdl.LinkTitle;
+                               string linkTitle = mdl.LinkTitle;
                                try {
                                    if (links.Length > 0) {
                                        links.Append("<br />");
                                    }
                                    links.Append(@"<a href=""");
-                                   links.Append(mdl.PageLink);
+                                   links.Append(mdl.GetHyperlink(_model.OneNoteApp));
                                    links.Append(@""">");
-                                   links.Append(mdl.LinkTitle);
+                                   links.Append(linkTitle);
                                    links.Append("</a>");
                                } catch (Exception ex) {
-                                   TraceLogger.Log(TraceCategory.Error(), "Link to page '{0}' could not be created: {1}", pageTitle, ex);
+                                   TraceLogger.Log(TraceCategory.Error(), "Link to page '{0}' could not be created: {1}", linkTitle, ex);
                                    TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_CopyLink, ex);
                                }
                            }
