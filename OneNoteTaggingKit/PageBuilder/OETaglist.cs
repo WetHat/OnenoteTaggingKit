@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
+using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 {

@@ -1,11 +1,12 @@
-﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+﻿// Author: WetHat | (C) Copyright 2013 - 2022 WetHat Lab, all rights reserved
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.PageBuilder;
 
-namespace WetHatLab.OneNote.TaggingKit.common
+namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
 {
     /// <summary>
     /// Representation of an element in the hierarchy of the OneNote page tree.d

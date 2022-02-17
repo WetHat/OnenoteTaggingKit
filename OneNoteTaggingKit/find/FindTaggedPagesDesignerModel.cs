@@ -1,10 +1,11 @@
-﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+﻿// Author: WetHat | (C) Copyright 2013 - 2022 WetHat Lab, all rights reserved
 ////////////////////////////////////////////////////////////
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
+using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {

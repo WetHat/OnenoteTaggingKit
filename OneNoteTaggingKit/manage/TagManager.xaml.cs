@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
-using WetHatLab.OneNote.TaggingKit.PageBuilder;
+using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 using WetHatLab.OneNote.TaggingKit.Tagger;
 
 namespace WetHatLab.OneNote.TaggingKit.manage
