@@ -1,4 +1,5 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2022 WetHat Lab, all rights reserved
+using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,46 +10,9 @@ using WetHatLab.OneNote.TaggingKit.PageBuilder;
 namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
 {
     /// <summary>
-    /// Representation of an element in the hierarchy of the OneNote page tree.d
-    /// </summary>
-    /// <remarks>
-    /// Collections of instances of this class are typically used to describe a path to a
-    /// OneNote page
-    /// </remarks>
-    public class HierarchyElement : IKeyedItem<string>
-    {
-        /// <summary>
-        /// create a new instance of an element in the OneNote object hierarchy.
-        /// </summary>
-        /// <param name="id">  unique element id</param>
-        /// <param name="name">user friendly element name</param>
-        public HierarchyElement(string id, string name) {
-            Key = id;
-            Name = name;
-        }
-
-        /// <summary>
-        /// Get the name of this element in the OneNote hierachy
-        /// </summary>
-        public string Name { get; private set; }
-
-        #region IKeyedItem<string>
-
-        /// <summary>
-        /// get the unique key of this item
-        /// </summary>
-        public string Key {
-            get;
-            private set;
-        }
-
-        #endregion IKeyedItem<string>
-    }
-
-    /// <summary>
     /// Representation of a OneNote page with its page level tags.
     /// </summary>
-    public class TaggedPage : IKeyedItem<string>
+    public class TaggedPage : HierarchyNode
     {
         readonly static char[] sTagListSeparator = new char[] { ',' };
 
@@ -73,7 +37,7 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         /// <summary>
         /// OneNote hierarchy path to this page
         /// </summary>
-        private readonly IEnumerable<HierarchyElement> _path;
+        private readonly IEnumerable<HierarchyNode> _path;
 
         /// <summary>
         /// Set of tags
@@ -94,10 +58,8 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         /// Create an internal representation of a page returned from FindMeta
         /// </summary>
         /// <param name="page">&lt;one:Page&gt; element</param>
-        internal TaggedPage(XElement page) {
+        internal TaggedPage(XElement page) : base(page,HierarchyElement.hePages)  {
             XNamespace one = page.GetNamespaceOfPrefix("one");
-            ID = page.Attribute("ID").Value;
-            Title = page.Attribute("name").Value;
             var rbin = page.Attribute("isInRecycleBin");
             IsInRecycleBin = "true".Equals(rbin != null ? rbin.Value : String.Empty);
             XAttribute selected = page.Attribute("selected");
@@ -112,16 +74,11 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
             }
 
             // build the items path
-            LinkedList<HierarchyElement> path = new LinkedList<HierarchyElement>();
+            LinkedList<HierarchyNode> path = new LinkedList<HierarchyNode>();
             XElement e = page;
             while (e.Parent != null) {
                 e = e.Parent;
-                XAttribute id = e.Attribute("ID");
-                XAttribute name = e.Attribute("name");
-                if (id == null || name == null) {
-                    break;
-                }
-                path.AddFirst(new HierarchyElement(e.Attribute("ID").Value, e.Attribute("name").Value));
+                path.AddFirst(new HierarchyNode(e));
             }
             _path = path;
         }
@@ -147,19 +104,8 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         /// <summary>
         /// Get the path to this OneNote page in the OneNote hierarchy.
         /// </summary>
-        public IEnumerable<HierarchyElement> Path { get { return _path; } }
+        public IEnumerable<HierarchyNode> Path { get { return _path; } }
 
-        /// <summary>
-        /// Get the page's title.
-        /// </summary>
-        public string Title {
-            get {
-                return _title;
-            }
-            set {
-                _title = value ?? String.Empty;
-            }
-        }
 
         #region IKeyedItem
 

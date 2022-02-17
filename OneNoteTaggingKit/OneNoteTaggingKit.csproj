@@ -83,6 +83,7 @@
     <Compile Include="common\KnownTagsSource.cs" />
     <Compile Include="common\ObservableDictionary.cs" />
     <Compile Include="common\ObservableSortedList.cs" />
+    <Compile Include="HierarchyBuilder\HierarchyNode.cs" />
     <Compile Include="PageBuilder\DefinitionObjectBase.cs" />
     <Compile Include="PageBuilder\DefinitionObjectCollection.cs" />
     <Compile Include="PageBuilder\NamedObjectBase.cs" />

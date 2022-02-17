@@ -255,7 +255,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 if (tp != null) {
                     Dispatcher.Invoke(() => {
                         CurrentPageTags = (from t in tp.Tags select t.TagName).ToArray();
-                        CurrentPageTitle = tp.Title;
+                        CurrentPageTitle = tp.Name;
                     });
                 }
             }

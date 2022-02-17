@@ -152,11 +152,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// object to generate a highlight description of the link title
         /// </param>
         internal HitHighlightedPageLinkModel(TaggedPage tp, TextSplitter highlighter)
-            : base(tp.Title, tp.ID) {
+            : base(tp.Name, tp.ID) {
             Page = tp;
             IsSelected = false;
 
-            _highlights = highlighter.SplitText(tp.Title);
+            _highlights = highlighter.SplitText(tp.Name);
 
             HitCount = _highlights.Count((f) => f.IsMatch);
         }
@@ -179,7 +179,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Get the path to the page in the OneNote hierarchy.
         /// </summary>
-        public IEnumerable<HierarchyElement> Path {
+        public IEnumerable<HierarchyNode> Path {
             get {
                 return Page.Path;
             }
@@ -263,7 +263,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Get the hyperlink title for this page
         /// </summary>
-        public string LinkTitle { get { return Page.Title; } }
+        public string LinkTitle { get { return Page.Name; } }
 
         #region ISortableKeyedItem<HitHighlightedPageLinkKey,string>
 
