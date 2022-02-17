@@ -100,7 +100,7 @@
     <Compile Include="common\TagFormatter.cs" />
     <Compile Include="common\ui\TagInputEvent.cs" />
     <Compile Include="common\TagsAndPages.cs" />
-    <Compile Include="common\TaggedPage.cs" />
+    <Compile Include="HierarchyBuilder\TaggedPage.cs" />
     <Compile Include="common\TagPageSet.cs" />
     <Compile Include="common\ui\TagSelectedEvent.cs" />
     <Compile Include="common\ObservableTagList.cs" />
