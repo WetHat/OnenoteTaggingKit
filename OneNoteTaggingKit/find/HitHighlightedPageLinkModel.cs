@@ -140,7 +140,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         #endregion INotifyPropertyChanged
 
         /// <summary>
-        /// Get the pave object backing this viwe model.
+        /// Get the page object backing this view model.
         /// </summary>
         public TaggedPage Page { get; }
 
