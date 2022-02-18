@@ -185,15 +185,13 @@ namespace WetHatLab.OneNote.TaggingKit.common
 
                     if (!tags.TryGetValue(parsedTag.Item1, out t)) {
                         if (_tags.TryGetValue(parsedTag.Item1, out t)) {
-                            // recycle existing tag
-                            _tags.Remove(t.Key);
-                            // we need to reset all pages
+                            // recycle that existing tag
+                            t.ClearFilter();
                             t.Pages.Clear();
+
                         } else {
-                            // new tag is required
                             t = new TagPageSet(parsedTag);
                         }
-
                         tags.Add(t.TagName, t);
                     } else {
                         t.TagType = parsedTag.Item2;
