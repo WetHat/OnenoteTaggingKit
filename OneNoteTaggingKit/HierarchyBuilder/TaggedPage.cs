@@ -40,11 +40,6 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         private readonly ISet<TagPageSet> _tags = new HashSet<TagPageSet>();
 
         /// <summary>
-        /// page title
-        /// </summary>
-        private string _title;
-
-        /// <summary>
         /// Names of tags as recorded in the page's meta section;
         /// </summary>
         private readonly IEnumerable<string> _tagnames;

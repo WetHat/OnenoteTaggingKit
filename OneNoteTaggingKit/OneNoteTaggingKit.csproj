@@ -141,10 +141,6 @@
     <Compile Include="find\HitHighlightedPageLinkModel.cs" />
     <Compile Include="find\RefinementTagModel.cs" />
     <Compile Include="find\RefinementTagsSource.cs" />
-    <Compile Include="find\SaveSearch.xaml.cs">
-      <DependentUpon>SaveSearch.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="find\SaveSearchModel.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="manage\RemovableTag.xaml.cs">
       <DependentUpon>RemovableTag.xaml</DependentUpon>
@@ -300,10 +296,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="find\HitHighlightedPageLink.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="find\SaveSearch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

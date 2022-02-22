@@ -166,12 +166,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                         foundPagesList.SelectAll();
                         break;
                     case "SaveSearch":
-                        AddInDialogManager.ShowDialog<SaveSearch, SaveSearchModel>(() =>
-                        {
-                            var mdl = new SaveSearchModel(_model.OneNoteApp);
-                            mdl.Tags = _model.SelectedRefinementTags;
-                            return mdl;
-                        });
+                        // TODO save search execution
                         break;
                     case "TagSelection":
                         var pagesToTag = from mp in _model.FilteredPages

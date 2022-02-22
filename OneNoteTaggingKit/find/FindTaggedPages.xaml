@@ -249,7 +249,7 @@
                         <Image Source="/OneNoteTaggingKit;component/Resources/copy_link-32.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Save Search Result to Page"
+                <MenuItem Header="Save Search Result"
                           Tag="SaveSearch"
                           Click="Page_MenuItem_Click">
                     <MenuItem.Icon>

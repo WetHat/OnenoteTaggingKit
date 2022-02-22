@@ -3,17 +3,15 @@ using Extensibility;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.OneNote;
 using System;
-using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
-using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.edit;
 using WetHatLab.OneNote.TaggingKit.find;
+using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 using WetHatLab.OneNote.TaggingKit.manage;
-using WetHatLab.OneNote.TaggingKit.PageBuilder;
 using WetHatLab.OneNote.TaggingKit.Tagger;
 
 namespace WetHatLab.OneNote.TaggingKit
@@ -208,7 +206,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// Action to refresh the current page.
         /// </summary>
         /// <param name="ribbon"></param>
-        public void refreshPage(IRibbonControl ribbon) {
+        public void updatePage(IRibbonControl ribbon) {
             TraceLogger.Log(TraceCategory.Info(), "Refresh current page");
             if (_onProxy != null && !string.IsNullOrEmpty(_onProxy.CurrentPageID)) {
                 _onProxy.TaggingService.Add(new TaggingJob(_onProxy.CurrentPageID,
