@@ -17,9 +17,13 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         InTitleMarker = 0,
         /// <summary>
-        /// A OneNote tag marling a one:T element containing a list of page tags.
+        /// A OneNote tag marking a `one:OE` element containing a list of page tags.
         /// </summary>
         BelowTitleMarker,
+        /// <summary>
+        /// A OneNote tag marking a `one:OE` element containing a saved search.
+        /// </summary>
+        SavedSearchMarker,
         /// <summary>
         /// A regular, importable OneNote Paragrapg tag.
         /// </summary>
@@ -50,12 +54,23 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         public const string sBelowTitleMarkerName = "Page Tags";
 
         /// <summary>
-        /// The symbol for in-title and below-title markers.
+        /// The symbol index for in-title and below-title markers.
         /// </summary>
-        private const int cMarkerSymbol = 26;
+        private const int cTaglistMarkerSymbol = 26;
+        private const int cSavedSearchMarkerSymbol = 135;
+
+        /// <summary>
+        /// The OneNote tag name suffix to i dentify taglists.
+        /// </summary>
+        private const string cTaglistSuffix = "🏷";
+        /// <summary>
+        /// The OneNote tag name suffix to identify saved searches.
+        /// </summary>
+        private const string cSavedSearchSuffix = "🔍";
 
         private const int InTitleMarkerType = 99;
         private const int BelowTitleMarkerType = 23;
+        private const int SavedSearchMarkerType = 21;
 
         /// <summary>
         /// A dictionary of page tags indexed by tag name.
@@ -90,13 +105,13 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             } else {
                 // check for special Process Tags
                 switch (def.Symbol) {
-                    case cMarkerSymbol:
+                    case cTaglistMarkerSymbol:
                         switch (def.Type) {
                             case InTitleMarkerType:
                                 return TagProcessClassification.InTitleMarker;
                             case BelowTitleMarkerType:
                                 if (sBelowTitleMarkerName.Equals(def.Name)
-                                    || def.Name.EndsWith(Properties.Settings.Default.PageTagMarker)) {
+                                    || def.Name.EndsWith(cTaglistSuffix)) {
                                     return TagProcessClassification.BelowTitleMarker;
                                 } else {
                                     return TagProcessClassification.OneNoteTag;
@@ -106,6 +121,11 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                 // ordinary importable OneNote Tag
                                 return TagProcessClassification.OneNoteTag;
                         }
+                    case cSavedSearchMarkerSymbol:
+                        return def.Name.EndsWith(cSavedSearchSuffix)
+                                ? TagProcessClassification.SavedSearchMarker
+                                : TagProcessClassification.OneNoteTag;
+                        break;
                     default:
                         return TagProcessClassification.OneNoteTag;
                 }
@@ -119,6 +139,11 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         public TagDef BelowTitleMarkerDef { get; private set; }
 
         /// <summary>
+        /// Get the definition for a marker denoting a saved search
+        /// </summary>
+        public TagDef SavedSearchMarkerDef { get; private set; }
+
+        /// <summary>
         /// Define a tag participating in a specified process.
         /// </summary>
         /// <param name="tagname">The name of the tag (without type annotation).</param>
@@ -130,7 +155,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             switch (classification) {
                 case TagProcessClassification.BelowTitleMarker:
                     if (BelowTitleMarkerDef == null) {
-                        BelowTitleMarkerDef = newdef = new TagDef(Page, tagname, Items.Count, Properties.Settings.Default.PageTagMarker, BelowTitleMarkerType, cMarkerSymbol);
+                        BelowTitleMarkerDef = newdef = new TagDef(Page, tagname, Items.Count, cTaglistSuffix, BelowTitleMarkerType, cTaglistMarkerSymbol);
                     } else {
                         BelowTitleMarkerDef.Name = tagname;
                         return BelowTitleMarkerDef;
@@ -138,10 +163,17 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     break;
                 case TagProcessClassification.InTitleMarker:
                     if (InTitleMarkerDef == null) {
-                        InTitleMarkerDef = newdef = new TagDef(Page, tagname, Items.Count, string.Empty, InTitleMarkerType,cMarkerSymbol);
+                        InTitleMarkerDef = newdef = new TagDef(Page, tagname, Items.Count, string.Empty, InTitleMarkerType, cTaglistMarkerSymbol);
                     } else {
                         InTitleMarkerDef.Name = tagname;
                         return InTitleMarkerDef;
+                    }
+                    break;
+                case TagProcessClassification.SavedSearchMarker:
+                    if (SavedSearchMarkerDef == null) {
+                        InTitleMarkerDef = newdef = new TagDef(Page, "Saved Search" + cSavedSearchSuffix, Items.Count, string.Empty, SavedSearchMarkerType, cSavedSearchMarkerSymbol);
+                    } else {
+                        return SavedSearchMarkerDef;
                     }
                     break;
                 case TagProcessClassification.PageTag:
@@ -269,6 +301,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     break;
                 case TagProcessClassification.InTitleMarker:
                     InTitleMarkerDef = tagdef;
+                    break;
+                case TagProcessClassification.SavedSearchMarker:
+                    SavedSearchMarkerDef = tagdef;
                     break;
                 default:
                     if (tagdef.Symbol == 0) {
