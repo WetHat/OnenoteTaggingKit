@@ -26,14 +26,17 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 return txt.ToString();
             }
             set {
-                XName tn = GetName("T");
-                XElement t = Element.Element(tn);
-                while (t != null) {
-                    t.Remove();
-                    t = Element.Element(tn);
+                // remove everything except tags and lists
+                foreach(var e in Element.Elements().ToList()) {
+                    var localname = e.Name.LocalName;
+                    if (localname.Equals("Tag") || localname.Equals("List")) {
+                        continue;
+                    } else {
+                        e.Remove();
+                    }
                 }
                 // Create a new text node with the given text
-                Element.Add(new XElement(tn, new XCData(value)));
+                Element.Add(new XElement(GetName("T"), new XCData(value)));
             }
         }
         /// <summary>
