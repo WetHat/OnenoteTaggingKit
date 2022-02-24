@@ -54,8 +54,8 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// Intialize a new element proxy with additional XML page content.
         /// </summary>
         /// <param name="ns">The XML namespave to use.</param>
-        /// <param name="content">Element content</param>
-        protected OE(XNamespace ns, XElement content) : this(new XElement(ns.GetName("OE"))) {
+        /// <param name="content">Zero or more content elements</param>
+        protected OE(XNamespace ns, params XElement[] content) : this(new XElement(ns.GetName("OE"))) {
             Element.Add(content);
         }
     }
