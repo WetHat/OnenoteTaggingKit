@@ -40,7 +40,24 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
             ID = (string)hierarchyNode.Attribute("ID");
             Name = (string)hierarchyNode.Attribute("name");
             Parent = parent;
-            NodeType = type;
+            if (type == HierarchyElement.heNone) {
+                NodeType = type;
+            } else {
+                switch (hierarchyNode.Name.LocalName) {
+                    case "Page":
+                        NodeType = HierarchyElement.hePages ;
+                        break;
+                    case "Section":
+                        NodeType = HierarchyElement.heSections;
+                        break;
+                    case "SectionGroup":
+                        NodeType = HierarchyElement.heSectionGroups;
+                        break;
+                    case "Notebook":
+                        NodeType = HierarchyElement.heNotebooks;
+                        break;
+                }
+            }
         }
 
         /// <summary>
