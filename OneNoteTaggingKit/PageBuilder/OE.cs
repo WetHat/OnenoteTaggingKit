@@ -34,7 +34,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 
         /// <summary>
         /// Initialize a new instance of a `one:OE` proxy with data from
-        /// a generic paragraph proxy.
+        /// a generic page element proxy.
         /// </summary>
         /// <param name="source">The proxy sourcing the data.</param>
         protected OE(OE source) : base(source.Element) {
@@ -48,6 +48,15 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="element">XML element on a OneNote page.</param>
         public OE(XElement element) : base(element) {
             Tags = new TagCollection(this);
+        }
+
+        /// <summary>
+        /// Intialize a new element proxy with additional XML page content.
+        /// </summary>
+        /// <param name="ns">The XML namespave to use.</param>
+        /// <param name="content">Element content</param>
+        protected OE(XNamespace ns, XElement content) : this(new XElement(ns.GetName("OE"))) {
+            Element.Add(content);
         }
     }
 }
