@@ -279,7 +279,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// OneNote page document.
         /// </summary>
         /// <param name="page">The OneNote page document proxy.</param>
-        public TagDefCollection(OneNotePage page) : base(page, page.GetName(nameof(TagDef))) {
+        public TagDefCollection(OneNotePage page) : base(page.GetName(nameof(TagDef)),page) {
             // use the in-title tag to define more page tags.
             if (InTitleMarkerDef != null) {
                 DefineKnownPageTags(TaggedPage.ParseTaglist(InTitleMarkerDef.Name));

@@ -86,7 +86,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     ///     <item>limited page editing</item>
     ///     </list>
     /// </remarks>
-    public class OneNotePage {
+    public class OneNotePage : PageObjectBase {
         private static readonly Regex _hashtag_matcher = new Regex(@"(?<=(^|[^\w]))#\w{3,}", RegexOptions.Compiled);
         private static readonly Regex _number_matcher = new Regex(@"^#\d*\w{0,1}\d*$|^#[xX]{0,1}[\dABCDEFabcdef]+$", RegexOptions.Compiled);
 
@@ -127,29 +127,14 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         TagDefCollection _tagdef; // OneNote tag definitions.
 
         private DateTime _lastModified;
-        /// <summary>
-        /// Get the XML namespace for elements in OneNote XML page documents.
-        /// </summary>
-        public XNamespace Namespace { get; private set; }
 
         // the OneNote application object
         private OneNoteProxy _onenote;
 
         /// <summary>
-        /// Get a XML Name for elements on a OneNote page document.
-        /// </summary>
-        /// <param name="localname"></param>
-        /// <returns>XML name in the OneNote page document namespace.</returns>
-        public XName GetName(string localname) => Namespace.GetName(localname);
-
-        /// <summary>
         /// Get the XML document of the OneNote page
         /// </summary>
-        public XDocument Document { get; private set; }
-        /// <summary>
-        /// Get he XML Root element of the OneNote page document.
-        /// </summary>
-        public XElement Root { get; private set; }
+        XDocument Document { get; set; }
 
         OETaglist _belowTitleTags;
 
@@ -160,13 +145,16 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         public Title Title { get; private set; }
 
-        internal OneNotePage(OneNoteProxy onenoteApp, string pageID) {
+        /// <summary>
+        /// Initialize a proxy object for an existing OneNote page.
+        /// </summary>
+        /// <param name="onenoteApp">The OneNote application object.</param>
+        /// <param name="pageID">The page ID.</param>
+        internal OneNotePage(OneNoteProxy onenoteApp, string pageID) : base(onenoteApp.GetPage(pageID).Root) {
             _onenote = onenoteApp;
             PageID = pageID;
-            Document = _onenote.GetPage(PageID); // get the page's XML document
-            Root = Document.Root;
-            Namespace = Document.Root.GetNamespaceOfPrefix("one");
-            _lastModified = DateTime.Parse(Root.Attribute("lastModifiedTime").Value);
+            Document = Element.Document; // get the page's XML document
+            _lastModified = DateTime.Parse(Element.Attribute("lastModifiedTime").Value);
 
             // recognize some page content
 
@@ -174,7 +162,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             _meta = new MetaCollection(this);
             _tagdef = new TagDefCollection(this);
 
-            XElement title = Root.Element(GetName(nameof(Title)));
+            XElement title = Element.Element(GetName(nameof(Title)));
             if (title == null) {
                 // a title is required for tagging
                 Title = new Title(this, "Untitled Page");
@@ -199,7 +187,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             XName outlineName = GetName("Outline");
 
             // For performance reasons we avoid Xpath!
-            foreach (var outline in Root.Elements(outlineName).ToList()) {
+            foreach (var outline in Element.Elements(outlineName).ToList()) {
                 XElement OEChildren = outline.Element(GetName("OEChildren"));
                 if (OEChildren != null) {
                     // further inspect that outline
@@ -257,7 +245,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         public bool IsDeleted {
             get {
 
-                XAttribute recycleBinAtt = Root.Attribute("isInRecycleBin");
+                XAttribute recycleBinAtt = Element.Attribute("isInRecycleBin");
                 return recycleBinAtt != null && "true".Equals(recycleBinAtt.Value);
             }
         }
@@ -332,7 +320,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 // need to go searching
                 for (int i = p; i < PositionNames.Length; i++) {
                     var localname = PositionNames[i];
-                    anchor = Root.Element(obj.GetName(localname));
+                    anchor = Element.Element(obj.GetName(localname));
                     if (anchor != null) {
                         PageAnchors[i] = anchor; // remember that
                         break;
@@ -342,7 +330,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             if (anchor != null) {
                 anchor.AddBeforeSelf(obj.Element);
             } else {
-                Root.Add(obj.Element);
+                Element.Add(obj.Element);
             }
             PageAnchors[p] = obj.Element;
         }
@@ -448,7 +436,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                                                   _styles.TagOutlineStyleDef,
                                                                   tags)).Element));
 
-                        Root.Add(outline);
+                        Element.Add(outline);
                         specChanged = true;
                     } else {
                         _belowTitleTags.Taglist = tags;

@@ -36,11 +36,11 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <summary>
         /// Initialize a new instance of a tag proxy object
         /// </summary>
-        /// <param name="owner">Proxy object whose element is tagged.</param>
+        /// <param name="ns">XML namespace to create the tag element in.</param>
         /// <param name="index">Tag index referring to a tag definition.</param>
-        public Tag(OE owner,int index) : base(new XElement(owner.GetName(nameof(Tag)),
-                                                  new XAttribute("index", index),
-                                                  new XAttribute("completed", "true"))) {
+        public Tag(XNamespace ns,int index) : base(new XElement(ns.GetName(nameof(Tag)),
+                                                       new XAttribute("index", index),
+                                                       new XAttribute("completed", "true"))) {
         }
     }
 }

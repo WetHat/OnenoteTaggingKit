@@ -6,13 +6,8 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     /// <summary>
     /// The collection of tags below an `one:OE` content XML element
     /// </summary>
-    public class TagCollection : PageObjectCollectionBase<Tag>
+    public class TagCollection : PageObjectCollectionBase<OE,Tag>
     {
-        /// <summary>
-        /// The 'one:OE' content element owning the tag.
-        /// </summary>
-        OE OE{ get; }
-
         HashSet<int> _tags = new HashSet<int>();
         /// <summary>
         /// Set the tags in this collection.
@@ -29,7 +24,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     tagset.Add(i);
                     if (!_tags.Contains(i)) {
                         // add that tag
-                        Add(new Tag(OE, i));
+                        Add(new Tag(Namespace, i));
                     }
                 }
 
@@ -78,9 +73,8 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <remarks>
         ///     New tags are added as first children of the XML content element.
         /// </remarks>
-        /// <param name="oe">The `one:OE` element proxy object.</param>
-        public TagCollection(OE oe) : base(oe.GetName("Tag"),oe.Element) {
-            OE = oe;
+        /// <param name="oe">The `one:OE` element proxy object owning the colelction.</param>
+        public TagCollection(OE oe) : base(oe.GetName("Tag"),oe) {
         }
 
         /// <summary>
@@ -96,7 +90,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             Tag last = LastTag;
             if (last == null) {
                 base.Add(tag);
-                OE.Element.AddFirst(tag.Element);
+                Owner.Element.AddFirst(tag.Element);
             } else if (_tags.Add(tag.Index)) {
                 base.Add(tag);
                 last.Element.AddAfterSelf(tag.Element);
@@ -111,7 +105,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             int i = tag.Index;
             if (!_tags.Contains(tag.Index)) {
                 // this is a new tag
-                Add(new Tag(OE, i));
+                Add(new Tag(Namespace, i));
                 return true;
             }
             else {

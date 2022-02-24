@@ -8,13 +8,24 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     /// <summary>
     /// A collection of proxy objects for XML elements of the same type,
     /// </summary>
-    /// <typeparam name="T">Proxy object type.</typeparam>
-    public abstract class PageObjectCollectionBase<T> : IEnumerable<T> where T : PageObjectBase
+    /// <typeparam name="Towner">Proxy object type of the collection owner.</typeparam>
+    /// <typeparam name="Titem">Proxy object type of the items in the collection.</typeparam>
+    public abstract class PageObjectCollectionBase<Towner,Titem> : IEnumerable<Titem> where Towner : PageObjectBase
+                                                                                      where Titem : PageObjectBase
     {
         /// <summary>
         /// Get the name of the XML elements in this collection.
         /// </summary>
         public XName ElementName { get; }
+
+        /// <summary>
+        /// Get the element procy owning this colleciton.
+        /// </summary>
+        public Towner Owner { get; }
+        /// <summary>
+        /// Get the XML namespace this collection is defined in.
+        /// </summary>
+        public XNamespace Namespace { get => ElementName.Namespace; }
         /// <summary>
         /// Get an XML name using the namespave associated with this collection.
         /// </summary>
@@ -24,23 +35,23 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <summary>
         /// The list of proxy objects in this collection.
         /// </summary>
-        protected List<T> Items { get; } = new List<T>();
+        protected List<Titem> Items { get; } = new List<Titem>();
 
         /// <summary>
         /// Initialize the proxy object collection with elements contained under
-        /// an owning element.
+        /// an owning element on a OneNote page XML document.
         /// </summary>
         /// <param name="name">
         ///     The XML name of the elements proxied by objects in this collection.
         /// </param>
         /// <param name="owner">
-        ///     The XML element owning the XML elements of the
-        ///     proxy objects in this collection.
+        ///     The element proxy owning the objects in this colelction..
         /// </param>
-        public PageObjectCollectionBase(XName name,XElement owner) {
+        protected PageObjectCollectionBase(XName name, Towner owner) {
             ElementName = name;
+            Owner = owner;
             // collect existing
-            Items.InsertRange(0, from xe in owner.Elements(name)
+            Items.InsertRange(0, from xe in owner.Element.Elements(name)
                                  select CreateElementProxy(xe));
         }
 
@@ -48,12 +59,12 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// Add a new element at the end of the collection.
         /// </summary>
         /// <remarks>
-        /// New elements are not added to an owner by default. It is the responsibility
+        /// New elements are **not** added to an owner by default. It is the responsibility
         /// of the derived classes to do that in a way that is consistent with
         /// the page schema.
         /// </remarks>
         /// <param name="proxy">New proxy object to add.</param>
-        protected virtual void Add(T proxy) {
+        protected virtual void Add(Titem proxy) {
             Items.Add(proxy);
         }
 
@@ -64,19 +75,19 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="e">
         ///     XML element selected from a OneNote page document.</param>
         /// <returns>An instance of a proxy object of type T.</returns>
-        protected abstract T CreateElementProxy(XElement e);
+        protected abstract Titem CreateElementProxy(XElement e);
 
-        #region IEnumerable<T>
+        #region IEnumerable<Titem>
         /// <summary>
         /// Get the enumerator of items in this collection.
         /// </summary>
         /// <returns>Item enumerator</returns>
-        public IEnumerator<T> GetEnumerator() => Items.GetEnumerator();
+        public IEnumerator<Titem> GetEnumerator() => Items.GetEnumerator();
         /// <summary>
         /// Get the enumerator of objects in this collection.
         /// </summary>
         /// <returns>Object enumerator</returns>
         IEnumerator IEnumerable.GetEnumerator() => Items.GetEnumerator();
-        #endregion IEnumerable<T>
+        #endregion IEnumerable<Titem>
     }
 }

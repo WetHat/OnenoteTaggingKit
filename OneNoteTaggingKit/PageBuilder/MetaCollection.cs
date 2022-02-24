@@ -96,7 +96,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// Intitialize the collection Meta element proxies from an OneNote page.
         /// </summary>
         /// <param name="page">The OneNote page proxy object.</param>
-        public MetaCollection(OneNotePage page) : base(page, page.GetName(nameof(Meta))) {
+        public MetaCollection(OneNotePage page) : base(page.GetName(nameof(Meta)),page) {
         }
     }
 }

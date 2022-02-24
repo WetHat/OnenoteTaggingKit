@@ -10,7 +10,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     /// structure object proxies which have to appear in a given sequence on the
     /// OneNote page.
     /// </summary>
-    public abstract class PageStructureObjectCollection<T> : PageObjectCollectionBase<T> where T : PageStructureObjectBase
+    public abstract class PageStructureObjectCollection<T> : PageObjectCollectionBase<OneNotePage,T> where T : PageStructureObjectBase
     {
         /// <summary>
         /// The OneNote page proxy object this collection relates to.
@@ -35,9 +35,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         ///     The type of element to collect is inferred from
         ///     the given schema position.
         /// </remarks>
-        /// <param name="page">The OneNote page Xml document.</param>
-        /// <param name="name">The position of elements on the page.</param>
-        protected PageStructureObjectCollection(OneNotePage page, XName name) : base(name,page.Root) {
+        /// <param name="page">The OneNote page document proxy.</param>
+        /// <param name="name">The XML name of the items in this colelction.</param>
+        protected PageStructureObjectCollection(XName name, OneNotePage page)
+            : base(name,page) {
             Page = page;
         }
 

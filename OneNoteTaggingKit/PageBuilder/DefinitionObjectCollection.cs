@@ -17,9 +17,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// Initialize an instance of this collection for elements with a
         /// given name found on a OneNote page XML document .
         /// </summary>
-        /// <param name="page">The OneNote page Xml document.</param>
         /// <param name="name">XML name of the elements in this collection.</param>
-        public DefinitionObjectCollection(OneNotePage page, XName name) : base (page, name) {
+        /// <param name="page">The OneNote page Xml document.</param>
+        public DefinitionObjectCollection(XName name,OneNotePage page) : base (name,page) {
         }
 
         /// <summary>
