@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -47,12 +48,23 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="owner">
         ///     The element proxy owning the objects in this colelction..
         /// </param>
-        protected PageObjectCollectionBase(XName name, Towner owner) {
+        /// <param name="selector">
+        ///     Lambda function to select the XML elements to
+        ///     populate the collection with. If not provided all elements with
+        ///     the given name added to the collection.
+        /// </param>
+        protected PageObjectCollectionBase(XName name, Towner owner, Func<XElement,IEnumerable<XElement>> selector = null) {
             ElementName = name;
             Owner = owner;
             // collect existing
-            Items.InsertRange(0, from xe in owner.Element.Elements(name)
-                                 select CreateElementProxy(xe));
+            if (selector == null) {
+                Items.InsertRange(0, from xe in owner.Element.Elements(name)
+                                     select CreateElementProxy(xe));
+            }
+            else {
+                Items.InsertRange(0, from XElement xe in selector(owner.Element)
+                                     select CreateElementProxy(xe));
+            }
         }
 
         /// <summary>
