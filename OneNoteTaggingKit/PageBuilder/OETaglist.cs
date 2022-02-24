@@ -8,9 +8,9 @@ using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 {
     /// <summary>
-    /// A OneNote paragraph proxy containing a comma-separated list of tags.
+    /// A OneNote paragraph proxy containing a comma separated list of tags.
     /// </summary>
-    public class OETaglist : OE
+    public class OETaglist : OET
     {
         /// <summary>
         /// Regular expression to match some HTML tags
@@ -23,7 +23,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <value>The collection of names of tags which do not have an import type annotation.</value>
         public IEnumerable<string> PageTags {
             get {
-                string taglist = Element.Value;
+                string taglist = Text;
                 if (!string.IsNullOrEmpty(taglist)) {
                     foreach (string rawtag in TaggedPage.ParseTaglist(Element.Value)) {
                         if (!rawtag.Contains("&#")) { // no Emoji HTML entities
@@ -44,20 +44,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <value>Tags with type annotations are included in this list.</value>
         public IEnumerable<TagDef> Taglist {
             set {
-                // remove anything except OneNote paragraph tags.
-                XElement e = Element.FirstNode as XElement;
-                while (e != null) {
-                    var tmp = e.NextNode as XElement;
-                    if (!e.Name.Equals(Tags.ElementName)) {
-                        e.Remove();
-                    }
-                    e = tmp;
-                }
-
-                // create a new taglist
-                Element.Add(new XElement(Tags.Namespace.GetName("T"),
-                            string.Join(", ",from TagDef td in value select td.Name)));
-
+                Text = string.Join(", ", from TagDef td in value select td.Name);
             }
         }
         /// <summary>
@@ -77,9 +64,8 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="style">Style to use for the tag list.</param>
         /// <param name="taglist">comma separated list of tags.</param>
         public OETaglist(TagDef marker, QuickStyleDef style, IEnumerable<TagDef> taglist) :
-            base(new XElement(marker.GetName("OE"),
-                     new XElement(marker.GetName("T"),
-                         string.Join(", ",from TagDef td in taglist select td.Name)))) {
+            base(marker.Namespace,
+                string.Join(", ",from TagDef td in taglist select td.Name)) {
             Tags.Add(marker);
             QuickStyleIndex = style.Index;
             Element.SetAttributeValue("lang", "yo");

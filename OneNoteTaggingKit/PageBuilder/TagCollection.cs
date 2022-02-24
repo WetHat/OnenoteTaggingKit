@@ -84,13 +84,22 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         }
 
         /// <summary>
+        /// Get the last tag in the tag collection.
+        /// </summary>
+        /// <remarks>Primarily used to add other content at the right place</remarks>
+        public Tag LastTag { get => Items.Count > 0 ? Items[Items.Count - 1] : null; }
+        /// <summary>
         /// Add a new Tag proxy object to the collection.
         /// </summary>
-        /// <param name="proxy">Tag proxy pbject to add</param>
-        protected override void Add(Tag proxy) {
-            base.Add(proxy);
-            if (_tags.Add(proxy.Index)) {
-                OE.Element.AddFirst(proxy.Element);
+        /// <param name="tag">Tag proxy pbject to add</param>
+        protected override void Add(Tag tag) {
+            Tag last = LastTag;
+            if (last == null) {
+                base.Add(tag);
+                OE.Element.AddFirst(tag.Element);
+            } else if (_tags.Add(tag.Index)) {
+                base.Add(tag);
+                last.Element.AddAfterSelf(tag.Element);
             }
         }
 

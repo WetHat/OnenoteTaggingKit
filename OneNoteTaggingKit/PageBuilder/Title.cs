@@ -14,9 +14,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     public class Title : PageStructureObjectBase {
 
         /// <summary>
-        /// Get the title's content element.
+        /// Get the title's text content element.
         /// </summary>
-        OE TitleContent { get; }
+        OET TitleContent { get; }
 
         /// <summary>
         /// Get the title tags.
@@ -30,7 +30,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="page">Proxy for a OneNote page</param>
         /// <param name="element">The `one:Title` element on a OneNote page document.</param>
         public Title(OneNotePage page,XElement element) : base(page, element) {
-            TitleContent = new OE(element.Element(page.GetName(nameof(OE))));
+            TitleContent = new OET(element.Element(page.GetName(nameof(OE))));
         }
 
         /// <summary>
@@ -41,11 +41,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="title">page title</param>
         public Title(OneNotePage page, string title)
             : base(page,
-                   new XElement(page.GetName(nameof(Title)),
-                       new XElement(page.GetName(nameof(OE)),
-                           new XElement(page.GetName("T"),title)))) {
+                   new XElement(page.GetName(nameof(Title)))) {
             // Get the mandatory content element
-            TitleContent = new OE(Element.FirstNode as XElement);
+            TitleContent = new OET(page.Namespace,title);
+            Element.Add(TitleContent.Element);
         }
     }
 }

@@ -15,11 +15,11 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// Get the name of the XML elements in this collection.
         /// </summary>
         public XName ElementName { get; }
-
         /// <summary>
-        /// Get the XML namesapace associated with this collection.
+        /// Get an XML name using the namespave associated with this collection.
         /// </summary>
-        public XNamespace Namespace => ElementName.Namespace;
+        /// <param name="name">Local name.</param>
+        public XName GetName(string name) => ElementName.Namespace.GetName(name);
 
         /// <summary>
         /// The list of proxy objects in this collection.

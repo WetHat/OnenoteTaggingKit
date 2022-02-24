@@ -125,7 +125,6 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         return def.Name.EndsWith(cSavedSearchSuffix)
                                 ? TagProcessClassification.SavedSearchMarker
                                 : TagProcessClassification.OneNoteTag;
-                        break;
                     default:
                         return TagProcessClassification.OneNoteTag;
                 }
