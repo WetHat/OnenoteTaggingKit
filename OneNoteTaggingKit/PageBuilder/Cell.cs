@@ -14,6 +14,24 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     {
         XElement _OEChildren;
 
+        IEnumerable<OE> CellContent {
+            get {
+                foreach (var oe in _OEChildren.Elements()) {
+                    XElement e = oe.Element(GetName("T"));
+                    if (e != null) {
+                        yield return new OET(e);
+                    }
+
+                    yield return new OE(e);
+                }
+            }
+            set {
+                _OEChildren.RemoveAll();
+                foreach (var oe in value) {
+                    _OEChildren.Add(oe.Element);
+                }
+            }
+        }
 
         /// <summary>
         /// Initialize a cell proxy instance from an XML element
@@ -22,9 +40,5 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         public Cell (XElement element) : base(element) {
             _OEChildren = element.Element(element.Name.Namespace.GetName("OEChildren"));
         }
-        public void Add(OE content) {
-
-        }
     }
-
 }
