@@ -267,7 +267,7 @@ namespace WetHatLab.OneNote.TaggingKit
         public string CreateNewPage(string sectionID) {
             return ExecuteMethodProtected<string>((o) => {
                 string id;
-                o.CreateNewPage(sectionID, out id, NewPageStyle.npsBlankPageWithTitle);
+                o.CreateNewPage(sectionID, out id, NewPageStyle.npsBlankPageNoTitle);
                 return id;
             });
         }
