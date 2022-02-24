@@ -19,10 +19,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 foreach (var oe in _OEChildren.Elements()) {
                     XElement e = oe.Element(GetName("T"));
                     if (e != null) {
-                        yield return new OET(e);
+                        yield return new OET(oe);
                     }
-
-                    yield return new OE(e);
+                    yield return new OE(e); // generic element
                 }
             }
             set {

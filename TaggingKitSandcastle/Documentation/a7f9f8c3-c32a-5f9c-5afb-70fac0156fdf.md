@@ -3,7 +3,7 @@
 
 Copy all items in the dictionary to an array
 
-**Namespace:**&nbsp;<a href="bcdbab9c-63d1-48a4-6937-af53fb8d9a55.md">WetHatLab.OneNote.TaggingKit.common</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 3.8.7617.35763
+**Namespace:**&nbsp;<a href="bcdbab9c-63d1-48a4-6937-af53fb8d9a55">WetHatLab.OneNote.TaggingKit.common</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8059.31599
 
 ## Syntax
 
@@ -17,13 +17,13 @@ public void CopyTo(
 
 
 #### Parameters
-&nbsp;<dl><dt>array</dt><dd>Type: <a href="http://msdn2.microsoft.com/en-us/library/5tbh8a42" target="_blank">System.Collections.Generic.KeyValuePair</a>(<a href="b95e4b9e-1bee-ddc0-1db7-61a35069e23a.md">*TKey*</a>, <a href="b95e4b9e-1bee-ddc0-1db7-61a35069e23a.md">*TValue*</a>)[]<br />array to copy the items from the dictioary into</dd><dt>arrayIndex</dt><dd>Type: <a href="http://msdn2.microsoft.com/en-us/library/td2s409d" target="_blank">System.Int32</a><br />start index in the array for the copy</dd></dl>
+&nbsp;<dl><dt>array</dt><dd>Type: System.Collections.Generic.KeyValuePair(<a href="b95e4b9e-1bee-ddc0-1db7-61a35069e23a">*TKey*</a>, <a href="b95e4b9e-1bee-ddc0-1db7-61a35069e23a">*TValue*</a>)[]<br />array to copy the items from the dictioary into</dd><dt>arrayIndex</dt><dd>Type: System.Int32<br />start index in the array for the copy</dd></dl>
 
 #### Implements
-<a href="http://msdn2.microsoft.com/en-us/library/0efx51xw" target="_blank">ICollection(T).CopyTo(T[], Int32)</a><br />
+ICollection(T).CopyTo(T[], Int32)<br />
 
 ## See Also
 
 
 #### Reference
-<a href="b95e4b9e-1bee-ddc0-1db7-61a35069e23a.md">ObservableDictionary(TKey, TValue) Class</a><br /><a href="bcdbab9c-63d1-48a4-6937-af53fb8d9a55.md">WetHatLab.OneNote.TaggingKit.common Namespace</a><br />
+<a href="b95e4b9e-1bee-ddc0-1db7-61a35069e23a">ObservableDictionary(TKey, TValue) Class</a><br /><a href="bcdbab9c-63d1-48a4-6937-af53fb8d9a55">WetHatLab.OneNote.TaggingKit.common Namespace</a><br />

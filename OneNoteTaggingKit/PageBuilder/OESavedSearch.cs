@@ -13,6 +13,8 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     /// </summary>
     public class OESavedSearch : OE
     {
+
+
         public OESavedSearch(XElement element) : base(element) {
 
         }

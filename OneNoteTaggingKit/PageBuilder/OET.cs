@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 {
     /// <summary>
-    /// Proxy class for text content on a OneNote page.
+    /// Proxy class for OneNote elements with embedded text content.
     /// </summary>
     public class OET : OE
     {

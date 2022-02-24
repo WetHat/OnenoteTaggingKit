@@ -95,6 +95,7 @@
     <Compile Include="PageBuilder\OE.cs" />
     <Compile Include="PageBuilder\OESavedSearch.cs" />
     <Compile Include="PageBuilder\OET.cs" />
+    <Compile Include="PageBuilder\OETable.cs" />
     <Compile Include="PageBuilder\OETaglist.cs" />
     <Compile Include="PageBuilder\OneNotePage.cs" />
     <Compile Include="common\FilterableTagsSource.cs" />
@@ -168,6 +169,8 @@
     <Compile Include="PageBuilder\QuickStyleDef.cs" />
     <Compile Include="PageBuilder\QuickStyleDefCollection.cs" />
     <Compile Include="PageBuilder\Row.cs" />
+    <Compile Include="PageBuilder\RowCollection.cs" />
+    <Compile Include="PageBuilder\Table.cs" />
     <Compile Include="PageBuilder\Tag.cs" />
     <Compile Include="PageBuilder\TagCollection.cs" />
     <Compile Include="PageBuilder\TagDef.cs" />
