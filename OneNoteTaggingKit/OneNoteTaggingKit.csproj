@@ -94,6 +94,7 @@
     <Compile Include="PageBuilder\MetaCollection.cs" />
     <Compile Include="PageBuilder\OE.cs" />
     <Compile Include="PageBuilder\OESavedSearch.cs" />
+    <Compile Include="PageBuilder\OESavedSearchCollection.cs" />
     <Compile Include="PageBuilder\OET.cs" />
     <Compile Include="PageBuilder\OETable.cs" />
     <Compile Include="PageBuilder\OETaglist.cs" />
