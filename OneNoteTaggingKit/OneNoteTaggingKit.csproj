@@ -86,6 +86,7 @@
     <Compile Include="HierarchyBuilder\HierarchyNode.cs" />
     <Compile Include="HierarchyBuilder\PageHierarchy.cs" />
     <Compile Include="PageBuilder\Cell.cs" />
+    <Compile Include="PageBuilder\CellCollection.cs" />
     <Compile Include="PageBuilder\DefinitionObjectBase.cs" />
     <Compile Include="PageBuilder\DefinitionObjectCollection.cs" />
     <Compile Include="PageBuilder\NamedObjectBase.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="PageBuilder\PageStructureObjectCollection.cs" />
     <Compile Include="PageBuilder\QuickStyleDef.cs" />
     <Compile Include="PageBuilder\QuickStyleDefCollection.cs" />
+    <Compile Include="PageBuilder\Row.cs" />
     <Compile Include="PageBuilder\Tag.cs" />
     <Compile Include="PageBuilder\TagCollection.cs" />
     <Compile Include="PageBuilder\TagDef.cs" />
