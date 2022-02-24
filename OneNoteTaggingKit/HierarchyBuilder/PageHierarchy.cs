@@ -26,9 +26,7 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         /// </summary>
         /// <param name="hierarchy">A OneNote page hierarchy</param>
         public void AddPages(XDocument hierarchy) {
-            foreach (XElement childNode in hierarchy.Root.Elements()) {
-                buildHierarchy(childNode, null);
-            }
+            buildHierarchy(hierarchy.Root, null);
         }
 
         void buildHierarchy(XElement hierarchyNode, HierarchyNode parent) {
@@ -51,10 +49,15 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
                 if (t != HierarchyElement.heNone) {
                     var thisNode = new HierarchyNode(hierarchyNode, parent, t);
                     // recurse into the page tree
-                    foreach(var childNode in hierarchyNode.Elements()) {
+                    foreach (var childNode in hierarchyNode.Elements()) {
                         buildHierarchy(childNode, thisNode);
                     }
+                } else {
+                    foreach (var childNode in hierarchyNode.Elements()) {
+                        buildHierarchy(childNode, parent);
+                    }
                 }
+
             }
         }
         /// <summary>
