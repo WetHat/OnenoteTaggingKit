@@ -24,5 +24,17 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         public Row(XElement element) : base(element) {
             Cells = new CellCollection(this);
         }
+
+        /// <summary>
+        /// Initialize the proxy with a new table row element
+        /// </summary>
+        /// <param name="ns">The XML namespace to create the row in</param>
+        /// <param name="cells">Cells to add.</param>
+        public Row(XNamespace ns, params Cell[] cells) : base(new XElement(ns.GetName(nameof(Row)))) {
+            Cells = new CellCollection(this);
+            foreach (var c in cells) {
+                Cells.AddCell(c);
+            }
+        }
     }
 }

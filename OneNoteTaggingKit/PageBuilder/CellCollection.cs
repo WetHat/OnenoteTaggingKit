@@ -31,6 +31,14 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         }
 
         /// <summary>
+        /// Add a cell to this row.
+        /// </summary>
+        /// <param name="cell">Table cell proxy to add.</param>
+        public void AddCell(Cell cell) {
+            Add(cell);
+        }
+
+        /// <summary>
         /// Create a new proxy object for a cell in a OneNote tyble.
         /// </summary>
         /// <param name="e">a `one:cell` XML element in a OneNote table cell.</param>
@@ -38,5 +46,17 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         protected override Cell CreateElementProxy(XElement e) {
             return new Cell(e);
         }
+
+        /// <summary>
+        /// Get the number of cells in this colelction.
+        /// </summary>
+        public int CellCount { get => Items.Count; }
+
+        /// <summary>
+        /// Get a cell proxy from this collection.
+        /// </summary>
+        /// <param name="index">Cell index.</param>
+        /// <returns></returns>
+        public Cell this[int index] => Items[index];
     }
 }

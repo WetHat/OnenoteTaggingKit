@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 {
@@ -32,6 +27,13 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         }
 
         /// <summary>
+        /// Add a row to this collection.
+        /// </summary>
+        /// <param name="row">Table row proxy element.</param>
+        public void AddRow(Row row) {
+            Add(row);
+        }
+        /// <summary>
         /// Create a new table row proxy object.
         /// </summary>
         /// <param name="e">The 'one:Row' XML element in a OneNote table.</param>
@@ -39,5 +41,16 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         protected override Row CreateElementProxy(XElement e) {
             return new Row(e);
         }
+
+        /// <summary>
+        /// Get the number of rows in this collection.
+        /// </summary>
+        int RowCount { get => Items.Count; }
+        /// <summary>
+        /// Get a table row proxy
+        /// </summary>
+        /// <param name="index">Index of the row</param>
+        /// <returns>Row proxy object</returns>
+        public Row this[int index] => Items[index];
     }
 }
