@@ -410,6 +410,9 @@ EndSelection:{5:D6}";
 
                     case SearchScope.SectionGroup:
                         thisScopID = ViewModel.OneNoteApp.CurrentSectionGroupID;
+                        if (string.IsNullOrEmpty(thisScopID)) {
+                            thisScopID = ViewModel.OneNoteApp.CurrentNotebookID;
+                        }
                         break;
 
                     case SearchScope.Section:
@@ -417,7 +420,7 @@ EndSelection:{5:D6}";
                         break;
 
                     default:
-                        thisScopID = string.Empty;
+                        thisScopID = string.Empty; // All Notebooks
                         break;
                 }
                 if (!thisScopID.Equals(ViewModel.CurrentScopeID)) { // rerun the query for the current scope
