@@ -41,11 +41,9 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
             Name = (string)hierarchyNode.Attribute("name");
             Parent = parent;
             if (type == HierarchyElement.heNone) {
-                NodeType = type;
-            } else {
                 switch (hierarchyNode.Name.LocalName) {
                     case "Page":
-                        NodeType = HierarchyElement.hePages ;
+                        NodeType = HierarchyElement.hePages;
                         break;
                     case "Section":
                         NodeType = HierarchyElement.heSections;
@@ -57,6 +55,8 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
                         NodeType = HierarchyElement.heNotebooks;
                         break;
                 }
+            } else {
+                NodeType = type;
             }
         }
 
