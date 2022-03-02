@@ -87,13 +87,13 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         /// <param name="tag">Tag proxy pbject to add</param>
         protected override void Add(Tag tag) {
-            Tag last = LastTag;
-            if (last == null) {
+            if (_tags.Add(tag.Index)) {
+                if (LastTag == null) {
+                    Owner.Element.AddFirst(tag.Element);
+                } else if (_tags.Add(tag.Index)) {;
+                    LastTag.Element.AddAfterSelf(tag.Element);
+                }
                 base.Add(tag);
-                Owner.Element.AddFirst(tag.Element);
-            } else if (_tags.Add(tag.Index)) {
-                base.Add(tag);
-                last.Element.AddAfterSelf(tag.Element);
             }
         }
 
