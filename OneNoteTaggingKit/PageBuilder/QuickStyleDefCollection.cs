@@ -27,14 +27,29 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                                   Properties.Settings.Default.TagOutlineStyle_Name,
                                                   Items.Count,
                                                   Properties.Settings.Default.TagOutlineStyle_Font,
-                                                  Brushes.Gray.Color);
+                                                  Brushes.Black.Color);
 
                     Add(_tagStyle);
                 }
                 return _tagStyle;
             }
-            private set {
-                _tagStyle = value;
+        }
+
+        QuickStyleDef _labelStyleDef;
+        /// <summary>
+        /// Get the label style definition.
+        /// </summary>
+        public QuickStyleDef LabelStyleDef {
+            get {
+                if (_labelStyleDef == null) {
+                    _labelStyleDef = new QuickStyleDef(Page,
+                                                 "LabelStyle",
+                                                 Items.Count,
+                                                 Properties.Settings.Default.LabelStyle_Font,
+                                                 Brushes.Black.Color);
+                    Add(_labelStyleDef);
+                }
+                return _labelStyleDef;
             }
         }
 
