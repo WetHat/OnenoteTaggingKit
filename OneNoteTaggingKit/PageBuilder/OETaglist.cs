@@ -62,8 +62,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         /// <param name="ns">Namespace to create the tag llist in.</param>
         /// <param name="tags">Collection of tags</param>
-        public OETaglist(XNamespace ns, IEnumerable<TagDef> tags) :
-            this(ns, from TagDef td in tags select td.Name) {
+        /// <param name="style">The style to use for this taglist.</param>
+        public OETaglist(XNamespace ns, IEnumerable<TagDef> tags, QuickStyleDef style = null) :
+            this(ns, from TagDef td in tags select td.Name, style) {
         }
         /// <summary>
         /// Initialize a proxy with a new OneNote paragraph
@@ -71,8 +72,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         /// <param name="ns">Namespace to create the tag llist in.</param>
         /// <param name="tags">Collection of tags.</param>
-        public OETaglist(XNamespace ns, IEnumerable<string> tags) :
-            base(ns, string.Join(", ", tags)) {
+        /// <param name="style">The style to use for this taglist.</param>
+        public OETaglist(XNamespace ns, IEnumerable<string> tags, QuickStyleDef style = null) :
+            base(ns, string.Join(", ", tags), style) {
             Element.SetAttributeValue("lang", "yo");
         }
     }

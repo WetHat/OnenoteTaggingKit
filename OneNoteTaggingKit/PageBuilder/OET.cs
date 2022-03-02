@@ -9,7 +9,6 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     /// </summary>
     public class OET : OE
     {
-
         /// <summary>
         /// Get or set of a text content element.
         /// </summary>
@@ -58,10 +57,14 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         /// <param name="ns">The XML namespace to use</param>
         /// <param name="text">Text content.</param>
-        public OET(XNamespace ns, string text)
+        /// <param name="style">Definition of the style to use.</param>
+        public OET(XNamespace ns, string text, QuickStyleDef style = null)
             : base(ns, new XElement(new XElement(ns.GetName("T"),
                                         new XCData(text)))) {
 
+            if (style != null) {
+                QuickStyleIndex = style.Index;
+            }
         }
     }
 }
