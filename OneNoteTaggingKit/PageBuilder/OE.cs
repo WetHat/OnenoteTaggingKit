@@ -56,6 +56,15 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         }
 
         /// <summary>
+        /// Set the Style to use for this page content element.
+        /// </summary>
+        public QuickStyleDef QuickStyle {
+            set {
+                QuickStyleIndex = value.Index;
+            }
+        }
+
+        /// <summary>
         /// Initialize a new instance of a `one:OE` proxy with data from
         /// a generic page element proxy.
         /// </summary>
