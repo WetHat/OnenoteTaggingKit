@@ -49,7 +49,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Calibri, 9pt, style=Bold")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Calibri, 9pt")]
         public global::System.Drawing.Font TagOutlineStyle_Font {
             get {
                 return ((global::System.Drawing.Font)(this["TagOutlineStyle_Font"]));
@@ -333,6 +333,18 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
             }
             set {
                 this["KnownTagsCollection"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Segoe UI, 10pt, style=Bold")]
+        public global::System.Drawing.Font LabelStyle_Font {
+            get {
+                return ((global::System.Drawing.Font)(this["LabelStyle_Font"]));
+            }
+            set {
+                this["LabelStyle_Font"] = value;
             }
         }
     }

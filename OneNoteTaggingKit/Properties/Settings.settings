@@ -9,7 +9,7 @@
       <Value Profile="(Default)">PagetagsStyle</Value>
     </Setting>
     <Setting Name="TagOutlineStyle_Font" Type="System.Drawing.Font" Scope="User">
-      <Value Profile="(Default)">Calibri, 9pt, style=Bold</Value>
+      <Value Profile="(Default)">Calibri, 9pt</Value>
     </Setting>
     <Setting Name="TagEditorWindow_Width" Type="System.Double" Scope="User">
       <Value Profile="(Default)">350</Value>
@@ -80,6 +80,9 @@
     <Setting Name="KnownTagsCollection" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" /&gt;</Value>
+    </Setting>
+    <Setting Name="LabelStyle_Font" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)">Segoe UI, 10pt, style=Bold</Value>
     </Setting>
   </Settings>
 </SettingsFile>
