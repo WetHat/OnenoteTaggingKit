@@ -45,6 +45,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             // Get the mandatory content element
             TitleContent = new OET(page.Namespace,title);
             Element.Add(TitleContent.Element);
+            page.Add(this);
         }
     }
 }
