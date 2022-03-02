@@ -130,7 +130,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     break;
 
                 case SearchScope.SectionGroup:
-                    CurrentScopeID = OneNoteApp.CurrentSectionGroupID;
+                    CurrentScopeID = string.IsNullOrEmpty(OneNoteApp.CurrentSectionGroupID)
+                        ? OneNoteApp.CurrentNotebookID
+                        : OneNoteApp.CurrentSectionGroupID;
                     break;
 
                 case SearchScope.Section:
