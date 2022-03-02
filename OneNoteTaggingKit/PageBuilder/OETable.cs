@@ -37,6 +37,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         /// <param name="table">The table to embedd.</param>
         public OETable(Table table) : base(table.Namespace,table.Element) {
+            Table = table;
         }
     }
 }
