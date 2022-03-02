@@ -100,12 +100,18 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 
             Table.Rows.AddRow(new Row(ns, new Cell(ns, _searchConfiguration)));
 
-            Table.Rows.AddRow(new Row(ns, new Cell(ns,
-                                                   from TaggedPage p in pages
-                                                   select new OET(ns,
-                                                                  string.Format("<a href=\"{0}\">{1}",
-                                                                                onenote.GetHyperlinkToObject(p.ID,string.Empty),
-                                                                                p.Name)))));
+            var pagelinks = (from TaggedPage p in pages
+                                select new OET(ns,
+                                               string.Format("<a href=\"{0}\">{1}",
+                                                             onenote.GetHyperlinkToObject(p.ID, string.Empty),
+                                                             p.Name)) {
+                                               Bullet = 15
+                              }).ToList();
+            if (pagelinks.Count == 0) {
+                pagelinks.Add(new OET(ns, "No pages match the search criteria!")); // TODO localize
+            }
+
+            Table.Rows.AddRow(new Row(ns, new Cell(ns, pagelinks)));
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System.Xml.Linq;
-
+using System.Linq;
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 {
     /// <summary>
@@ -11,6 +11,29 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         public TagCollection Tags { get; protected set; }
 
+        int _bullet = -1;
+        /// <summary>
+        /// Set the List item bullet type.
+        /// </summary>
+        public int Bullet {
+            set {
+                if (_bullet != value) {
+                    XElement bullet = Element.Descendants(GetName("Bullet")).FirstOrDefault();
+                    if (bullet == null) {
+                        XElement list = new XElement(GetName("List"),
+                                            new XElement(GetName("Bullet"),
+                                                new XAttribute("bullet", value)));
+                        if (Tags.LastTag == null) {
+                            Element.AddFirst(list);
+                        } else {
+                            Tags.LastTag.Element.AddAfterSelf(list);
+                        }
+                    } else {
+                        bullet.SetAttributeValue("bullet", value);
+                    }
+                }
+            }
+        }
         /// <summary>
         /// Get the unique OneNote id of that element.
         /// </summary>
