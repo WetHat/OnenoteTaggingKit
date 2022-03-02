@@ -35,21 +35,21 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// Initialize a _Saved Search_ proxy object with a new content
         /// structure.
         /// </summary>
-        /// <param name="ns">The XML namespace to create the _Saved Search_ element structure in.</param>
-        /// <param name="onenote">The OneNote application object.</param>
+        /// <param name="page">The OneNote page for embedding the saved search.</param>
         /// <param name="query">The full-text query.</param>
         /// <param name="marker">Marker tag definition.</param>
         /// <param name="scope">Search scope.</param>
         /// <param name="tags">Refinement tags.</param>
         /// <param name="pages">Collection of pages matching the tags and/or the query.</param>
-        public OESavedSearch(XNamespace ns,
-                             OneNoteProxy onenote,
+        public OESavedSearch(OneNotePage page,
                              string query,
                              IEnumerable<string> tags,
                              SearchScope scope,
                              TagDef marker,
                              IEnumerable<TaggedPage>pages)
-            : base(new Table(ns, 1)) {
+            : base(new Table(page.Namespace, 1)) {
+            var onenote = page.OneNoteApp;
+            var ns = page.Namespace;
             _updateRequired = false;
             Table.BordersVisible = true;
 
@@ -85,15 +85,16 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                           hn.Name);
             }
             Table searchConfig = new Table(ns, 2);
+            var labelstyle = page.QuickStyleDefinitions.LabelStyleDef;
             searchConfig.BordersVisible = true;
             // TODO: localize
-            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "Scope")),
+            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "Scope", labelstyle)),
                                                  new Cell(ns, new OET(ns, scopelink))));
-            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "Query")),
+            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "Query",labelstyle)),
                                                  new Cell(ns, new OET(ns, query))));
-            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "Tags")),
+            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "Tags", labelstyle)),
                                                  new Cell(ns, new OETaglist(ns,tags))));
-            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "Updated")),
+            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "Updated", labelstyle)),
                                                  new Cell(ns, new OET(ns, DateTime.Now.ToString(CultureInfo.CurrentCulture)))));
             _searchConfiguration = new OETable(searchConfig);
             _searchConfiguration.Tags.Add(marker);

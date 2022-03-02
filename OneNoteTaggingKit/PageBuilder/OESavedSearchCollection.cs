@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
@@ -50,8 +46,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="pages">Pages matching the search string and/or tags</param>
 
         public void Add(string query, IEnumerable<string> tags, SearchScope scope, IEnumerable<TaggedPage>pages) {
-            OESavedSearch ss = new OESavedSearch(Namespace,
-                                                 Owner.OneNoteApp,
+            OESavedSearch ss = new OESavedSearch(Owner,
                                                  query,
                                                  tags,
                                                  scope,
