@@ -8,7 +8,7 @@ using System.Xml.Linq;
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 {
     /// <summary>
-    /// Proxy class for OneNote tables
+    /// Proxy class for OneNote tables.
     /// </summary>
     public class Table : PageObjectBase {
 
@@ -16,8 +16,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             XElement cols = new XElement(ns.GetName("Columns"));
 
             for (int i = 0; i < columns; i++) {
-                cols.Add(new XElement(ns.GetName("Column")),
-                            new XAttribute("index", i));
+                cols.Add(new XElement(ns.GetName("Column"),
+                             new XAttribute("index", i),
+                             new XAttribute("width", 37)));
             }
             return cols;
         }
