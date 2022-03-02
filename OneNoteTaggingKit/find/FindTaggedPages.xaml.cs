@@ -166,7 +166,18 @@ namespace WetHatLab.OneNote.TaggingKit.find
                         foundPagesList.SelectAll();
                         break;
                     case "SaveSearch":
-                        // TODO save search execution
+                        // TODO: check that we are NOT in the recycle bin
+                        var newPageID = ViewModel.OneNoteApp.CreateNewPage(ViewModel.OneNoteApp.CurrentSectionID);
+                        var pg = new PageBuilder.OneNotePage(ViewModel.OneNoteApp, newPageID);
+                        pg.AddTagSearch(searchComboBox.Text,
+                                        from tag in ViewModel.SelectedRefinementTags.Values
+                                        select tag.TagName,
+                                        scopeSelect.SelectedScope,
+                                        from p in ViewModel.FilteredPages.Values
+                                        orderby p.Page.Name
+                                        select p.Page);
+                        pg.Update();
+                        ViewModel.OneNoteApp.NavigateTo(pg.PageID);
                         break;
                     case "TagSelection":
                         var pagesToTag = from mp in _model.FilteredPages
@@ -425,13 +436,13 @@ EndSelection:{5:D6}";
                 }
                 if (!thisScopID.Equals(ViewModel.CurrentScopeID)) { // rerun the query for the current scope
                     try {
-                        pBar.Visibility = System.Windows.Visibility.Visible;
+                        pBar.Visibility = Visibility.Visible;
                         string query = searchComboBox.Text;
                         _model.FindPagesAsync(query, scopeSelect.SelectedScope).Wait();
                         tagInput.Tags = ViewModel.CurrentPageTags;
-                        pBar.Visibility = System.Windows.Visibility.Hidden;
+                        pBar.Visibility = Visibility.Hidden;
                         searchComboBox.SelectedValue = query;
-                    } catch (System.Exception ex) {
+                    } catch (Exception ex) {
                         TraceLogger.Log(TraceCategory.Error(), "Changing search scope failed: {0}", ex);
                         TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_ScopeChange, ex);
                     }

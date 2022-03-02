@@ -1,4 +1,5 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 using WetHatLab.OneNote.TaggingKit.Tagger;
 
@@ -137,6 +139,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         XDocument Document { get; set; }
 
         OETaglist _belowTitleTags;
+        OESavedSearchCollection _savedSearches;
 
         HashSet<string> _hashtags = new HashSet<string>(); // imported hashtags
         /// <summary>
@@ -179,6 +182,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             _tagdef.DefineKnownPageTags(TaggedPage.ParseTaglist(_meta.PageTags));
             if (_tagdef.InTitleMarkerDef != null) {
                 _tagdef.DefineKnownPageTags(TaggedPage.ParseTaglist(_tagdef.InTitleMarkerDef.Name));
+            }
+
+            if (_tagdef.SavedSearchMarkerDef != null) {
+                _savedSearches = new OESavedSearchCollection(this, _tagdef.SavedSearchMarkerDef);
             }
 
             // For performance reasons we are going to delete all outlines not related to tags
@@ -237,6 +244,43 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 }
                 outline.Remove();
             }
+        }
+
+        public void AddTagSearch(string query,
+                                 IEnumerable<string> tags,
+                                 SearchScope scope,
+                                 IEnumerable<TaggedPage> pages) {
+            string scopeID;
+            switch (scope) {
+                case SearchScope.Notebook:
+                    scopeID = _onenote.CurrentNotebookID;
+                    break;
+
+                case SearchScope.SectionGroup:
+                    scopeID = string.IsNullOrEmpty(_onenote.CurrentSectionGroupID)
+                        ? _onenote.CurrentNotebookID
+                        : _onenote.CurrentSectionGroupID;
+                    break;
+
+                case SearchScope.Section:
+                    scopeID = _onenote.CurrentSectionID;
+                    break;
+
+                default:
+                    scopeID = string.Empty;
+                    break;
+            }
+            if (_savedSearches == null) {
+                _savedSearches = new OESavedSearchCollection(this);
+            }
+            // TODO: localize marker name
+            TagDef marker = _tagdef.DefineProcessTag("Saved Search", TagProcessClassification.SavedSearchMarker);
+            _savedSearches.Add(query,
+                               tags,
+                               new HierarchyNode(_onenote.GetHierarchy(scopeID, HierarchyScope.hsSelf).Root, null),
+                               marker,
+                               pages);
+
         }
 
         /// <summary>
