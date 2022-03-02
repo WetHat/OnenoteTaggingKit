@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             set {
                 _styleFont = value;
                 SetAttributeValue("font", value.Name);
-                SetAttributeValue("fontSize", value.Size.ToString());
+                SetAttributeValue("fontSize", value.SizeInPoints.ToString());
                 SetAttributeValue("bold", value.Bold.ToString().ToLower());
                 SetAttributeValue("italic", value.Italic.ToString().ToLower());
             }
@@ -56,9 +57,14 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             if ("true".Equals(GetAttributeValue("italic"), StringComparison.InvariantCultureIgnoreCase)) {
                 style |= System.Drawing.FontStyle.Italic;
             }
-            var f = new System.Drawing.Font(GetAttributeValue("font"),
-                                            float.Parse(GetAttributeValue("fontSize")),
-                                            style);
+            string fontsize = GetAttributeValue("fontSize");
+            float fontsizeem = "automatic".Equals(fontsize)
+                ? 1
+                : float.Parse(fontsize, CultureInfo.InvariantCulture);
+            _styleFont = new System.Drawing.Font(GetAttributeValue("font"),
+                                                 fontsizeem,
+                                                 style,
+                                                 System.Drawing.GraphicsUnit.Point);
         }
 
         /// <summary>
