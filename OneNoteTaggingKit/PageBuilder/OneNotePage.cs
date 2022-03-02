@@ -124,7 +124,12 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         };
 
         XElement[] PageAnchors = new XElement[] { null, null, null, null, null, null, null, null, null };
-        QuickStyleDefCollection _styles;
+
+        /// <summary>
+        /// Get the style definitions for this page.
+        /// </summary>
+        public QuickStyleDefCollection QuickStyleDefinitions { get;  }
+
         MetaCollection _meta; // Page Meta information
         TagDefCollection _tagdef; // OneNote tag definitions.
 
@@ -166,7 +171,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 
             // recognize some page content
 
-            _styles = new QuickStyleDefCollection(this);
+            QuickStyleDefinitions = new QuickStyleDefCollection(this);
             _meta = new MetaCollection(this);
             _tagdef = new TagDefCollection(this);
 
@@ -450,14 +455,13 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                                    new XAttribute("height", "10"),
                                                    new XAttribute("isSetByUser", "true")),
                                                new XElement(GetName("OEChildren"),
-                                (_belowTitleTags = new OETaglist(Namespace,tags)).Element));
+                                (_belowTitleTags = new OETaglist(Namespace, tags, QuickStyleDefinitions.TagOutlineStyleDef)).Element));
                         Element.Add(outline);
                         _belowTitleTags.Tags.Add(belowTitleMarker);
-                        _belowTitleTags.QuickStyleIndex = _styles.TagOutlineStyleDef.Index;
                         specChanged = true;
                     } else {
                         _belowTitleTags.Taglist = tags;
-                        _belowTitleTags.QuickStyleIndex = _styles.TagOutlineStyleDef.Index;
+                        _belowTitleTags.QuickStyle = QuickStyleDefinitions.TagOutlineStyleDef;
                         // force page update to make sure tag display is in sync
                         specChanged = true;
                     }
@@ -473,7 +477,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 titletags.Tags = titletagset;
             }
 
-            return specChanged || _tagdef.IsModified || _styles.IsModified;
+            return specChanged || _tagdef.IsModified || QuickStyleDefinitions.IsModified;
         }
     }
 }
