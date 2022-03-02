@@ -476,11 +476,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                                    new XAttribute("height", "10"),
                                                    new XAttribute("isSetByUser", "true")),
                                                new XElement(GetName("OEChildren"),
-                                (_belowTitleTags = new OETaglist(belowTitleMarker,
-                                                                  _styles.TagOutlineStyleDef,
-                                                                  tags)).Element));
-
+                                (_belowTitleTags = new OETaglist(Namespace,tags)).Element));
                         Element.Add(outline);
+                        _belowTitleTags.Tags.Add(belowTitleMarker);
+                        _belowTitleTags.QuickStyleIndex = _styles.TagOutlineStyleDef.Index;
                         specChanged = true;
                     } else {
                         _belowTitleTags.Taglist = tags;

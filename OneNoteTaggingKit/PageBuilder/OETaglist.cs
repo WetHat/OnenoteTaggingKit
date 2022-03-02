@@ -60,14 +60,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// Initialize a proxy instance with a new OneNote paragraph
         /// containing a comma separated list of tags.
         /// </summary>
-        /// <param name="marker">OneNote tag to mark this tag.</param>
-        /// <param name="style">Style to use for the tag list.</param>
+        /// <param name="ns">Namespace to create the tag llist in.</param>
         /// <param name="taglist">comma separated list of tags.</param>
-        public OETaglist(TagDef marker, QuickStyleDef style, IEnumerable<TagDef> taglist) :
-            base(marker.Namespace,
-                string.Join(", ",from TagDef td in taglist select td.Name)) {
-            Tags.Add(marker);
-            QuickStyleIndex = style.Index;
+        public OETaglist(XNamespace ns, IEnumerable<TagDef> taglist) :
+            base(ns, string.Join(", ",from TagDef td in taglist select td.Name)) {
             Element.SetAttributeValue("lang", "yo");
         }
     }
