@@ -169,13 +169,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
                         // TODO: check that we are NOT in the recycle bin
                         var newPageID = ViewModel.OneNoteApp.CreateNewPage(ViewModel.OneNoteApp.CurrentSectionID);
                         var pg = new PageBuilder.OneNotePage(ViewModel.OneNoteApp, newPageID);
-                        pg.AddTagSearch(searchComboBox.Text,
-                                        from tag in ViewModel.SelectedRefinementTags.Values
-                                        select tag.TagName,
-                                        scopeSelect.SelectedScope,
-                                        from p in ViewModel.FilteredPages.Values
-                                        orderby p.Page.Name
-                                        select p.Page);
+                        pg.SavedSearches.Add(searchComboBox.Text,
+                                             from tag in ViewModel.SelectedRefinementTags.Values
+                                             select tag.TagName,
+                                             scopeSelect.SelectedScope,
+                                             from p in ViewModel.FilteredPages.Values
+                                             orderby p.Page.Name
+                                             select p.Page);
                         pg.Update();
                         ViewModel.OneNoteApp.NavigateTo(pg.PageID);
                         break;

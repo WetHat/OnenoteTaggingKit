@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
@@ -32,7 +33,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="page">The OneNote page proxy to select the saved searches from.</param>
         /// <param name="marker">
         ///     Definition of the tag marking search definitions.
-        ///     If `null` the page is not scenned for existing saved searches.</param>
+        ///     If `null` the page is not scanned for existing saved searches.</param>
         public OESavedSearchCollection(OneNotePage page, TagDef marker = null) :
                 base(page.GetName("OE"),
                      page,
@@ -40,16 +41,22 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         }
 
         /// <summary>
-        /// Add a proxy for a new updatable tag search element structure to this collection.
+        /// Add a proxy for a new updatable tag search element structure to this collection
+        /// and to the OneNote page.
         /// </summary>
         /// <param name="query">The search string.</param>
         /// <param name="tags">Collection of tags to search for.</param>
         /// <param name="scope">Search scope.</param>
-        /// <param name="marker">The OneNote marker tag for the saved search</param>
-        /// <param name="pages">The pages matching the search string and/or tags</param>
+        /// <param name="pages">Pages matching the search string and/or tags</param>
 
-        public void Add(string query, IEnumerable<string> tags, HierarchyNode scope, TagDef marker, IEnumerable<TaggedPage>pages) {
-            OESavedSearch ss = new OESavedSearch(Namespace, query, tags, scope, marker, pages);
+        public void Add(string query, IEnumerable<string> tags, SearchScope scope, IEnumerable<TaggedPage>pages) {
+            OESavedSearch ss = new OESavedSearch(Namespace,
+                                                 Owner.OneNoteApp,
+                                                 query,
+                                                 tags,
+                                                 scope,
+                                                 Owner.DefineProcessTag("Saved Search", TagProcessClassification.SavedSearchMarker),
+                                                 pages);
             base.Add(ss);
             Owner.Element.Add(new XElement(GetName("Outline"),
                                   new XElement(GetName("OEChildren"),

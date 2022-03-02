@@ -61,9 +61,18 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// containing a comma separated list of tags.
         /// </summary>
         /// <param name="ns">Namespace to create the tag llist in.</param>
-        /// <param name="taglist">comma separated list of tags.</param>
-        public OETaglist(XNamespace ns, IEnumerable<TagDef> taglist) :
-            base(ns, string.Join(", ",from TagDef td in taglist select td.Name)) {
+        /// <param name="tags">Collection of tags</param>
+        public OETaglist(XNamespace ns, IEnumerable<TagDef> tags) :
+            this(ns, from TagDef td in tags select td.Name) {
+        }
+        /// <summary>
+        /// Initialize a proxy with a new OneNote paragraph
+        /// containing a comma separated list of tags.
+        /// </summary>
+        /// <param name="ns">Namespace to create the tag llist in.</param>
+        /// <param name="tags">Collection of tags.</param>
+        public OETaglist(XNamespace ns, IEnumerable<string> tags) :
+            base(ns, string.Join(", ", tags)) {
             Element.SetAttributeValue("lang", "yo");
         }
     }

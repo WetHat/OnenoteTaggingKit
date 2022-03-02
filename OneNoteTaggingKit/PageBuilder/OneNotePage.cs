@@ -130,16 +130,21 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 
         private DateTime _lastModified;
 
-        // the OneNote application object
-        private OneNoteProxy _onenote;
+        /// <summary>
+        /// Get the OneNote application object.
+        /// </summary>
+        public OneNoteProxy OneNoteApp { get;  }
 
         /// <summary>
         /// Get the XML document of the OneNote page
         /// </summary>
         XDocument Document { get; set; }
 
+        /// <summary>
+        /// Get the saved seatches on this page.
+        /// </summary>
+        public OESavedSearchCollection SavedSearches;
         OETaglist _belowTitleTags;
-        OESavedSearchCollection _savedSearches;
 
         HashSet<string> _hashtags = new HashSet<string>(); // imported hashtags
         /// <summary>
@@ -154,7 +159,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="onenoteApp">The OneNote application object.</param>
         /// <param name="pageID">The page ID.</param>
         internal OneNotePage(OneNoteProxy onenoteApp, string pageID) : base(onenoteApp.GetPage(pageID).Root) {
-            _onenote = onenoteApp;
+            OneNoteApp = onenoteApp;
             PageID = pageID;
             Document = Element.Document; // get the page's XML document
             _lastModified = DateTime.Parse(Element.Attribute("lastModifiedTime").Value);
@@ -184,9 +189,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 _tagdef.DefineKnownPageTags(TaggedPage.ParseTaglist(_tagdef.InTitleMarkerDef.Name));
             }
 
-            if (_tagdef.SavedSearchMarkerDef != null) {
-                _savedSearches = new OESavedSearchCollection(this, _tagdef.SavedSearchMarkerDef);
-            }
+            SavedSearches = new OESavedSearchCollection(this, _tagdef.SavedSearchMarkerDef);
 
             // For performance reasons we are going to delete all outlines not related to tags
             // Note: Page updates will actually leave those removed outlines on the page.
@@ -246,42 +249,13 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             }
         }
 
-        public void AddTagSearch(string query,
-                                 IEnumerable<string> tags,
-                                 SearchScope scope,
-                                 IEnumerable<TaggedPage> pages) {
-            string scopeID;
-            switch (scope) {
-                case SearchScope.Notebook:
-                    scopeID = _onenote.CurrentNotebookID;
-                    break;
-
-                case SearchScope.SectionGroup:
-                    scopeID = string.IsNullOrEmpty(_onenote.CurrentSectionGroupID)
-                        ? _onenote.CurrentNotebookID
-                        : _onenote.CurrentSectionGroupID;
-                    break;
-
-                case SearchScope.Section:
-                    scopeID = _onenote.CurrentSectionID;
-                    break;
-
-                default:
-                    scopeID = string.Empty;
-                    break;
-            }
-            if (_savedSearches == null) {
-                _savedSearches = new OESavedSearchCollection(this);
-            }
-            // TODO: localize marker name
-            TagDef marker = _tagdef.DefineProcessTag("Saved Search", TagProcessClassification.SavedSearchMarker);
-            _savedSearches.Add(query,
-                               tags,
-                               new HierarchyNode(_onenote.GetHierarchy(scopeID, HierarchyScope.hsSelf).Root, null),
-                               marker,
-                               pages);
-
-        }
+        /// <summary>
+        /// Define a OneNote process tag.
+        /// </summary>
+        /// <param name="name">Tag name</param>
+        /// <param name="cls">Tag Classification</param>
+        /// <returns></returns>
+        public TagDef DefineProcessTag(string name, TagProcessClassification cls) => _tagdef.DefineProcessTag(name,cls);
 
         /// <summary>
         /// Determine if this page is in the recycle bin.
@@ -319,25 +293,25 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                   select def.Name).ToArray();
             if (ApplyTagsToPage()) {
                 try {
-                    _onenote.UpdatePage(Document, _lastModified);
+                    OneNoteApp.UpdatePage(Document, _lastModified);
                     if (_belowTitleTags != null &&
                         ((TagDisplay)Properties.Settings.Default.TagDisplay == TagDisplay.InTitle
                          || _tagdef.DefinedTags.FirstOrDefault() == null)) {
                         // delete obsolete outline with tag list
                         // the corresponding outline too
-                        _onenote.DeletePageContent(PageID, _belowTitleTags.Element.Parent.Parent.Attribute("objectID").Value);
+                        OneNoteApp.DeletePageContent(PageID, _belowTitleTags.Element.Parent.Parent.Attribute("objectID").Value);
                     }
                 } catch (COMException ce) {
                     unchecked {
                         switch ((uint)ce.ErrorCode) {
                             case 0x80042010: // concurrent page modification
                                 TraceLogger.Log(TraceCategory.Error(), "The last modified date does not match. Concurrent page modification: {0}\n Rescheduling tagging job.", ce.Message);
-                                _onenote.TaggingService.Add(new TaggingJob(PageID, savedTags, TagOperation.REPLACE));
+                                OneNoteApp.TaggingService.Add(new TaggingJob(PageID, savedTags, TagOperation.REPLACE));
                                 break;
 
                             case 0x80042030: // blocked by modal dialog
                                 TraceLogger.ShowGenericErrorBox(Properties.Resources.TaggingKit_Blocked, ce);
-                                _onenote.TaggingService.Add(new TaggingJob(PageID, savedTags, TagOperation.REPLACE));
+                                OneNoteApp.TaggingService.Add(new TaggingJob(PageID, savedTags, TagOperation.REPLACE));
                                 break;
 
                             default:

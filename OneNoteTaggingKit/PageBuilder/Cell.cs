@@ -50,9 +50,17 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// Initialize a proxy element with a new table cell element.
         /// </summary>
         /// <param name="ns">The XML namespace to create the cell in.</param>
-        /// <param name="content">Zero or more cell content objects.</param>
-        public Cell(XNamespace ns, params OE[] content) : base(new XElement(ns.GetName(nameof(Cell)))) {
-            Element.Add(_OEChildren = new XElement(ns.GetName("OEChildren"),from c in content select c.Element));
+        /// <param name="content">A content object.</param>
+        public Cell(XNamespace ns,OE content) : base(new XElement(ns.GetName(nameof(Cell)))) {
+            Element.Add(_OEChildren = new XElement(ns.GetName("OEChildren"),content.Element));
+        }
+        /// <summary>
+        /// Initialize a proxy element with a new table cell element.
+        /// </summary>
+        /// <param name="ns">The XML namespace to create the cell in.</param>
+        /// <param name="content">A list of content object.</param>
+        public Cell(XNamespace ns, IEnumerable<OE> content) : base(new XElement(ns.GetName(nameof(Cell)))) {
+            Element.Add(_OEChildren = new XElement(ns.GetName("OEChildren"), from c in content select c.Element));
         }
     }
 }
