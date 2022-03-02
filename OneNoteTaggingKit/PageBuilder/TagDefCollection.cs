@@ -170,7 +170,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     break;
                 case TagProcessClassification.SavedSearchMarker:
                     if (SavedSearchMarkerDef == null) {
-                        InTitleMarkerDef = newdef = new TagDef(Page, "Saved Search" + cSavedSearchSuffix, Items.Count, string.Empty, SavedSearchMarkerType, cSavedSearchMarkerSymbol);
+                        SavedSearchMarkerDef = newdef = new TagDef(Page, "Saved Search" + cSavedSearchSuffix, Items.Count, string.Empty, SavedSearchMarkerType, cSavedSearchMarkerSymbol);
                     } else {
                         return SavedSearchMarkerDef;
                     }
