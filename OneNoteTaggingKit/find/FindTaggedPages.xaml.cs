@@ -167,7 +167,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                         break;
                     case "SaveSearch":
                         // TODO: check that we are NOT in the recycle bin
-                        pBarCopy.Visibility = System.Windows.Visibility.Visible;
+                        pBarCopy.Visibility = Visibility.Visible;
                         var newPageID = ViewModel.OneNoteApp.CreateNewPage(ViewModel.OneNoteApp.CurrentSectionID);
                         var pg = new PageBuilder.OneNotePage(ViewModel.OneNoteApp, newPageID);
                         SearchScope scope = scopeSelect.SelectedScope;
@@ -178,10 +178,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
                                      orderby p.Page.Name
                                      select p.Page).ToList();
                         await Task.Run(() => {
+                            // TODO localize
+                            pg.PageTags = new string[] { "Saved Search" };
                             pg.SavedSearches.Add(searchstring, tags,  scope, pages);
                             pg.Update();
                         });
-                        pBarCopy.Visibility = System.Windows.Visibility.Hidden;
+                        pBarCopy.Visibility = Visibility.Hidden;
                         ViewModel.OneNoteApp.NavigateTo(pg.PageID);
                         break;
                     case "TagSelection":
