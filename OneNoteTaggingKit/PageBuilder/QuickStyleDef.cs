@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
 using System.Xml.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
@@ -36,9 +32,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         public Color FontColor {
             get {
                 var color = GetAttributeValue("fontColor");
-                return color != null ? (Color)ColorConverter.ConvertFromString(color) : default(Color);
+                var converter = new ColorConverter();
+                return color != null ? (Color)converter.ConvertFromString(color) : default(Color);
             }
-            set  => SetAttributeValue("fontColor", "#" + value.ToString().Substring(3));
+            set  => SetAttributeValue("fontColor", "#" + value.R.ToString("X2")+value.G.ToString("X2")+value.B.ToString("X2"));
         }
 
         /// <summary>
@@ -49,22 +46,22 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="element">The style definition element selected from a OneNote page
         /// definition element.</param>
         public QuickStyleDef(OneNotePage page, XElement element) : base(page,element) {
-            var style = System.Drawing.FontStyle.Regular;
+            var style = FontStyle.Regular;
 
             if ("true".Equals(GetAttributeValue("bold"),StringComparison.InvariantCultureIgnoreCase)) {
-                style |= System.Drawing.FontStyle.Bold;
+                style |= FontStyle.Bold;
             }
             if ("true".Equals(GetAttributeValue("italic"), StringComparison.InvariantCultureIgnoreCase)) {
-                style |= System.Drawing.FontStyle.Italic;
+                style |= FontStyle.Italic;
             }
             string fontsize = GetAttributeValue("fontSize");
             float fontsizeem = "automatic".Equals(fontsize)
                 ? 1
                 : float.Parse(fontsize, CultureInfo.InvariantCulture);
-            _styleFont = new System.Drawing.Font(GetAttributeValue("font"),
-                                                 fontsizeem,
-                                                 style,
-                                                 System.Drawing.GraphicsUnit.Point);
+            _styleFont = new Font(GetAttributeValue("font"),
+                                  fontsizeem,
+                                  style,
+                                  GraphicsUnit.Point);
         }
 
         /// <summary>
@@ -78,7 +75,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         public QuickStyleDef(OneNotePage page, string name, int index, System.Drawing.Font font, Color fontColor)
             : base(page,
                   new XElement(page.GetName(nameof(QuickStyleDef)),
-                      new XAttribute("highlightColor", "automatic")  ),
+                      new XAttribute("highlightColor", "automatic")),
                   name,
                   index) {
             Font = font;

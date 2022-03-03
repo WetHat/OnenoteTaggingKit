@@ -1,13 +1,14 @@
-﻿using System.Windows.Media;
+﻿using System.Drawing;
 using System.Xml.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 {
     /// <summary>
-    /// Colelction of style definition proxy objects.
+    /// Collection of style definition proxy objects.
     /// </summary>
     public class QuickStyleDefCollection : DefinitionObjectCollection<QuickStyleDef> {
-
+        #region Tagstyle
+        const string TagstyleName = "PagetagsStyle";
         QuickStyleDef _tagStyle;
         /// <summary>
         /// Get the Style for below-title tag lists.
@@ -15,26 +16,23 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         public QuickStyleDef TagOutlineStyleDef {
             get {
                 if (_tagStyle == null) {
-                    // new XAttribute("index", (quickstyleDefs.Count() + 1).ToString()),
-                    //                            new XAttribute("name", Properties.Settings.Default.TagOutlineStyle_Name),
-                    //                            new XAttribute("fontColor", "#595959"),
-                    //                            new XAttribute("highlightColor", "automatic"),
-                    //                            new XAttribute("bold", Properties.Settings.Default.TagOutlineStyle_Font.Bold.ToString().ToLower()),
-                    //                            new XAttribute("italic", Properties.Settings.Default.TagOutlineStyle_Font.Italic.ToString().ToLower()),
-                    //                            new XAttribute("font", Properties.Settings.Default.TagOutlineStyle_Font.Name),
-                    //                            new XAttribute("fontSize", Propertie
                     _tagStyle = new QuickStyleDef(Page,
-                                                  Properties.Settings.Default.TagOutlineStyle_Name,
+                                                  TagstyleName,
                                                   Items.Count,
-                                                  Properties.Settings.Default.TagOutlineStyle_Font,
-                                                  Brushes.Black.Color);
+                                                  new Font("Calibri",
+                                                            9,
+                                                            FontStyle.Regular,
+                                                            GraphicsUnit.Point),
+                                                  Color.Black);
 
                     Add(_tagStyle);
                 }
                 return _tagStyle;
             }
         }
-
+        #endregion Tagstyle
+        #region Labelstyle
+        const string LabelstyleName = "LabelStyle";
         QuickStyleDef _labelStyleDef;
         /// <summary>
         /// Get the label style definition.
@@ -43,16 +41,42 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             get {
                 if (_labelStyleDef == null) {
                     _labelStyleDef = new QuickStyleDef(Page,
-                                                 "LabelStyle",
+                                                 LabelstyleName,
                                                  Items.Count,
-                                                 Properties.Settings.Default.LabelStyle_Font,
-                                                 Brushes.Black.Color);
+                                                 new Font("Segoe UI",
+                                                          10,
+                                                          FontStyle.Bold,
+                                                          GraphicsUnit.Point),
+                                                 Color.Black);
                     Add(_labelStyleDef);
                 }
                 return _labelStyleDef;
             }
         }
-
+        #endregion Labelstyle
+        #region Citationstyle
+        const string CitationstyleName = "cite";
+        QuickStyleDef _citationStyleDef;
+        /// <summary>
+        /// Get the citation style definition.
+        /// </summary>
+        public QuickStyleDef CitationStyleDef {
+            get {
+                if (_citationStyleDef == null) {
+                    _citationStyleDef = new QuickStyleDef(Page,
+                                                          CitationstyleName,
+                                                          Items.Count,
+                                                          new Font("Calibri",
+                                                                   9,
+                                                                   FontStyle.Regular,
+                                                                   GraphicsUnit.Point),
+                                                          Color.FromArgb(0x595959));
+                    Add(_citationStyleDef);
+                }
+                return _citationStyleDef;
+            }
+        }
+        #endregion Citationstyle
         /// <summary>
         /// Initialize an instance of this collection for elements with a
         /// specified XML name found on a OneNote page XML document .
@@ -65,12 +89,20 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// Create a new style definition for an XML style definition found
         /// on a OneNote page document.
         /// </summary>
-        /// <param name="e">A `one:QuickStyleDef` XML element.</param>
+        /// <param name="styledef">A `one:QuickStyleDef` XML element.</param>
         /// <returns></returns>
-        protected override QuickStyleDef CreateElementProxy(XElement e) {
-            var def = new QuickStyleDef(Page, e);
-            if (Properties.Settings.Default.TagOutlineStyle_Name.Equals(def.Name)) {
-                _tagStyle = def;
+        protected override QuickStyleDef CreateElementProxy(XElement styledef) {
+            var def = new QuickStyleDef(Page, styledef);
+            switch (def.Name) {
+                case TagstyleName:
+                    _tagStyle = def;
+                    break;
+                case LabelstyleName:
+                    _labelStyleDef = def;
+                    break;
+                case CitationstyleName:
+                    _citationStyleDef = def;
+                    break;
             }
             return def;
         }
