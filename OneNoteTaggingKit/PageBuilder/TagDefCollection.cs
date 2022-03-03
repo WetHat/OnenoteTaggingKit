@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
@@ -170,6 +169,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     break;
                 case TagProcessClassification.SavedSearchMarker:
                     if (SavedSearchMarkerDef == null) {
+                        // TODO Localize
                         SavedSearchMarkerDef = newdef = new TagDef(Page, "Saved Search" + cSavedSearchSuffix, Items.Count, string.Empty, SavedSearchMarkerType, cSavedSearchMarkerSymbol);
                     } else {
                         return SavedSearchMarkerDef;
