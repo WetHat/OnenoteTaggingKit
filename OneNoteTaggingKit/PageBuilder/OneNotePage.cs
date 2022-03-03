@@ -296,8 +296,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             // define import tags
             string[] savedTags = (from TagDef def in _tagdef.DefinedTags
                                   select def.Name).ToArray();
-            if (ApplyTagsToPage()) {
+            if (ApplyTagsToPage() || !SavedSearches.Empty) {
                 try {
+                    SavedSearches.Update();
                     OneNoteApp.UpdatePage(Document, _lastModified);
                     if (_belowTitleTags != null &&
                         ((TagDisplay)Properties.Settings.Default.TagDisplay == TagDisplay.InTitle

@@ -67,5 +67,14 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         protected override OESavedSearch CreateElementProxy(XElement e) {
             return new OESavedSearch(e);
         }
+
+        /// <summary>
+        /// Update all saved searches.
+        /// </summary>
+        public void Update() {
+            foreach (var ss in Items) {
+                ss.Update(Owner.OneNoteApp);
+            }
+        }
     }
 }

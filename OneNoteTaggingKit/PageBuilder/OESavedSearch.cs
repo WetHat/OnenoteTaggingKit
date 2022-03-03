@@ -121,5 +121,15 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 
             Table.Rows.AddRow(new Row(ns, new Cell(ns, pagelinks)));
         }
+
+        /// <summary>
+        /// Bring the search result up-to-data.
+        /// </summary>
+        /// <param name="onenote">The OneNote application proxy.</param>
+        public void Update(OneNoteProxy onenote) {
+            if(_updateRequired) {
+                // TODO update the saved search with an up-to-data result
+            }
+        }
     }
 }
