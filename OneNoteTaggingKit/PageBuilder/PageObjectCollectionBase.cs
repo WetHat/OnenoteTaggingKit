@@ -89,6 +89,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <returns>An instance of a proxy object of type T.</returns>
         protected abstract Titem CreateElementProxy(XElement e);
 
+        /// <summary>
+        /// Predicate to check if the collection is empty.
+        /// </summary>
+        public bool Empty { get; } = Items.Count == 0;
         #region IEnumerable<Titem>
         /// <summary>
         /// Get the enumerator of items in this collection.
