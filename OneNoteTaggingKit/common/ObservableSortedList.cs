@@ -15,6 +15,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// <see cref="INotifyCollectionChanged" /> and can take part in data binding to UI
     /// controls. This class is optimized for batch updates (item collections). Single
     /// items cannot be added.
+    ///
+    /// This class is **not** thread save.
     /// </remarks>
     /// <typeparam name="TValue">item type providing sortable keys</typeparam>
     /// <typeparam name="TKey">unique key type</typeparam>
