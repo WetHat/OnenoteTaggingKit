@@ -86,6 +86,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             }
             Table searchConfig = new Table(ns, 2);
             var labelstyle = page.QuickStyleDefinitions.LabelStyleDef;
+
             searchConfig.BordersVisible = true;
             // TODO: localize
             searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "Scope", labelstyle)),
@@ -100,16 +101,22 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             _searchConfiguration.Tags.Add(marker);
 
             Table.Rows.AddRow(new Row(ns, new Cell(ns, _searchConfiguration)));
+            var pagelinks = new LinkedList<OE>();
+            var citationsStyle = page.QuickStyleDefinitions.CitationStyleDef;
+            foreach (var p in pages) {
+                pagelinks.AddLast(new OET(ns,
+                                          string.Format("<a href=\"{0}\">{1}",
+                                          onenote.GetHyperlinkToObject(p.ID, string.Empty),
+                                          p.Name)) {
+                                        Bullet = 15
+                                  });
+                if (scope != SearchScope.Section) {
+                    pagelinks.AddLast(new OET(ns, p.Breadcrumb, citationsStyle));
+                }
+            }
 
-            var pagelinks = (from TaggedPage p in pages
-                                select new OET(ns,
-                                               string.Format("<a href=\"{0}\">{1}",
-                                                             onenote.GetHyperlinkToObject(p.ID, string.Empty),
-                                                             p.Name)) {
-                                               Bullet = 15
-                              }).ToList();
             if (pagelinks.Count == 0) {
-                pagelinks.Add(new OET(ns, "No pages match the search criteria!")); // TODO localize
+                pagelinks.AddLast(new OET(ns, "No pages match the search criteria!")); // TODO localize
             }
 
             Table.Rows.AddRow(new Row(ns, new Cell(ns, pagelinks)));
