@@ -1,4 +1,5 @@
 ﻿using Microsoft.Office.Interop.OneNote;
+using System.Collections.Generic;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
 
@@ -57,6 +58,19 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
                 }
             } else {
                 NodeType = type;
+            }
+        }
+
+        /// <summary>
+        /// Get the path (breadcrumb) leading to this node.
+        /// </summary>
+        public string Breadcrumb {
+            get {
+                var path = new Stack<string>();
+                for (var p = Parent; p != null; p = p.Parent) {
+                    path.Push(p.Name);
+                }
+                return string.Join("→", path);
             }
         }
 
