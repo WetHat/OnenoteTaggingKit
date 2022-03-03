@@ -35,7 +35,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
             remove { _collectionChanged -= value; }
         }
 
-
         private const int INITIAL_CAPACITY = 200;
         private List<KeyValuePair<TSort, TValue>> _sortedList = new List<KeyValuePair<TSort, TValue>>(INITIAL_CAPACITY);
         private Dictionary<TKey, TValue> _dictionary = new Dictionary<TKey, TValue>(INITIAL_CAPACITY);
