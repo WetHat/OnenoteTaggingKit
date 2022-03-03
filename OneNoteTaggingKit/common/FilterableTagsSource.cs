@@ -18,9 +18,11 @@ namespace WetHatLab.OneNote.TaggingKit.common
         public TextSplitter Highlighter {
             get => _highlighter;
             set {
-                _highlighter = value;
-                foreach (T mdl in this) {
-                    mdl.Highlighter = value;
+                lock (_highlighter) {
+                    foreach (T mdl in this) {
+                        mdl.Highlighter = value;
+                    }
+                    _highlighter = value;
                 }
             }
         }
