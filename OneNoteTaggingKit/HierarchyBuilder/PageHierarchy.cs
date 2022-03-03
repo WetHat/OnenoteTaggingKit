@@ -17,7 +17,7 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
 
         Stack<TaggedPage> _pages = new Stack<TaggedPage>();
         /// <summary>
-        /// Get the pages of the hierarchy.
+        /// Get the pages (leaf nodes) of the hierarchy.
         /// </summary>
         public IEnumerable<TaggedPage> Pages { get => _pages; }
 
