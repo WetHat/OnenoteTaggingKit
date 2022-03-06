@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
@@ -9,6 +11,11 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     /// </summary>
     public class OET : OE
     {
+        /// <summary>
+        /// Regular expression to match some HTML tags
+        /// </summary>
+        public static readonly Regex HTMLtag_matcher = new Regex(@"</*(a|span)[^<>]*>", RegexOptions.Compiled);
+
         /// <summary>
         /// Get or set of a text content element.
         /// </summary>
@@ -33,6 +40,12 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 }
                 // Create a new text node with the given text
                 Element.Add(new XElement(GetName("T"), new XCData(value)));
+                var tstamp = Element.Attribute("lastModifiedTime");
+                if (tstamp != null) {
+                    tstamp.Remove();
+                }
+                // Format 2022-03-06T08:46:53.000Z
+                //SetAttributeValue("lastModifiedTime", DateTime.Now.ToUniversalTime().ToString(@"yyyy-MM-dd\Thh:mm:ss.000\Z"));
             }
         }
         /// <summary>

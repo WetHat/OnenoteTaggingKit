@@ -14,7 +14,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     {
         XElement _OEChildren;
 
-        IEnumerable<OE> CellContent {
+        /// <summary>
+        /// Get/set the cell content.
+        /// </summary>
+        public IEnumerable<OE> Content {
             get {
                 foreach (var oe in _OEChildren.Elements()) {
                     XElement e = oe.Element(GetName("T"));
@@ -34,6 +37,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 _OEChildren.RemoveAll();
                 foreach (var oe in value) {
                     _OEChildren.Add(oe.Element);
+                }
+                var tstamp = Element.Attribute("lastModifiedTime");
+                if (tstamp != null) {
+                    tstamp.Remove();
                 }
             }
         }
