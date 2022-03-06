@@ -50,7 +50,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <summary>
         /// Get the number of cells in this colelction.
         /// </summary>
-        public int CellCount { get => Items.Count; }
+        public int Count { get => Items.Count; }
 
         /// <summary>
         /// Get a cell proxy from this collection.
