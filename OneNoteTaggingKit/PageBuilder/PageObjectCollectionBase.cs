@@ -92,7 +92,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <summary>
         /// Predicate to check if the collection is empty.
         /// </summary>
-        public bool Empty { get; } = Items.Count == 0;
+        public bool Empty { get => Items.Count == 0; }
         #region IEnumerable<Titem>
         /// <summary>
         /// Get the enumerator of items in this collection.
