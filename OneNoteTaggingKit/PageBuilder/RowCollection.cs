@@ -45,7 +45,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <summary>
         /// Get the number of rows in this collection.
         /// </summary>
-        int RowCount { get => Items.Count; }
+        public int Count { get => Items.Count; }
         /// <summary>
         /// Get a table row proxy
         /// </summary>
