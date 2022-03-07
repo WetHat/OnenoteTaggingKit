@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 using System.Xml.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
@@ -10,6 +6,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     /// <summary>
     /// Collection of table cell proxies defining a table row.
     /// </summary>
+    [ComVisible(false)]
     public class CellCollection : PageObjectCollectionBase<Row,Cell> {
         /// <summary>
         /// Initialize the proxy object collection of table cell elements

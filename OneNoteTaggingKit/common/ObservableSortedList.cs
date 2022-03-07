@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace WetHatLab.OneNote.TaggingKit.common
 {
@@ -21,6 +22,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// <typeparam name="TValue">item type providing sortable keys</typeparam>
     /// <typeparam name="TKey">unique key type</typeparam>
     /// <typeparam name="TSort">sort key type. Sort keys are not required to be unique</typeparam>
+    [ComVisible(false)]
     public class ObservableSortedList<TSort, TKey, TValue> : IReadOnlyList<TValue>, INotifyCollectionChanged, IEnumerable<TValue>, IDisposable
         where TValue : ISortableKeyedItem<TSort, TKey>
         where TKey : IEquatable<TKey>, IComparable<TKey>

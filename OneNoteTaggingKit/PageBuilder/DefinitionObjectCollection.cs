@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Runtime.InteropServices;
+using System.Xml.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 {
@@ -11,6 +12,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     ///     does not get recycled, so that all other items retain their index.
     /// </remarks>
     /// <typeparam name="T">Proxy object type.</typeparam>
+    [ComVisible(false)]
     public abstract class DefinitionObjectCollection<T> : PageStructureObjectCollection<T> where T: DefinitionObjectBase
     {
         /// <summary>

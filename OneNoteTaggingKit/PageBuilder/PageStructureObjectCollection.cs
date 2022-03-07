@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Runtime.InteropServices;
 using System.Xml.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
@@ -10,6 +8,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     /// structure object proxies which have to appear in a given sequence on the
     /// OneNote page.
     /// </summary>
+    [ComVisible(false)]
     public abstract class PageStructureObjectCollection<T> : PageObjectCollectionBase<OneNotePage,T> where T : PageStructureObjectBase
     {
         /// <summary>

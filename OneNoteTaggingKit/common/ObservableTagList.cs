@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 using System.Windows.Threading;
+using System.Runtime.InteropServices;
 
 namespace WetHatLab.OneNote.TaggingKit.common
 {
@@ -69,6 +70,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// <typeparam name="T">
     ///     The tag model type. Either a <see cref="TagModel"/> or a sub-class of it.
     /// </typeparam>
+    [ComVisible(false)]
     public class ObservableTagList<T> : ObservableSortedList<TagModelKey, string, T>, IObservableTagList
                                                       where T : TagModel {
         #region IObservableTagList

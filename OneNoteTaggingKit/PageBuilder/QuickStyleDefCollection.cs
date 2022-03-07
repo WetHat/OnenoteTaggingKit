@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Xml.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
@@ -6,6 +7,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     /// <summary>
     /// Collection of style definition proxy objects.
     /// </summary>
+    [ComVisible(false)]
     public class QuickStyleDefCollection : DefinitionObjectCollection<QuickStyleDef> {
         #region Tagstyle
         const string TagstyleName = "PagetagsStyle";

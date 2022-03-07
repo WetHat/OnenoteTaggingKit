@@ -1,4 +1,5 @@
 ﻿using System.Collections.Specialized;
+using System.Runtime.InteropServices;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.common
@@ -8,6 +9,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// and highlighted by applying search criteria.
     /// </summary>
     /// <typeparam name="T">View model type</typeparam>
+    [ComVisible(false)]
     public class FilterableTagsSource<T> : ObservableTagList<T> where T : FilterableTagModel
     {
         TextSplitter _highlighter = new TextSplitter();

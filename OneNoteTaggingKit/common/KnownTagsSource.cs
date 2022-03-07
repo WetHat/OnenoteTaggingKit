@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 
@@ -11,6 +12,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// Tags in this list are typically used to suggest tags.
     /// </remarks>
     /// <typeparam name="T">A <see cref="FilterableTagModel"/> or a subclass of it.</typeparam>
+    [ComVisible(false)]
     public class KnownTagsSource<T> : FilterableTagsSource<T> where T : FilterableTagModel, new()
     {
         /// <summary>

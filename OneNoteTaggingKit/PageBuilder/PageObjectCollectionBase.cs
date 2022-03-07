@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Xml.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
@@ -11,6 +12,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     /// </summary>
     /// <typeparam name="Towner">Proxy object type of the collection owner.</typeparam>
     /// <typeparam name="Titem">Proxy object type of the items in the collection.</typeparam>
+    [ComVisible(false)]
     public abstract class PageObjectCollectionBase<Towner,Titem> : IEnumerable<Titem> where Towner : PageObjectBase
                                                                                       where Titem : PageObjectBase
     {

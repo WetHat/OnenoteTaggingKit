@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Xml.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
@@ -6,6 +7,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     /// <summary>
     /// The collection of tags below an `one:OE` content XML element
     /// </summary>
+    [ComVisible(false)]
     public class TagCollection : PageObjectCollectionBase<OE,Tag>
     {
         HashSet<int> _tags = new HashSet<int>();

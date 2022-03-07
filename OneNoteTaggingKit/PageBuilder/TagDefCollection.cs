@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
@@ -46,6 +47,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     /// <remarks>
     /// The collection does not compact. If
     /// </remarks>
+    [ComVisible(false)]
     public class TagDefCollection : DefinitionObjectCollection<TagDef> {
         /// <summary>
         /// The now obsolete name for below title marker tags

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Media;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
@@ -33,6 +34,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// <summary>
     /// Sortable key to support the ranked display of <see cref="HitHighlightedPageLink" /> controls.
     /// </summary>
+    [ComVisible(false)]
     public class HitHighlightedPageLinkKey : IComparable<HitHighlightedPageLinkKey>, IEquatable<HitHighlightedPageLinkKey>
     {
         private int _hits;

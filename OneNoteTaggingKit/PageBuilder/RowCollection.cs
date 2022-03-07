@@ -1,10 +1,12 @@
-﻿using System.Xml.Linq;
+﻿using System.Runtime.InteropServices;
+using System.Xml.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 {
     /// <summary>
     /// A Collection of table row proxy elements.
     /// </summary>
+    [ComVisible(false)]
     public class RowCollection : PageObjectCollectionBase<Table,Row>
     {
 

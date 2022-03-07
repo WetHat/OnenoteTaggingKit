@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
+using System.Runtime.InteropServices;
 
 namespace WetHatLab.OneNote.TaggingKit.common
 {
-
     /// <summary>
     /// Classification of changes to a <see cref="ObservableDictionary{T1,T2}"/> instance.
     /// </summary>
@@ -31,6 +28,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// </summary>
     /// <typeparam name="TKey">dictionary key type</typeparam>
     /// <typeparam name="TValue">dictionary value type</typeparam>
+    [ComVisible(false)]
     public class NotifyDictionaryChangedEventArgs<TKey,TValue> : EventArgs where TValue : IKeyedItem<TKey>
                                                                            where TKey   : IEquatable<TKey>
     {
@@ -81,6 +79,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// <typeparam name="TValue">type of objects stored in the dictionary</typeparam>
     /// <remarks>This class is <b>not</b> thread save.
     /// </remarks>
+    [ComVisible(false)]
     public class ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
         where TValue : IKeyedItem<TKey>
         where TKey : IEquatable<TKey>

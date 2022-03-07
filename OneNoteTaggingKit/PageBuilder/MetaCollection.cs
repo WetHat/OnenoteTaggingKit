@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using System.Xml.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
@@ -16,6 +13,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     ///     <item><see cref="SearchScope"/>/></item>
     /// </list>
     /// </summary>
+    [ComVisible(false)]
     public class MetaCollection : PageStructureObjectCollection<Meta> {
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 
@@ -7,6 +8,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     /// <summary>
     /// Collection of saved searches on a OneNote page.
     /// </summary>
+    [ComVisible(false)]
     public class OESavedSearchCollection : PageObjectCollectionBase<OneNotePage,OESavedSearch>
     {
         /// <summary>
