@@ -14,9 +14,6 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// document of a OneNote page.
         /// </summary>
         /// <param name="page">The OneNote page proxy to select the saved searches from.</param>
-        /// <param name="marker">
-        ///     Definition of the tag marking search definitions.
-        ///     If `null` the page is not scanned for existing saved searches.</param>
         public OESavedSearchCollection(OneNotePage page) :
                 base(page.GetName("OE"),
                      page,
