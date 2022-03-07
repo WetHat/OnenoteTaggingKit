@@ -1,0 +1,52 @@
+{
+    "markdown_dir": "markdown",
+
+    "site_dir": "docs",
+
+    "HTML_template": "Template",
+
+    "Exclude": [
+    ],
+
+    "markdown_extensions": [
+        "common",
+        "definitionlists",
+        "mathematics",
+        "diagrams",
+        "pipetables",
+        "autoidentifiers"
+    ],
+
+    "github_pages": false,
+
+    "footer": "Template project Created by PowerShell Module <a href='https://github.com/WetHat/MarkdownToHtml'>MarkdownToHTML</a>.",
+
+    "navigation_bar": {
+        "capture_page_headings": "123456",
+        "templates": {
+            "navitem": "<button class='navitem'><a href='{{navurl}}'>{{navtext}}</a></button>",
+            "navlabel": "<div class='navlabel'>{{navtext}}</div>",
+            "navseparator": "<hr/>",
+            "navheading": "<span class='navitem{{level}}'>{{navtext}}</span>"
+        }
+    },
+
+    "site_navigation": [
+        { "<img width='90%' src='logo.png' />": "README.md" },
+        { "README": "" },
+        { "Home": "README.md" }
+    ],
+
+    "page_navigation_header": [
+        { "---": "" }
+    ],
+
+    "svgbob": {
+        "background": "white",
+        "fill_color": "black",
+        "font_size": 14,
+        "font_family": "Monospace",
+        "scale": 1,
+        "stroke_width": 2
+    }
+}

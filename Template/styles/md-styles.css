@@ -1,0 +1,159 @@
+﻿h1 {
+    font-size: 14pt;
+    color: darkblue;
+}
+
+h1.title {
+    color: black;
+    text-align:center;
+}
+
+h2 {
+    font-size: 12pt;
+    color: firebrick;
+}
+
+cite {
+    font-size: 9pt;
+    color: gray;
+}
+
+td, th {
+    border: 1px solid;
+    border-color: lightgray
+}
+
+th {
+    background-color: lightblue
+}
+
+dt {
+    font-size: 10pt;
+    color: chocolate;
+    font-weight: bold;
+}
+
+pre {
+    border: 1px solid;
+    border-color: lightgray;
+}
+
+blockquote {
+    border: none;
+    text-indent: each-line;
+    border-left: 2px solid gray;
+    margin-left: 1em;
+    padding-left: 1em;
+}
+
+code {
+    font-family: Consolas;
+    color: darkmagenta;
+}
+
+footer {
+    font-size: 10pt;
+    color: slategray;
+}
+
+/* Site Content */
+main {
+    margin-left:16em;
+}
+
+/* Site Navigation */
+nav {
+    top: 0;
+    position: fixed;
+    border-width: 1px;
+    border-style: solid;
+    width: 15em;
+    height: 100%;
+    padding-top: 5px;
+    background: lightskyblue;
+    overflow-x:auto;
+}
+
+@media screen and (max-width: 600px) {
+    nav {
+        width: 100%;
+        height:auto;
+        position:unset;
+        margin-left:0;
+        overflow:inherit;
+    }
+    main {
+        width: 100%;
+        margin-left:0
+    }
+    .navitem {
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em
+    }
+}
+
+.navlabel {
+    text-align: center;
+    font-weight: bold;
+}
+
+.navitem {
+    width: 98%;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-left: 1%;
+    font-weight: bold;
+}
+
+/* Highlight navitems when mouse is over them and show full text. */
+.navitem:hover {
+    background: PaleGoldenRod;
+    text-align: left;
+    white-space: normal;
+    display:block;
+    overflow: visible;
+}
+
+.navitem1 {
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+.navitem2 {
+    font-size: 10pt;
+    font-weight: normal;
+    padding-left: 1em;
+}
+
+.navitem3 {
+    font-size: 10pt;
+    font-weight: normal;
+    font-style: italic;
+    padding-left: 2em;
+}
+
+.navitem4, .navitem5, .navitem6 {
+    font-size: 8pt;
+    font-weight: normal;
+    padding-left: 3em;
+}
+
+/* display full link text on hover*/
+.navitem:hover .navitem1 {
+    font-weight: bold;
+    display: block;
+}
+
+.navitem:hover .navitem2,
+.navitem:hover .navitem3,
+.navitem:hover .navitem4,
+.navitem:hover .navitem5,
+.navitem:hover .navitem6 {
+    font-weight: bold;
+    display: block;
+    padding-left: 1em;
+}
