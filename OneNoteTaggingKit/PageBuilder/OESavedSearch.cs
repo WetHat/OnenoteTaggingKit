@@ -34,10 +34,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// Initialize a OneNote element proxy from a page element structure
         /// representing a saved search.
         /// </summary>
-        /// <param name="element">The XML element on a OneNote page representing
+        /// <param name="searchConfig">The XML element on a OneNote page representing
         /// a _Saved Search_ configuration.</param>
-        public OESavedSearch(XElement element) : base(element.Parent.Parent.Parent.Parent.Parent) {
-            _searchConfiguration = new OETable(element);
+        public OESavedSearch(XElement searchConfig) : base(searchConfig.Parent.Parent.Parent.Parent.Parent) {
+            _searchConfiguration = new OETable(searchConfig);
             var configTbl = _searchConfiguration.Table;
             if  (configTbl != null && configTbl.Rows.Count > 3) {
                 // Parse search scope

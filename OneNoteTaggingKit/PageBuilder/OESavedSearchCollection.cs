@@ -69,10 +69,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <summary>
         /// Create a new proxy for a Saved Search.
         /// </summary>
-        /// <param name="e">A content element with an embedded OneNote table.</param>
+        /// <param name="searchConfig">A content element with an embedded OneNote search configuration table.</param>
         /// <returns>New proxy instance for the saved search table</returns>
-        protected override OESavedSearch CreateElementProxy(XElement e) {
-            return new OESavedSearch(e);
+        protected override OESavedSearch CreateElementProxy(XElement searchConfig) {
+            return new OESavedSearch(searchConfig);
         }
 
         /// <summary>
