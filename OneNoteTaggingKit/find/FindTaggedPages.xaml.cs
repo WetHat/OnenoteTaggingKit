@@ -1,4 +1,5 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Collections.Specialized;
 using System.Diagnostics;
@@ -9,9 +10,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.edit;
+using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {
@@ -19,7 +22,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// Interaction logic for TagSearch.xaml
     /// </summary>
     [ComVisible(false)]
-    public partial class FindTaggedPages : Window, IOneNotePageWindow<FindTaggedPagesModel>
+    public partial class FindTaggedPages : System.Windows.Window, IOneNotePageWindow<FindTaggedPagesModel>
     {
         #region TagPanelHeaderProperty
         /// <summary>
@@ -165,26 +168,38 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     case "SelectAll":
                         foundPagesList.SelectAll();
                         break;
+
                     case "SaveSearch":
-                        // TODO: check that we are NOT in the recycle bin
-                        pBarCopy.Visibility = Visibility.Visible;
-                        var newPageID = ViewModel.OneNoteApp.CreateNewPage(ViewModel.OneNoteApp.CurrentSectionID);
-                        var pg = new PageBuilder.OneNotePage(ViewModel.OneNoteApp, newPageID);
-                        SearchScope scope = scopeSelect.SelectedScope;
-                        string searchstring = searchComboBox.Text;
-                        var tags = (from tag in ViewModel.SelectedRefinementTags.Values
-                                    select tag.TagName).ToList();
-                        var pages = (from p in ViewModel.FilteredPages.Values
-                                     orderby p.Page.Name
-                                     select p.Page).ToList();
-                        await Task.Run(() => {
-                            // TODO localize
-                            pg.PageTags = new string[] { "Saved Search" };
-                            pg.SavedSearches.Add(searchstring, tags,  scope, pages);
-                            pg.Update();
-                        });
-                        pBarCopy.Visibility = Visibility.Hidden;
-                        ViewModel.OneNoteApp.NavigateTo(pg.PageID);
+                        var onenote = ViewModel.OneNoteApp;
+                        string currentPageID = onenote.CurrentPageID;
+                        if (!string.IsNullOrEmpty(currentPageID)) {
+                            var currentPage = onenote.GetHierarchy(currentPageID, HierarchyScope.hsSelf);
+                            XAttribute recycleBinAtt = currentPage.Root.Attribute("isInRecycleBin");
+                            if (recycleBinAtt != null && "true".Equals(recycleBinAtt.Value)) {
+                                // TODO localize
+                                MessageBox.Show("Pages cannot be created in the recycle bin!", Properties.Resources.TagEditor_WarningMessageBox_Title, MessageBoxButton.OK);
+                            } else {
+                                pBarCopy.Visibility = Visibility.Visible;
+                                var newPageID = onenote.CreateNewPage(onenote.CurrentSectionID);
+                                var pg = new PageBuilder.OneNotePage(onenote, newPageID);
+                                SearchScope scope = scopeSelect.SelectedScope;
+                                string searchstring = searchComboBox.Text;
+                                var tags = (from tag in ViewModel.SelectedRefinementTags.Values
+                                            select tag.TagName).ToList();
+                                var pages = (from p in ViewModel.FilteredPages.Values
+                                             orderby p.Page.Name
+                                             select p.Page).ToList();
+                                await Task.Run(() => {
+                                    // TODO localize
+                                    pg.PageTags = new string[] { "Saved Search" };
+                                    pg.SavedSearches.Add(searchstring, tags, scope, pages);
+                                    pg.Update();
+                                });
+                                pBarCopy.Visibility = Visibility.Hidden;
+                                onenote.NavigateTo(pg.PageID);
+                            }
+                        }
+
                         break;
                     case "TagSelection":
                         var pagesToTag = from mp in _model.FilteredPages
