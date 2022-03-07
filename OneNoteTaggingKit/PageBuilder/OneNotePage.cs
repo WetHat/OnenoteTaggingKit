@@ -249,7 +249,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                             string txt = OETaglist.HTMLtag_matcher.Replace(t.Value, string.Empty);
                             _hashtags.UnionWith(from Match m in _hashtag_matcher.Matches(txt)
                                                  where !_number_matcher.Match(m.Value).Success
-                                                 select m.Value.Trim());
+                                                 select m.Value.Trim().ToLower());
                         }
                     }
                 }
