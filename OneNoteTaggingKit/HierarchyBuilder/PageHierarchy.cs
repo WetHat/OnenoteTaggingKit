@@ -1,10 +1,8 @@
 ﻿using Microsoft.Office.Interop.OneNote;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
+using WetHatLab.OneNote.TaggingKit.common.ui;
+using WetHatLab.OneNote.TaggingKit.PageBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
 {
@@ -22,11 +20,54 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         public IEnumerable<TaggedPage> Pages { get => _pages; }
 
         /// <summary>
-        /// Add pages of a page hierarchy to this hierarchy
+        /// Add pages of a XML page hierarchy.
         /// </summary>
-        /// <param name="hierarchy">A OneNote page hierarchy</param>
+        /// <param name="hierarchy">A OneNote page hierarchy XML document.</param>
         public void AddPages(XDocument hierarchy) {
             buildHierarchy(hierarchy.Root, null);
+        }
+
+        /// <summary>
+        /// Add pages returned by a search..
+        /// </summary>
+        /// <param name="scope">The search scope</param>
+        /// <param name="query">An optional search query string.</param>
+        public void AddPages(SearchScope scope, string query = null) {
+            string scopeID;
+            switch (scope) {
+                case SearchScope.Notebook:
+                    scopeID = _onenote.CurrentNotebookID;
+                    break;
+
+                case SearchScope.SectionGroup:
+                    scopeID = string.IsNullOrEmpty(_onenote.CurrentSectionGroupID)
+                        ? _onenote.CurrentNotebookID
+                        : _onenote.CurrentSectionGroupID;
+                    break;
+
+                case SearchScope.Section:
+                    scopeID = _onenote.CurrentSectionID;
+                    break;
+
+                default:
+                    scopeID = string.Empty;
+                    break;
+            }
+
+            XDocument searchResult;
+            if (string.IsNullOrEmpty(query)) {
+                // search by tags only
+                // collect all page tags on pages which have page tags. Tag search appears to
+                // be broken using work around
+                if (Properties.Settings.Default.UseWindowsSearch) {
+                    searchResult = _onenote.FindPagesByMetadata(scopeID, MetaCollection.PageTagsMetaKey);
+                } else {
+                    searchResult = _onenote.GetHierarchy(scopeID, HierarchyScope.hsPages);
+                }
+            } else {
+                searchResult = _onenote.FindPages(scopeID, query);
+            }
+            buildHierarchy(searchResult.Root, null);
         }
 
         void buildHierarchy(XElement hierarchyNode, HierarchyNode parent) {
@@ -57,7 +98,6 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
                         buildHierarchy(childNode, parent);
                     }
                 }
-
             }
         }
         /// <summary>
@@ -86,12 +126,22 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         }
 
         /// <summary>
-        /// initialize an empty OneNote page hierarchy.
+        /// Initialize an empty OneNote page hierarchy.
         /// </summary>
         /// <remarks><see cref="AddPages"/> can be used to populate the hierarchy.</remarks>
         /// <param name="onenote">OneNote application proxy.</param>
         public PageHierarchy(OneNoteProxy onenote) {
             _onenote = onenote;
+        }
+
+        /// <summary>
+        /// Initialize a new page hierachy instance with a search result.
+        /// </summary>
+        /// <param name="onenote">The OneNote application proxy.</param>
+        /// <param name="scope">The search scope</param>
+        /// <param name="query">Optional full text query.</param>
+        public PageHierarchy(OneNoteProxy onenote, SearchScope scope, string query = null) : this(onenote) {
+            AddPages(scope,query);
         }
     }
 }
