@@ -107,7 +107,11 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         /// <summary>
         /// Initialize an empty OneNote page hierarchy.
         /// </summary>
-        /// <remarks><see cref="AddPages"/> can be used to populate the hierarchy.</remarks>
+        /// <remarks>
+        ///     <see cref="AddPages(SearchScope,string)"/> or
+        ///     <see cref="AddPages(XDocument)"/>
+        ///     can be used to populate the hierarchy.
+        /// </remarks>
         /// <param name="onenote">OneNote application proxy.</param>
         public PageHierarchy(OneNoteProxy onenote) {
             _onenote = onenote;
