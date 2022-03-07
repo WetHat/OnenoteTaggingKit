@@ -2,12 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Xml.Linq;
 using System.Linq;
-using WetHatLab.OneNote.TaggingKit.common.ui;
-using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
+using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 {
