@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
@@ -12,11 +11,6 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     /// </summary>
     public class OETaglist : OET
     {
-        /// <summary>
-        /// Regular expression to match some HTML tags
-        /// </summary>
-        public static readonly Regex HTMLtag_matcher = new Regex(@"</*(a|span)[^<>]*>", RegexOptions.Compiled);
-
         /// <summary>
         /// Get the  genuine page tags represented tags represented by this paragraph.
         /// </summary>
