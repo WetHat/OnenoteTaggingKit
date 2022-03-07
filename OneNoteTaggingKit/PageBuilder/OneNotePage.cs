@@ -194,9 +194,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 _tagdef.DefineKnownPageTags(TaggedPage.ParseTaglist(_tagdef.InTitleMarkerDef.Name));
             }
 
-            SavedSearches = new OESavedSearchCollection(this, _tagdef.SavedSearchMarkerDef);
+            SavedSearches = new OESavedSearchCollection(this);
 
             // For performance reasons we are going to delete all outlines not related to tags
+            // or saved searches.
             // Note: Page updates will actually leave those removed outlines on the page.
             List<XElement> outlinesToDelete = new List<XElement>();
             XName outlineName = GetName("Outline");
@@ -238,6 +239,8 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                 continue; // keep this outline
                             }
                         }
+                    } else if (SavedSearches.Add(outline,_tagdef.SavedSearchMarkerDef)) {
+                        continue;
                     }
                     if (Properties.Settings.Default.MapHashTags) {
                         // make sure all hashtags in that outline are defined
