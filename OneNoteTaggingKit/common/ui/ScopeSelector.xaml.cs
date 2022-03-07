@@ -8,32 +8,6 @@ using System.Windows.Controls;
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
     /// <summary>
-    /// Enumeration of scopes to search for tagged pages
-    /// </summary>
-    public enum SearchScope
-    {
-        /// <summary>
-        /// OneNote section
-        /// </summary>
-        Section = 0,
-
-        /// <summary>
-        /// OneNote section group
-        /// </summary>
-        SectionGroup = 1,
-
-        /// <summary>
-        /// OneNote notebook
-        /// </summary>
-        Notebook = 2,
-
-        /// <summary>
-        /// All notebooks open in OneNote
-        /// </summary>
-        AllNotebooks = 3,
-    }
-
-    /// <summary>
     /// Search Scope UI facade
     /// </summary>
     public class SearchScopeFacade

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Office.Interop.OneNote;
 using System.Collections.Generic;
 using System.Xml.Linq;
-using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.PageBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
@@ -33,27 +32,7 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         /// <param name="scope">The search scope</param>
         /// <param name="query">An optional search query string.</param>
         public void AddPages(SearchScope scope, string query = null) {
-            string scopeID;
-            switch (scope) {
-                case SearchScope.Notebook:
-                    scopeID = _onenote.CurrentNotebookID;
-                    break;
-
-                case SearchScope.SectionGroup:
-                    scopeID = string.IsNullOrEmpty(_onenote.CurrentSectionGroupID)
-                        ? _onenote.CurrentNotebookID
-                        : _onenote.CurrentSectionGroupID;
-                    break;
-
-                case SearchScope.Section:
-                    scopeID = _onenote.CurrentSectionID;
-                    break;
-
-                default:
-                    scopeID = string.Empty;
-                    break;
-            }
-
+            string scopeID = _onenote.GetCurrentSearchScopeID(scope);
             XDocument searchResult;
             if (string.IsNullOrEmpty(query)) {
                 // search by tags only

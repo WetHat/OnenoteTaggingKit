@@ -10,6 +10,31 @@ using WetHatLab.OneNote.TaggingKit.Tagger;
 namespace WetHatLab.OneNote.TaggingKit
 {
     /// <summary>
+    /// Enumeration of scopes to search for pages
+    /// </summary>
+    public enum SearchScope
+    {
+        /// <summary>
+        /// Search in a OneNote section.
+        /// </summary>
+        Section = 0,
+
+        /// <summary>
+        /// Search in a OneNote section group.
+        /// </summary>
+        SectionGroup = 1,
+
+        /// <summary>
+        /// Search in a OneNote notebook.
+        /// </summary>
+        Notebook = 2,
+
+        /// <summary>
+        /// All notebooks open in OneNote.
+        /// </summary>
+        AllNotebooks = 3,
+    }
+    /// <summary>
     /// Callback implementation for the _OneNote_ QuickFiling dialog.
     /// </summary>
     /// <remarks>
@@ -318,6 +343,36 @@ namespace WetHatLab.OneNote.TaggingKit
                 o.FindPages(scopeID, query, out outXml, false, fDisplay: false, xsSchema: OneNoteSchema);
                 return XDocument.Parse(outXml);
             });
+        }
+
+        /// <summary>
+        /// Get the OneNote of a current node in the page hierarchy (notebook, section group, or
+        /// section) below which to search for content.
+        /// </summary>
+        /// <param name="scope">Search scope.</param>
+        /// <returns>The OneNote object id of the current node associated with the given scope. </returns>
+        public string GetCurrentSearchScopeID(SearchScope scope) {
+            string scopeID;
+            switch (scope) {
+                case SearchScope.Notebook:
+                    scopeID = CurrentNotebookID;
+                    break;
+
+                case SearchScope.SectionGroup:
+                    scopeID = string.IsNullOrEmpty(CurrentSectionGroupID)
+                        ? CurrentNotebookID
+                        : CurrentSectionGroupID;
+                    break;
+
+                case SearchScope.Section:
+                    scopeID = CurrentSectionID;
+                    break;
+
+                default:
+                    scopeID = string.Empty;
+                    break;
+            }
+            return scopeID;
         }
 
         /// <summary>

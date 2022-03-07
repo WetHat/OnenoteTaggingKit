@@ -81,30 +81,6 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             _updateRequired = true;
         }
 
-        string GetScopeID (OneNoteProxy onenote) {
-            string scopeID;
-            switch (_scope) {
-                case SearchScope.Notebook:
-                    scopeID = onenote.CurrentNotebookID;
-                    break;
-
-                case SearchScope.SectionGroup:
-                    scopeID = string.IsNullOrEmpty(onenote.CurrentSectionGroupID)
-                        ? onenote.CurrentNotebookID
-                        : onenote.CurrentSectionGroupID;
-                    break;
-
-                case SearchScope.Section:
-                    scopeID = onenote.CurrentSectionID;
-                    break;
-
-                default:
-                    scopeID = string.Empty;
-                    break;
-            }
-            return scopeID;
-        }
-
         IEnumerable<OET> GetPageLinks(OneNotePage page, IEnumerable<TaggedPage> pages) {
             XNamespace ns = page.Namespace;
             OneNoteProxy onenote = page.OneNoteApp;
@@ -153,7 +129,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             _updateRequired = false;
             Table.BordersVisible = true;
 
-            string scopeID = GetScopeID(onenote);
+            string scopeID = onenote.GetCurrentSearchScopeID(_scope);
             string scopelink;
             if (string.IsNullOrEmpty(scopeID)) {
                 scopelink = "All Notebooks"; // TODO localize
