@@ -35,7 +35,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 var converter = new ColorConverter();
                 return color != null ? (Color)converter.ConvertFromString(color) : default(Color);
             }
-            set  => SetAttributeValue("fontColor", "#" + value.R.ToString("X2")+value.G.ToString("X2")+value.B.ToString("X2"));
+            set  => SetAttributeValue("fontColor", "#" + (value.ToArgb() & 0x00FFFFFF).ToString("X6"));
         }
 
         /// <summary>
