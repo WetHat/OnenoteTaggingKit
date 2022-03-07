@@ -10,7 +10,6 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
-using WetHatLab.OneNote.TaggingKit.PageBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
@@ -84,6 +83,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             if ((DateTime.Now - _lastInput) > _inputTimer.Interval) {
                 _inputTimer.Stop();
                 RaiseEvent(new TagInputEventArgs(TagInputEvent, this, Tags, null));
+                tagInput.Focus();
             }
         }
 
@@ -119,6 +119,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 tagInput.Text = string.Join(",", value);
                 UpdateVisibility();
                 RaiseEvent(new TagInputEventArgs(TagInputEvent, this, value, null));
+                tagInput.Focus();
             }
         }
 
@@ -152,12 +153,12 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             if (string.IsNullOrEmpty(tagInput.Text))
             {
                 tagInput.Background = Brushes.Transparent;
-                clearTagInput.Visibility = System.Windows.Visibility.Collapsed;
+                clearTagInput.Visibility = Visibility.Collapsed;
             }
             else
             {
                 tagInput.Background = Brushes.White;
-                clearTagInput.Visibility = System.Windows.Visibility.Visible;
+                clearTagInput.Visibility = Visibility.Visible;
             }
             tagInput.Focus();
         }
@@ -176,6 +177,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 // raise event immediately
                 _inputTimer.Stop();
                 RaiseEvent(evt);
+                tagInput.Focus(); // take focus back
             } else {
                 IsPreset = false;
                 // wait for more input
