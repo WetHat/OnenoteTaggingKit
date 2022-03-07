@@ -14,7 +14,7 @@
                     label="Update Page"
                     size="normal"
                     screentip="Update imported tags and saved tag searches on the current page."
-                    onAction="refreshPage"
+                    onAction="updatePage"
                     image="refreshPage.png" />
           <button id="buttonSearchTags"
                   label="Find Pages"

@@ -10,10 +10,10 @@
                   screentip="在OneNote页面上添加标签或从中删除标签。"
                   onAction="editTags"
                   image="pageTags.png" />
-            <button id="refreshPage"
+            <button id="updatePage"
                      label="刷新页面"
                      size="normal"
-                     screentip="刷新活动页面内容（保存的搜索/内容标记）"
+                     screentip="更新当前页面上导入的标签和保存的标签搜索"
                      onAction="refreshPage"
                      image="refreshPage.png" />
           <button id="buttonSearchTags"
