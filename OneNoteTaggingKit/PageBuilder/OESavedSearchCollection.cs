@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Linq;
-using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
@@ -64,7 +63,6 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                   new XElement(GetName("OEChildren"),
                                         ss.Element)));
         }
-
 
         /// <summary>
         /// Create a new proxy for a Saved Search.
