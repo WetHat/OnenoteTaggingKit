@@ -17,7 +17,7 @@
         "autoidentifiers"
     ],
 
-    "github_pages": false,
+    "github_pages": true,
 
     "footer": "Template project Created by PowerShell Module <a href='https://github.com/WetHat/MarkdownToHtml'>MarkdownToHTML</a>.",
 
