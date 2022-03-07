@@ -82,7 +82,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             await Task.Run(() =>
             {
                 Thread.Yield(); // make sure UI builds up
-                _tags.FindTaggedPages(String.Empty);
+                _tags.FindPages(SearchScope.AllNotebooks,String.Empty);
             });
             // get the known suggestions (this populates the UI)
             await _suggestedTags.LoadKnownTagsAsync();

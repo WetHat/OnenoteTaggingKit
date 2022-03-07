@@ -4,13 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
-using WetHatLab.OneNote.TaggingKit.PageBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.common
 {
     /// <summary>
-    /// Context from which a tags and pages collection has been build from
+    /// Context from which a tags and pages collection has been build from.
     /// </summary>
     internal enum TagContext
     {
@@ -35,8 +35,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// </summary>
     /// <remarks>
     /// Provides an unordered set of tags and pages. The page collection is populated by
-    /// calling <see cref="FindTaggedPages(string)" />,
-    /// <see cref="FindTaggedPages(string,string)" /> or <see cref="LoadPageTags" />.
+    /// calling <see cref="FindPages" />or <see cref="LoadPageTags" />.
     /// </remarks>
     public class TagsAndPages
     {
@@ -81,69 +80,51 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         /// <summary>
-        /// Find tagged OneNote pages in a scope.
-        /// </summary>
-        /// <param name="scopeID">
-        /// OneNote id of the scope to search for pages. This is the element ID of a
-        /// notebook, section group, or section. If given as null or empty string scope is
-        /// the entire set of notebooks open in OneNote.
-        /// </param>
-        internal void FindTaggedPages(string scopeID) {
-            // collect all page tags on pages which have page tags. Tag search appears to
-            // be broken using work around
-            if (Properties.Settings.Default.UseWindowsSearch) {
-                BuildTagSet(_onenote.FindPagesByMetadata(scopeID, MetaCollection.PageTagsMetaKey), selectedPagesOnly: false);
-            } else {
-                BuildTagSet(_onenote.GetHierarchy(scopeID, HierarchyScope.hsPages), selectedPagesOnly: false, omitUntaggedPages: true);
-            }
-
-            // attempt to automatically update the tag suggestions, if we have collected all used tags
-            HashSet<string> knownTags = new HashSet<String>(from string s in Properties.Settings.Default.KnownTagsCollection select s);
-            int countBefore = knownTags.Count;
-
-            // update the list of known tags by adding tags from search result
-            foreach (KeyValuePair<string, TagPageSet> t in _tags) {
-                knownTags.Add(t.Key);
-            }
-
-            if (countBefore != knownTags.Count) { // updated tag suggestions
-                string[] sortedTags = knownTags.ToArray();
-                Array.Sort(sortedTags);
-                Properties.Settings.Default.KnownTagsCollection.Clear();
-                Properties.Settings.Default.KnownTagsCollection.AddRange(sortedTags);
-            }
-        }
-
-        /// <summary>
         /// Find pages by full text search
         /// </summary>
         /// <param name="query">  query string</param>
-        /// <param name="scopeID">
+        /// <param name="scope">
         /// OneNote id of the scope to search for pages. This is the element ID of a
         /// notebook, section group, or section. If given as null or empty string;
         /// scope is the entire set of notebooks open in OneNote.
         /// </param>
-        internal void FindTaggedPages(string query, string scopeID) {
-            BuildTagSet(_onenote.FindPages(scopeID, query), selectedPagesOnly: false);
+        internal void FindPages(SearchScope scope, string query = null ) {
+            BuildTagSet(new PageHierarchy(_onenote,scope,query),selectedPagesOnly:false);
+            if (!string.IsNullOrEmpty(query)) {
+                // attempt to automatically update the tag suggestions, if we have collected all used tags
+                HashSet<string> knownTags = new HashSet<String>(from string s in Properties.Settings.Default.KnownTagsCollection select s);
+                int countBefore = knownTags.Count;
+
+                // update the list of known tags by adding tags from search result
+                foreach (KeyValuePair<string, TagPageSet> t in _tags) {
+                    knownTags.Add(t.Key);
+                }
+
+                if (countBefore != knownTags.Count) { // updated tag suggestions
+                    string[] sortedTags = knownTags.ToArray();
+                    Array.Sort(sortedTags);
+                    Properties.Settings.Default.KnownTagsCollection.Clear();
+                    Properties.Settings.Default.KnownTagsCollection.AddRange(sortedTags);
+                }
+            }
         }
 
         /// <summary>
-        /// Load tags from pages in subtree of the OneNote page directory structure.
+        /// Load tags from pages in subtree of the OneNote page hierarchy.
         /// </summary>
-        /// <param name="context">the context from where to get pages</param>
+        /// <param name="context">The context from where to get pages.</param>
         internal void LoadPageTags(TagContext context) {
             // collect all tags and pages from a context
-
             switch (context) {
                 default:
                 case TagContext.CurrentNote:
                     BuildTagSet(_onenote.GetHierarchy(_onenote.CurrentPageID, HierarchyScope.hsSelf),
-                                         selectedPagesOnly: false);
+                                         selectedPagesOnly: false, omitUntaggedPages: true) ;
                     break;
 
                 case TagContext.CurrentSection:
                     BuildTagSet(_onenote.GetHierarchy(_onenote.CurrentSectionID, HierarchyScope.hsPages),
-                                          selectedPagesOnly: false);
+                                          selectedPagesOnly: false, omitUntaggedPages: true);
                     break;
 
                 case TagContext.SelectedNotes:
@@ -152,10 +133,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
                         foreach (var id in SelectedPages) {
                             ph.AddPages(_onenote.GetHierarchy(id, HierarchyScope.hsSelf));
                         }
-                        BuildTagSet(ph, selectedPagesOnly: true);
+                        BuildTagSet(ph, selectedPagesOnly: true, omitUntaggedPages: true);
                     } else {
                         BuildTagSet(_onenote.GetHierarchy(_onenote.CurrentSectionID, HierarchyScope.hsPages),
-                                              selectedPagesOnly: true);
+                                              selectedPagesOnly: true, omitUntaggedPages: true);
                     }
                     break;
             }
@@ -164,7 +145,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// Extract tags from OneNote page descriptors.
         /// </summary>
         /// <param name="hierarchy">
-        /// A hierarchy of OneNote pages
+        /// A hierarchy of OneNote pages.
         /// </param>
         /// <param name="selectedPagesOnly">true to process only pages selected by user</param>
         /// <param name="omitUntaggedPages">drop untagged pages</param>
@@ -200,7 +181,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     t.AddPage(tp);
                     tp.Tags.Add(t);
                 }
-                if (!omitUntaggedPages || tagcount > 0) {
+                if (tagcount > 0 || !omitUntaggedPages) {
                     taggedpages.Add(tp.Key, tp);
                 }
             }

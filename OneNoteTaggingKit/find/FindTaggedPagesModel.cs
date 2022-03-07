@@ -116,7 +116,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         ///  Get/set the OneNote element id of the current search scope.
         /// </summary>
-        public string CurrentScopeID { get; set; }
+        public SearchScope CurrentScope { get; private set; }
 
         /// <summary>
         /// FindTaggedPages pages matching a search criterion in the background.
@@ -124,26 +124,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <param name="query">query. If null or empty just all page tags are collected</param>
         /// <param name="scope">Range of the search</param>
         internal async Task FindPagesAsync(string query, SearchScope scope) {
-            switch (scope) {
-                case SearchScope.Notebook:
-                    CurrentScopeID = OneNoteApp.CurrentNotebookID;
-                    break;
-
-                case SearchScope.SectionGroup:
-                    CurrentScopeID = string.IsNullOrEmpty(OneNoteApp.CurrentSectionGroupID)
-                        ? OneNoteApp.CurrentNotebookID
-                        : OneNoteApp.CurrentSectionGroupID;
-                    break;
-
-                case SearchScope.Section:
-                    CurrentScopeID = OneNoteApp.CurrentSectionID;
-                    break;
-
-                default:
-                    CurrentScopeID = String.Empty;
-                    break;
-            }
-
+            CurrentScope = scope;
             if (!string.IsNullOrEmpty(query)) {
                 query = query.Trim().Replace(',', ' ');
                 SearchHistory.Remove(query);
@@ -166,7 +147,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 _highlighter = new TextSplitter();
             }
 
-            await Task.Run(() => _filteredTagsAndPages.Find(query, CurrentScopeID), _cancelWorker.Token);
+            await Task.Run(() => _filteredTagsAndPages.Find(query, scope), _cancelWorker.Token);
         }
 
         internal Task ClearTagFilterAsync() {
@@ -176,7 +157,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Add a single tag to the refinement filter.
         /// </summary>
-        /// <param name="tag">View model of the tag</param>
+        /// <param name="tag">View model of the tag.</param>
         internal void AddTagToFilter(RefinementTagModel tag) {
             if (!SelectedRefinementTags.ContainsKey(tag.Key)) {
                 SelectedRefinementTags.AddAll(new SelectedTagModel[] {

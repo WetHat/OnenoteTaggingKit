@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using WetHatLab.OneNote.TaggingKit.common;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.find
@@ -34,20 +35,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// the filter.
         /// </remarks>
         /// <param name="query">  query string. if null or empty just the tags are provided</param>
-        /// <param name="scopeID">
-        /// OneNote id of the scope to search for pages. This is the element ID of a
-        /// notebook, section group, or section. If given as null or empty string scope is
-        /// the entire set of notebooks open in OneNote.
-        /// </param>
-        internal void Find(string query, string scopeID) {
+        /// <param name="scope">The scope to search for pages.</param>
+        internal void Find(string query, SearchScope scope) {
             _query = query;
-            if (string.IsNullOrEmpty(query)) {
-                // collect all tags used somewhere on a page
-                FindTaggedPages(scopeID);
-            } else {
-                // run a text search
-                FindTaggedPages(query, scopeID);
-            }
+
+            FindPages(scope, query);
 
             MatchingPages.Clear();
             FilterTags.IntersectWith(Tags.Values); // remove obsolete tags

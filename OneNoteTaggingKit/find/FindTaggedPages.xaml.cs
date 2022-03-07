@@ -420,28 +420,7 @@ EndSelection:{5:D6}";
         private void _model_DependencyPropertyChanged(object sender, DependencyPropertyChangedEventArgs e) {
            if (e.Property == FindTaggedPagesModel.CurrentPageTagsProperty) {
                 // update query if necessary
-                string thisScopID;
-                switch (scopeSelect.SelectedScope) {
-                    case SearchScope.Notebook:
-                        thisScopID = ViewModel.OneNoteApp.CurrentNotebookID;
-                        break;
-
-                    case SearchScope.SectionGroup:
-                        thisScopID = ViewModel.OneNoteApp.CurrentSectionGroupID;
-                        if (string.IsNullOrEmpty(thisScopID)) {
-                            thisScopID = ViewModel.OneNoteApp.CurrentNotebookID;
-                        }
-                        break;
-
-                    case SearchScope.Section:
-                        thisScopID = ViewModel.OneNoteApp.CurrentSectionID;
-                        break;
-
-                    default:
-                        thisScopID = string.Empty; // All Notebooks
-                        break;
-                }
-                if (!thisScopID.Equals(ViewModel.CurrentScopeID)) { // rerun the query for the current scope
+                if (scopeSelect.SelectedScope != ViewModel.CurrentScope) { // rerun the query for the current scope
                     try {
                         pBar.Visibility = Visibility.Visible;
                         string query = searchComboBox.Text;
