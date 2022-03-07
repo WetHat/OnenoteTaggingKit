@@ -170,14 +170,15 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             if (_updateRequired) {
                 if (_lastModified != null) {
                     _lastModified.Text = DateTime.Now.ToString(CultureInfo.CurrentCulture);
-                    var pageTags = _tags.PageTags.ToList();
+                    var pageTags = new List<string>(from tag in _tags.PageTags
+                                                    select tag.TrimStart('#').ToLower());
 
                     var ph = new PageHierarchy(onenote,_scope,_query);
                     var pages = new Stack<TaggedPage>();
                     foreach ( var p in ph.Pages) {
                         var tags = new HashSet<string>(from n in p.TagNames
                                                        let parsed = TagPageSet.ParseTagName(n)
-                                                       select parsed.Item1);
+                                                       select parsed.Item1.TrimStart('#').ToLower());
                         if (pageTags.All((x) => tags.Contains(x))) {
                             pages.Push(p);
                         }
