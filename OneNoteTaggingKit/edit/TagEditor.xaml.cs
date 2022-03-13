@@ -141,7 +141,6 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 if (sender is TagInputBox) {
                     tagInput.FocusInput();
                 }
-
             } catch (Exception ex) {
                 TraceLogger.Log(TraceCategory.Error(), "Processing Tag input failed with {0}", ex);
                 TraceLogger.ShowGenericErrorBox(Properties.Resources.TagEditor_Input_Error, ex);
