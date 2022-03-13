@@ -87,7 +87,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
 
         string _tagType = string.Empty;
         /// <summary>
-        /// Get the foreground color for the tag indicator.
+        /// Get the tag indicator.
         /// </summary>
         public string TagType {
             get => _tagType;
