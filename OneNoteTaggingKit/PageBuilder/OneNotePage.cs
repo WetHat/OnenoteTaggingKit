@@ -373,13 +373,19 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         /// <returns><i>true</i> if a page update is needed; <i>false</i> otherwise</returns>
         private bool ApplyTagsToPage() {
+            // determine all tags the title currently has
             TagCollection titletags = Title.Tags;
-            // get all page tags from the tags the title may have
-            var titletagset = new HashSet<TagDef>(from Tag t in titletags
-                                                  let td = _tagdef[t.Index]
-                                                  where !td.IsDisposed
-                                                  select td);
-            // import tags from page content (if enabled)
+            // make sure we are not hihacking symbol less OneNote tags
+            foreach (var td in _tagdef.DefinedPageTags) {
+                if (!titletags.Contains(td)) {
+                    // this is a symbol-less OneNote tag somwhere else on the page
+                    td.Tag = null;
+                }
+            }
+            // get all the tags currently on the title
+            var titletagset = new HashSet<TagDef>(from tag in titletags select _tagdef[tag.Index]);
+
+            // import OneNote tags (if enabled)
             if (Properties.Settings.Default.MapOneNoteTags) {
                 _importedTags.UnionWith(from td in _tagdef
                                         where td.ProcessClassification == TagProcessClassification.OneNoteTag
@@ -394,6 +400,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 
             // define all the tags
             _tagdef.DefinePageTags(pagetagset);
+
+            // ... and make sure these tags are on the title too
+            titletagset.UnionWith(_tagdef.DefinedPageTags);
 
             bool specChanged = _tagdef.IsModified;
             // update the meta information of the page
@@ -483,6 +492,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     }
                     break;
             }
+
             if (!specChanged) {
                 // make sure the title tags are up-to-date
                 if (titletagset.Any((td) => !titletags.Contains(td))) {
