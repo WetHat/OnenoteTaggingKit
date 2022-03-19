@@ -168,13 +168,13 @@ namespace WetHatLab.OneNote.TaggingKit.common
                             // recycle that existing tag
                             t.ClearFilter();
                             t.Pages.Clear();
-
+                            t.Tag = PageTagSet.ChoosePageTag(t.Tag, tag);
                         } else {
                             t = new TagPageSet(tag);
                         }
-                        tags.Add(t.TagName, t);
-                    } else if (tag.TagType < t.Tag.TagType) {
-                        t.Tag = tag;
+                        tags.Add(t.Tag.Key, t);
+                    } else  {
+                        t.Tag = PageTagSet.ChoosePageTag(t.Tag, tag);
                     }
 
                     t.AddPage(tp);
