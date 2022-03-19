@@ -18,18 +18,18 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         /// </summary>
         public TagEditorDesignerModel() {
             _suggestedTags.AddAll(new SelectableTagModel[] {
-                new SelectableTagModel() { TagName="Suggested Tag 1"},
-                new SelectableTagModel() { TagName="Suggested Tag 2"}
+                new SelectableTagModel() { Tag = new PageTag("Suggested Tag 1", PageTagType.Unknown)},
+                new SelectableTagModel() { Tag= new PageTag("Suggested Tag 2",PageTagType.Unknown)}
             });
 
             _pageTags.AddAll(new SelectedTagModel[] {
                 new SelectedTagModel() {
-                    TagName = "tag 1"
+                    Tag = new PageTag("tag 1",PageTagType.Unknown)
                 },
                 new SelectedTagModel() {
-                    TagName = "tag 2"
+                    Tag = new PageTag("tag 2",PageTagType.Unknown)
                 }
-            });
+            }) ;
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using WetHatLab.OneNote.TaggingKit.common.ui;
@@ -21,14 +22,13 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <returns>awaitable task object</returns>
         public async Task LoadKnownTagsAsync() {
             Clear();
-            T[] mdls = await Task<T[]>.Run(() => LoadPersistedTags());
+            IEnumerable<T> mdls = await Task<IEnumerable<T>>.Run(() => LoadPersistedTags());
             AddAll(mdls);
         }
 
-        private T[] LoadPersistedTags() {
-            return (from string t in Properties.Settings.Default.KnownTagsCollection
-                    where !string.IsNullOrWhiteSpace(t)
-                    select new T() { TagName = t.Trim() } ).ToArray();
+        private IEnumerable<T> LoadPersistedTags() {
+            return from pt in new PageTagSet(from string n in Properties.Settings.Default.KnownTagsCollection select n, TagFormat.AsEntered)
+                   select new T() { Tag = pt };
         }
 
         /// <summary>

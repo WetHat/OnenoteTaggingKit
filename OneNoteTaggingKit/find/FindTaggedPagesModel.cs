@@ -234,10 +234,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 _currentPageID = OneNoteApp.CurrentPageID;
                 TagsAndPages tap = new TagsAndPages(OneNoteApp);
                 tap.LoadPageTags(TagContext.CurrentNote);
-                TaggedPage tp = tap.Pages.Values.FirstOrDefault();
+                PageNode tp = tap.Pages.Values.FirstOrDefault();
                 if (tp != null) {
                     Dispatcher.Invoke(() => {
-                        CurrentPageTags = (from t in tp.Tags select t.TagName).ToArray();
+                        CurrentPageTags = (from t in tp.Tags select t.BaseName).ToArray();
                         CurrentPageTitle = tp.Name;
                     });
                 }
@@ -246,7 +246,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         #endregion tag tracking
 
-        private void HandlePageCollectionChanges(object sender, NotifyDictionaryChangedEventArgs<string, TaggedPage> e) {
+        private void HandlePageCollectionChanges(object sender, NotifyDictionaryChangedEventArgs<string, PageNode> e) {
             Action a = null;
             switch (e.Action) {
                 case NotifyDictionaryChangedAction.Add:

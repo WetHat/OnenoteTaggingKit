@@ -184,15 +184,15 @@ namespace WetHatLab.OneNote.TaggingKit.find
                                 var pg = new PageBuilder.OneNotePage(onenote, newPageID);
                                 SearchScope scope = scopeSelect.SelectedScope;
                                 string searchstring = searchComboBox.Text;
-                                var tags = (from tag in ViewModel.SelectedRefinementTags.Values
-                                            select tag.TagName).ToList();
+                                var tagset = new PageTagSet(from rt in ViewModel.SelectedRefinementTags.Values
+                                                            select rt.Tag);
                                 var pages = (from p in ViewModel.FilteredPages.Values
                                              orderby p.Page.Name
                                              select p.Page).ToList();
                                 await Task.Run(() => {
                                     // TODO localize
-                                    pg.PageTags = new string[] { "Saved Search" };
-                                    pg.SavedSearches.Add(searchstring, tags, scope, pages);
+                                    pg.Tags = new PageTagSet("Saved Search", TagFormat.AsEntered);
+                                    pg.SavedSearches.Add(searchstring, tagset.ToString(), scope, pages);
                                     pg.Update();
                                 });
                                 pBarCopy.Visibility = Visibility.Hidden;
@@ -220,7 +220,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                         break;
 
                     case "MarkSelection":
-                        string[] marker = new string[] { "-✩-" };
+                        var marker = new PageTagSet("-✩-", TagFormat.AsEntered);
                         int pagesTagged = 0;
                         foreach (var mdl in _model.FilteredPages.Where((p) => p.IsSelected && !p.IsInRecycleBin)) {
                             _model.OneNoteApp.TaggingService.Add(new Tagger.TaggingJob(mdl.PageID, marker, Tagger.TagOperation.UNITE));
@@ -440,7 +440,7 @@ EndSelection:{5:D6}";
                         pBar.Visibility = Visibility.Visible;
                         string query = searchComboBox.Text;
                         _model.FindPagesAsync(query, scopeSelect.SelectedScope).Wait();
-                        tagInput.Tags = ViewModel.CurrentPageTags;
+                        tagInput.TagNames = ViewModel.CurrentPageTags;
                         pBar.Visibility = Visibility.Hidden;
                         searchComboBox.SelectedValue = query;
                     } catch (Exception ex) {
@@ -448,7 +448,7 @@ EndSelection:{5:D6}";
                         TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_ScopeChange, ex);
                     }
                 } else {
-                    tagInput.Tags = ViewModel.CurrentPageTags;
+                    tagInput.TagNames = ViewModel.CurrentPageTags;
                 }
             }
         }
@@ -457,7 +457,7 @@ EndSelection:{5:D6}";
             if (!tagInput.IsEmpty) {
                 if (tagInput.IsPreset) {
                     await _model.ClearTagFilterAsync();
-                    var failedTags = await _model.AddAllFullyMatchingTagsAsync(tagInput.Tags);
+                    var failedTags = await _model.AddAllFullyMatchingTagsAsync(tagInput.TagNames);
                     if (failedTags.Count > 0) {
                         string scopeName;
                         switch (scopeSelect.SelectedScope) {

@@ -144,7 +144,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Get the page object backing this view model.
         /// </summary>
-        public TaggedPage Page { get; }
+        public PageNode Page { get; }
 
         /// <summary>
         /// create a new instance of the view model.
@@ -153,7 +153,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <param name="highlighter">
         /// object to generate a highlight description of the link title
         /// </param>
-        internal HitHighlightedPageLinkModel(TaggedPage tp, TextSplitter highlighter)
+        internal HitHighlightedPageLinkModel(PageNode tp, TextSplitter highlighter)
             : base(tp.Name, tp.ID) {
             Page = tp;
             IsSelected = false;

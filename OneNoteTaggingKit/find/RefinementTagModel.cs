@@ -92,8 +92,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             set {
                 _pageTag = value;
                 _pageTag.PropertyChanged += _pageTag_PropertyChanged;
-                TagName = _pageTag.TagName;
-                TagType = _pageTag.TagType;
+                Tag = _pageTag.Tag;
                 UpdateTagIndicator();
             }
         }

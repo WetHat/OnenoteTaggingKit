@@ -12,11 +12,11 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
 
         OneNoteProxy _onenote;
 
-        Stack<TaggedPage> _pages = new Stack<TaggedPage>();
+        Stack<PageNode> _pages = new Stack<PageNode>();
         /// <summary>
         /// Get the pages (leaf nodes) of the hierarchy.
         /// </summary>
-        public IEnumerable<TaggedPage> Pages { get => _pages; }
+        public IEnumerable<PageNode> Pages { get => _pages; }
 
         /// <summary>
         /// Add pages of a XML page hierarchy.
@@ -52,7 +52,7 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         void buildHierarchy(XElement hierarchyNode, HierarchyNode parent) {
             string localname = hierarchyNode.Name.LocalName;
             if ("Page".Equals(localname)) {
-                _pages.Push(new TaggedPage(hierarchyNode, parent));
+                _pages.Push(new PageNode(hierarchyNode, parent));
             } else {
                 HierarchyElement t = HierarchyElement.heNone;
                 switch (localname) {

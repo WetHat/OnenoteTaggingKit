@@ -26,7 +26,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         private TagPageSet _tag;
 
         /// <summary>
-        /// Get or set the page tag which keeps track of the pages having this
+        /// Set the page tag which keeps track of the pages having this
         /// tag.
         /// </summary>
         /// <remarks>
@@ -34,11 +34,11 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// (number of pages with this tag). If the page count is 0, the
         /// tag isn't used anywhere.
         /// </remarks>
-        internal TagPageSet Tag {
+        internal TagPageSet PageTag {
             get => _tag;
             set {
                 _tag = value;
-                TagName = value.TagName;
+                Tag = value.Tag;
                 UseCount = value.Pages.Count;
             }
         }

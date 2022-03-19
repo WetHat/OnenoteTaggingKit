@@ -13,57 +13,22 @@ namespace WetHatLab.OneNote.TaggingKit.common
     public class TagPageSet : ObservableObject, IKeyedItem<string> {
 
         /// <summary>
-        /// The type markers to watch out for on tag names.
+        /// Set / set the page tag common to all pages in this set.
         /// </summary>
-        private static readonly string[] _typeMarker = new string[] {
-                Properties.Settings.Default.ImportOneNoteTagMarker,
-                Properties.Settings.Default.ImportHashtagMarker
-        };
-        /// <summary>
-        /// Utility function to get base name and type of a page tag.
-        /// </summary>
-        /// <param name="tagname">Tag name with type postfix</param>
-        /// <returns>Tag basename and type.</returns>
-        internal static Tuple<string,string> ParseTagName(string tagname) {
-            string basename = null;
-            foreach (var marker in _typeMarker) {
-                if (tagname.EndsWith(marker)) {
-                    basename = tagname.Substring(0, tagname.Length - marker.Length);
-                    break;
-                }
-            }
-            if (basename == null) {
-                basename = tagname.Trim();
-            }
+        public PageTag Tag { get; set; }
 
-            return new Tuple<string, string>(
-                basename,
-                basename.Length == tagname.Length ? string.Empty : tagname.Substring(basename.Length));
-        }
         /// <summary>
-        /// Get name of the tag.
+        /// Get name of the page tag.
         /// </summary>
-        /// <value>Name of the tag without type annotation.</value>
-        public string TagName { get; }
+        /// <value>Basename of the tag without type annotation.</value>
+        public string TagName { get => Tag.BaseName; }
 
-        string _tagType = null;
         /// <summary>
-        /// The tag's type.
+        /// Get the tag's type marker.
         /// </summary>
-        /// <value>A marker emoji for imported tags; Empty string otherwise</value>
+        /// <value>A marker string</value>
         public string TagType {
-            get => _tagType??string.Empty;
-            set {
-                if (_tagType == null) {
-                    _tagType = value;
-                    RaisePropertyChanged();
-                } else if (_tagType.Length > 0
-                           && !_tagType.Equals(value)
-                           && Properties.Settings.Default.ImportOneNoteTagMarker.Equals(value)) {
-                    _tagType = value;
-                    RaisePropertyChanged();
-                }
-            }
+            get => Tag.TagMarker;
         }
 
         /// <summary>
@@ -73,29 +38,27 @@ namespace WetHatLab.OneNote.TaggingKit.common
         public bool IsFiltered => FilteredPageCount != Pages.Count;
 
         /// <summary>
-        /// Initialize a new instance of a page tag.
+        /// Initialize a new instance of a set of pages having the given page
+        /// tag.
         /// </summary>
-        /// <param name="parsedName">
-        ///     The parsed tag name consisting of base name
-        ///     and type as returned by  <see cref="ParseTagName(string)"/>
-        /// </param>
-        public TagPageSet(Tuple<string, string> parsedName) {
-            TagName = parsedName.Item1;
-            TagType = parsedName.Item2;
+        /// <param name="tag">Page tag.</param>
+        public TagPageSet(PageTag tag) {
+            Tag = tag;
         }
 
         /// <summary>
-        /// Create a new instance object representing pages having a specific tag.
+        /// Initialize a new instance of a set of pages having a tag with the
+        /// given name in common..
         /// </summary>
-        /// <param name="tagName">Name of tag with type annotation.</param>
-        public TagPageSet(string tagName) : this(ParseTagName(tagName)) {
-        }
+        /// <param name="tagname">Name of tag (with type information).</param>
+        public TagPageSet(string tagname)
+            : this (new PageTag(tagname, PageTagType.Unknown) ){ }
 
-        ISet<TaggedPage> _pages = new HashSet<TaggedPage>();
+        ISet<PageNode> _pages = new HashSet<PageNode>();
         /// <summary>
         /// Get the set of pages having the tag represented by this object.
         /// </summary>
-        public ISet<TaggedPage> Pages { get => _pages; }
+        public ISet<PageNode> Pages { get => _pages; }
 
         int _filteredPageCount = 0;
         /// <summary>
@@ -113,7 +76,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
         }
 
-        ISet<TaggedPage> _filteredPages = null;
+        ISet<PageNode> _filteredPages = null;
         /// <summary>
         /// Get the set of tags after filtering.
         /// </summary>
@@ -122,14 +85,14 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// associated wth this tag otherwise returnes the set of
         /// pages with the filter applied.
         /// </value>
-        internal ISet<TaggedPage> FilteredPages => _filteredPages ?? _pages;
+        internal ISet<PageNode> FilteredPages => _filteredPages ?? _pages;
 
         /// <summary>
         /// Associate a page with this page.
         /// </summary>
         /// <param name="pg">Page having this tag.</param>
         /// <returns></returns>
-        internal bool AddPage(TaggedPage pg) => Pages.Add(pg);
+        internal bool AddPage(PageNode pg) => Pages.Add(pg);
 
         /// <summary>
         /// Clear the tag filter.
@@ -144,9 +107,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// Apply an intersection filter to constrain the number of pages.
         /// </summary>
         /// <param name="filter"></param>
-        internal void IntersectWith(IEnumerable<TaggedPage> filter)
+        internal void IntersectWith(IEnumerable<PageNode> filter)
         {
-            _filteredPages = new HashSet<TaggedPage>(filter);
+            _filteredPages = new HashSet<PageNode>(filter);
             FilteredPages.IntersectWith(Pages);
             FilteredPageCount = FilteredPages.Count;
         }

@@ -15,8 +15,8 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// Create a new instance of the view model including some dummy data.
         /// </summary>
         public TagManagerDesignerModel() {
-            _tags.AddAll(new RemovableTagModel[] { new RemovableTagModel() { Tag = new TagPageSet("suggested tag 1") },
-                                                   new RemovableTagModel() { Tag = new TagPageSet("suggested tag 2") }});
+            _tags.AddAll(new RemovableTagModel[] { new RemovableTagModel() { PageTag = new TagPageSet("suggested tag 1") },
+                                                   new RemovableTagModel() { PageTag = new TagPageSet("suggested tag 2") }});
         }
 
         /// <summary>

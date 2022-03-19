@@ -114,11 +114,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             try {
                 if (e.TagInputComplete) {
                     selectMatchingTags();
+                    var tagset = new PageTagSet(e.Tags,(TagFormat)Properties.Settings.Default.TagFormatting);
                     // create new tags
-                    _model.SelectedTags.AddAll(from t in e.Tags
-                                            where !_model.SelectedTags.ContainsSortKey(new TagModelKey(t))
+                    _model.SelectedTags.AddAll(from pt in tagset
+                                            where !_model.SelectedTags.ContainsSortKey(pt.Key)
                                             select new SelectedTagModel() {
-                                                TagName = TagFormatter.Format(t)
+                                                Tag = pt
                                             });
                     switch (e.Action) {
                         case TagInputEventArgs.TaggingAction.Add:

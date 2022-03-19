@@ -175,7 +175,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             // bring suggestions up-to-date with new tags that may have been entered
             TagSuggestions.AddAll(from t in SelectedTags.Values
                                   where t.SelectableTag == null
-                                  select new SelectableTagModel() { TagName = t.TagName });
+                                  select new SelectableTagModel() { Tag = t.Tag });
             TagSuggestions.Save();
 
             // covert scope to context
@@ -206,12 +206,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             }
 
             int enqueuedPages = 0;
-            string[] pageTags = (from t in SelectedTags.Values select t.TagName).ToArray();
+            var tagset = new PageTagSet(from t in SelectedTags.Values select t.Tag);
             foreach (string pageID in pageIDs) {
-                OneNoteApp.TaggingService.Add(new TaggingJob(pageID, pageTags, op));
+                OneNoteApp.TaggingService.Add(new TaggingJob(pageID, tagset, op));
                 enqueuedPages++;
             }
-            TraceLogger.Log(TraceCategory.Info(), "{0} page(s) enqueued for tagging with '{1}' using {2}", enqueuedPages, string.Join(";", pageTags), op);
+            TraceLogger.Log(TraceCategory.Info(), "{0} page(s) enqueued for tagging with '{1}' using {2}", enqueuedPages, tagset.ToString(), op);
             TraceLogger.Flush();
             return enqueuedPages;
         }

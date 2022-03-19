@@ -46,15 +46,15 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     [ComVisible(false)]
     public class TagManagerModel : WindowViewModelBase, ITagManagerModel
     {
-        private class UseCountComparer : IComparer<KeyValuePair<TagModelKey, RemovableTagModel>>
+        private class UseCountComparer : IComparer<KeyValuePair<string, RemovableTagModel>>
         {
-            #region IComparer<KeyValuePair<TagModelKey, RemovableTagModel>>
-            public int Compare(KeyValuePair<TagModelKey, RemovableTagModel> x, KeyValuePair<TagModelKey, RemovableTagModel> y) {
+            #region IComparer<KeyValuePair<string, RemovableTagModel>>
+            public int Compare(KeyValuePair<string, RemovableTagModel> x, KeyValuePair<string, RemovableTagModel> y) {
                 int res = x.Value.UseCount.CompareTo(y.Value.UseCount);
                 return res == 0 ? x.Key.CompareTo(y.Key) : res;
                 }
 
-            #endregion IComparer<KeyValuePair<TagModelKey, RemovableTagModel>>
+            #endregion IComparer<KeyValuePair<string, RemovableTagModel>>
         };
         private static readonly UseCountComparer sUseCountComparer = new UseCountComparer();
         private KnownTagsSource<RemovableTagModel> _suggestedTags = new KnownTagsSource<RemovableTagModel>();
@@ -74,7 +74,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
 
 
         internal void SortByUsage() {
-            _suggestedTags.ItemComparer =sUseCountComparer;
+            _suggestedTags.ItemComparer = sUseCountComparer;
         }
 
         internal async Task LoadSuggestedTagsAsync() {
@@ -91,7 +91,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             foreach (var t in _suggestedTags.Values) {
                 TagPageSet tag;
                 if (_tags.Tags.TryGetValue(t.TagName, out tag)) {
-                    t.Tag = tag;
+                    t.Tag = tag.Tag;
                 }
             }
         }

@@ -10,7 +10,6 @@
     /// </remarks>
     public class SelectedTagModel : TagModel
     {
-
         SelectableTagModel _selectableTag = null;
         /// <summary>
         /// Get/set the view model of a tag that can be selected
@@ -24,8 +23,7 @@
             set {
                 _selectableTag = value;
                 _selectableTag.IsSelected = true;
-                TagName = value.TagName;
-                TagType = value.TagType;
+                Tag = value.Tag;
             }
         }
 

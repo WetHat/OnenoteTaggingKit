@@ -21,13 +21,13 @@
             </Style>
         </ToggleButton.Resources>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Name="tagName"
-                       VerticalAlignment="Bottom"
+            <TextBlock Text="{Binding Path=TagType, Mode=OneWay}"
+                       VerticalAlignment="Center"
                        Foreground="DarkSlateBlue"
                        FontWeight="Bold"
                        Focusable="False"/>
-            <TextBlock Text="{Binding Path=TagType, Mode=OneWay}"
-                       VerticalAlignment="Center"
+            <TextBlock Name="tagName"
+                       VerticalAlignment="Bottom"
                        Foreground="DarkSlateBlue"
                        FontWeight="Bold"
                        Focusable="False"/>

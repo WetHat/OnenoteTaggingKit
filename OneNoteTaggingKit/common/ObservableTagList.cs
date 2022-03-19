@@ -71,7 +71,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     ///     The tag model type. Either a <see cref="TagModel"/> or a sub-class of it.
     /// </typeparam>
     [ComVisible(false)]
-    public class ObservableTagList<T> : ObservableSortedList<TagModelKey, string, T>, IObservableTagList
+    public class ObservableTagList<T> : ObservableSortedList<string, string, T>, IObservableTagList
                                                       where T : TagModel {
         #region IObservableTagList
         object IReadOnlyList<object>.this[int index] => this[index];

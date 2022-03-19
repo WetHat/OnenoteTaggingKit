@@ -19,13 +19,13 @@
             </Style>
         </Button.Resources>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Name="tagName"
-                       Text="{Binding Path=TagName, Mode=OneWay}"
+            <TextBlock Text="{Binding Path=TagType, Mode=OneWay}"
                        VerticalAlignment="Center"
                        Foreground="DarkSlateBlue"
                        FontWeight="Bold"
                        Focusable="False"/>
-            <TextBlock Text="{Binding Path=TagType, Mode=OneWay}"
+            <TextBlock Name="tagName"
+                       Text="{Binding Path=TagName, Mode=OneWay}"
                        VerticalAlignment="Center"
                        Foreground="DarkSlateBlue"
                        FontWeight="Bold"

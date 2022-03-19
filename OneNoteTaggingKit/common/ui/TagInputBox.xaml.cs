@@ -20,12 +20,12 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     public partial class TagInputBox : UserControl
     {
         /// <summary>
-        /// Routed event fired for changes to the <see cref="Tags" /> property
+        /// Routed event fired for changes to the <see cref="TagNames" /> property
         /// </summary>
         public static readonly RoutedEvent TagInputEvent = EventManager.RegisterRoutedEvent("TagInput", RoutingStrategy.Bubble, typeof(TagInputEventHandler), typeof(TagInputBox));
 
         /// <summary>
-        /// Routed event fired for changes to the <see cref="Tags" /> property
+        /// Routed event fired for changes to the <see cref="TagNames" /> property
         /// </summary>
         public event TagInputEventHandler TagInput
         {
@@ -82,7 +82,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         void InputTimer_Tick(object sender, EventArgs e) {
             if ((DateTime.Now - _lastInput) > _inputTimer.Interval) {
                 _inputTimer.Stop();
-                RaiseEvent(new TagInputEventArgs(TagInputEvent, this, Tags, null));
+                RaiseEvent(new TagInputEventArgs(TagInputEvent, this, TagNames, null));
                 tagInput.Focus();
             }
         }
@@ -111,9 +111,9 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         ///     The tag names are displayed as comma separated list in the
         ///     input box.
         /// </remarks>
-        public IEnumerable<string> Tags
+        public IEnumerable<string> TagNames
         {
-            get => TaggedPage.ParseTaglist(tagInput.Text);
+            get => PageTagSet.SplitTaglist(tagInput.Text);
             set
             {
                 tagInput.Text = string.Join(",", value);
@@ -124,7 +124,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         }
 
         /// <summary>
-        ///  Get a flag indicating whether the <see cref="Tags"/> property
+        ///  Get a flag indicating whether the <see cref="TagNames"/> property
         ///  contains a preset.
         /// </summary>
         public bool IsPreset { get; private set; }
@@ -141,7 +141,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         {
             tagInput.Text = String.Empty;
             _inputTimer.Stop();
-            var e = new TagInputEventArgs(TagInputEvent, this, Tags, null);
+            var e = new TagInputEventArgs(TagInputEvent, this, TagNames, null);
             e.TagInputComplete = true;
             IsPreset = false;
             RaiseEvent(e);
@@ -165,7 +165,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
 
         private void TagInput_KeyUp(object sender, KeyEventArgs e)
         {
-            TagInputEventArgs evt = new TagInputEventArgs(TagInputEvent, this, Tags, e);
+            TagInputEventArgs evt = new TagInputEventArgs(TagInputEvent, this, TagNames, e);
 
             if (e.Key == Key.Escape) {
                 tagInput.Text = String.Empty;
@@ -232,10 +232,10 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
                 IsPreset =  filter == TagContext.CurrentNote;
                 IEnumerable<TagPageSet> tags = await GetContextTagsAsync(filter);
                 if (IncludeMappedTags) {
-                    Tags = from t in tags select t.TagName;
+                    TagNames = from t in tags select t.TagName;
                 }
                 else {
-                    Tags = from t in tags
+                    TagNames = from t in tags
                            where t.TagType==string.Empty
                            select t.TagName;
                 }

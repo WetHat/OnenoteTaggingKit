@@ -83,10 +83,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddInDialogManager.cs" />
+    <Compile Include="common\PageTag.cs" />
     <Compile Include="common\KeyedItems.cs" />
     <Compile Include="common\KnownTagsSource.cs" />
     <Compile Include="common\ObservableDictionary.cs" />
     <Compile Include="common\ObservableSortedList.cs" />
+    <Compile Include="common\PageTagSet.cs" />
     <Compile Include="HierarchyBuilder\HierarchyNode.cs" />
     <Compile Include="HierarchyBuilder\PageHierarchy.cs" />
     <Compile Include="PageBuilder\Cell.cs" />
@@ -109,10 +111,9 @@
     <Compile Include="common\ui\Tag.xaml.cs">
       <DependentUpon>Tag.xaml</DependentUpon>
     </Compile>
-    <Compile Include="common\TagFormatter.cs" />
     <Compile Include="common\ui\TagInputEvent.cs" />
     <Compile Include="common\TagsAndPages.cs" />
-    <Compile Include="HierarchyBuilder\TaggedPage.cs" />
+    <Compile Include="HierarchyBuilder\PageNode.cs" />
     <Compile Include="common\TagPageSet.cs" />
     <Compile Include="common\ui\TagSelectedEvent.cs" />
     <Compile Include="common\ObservableTagList.cs" />

@@ -3,11 +3,13 @@ using Extensibility;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.OneNote;
 using System;
+using System.Linq;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.edit;
 using WetHatLab.OneNote.TaggingKit.find;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
@@ -45,7 +47,8 @@ namespace WetHatLab.OneNote.TaggingKit
                 string knownTags = Properties.Settings.Default.GetPreviousVersion("KnownTags") as string;
                 if (knownTags != null) {
                     Properties.Settings.Default.KnownTagsCollection.Clear();
-                    Properties.Settings.Default.KnownTagsCollection.AddRange(TaggedPage.ParseTaglist(knownTags));
+                    var tags = new PageTagSet(knownTags, TagFormat.AsEntered);
+                    Properties.Settings.Default.KnownTagsCollection.AddRange((from t in tags select t.ToString()).ToArray());
                 }
             }
             // Testing the Chinese localization
@@ -210,7 +213,7 @@ namespace WetHatLab.OneNote.TaggingKit
             TraceLogger.Log(TraceCategory.Info(), "Refresh current page");
             if (_onProxy != null && !string.IsNullOrEmpty(_onProxy.CurrentPageID)) {
                 _onProxy.TaggingService.Add(new TaggingJob(_onProxy.CurrentPageID,
-                                                           new string[] { },
+                                                           null,
                                                            TagOperation.RESYNC));
             }
 

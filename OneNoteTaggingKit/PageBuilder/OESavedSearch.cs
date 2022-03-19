@@ -80,7 +80,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             _updateRequired = true;
         }
 
-        IEnumerable<OET> GetPageLinks(OneNotePage page, IEnumerable<TaggedPage> pages) {
+        IEnumerable<OET> GetPageLinks(OneNotePage page, IEnumerable<PageNode> pages) {
             XNamespace ns = page.Namespace;
             OneNoteProxy onenote = page.OneNoteApp;
 
@@ -111,14 +111,14 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="query">The full-text query.</param>
         /// <param name="marker">Marker tag definition.</param>
         /// <param name="scope">Search scope.</param>
-        /// <param name="tags">Refinement tags.</param>
+        /// <param name="taglist">Comma Separated list of tags names.</param>
         /// <param name="pages">Collection of pages matching the tags and/or the query.</param>
         public OESavedSearch(OneNotePage page,
                              string query,
-                             IEnumerable<string> tags,
+                             string taglist,
                              SearchScope scope,
                              TagDef marker,
-                             IEnumerable<TaggedPage>pages)
+                             IEnumerable<PageNode>pages)
             : base(new Table(page.Namespace, 1)) {
             _scope = scope;
             _query = query;
@@ -149,7 +149,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "Query",labelstyle)),
                                                  new Cell(ns, new OET(ns, query))));
             searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "Tags", labelstyle)),
-                                                 new Cell(ns, _tags = new OETaglist(ns,tags))));
+                                                 new Cell(ns, _tags = new OETaglist(ns,taglist))));
             searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "Updated", labelstyle)),
                                                  new Cell(ns, _lastModified = new OET(ns, DateTime.Now.ToString(CultureInfo.CurrentCulture)))));
             _searchConfiguration = new OETable(searchConfig);
@@ -169,16 +169,13 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             if (_updateRequired) {
                 if (_lastModified != null) {
                     _lastModified.Text = DateTime.Now.ToString(CultureInfo.CurrentCulture);
-                    var pageTags = new List<string>(from tag in _tags.PageTags
-                                                    select tag.TrimStart('#').ToLower());
+                    var refinementTags = new PageTagSet(_tags.Taglist, TagFormat.AsEntered);
 
                     var ph = new PageHierarchy(onenote,_scope,_query);
-                    var pages = new Stack<TaggedPage>();
+                    var pages = new Stack<PageNode>();
                     foreach ( var p in ph.Pages) {
-                        var tags = new HashSet<string>(from n in p.TagNames
-                                                       let parsed = TagPageSet.ParseTagName(n)
-                                                       select parsed.Item1.TrimStart('#').ToLower());
-                        if (pageTags.All((x) => tags.Contains(x))) {
+                        var pagetags = p.Tags;
+                        if (refinementTags.All((t) => pagetags.Contains(t.Key))) {
                             pages.Push(p);
                         }
                     }

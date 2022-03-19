@@ -151,12 +151,21 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         public OESavedSearchCollection SavedSearches;
         OETaglist _belowTitleTags;
 
-        HashSet<string> _hashtags = new HashSet<string>(); // imported hashtags
         /// <summary>
         /// Get the proxy object for the 'one:Title' element of the OneNote page
         /// document.
         /// </summary>
         public Title Title { get; private set; }
+
+        /// <summary>
+        /// Register all managed tags in a comma separated tag list.
+        /// </summary>
+        /// <param name="taglist">Comma separated tag list.</param>
+        void RegisterManagedTags(string taglist) {
+            Tags.UnionWith(from t in PageTagSet.Parse(taglist, TagFormat.AsEntered)
+                           where t.TagType < PageTagType.HashTag
+                           select t);
+        }
 
         /// <summary>
         /// Initialize a proxy object for an existing OneNote page.
@@ -181,18 +190,23 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 Title = new Title(this, "Untitled Page");
             } else {
                 Title = new Title(this, title);
-                // inspect the title tags an mark some of them as page tags
-                _tagdef.DefineKnownPageTags(from t in Title.Tags
-                                            let td = _tagdef[t.Index]
-                                            where TagDefCollection.GetProcessClassification(td) == TagProcessClassification.PageTag
-                                            select td.TagName);
+                // inspect the title tags an mark collect the managed oage tags
+                Tags.UnionWith(from tt in Title.Tags
+                               let td = _tagdef[tt.Index]
+                               where td.Tag != null && td.Tag.TagType <= PageTagType.HashTag
+                               select td.Tag);
+                // use the in-title tag to define even more page tags.
+                if (_tagdef.InTitleMarkerDef != null) {
+                    Tags.UnionWith(from t in PageTagSet.Parse(_tagdef.InTitleMarkerDef.Name, TagFormat.AsEntered)
+                                   where t.TagType <= PageTagType.HashTag
+                                   select t);
+                }
             }
 
-            // make sure all tags recorded in the page's meta information are defined
-            _tagdef.DefineKnownPageTags(TaggedPage.ParseTaglist(_meta.PageTags));
-            if (_tagdef.InTitleMarkerDef != null) {
-                _tagdef.DefineKnownPageTags(TaggedPage.ParseTaglist(_tagdef.InTitleMarkerDef.Name));
-            }
+            // make sure all tags recorded in the page's meta information are defined too
+            Tags.UnionWith(from t in PageTagSet.Parse(_meta.PageTags,TagFormat.AsEntered)
+                           where t.TagType <= PageTagType.HashTag
+                           select t);
 
             SavedSearches = new OESavedSearchCollection(this);
 
@@ -230,7 +244,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                             if (oe.Tags.Contains(_tagdef.BelowTitleMarkerDef)) {
                                 _belowTitleTags = new OETaglist(oe);
                                 // collect these tags too
-                                _tagdef.DefineKnownPageTags(_belowTitleTags.PageTags);
+                                Tags.UnionWith(from t in new PageTagSet(_belowTitleTags.Taglist, TagFormat.AsEntered)
+                                               where t.TagType <= PageTagType.HashTag
+                                               select t);
                                 // delete the Indents as they tend to cause errors
                                 XElement indents = outline.Element(GetName("Indents"));
                                 if (indents != null) {
@@ -247,9 +263,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         foreach (var t in outline.Descendants(GetName("T"))) {
                             // remove some non-sensical tags from the text
                             string txt = OETaglist.HTMLtag_matcher.Replace(t.Value, string.Empty);
-                            _hashtags.UnionWith(from Match m in _hashtag_matcher.Matches(txt)
-                                                 where !_number_matcher.Match(m.Value).Success
-                                                 select m.Value.Trim().ToLower());
+                            _importedTags.UnionWith(from Match m in _hashtag_matcher.Matches(txt)
+                                                    where !_number_matcher.Match(m.Value).Success
+                                                    select new PageTag(m.Value.Trim(), PageTagType.HashTag));
                         }
                     }
                 }
@@ -277,35 +293,28 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         }
 
         /// <summary>
-        /// Get or set the unique ID of the OneNote Page
+        /// Get or set the unique ID of the OneNote Page.
         /// </summary>
         internal string PageID { get; private set; }
 
         /// <summary>
         /// Get/set the page tags.
         /// </summary>
-        /// <value>Collection of tag names without type annotation</value>
-        public IEnumerable<string> PageTags {
-            get => from TagDef def in _tagdef.DefinedTags
-                   where TagDefCollection.GetProcessClassification(def) == TagProcessClassification.PageTag
-                   select def.TagName;
-            set => _tagdef.DefinePageTags(value);
-        }
+        /// <value>Set of user created page tags.</value>
+        public PageTagSet Tags { get; set; } = new PageTagSet();
 
+        PageTagSet _importedTags = new PageTagSet();
         /// <summary>
         /// Save all changes to the page to OneNote
         /// </summary>
         internal void Update() {
-            // define import tags
-            string[] savedTags = (from TagDef def in _tagdef.DefinedTags
-                                  select def.Name).ToArray();
             if (ApplyTagsToPage() || !SavedSearches.Empty) {
                 try {
                     SavedSearches.Update();
                     OneNoteApp.UpdatePage(Document, _lastModified);
                     if (_belowTitleTags != null &&
                         ((TagDisplay)Properties.Settings.Default.TagDisplay == TagDisplay.InTitle
-                         || _tagdef.DefinedTags.FirstOrDefault() == null)) {
+                         || _tagdef.DefinedPageTags.FirstOrDefault() == null)) {
                         // delete obsolete outline with tag list
                         // the corresponding outline too
                         OneNoteApp.DeletePageContent(PageID, _belowTitleTags.Element.Parent.Parent.Attribute("objectID").Value);
@@ -315,12 +324,12 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         switch ((uint)ce.ErrorCode) {
                             case 0x80042010: // concurrent page modification
                                 TraceLogger.Log(TraceCategory.Error(), "The last modified date does not match. Concurrent page modification: {0}\n Rescheduling tagging job.", ce.Message);
-                                OneNoteApp.TaggingService.Add(new TaggingJob(PageID, savedTags, TagOperation.REPLACE));
+                                OneNoteApp.TaggingService.Add(new TaggingJob(PageID, Tags, TagOperation.REPLACE));
                                 break;
 
                             case 0x80042030: // blocked by modal dialog
                                 TraceLogger.ShowGenericErrorBox(Properties.Resources.TaggingKit_Blocked, ce);
-                                OneNoteApp.TaggingService.Add(new TaggingJob(PageID, savedTags, TagOperation.REPLACE));
+                                OneNoteApp.TaggingService.Add(new TaggingJob(PageID, Tags, TagOperation.REPLACE));
                                 break;
 
                             default:
@@ -372,20 +381,25 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                                   let td = _tagdef[t.Index]
                                                   where !td.IsDisposed
                                                   select td);
-            // add the defined tags. At this point just genuine page tags
-            titletagset.UnionWith(_tagdef.DefinedTags);
-
             // import tags from page content (if enabled)
-            _tagdef.ImportOneNoteTags();
-            _tagdef.ImportContentHashtags(_hashtags);
+            if (Properties.Settings.Default.MapOneNoteTags) {
+                _importedTags.UnionWith(from td in _tagdef
+                                        where td.ProcessClassification == TagProcessClassification.OneNoteTag
+                                        select new PageTag(td.Name, PageTagType.ImportedOneNoteTag));
+            }
+
+            // combine the managed tags and the import tags to obtain all the
+            // tags that need to be on the page
+            var pagetagset = new PageTagSet();
+            pagetagset.UnionWith(Tags);
+            pagetagset.UnionWith(_importedTags);
+
+            // define all the tags
+            _tagdef.DefinePageTags(pagetagset);
 
             bool specChanged = _tagdef.IsModified;
-
-            var tags = (from TagDef td in _tagdef.DefinedTags
-                        orderby td.TagName.ToLower().TrimStart('#') ascending
-                        select td).ToList();
             // update the meta information of the page
-            _meta.PageTags = string.Join(",", from TagDef td in tags select td.Name);
+            _meta.PageTags = pagetagset.ToString();
             specChanged = specChanged || _meta.IsModified;
 
             switch ((TagDisplay)Properties.Settings.Default.TagDisplay) {
@@ -397,7 +411,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         specChanged = true;
                     }
 
-                    if (tags.Count == 0) {
+                    if (pagetagset.IsEmpty) {
                         if (_tagdef.InTitleMarkerDef != null) {
                             titletagset.Remove(_tagdef.InTitleMarkerDef);
                             _tagdef.InTitleMarkerDef.Dispose();
@@ -405,13 +419,13 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         }
                     } else if (_tagdef.InTitleMarkerDef == null) {
                         TagDef inTitleMarker = _tagdef.DefineProcessTag(
-                                                    string.Join(", ", from TagDef td in tags select td.Name),
+                                                   pagetagset.ToString(),
                                                     TagProcessClassification.InTitleMarker);
                         titletagset.Add(_tagdef.InTitleMarkerDef);
                         specChanged = true;
                     } else {
                         string oldname =  _tagdef.InTitleMarkerDef.Name;
-                        string newname = string.Join(", ", from TagDef td in tags select td.Name);
+                        string newname = pagetagset.ToString();
                         if (!oldname.Equals(newname)) {
                             // tag display changed
                             _tagdef.InTitleMarkerDef.Name = newname;
@@ -428,14 +442,14 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         specChanged = true;
                     }
 
-                    if (tags.Count == 0) {
+                    if (pagetagset.IsEmpty) {
                         if (_belowTitleTags != null) {
                             // Enable removal of the taglist outline by the
                             // `Update` method.
                             specChanged = true;
                         }
                     } else if (_belowTitleTags == null) {
-                        TagDef belowTitleMarker = _tagdef.DefineProcessTag(TagDefCollection.sBelowTitleMarkerName, TagProcessClassification.BelowTitleMarker);
+                        TagDef belowTitleMarker = _tagdef.DefineProcessTag(TagDef.sLegacyBelowTitleMarkerName, TagProcessClassification.BelowTitleMarker);
 
                         // create a new outline for below-title tags
                         //
@@ -459,12 +473,12 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                                    new XAttribute("height", "10"),
                                                    new XAttribute("isSetByUser", "true")),
                                                new XElement(GetName("OEChildren"),
-                                (_belowTitleTags = new OETaglist(Namespace, tags, QuickStyleDefinitions.TagOutlineStyleDef)).Element));
+                                (_belowTitleTags = new OETaglist(Namespace, pagetagset.ToString(), QuickStyleDefinitions.TagOutlineStyleDef)).Element));
                         Element.Add(outline);
                         _belowTitleTags.Tags.Add(belowTitleMarker);
                         specChanged = true;
                     } else {
-                        _belowTitleTags.Taglist = tags;
+                        _belowTitleTags.Taglist = pagetagset.ToString();
                         _belowTitleTags.QuickStyle = QuickStyleDefinitions.TagOutlineStyleDef;
                         // force page update to make sure tag display is in sync
                         specChanged = true;

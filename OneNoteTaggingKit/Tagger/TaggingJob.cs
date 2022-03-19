@@ -1,7 +1,5 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.PageBuilder;
 
@@ -38,19 +36,19 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
     public class TaggingJob
     {
         private string _pageid;
-        private readonly string[] _tags;
+        private readonly PageTagSet _tagset;
         private readonly TagOperation _op;
 
         /// <summary>
         /// Create a new instance of a tagging job.
         /// </summary>
         /// <param name="pageID">   ID of the OneNote page to apply the tags</param>
-        /// <param name="tags">     tags to apply</param>
+        /// <param name="tags">The set of tags to apply</param>
         /// <param name="operation">operation</param>
-        public TaggingJob(string pageID, string[] tags, TagOperation operation)
+        public TaggingJob(string pageID, PageTagSet tags, TagOperation operation)
         {
             _pageid = pageID;
-            _tags = tags;
+            _tagset = tags;
             _op = operation;
         }
 
@@ -82,27 +80,22 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                 page.Update();
                 page = new OneNotePage(onenote, _pageid);
             }
-            // collect the genuine page tags
-            HashSet<string> pagetags = new HashSet<string>(from name in page.PageTags
-                                                           select TagPageSet.ParseTagName(name).Item1);
             switch (_op)
             {
                 case TagOperation.SUBTRACT:
-                    pagetags.ExceptWith(_tags);
+                    page.Tags.ExceptWith(_tagset);
                     break;
                 case TagOperation.UNITE:
-                    pagetags.UnionWith(_tags);
+                    page.Tags.UnionWith(_tagset);
                     break;
                 case TagOperation.REPLACE:
-                    pagetags.Clear();
-                    pagetags.UnionWith(_tags);
+                    page.Tags = new PageTagSet(_tagset);
                     break;
                 case TagOperation.RESYNC:
                     // Just resync the displayed tags with the recorded tags.
                     break;
 
             }
-            page.PageTags = pagetags;
             return page;
         }
     }

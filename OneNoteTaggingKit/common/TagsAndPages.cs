@@ -44,7 +44,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </summary>
         protected OneNoteProxy _onenote;
 
-        private ObservableDictionary<string, TaggedPage> _pages = new ObservableDictionary<string, TaggedPage>();
+        private ObservableDictionary<string, PageNode> _pages = new ObservableDictionary<string, PageNode>();
         private ObservableDictionary<string, TagPageSet> _tags = new ObservableDictionary<string, TagPageSet>();
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Get a dictionary of pages.
         /// </summary>
-        internal ObservableDictionary<string, TaggedPage> Pages {
+        internal ObservableDictionary<string, PageNode> Pages {
             get { return _pages; }
         }
 
@@ -151,7 +151,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="omitUntaggedPages">drop untagged pages</param>
         void BuildTagSet(PageHierarchy hierarchy, bool selectedPagesOnly, bool omitUntaggedPages = false) {
             Dictionary<string, TagPageSet> tags  = new Dictionary<string, TagPageSet>();
-            Dictionary<string, TaggedPage> taggedpages = new Dictionary<string, TaggedPage>();
+            Dictionary<string, PageNode> taggedpages = new Dictionary<string, PageNode>();
 
             foreach (var tp in hierarchy.Pages) {
                 if (selectedPagesOnly && !tp.IsSelected) {
@@ -159,27 +159,25 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 }
                 // assign Tags
                 int tagcount = 0;
-                foreach (string tagname in tp.TagNames) {
+                foreach (var tag in tp.Tags) {
                     tagcount++;
-                    Tuple<string, string> parsedTag = TagPageSet.ParseTagName(tagname);
                     TagPageSet t;
 
-                    if (!tags.TryGetValue(parsedTag.Item1, out t)) {
-                        if (_tags.TryGetValue(parsedTag.Item1, out t)) {
+                    if (!tags.TryGetValue(tag.Key, out t)) {
+                        if (_tags.TryGetValue(tag.Key, out t)) {
                             // recycle that existing tag
                             t.ClearFilter();
                             t.Pages.Clear();
 
                         } else {
-                            t = new TagPageSet(parsedTag);
+                            t = new TagPageSet(tag);
                         }
                         tags.Add(t.TagName, t);
-                    } else {
-                        t.TagType = parsedTag.Item2;
+                    } else if (tag.TagType < t.Tag.TagType) {
+                        t.Tag = tag;
                     }
 
                     t.AddPage(tp);
-                    tp.Tags.Add(t);
                 }
                 if (tagcount > 0 || !omitUntaggedPages) {
                     taggedpages.Add(tp.Key, tp);

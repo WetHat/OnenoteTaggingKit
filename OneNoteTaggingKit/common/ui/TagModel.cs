@@ -11,7 +11,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     public interface ITagModel
     {
         /// <summary>
-        /// Get the Name of a tag.
+        /// Get the basename of a tag.
         /// </summary>
         string TagName { get; }
 
@@ -20,8 +20,13 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// </summary>
         string TagType { get; }
         /// <summary>
-        /// Get the tg indicator.
+        /// Get the tag indicator.
         /// </summary>
+        /// <remarks>
+        ///     The indicator provides additional meta information
+        ///     such as use counts. The tag indicator is typically displayed
+        ///     as a postfix.
+        /// </remarks>
         string TagIndicator { get; }
 
         /// <summary>
@@ -39,8 +44,22 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     ///     highlighting.
     /// </remarks>
     [ComVisible(false)]
-    public class TagModel : ObservableObject, ISortableKeyedItem<TagModelKey, string>, ITagModel
-    {
+    public class TagModel : ObservableObject, ISortableKeyedItem<string, string>, ITagModel {
+        PageTag _pagetag;
+        /// <summary>
+        /// Get or set the page tag represented by this model.
+        /// </summary>
+        /// <remarks>
+        ///     Setter should be called only once in construction context.
+        /// </remarks>
+        public PageTag Tag {
+            get => _pagetag;
+            set {
+                _pagetag = value;
+                TagType = value.TagMarker;
+            }
+        }
+
         string _tagName = string.Empty;
         /// <summary>
         /// Get or set the name of a page tag represented by this model.
@@ -48,14 +67,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <remarks>
         ///     Setter should be called only once in construction context.
         /// </remarks>
-        public string TagName {
-            get => _tagName;
-            set {
-                _tagName = value;
-                SortKey = new TagModelKey(value);
-                RaisePropertyChanged();
-            }
-        }
+        public string TagName { get => Tag.BaseName; }
 
         Visibility _tagVisibility = Visibility.Visible;
         /// <summary>
@@ -87,7 +99,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
 
         string _tagType = string.Empty;
         /// <summary>
-        /// Get the tag indicator.
+        /// Get the tag marker.
         /// </summary>
         public string TagType {
             get => _tagType;
@@ -123,12 +135,12 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// Get a key for this tag which is suitable for sorting the tag models-
         /// </summary>
         /// <remarks>The sort key does not need to be unique,</remarks>
-        public TagModelKey SortKey { get; private set; }
+        public string SortKey { get => Tag.SortKey; }
 
         /// <summary>
         /// Get the unique key of this tag.
         /// </summary>
-        public string Key => TagName;
+        public string Key { get => Tag.Key; }
 
         #endregion ISortableKeyedItem<TagModelKey, string>
 

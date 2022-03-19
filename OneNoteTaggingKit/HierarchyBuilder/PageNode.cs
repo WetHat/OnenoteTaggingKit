@@ -12,9 +12,12 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
     /// <summary>
     /// Representation of a OneNote page with its page level tags.
     /// </summary>
-    public class TaggedPage : HierarchyNode
+    public class PageNode : HierarchyNode
     {
-        readonly static char[] sTagListSeparator = new char[] { ',' };
+        /// <summary>
+        /// Supported taglist separators
+        /// </summary>
+        readonly static char[] sTagListSeparators = new char[] { ',' };
 
         /// <summary>
         /// Parse a comma separated list of tags.
@@ -25,7 +28,7 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         /// <param name="taglist">Array of tags.</param>
         /// <returns>Array of parsed tags.</returns>
         public static string[] ParseTaglist(string taglist) {
-            var tags =  taglist.Split(sTagListSeparator, StringSplitOptions.RemoveEmptyEntries);
+            var tags =  taglist.Split(sTagListSeparators, StringSplitOptions.RemoveEmptyEntries);
             // trim tags
             for(int i = 0; i < tags.Length; i++) {
                 tags[i] = tags[i].Trim();
@@ -40,16 +43,11 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         private readonly ISet<TagPageSet> _tags = new HashSet<TagPageSet>();
 
         /// <summary>
-        /// Names of tags as recorded in the page's meta section;
-        /// </summary>
-        private readonly IEnumerable<string> _tagnames;
-
-        /// <summary>
         /// Create an internal representation of a page returned from FindMeta
         /// </summary>
         /// <param name="page">&lt;one:Page&gt; element</param>
         /// <param name="parent">The parent node of the page.</param>
-        internal TaggedPage(XElement page,HierarchyNode parent) : base(page,parent,HierarchyElement.hePages)  {
+        internal PageNode(XElement page,HierarchyNode parent) : base(page,parent,HierarchyElement.hePages)  {
             XNamespace one = page.Name.Namespace;
             var rbin = page.Attribute("isInRecycleBin");
             IsInRecycleBin = "true".Equals(rbin != null ? rbin.Value : String.Empty);
@@ -59,9 +57,9 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
             }
             XElement meta = page.Elements(one.GetName("Meta")).FirstOrDefault(m => MetaCollection.PageTagsMetaKey.Equals(m.Attribute("name").Value));
             if (meta != null) {
-                _tagnames = ParseTaglist(meta.Attribute("content").Value);
+                Tags = new PageTagSet(meta.Attribute("content").Value,TagFormat.AsEntered);
             } else {
-                _tagnames = new string[0];
+                Tags = new PageTagSet();
             }
         }
 
@@ -92,22 +90,14 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         #endregion IKeyedItem
 
         /// <summary>
-        /// Get the collection of tags as recorded in the page's metadata.
+        /// Set of page tags tags as recorded in the page's meta section;
         /// </summary>
-        internal IEnumerable<string> TagNames {
-            get {
-                return _tagnames;
-            }
-        }
+        private readonly PageTagSet _tagset;
 
         /// <summary>
         /// Get the collection of tags on this page
         /// </summary>
-        internal ISet<TagPageSet> Tags {
-            get {
-                return _tags;
-            }
-        }
+        public PageTagSet Tags { get; }
 
         /// <summary>
         /// Check two page objects for equality
@@ -115,7 +105,7 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         /// <param name="obj">other page object</param>
         /// <returns>true if equal; false otherwise</returns>
         public override bool Equals(object obj) {
-            TaggedPage tp = obj as TaggedPage;
+            PageNode tp = obj as PageNode;
 
             return tp == null ? false : ID.Equals(tp.ID);
         }
