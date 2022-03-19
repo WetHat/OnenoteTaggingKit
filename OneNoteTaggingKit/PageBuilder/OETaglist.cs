@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
-using WetHatLab.OneNote.TaggingKit.common;
-using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
+﻿using System.Xml.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 {
