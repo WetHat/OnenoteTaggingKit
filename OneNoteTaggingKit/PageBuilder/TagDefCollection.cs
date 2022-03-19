@@ -141,7 +141,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <value>Collection of tag definitions for page tags and import tags.</value>
         public IEnumerable<TagDef> DefinedPageTags {
             get => from TagDef _ in Items
-                   where  _.Tag != null
+                   where  _.Tag != null && !_.IsDisposed
                    select _;
         }
         /// <summary>
