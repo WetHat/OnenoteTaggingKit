@@ -251,9 +251,18 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Create a persistable string representation of the page tag.
         /// </summary>
-        /// <returns>Normaöized string representation</returns>
+        /// <returns>Normalized string representation resembling a managed tag.</returns>
         public override string ToString() {
-            return TagType == PageTagType.HashTag ? DisplayName : BaseName;
+            if (TagType <= PageTagType.HashTag) {
+                return DisplayName;
+            }
+            // make a new managed tag
+            if ((TagFormat)Properties.Settings.Default.TagFormatting == TagFormat.HashTag
+                || TagType == PageTagType.ImportedHashTag) {
+                // TODO set RTL flag
+                return new PageTag(BaseName, PageTagType.HashTag).ToString();
+            }
+            return BaseName;
         }
 
         #region IEquatable<PageTag>
