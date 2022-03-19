@@ -170,13 +170,15 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 if (_lastModified != null) {
                     _lastModified.Text = DateTime.Now.ToString(CultureInfo.CurrentCulture);
                     var refinementTags = new PageTagSet(_tags.Taglist, TagFormat.AsEntered);
-
-                    var ph = new PageHierarchy(onenote,_scope,_query);
                     var pages = new Stack<PageNode>();
-                    foreach ( var p in ph.Pages) {
-                        var pagetags = p.Tags;
-                        if (refinementTags.All((t) => pagetags.Contains(t.Key))) {
-                            pages.Push(p);
+                    if (!refinementTags.IsEmpty || !string.IsNullOrWhiteSpace(_query)) {
+                        var ph = new PageHierarchy(onenote, _scope, _query);
+
+                        foreach (var p in ph.Pages) {
+                            var pagetags = p.Tags;
+                            if (refinementTags.All((t) => pagetags.Contains(t.Key))) {
+                                pages.Push(p);
+                            }
                         }
                     }
                     _searchResult.Content = GetPageLinks(page,
