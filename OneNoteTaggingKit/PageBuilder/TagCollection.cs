@@ -22,11 +22,13 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 
                 var tagset = new HashSet<int>();
                 foreach (var td in value) {
-                    int i = td.Index;
-                    tagset.Add(i);
-                    if (!_tags.Contains(i)) {
-                        // add that tag
-                        Add(new Tag(Namespace, i));
+                    if (!td.IsDisposed) {
+                        int i = td.Index;
+                        tagset.Add(i);
+                        if (!_tags.Contains(i)) {
+                            // add that tag
+                            Add(new Tag(Namespace, i));
+                        }
                     }
                 }
 
@@ -92,7 +94,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             if (_tags.Add(tag.Index)) {
                 if (LastTag == null) {
                     Owner.Element.AddFirst(tag.Element);
-                } else if (_tags.Add(tag.Index)) {;
+                } else {
                     LastTag.Element.AddAfterSelf(tag.Element);
                 }
                 base.Add(tag);
