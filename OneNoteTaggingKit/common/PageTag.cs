@@ -247,7 +247,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     tagname = basename;
                 }
             };
-            BaseName = tagtype <= PageTagType.HashTag ? tagname.Trim('#') : tagname;
+            BaseName = tagtype != PageTagType.ImportedOneNoteTag ? tagname.Trim('#') : tagname;
             TagType = tagtype;
             _key = BaseName.Replace(" ", string.Empty).ToLower();
         }
