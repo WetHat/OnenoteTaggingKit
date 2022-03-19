@@ -95,7 +95,6 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             while (toDefine.Count > 0) {
                 Add(new TagDef(Page, toDefine.Pop(), Items.Count));
             }
-
         }
         /// <summary>
         /// Intitialize the collection of tag definitions selected from an
