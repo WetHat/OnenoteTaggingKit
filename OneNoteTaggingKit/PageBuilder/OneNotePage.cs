@@ -1,5 +1,4 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
-using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +6,6 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
-using WetHatLab.OneNote.TaggingKit.common.ui;
-using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 using WetHatLab.OneNote.TaggingKit.Tagger;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
@@ -256,6 +253,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                             }
                         }
                     } else if (SavedSearches.Add(outline,_tagdef.SavedSearchMarkerDef)) {
+                        // saved search could be added - keep that outline
                         continue;
                     }
                     if (Properties.Settings.Default.MapHashTags) {
@@ -265,7 +263,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                             string txt = OETaglist.HTMLtag_matcher.Replace(t.Value, string.Empty);
                             _importedTags.UnionWith(from Match m in _hashtag_matcher.Matches(txt)
                                                     where !_number_matcher.Match(m.Value).Success
-                                                    select new PageTag(m.Value.Trim(), PageTagType.HashTag));
+                                                    select new PageTag(m.Value.Trim(), PageTagType.ImportedHashTag));
                         }
                     }
                 }
@@ -420,7 +418,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     } else if (_tagdef.InTitleMarkerDef == null) {
                         TagDef inTitleMarker = _tagdef.DefineProcessTag(
                                                    pagetagset.ToString(),
-                                                    TagProcessClassification.InTitleMarker);
+                                                   TagProcessClassification.InTitleMarker);
                         titletagset.Add(_tagdef.InTitleMarkerDef);
                         specChanged = true;
                     } else {
