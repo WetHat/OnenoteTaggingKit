@@ -72,6 +72,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
         const string cImportedLegacyHashtagMarker = "📜";
         const string cImportedOneNoteTagMarker = "📑";
         const string cImportedOneNoteTagMarkerHTML = "&#128209;";
+        const string cImportedLegacyHashtagMarkerHTML = "&#128220;";
+
         /// <summary>
         /// Parse a comma separated list of tags.
         /// </summary>
@@ -121,6 +123,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 cImportedOneNoteTagMarkerHTML,
                 cImportedHashtagMarker,
                 cImportedLegacyHashtagMarker,
+                cImportedLegacyHashtagMarkerHTML,
                 cHashtagMarker,
         };
         /// <summary>
@@ -130,6 +133,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         static readonly PageTagType[] _typeOfMarker = new PageTagType[] {
             PageTagType.ImportedOneNoteTag,
             PageTagType.ImportedOneNoteTag,
+            PageTagType.ImportedHashTag,
             PageTagType.ImportedHashTag,
             PageTagType.ImportedHashTag,
             PageTagType.HashTag,
