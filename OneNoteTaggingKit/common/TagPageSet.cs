@@ -1,5 +1,4 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
-using System;
 using System.Collections.Generic;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 
@@ -133,17 +132,13 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// Get the tag's hashcode.
         /// </summary>
         /// <returns>hashcode</returns>
-        public override int GetHashCode() {
-            return TagName.GetHashCode();
-        }
+        public override int GetHashCode() => Tag.GetHashCode();
+
 
         /// <summary>
         /// Get the tag's sortable key
         /// </summary>
-        public string Key
-        {
-            get { return TagName; }
-        }
+        public string Key => Tag.Key;
 
         #endregion IKeyedItem
     }
