@@ -36,7 +36,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </summary>
         public void Save() {
             Properties.Settings.Default.KnownTagsCollection.Clear();
-            Properties.Settings.Default.KnownTagsCollection.AddRange((from v in Values select v.TagName).ToArray());
+            Properties.Settings.Default.KnownTagsCollection.AddRange((from v in Values select v.Tag.ToString()).ToArray());
         }
     }
 }
