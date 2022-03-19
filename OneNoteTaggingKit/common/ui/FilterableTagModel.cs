@@ -65,10 +65,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         public bool IsFullMatch {
             get {
                 var htn = HighlightedTagName;
-                 return htn.Count > 0
-                       && htn[0].IsMatch
-                       && (htn.Count == 1
-                           || (htn.Count == 2 && TagType != string.Empty));
+                return htn.Count == 1 && htn[0].IsMatch;
             }
         }
         /// <summary>
