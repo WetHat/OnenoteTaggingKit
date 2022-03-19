@@ -108,11 +108,8 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         public PageTag Tag {
             get => _pageTag;
             set {
-                if (_pageTag != null && _pageTag.TagType > value.TagType) {
-                    Name = value.DisplayName;
-                    _pageTag = value;
-                }
-
+                Name = value.DisplayName;
+                _pageTag = value;
             }
         }
 
