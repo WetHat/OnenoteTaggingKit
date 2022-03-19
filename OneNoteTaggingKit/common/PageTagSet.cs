@@ -227,7 +227,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <returns>Comma separated taglist</returns>
         public override string ToString() => string.Join(",", from p in this
                                                               orderby p.Key ascending
-                                                              select p.ToString());
+                                                              select p.DisplayName);
         #region IEnumerable<PageTag>
         /// <summary>
         /// Get the typed page tag enumerator
