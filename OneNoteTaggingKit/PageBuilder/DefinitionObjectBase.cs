@@ -70,7 +70,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <summary>
         /// Dispose a definition object.
         /// </summary>
-        public void Dispose() {
+        public virtual void Dispose() {
             if (!IsDisposed) {
                 Remove();
             }
