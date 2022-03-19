@@ -108,7 +108,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         public PageTag Tag {
             get => _pageTag;
             set {
-                Name = value.DisplayName;
+                if (value != null) {
+                    Name = value.DisplayName;
+                }
                 _pageTag = value;
             }
         }
@@ -210,6 +212,14 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 }
                 return TagProcessClassification.PageTag;
             }
+        }
+
+        /// <summary>
+        /// Dispose a tag  definition.
+        /// </summary>
+        public override void Dispose() {
+            base.Dispose();
+            Tag = null;
         }
     }
 }
