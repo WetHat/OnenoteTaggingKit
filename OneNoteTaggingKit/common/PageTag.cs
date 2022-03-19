@@ -113,33 +113,24 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     break;
             }
         }
-
-        /// <summary>
-        /// Determine if a tag is a hashtag.
-        /// </summary>
-        /// <param name="tag"></param>
-        /// <returns>`true` if tag is a hashtag.</returns>
-        public static bool IsHashtag(string tag) {
-            return tag.StartsWith(cHashtagMarker) || tag.EndsWith(cHashtagMarker);
-        }
         /// <summary>
         /// The type markers to watch out for on tag names.
         /// </summary>
         static readonly string[] _typeMarker = new string[] {
-                cHashtagMarker,
                 cImportedOneNoteTagMarker,
                 cImportedHashtagMarker,
                 cImportedLegacyHashtagMarker,
+                cHashtagMarker,
         };
         /// <summary>
         /// The tag type associated with type markers.
         /// </summary>
-        /// <remarks>a Many-to-one mapping of marker strings to types.</remarks>
+        /// <remarks>The types associated with the marker strings in <see cref="_typeMarker"/> </remarks>
         static readonly PageTagType[] _typeOfMarker = new PageTagType[] {
-            PageTagType.HashTag,
             PageTagType.ImportedOneNoteTag,
             PageTagType.ImportedHashTag,
             PageTagType.ImportedHashTag,
+            PageTagType.HashTag,
         };
 
         /// <summary>
