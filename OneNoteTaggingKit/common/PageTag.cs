@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.common
 {
@@ -68,11 +67,16 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// </summary>
     public class PageTag : ISortableKeyedItem<string, string>, IEquatable<PageTag> {
         const string cHashtagMarker = "#";
-        const string cImportedHashtagMarker = "#️⃣";
+        const string cImportedHashtagMarker = "⏹";
         const string cImportedLegacyHashtagMarker = "📜";
         const string cImportedOneNoteTagMarker = "📑";
         const string cImportedOneNoteTagMarkerHTML = "&#128209;";
         const string cImportedLegacyHashtagMarkerHTML = "&#128220;";
+
+        /// <summary>
+        /// Predicate to determine if the page tags is right-to-left.
+        /// </summary>
+        public bool IsRTL { get; private set;  }
 
         /// <summary>
         /// Parse a comma separated list of tags.
@@ -121,10 +125,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
         static readonly string[] _typeMarker = new string[] {
                 cImportedOneNoteTagMarker,
                 cImportedOneNoteTagMarkerHTML,
+                cHashtagMarker,
                 cImportedHashtagMarker,
                 cImportedLegacyHashtagMarker,
                 cImportedLegacyHashtagMarkerHTML,
-                cHashtagMarker,
         };
         /// <summary>
         /// The tag type associated with type markers.
@@ -133,10 +137,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
         static readonly PageTagType[] _typeOfMarker = new PageTagType[] {
             PageTagType.ImportedOneNoteTag,
             PageTagType.ImportedOneNoteTag,
-            PageTagType.ImportedHashTag,
-            PageTagType.ImportedHashTag,
-            PageTagType.ImportedHashTag,
             PageTagType.HashTag,
+            PageTagType.ImportedHashTag,
+            PageTagType.ImportedHashTag,
+            PageTagType.ImportedHashTag,
         };
 
         /// <summary>
@@ -183,7 +187,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         ///     The display name is composed of the <see cref="BaseName"/>
         ///     and an optional type prefix.
         /// </remarks>
-        public string DisplayName { get => TagMarker + BaseName; }
+        public string DisplayName { get => IsRTL ? BaseName + TagMarker:  TagMarker + BaseName; }
 
         /// <summary>
         /// Predicate to dermine if the tag has been imported.
@@ -223,18 +227,20 @@ namespace WetHatLab.OneNote.TaggingKit.common
         ///     the type is inferred from the type annotation on the tag name.
         /// </param>
         public PageTag(string tagname, PageTagType tagtype ) {
+            bool rtl = false;
             if (tagtype == PageTagType.Unknown) {
                 // infer type by inspecting the name
                 string basename = null;
                 for (int i = 0; i < _typeMarker.Length; i++) {
                     var marker = _typeMarker[i];
                     tagtype = _typeOfMarker[i];
-                    if (tagname.StartsWith(marker)) {
+                    if (tagname.StartsWith(marker,StringComparison.OrdinalIgnoreCase)) {
                         basename = tagname.Substring(marker.Length);
                         break;
-                    } else if (tagname.EndsWith(marker)) {
+                    } else if (tagname.EndsWith(marker, StringComparison.OrdinalIgnoreCase)) {
                         // for RTL language support
                         basename = tagname.Substring(0, tagname.Length - marker.Length);
+                        rtl = i >= 2; // only hashtags
                         break;
                     }
                 }
@@ -243,7 +249,15 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 } else {
                     tagname = basename;
                 }
-            };
+            } else if( tagtype == PageTagType.HashTag || tagtype == PageTagType.ImportedHashTag) {
+                rtl = tagname.EndsWith(cHashtagMarker);
+            }
+
+            if (tagtype == PageTagType.HashTag || tagtype == PageTagType.ImportedHashTag) {
+                // handle RTL for hashtags only
+                IsRTL = rtl;
+            }
+
             BaseName = tagtype != PageTagType.ImportedOneNoteTag ? tagname.Trim('#') : tagname;
             TagType = tagtype;
             _key = BaseName.Replace(" ", string.Empty).ToLower();
@@ -257,10 +271,11 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 return DisplayName;
             }
             // make a new managed tag
-            if ((TagFormat)Properties.Settings.Default.TagFormatting == TagFormat.HashTag
-                || TagType == PageTagType.ImportedHashTag) {
-                // TODO set RTL flag
-                return new PageTag(BaseName, PageTagType.HashTag).ToString();
+            if (TagType == PageTagType.ImportedHashTag) {
+                var tmp = new PageTag(BaseName, PageTagType.HashTag) {
+                    IsRTL = this.IsRTL
+                };
+                return tmp.DisplayName;
             }
             return BaseName;
         }
