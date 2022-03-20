@@ -26,10 +26,18 @@
             </MenuItem.Resources>
             <MenuItem.Header>
                 <StackPanel Orientation="Horizontal" >
+                    <TextBlock x:Name="tagType"
+                               Text="{Binding Path=TagType, Mode=OneWay}"
+                               VerticalAlignment="Center"
+                               Foreground="DarkSlateBlue"
+                               FontFamily="Segoe UI Emoji"
+                               FontWeight="Bold"
+                               Focusable="False"/>
                     <TextBox Name="tagNameEditBox"
                              FontSize="12"
                              Visibility="Collapsed"
                              Background="Yellow"
+                             Foreground="Black"
                              Text="{Binding Path=LocalName,Mode=OneWay}"
                              BorderThickness="0"
                              VerticalAlignment="Center"
