@@ -60,14 +60,13 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             }
         }
 
-        string _tagName = string.Empty;
         /// <summary>
         /// Get or set the name of a page tag represented by this model.
         /// </summary>
         /// <remarks>
         ///     Setter should be called only once in construction context.
         /// </remarks>
-        public string TagName { get => Tag.BaseName; }
+        public string TagName => Tag.BaseName;
 
         Visibility _tagVisibility = Visibility.Visible;
         /// <summary>
