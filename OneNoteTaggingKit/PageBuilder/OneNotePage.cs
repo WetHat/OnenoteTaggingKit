@@ -86,7 +86,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     ///     </list>
     /// </remarks>
     public class OneNotePage : PageObjectBase {
-        private static readonly Regex _hashtag_matcher = new Regex(@"(?<=(^|[^\w]))#\w{3,}", RegexOptions.Compiled);
+        private static readonly Regex _hashtag_matcher = new Regex(@"(?<=(^|[^\w]))#[\w-_]{3,}|[\w-_]{3,}#(?=($|[^\w]))", RegexOptions.Compiled);
         private static readonly Regex _number_matcher = new Regex(@"^#\d*\w{0,1}\d*$|^#[xX]{0,1}[\dABCDEFabcdef]+$", RegexOptions.Compiled);
 
         /// <summary>
@@ -241,9 +241,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                             if (oe.Tags.Contains(_tagdef.BelowTitleMarkerDef)) {
                                 _belowTitleTags = new OETaglist(oe);
                                 // collect these tags too
-                                Tags.UnionWith(from t in new PageTagSet(_belowTitleTags.Taglist, TagFormat.AsEntered)
-                                               where t.TagType <= PageTagType.HashTag
-                                               select t);
+                                //Tags.UnionWith(from t in new PageTagSet(_belowTitleTags.Taglist, TagFormat.AsEntered)
+                                //               where t.TagType <= PageTagType.HashTag
+                                //               select t);
                                 // delete the Indents as they tend to cause errors
                                 XElement indents = outline.Element(GetName("Indents"));
                                 if (indents != null) {
@@ -252,7 +252,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                 continue; // keep this outline
                             }
                         }
-                    } else if (SavedSearches.Add(outline,_tagdef.SavedSearchMarkerDef)) {
+                    } else if (_tagdef.SavedSearchMarkerDef != null && SavedSearches.Add(outline,_tagdef.SavedSearchMarkerDef)) {
                         // saved search could be added - keep that outline
                         continue;
                     }
