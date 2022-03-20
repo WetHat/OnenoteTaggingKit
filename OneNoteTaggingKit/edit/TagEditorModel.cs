@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
+using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 using WetHatLab.OneNote.TaggingKit.Tagger;
 
 namespace WetHatLab.OneNote.TaggingKit.edit
@@ -179,30 +180,19 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             TagSuggestions.Save();
 
             // covert scope to context
-            TagContext ctx;
-
-            switch (Scope) {
-                default:
-                case TaggingScope.CurrentNote:
-                    ctx = TagContext.CurrentNote;
-                    break;
-
-                case TaggingScope.SelectedNotes:
-                    ctx = TagContext.SelectedNotes;
-                    break;
-
-                case TaggingScope.CurrentSection:
-                    ctx = TagContext.CurrentSection;
-                    break;
-            }
-
-            IEnumerable<string> pageIDs = null;
-            if (ScopesEnabled) {
-                TagsAndPages tc = ContextTagCollection;
-                tc.LoadPageTags(ctx);
-                pageIDs = tc.Pages.Select(p => p.Key);
+            IEnumerable<string> pageIDs;
+            if (Scope == TaggingScope.CurrentNote) {
+                pageIDs = new string[] { OneNoteApp.CurrentPageID };
             } else {
-                pageIDs = PagesToTag;
+                var ph = new PageHierarchy(OneNoteApp);
+                ph.AddPages(OneNoteApp.GetHierarchy(OneNoteApp.CurrentSectionID, Microsoft.Office.Interop.OneNote.HierarchyScope.hsPages));
+                if (Scope == TaggingScope.SelectedNotes) {
+                    pageIDs = from p in ph.Pages
+                              where p.IsSelected
+                              select p.ID;
+                } else {
+                    pageIDs = from p in ph.Pages select p.ID;
+                }
             }
 
             int enqueuedPages = 0;
