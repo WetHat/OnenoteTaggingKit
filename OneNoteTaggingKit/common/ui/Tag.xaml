@@ -22,6 +22,7 @@
             <TextBlock Text="{Binding Path=TagType, Mode=OneWay}"
                        VerticalAlignment="Center"
                        Foreground="DarkSlateBlue"
+                       FontFamily="Segoe UI Emoji"
                        FontWeight="Bold"
                        Focusable="False"/>
             <TextBlock Name="tagName"
