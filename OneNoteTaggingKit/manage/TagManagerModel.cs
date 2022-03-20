@@ -1,6 +1,7 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -88,12 +89,26 @@ namespace WetHatLab.OneNote.TaggingKit.manage
 
             await t1;
             await t2;
-            // update the tags loaded from the settings
+
+            // populate the suggested tag model with the tags found on pages
             foreach (var t in _suggestedTags.Values) {
                 TagPageSet tag;
                 if (_tags.Tags.TryGetValue(t.Key, out tag)) {
+                    // populate
                     t.PageTag = tag;
+
                 }
+            }
+
+            int before = _suggestedTags.Count;
+            // suggest tags found on pages but not suggested so far
+            _suggestedTags.AddAll(from tps in _tags.Tags.Values
+                                  where !_suggestedTags.ContainsKey(tps.Key)
+                                  select new RemovableTagModel() {
+                                      PageTag = tps
+                                  });
+            if (before != _suggestedTags.Count) {
+                SaveChanges();
             }
         }
 
