@@ -21,7 +21,26 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         /// <summary>
         /// Add pages of a XML page hierarchy.
         /// </summary>
-        /// <param name="hierarchy">A OneNote page hierarchy XML document.</param>
+        /// <remarks>
+        /// The hierarchy XML document typically has the form.
+        /// <code lang="xml">
+        /// <one:Notebooks xmlns:one="http://schemas.microsoft.com/office/onenote/2013/onenote">
+        ///   <one:Notebook name="CoCreate" nickname="CoCreate (CADM)" ID="{E47C9414-AC84-4002-92B2-47107B2E818A}{1}{B0}" path="https://d.docs.live.net/3e9574def72409d3/CoCreate/CoCreate/" lastModifiedTime="2022-01-31T20:12:44.000Z" color="#4DBCCA" isUnread="true">
+        ///     <one:SectionGroup name="Explorations" ID="{449F050E-4399-4980-B7ED-F0F2B30E4AF9}{1}{B0}" path="https://d.docs.live.net/3e9574def72409d3/CoCreate/CoCreate/Explorations/" lastModifiedTime="2020-12-18T07:45:15.000Z">
+        ///       <one:Section name="CADM Infrastructure" ID="{2FA28918-6F42-0784-2CAE-7DD7B07B8F95}{1}{B0}" path="https://d.docs.live.net/3e9574def72409d3/CoCreate/CoCreate/Explorations/CADM Infrastructure.one" lastModifiedTime="2020-12-18T07:45:15.000Z" color="#91BAAE">
+        ///         <one:Page ID="{2FA28918-6F42-0784-2CAE-7DD7B07B8F95}{1}{E19559522684634106918620142312867471939925861}" name="Subversion (SVN) Hosting Comparison Review Chart" dateTime="2015-01-30T20:15:26.000Z" lastModifiedTime="2017-02-11T12:01:59.000Z" pageLevel="1">
+        ///           <one:Meta name="TaggingKit.PageTags" content="Comparison, Hosting, Sourcecode Management, Subversion, SVN" />
+        ///         </one:Page>
+        ///       </one:Section>
+        ///     </one:SectionGroup>
+        ///   </one:Notebook>
+        /// </one:Notebooks>
+        /// </code>
+        /// </remarks>
+        /// <param name="hierarchy">
+        ///     A OneNote page hierarchy XML document. Usually the return value
+        ///     of a call to <see cref="OneNoteProxy.GetHierarchy(string, HierarchyScope)"/>
+        /// </param>
         public void AddPages(XDocument hierarchy) {
             buildHierarchy(hierarchy.Root, null);
         }
@@ -83,20 +102,8 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         /// Initialize a OneNote page hierarchy from a query result.
         /// </summary>
         /// <remarks>
-        /// Builds a page hierarchy from a search result
-        /// <code lang="xml">
-        /// <one:Notebooks xmlns:one="http://schemas.microsoft.com/office/onenote/2013/onenote">
-        ///   <one:Notebook name="CoCreate" nickname="CoCreate (CADM)" ID="{E47C9414-AC84-4002-92B2-47107B2E818A}{1}{B0}" path="https://d.docs.live.net/3e9574def72409d3/CoCreate/CoCreate/" lastModifiedTime="2022-01-31T20:12:44.000Z" color="#4DBCCA" isUnread="true">
-        ///     <one:SectionGroup name="Explorations" ID="{449F050E-4399-4980-B7ED-F0F2B30E4AF9}{1}{B0}" path="https://d.docs.live.net/3e9574def72409d3/CoCreate/CoCreate/Explorations/" lastModifiedTime="2020-12-18T07:45:15.000Z">
-        ///       <one:Section name="CADM Infrastructure" ID="{2FA28918-6F42-0784-2CAE-7DD7B07B8F95}{1}{B0}" path="https://d.docs.live.net/3e9574def72409d3/CoCreate/CoCreate/Explorations/CADM Infrastructure.one" lastModifiedTime="2020-12-18T07:45:15.000Z" color="#91BAAE">
-        ///         <one:Page ID="{2FA28918-6F42-0784-2CAE-7DD7B07B8F95}{1}{E19559522684634106918620142312867471939925861}" name="Subversion (SVN) Hosting Comparison Review Chart" dateTime="2015-01-30T20:15:26.000Z" lastModifiedTime="2017-02-11T12:01:59.000Z" pageLevel="1">
-        ///           <one:Meta name="TaggingKit.PageTags" content="Comparison, Hosting, Sourcecode Management, Subversion, SVN" />
-        ///         </one:Page>
-        ///       </one:Section>
-        ///     </one:SectionGroup>
-        ///   </one:Notebook>
-        /// </one:Notebooks>
-        /// </code>
+        ///     Only pages with page tags are considered! To build a page
+        ///     hierachy containing untagged pages use <see cref="AddPages(XDocument)"/>
         /// </remarks>
         /// <param name="onenote">OneNote application proxy.</param>
         /// <param name="hierarchy">OneNote page hierarchy</param>
