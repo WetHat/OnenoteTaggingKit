@@ -1,5 +1,4 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
-using System.Collections.Generic;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.PageBuilder;
 
@@ -37,8 +36,11 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
     {
         private string _pageid;
         private readonly PageTagSet _tagset;
-        private readonly TagOperation _op;
 
+        /// <summary>
+        /// Get the type of operation this job performs.
+        /// </summary>
+        public TagOperation OperationType { get; }
         /// <summary>
         /// Create a new instance of a tagging job.
         /// </summary>
@@ -49,7 +51,7 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
         {
             _pageid = pageID;
             _tagset = tags;
-            _op = operation;
+            OperationType = operation;
         }
 
         /// <summary>
@@ -67,11 +69,9 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
         /// <returns>Unsaved, tagged OneNote page.</returns>
         internal OneNotePage Execute(OneNoteProxy onenote, OneNotePage page)
         {
-            if (page == null)
-            {
+            if (page == null)  {
                 page = new OneNotePage(onenote, _pageid);
-                if (page.IsDeleted)
-                {
+                if (page.IsDeleted) {
                     return null;
                 }
             }
@@ -80,7 +80,7 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                 page.Update();
                 page = new OneNotePage(onenote, _pageid);
             }
-            switch (_op)
+            switch (OperationType)
             {
                 case TagOperation.SUBTRACT:
                     page.Tags.ExceptWith(_tagset);

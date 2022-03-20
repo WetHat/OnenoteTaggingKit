@@ -73,7 +73,7 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                         try {
                             lastPage = j.Execute(_onenote, lastPage);
                             if (lastPage != null && _jobs.Count == 0) { // no more pending pages - must update the last one and stop carrying forward
-                                lastPage.Update();
+                                lastPage.Update(j.OperationType == TagOperation.RESYNC);
                                 lastPage = null;
                             }
                         } catch (COMException ce) {

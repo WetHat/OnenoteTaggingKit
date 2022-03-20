@@ -303,12 +303,18 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 
         PageTagSet _importedTags = new PageTagSet();
         /// <summary>
-        /// Save all changes to the page to OneNote
+        /// Save all changes to the page to OneNote.
         /// </summary>
-        internal void Update() {
-            if (ApplyTagsToPage() || !SavedSearches.Empty) {
+        /// <param name="sync">
+        ///     `true` if this is a request to update import tags
+        ///     and saved searches.
+        /// </param>
+        internal void Update(bool sync = false) {
+            if (ApplyTagsToPage() || (!SavedSearches.Empty && sync)) {
                 try {
-                    SavedSearches.Update();
+                    if (sync) {
+                        SavedSearches.Update(); // expensive!
+                    }
                     OneNoteApp.UpdatePage(Document, _lastModified);
                     if (_belowTitleTags != null &&
                         ((TagDisplay)Properties.Settings.Default.TagDisplay == TagDisplay.InTitle

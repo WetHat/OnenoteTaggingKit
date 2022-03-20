@@ -79,19 +79,20 @@ namespace WetHatLab.OneNote.TaggingKit.manage
 
         internal async Task LoadSuggestedTagsAsync() {
             // grab all tags
-            await Task.Run(() =>
-            {
+            var t1 = Task.Run(() => {
                 Thread.Yield(); // make sure UI builds up
                 _tags.FindPages(SearchScope.AllNotebooks,String.Empty);
             });
             // get the known suggestions (this populates the UI)
-            await _suggestedTags.LoadKnownTagsAsync();
+            var t2 = _suggestedTags.LoadKnownTagsAsync();
 
+            await t1;
+            await t2;
             // update the tags loaded from the settings
             foreach (var t in _suggestedTags.Values) {
                 TagPageSet tag;
-                if (_tags.Tags.TryGetValue(t.TagName, out tag)) {
-                    t.Tag = tag.Tag;
+                if (_tags.Tags.TryGetValue(t.Key, out tag)) {
+                    t.PageTag = tag;
                 }
             }
         }
