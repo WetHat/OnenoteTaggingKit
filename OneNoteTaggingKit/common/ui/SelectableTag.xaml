@@ -21,7 +21,7 @@
             </Style>
         </ToggleButton.Resources>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding Path=TagType, Mode=OneWay}"
+            <TextBlock Text="{Binding Path=TagTypePrefix, Mode=OneWay}"
                        VerticalAlignment="Center"
                        Foreground="DarkSlateBlue"
                        FontFamily="Segoe UI Emoji"
@@ -30,6 +30,12 @@
             <TextBlock Name="tagName"
                        VerticalAlignment="Bottom"
                        Foreground="DarkSlateBlue"
+                       FontWeight="Bold"
+                       Focusable="False"/>
+            <TextBlock Text="{Binding Path=TagTypePostfix, Mode=OneWay}"
+                       VerticalAlignment="Center"
+                       Foreground="DarkSlateBlue"
+                       FontFamily="Segoe UI Emoji"
                        FontWeight="Bold"
                        Focusable="False"/>
             <TextBlock x:Name="tagIndicator"

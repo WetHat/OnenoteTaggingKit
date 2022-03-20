@@ -16,9 +16,14 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         string TagName { get; }
 
         /// <summary>
-        /// Get the tag type.
+        /// Get the tag type prefix marker.
         /// </summary>
-        string TagType { get; }
+        string TagTypePrefix { get; }
+
+        /// <summary>
+        /// Get the tag type postfix parker.
+        /// </summary>
+        string TagTypePostfix { get; }
         /// <summary>
         /// Get the tag indicator.
         /// </summary>
@@ -56,7 +61,13 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             get => _pagetag;
             set {
                 _pagetag = value;
-                TagType = value.TagMarker;
+                if (value.IsRTL) {
+                    TagTypePrefix = string.Empty;
+                    TagTypePostfix = value.TagMarker;
+                } else {
+                    TagTypePrefix = value.TagMarker;
+                    TagTypePostfix = string.Empty;
+                }
             }
         }
 
@@ -96,18 +107,31 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             }
         }
 
-        string _tagType = string.Empty;
+        string _tagTypePrefix = string.Empty;
         /// <summary>
-        /// Get the tag marker.
+        /// Get the tag prefix marker.
         /// </summary>
-        public string TagType {
-            get => _tagType;
+        public string TagTypePrefix {
+            get => _tagTypePrefix;
             protected set {
-                if (!_tagType.Equals(value)) {
-                    _tagType = value;
+                if (!_tagTypePrefix.Equals(value)) {
+                    _tagTypePrefix = value;
                     RaisePropertyChanged();
                 }
+            }
+        }
 
+        string _tagTypePostfix = string.Empty;
+        /// <summary>
+        /// Get the tag postfix marker.
+        /// </summary>
+        public string TagTypePostfix {
+            get => _tagTypePostfix;
+            protected set {
+                if (!_tagTypePostfix.Equals(value)) {
+                    _tagTypePostfix = value;
+                    RaisePropertyChanged();
+                }
             }
         }
         string _tagIndicator = string.Empty;

@@ -9,7 +9,9 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     {
         public string TagName => "Tag";
 
-        public string TagType => "?";
+        public string TagTypePrefix => "?";
+
+        public string TagTypePostfix => "¿";
 
         public Brush TagIndicatorColor => Brushes.Red;
 

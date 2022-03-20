@@ -26,8 +26,8 @@
             </MenuItem.Resources>
             <MenuItem.Header>
                 <StackPanel Orientation="Horizontal" >
-                    <TextBlock x:Name="tagType"
-                               Text="{Binding Path=TagType, Mode=OneWay}"
+                    <TextBlock x:Name="tagTypePrefix"
+                               Text="{Binding Path=TagTypePrefix, Mode=OneWay}"
                                VerticalAlignment="Center"
                                Foreground="DarkSlateBlue"
                                FontFamily="Segoe UI Emoji"
@@ -46,6 +46,13 @@
                     <TextBlock Name="tagName"
                                FontSize="12"
                                VerticalAlignment="Center"
+                               FontWeight="Bold"
+                               Focusable="False"/>
+                    <TextBlock x:Name="tagTypePostfix"
+                               Text="{Binding Path=TagTypePostfix, Mode=OneWay}"
+                               VerticalAlignment="Center"
+                               Foreground="DarkSlateBlue"
+                               FontFamily="Segoe UI Emoji"
                                FontWeight="Bold"
                                Focusable="False"/>
                     <TextBlock x:Name="tagIndicator"

@@ -102,7 +102,8 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         private void EnableEditing()
         {
             tagName.Visibility = Visibility.Collapsed;
-            tagType.Visibility = Visibility.Collapsed;
+            tagTypePrefix.Visibility = Visibility.Collapsed;
+            tagTypePostfix.Visibility = Visibility.Collapsed;
             tagNameEditBox.Visibility = Visibility.Visible;
             tagNameEditBox.Focus();
             tagNameEditBox.SelectAll();
@@ -111,7 +112,8 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         private void DisableEditing()
         {
             tagName.Visibility = Visibility.Visible;
-            tagType.Visibility = Visibility.Visible;
+            tagTypePrefix.Visibility = Visibility.Visible;
+            tagTypePostfix.Visibility = Visibility.Visible;
             tagNameEditBox.Visibility = Visibility.Collapsed;
         }
 
