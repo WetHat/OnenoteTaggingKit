@@ -45,14 +45,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
             Tag = tag;
         }
 
-        /// <summary>
-        /// Initialize a new instance of a set of pages having a tag with the
-        /// given name in common..
-        /// </summary>
-        /// <param name="tagname">Name of tag (with type information).</param>
-        public TagPageSet(string tagname)
-            : this (new PageTag(tagname, PageTagType.Unknown) ){ }
-
         ISet<PageNode> _pages = new HashSet<PageNode>();
         /// <summary>
         /// Get the set of pages having the tag represented by this object.
