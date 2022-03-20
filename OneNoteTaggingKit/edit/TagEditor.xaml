@@ -153,6 +153,7 @@
                          Margin="5,10,5,0"
                          ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tag_TextBox_Tooltip}}"
                          ContextTagsSource="{Binding ContextTagCollection}"
+                         IncludeMappedTags="True"
                          TagInput="TagInputBox_Input" />
         <cui:TagList Grid.Row="3"
                     x:Name="suggestedTags"
