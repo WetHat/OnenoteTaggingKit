@@ -187,9 +187,13 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 var ph = new PageHierarchy(OneNoteApp);
                 ph.AddPages(OneNoteApp.GetHierarchy(OneNoteApp.CurrentSectionID, Microsoft.Office.Interop.OneNote.HierarchyScope.hsPages));
                 if (Scope == TaggingScope.SelectedNotes) {
-                    pageIDs = from p in ph.Pages
-                              where p.IsSelected
-                              select p.ID;
+                    if (ContextTagCollection.SelectedPages == null) {
+                        pageIDs = from p in ph.Pages
+                                  where p.IsSelected
+                                  select p.ID;
+                    } else {
+                        pageIDs = ContextTagCollection.SelectedPages;
+                    }
                 } else {
                     pageIDs = from p in ph.Pages select p.ID;
                 }
