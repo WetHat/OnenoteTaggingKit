@@ -165,12 +165,12 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
 
         private void TagInput_KeyUp(object sender, KeyEventArgs e)
         {
-            TagInputEventArgs evt = new TagInputEventArgs(TagInputEvent, this, TagNames, e);
-
             if (e.Key == Key.Escape) {
                 tagInput.Text = String.Empty;
                 IsPreset = false;
             }
+            TagInputEventArgs evt = new TagInputEventArgs(TagInputEvent, this, TagNames, e);
+
             UpdateVisibility();
 
             if (evt.TagInputComplete) {
