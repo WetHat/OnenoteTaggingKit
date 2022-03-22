@@ -337,11 +337,11 @@ EndSelection:{5:D6}";
             string query = searchComboBox.Text;
 
             try {
-                pBar.Visibility = System.Windows.Visibility.Visible;
+                pBar.Visibility = Visibility.Visible;
                 await _model.FindPagesAsync(query, scopeSelect.SelectedScope);
                 searchComboBox.SelectedValue = query;
-                pBar.Visibility = System.Windows.Visibility.Hidden;
-            } catch (System.Exception ex) {
+                pBar.Visibility = Visibility.Hidden;
+            } catch (Exception ex) {
                 TraceLogger.Log(TraceCategory.Error(), "search for '{0}' failed: {1}", query, ex);
                 TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_Find, ex);
             }
@@ -349,12 +349,18 @@ EndSelection:{5:D6}";
         }
 
         private async void SearchComboBox_KeyUp(object sender, KeyEventArgs e) {
-            if (e.Key == System.Windows.Input.Key.Enter) {
-                string query = searchComboBox.Text;
-                pBar.Visibility = System.Windows.Visibility.Visible;
-                await _model.FindPagesAsync(query, scopeSelect.SelectedScope);
-                pBar.Visibility = System.Windows.Visibility.Hidden;
-                searchComboBox.SelectedValue = query;
+            string query;
+            switch (e.Key) {
+                case Key.Enter:
+                    query = searchComboBox.Text;
+                    pBar.Visibility = Visibility.Visible;
+                    await _model.FindPagesAsync(query, scopeSelect.SelectedScope);
+                    pBar.Visibility = Visibility.Hidden;
+                    searchComboBox.SelectedValue = query;
+                    break;
+                case Key.Escape:
+                    searchComboBox.Text = string.Empty;
+                    break;
             }
             e.Handled = true;
         }
