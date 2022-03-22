@@ -75,16 +75,16 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         internal void ClearTagFilter()
         {
-            FilterTags.Clear();
-            MatchingPages.Clear();
-            if (!string.IsNullOrEmpty(_query))
-            {
-                MatchingPages.UnionWith(base.Pages.Values);
+            if (FilterTags.Count == 0) {
+                FilterTags.Clear();
+                if (string.IsNullOrEmpty(_query)) {
+                    MatchingPages.Clear();
+                } else {
+                    // Restore the query result
+                    MatchingPages.UnionWith(Pages.Values);
+                }
             }
-            foreach (TagPageSet tag in Tags.Values)
-            {
-                tag.ClearFilter();
-            }
+            ApplyFilterToTags();
         }
 
         /// <summary>
@@ -97,11 +97,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <param name="tag">Page tag to add to refinement filter.</param>
         internal void AddTagToFilter(TagPageSet tag)
         {
-            if (FilterTags.Add(tag))
-            {
-                if (FilterTags.Count == 1) {
+            if (FilterTags.Add(tag)) {
+                if (FilterTags.Count == 1 && string.IsNullOrEmpty(_query)) {
+                    // first tag initializes the list of matching pages
                     MatchingPages.UnionWith(tag.FilteredPages);
-                } else if (MatchingPages.Count > 0) {
+                } else {
+                    // incrementally refine the page collection.
                     MatchingPages.IntersectWith(tag.FilteredPages);
                 }
                 ApplyFilterToTags();
@@ -111,25 +112,27 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Remove tag from the filter.
         /// </summary>
-        /// <param name="tag">Page tag to remove from refinement filter.</param>
+        /// <param name="tag">Page tag to remove from the refinement filter.</param>
         internal void RemoveTagFromFilter(TagPageSet tag)
         {
             if (FilterTags.Remove(tag)) {
-                if (FilterTags.Count == 0) {
-                    ClearTagFilter();
-                } else {
-                    // recompute filtered pages from scratch
+                if (string.IsNullOrEmpty(_query)) {
                     MatchingPages.Clear();
+                } else {
+                    MatchingPages.UnionWith(Pages.Values);
+                }
+                if (FilterTags.Count > 0) {
+                    // rebuild tha collection of matching pages
                     int tagsApplied = 0;
                     foreach (TagPageSet tps in FilterTags) {
-                        if (tagsApplied++ == 0) {
+                        if (tagsApplied++ == 0 && string.IsNullOrEmpty(_query)) {
                             MatchingPages.UnionWith(tps.Pages);
                         } else {
                             MatchingPages.IntersectWith(tps.Pages);
                         }
                     }
-                    ApplyFilterToTags();
                 }
+                ApplyFilterToTags();
             }
         }
 
@@ -138,17 +141,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         private void ApplyFilterToTags()
         {
-            if (FilterTags.Count == 0)
-            {
-                foreach (TagPageSet tag in Tags.Values)
-                {
+            if (FilterTags.Count == 0) {
+                foreach (TagPageSet tag in Tags.Values) {
                     tag.ClearFilter();
                 }
-            }
-            else
-            {
-                foreach (TagPageSet tag in Tags.Values)
-                {
+            }  else {
+                foreach (TagPageSet tag in Tags.Values) {
                     tag.IntersectWith(MatchingPages.Values);
                 }
             }
