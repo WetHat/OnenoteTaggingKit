@@ -220,6 +220,11 @@ namespace WetHatLab.OneNote.TaggingKit.common
         public bool IsEmpty => _pagetags.Count == 0;
 
         /// <summary>
+        /// Get the number of tags in the set.
+        /// </summary>
+        public int Count => _pagetags.Count;
+
+        /// <summary>
         /// Get the tag set as comma separated list.
         /// </summary>
         /// <param name="separator">
