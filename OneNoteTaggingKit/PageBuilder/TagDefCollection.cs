@@ -86,12 +86,14 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         td.Tag = toDefine.Pop();
                     } else {
                         // tag definition not recyleable
+                        IsModified = true;
                         td.Dispose();
                     }
                 }
             }
 
             // For the remaining page tags we need to make new definitions.
+            IsModified = toDefine.Count > 0;
             while (toDefine.Count > 0) {
                 Add(new TagDef(Page, toDefine.Pop(), Items.Count));
             }
