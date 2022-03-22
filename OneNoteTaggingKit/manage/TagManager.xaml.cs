@@ -40,12 +40,12 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             var rt = sender as RemovableTag;
             var rt_mdl = rt.DataContext as RemovableTagModel;
 
-            var toRemove = new PageTagSet(rt_mdl.PageTag.Tag);
+            var toRemove = new PageTagSet(rt_mdl.Tag);
             if ("DeleteTag".Equals(rt.Tag))
             {
-                _model.SuggestedTags.RemoveAll(from t in toRemove select t.Key);
+                _model.SuggestedTags.RemoveAll(from tag in toRemove select tag.Key);
                 // schedule all pages with this tag for tag removal
-                if (rt_mdl.Tag != null)
+                if (rt_mdl.PageTag != null)
                 {
                     foreach (var tp in rt_mdl.PageTag.Pages)
                     {
@@ -54,60 +54,47 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                     suggestedTags.Notification = rt_mdl.PageTag.Pages.Count == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_TaggingInProgress, rt_mdl.PageTag.Pages.Count);
                     TraceLogger.Log(TraceCategory.Info(), "{0} page(s) enqueued for background tagging; Operation SUBTRACT {1}", rt_mdl.PageTag.Pages.Count, rt_mdl.PageTag.Tag.BaseName);
                 }
-                else
-                {
-                    suggestedTags.Notification = Properties.Resources.TagEditor_Popup_NothingTagged;
-                }
             }
             else if ("RenameTag".Equals(rt.Tag))
             {
-                _model.SuggestedTags.RemoveAll(from t in toRemove select t.Key);
+                // the renamed tag will be replaced by new tags
+                _model.SuggestedTags.RemoveAll(from tag in toRemove select tag.Key);
 
                 // create new tag models unless they already exist
-                List<RemovableTagModel> newTagModels = new List<RemovableTagModel>();
-                var toAdd = new PageTagSet();
-                foreach (var tag in from tn in PageNode.ParseTaglist(rt_mdl.LocalName)
-                                    select new PageTag(tn, PageTagType.Unknown))
-                {
-                    toAdd.Add(tag);
+                var newTagModels = new Stack<RemovableTagModel>();
+
+                var toAdd = new PageTagSet(rt_mdl.LocalName, (TagFormat)Properties.Settings.Default.TagFormatting);
+
+                foreach (var tag in toAdd) {
                     RemovableTagModel tagmodel;
-                    if (!_model.SuggestedTags.TryGetValue(tag.Key, out tagmodel))
-                    {
+                    if (!_model.SuggestedTags.TryGetValue(tag.Key, out tagmodel)) {
                         // renamed to non-existing tag
                         tagmodel = new RemovableTagModel() { PageTag = new TagPageSet(tag) };
-                        newTagModels.Add(tagmodel);
+                        newTagModels.Push(tagmodel);
                     }
-                    else if (tagmodel.Tag == null && rt_mdl.Tag != null)
-                    { // renamed to existing tag which is not used anywhere
+                    else if (rt_mdl.PageTag == null) {
+                        // renamed to suggested tag which is not used anywhere
                         tagmodel.PageTag = new TagPageSet(tag);
                     }
 
-                    if (rt_mdl.PageTag != null)
-                    {
+                    if (rt_mdl.PageTag != null) {
                         // copy the pages into the new tag and update the tag count
-                        foreach (var pg in rt_mdl.PageTag.Pages)
-                        {
-                            tagmodel.PageTag.Pages.Add(pg);
-                        }
+                        tagmodel.PageTag.Pages.UnionWith(rt_mdl.PageTag.Pages);
                         tagmodel.UseCount = tagmodel.PageTag.Pages.Count;
                     }
                 }
                 _model.SuggestedTags.AddAll(newTagModels);
 
-                if (rt_mdl.Tag != null)
+                if (rt_mdl.PageTag != null)
                 {
                     // remove the old tag and add new tag to the pages
                     foreach (var tp in rt_mdl.PageTag.Pages)
                     {
-                        _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toRemove, TagOperation.SUBTRACT));
+                        _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, new PageTagSet(rt_mdl.Tag), TagOperation.SUBTRACT));
                         _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toAdd, TagOperation.UNITE));
                     }
                     suggestedTags.Notification = rt_mdl.PageTag.Pages.Count == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_TaggingInProgress, rt_mdl.PageTag.Pages.Count);
                     TraceLogger.Log(TraceCategory.Info(), "{0} page(s) enqueued for background tagging; Operation UNITE {1} SUBTRACT {2}", rt_mdl.PageTag.Pages.Count, rt_mdl.LocalName, rt_mdl.PageTag.Tag.BaseName);
-                }
-                else
-                {
-                    suggestedTags.Notification = Properties.Resources.TagEditor_Popup_NothingTagged;
                 }
             }
             TraceLogger.Flush();
