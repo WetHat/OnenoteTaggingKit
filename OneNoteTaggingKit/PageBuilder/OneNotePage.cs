@@ -491,10 +491,19 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         _belowTitleTags.Tags.Add(belowTitleMarker);
                         specChanged = true;
                     } else {
-                        _belowTitleTags.Taglist = pagetagset.ToString(", ");
-                        _belowTitleTags.QuickStyle = QuickStyleDefinitions.TagOutlineStyleDef;
-                        // force page update to make sure tag display is in sync
-                        specChanged = true;
+                        // check if the below title tag display needs update
+                        if (!specChanged) {
+                            var displayedTags = new PageTagSet(_belowTitleTags.Taglist, TagFormat.AsEntered);
+                            specChanged = displayedTags.Count != pagetagset.Count;
+                            if (!specChanged) {
+                                displayedTags.ExceptWith(pagetagset);
+                                specChanged = !displayedTags.IsEmpty;
+                            }
+                        }
+                        if (specChanged) {
+                            _belowTitleTags.Taglist = pagetagset.ToString(", ");
+                            _belowTitleTags.QuickStyle = QuickStyleDefinitions.TagOutlineStyleDef;
+                        }
                     }
                     break;
             }
