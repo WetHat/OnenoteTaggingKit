@@ -491,7 +491,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         _belowTitleTags.Tags.Add(belowTitleMarker);
                         specChanged = true;
                     } else {
-                        _belowTitleTags.Taglist = pagetagset.ToString();
+                        _belowTitleTags.Taglist = pagetagset.ToString(", ");
                         _belowTitleTags.QuickStyle = QuickStyleDefinitions.TagOutlineStyleDef;
                         // force page update to make sure tag display is in sync
                         specChanged = true;

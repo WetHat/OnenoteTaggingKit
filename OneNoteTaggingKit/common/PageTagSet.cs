@@ -222,10 +222,14 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <summary>
         /// Get the tag set as comma separated list.
         /// </summary>
-        /// <returns>Comma separated taglist</returns>
-        public override string ToString() => string.Join(",", from p in this
-                                                              orderby p.Key ascending
-                                                              select p.DisplayName);
+        /// <param name="separator">
+        ///     Optional separator string to separate the individual tags with.
+        ///     Defaults to comma ','.
+        /// </param>
+        /// <returns>List of tags.</returns>
+        public string ToString(string separator = ",") => string.Join(separator, from p in this
+                                                                                 orderby p.Key ascending
+                                                                                 select p.DisplayName);
         #region IEnumerable<PageTag>
         /// <summary>
         /// Get the typed page tag enumerator
