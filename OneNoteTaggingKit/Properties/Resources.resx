@@ -176,10 +176,10 @@
     <value>This Section</value>
   </data>
   <data name="TagSearch_Pages_GroupBox_Title" xml:space="preserve">
-    <value>Found Pages</value>
+    <value>Pages ({0})↤🏷:{1}, 🔍:{2}</value>
   </data>
   <data name="TagSearch_Pages_GroupBox_Tooltip" xml:space="preserve">
-    <value>Pages marked with all selected tags </value>
+    <value>Pages matching tag filter or query.</value>
   </data>
   <data name="TagSearch_Tags_GroupBox_Title" xml:space="preserve">
     <value>Page Tags</value>

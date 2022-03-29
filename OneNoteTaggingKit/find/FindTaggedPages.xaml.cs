@@ -68,9 +68,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
             set => SetValue(PagePanelHeaderProperty, value);
         }
         void UpdatePagePanelHeader() {
-            PagePanelHeader = string.Format("{0} ({1})",
-                                                        Properties.Resources.TagSearch_Pages_GroupBox_Title,
-                                                        _model.FilteredPages.Count);
+            PagePanelHeader = string.Format(Properties.Resources.TagSearch_Pages_GroupBox_Title,
+                                                        _model.FilteredPages.Count,
+                                                        _model.SelectedRefinementTags.Count,
+                                                        string.IsNullOrEmpty(searchComboBox.Text)
+                                                        ? "-"
+                                                        : searchComboBox.Text);
         }
         #endregion PagePanelHeaderProperty
         #region RefinementTagsPanelHeaderProperty
@@ -95,6 +98,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             RefinementTagsPanelHeader = string.Format("{0} ({1})",
                                                        Properties.Resources.TagSearch_SelectedTags_GroupBox_Title,
                                                        _model.SelectedRefinementTags.Count);
+            UpdatePagePanelHeader();
         }
         #endregion RefinementTagsPanelHeaderProperty
         /// <summary>
@@ -339,6 +343,7 @@ EndSelection:{5:D6}";
                 await _model.FindPagesAsync(query, scopeSelect.SelectedScope);
                 searchComboBox.SelectedValue = query;
                 pBar.Visibility = Visibility.Hidden;
+                UpdatePagePanelHeader();
             } catch (Exception ex) {
                 TraceLogger.Log(TraceCategory.Error(), "search for '{0}' failed: {1}", query, ex);
                 TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_Find, ex);
@@ -355,6 +360,7 @@ EndSelection:{5:D6}";
                     await _model.FindPagesAsync(query, scopeSelect.SelectedScope);
                     pBar.Visibility = Visibility.Hidden;
                     searchComboBox.SelectedValue = query;
+                    UpdatePagePanelHeader();
                     break;
                 case Key.Escape:
                     searchComboBox.Text = string.Empty;

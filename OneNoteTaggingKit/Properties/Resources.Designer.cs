@@ -1251,7 +1251,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Found Pages.
+        ///   Looks up a localized string similar to Pages ({0})↤🏷:{1}, 🔍:{2}.
         /// </summary>
         public static string TagSearch_Pages_GroupBox_Title {
             get {
@@ -1260,7 +1260,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pages marked with all selected tags .
+        ///   Looks up a localized string similar to Pages matching tag filter or query..
         /// </summary>
         public static string TagSearch_Pages_GroupBox_Tooltip {
             get {
