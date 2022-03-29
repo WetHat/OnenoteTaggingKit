@@ -57,8 +57,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     break;
                 case TagProcessClassification.SavedSearchMarker:
                     if (SavedSearchMarkerDef == null) {
-                        // TODO Localize
-                        SavedSearchMarkerDef = newdef = new TagDef(Page, "Saved Search" , Items.Count, classification);
+                        SavedSearchMarkerDef = newdef = new TagDef(Page, Properties.Resources.SavedSearchTagName , Items.Count, classification);
                     } else {
                         return SavedSearchMarkerDef;
                     }

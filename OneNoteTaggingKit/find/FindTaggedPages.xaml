@@ -249,8 +249,9 @@
                         <Image Source="/OneNoteTaggingKit;component/Resources/copy_link-32.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Save Search Result"
+                <MenuItem Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.FoundPages_MenuItem_SaveSearch}}"
                           Tag="SaveSearch"
+                          ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.FoundPages_MenuItem_SaveSearchTooltip}}"
                           Click="Page_MenuItem_Click">
                     <MenuItem.Icon>
                         <Image Source="/OneNoteTaggingKit;component/Resources/OnePage-32.png" />

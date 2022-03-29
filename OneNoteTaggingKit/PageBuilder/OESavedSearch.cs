@@ -99,7 +99,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             }
 
             if (pagelinks.Count == 0) {
-                pagelinks.AddLast(new OET(ns, "No pages match the search criteria!")); // TODO localize
+                pagelinks.AddLast(new OET(ns, Properties.Resources.SavedSearchNoMatchError));
             }
             return pagelinks;
         }
@@ -131,7 +131,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             string scopeID = onenote.GetCurrentSearchScopeID(_scope);
             string scopelink;
             if (string.IsNullOrEmpty(scopeID)) {
-                scopelink = "All Notebooks"; // TODO localize
+                scopelink = Properties.Resources.SavedSearchAllScope;
             } else {
                 var hn = new HierarchyNode(onenote.GetHierarchy(scopeID,HierarchyScope.hsSelf).Root,null);
                 scopelink = string.Format("<a href=\"{0}&scope={1}\">{2}</a>",
@@ -143,14 +143,13 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             var labelstyle = page.QuickStyleDefinitions.LabelStyleDef;
 
             searchConfig.BordersVisible = true;
-            // TODO: localize
-            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "Scope", labelstyle)),
+            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, Properties.Resources.SavedSearchScopeLabel, labelstyle)),
                                                  new Cell(ns, new OET(ns, scopelink))));
-            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "Query",labelstyle)),
+            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, Properties.Resources.SavedSearchQueryLabel,labelstyle)),
                                                  new Cell(ns, new OET(ns, query))));
-            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "Tags", labelstyle)),
+            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, Properties.Resources.SavedSearchTagsLabel, labelstyle)),
                                                  new Cell(ns, _tags = new OETaglist(ns,taglist))));
-            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "Updated", labelstyle)),
+            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, Properties.Resources.SavedSearchUpdatedLabel, labelstyle)),
                                                  new Cell(ns, _lastModified = new OET(ns, DateTime.Now.ToString(CultureInfo.CurrentCulture)))));
             _searchConfiguration = new OETable(searchConfig);
             _searchConfiguration.Tags.Add(marker);

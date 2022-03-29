@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Xml.Linq;
+using System.Linq;
+using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
@@ -46,16 +48,18 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// and to the OneNote page.
         /// </summary>
         /// <param name="query">The search string.</param>
-        /// <param name="taglist">Comma separated list of tags to search for.</param>
+        /// <param name="tags">Set of tags to search for.</param>
         /// <param name="scope">Search scope.</param>
         /// <param name="pages">Pages matching the search string and/or tags</param>
 
-        public void Add(string query, string taglist, SearchScope scope, IEnumerable<PageNode>pages) {
+        public void Add(string query, PageTagSet tags, SearchScope scope, IEnumerable<PageNode>pages) {
             OESavedSearch ss = new OESavedSearch(Owner,
                                                  query,
-                                                 taglist,
+                                                 string.Join(", ",from t in tags
+                                                                  orderby t.Key ascending
+                                                                  select t.ToString()),
                                                  scope,
-                                                 Owner.DefineProcessTag("Saved Search", TagProcessClassification.SavedSearchMarker),
+                                                 Owner.DefineProcessTag(Properties.Resources.SavedSearchTagName, TagProcessClassification.SavedSearchMarker),
                                                  pages);
             base.Add(ss);
             Owner.Element.Add(new XElement(GetName("Outline"),

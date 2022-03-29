@@ -107,6 +107,24 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save Search Result.
+        /// </summary>
+        public static string FoundPages_MenuItem_SaveSearch {
+            get {
+                return ResourceManager.GetString("FoundPages_MenuItem_SaveSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save the search result to a new OneNote page in the current section.
+        /// </summary>
+        public static string FoundPages_MenuItem_SaveSearchTooltip {
+            get {
+                return ResourceManager.GetString("FoundPages_MenuItem_SaveSearchTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select All.
         /// </summary>
         public static string FoundPages_MenuItem_Select_All {
@@ -190,6 +208,69 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string ribbon {
             get {
                 return ResourceManager.GetString("ribbon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Notebooks.
+        /// </summary>
+        public static string SavedSearchAllScope {
+            get {
+                return ResourceManager.GetString("SavedSearchAllScope", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No pages match the search criteria!.
+        /// </summary>
+        public static string SavedSearchNoMatchError {
+            get {
+                return ResourceManager.GetString("SavedSearchNoMatchError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Query.
+        /// </summary>
+        public static string SavedSearchQueryLabel {
+            get {
+                return ResourceManager.GetString("SavedSearchQueryLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scope.
+        /// </summary>
+        public static string SavedSearchScopeLabel {
+            get {
+                return ResourceManager.GetString("SavedSearchScopeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saved Search.
+        /// </summary>
+        public static string SavedSearchTagName {
+            get {
+                return ResourceManager.GetString("SavedSearchTagName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tags.
+        /// </summary>
+        public static string SavedSearchTagsLabel {
+            get {
+                return ResourceManager.GetString("SavedSearchTagsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updated.
+        /// </summary>
+        public static string SavedSearchUpdatedLabel {
+            get {
+                return ResourceManager.GetString("SavedSearchUpdatedLabel", resourceCulture);
             }
         }
         
@@ -1202,6 +1283,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TagSearch_Query_ComboBox_Tooltip {
             get {
                 return ResourceManager.GetString("TagSearch_Query_ComboBox_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pages cannot be created in the recycle bin!.
+        /// </summary>
+        public static string TagSearch_Recyclebin_Error {
+            get {
+                return ResourceManager.GetString("TagSearch_Recyclebin_Error", resourceCulture);
             }
         }
         

@@ -176,8 +176,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                             var currentPage = onenote.GetHierarchy(currentPageID, HierarchyScope.hsSelf);
                             XAttribute recycleBinAtt = currentPage.Root.Attribute("isInRecycleBin");
                             if (recycleBinAtt != null && "true".Equals(recycleBinAtt.Value)) {
-                                // TODO localize
-                                MessageBox.Show("Pages cannot be created in the recycle bin!", Properties.Resources.TagEditor_WarningMessageBox_Title, MessageBoxButton.OK);
+                                MessageBox.Show(Properties.Resources.TagSearch_Recyclebin_Error, Properties.Resources.TagEditor_WarningMessageBox_Title, MessageBoxButton.OK);
                             } else {
                                 pBarCopy.Visibility = Visibility.Visible;
                                 var newPageID = onenote.CreateNewPage(onenote.CurrentSectionID);
@@ -190,9 +189,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
                                              orderby p.Page.Name
                                              select p.Page).ToList();
                                 await Task.Run(() => {
-                                    // TODO localize
-                                    pg.Tags = new PageTagSet("Saved Search", TagFormat.AsEntered);
-                                    pg.SavedSearches.Add(searchstring, tagset.ToString(), scope, pages);
+                                    pg.Tags = new PageTagSet(Properties.Resources.SavedSearchTagName, TagFormat.AsEntered);
+                                    pg.SavedSearches.Add(searchstring, tagset, scope, pages);
                                     pg.Update();
                                 });
                                 pBarCopy.Visibility = Visibility.Hidden;

@@ -548,4 +548,34 @@ Tap or click link to navigate to page.</value>
   <data name="refreshPage_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\refreshPage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="FoundPages_MenuItem_SaveSearch" xml:space="preserve">
+    <value>Save Search Result</value>
+  </data>
+  <data name="FoundPages_MenuItem_SaveSearchTooltip" xml:space="preserve">
+    <value>Save the search result to a new OneNote page in the current section</value>
+  </data>
+  <data name="SavedSearchAllScope" xml:space="preserve">
+    <value>All Notebooks</value>
+  </data>
+  <data name="SavedSearchNoMatchError" xml:space="preserve">
+    <value>No pages match the search criteria!</value>
+  </data>
+  <data name="SavedSearchQueryLabel" xml:space="preserve">
+    <value>Query</value>
+  </data>
+  <data name="SavedSearchScopeLabel" xml:space="preserve">
+    <value>Scope</value>
+  </data>
+  <data name="SavedSearchTagName" xml:space="preserve">
+    <value>Saved Search</value>
+  </data>
+  <data name="SavedSearchTagsLabel" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="SavedSearchUpdatedLabel" xml:space="preserve">
+    <value>Updated</value>
+  </data>
+  <data name="TagSearch_Recyclebin_Error" xml:space="preserve">
+    <value>Pages cannot be created in the recycle bin!</value>
+  </data>
 </root>
