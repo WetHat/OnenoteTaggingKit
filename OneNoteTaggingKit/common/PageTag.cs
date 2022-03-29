@@ -125,10 +125,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
         static readonly string[] _typeMarker = new string[] {
                 cImportedOneNoteTagMarker,
                 cImportedOneNoteTagMarkerHTML,
-                cHashtagMarker,
-                cImportedHashtagMarker,
                 cImportedLegacyHashtagMarker,
                 cImportedLegacyHashtagMarkerHTML,
+                cImportedHashtagMarker,
+                cHashtagMarker,
         };
         /// <summary>
         /// The tag type associated with type markers.
@@ -137,10 +137,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
         static readonly PageTagType[] _typeOfMarker = new PageTagType[] {
             PageTagType.ImportedOneNoteTag,
             PageTagType.ImportedOneNoteTag,
+            PageTagType.ImportedHashTag,
+            PageTagType.ImportedHashTag,
+            PageTagType.ImportedHashTag,
             PageTagType.HashTag,
-            PageTagType.ImportedHashTag,
-            PageTagType.ImportedHashTag,
-            PageTagType.ImportedHashTag,
         };
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     } else if (tagname.EndsWith(marker, StringComparison.OrdinalIgnoreCase)) {
                         // for RTL language support
                         basename = tagname.Substring(0, tagname.Length - marker.Length);
-                        rtl = i >= 2; // only hashtags
+                        rtl = i >= 4; // only real hashtags or with new marker
                         break;
                     }
                 }
