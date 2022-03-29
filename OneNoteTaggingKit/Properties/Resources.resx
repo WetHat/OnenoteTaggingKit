@@ -179,7 +179,7 @@
     <value>Pages ({0})↤🔖{1}, 🔍{2}</value>
   </data>
   <data name="TagSearch_Pages_GroupBox_Tooltip" xml:space="preserve">
-    <value>Pages matching tag filter or query.</value>
+    <value>Pages matching tags or query.</value>
   </data>
   <data name="TagSearch_Tags_GroupBox_Title" xml:space="preserve">
     <value>Page Tags</value>
@@ -576,6 +576,6 @@ Tap or click link to navigate to page.</value>
     <value>Updated</value>
   </data>
   <data name="TagSearch_Recyclebin_Error" xml:space="preserve">
-    <value>Pages cannot be created in the recycle bin!</value>
+    <value>Page cannot be created in the recycle bin!</value>
   </data>
 </root>

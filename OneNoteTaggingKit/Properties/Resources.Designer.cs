@@ -1260,7 +1260,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pages matching tag filter or query..
+        ///   Looks up a localized string similar to Pages matching tags or query..
         /// </summary>
         public static string TagSearch_Pages_GroupBox_Tooltip {
             get {
@@ -1287,7 +1287,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pages cannot be created in the recycle bin!.
+        ///   Looks up a localized string similar to Page cannot be created in the recycle bin!.
         /// </summary>
         public static string TagSearch_Recyclebin_Error {
             get {
