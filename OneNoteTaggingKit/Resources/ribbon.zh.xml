@@ -11,7 +11,7 @@
                   onAction="editTags"
                   image="pageTags.png" />
             <button id="updatePage"
-                     label="刷新页面"
+                     label="更新頁面"
                      size="normal"
                      screentip="更新当前页面上导入的标签和保存的标签搜索"
                      onAction="refreshPage"
