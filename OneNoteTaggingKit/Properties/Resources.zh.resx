@@ -173,7 +173,7 @@
     <value>此分区</value>
   </data>
   <data name="TagSearch_Pages_GroupBox_Title" xml:space="preserve">
-    <value>Pages ({0})↤🔖:{1}, 🔍:{2}</value>
+    <value>Pages ({0})↤🔖{1}, 🔍{2}</value>
   </data>
   <data name="TagSearch_Pages_GroupBox_Tooltip" xml:space="preserve">
     <value>Pages matching tag filter or query.</value>
