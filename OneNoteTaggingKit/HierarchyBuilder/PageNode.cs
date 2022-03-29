@@ -90,11 +90,6 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         #endregion IKeyedItem
 
         /// <summary>
-        /// Set of page tags tags as recorded in the page's meta section;
-        /// </summary>
-        private readonly PageTagSet _tagset;
-
-        /// <summary>
         /// Get the collection of tags on this page
         /// </summary>
         public PageTagSet Tags { get; }
