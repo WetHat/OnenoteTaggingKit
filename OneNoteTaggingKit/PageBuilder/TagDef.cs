@@ -52,7 +52,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <summary>
         /// The OneNote tag name suffix to identify taglists.
         /// </summary>
-        private const string cTaglistSuffix = "🏷";
+        private const string cTaglistSuffix = "🔖";
         /// <summary>
         /// The OneNote tag name suffix to identify saved searches.
         /// </summary>
@@ -158,7 +158,15 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             Symbol = 0;
             _pageTag = tag;
         }
-
+        static string AnnotateName(string basename, TagProcessClassification classification) {
+            switch (classification) {
+                case TagProcessClassification.BelowTitleMarker:
+                    return basename + cTaglistSuffix;
+                case TagProcessClassification.SavedSearchMarker:
+                    return basename + cSavedSearchSuffix;
+            }
+            return basename;
+        }
         /// <summary>
         /// Intitialize a new instance of a process tag definition
         /// </summary>
@@ -167,7 +175,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="index">THe definition index</param>
         /// <param name="classification">The tag process classification.</param>
         public TagDef(OneNotePage page, string basename, int index, TagProcessClassification classification)
-            : base(page, new XElement(page.GetName(nameof(TagDef))), basename, index) {
+            : base(page, new XElement(page.GetName(nameof(TagDef))), AnnotateName(basename,classification), index) {
             switch (classification) {
                 case TagProcessClassification.BelowTitleMarker:
                     Type = cBelowTitleMarkerType;
