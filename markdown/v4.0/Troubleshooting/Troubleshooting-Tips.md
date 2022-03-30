@@ -6,7 +6,7 @@ Your issue may already heve been reported or fixed.
 
 # Known Issues{.unfloat}
 
-* [The Tagging Kit command group does not show up in the _OneNote_ribbon bar](Tagging%20Kit%20Not%20Shown%20in%20Ribbon.md)
+* [The Tagging Kit command group does not show up in the _OneNote_ ribbon bar](Tagging%20Kit%20Not%20Shown%20in%20Ribbon.md)
 * [Searching pages by Tags or Full-Text Queries does not work](Searching-pages-by-Tags-or-Full-Text-Queries-does-not-work.md)
 * [Exception from HRESULT: 0x8004200C](0x8004200C.md)
 * [Exception from HRESULT: 0x80042019](0x80042019.md)
@@ -14,9 +14,9 @@ Your issue may already heve been reported or fixed.
 
 ![Screenshot](images/TroubleshootingTips_log.png){.rightfloat}
     
-# Submitting a New Issue or Enhancement Request
+# Submitting a Bug or Enhancement Request
 
-You are very nuch welcome to report issues or submit enhancement requests.
+You are very much welcome to report issues or submit enhancement requests.
 Before doing so, please check that nothing
 appropriate is recorded at
 [Issues](https://github.com/WetHat/OnenoteTaggingKit/issues)

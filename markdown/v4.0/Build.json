@@ -2,6 +2,8 @@
     "site_navigation": [
         { "OneNote Tagging Kit v4.0": "" },
         { "Overview": "Home.md" },
-        { "Troubleshooting": "Troubleshooting/Troubleshooting-Tips.md" }
+        { "Troubleshooting": "Troubleshooting/Troubleshooting-Tips.md" },
+        { "User Manual": "" },
+        { "The Ribbon Bar": "Usage/Ribbon.md" }
     ]
 }

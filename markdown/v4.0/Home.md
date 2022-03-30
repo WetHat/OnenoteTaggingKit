@@ -3,20 +3,41 @@
 The _OneNoteTaggingKit_ is a free to-use add-in to add page tagging to
 OneNote for the desktop.
 
-# Feature Summary:
+# Feature Summary
 
-![Screenshot](https://github.com/WetHat/OnenoteTaggingKit/wiki/images/TaggingKitIntro.png){.rightfloat height="30%"}
+![Screenshot](images/TaggingKitIntro.png){.rightfloat height="30%"}
 
-* Page Tags can be added/removed from pages on-the-fly
-* Search refinement using page tags (facetted search)
-* Page tags are available and fully operational for all users of shared _OneNote_notebooks (requires add-in to be installed on _OneNote_clients)
-* Full compatibility with built-in _OneNote_tagging system, even if add-in is not installed.
-* Locating notes related to the _OneNote_page currently being viewed
+## Page Tags
+>
+> * _Page Tags_ can be added/removed from one or more pages on-the-fly.
+> * Built-in _OneNote_ paragraph tags and hashtags contained in page content
+>   can be _imported_ as _Page Tags_ and can participate in
+>   [Faceted Search](https://en.wikipedia.org/wiki/Faceted_search)
+> * Page tags are automatically shared to all connected _OneNote_ clients and
+>   are fully functional if the add-in is installed.
+> * _Page Tags_ are available to the built-in _OneNote_ paragraph tagging
+>   system, even if the _Tagging Kit_ add-in is not installed.
+
+## Tag Management
+>
+> * _Tagging Kit_ dialogs to apply and manage _Page Tags_ are integrated
+>    with the _OneNote_ user interface.
+> * Tagging operations run in the background. The user can continue to interact
+>   with _OneNote_ while tagging is in progress.
+
+## Faceted Search
+>
+> * A dialog to find pages by
+>   [Faceted Search](https://en.wikipedia.org/wiki/Faceted_search) is
+>   integrated with the _OneNote_ user interface
+> * Search result can be saved to a _OneNote_ page and updated on request.
+> * The search dialog can be used to automatically provide information related
+>   to the _OneNote_ page currently being viewed. 
 
 # System Requirements
 
 * _OneNote_ 2010, 2013, 2016, 2019 or later, _OneNote_ 365 Desktop (from Office 365).
-  🛑 The Windows App Store version is **not** supported.
+  :warning: The Windows App Store version is **not** supported.
 * Windows 7, 8, 8.1, 10 (32-bit/64-bit); Windows Server 2008 R2 or later
 * .net 4.5
 
@@ -65,7 +86,11 @@ the _Page Tags_ command group (next to the built-in Tags command group)
 If you do not see this ribbon extension please refer to
 [Tagging Kit Actions Not Shown in Ribbon](Troubleshooting/Tagging%20Kit%20Not%20Shown%20in%20Ribbon.md)
 
-# Reporting Bugs and Requesting Features
+# Using the _OneNote Tagging Kit_
+
+TODO
+
+# Bugs and Features
 
 If you think the _Tagging Kit_ is not working as it should, please check the [troubleshooting tips](Troubleshooting/Troubleshooting-Tips.md)
 first.
