@@ -50,26 +50,27 @@
     <link rel="icon" href="../PageIcon.png" type="image/x-icon" />
 </head>
 <body>
-    <nav><button class='navitem'><a href='../index.html'><div style='text-align:center;'><img height='32' src='../images/logo64x64.png' /></div></a></button>
+    <nav><button class='navitem'><a href='../index.html'><div style='text-align:center;'><img src='../images/TaggingKitRibbon.png' /></div></a></button>
 <button class='navitem'><a href='../index.html'>Home</a></button>
 <div class='navlabel'>OneNote Tagging Kit v4.0</div>
 <button class='navitem'><a href='Home.html'>Overview</a></button>
-<div class='navlabel'>Page Content</div>
+<button class='navitem'><a href='Troubleshooting/Troubleshooting-Tips.html'>Troubleshooting</a></button>
+<div class='navlabel'>Current Page Content</div>
 <button class='navitem'><a href='#onenotetaggingkit-documentation'><span class='navitem1'>OnenoteTaggingKit Documentation</span></a></button>
-<button class='navitem'><a href='#feature-summary'><span class='navitem2'>Feature Summary:</span></a></button>
-<button class='navitem'><a href='#background-information'><span class='navitem2'>Background Information</span></a></button>
-<button class='navitem'><a href='#system-requirements'><span class='navitem2'>System Requirements</span></a></button>
-<button class='navitem'><a href='#reporting-bugs-and-requesting-features'><span class='navitem2'>Reporting Bugs and Requesting Features</span></a></button>
-<button class='navitem'><a href='#using-the-tagging-kit'><span class='navitem2'>Using the Tagging Kit</span></a></button>
+<button class='navitem'><a href='#feature-summary'><span class='navitem1'>Feature Summary:</span></a></button>
+<button class='navitem'><a href='#system-requirements'><span class='navitem1'>System Requirements</span></a></button>
+<button class='navitem'><a href='#installation-and-upgrade'><span class='navitem1'>Installation and Upgrade</span></a></button>
+<button class='navitem'><a href='#direct-installation-upgrade'><span class='navitem2'>Direct Installation / Upgrade</span></a></button>
+<button class='navitem'><a href='#installation-upgrade-via-the-chocolatey-package-manager'><span class='navitem2'>Installation / Upgrade via the Chocolatey Package Manager</span></a></button>
+<button class='navitem'><a href='#reporting-bugs-and-requesting-features'><span class='navitem1'>Reporting Bugs and Requesting Features</span></a></button>
 <button class='navitem'><a href='#taggingkit-development'><span class='navitem1'>TaggingKit Development</span></a></button>
-<button class='navitem'><a href='#troubleshooting'><span class='navitem1'>Troubleshooting</span></a></button>
 </nav>
     <main>
         <article>
             <h1 id="onenotetaggingkit-documentation" class="title">OnenoteTaggingKit Documentation</h1>
 <p>The <em>OneNoteTaggingKit</em> is a free to-use add-in to add page tagging to
 OneNote for the desktop.</p>
-<h2 id="feature-summary">Feature Summary:</h2>
+<h1 id="feature-summary">Feature Summary:</h1>
 <p><img src="https://github.com/WetHat/OnenoteTaggingKit/wiki/images/TaggingKitIntro.png" class="rightfloat" height="30%" alt="Screenshot" /></p>
 <ul>
 <li>Page Tags can be added/removed from pages on-the-fly</li>
@@ -78,44 +79,71 @@ OneNote for the desktop.</p>
 <li>Full compatibility with built-in _OneNote_tagging system, even if add-in is not installed.</li>
 <li>Locating notes related to the _OneNote_page currently being viewed</li>
 </ul>
-<h2 id="background-information">Background Information</h2>
+<h1 id="system-requirements">System Requirements</h1>
 <ul>
-<li>[[Why is tagging useful ?|Use of Tags]]</li>
-<li>[[Organizing Notes with Page Tags]]</li>
-</ul>
-<h2 id="system-requirements">System Requirements</h2>
-<ul>
-<li>_OneNote_2010, 2013, 2016, 2019 or later, _OneNote_365 Desktop (from Office 365)</li>
+<li><em>OneNote</em> 2010, 2013, 2016, 2019 or later, <em>OneNote</em> 365 Desktop (from Office 365).
+🛑 The Windows App Store version is <strong>not</strong> supported.</li>
 <li>Windows 7, 8, 8.1, 10 (32-bit/64-bit); Windows Server 2008 R2 or later</li>
 <li>.net 4.5</li>
 </ul>
-<p>To check your version of _OneNote_see [[OneNote Version Check]]</p>
-<h2 id="reporting-bugs-and-requesting-features">Reporting Bugs and Requesting Features</h2>
-<p>If you think the <em>TaggingKit</em> is not working as it should, please check the <a href="https://github.com/WetHat/OnenoteTaggingKit/wiki/Troubleshooting-Tips">troubleshooting tips</a></p>
-<p>Any ideas for improvements? Please create a <a href="https://github.com/WetHat/OnenoteTaggingKit/issues">feature request</a></p>
-<h2 id="using-the-tagging-kit">Using the Tagging Kit</h2>
-<ul>
-<li>[[Adding/Removing Tags on a _OneNote_Page|Tagging a Page]]</li>
-<li>[[Finding Notes (aka _OneNote_pages)|Finding Notes]]</li>
-<li>[[Manage Settings]]</li>
-<li>[[Sharing Tag Suggestions with others|Sharing Tag Suggestions]]</li>
-</ul>
-<p><img src="https://github.com/WetHat/OnenoteTaggingKit/wiki/images/logo100x100.png" alt="Logo" /></p>
+<p>To instructions on how to check the <em>OneNote</em> version refer
+to <a href="OneNote-Version-Check.html">OneNote Version Check</a></p>
+<h1 id="installation-and-upgrade">Installation and Upgrade</h1>
+<p>The add-in can be installed or upgraded in one of the following ways:</p>
+<h2 id="direct-installation-upgrade">Direct Installation / Upgrade</h2>
+<blockquote>
+<ol>
+<li>Verify that the system requirements are met.</li>
+<li>Download the installer (*.msi) from <a href="https://github.com/WetHat/OnenoteTaggingKit/releases">Releases</a></li>
+<li>Make sure <em>OneNote</em> is <strong>not running</strong>! Exit <em>OneNote</em> if necessary.</li>
+<li>For first time installation and upgrade execute the downloaded installer (*.msi)</li>
+<li>Start OneNote.</li>
+</ol>
+</blockquote>
+<h2 id="installation-upgrade-via-the-chocolatey-package-manager">Installation / Upgrade via the <a href="https://community.chocolatey.org/packages/onenote-taggingkit-addin.install">Chocolatey Package Manager</a></h2>
+<blockquote>
+<p><a href="https://chocolatey.org/">Chocolatey</a> can be <a href="https://chocolatey.org/install">installed here</a>.
+If you are wondering why you would want to use Chocolatey,
+<a href="https://chocolatey.org/why-chocolatey">here is why</a></p>
+<ol>
+<li><p>Verify that you have a supported version of OneNote.
+See <a href="OneNote-Version-Check.html">OneNote Version Check</a> on how to do that.</p>
+</li>
+<li><p>Make sure <em>OneNote</em> is <strong>not running</strong>! Exit <em>OneNote</em> if necessary.</p>
+</li>
+<li><p>Open a new PowerShell command prompt with <strong>admin privileges</strong>.</p>
+</li>
+<li><p>Excecute one of the following commands</p>
+<p><strong>First Time Install</strong></p>
+<pre><code class="language-powershell">PS C:\&gt; choco install onenote-taggingkit-addin.install
+</code></pre>
+<p><strong>Upgrade</strong></p>
+<pre><code class="language-powershell">PS C:\&gt; choco upgrade onenote-taggingkit-addin.install
+</code></pre>
+</li>
+</ol>
+</blockquote>
+<p>Upon successfull installation the <em>OneNote Tagging Kit</em> actions should now be
+available on the <code>Home</code> tab in
+the <em>Page Tags</em> command group (next to the built-in Tags command group)</p>
+<p><img src="images/TaggingKitRibbon.png" alt="Home Tab" /></p>
+<p>If you do not see this ribbon extension please refer to
+<a href="Troubleshooting/Tagging%20Kit%20Not%20Shown%20in%20Ribbon.html">Tagging Kit Actions Not Shown in Ribbon</a></p>
+<h1 id="reporting-bugs-and-requesting-features">Reporting Bugs and Requesting Features</h1>
+<p>If you think the <em>Tagging Kit</em> is not working as it should, please check the <a href="Troubleshooting/Troubleshooting-Tips.html">troubleshooting tips</a>
+first.</p>
 <h1 id="taggingkit-development">TaggingKit Development</h1>
 <p>The developer documentation can be found at <a href="https://github.com/WetHat/OnenoteTaggingKit/blob/master/TaggingKitSandcastle/Documentation/Home.md">here</a>.</p>
 <p>Following tools are required to develop your own version of the <em>TaggingKit</em>:</p>
 <ul>
 <li>VisualStudio 2019 or later. See <a href="https://docs.microsoft.com/en-us/visualstudio/install/install-visual-studio">Install Visual Studio</a></li>
 <li>Windows Installer Toolset <a href="http://wixtoolset.org/">WiX</a>.
-Get the <a href="http://wixtoolset.org/releases/">recommemded build</a></li>
+Get the <a href="http://wixtoolset.org/releases/">recommended build</a></li>
 <li>Sandcastle Help File Builder (SHFB) for building help files with the Sandcastle tools.
 Get the latest release for GitHub <a href="https://github.com/EWSoftware/SHFB/releases">EWSoftware/SHFB </a></li>
 <li>If you want to manage your clone of the <em>TaggingKit</em> on GitHub it is also recommended to use the <em>Git</em> distributed version control system: Get it from the
 the <a href="https://git-scm.com/downloads">Git - Downloads</a> page.</li>
 </ul>
-<h1 id="troubleshooting">Troubleshooting</h1>
-<p>If you think the Tagging Kit is not working as it should, please check the
-<a href="Troubleshooting-Tips.html">troubleshooting tips</a>.</p>
 
         </article>
         <footer>

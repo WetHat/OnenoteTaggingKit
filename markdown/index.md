@@ -29,7 +29,7 @@ documentation of the add-in.
 [The Use of Tags](Use%20of%20Tags.md) briefly outlines the concept behind tags
 for information management.
 
-Some thoughts about the use of _Page Tags_ to organize note in _OneNote_ can
+Some thoughts about the use of _Page Tags_ to organize notes in _OneNote_ can
 be found in [Organizing Notes with Page Tags](Organizing%20Notes%20with%20Page%20Tags.md).
 
 # Getting Started with the _OneNote Tagging Kit_ Add-In

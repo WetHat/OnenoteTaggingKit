@@ -15,6 +15,6 @@ _Windows Search Service_ to find pages by tags and full text queries. Any search
 
 Since version *3.1* the _Tagging Kit_ implements an alternative method for collecting tagged pages without querying the _Windows Search Service_. Make sure the _Use Windows Search Service to find tagged pages_ (2) is **unchecked** on the _Manage Settings Dialog_ to use that alternative method:
 
->![Preferences Tab](https://github.com/WetHat/OnenoteTaggingKit/wiki/images/PreferencesTab.png)
+>![Preferences Tab](../images/PreferencesTab.png)
 
 The alternative method is considerably slower than a _Windows Search Service_ query and does not work for full-text search with the _Find Pages_ dialog at all. Until Microsoft fixes the _Windows Search Service_ integration, full-text search is not available through the _Find pages_ dialog. For full-text search to come back a fix from Microsoft is needed.

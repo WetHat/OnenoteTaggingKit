@@ -33,12 +33,12 @@
     },
 
     "site_navigation": [
-        { "<div style='text-align:center;'><img height='32' src='images/logo64x64.png' /></div>": "index.md" },
+        { "<div style='text-align:center;'><img src='images/TaggingKitRibbon.png' /></div>": "index.md" },
         { "Home": "index.md" }
     ],
 
     "page_navigation_header": [
-        { "Page Content": "" }
+        { "Current Page Content": "" }
     ],
 
     "svgbob": {
