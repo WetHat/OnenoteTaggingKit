@@ -8,7 +8,7 @@ Include Sub Directories=1
 Project TagfileU=
 Project WordfileU=
 Project TpFileU=
-FilterU=+ACo-.ps+ACoAOwAq-.md+ADsAKg-.json+ADsAKg-.css
+FilterU=+ACo-.ps+ACoAOwAq-.md+ADsAKg-.json+ADsAKg-.css+ADsAKg-.png
 Create Tagfile=0
 [FilesU]
 0=.+AFw-
