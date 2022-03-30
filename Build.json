@@ -16,7 +16,8 @@
         "pipetables",
         "autoidentifiers",
         "attributes",
-        "emojis"
+        "emojis",
+        "emphasisextras"
     ],
 
     "github_pages": true,
