@@ -57,10 +57,10 @@
 <button class='navitem'><a href='../Troubleshooting/Troubleshooting-Tips.html'>Troubleshooting</a></button>
 <div class='navlabel'>User Manual</div>
 <button class='navitem'><a href='../Usage/Ribbon.html'>The Ribbon Bar</a></button>
-<button class='navitem'><a href='../Tagging%20a%20Page.html'>Tagging Pages</a></button>
-<button class='navitem'><a href='../Update.html'>Page Update</a></button>
-<button class='navitem'><a href='../Finding%20Notes.html'>Faceted Search</a></button>
-<button class='navitem'><a href='../Manage%20Settings.html'>Add-In Settings</a></button>
+<button class='navitem'><a href='../Usage/Tagging%20Pages/Tagging%20Pages.html'>Tagging Pages</a></button>
+<button class='navitem'><a href='../Usage/Update.html'>Page Update</a></button>
+<button class='navitem'><a href='../Usage/Finding%20Notes.html'>Faceted Search</a></button>
+<button class='navitem'><a href='../Usage/Manage%20Settings.html'>Add-In Settings</a></button>
 <div class='navlabel'>Current Page Content</div>
 <button class='navitem'><a href='#exception-from-hresult-0x80042019'><span class='navitem1'>Exception from HRESULT: 0x80042019</span></a></button>
 </nav>
@@ -74,9 +74,12 @@ find _OneNote_pages. If regular search in <em>OneNote</em>(not in the Tagging Ki
 does not work either, error  <strong>0x80042019</strong> most likely has one of the following
 causes:</p>
 <ul>
-<li><p><strong>The <em>Windows Search</em> service is not running</strong>: To make sure that this service is configured properly and available, perform following steps:</p>
+<li><p><strong>The <em>Windows Search</em> service is not running</strong>: To make sure that this service
+is configured properly and available, perform following steps:</p>
 <ul>
-<li><p>Press <em>Windows Key</em> + R, type <em>services.msc</em>, and click OK.</p>
+<li><p>Press <code>Start+R</code>, type <em>services.msc</em> into the <em>Run</em> box that opened, and click OK.
+Note: The <code>Start</code> key is also known as the <em>Windows</em> key. It is usually the
+second button to the left of the <code>SPACE</code> bar on the keyboard.</p>
 </li>
 <li><p>In the services window which just opened, scroll down to  <em>Windows Search</em> and check that the service is running and configured for automatic start as shown in the screen shot below</p>
 <p><img src="images/0x80042019_windowsSearch.png" alt="Windows Search" /></p>

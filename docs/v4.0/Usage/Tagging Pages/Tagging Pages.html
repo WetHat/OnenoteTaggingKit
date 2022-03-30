@@ -2,18 +2,18 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Add/Remove Tags on a _OneNote_Page</title>
-    <link rel="stylesheet" type="text/css" href="../../styles/md-styles.css" />
+    <title>Manage Tags on _OneNote_ Pages</title>
+    <link rel="stylesheet" type="text/css" href="../../../styles/md-styles.css" />
 
     <!-- Code syntax highlighting configuration -->
     <!-- Comment this to deactivate syntax highlighting. -->
-    <link rel="stylesheet" type="text/css" href="../../styles/vs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../styles/vs.css" />
     <!-- Alternative highlighting styles -->
-    <!-- <link rel="stylesheet" type="text/css" href="../../styles/agate.css" /> -->
-    <!-- <link rel="stylesheet" type="text/css" href="../../styles/far.css" /> -->
-    <!-- <link rel="stylesheet" type="text/css" href="../../styles/tomorrow-night-blue.css" />
-    <!-- <link rel="stylesheet" type="text/css" href="../../vs2015.css" /> -->
-    <script src="../../js/highlight.pack.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="../../../styles/agate.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../../../styles/far.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../../../styles/tomorrow-night-blue.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="../../../vs2015.css" /> -->
+    <script src="../../../js/highlight.pack.js"></script>
     <script>
         hljs.configure({ languages: [] });
         hljs.initHighlightingOnLoad();
@@ -21,13 +21,13 @@
     <!-- -->
     <!-- mermaid diagram generator configuration -->
     <!-- Comment this to deactivate the diagramming extension ('diagrams'). -->
-    <script src="../../js/mermaid.min.js"></script>
+    <script src="../../../js/mermaid.min.js"></script>
     <script>mermaid.initialize({ startOnLoad: true });</script>
     <!-- -->
     <!-- KaTeX LaTeX Math typesetting configuration -->
     <!-- Comment this to deactivate the LaTeX math extension ('mathematics'). -->
-    <link rel="stylesheet" type="text/css" href="../../katex/katex.min.css" />
-    <script defer src="../../katex/katex.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../katex/katex.min.css" />
+    <script defer src="../../../katex/katex.min.js"></script>
     <script>
         // <![CDATA[
         window.onload = function () {
@@ -47,36 +47,74 @@
               // ]]>
     </script>
     <!-- add page icon link -->
-    <link rel="icon" href="../../PageIcon.png" type="image/x-icon" />
+    <link rel="icon" href="../../../PageIcon.png" type="image/x-icon" />
 </head>
 <body>
-    <nav><button class='navitem'><a href='../../index.html'><div style='text-align:center;'><img src='../../images/TaggingKitRibbon.png' /></div></a></button>
-<button class='navitem'><a href='../../index.html'>Home</a></button>
+    <nav><button class='navitem'><a href='../../../index.html'><div style='text-align:center;'><img src='../../../images/TaggingKitRibbon.png' /></div></a></button>
+<button class='navitem'><a href='../../../index.html'>Home</a></button>
 <div class='navlabel'>OneNote Tagging Kit v4.0</div>
-<button class='navitem'><a href='../Home.html'>Overview</a></button>
-<button class='navitem'><a href='../Troubleshooting/Troubleshooting-Tips.html'>Troubleshooting</a></button>
+<button class='navitem'><a href='../../Home.html'>Overview</a></button>
+<button class='navitem'><a href='../../Troubleshooting/Troubleshooting-Tips.html'>Troubleshooting</a></button>
 <div class='navlabel'>User Manual</div>
-<button class='navitem'><a href='../Usage/Ribbon.html'>The Ribbon Bar</a></button>
-<button class='navitem'><a href='../Tagging%20a%20Page.html'>Tagging Pages</a></button>
-<button class='navitem'><a href='../Update.html'>Page Update</a></button>
-<button class='navitem'><a href='../Finding%20Notes.html'>Faceted Search</a></button>
-<button class='navitem'><a href='../Manage%20Settings.html'>Add-In Settings</a></button>
+<button class='navitem'><a href='../../Usage/Ribbon.html'>The Ribbon Bar</a></button>
+<button class='navitem'><a href='../../Usage/Tagging%20Pages/Tagging%20Pages.html'>Tagging Pages</a></button>
+<button class='navitem'><a href='../../Usage/Update.html'>Page Update</a></button>
+<button class='navitem'><a href='../../Usage/Finding%20Notes.html'>Faceted Search</a></button>
+<button class='navitem'><a href='../../Usage/Manage%20Settings.html'>Add-In Settings</a></button>
 <div class='navlabel'>Current Page Content</div>
-<button class='navitem'><a href='#addremove-tags-on-a_onenote_page'><span class='navitem1'>Add/Remove Tags on a _OneNote_Page</span></a></button>
+<button class='navitem'><a href='#manage-tags-on-onenote-pages'><span class='navitem1'>Manage Tags on <em>OneNote</em> Pages</span></a></button>
+<button class='navitem'><a href='#tag-pages-dialog-overview'><span class='navitem1'><em>Tag Pages</em> Dialog Overview</span></a></button>
 </nav>
     <main>
         <article>
-            <h1 id="addremove-tags-on-a_onenote_page">Add/Remove Tags on a _OneNote_Page</h1>
+            <h1 id="manage-tags-on-onenote-pages" class="title">Manage Tags on <em>OneNote</em> Pages</h1>
+<p>The <em>Tag Pages</em> dialog is used to add or remove <em>Page Tags</em> from one ore more
+<em>OneNote</em> pages.</p>
+<p><img src="images/RibbonTagPages.png" alt="Tag Page Button" /></p>
+<p>To open the <em>Tag Pages</em> dialog click or tap on the <em>Tag Pages</em>
+button of the <em>Page Tags</em> group in the <code>Home</code> tab of the <em>OneNote</em> ribbon.</p>
+<p><img src="images/TagPagesDialog.png" class="rightfloat" alt="Tag Pages Dialog" /></p>
+<h1 id="tag-pages-dialog-overview"><em>Tag Pages</em> Dialog Overview</h1>
+<ol>
+<li>The tagging scope selector. Defines the range of pages to apply the tagging
+operation to. Available ranges are <em>Current Page</em> (default),
+<em>Selected Pages</em>, and <em>Current Section</em>.</li>
+<li>Add all tags shown in the <em>Tags</em> panel<sup>8</sup> to the range of the selected
+range of pages<sup>1</sup>.</li>
+<li>Set the tags of the range of selected pages<sup>1</sup> to exactly the tags
+shown in the <em>Tags</em> panel<sup>8</sup>.</li>
+<li>Remove all tags shown in the <em>Tags</em> panel<sup>8</sup> from the selected range of
+pages<sup>1</sup>.</li>
+<li>Update all <a href="../SavedSearch.html">Saved Searches</a> on the current page and,
+if enabled the <a href="../Preferences-Tab.ms">Preference</a> of the
+<a href="../Manage%20Settings.html">Manage Settings</a> dialog, update imported
+<em>OneNote</em> and hashtags in the current page's content.</li>
+<li>Clear the tags selected for tagging in the <em>Tags</em> panel<sup>8</sup>.</li>
+<li>A tag selected for a tagging operation.</li>
+<li>The <em>Tags</em> panel. Contains all tags selected for a subsequent tagging
+operation<sup>2,3,4</sup>.</li>
+<li>Tag presets. Filters the collection of tags currently available in the
+<em>Suggested Tags</em> panel<sup>13</sup>.</li>
+<li>Tag input box for entering new tags and highlighting existing tags in the
+<em>Suggested Tags</em> panel<sup>13</sup>.</li>
+<li>Clears the tag input box<sup>10</sup> and removes all highlight from the <em>Suggested
+Tags</em> panel<sup>13</sup>.</li>
+<li>Add all tags which fully match the tag names enterd in the tag input box<sup>10</sup>
+to the <em>Tags</em> panel<sup>8</sup> for tagging.</li>
+<li>The <em>Suggested Tags</em> panel containing the collection of tags available for
+tagging.</li>
+<li>An available tag with a match highlight of the partial tag name entered in the
+Tag input box<sup>10</sup>.</li>
+</ol>
+<hr />
 <ol>
 <li><p>Browse to a page in _OneNote_which you want to tag</p>
 </li>
 <li><p>On the <em>OneNote__Home</em> tab click on the <em>Tag Pages</em> button in the <em>Page Tags</em>
 command group:</p>
-<p><img src="images/TagPagesButton.png" alt="Tag Page Button" /></p>
 </li>
 <li><p>The <em>Tag Pages</em>  dialog opens where you can select and apply tags to
 _OneNote_pages as described below:</p>
-<p><img src="images/TagPagesDialog.png" alt="Tag Pages Dialog" /></p>
 </li>
 <li><p>Select a range of pages to apply the tags to in the scope selector <strong>(1)</strong>.
 If you have chosen the <em>Selected Pages</em> option you may at this point select
