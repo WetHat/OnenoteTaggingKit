@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Finding Related Notes</title>
+    <link rel="stylesheet" type="text/css" href="../styles/md-styles.css" />
+
+    <!-- Code syntax highlighting configuration -->
+    <!-- Comment this to deactivate syntax highlighting. -->
+    <link rel="stylesheet" type="text/css" href="../styles/vs.css" />
+    <!-- Alternative highlighting styles -->
+    <!-- <link rel="stylesheet" type="text/css" href="../styles/agate.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../styles/far.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../styles/tomorrow-night-blue.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="../vs2015.css" /> -->
+    <script src="../js/highlight.pack.js"></script>
+    <script>
+        hljs.configure({ languages: [] });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <!-- -->
+    <!-- mermaid diagram generator configuration -->
+    <!-- Comment this to deactivate the diagramming extension ('diagrams'). -->
+    <script src="../js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+    <!-- -->
+    <!-- KaTeX LaTeX Math typesetting configuration -->
+    <!-- Comment this to deactivate the LaTeX math extension ('mathematics'). -->
+    <link rel="stylesheet" type="text/css" href="../katex/katex.min.css" />
+    <script defer src="../katex/katex.min.js"></script>
+    <script>
+        // <![CDATA[
+        window.onload = function () {
+            var tex = document.getElementsByClassName("math");
+            Array.prototype.forEach.call(tex, function (el) {
+                katex.render(el.textContent, el, {
+                    displayMode: (el.nodeName == "DIV"),
+                    macros: {
+                        "\\(": "",
+                        "\\)": "",
+                        "\\[": "",
+                        "\\]": ""
+                    }
+                })
+            });
+        };
+              // ]]>
+    </script>
+    <!-- add page icon link -->
+    <link rel="icon" href="../PageIcon.png" type="image/x-icon" />
+</head>
+<body>
+    <nav><button class='navitem'><a href='../index.html'><div style='text-align:center;'><img height='32' src='../images/logo64x64.png' /></div></a></button>
+<button class='navitem'><a href='../index.html'>Home</a></button>
+<div class='navlabel'>OneNote Tagging Kit v4.0</div>
+<button class='navitem'><a href='Home.html'>Overview</a></button>
+<div class='navlabel'>Page Content</div>
+<button class='navitem'><a href='#finding-related-notes'><span class='navitem1'>Finding Related Notes</span></a></button>
+<button class='navitem'><a href='#finding-related-notes-manually'><span class='navitem2'>Finding Related Notes Manually</span></a></button>
+<button class='navitem'><a href='#finding-related-notes-atomatically'><span class='navitem2'>Finding Related Notes Atomatically</span></a></button>
+</nav>
+    <main>
+        <article>
+            <h1 id="finding-related-notes">Finding Related Notes</h1>
+<p>To find related notes it is sometimes more convenient to use a more lenient way to filter pages
+than progressive refinement. The progressive refinement approach is based on the <em>intersection</em> of
+page sets having all the selected tags. The resulting pages have <strong>all</strong> of the selected tags.
+This is an efficient way to quickly reduce the number of pages in a search result,
+particularly if multiple tags are selected.</p>
+<p>In some cases, however, it is preferable to filter for pages which have <strong>any</strong> of a set of tags.
+There is no direct implementation of such a method, but something similar can be achieved
+by using one of the methods described below.</p>
+<h2 id="finding-related-notes-manually">Finding Related Notes Manually</h2>
+<p><img src="https://github.com/WetHat/OnenoteTaggingKit/wiki/images/FacettedSearch.png" alt="Refinement Tags" /></p>
+<ol>
+<li><p>We define a search scope by selecting one of the pre-difined scopes from <strong>(1)</strong>.</p>
+</li>
+<li><p>Optionally we define an additional search criterion in <strong>(2)</strong></p>
+</li>
+<li><p>We use one of the preset tag filter <strong>(1)</strong> or a manually entered filter <strong>(2)</strong> as described in
+[[Working with Refinement Tags]] to show only tags we are interested in. Note that the number
+displayed for each tag denotes the number of pages having that tag. This approach is somewhat
+similar to a <strong>any</strong> combination of tags. However, since tags are selected by name substring
+matching rather than tag selection, this method casts a wider net.</p>
+</li>
+<li><p>We use one of the refinement methods described in [[Find Notes by Tags]] or [[Facetted-Search]] to
+focus on a subset of pages.</p>
+</li>
+</ol>
+<h2 id="finding-related-notes-atomatically">Finding Related Notes Atomatically</h2>
+<p><img src="https://github.com/WetHat/OnenoteTaggingKit/wiki/images/FindRelatedNotes.png" alt="Find Related Notes" /></p>
+<p>When <em>tag tracking</em> <strong>(2)</strong> is enabled:</p>
+<ul>
+<li>The current note's title is displayed next to the <em>tag tracking</em> <strong>(2)</strong> checkbox.</li>
+<li>The tags on the current _OneNote_page are extracted and pre-set as filter tags <strong>(1)</strong>.
+This is equivalent to using the <em>Tags from Current Page</em> filter preset as described
+in <a href="WorkingWithRefinementTags">Working with Refinement Tags</a>.
+However, with  <em>tag tracking</em> <strong>(2)</strong> enabled the tag filter is updated automatically
+whenever the current page changes.</li>
+</ul>
+<p>To locate pages related to the current page you can use any of the
+search methods described in [[Find Notes by Tags]]]
+or [[Find notes by facetted search]|Facetted-Search]]</p>
+
+        </article>
+        <footer>
+            <hr />
+            Created by PowerShell Module <a href='https://github.com/WetHat/MarkdownToHtml'>MarkdownToHTML</a>.
+
+        </footer>
+    </main>
+</body>
+</html>

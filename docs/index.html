@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>_OneNote Tagging Kit_ Add-In</title>
+    <link rel="stylesheet" type="text/css" href="styles/md-styles.css" />
+
+    <!-- Code syntax highlighting configuration -->
+    <!-- Comment this to deactivate syntax highlighting. -->
+    <link rel="stylesheet" type="text/css" href="styles/vs.css" />
+    <!-- Alternative highlighting styles -->
+    <!-- <link rel="stylesheet" type="text/css" href="styles/agate.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="styles/far.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="styles/tomorrow-night-blue.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="vs2015.css" /> -->
+    <script src="js/highlight.pack.js"></script>
+    <script>
+        hljs.configure({ languages: [] });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <!-- -->
+    <!-- mermaid diagram generator configuration -->
+    <!-- Comment this to deactivate the diagramming extension ('diagrams'). -->
+    <script src="js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+    <!-- -->
+    <!-- KaTeX LaTeX Math typesetting configuration -->
+    <!-- Comment this to deactivate the LaTeX math extension ('mathematics'). -->
+    <link rel="stylesheet" type="text/css" href="katex/katex.min.css" />
+    <script defer src="katex/katex.min.js"></script>
+    <script>
+        // <![CDATA[
+        window.onload = function () {
+            var tex = document.getElementsByClassName("math");
+            Array.prototype.forEach.call(tex, function (el) {
+                katex.render(el.textContent, el, {
+                    displayMode: (el.nodeName == "DIV"),
+                    macros: {
+                        "\\(": "",
+                        "\\)": "",
+                        "\\[": "",
+                        "\\]": ""
+                    }
+                })
+            });
+        };
+              // ]]>
+    </script>
+    <!-- add page icon link -->
+    <link rel="icon" href="PageIcon.png" type="image/x-icon" />
+</head>
+<body>
+    <nav><button class='navitem'><a href='index.html'><div style='text-align:center;'><img height='32' src='images/logo64x64.png' /></div></a></button>
+<button class='navitem'><a href='index.html'>Home</a></button>
+<div class='navlabel'>Page Content</div>
+<button class='navitem'><a href='#onenote-tagging-kit-add-in'><span class='navitem1'><em>OneNote Tagging Kit</em> Add-In</span></a></button>
+<button class='navitem'><a href='#feature-overview'><span class='navitem1'>Feature Overview</span></a></button>
+<button class='navitem'><a href='#about-tagging'><span class='navitem1'>About Tagging</span></a></button>
+<button class='navitem'><a href='#getting-started-with-the-onenote-tagging-kit-add-in'><span class='navitem1'>Getting Started with the <em>OneNote Tagging Kit</em> Add-In</span></a></button>
+<button class='navitem'><a href='#bugs-and-features'><span class='navitem1'>Bugs and Features</span></a></button>
+<button class='navitem'><a href='#releases'><span class='navitem1'>Releases</span></a></button>
+</nav>
+    <main>
+        <article>
+            <h1 id="onenote-tagging-kit-add-in" class="title"><em>OneNote Tagging Kit</em> Add-In</h1>
+<p>A free to-use, add-in to add page tagging to <em>OneNote
+for the desktop</em>. The add-in is hosted as <em>Open Source</em> project on
+<a href="https://github.com/WetHat/OnenoteTaggingKit">GitHub</a>.</p>
+<h1 id="feature-overview">Feature Overview</h1>
+<ul>
+<li>Unlike the build-in OneNote paragraph tags, <em>Tagging Kit Page Tags</em> mark an
+entire page. The <em>OneNote Tagging Kit</em> utilizes these page tags to provide
+an enhanced search experience which allows to search for pages by
+<a href="https://en.wikipedia.org/wiki/Faceted_search">Faceted Search</a>.
+Search results can be dynamically refined by adding <em>Page Tags</em> or full text
+searches to the filter.</li>
+<li>The Add-In provides several dialogs to apply, manage, and search with page tags.</li>
+<li>Tagging operations are performed in the background. <em>OneNote</em> can be used
+normally while tagging is in progress.</li>
+<li>Page Tags are based on <em>OneNote</em> paragraph tags and are automatically shared
+to all connected OneNote clients. If a <em>OneNote</em> client does not have the
+<em>Tagging Kit</em> installed, it still has access to the page tags via
+the built-in <em>OneNote</em> tagging system. If a connected <em>OneNote</em> client has the
+<em>Tagging Kit</em> add-in, full tagging functionality is available.</li>
+</ul>
+<p>Version specific features are covered in the <a href="#releases">release specific</a>
+documentation of the add-in.</p>
+<h1 id="about-tagging">About Tagging</h1>
+<p><a href="Use%20of%20Tags.html">The Use of Tags</a> briefly outlines the concept behind tags
+for information management.</p>
+<p>Some thoughts about the use of <em>Page Tags</em> to organize note in <em>OneNote</em> can
+be found in <a href="Organizing%20Notes%20with%20Page%20Tags.html">Organizing Notes with Page Tags</a>.</p>
+<h1 id="getting-started-with-the-onenote-tagging-kit-add-in">Getting Started with the <em>OneNote Tagging Kit</em> Add-In</h1>
+<p>Installation and use of the <em>Tagging Kit</em> can be found in the <a href="#releases">release
+specific</a> documentation.</p>
+<h1 id="bugs-and-features">Bugs and Features</h1>
+<p><img src="images/TroubleshootingTips_log.png" class="rightfloat" alt="Screenshot" /></p>
+<p>You are very much welcome to submit new issues or enhancement requests at
+<a href="https://github.com/WetHat/OnenoteTaggingKit/issues">Issues</a>. Please avoid
+duplicates and check if the issue you are going to submit has already been
+reported or fixed. Also, take a look at the troubleshooting
+tips in the <a href="#releases">release specific</a> documentation.</p>
+<p>Make sure you <strong>always</strong> attach the add-in's logfile when submitting bugs.
+The easiest way to locate the logfile is to open  the <code>Settings</code> dialog and
+select the <code>About</code> tab.</p>
+<p>Alternatively you can open File Explorer, navigate to the
+<code>%TEMP%</code> directory and pick up the <strong>newest</strong> logfile named <code>taggingkit_*.log</code>.
+The <code>*</code> stands for a sequence of characters and numbers, e.g.
+<code>taggingkit_8DA0C2A5B55670C.log</code>.</p>
+<h1 id="releases" class="unfloat">Releases</h1>
+<p>🌟 <strong>v4.0</strong> - <a href="v4.0/Home.html">Documentation</a> - [Release Notes &amp; Download]</p>
+
+        </article>
+        <footer>
+            <hr />
+            Created by PowerShell Module <a href='https://github.com/WetHat/MarkdownToHtml'>MarkdownToHTML</a>.
+
+        </footer>
+    </main>
+</body>
+</html>

@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>The _Suggested Tags_ Tab</title>
+    <link rel="stylesheet" type="text/css" href="../styles/md-styles.css" />
+
+    <!-- Code syntax highlighting configuration -->
+    <!-- Comment this to deactivate syntax highlighting. -->
+    <link rel="stylesheet" type="text/css" href="../styles/vs.css" />
+    <!-- Alternative highlighting styles -->
+    <!-- <link rel="stylesheet" type="text/css" href="../styles/agate.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../styles/far.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../styles/tomorrow-night-blue.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="../vs2015.css" /> -->
+    <script src="../js/highlight.pack.js"></script>
+    <script>
+        hljs.configure({ languages: [] });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <!-- -->
+    <!-- mermaid diagram generator configuration -->
+    <!-- Comment this to deactivate the diagramming extension ('diagrams'). -->
+    <script src="../js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+    <!-- -->
+    <!-- KaTeX LaTeX Math typesetting configuration -->
+    <!-- Comment this to deactivate the LaTeX math extension ('mathematics'). -->
+    <link rel="stylesheet" type="text/css" href="../katex/katex.min.css" />
+    <script defer src="../katex/katex.min.js"></script>
+    <script>
+        // <![CDATA[
+        window.onload = function () {
+            var tex = document.getElementsByClassName("math");
+            Array.prototype.forEach.call(tex, function (el) {
+                katex.render(el.textContent, el, {
+                    displayMode: (el.nodeName == "DIV"),
+                    macros: {
+                        "\\(": "",
+                        "\\)": "",
+                        "\\[": "",
+                        "\\]": ""
+                    }
+                })
+            });
+        };
+              // ]]>
+    </script>
+    <!-- add page icon link -->
+    <link rel="icon" href="../PageIcon.png" type="image/x-icon" />
+</head>
+<body>
+    <nav><button class='navitem'><a href='../index.html'><div style='text-align:center;'><img height='32' src='../images/logo64x64.png' /></div></a></button>
+<button class='navitem'><a href='../index.html'>Home</a></button>
+<div class='navlabel'>OneNote Tagging Kit v4.0</div>
+<button class='navitem'><a href='Home.html'>Overview</a></button>
+<div class='navlabel'>Page Content</div>
+<button class='navitem'><a href='#the-suggested-tags-tab'><span class='navitem1'>The <em>Suggested Tags</em> Tab</span></a></button>
+<button class='navitem'><a href='#tags-panel-actions'><span class='navitem2'><em>Tags</em> panel actions</span></a></button>
+</nav>
+    <main>
+        <article>
+            <h1 id="the-suggested-tags-tab">The <em>Suggested Tags</em> Tab</h1>
+<p>On the <em>Suggested Tags</em> tab the collection of tags available as suggestions on the 'Tag Pages' dialog can be managed in following ways</p>
+<p><img src="https://github.com/WetHat/OnenoteTaggingKit/wiki/images/SuggestedTagsTab.png" alt="Suggeted Tags Tab" /></p>
+<ul>
+<li>Add a tag to the suggestion list
+<ol>
+<li>Type a tag name into the input box (1). Similar tags are highlighted as you
+type so you can determine whether your tag already exists.</li>
+<li>Press <em>Enter</em> or tap or click the '+' button (3) to add the typed tag
+to the suggestion list</li>
+</ol>
+</li>
+<li>Remove a tag from the suggestion list and from all _OneNote_pages
+<ol>
+<li>Locate the tag to remove on the <em>Tags</em> panel (5) either by scrolling or
+by typing the full or partial name into the tag input box (1)</li>
+<li>Click or tap on the tag to open its action menu (6)
+a. Click or tap one the <em>Delete Tag</em> action. This open a confirmation menu.
+b. Click on the <em>Confirm</em> or <em>Cancel</em> action. If the tag deletion is confirmed, the tag is removed from the suggestion list. If the tag is in use on _OneNote_pages (indicated by the number behind the tag), it is removed from the pages as well (unless a page is in the 'Recycle Bin').</li>
+<li>Click on the 'Reset' button (2) to clear the input box</li>
+</ol>
+</li>
+<li>Rename a tag in the suggestion list and on all _OneNote_pages
+<ol>
+<li>Locate the tag to remove on the <em>Tags</em> panel (5) either by scrolling or by typing the full or partial name into the tag input box (1)</li>
+<li>Click or tap on the tag to open its action menu (6)</li>
+<li>Click or tap one the <em>Rename Tag</em> action. This puts the tag into <em>edit mode</em>.</li>
+<li>Edit the tag name inline. You can enter a ',' (comma) separated tag list to replace one tag multiple names.</li>
+<li>Press <em>Enter</em>. This opens the confirmation dialog,</li>
+<li>Click on the <em>Confirm</em> or <em>Cancel</em> action. If the tag rename is confirmed, the tag is renames on the suggestion list. If the tag is in use on _OneNote_pages (indicated by the number behind the tag), it is renamed on all pages as well (unless a page is in the 'Recycle Bin').</li>
+<li>Click on the 'Reset' button (2) to clear the input box</li>
+</ol>
+</li>
+</ul>
+<h2 id="tags-panel-actions"><em>Tags</em> panel actions</h2>
+<p>Click on the action menu (4)  of the <em>Tags</em> panel (5) and select one of the following actions:</p>
+<ul>
+<li><strong>Refresh</strong>: This updates the page count of the suggested tags. <strong>Note</strong> tags may my seem to <em>re-appear</em> after deletion or rename, This happens when pages are <strong>read-only</strong> (e.g. pages in the <em>Recycle Bin</em> are read-only)</li>
+<li><strong>Copy Tags</strong>: This action puts a ',' separated list of all tags in the suggestion list into the clipboard. You can share this list to other users of the tagging kit (e.g. by email). The recipient can copy/paste the comma separated list into the tag input box (1) and press <em>Enter</em> or tap or click the '+' button (3) to add the tags to their suggestion list</li>
+</ul>
+
+        </article>
+        <footer>
+            <hr />
+            Created by PowerShell Module <a href='https://github.com/WetHat/MarkdownToHtml'>MarkdownToHTML</a>.
+
+        </footer>
+    </main>
+</body>
+</html>

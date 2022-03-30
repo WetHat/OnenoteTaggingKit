@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Organizing Notes with _Page Tags_ </title>
+    <link rel="stylesheet" type="text/css" href="styles/md-styles.css" />
+
+    <!-- Code syntax highlighting configuration -->
+    <!-- Comment this to deactivate syntax highlighting. -->
+    <link rel="stylesheet" type="text/css" href="styles/vs.css" />
+    <!-- Alternative highlighting styles -->
+    <!-- <link rel="stylesheet" type="text/css" href="styles/agate.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="styles/far.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="styles/tomorrow-night-blue.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="vs2015.css" /> -->
+    <script src="js/highlight.pack.js"></script>
+    <script>
+        hljs.configure({ languages: [] });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <!-- -->
+    <!-- mermaid diagram generator configuration -->
+    <!-- Comment this to deactivate the diagramming extension ('diagrams'). -->
+    <script src="js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+    <!-- -->
+    <!-- KaTeX LaTeX Math typesetting configuration -->
+    <!-- Comment this to deactivate the LaTeX math extension ('mathematics'). -->
+    <link rel="stylesheet" type="text/css" href="katex/katex.min.css" />
+    <script defer src="katex/katex.min.js"></script>
+    <script>
+        // <![CDATA[
+        window.onload = function () {
+            var tex = document.getElementsByClassName("math");
+            Array.prototype.forEach.call(tex, function (el) {
+                katex.render(el.textContent, el, {
+                    displayMode: (el.nodeName == "DIV"),
+                    macros: {
+                        "\\(": "",
+                        "\\)": "",
+                        "\\[": "",
+                        "\\]": ""
+                    }
+                })
+            });
+        };
+              // ]]>
+    </script>
+    <!-- add page icon link -->
+    <link rel="icon" href="PageIcon.png" type="image/x-icon" />
+</head>
+<body>
+    <nav><button class='navitem'><a href='index.html'><div style='text-align:center;'><img height='32' src='images/logo64x64.png' /></div></a></button>
+<button class='navitem'><a href='index.html'>Home</a></button>
+<div class='navlabel'>Page Content</div>
+<button class='navitem'><a href='#organizing-notes-with-page-tags'><span class='navitem1'>Organizing Notes with <em>Page Tags</em></span></a></button>
+<button class='navitem'><a href='#case-study-where-should-i-file-my-notes'><span class='navitem1'>Case Study: Where Should I File my Notes?</span></a></button>
+</nav>
+    <main>
+        <article>
+            <h1 id="organizing-notes-with-page-tags" class="title">Organizing Notes with <em>Page Tags</em></h1>
+<p>To understand how page tags help with note management,
+we need first need to take a glimpse at OneNote's built organization system for notes.</p>
+<p>OneNote organizes notes in a hierachical scheme which is akin to a computer file system.
+You can file your notes in notebooks, section groups, sections.
+Organizing notes into a file system like structure builds a <a href="https://en.wikipedia.org/wiki/Taxonomy_(general)">hierarchical
+classification</a>.
+This is very efficient for notes belonging to well understood categories
+such as class notes, shopping lists, or people profiles.</p>
+<p>However, very frequently notes are multi-facetted and it is hard to decide
+where to put them. By adding tags to notes is becomes a lot less important
+where you file notes in a classification herachy.
+You can use those tags to help you re-discover notes coming from different angles.</p>
+<h1 id="case-study-where-should-i-file-my-notes">Case Study: Where Should I File my Notes?</h1>
+<p>This short case study shows how tagging notes helps to re-discover notes.</p>
+<p>Let's assume you attend a conference and learn a trick about networking.</p>
+<p>You have a _OneNote_section for the conference notes.
+You also have another section somewhere else about networking in general.</p>
+<p>Later you may need to find this trick again, but you only vaguely remember
+what it was about and where you heard about it.</p>
+<p>If you are lucky you find it through browsing various places in your notebook.
+If not you run a _OneNote_search.
+Often times you may have an overwhelming number of hits.
+Depending on the search terms many of these hits may not even be related
+to networking. What a pain in the neck to sift through all of these hits.</p>
+<p>How do page tags change this?</p>
+<p>Let's use the same scenario from above.
+This time we add a number of tags to the page and file the note where we think
+it belongs most naturally (most likely in the conference's section).
+When we need to find that note later we use the same vague search terms as before.
+But this time we run a facetted search (full text search with tag filtering).
+We still get the mess of search results, but this time we also are presented
+the tags the notes in the search result have been marked with.
+When we now select the 'networking' tag, the search result is filtered
+to show only notes with that tag. This filtering is also called <em>progressive search refinement</em>
+as you can add more tags to the filter as needed. Adding tag filters typically reduces the
+search result quickly to a manageable size.</p>
+<p>That should make life a lot easier.</p>
+
+        </article>
+        <footer>
+            <hr />
+            Created by PowerShell Module <a href='https://github.com/WetHat/MarkdownToHtml'>MarkdownToHTML</a>.
+
+        </footer>
+    </main>
+</body>
+</html>

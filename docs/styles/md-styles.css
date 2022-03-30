@@ -157,3 +157,23 @@ nav {
     display: block;
     padding-left: 1em;
 }
+
+img {
+    max-width:100%;
+}
+
+img.leftfloat {
+    float:left;
+    max-width:40%;
+    margin: 0px 20px 20px 0px;
+}
+
+img.rightfloat {
+    float:right;
+    max-width:40%;
+    margin: 0px 20px 0px 20px;
+}
+
+.unfloat {
+    clear:both;
+}

@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Add/Remove Tags on a _OneNote_Page</title>
+    <link rel="stylesheet" type="text/css" href="../styles/md-styles.css" />
+
+    <!-- Code syntax highlighting configuration -->
+    <!-- Comment this to deactivate syntax highlighting. -->
+    <link rel="stylesheet" type="text/css" href="../styles/vs.css" />
+    <!-- Alternative highlighting styles -->
+    <!-- <link rel="stylesheet" type="text/css" href="../styles/agate.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../styles/far.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../styles/tomorrow-night-blue.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="../vs2015.css" /> -->
+    <script src="../js/highlight.pack.js"></script>
+    <script>
+        hljs.configure({ languages: [] });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <!-- -->
+    <!-- mermaid diagram generator configuration -->
+    <!-- Comment this to deactivate the diagramming extension ('diagrams'). -->
+    <script src="../js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+    <!-- -->
+    <!-- KaTeX LaTeX Math typesetting configuration -->
+    <!-- Comment this to deactivate the LaTeX math extension ('mathematics'). -->
+    <link rel="stylesheet" type="text/css" href="../katex/katex.min.css" />
+    <script defer src="../katex/katex.min.js"></script>
+    <script>
+        // <![CDATA[
+        window.onload = function () {
+            var tex = document.getElementsByClassName("math");
+            Array.prototype.forEach.call(tex, function (el) {
+                katex.render(el.textContent, el, {
+                    displayMode: (el.nodeName == "DIV"),
+                    macros: {
+                        "\\(": "",
+                        "\\)": "",
+                        "\\[": "",
+                        "\\]": ""
+                    }
+                })
+            });
+        };
+              // ]]>
+    </script>
+    <!-- add page icon link -->
+    <link rel="icon" href="../PageIcon.png" type="image/x-icon" />
+</head>
+<body>
+    <nav><button class='navitem'><a href='../index.html'><div style='text-align:center;'><img height='32' src='../images/logo64x64.png' /></div></a></button>
+<button class='navitem'><a href='../index.html'>Home</a></button>
+<div class='navlabel'>OneNote Tagging Kit v4.0</div>
+<button class='navitem'><a href='Home.html'>Overview</a></button>
+<div class='navlabel'>Page Content</div>
+<button class='navitem'><a href='#addremove-tags-on-a_onenote_page'><span class='navitem1'>Add/Remove Tags on a _OneNote_Page</span></a></button>
+</nav>
+    <main>
+        <article>
+            <h1 id="addremove-tags-on-a_onenote_page">Add/Remove Tags on a _OneNote_Page</h1>
+<ol>
+<li><p>Browse to a page in _OneNote_which you want to tag</p>
+</li>
+<li><p>On the <em>OneNote__Home</em> tab click on the <em>Tag Pages</em> button in the <em>Page Tags</em>
+command group:</p>
+<p><img src="https://github.com/WetHat/OnenoteTaggingKit/wiki/images/TagPagesButton.png" alt="Tag Page Button" /></p>
+</li>
+<li><p>The <em>Tag Pages</em>  dialog opens where you can select and apply tags to
+_OneNote_pages as described below:</p>
+<p><img src="images/TagPagesDialog.png" alt="Tag Pages Dialog" /></p>
+</li>
+<li><p>Select a range of pages to apply the tags to in the scope selector <strong>(1)</strong>.
+If you have chosen the <em>Selected Pages</em> option you may at this point select
+any number of pages in the current <em>OneNote</em> section.
+<strong>Do not</strong> close the <em>Tag Pages</em> dialog while selecting pages in OneNote.
+To select multiple pages remember to hold the <strong>CTRL</strong> key during selection.</p>
+</li>
+<li><p>Define the tags to apply to a one or more pages by:</p>
+<ul>
+<li><p>typing one or more tags separated by comma <strong>','</strong> into the tag input box <strong>(9)</strong>.
+The tag suggestions <strong>(11)</strong> are updated as you type to show matching tags.
+Press <strong>ENTER</strong> to add all tags to the <em>Tags</em> list as you typed them, or select the tags
+you want from the <em>Suggested Tags</em> panel <strong>(11)</strong>.</p>
+<p>To clear the tag input box <strong>(9)</strong> and start over, click on the <em>clear input</em> button <strong>(10)</strong>
+or press <strong>ESC</strong>. To clear the tag input box <strong>(9)</strong> <strong>and</strong> the <em>Tags</em> list <strong>(7)</strong>,
+press <strong>SHIFT+ESC</strong>.</p>
+</li>
+<li><p>picking one or more tags from the list of suggested tags <strong>(9)</strong>.</p>
+<p>To remove individual tags from the <em>Tags</em> <strong>(7)</strong> panel click on the
+tag. To remove all tags at once click the <em>Clear</em> button <strong>(6)</strong></p>
+</li>
+<li><p>selecting a preset filter <strong>(8)</strong> to generate context specific suggestions in <strong>(9)</strong>
+and then picking one or more tags from the (filtered) list of suggested tags <strong>(11)</strong> or pressing
+<strong>ENTER</strong> to chose all tags listed in <strong>(9)</strong>.</p>
+</li>
+</ul>
+</li>
+<li><p>Apply the tags shown in <strong>(7)</strong> to the selected range of pages by pressing one of the action
+buttons <strong>(2)</strong>, <strong>(3)</strong>, or <strong>(4)</strong>. Following actions are available:</p>
+<ul>
+<li><p><strong>Add Tags (2)</strong>: The tags in the <em>Tags</em> list <strong>(7)</strong> are added to page(s).
+Other Tags already on the selected pages are left intact.</p>
+<p>Alternatively, if keyboard focus is still in the tag input box <strong>(9)</strong>, you can
+press <strong>SHIFT</strong>+<strong>ENTER</strong> or <strong>CTRL</strong>-<strong>+</strong> to add tags to the <em>Tags</em> <strong>(7)</strong>
+list <strong>and</strong> add them to the selected pages.</p>
+</li>
+<li><p><strong>Set Tags (3)</strong>: The tags in the <em>Tags</em> list <strong>(7)</strong> replace all tags
+in the range of selected pages.</p>
+<p>Alternatively, if keyboard focus is still
+in the tag input box <strong>(9)</strong>, you can
+press <strong>SHIFT</strong>-<strong>CTRL</strong>-<strong>ENTER</strong>  to add tags to the <em>Tags</em> <strong>(9)</strong>
+<strong>and</strong> set them on the selected pages.</p>
+</li>
+<li><p><strong>Remove Tags (4)</strong>: The tags shown in the <em>Tags</em> list <strong>(7)</strong> are removed from the
+range of pages. Other Tags already on the range of pages which do not appear
+in the list are left intact.</p>
+<p>Alternatively, if keyboard focus is still in the tag input box <strong>(9)</strong>, you can
+press <strong>CTRL</strong>-<strong>ENTER</strong> or <strong>CTRL</strong>-<strong>-</strong> to add tags to the <em>Tags</em>
+list <strong>(7)</strong> <strong>and</strong> remove them from the selected pages.</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>Depending on the tag display options selected in the [[Preferences|Preferences-Tab]] dialog
+page tag changes should appear on the affected page like so:</p>
+<p><img src="https://github.com/WetHat/OnenoteTaggingKit/wiki/images/TaggedPage.png" alt="Tagged Page" /></p>
+<p>or</p>
+<p><img src="https://github.com/WetHat/OnenoteTaggingKit/wiki/images/TitleTag.png" alt="Title Tag" /></p>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li><p>Tags that were not previously in the suggestion list <strong>(11)</strong>,
+are added automatically when they are applied.</p>
+</li>
+<li><p>The tags displayed on the top of each tagged page are meant to be <strong>read-only</strong>. However, OneNote
+does not have any concept of <em>read-only</em>, so it is possible to manually edit the
+tags on the page. If manual edits happened the internal tag database of the <em>OneNote Tagging Kit</em>
+is <em>out-of-sync</em> with the tags displayed on the page. Press the <em>re-sync</em> button <strong>(5)</strong> to
+resynchronize the tags with the internal database.</p>
+<p><em>Re-syncing</em> is also useful to update tag display after tag related configuration changes
+with the [[Preferences|Preferences-Tab]] dialog.</p>
+</li>
+</ul>
+
+        </article>
+        <footer>
+            <hr />
+            Created by PowerShell Module <a href='https://github.com/WetHat/MarkdownToHtml'>MarkdownToHTML</a>.
+
+        </footer>
+    </main>
+</body>
+</html>

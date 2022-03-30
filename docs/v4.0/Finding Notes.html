@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Finding Notes</title>
+    <link rel="stylesheet" type="text/css" href="../styles/md-styles.css" />
+
+    <!-- Code syntax highlighting configuration -->
+    <!-- Comment this to deactivate syntax highlighting. -->
+    <link rel="stylesheet" type="text/css" href="../styles/vs.css" />
+    <!-- Alternative highlighting styles -->
+    <!-- <link rel="stylesheet" type="text/css" href="../styles/agate.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../styles/far.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../styles/tomorrow-night-blue.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="../vs2015.css" /> -->
+    <script src="../js/highlight.pack.js"></script>
+    <script>
+        hljs.configure({ languages: [] });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <!-- -->
+    <!-- mermaid diagram generator configuration -->
+    <!-- Comment this to deactivate the diagramming extension ('diagrams'). -->
+    <script src="../js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+    <!-- -->
+    <!-- KaTeX LaTeX Math typesetting configuration -->
+    <!-- Comment this to deactivate the LaTeX math extension ('mathematics'). -->
+    <link rel="stylesheet" type="text/css" href="../katex/katex.min.css" />
+    <script defer src="../katex/katex.min.js"></script>
+    <script>
+        // <![CDATA[
+        window.onload = function () {
+            var tex = document.getElementsByClassName("math");
+            Array.prototype.forEach.call(tex, function (el) {
+                katex.render(el.textContent, el, {
+                    displayMode: (el.nodeName == "DIV"),
+                    macros: {
+                        "\\(": "",
+                        "\\)": "",
+                        "\\[": "",
+                        "\\]": ""
+                    }
+                })
+            });
+        };
+              // ]]>
+    </script>
+    <!-- add page icon link -->
+    <link rel="icon" href="../PageIcon.png" type="image/x-icon" />
+</head>
+<body>
+    <nav><button class='navitem'><a href='../index.html'><div style='text-align:center;'><img height='32' src='../images/logo64x64.png' /></div></a></button>
+<button class='navitem'><a href='../index.html'>Home</a></button>
+<div class='navlabel'>OneNote Tagging Kit v4.0</div>
+<button class='navitem'><a href='Home.html'>Overview</a></button>
+<div class='navlabel'>Page Content</div>
+<button class='navitem'><a href='#finding-notes'><span class='navitem1'>Finding Notes</span></a></button>
+<button class='navitem'><a href='#basic-strategies'><span class='navitem3'>Basic Strategies</span></a></button>
+<button class='navitem'><a href='#advanced-strategies'><span class='navitem3'>Advanced Strategies</span></a></button>
+</nav>
+    <main>
+        <article>
+            <h1 id="finding-notes">Finding Notes</h1>
+<ol>
+<li><p>On the <em>OneNote__Home</em> tab click on the <em>Find Notes</em> button in the <em>Page Tags</em> command group:</p>
+<p><img src="https://github.com/WetHat/OnenoteTaggingKit/wiki/images/FindPagesButton.png" alt="Find Pges Button" /></p>
+</li>
+<li><p>When the <em>Find Notes</em> dialog window opens, you can find pages by one of
+following strategies:</p>
+<h3 id="basic-strategies">Basic Strategies</h3>
+<ul>
+<li>[[Find Notes by Tags]] - just using tags to find pages</li>
+<li>[[Find notes by facetted search|Facetted Search]] - full text search <strong>including</strong> tags.</li>
+</ul>
+<h3 id="advanced-strategies">Advanced Strategies</h3>
+<ul>
+<li>[[Finding Related Notes|Find Related Notes]]</li>
+<li>[[Working with Refinement Tags]]</li>
+<li>[[Working with the Search Result]]</li>
+</ul>
+</li>
+</ol>
+
+        </article>
+        <footer>
+            <hr />
+            Created by PowerShell Module <a href='https://github.com/WetHat/MarkdownToHtml'>MarkdownToHTML</a>.
+
+        </footer>
+    </main>
+</body>
+</html>

@@ -14,12 +14,13 @@
         "mathematics",
         "diagrams",
         "pipetables",
-        "autoidentifiers"
+        "autoidentifiers",
+        "attributes"
     ],
 
     "github_pages": true,
 
-    "footer": "Template project Created by PowerShell Module <a href='https://github.com/WetHat/MarkdownToHtml'>MarkdownToHTML</a>.",
+    "footer": "Created by PowerShell Module <a href='https://github.com/WetHat/MarkdownToHtml'>MarkdownToHTML</a>.",
 
     "navigation_bar": {
         "capture_page_headings": "123456",
@@ -32,13 +33,12 @@
     },
 
     "site_navigation": [
-        { "<img width='90%' src='logo.png' />": "README.md" },
-        { "README": "" },
-        { "Home": "README.md" }
+        { "<div style='text-align:center;'><img height='32' src='images/logo64x64.png' /></div>": "index.md" },
+        { "Home": "index.md" }
     ],
 
     "page_navigation_header": [
-        { "---": "" }
+        { "Page Content": "" }
     ],
 
     "svgbob": {
