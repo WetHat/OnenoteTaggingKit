@@ -1,15 +1,29 @@
-# Add/Remove Tags on a _OneNote_Page
+# Manage Tags on _OneNote_ Pages{.title}
 
+To open the _Tag Pages_ dialog is opened by clicking / tapping on the _Tag Pages_
+button of the _Page Tags_ group in the `Home` tab of the _OneNote_ ribbon.
+ 
+ ![Tag Page Button](images/RibbonTagPages.png)
+ 
+ ![Tag Pages Dialog](images/TagPagesDialog.png){.rightfloat}
+ 
+ # _Tag Pages_ Dialog Overview 
+ 
+ 
+ 
+ 
+ 
+ -----
+ 
 1. Browse to a page in _OneNote_which you want to tag
 2. On the _OneNote__Home_ tab click on the _Tag Pages_ button in the _Page Tags_
    command group:
 
-   ![Tag Page Button](images/TagPagesButton.png)
 
 3. The _Tag Pages_  dialog opens where you can select and apply tags to
    _OneNote_pages as described below:
 
-   ![Tag Pages Dialog](images/TagPagesDialog.png)
+  
 
 4. Select a range of pages to apply the tags to in the scope selector **(1)**.
    If you have chosen the _Selected Pages_ option you may at this point select
