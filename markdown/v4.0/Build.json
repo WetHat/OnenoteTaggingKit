@@ -4,6 +4,10 @@
         { "Overview": "Home.md" },
         { "Troubleshooting": "Troubleshooting/Troubleshooting-Tips.md" },
         { "User Manual": "" },
-        { "The Ribbon Bar": "Usage/Ribbon.md" }
+        { "The Ribbon Bar": "Usage/Ribbon.md" },
+        { "Tagging Pages" : "Tagging%20a%20Page.md" },
+        { "Page Update" : "Update.md" },
+        { "Faceted Search" : "Finding%20Notes.md" },
+        { "Add-In Settings" : "Manage%20Settings.md" }
     ]
 }

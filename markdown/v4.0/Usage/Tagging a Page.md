@@ -4,7 +4,7 @@
 2. On the _OneNote__Home_ tab click on the _Tag Pages_ button in the _Page Tags_
    command group:
 
-   ![Tag Page Button](https://github.com/WetHat/OnenoteTaggingKit/wiki/images/TagPagesButton.png)
+   ![Tag Page Button](images/TagPagesButton.png)
 
 3. The _Tag Pages_  dialog opens where you can select and apply tags to
    _OneNote_pages as described below:

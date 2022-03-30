@@ -1,0 +1,12 @@
+# The OneNote Ribbon Bar{.title}
+    
+All commands and dialogs of the _OneNote Tagging Kit_ are available in the
+`Home` tab of OneNote ribbon bar.
+
+![Ribbon Bar](images/Ribbon.png)
+
+1. The [Tag Pages](Tagging%20a%20Page.md) dialog. Add / remove _Page Tags_ on
+   _OneNote_ pages.
+2. The [Update Pages](Update.md) command. Update imported tags and [Saved Searches](SavedSearch.md) on the current page.
+3. The [Find Pages](Finding%20Notes.md) dialog. Find Notes by tag and full-text filters. 
+4. The [Settings](Manage%20Settings.md) dialog. Manage add-in settings. 
