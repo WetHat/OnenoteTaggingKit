@@ -1,20 +1,48 @@
 # Manage Tags on _OneNote_ Pages{.title}
 
-To open the _Tag Pages_ dialog is opened by clicking / tapping on the _Tag Pages_
+The _Tag Pages_ dialog is used to add or remove _Page Tags_ from one ore more
+_OneNote_ pages.
+
+![Tag Page Button](images/RibbonTagPages.png)
+
+To open the _Tag Pages_ dialog click or tap on the _Tag Pages_
 button of the _Page Tags_ group in the `Home` tab of the _OneNote_ ribbon.
- 
- ![Tag Page Button](images/RibbonTagPages.png)
- 
- ![Tag Pages Dialog](images/TagPagesDialog.png){.rightfloat}
- 
- # _Tag Pages_ Dialog Overview 
- 
- 
- 
- 
- 
+
+![Tag Pages Dialog](images/TagPagesDialog.png){.rightfloat}
+
+# _Tag Pages_ Dialog Overview
+
+1. The tagging scope selector. Defines the range of pages to apply the tagging
+   operation to. Available ranges are _Current Page_ (default),
+   _Selected Pages_, and _Current Section_.
+2. Add all tags shown in the _Tags_ panel^8^ to the range of the selected
+   range of pages^1^.
+3. Set the tags of the range of selected pages^1^ to exactly the tags
+    shown in the _Tags_ panel^8^.
+2. Remove all tags shown in the _Tags_ panel^8^ from the selected range of
+   pages^1^.
+5. Update all [Saved Searches](../SavedSearch.md) on the current page and,
+   if enabled the [Preference](../Preferences-Tab.ms) of the
+   [Manage Settings](../Manage%20Settings.md) dialog, update imported
+   _OneNote_ and hashtags in the current page's content.
+6. Clear the tags selected for tagging in the _Tags_ panel^8^.
+7. A tag selected for a tagging operation.
+8. The _Tags_ panel. Contains all tags selected for a subsequent tagging
+   operation^2,3,4^.
+9. Tag presets. Filters the collection of tags currently available in the
+   _Suggested Tags_ panel^13^.
+10. Tag input box for entering new tags and highlighting existing tags in the
+    _Suggested Tags_ panel^13^.
+11. Clears the tag input box^10^ and removes all highlight from the _Suggested
+    Tags_ panel^13^.
+12. Add all tags which fully match the tag names enterd in the tag input box^10^
+    to the _Tags_ panel^8^ for tagging.
+13. The _Suggested Tags_ panel containing the collection of tags available for
+    tagging.
+14. An available tag with a match highlight of the partial tag name entered in the
+    Tag input box^10^.
  -----
- 
+
 1. Browse to a page in _OneNote_which you want to tag
 2. On the _OneNote__Home_ tab click on the _Tag Pages_ button in the _Page Tags_
    command group:
@@ -23,7 +51,7 @@ button of the _Page Tags_ group in the `Home` tab of the _OneNote_ ribbon.
 3. The _Tag Pages_  dialog opens where you can select and apply tags to
    _OneNote_pages as described below:
 
-  
+
 
 4. Select a range of pages to apply the tags to in the scope selector **(1)**.
    If you have chosen the _Selected Pages_ option you may at this point select
@@ -90,7 +118,7 @@ or
   tags on the page. If manual edits happened the internal tag database of the _OneNote Tagging Kit_
   is _out-of-sync_ with the tags displayed on the page. Press the _re-sync_ button **(5)** to
   resynchronize the tags with the internal database.
-  
-  _Re-syncing_ is also useful to update tag display after tag related configuration changes 
+
+  _Re-syncing_ is also useful to update tag display after tag related configuration changes
   with the [[Preferences|Preferences-Tab]] dialog.
 
