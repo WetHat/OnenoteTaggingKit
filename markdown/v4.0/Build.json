@@ -7,7 +7,7 @@
         { "The Ribbon Bar": "Usage/Ribbon.md" },
         { "Tagging Pages" : "Usage/Tagging%20Pages/Tagging%20Pages.md" },
         { "Page Update" : "Usage/Update.md" },
-        { "Faceted Search" : "Usage/Finding%20Notes.md" },
-        { "Add-In Settings" : "Usage/Manage%20Settings.md" }
+        { "Faceted Search" : "Usage/Search/Finding%20Notes.md" },
+        { "Add-In Settings" : "Usage/Settings/Manage%20Settings.md" }
     ]
 }

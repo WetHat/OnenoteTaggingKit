@@ -1,4 +1,4 @@
-# OnenoteTaggingKit Documentation{.title}
+# _Onenote Tagging Kit_ Documentation{.title}
 
 The _OneNoteTaggingKit_ is a free to-use add-in to add page tagging to
 OneNote for the desktop.
@@ -86,16 +86,18 @@ the _Page Tags_ command group (next to the built-in Tags command group)
 If you do not see this ribbon extension please refer to
 [Tagging Kit Actions Not Shown in Ribbon](Troubleshooting/Tagging%20Kit%20Not%20Shown%20in%20Ribbon.md)
 
-# Using the _OneNote Tagging Kit_
+# _OneNote Tagging Kit_ User Manual
 
-TODO
+* [The Ribbon Bar](Usage/Ribbon.md) - The directory for integrated _Tagging Kit_
+  commands and dialogs.
+* []
 
 # Bugs and Features
 
 If you think the _Tagging Kit_ is not working as it should, please check the [troubleshooting tips](Troubleshooting/Troubleshooting-Tips.md)
 first.
 
-# TaggingKit Development
+# _Tagging Kit_ Development
 
 The developer documentation can be found at [here](https://github.com/WetHat/OnenoteTaggingKit/blob/master/TaggingKitSandcastle/Documentation/Home.md).
 
