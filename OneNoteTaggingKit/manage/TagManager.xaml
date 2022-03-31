@@ -300,22 +300,28 @@
                         <Run Text="{Binding Configuration, Mode=OneTime}" />
                     </Paragraph>
                     <Paragraph>
-                        <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Website}}" />
+                        <Run FontWeight="Bold"
+                             Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Website}}" />
                         <Run Text=":" />
+                        <LineBreak />
                         <Hyperlink NavigateUri="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_AddIn_Website}}" RequestNavigate="Hyperlink_RequestNavigate">
                             <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_AddIn_Website}}" />
                         </Hyperlink>
                     </Paragraph>
                     <Paragraph>
-                        <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Docs}}" />
+                        <Run FontWeight="Bold"
+                             Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Docs}}" />
                         <Run Text=":" />
+                        <LineBreak />
                         <Hyperlink NavigateUri="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_Docs_Link}}" RequestNavigate="Hyperlink_RequestNavigate">
                             <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_Docs_Link}}" />
                         </Hyperlink>
                     </Paragraph>
                     <Paragraph>
-                        <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Logfile}}" />
+                        <Run FontWeight="Bold"
+                             Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Logfile}}" />
                         <Run Text=":" />
+                        <LineBreak />
                         <Hyperlink NavigateUri="{Binding Logfile}" RequestNavigate="Hyperlink_RequestLogNavigate">
                             <Run Text="{Binding Logfile, Mode=OneTime}" />
                         </Hyperlink>
