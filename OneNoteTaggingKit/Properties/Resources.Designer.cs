@@ -531,7 +531,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://github.com/WetHat/OnenoteTaggingKit/wiki.
+        ///   Looks up a localized string similar to https://wethat.github.io/OnenoteTaggingKit/.
         /// </summary>
         public static string TaggingKit_About_AddIn_Website {
             get {
@@ -576,6 +576,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Documentation.
+        /// </summary>
+        public static string TaggingKit_About_Docs {
+            get {
+                return ResourceManager.GetString("TaggingKit_About_Docs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .Net Framework.
         /// </summary>
         public static string TaggingKit_About_Framework {
@@ -608,6 +617,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TaggingKit_Blocked {
             get {
                 return ResourceManager.GetString("TaggingKit_Blocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://wethat.github.io/OnenoteTaggingKit/v4.0/Home.html.
+        /// </summary>
+        public static string TaggingKit_Docs_Link {
+            get {
+                return ResourceManager.GetString("TaggingKit_Docs_Link", resourceCulture);
             }
         }
         
@@ -655,7 +673,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://github.com/WetHat/OnenoteTaggingKit/wiki/{0}.
+        ///   Looks up a localized string similar to https://wethat.github.io/OnenoteTaggingKit/v4.0/Troubleshooting/{0}.
         /// </summary>
         public static string TaggingKit_Wiki_Page {
             get {

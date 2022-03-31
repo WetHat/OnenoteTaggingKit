@@ -307,6 +307,13 @@
                         </Hyperlink>
                     </Paragraph>
                     <Paragraph>
+                        <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Docs}}" />
+                        <Run Text=":" />
+                        <Hyperlink NavigateUri="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_Docs_Link}}" RequestNavigate="Hyperlink_RequestNavigate">
+                            <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_Docs_Link}}" />
+                        </Hyperlink>
+                    </Paragraph>
+                    <Paragraph>
                         <Run Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TaggingKit_About_Logfile}}" />
                         <Run Text=":" />
                         <Hyperlink NavigateUri="{Binding Logfile}" RequestNavigate="Hyperlink_RequestLogNavigate">
