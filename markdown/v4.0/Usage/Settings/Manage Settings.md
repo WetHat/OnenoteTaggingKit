@@ -1,12 +1,14 @@
-# Managing Settings
+# Managing Settings{.title}
 
-The _Settings_ dialog allows to change various add-in settings
+The _Settings_ dialog provides various customization options for the _Tagging Kit_.
 
-1. On the _OneNote__Home tab_ click on the _Settings_ button in the _Page Tags_ command group: 
-  
-  ![Settings Button](https://github.com/WetHat/OnenoteTaggingKit/wiki/images/SettingsButton.png)
+![Tag Page Button](images/RibbonSettings.png)
 
-2. This opens the _Manage Settings_ dialog which has following tabs to choose from:
-   * [[Preferences Tab]] - Change add-in preferences. 
-   * [[Suggested Tags Tab]] - Manage tag suggestions for the _Tag Pages_ dialog
-   * [[About Tab]] - Version and support information
+To acivate the _Manage Settings_ dialog click or tap on the _Settings_
+button of the _Page Tags_ group in the `Home` tab of the _OneNote_ ribbon.
+
+The dialog has following tabs to choose from:
+* [Preferences Tab](Preferences-Tab.md) - Change add-in preferences. 
+* [Suggested Tags Tab](Suggested%20Tags%20Tab.md) - Manage tag suggestions for 
+  the [Tag Pages](../Tagging%20Pages/Tagging%20Pages.md) dialog.
+* [About Tab](About%20Tab.md) - Display version and support information.
