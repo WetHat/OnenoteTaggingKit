@@ -66,93 +66,113 @@
 </nav>
     <main>
         <article>
-            <h1 id="the-preferences-tab">The <em>Preferences</em> Tab</h1>
-<p><img src="images/PreferencesTab.png" alt="Preferences Tab" /></p>
+            <h1 id="the-preferences-tab" class="title">The <em>Preferences</em> Tab</h1>
+<p><img src="images/PreferencesTab.png" class="rightfloat" alt="Preferences Tab" /></p>
+<p>☝️ Numbered dialog elements are referenced list item indices.</p>
 <ol>
-<li><p>In the <em>Dialog Preferences</em> section (1) you can disable or enable
-the <em>always on top</em> behavior of the <em>Tag Pages</em> or <em>Find Tagged Pages</em> dialog.</p>
+<li><p>In the <em>Dialog Preferences</em> section you can disable or enable
+the <em>always on top</em> behavior of the
+<a href="../Tagging%20Pages/Tagging%20Pages.png">Tag Pages</a> or
+<a href="../Search/Finding%20Notes.html">Find Tagged Pages</a> dialog.</p>
 </li>
-<li><p>The <em>Operating System Integration</em> section (2) allows select or deselect the
-<em>Windows Search Service</em> for finding page tags. By default this option is <strong>on</strong>.</p>
+<li><p>The <em>Operating System Integration</em> section allows select or deselect the
+<em>Windows Search Service</em> for finding page tags. By default this option is
+<strong>on</strong>.</p>
 <p>When this option is unchecked a slower, alternative approach for
-finding page tags is used. Unchecking this option may be necessary on systems where the <em>OneNote</em>/ <em>Windows Search Service</em>
-integration is broken (this happened recently when an _OneNote_upgrade broke the search service integration due to a bug
-in the installer).</p>
+finding page tags is used. Unchecking this option may be necessary on systems
+where the <em>OneNote</em>/ <em>Windows Search Service</em> integration is broken or turned off.</p>
 </li>
-<li><p>In <em>Tag Options</em> section (3) you can configure format and display
-of page tags on a _OneNote_page:</p>
-<ul>
-<li><p>Tag Formats:</p>
-<ul>
-<li><p><strong>Capitalized</strong> - The first character of each tag is changed to uppercase. If a
+<li><p>In <em>Tag Options</em> section you can configure format and display
+of page tags on a <em>OneNote</em> page.</p>
+<p>☝️ Tag formatting is applied to new tags only. Pre-existing tags remain
+unchanged.</p>
+<p><strong>The available tag format options are:</strong></p>
+<dl>
+<dt><code>Capitalized</code></dt>
+<dd>
+<p>The first character of each tag is changed to uppercase. If a
 tag has multiple words separated by space, the first character of each word is
 changed to uppercase.</p>
-<p>For example: Tag input <em>documentation</em> is changed to <em>Documentation</em></p>
-</li>
-<li><p><strong>HashTag</strong> - The tag is formatted as a <a href="https://en.wikipedia.org/wiki/Hashtag">hashtag</a>,
-by placing the number sign or pound sign # (also known as the hash character) in front of
-a tag word or unspaced phrase.</p>
-<p>For example tag input <em>Documentation</em> is changed to <em>#documentation</em></p>
-</li>
-<li><p><strong>As Entered</strong> - The tag entered by the user is used <em>as typed</em>. No formatting is applied.
-Multi-word tags can be separated by spaces.</p>
-</li>
-</ul>
-</li>
-<li><p>Tag Display:</p>
+<p>Examples:</p>
 <ul>
-<li><p><strong>Below Page Title</strong> - Tags are displayed below the title of a
-_OneNote_page:</p>
-<p><img src="https://github.com/WetHat/OnenoteTaggingKit/wiki/images/TaggedPage.png" alt="Page Tags" /></p>
-<p><strong>Note!</strong> The tags are represented as editable text, but edits do <strong>not</strong> change the actual page tags.
-To change page tags the <a href="https://github.com/WetHat/OnenoteTaggingKit/wiki/Tagging-a-Page">Tag Pages</a>
-dialog must be used.</p>
-</li>
-<li><p><strong>Icon in Page Title</strong> - A single _OneNote_tag is added to the page title:</p>
-<p><img src="https://github.com/WetHat/OnenoteTaggingKit/wiki/images/TitleTag.png" alt="Title Tag" /></p>
-<p>To see the page tags you need to hover the mouse over the Tag icon.</p>
+<li>Tag input <code>documentation</code> is changed to <code>Documentation</code>.</li>
+<li>Tag input <code>project documentation</code> is changed to <code>Project Documentation</code>.
+<code>Hashtag</code></li>
+</ul>
+</dd>
+<dd>
+<p>Tags are formatted as <a href="https://en.wikipedia.org/wiki/Hashtag">hashtags</a>
+by adding the number sign or pound sign <code>#</code> (also known as the hash character)
+at the beginning of each tag name.</p>
+<p>For example tag input <code>Documentation</code> is changed to <code>#documentation</code></p>
+</dd>
+</dl>
+<dl>
+<dt><code>As Entered</code></dt>
+<dd>The tag entered by the user is used <em>as typed</em>. No formatting is applied.
+Multi-word tags can be separated by spaces.</dd>
+</dl>
+<p><strong>The available tag display options are:</strong></p>
+<dl>
+<dt><code>Below Page Title</code></dt>
+<dd>
+<p>Tags are displayed below the title of a <em>OneNote</em> page:</p>
+<p><img src="../Tagging%20Pages/images/TaggedPage.png" alt="Page Tags" /></p>
+<p>⚠️ The tags are represented as editable text, but edits do <strong>not</strong>
+change the actual <em>Page Tags</em>. To change page tags the
+<a href="../Tagging%20Pages/Tagging%20Pages.html">Tag Pages</a> dialog must be used.
+If the tags were inadvertently edited, the displayed tags can be
+re-synchronized with the internal tag database by  executing the
+<a href="../Update.html">Update</a> command or using the
+<a href="../Tagging%20Pages/Tagging%20Pages.html#Dia-5">Update</a> action of the
+<a href="../Tagging%20Pages/Tagging%20Pages.html">Tag Pages</a> dialog.</p>
+</dd>
+</dl>
+<dl>
+<dt><code>Icon in Page Title</code></dt>
+<dd>
+<p>A single <em>OneNote</em> tag is added to the page title:</p>
+<p><img src="../Tagging%20Pages/images/TitleTag.png" alt="Title Tag" /></p>
+<p>To see the page tags just hover the mouse over the tag icon.</p>
 <p>This option has been introduced to address negative side effects in
-the _OneNote_Windows Store version which would display the page tags in
-summary view:</p>
-<p><img src="https://github.com/WetHat/OnenoteTaggingKit/wiki/images/OneNoteUWPSummary1.png" alt="Bad Summary" /></p>
-<p>instead of a page summary. <strong>Note</strong>: The _OneNote_Windows Store version does
-not display summary views by default! It needs to be enabled in <em>Settings</em>:</p>
-<p><img src="https://github.com/WetHat/OnenoteTaggingKit/wiki/images/OneNotePreview.png" alt="Summary View Setting" /></p>
+the <em>OneNote</em> Windows Store version which would display the page tags in
+its summary view instead of a page summary:</p>
+<p><img src="images/OneNoteUWPSummary1.png" alt="Bad Summary" /></p>
+</dd>
+</dl>
 </li>
-</ul>
-</li>
-</ul>
-<p><strong>Note</strong>: Tag formatting changes are applied to new tags only.
-Tags existing prior to changing these options remain unchanged.</p>
-</li>
-<li><p>Tag options section <strong>(4)</strong> configures the mapping of tags, which are embedded in
-page content, to page tags. Promoted tags can be used in facetted search. However, if either one
-of the promoted tag types is changed on a page they have to be resynchronized manually.
-See the note on [[Tagging a Page]] on how to use the <em>re-sync</em> button to do that.</p>
-<p>Following options to promote tags from page content to page tags are available.</p>
-<ul>
-<li><p><strong>Map _OneNote_Tags to Page Tags</strong>:</p>
-<p>With every tagging operation the page content is scanned for _OneNote_tags. Each tag found
-on the page is mapped to a corresponding page tag. Mapped page tags originating from _OneNote_tags
-have a special text marker appended, so that they can be distinguished from genuine page tags:</p>
-<p><img src="https://github.com/WetHat/OnenoteTaggingKit/wiki/images/MappedOneNoteTags.png" alt="Mapped _OneNote_Tags" /></p>
-<p>Mapped _OneNote_tags can be used in the [[Find Notes]] dialog for tag based refinement of the
-search result. However, they do <strong>not</strong> show in tag suggestions because they are not managed
-by the <em>OneNote Tagging Kit</em>.</p>
-</li>
-<li><p><strong>Map Hashtags in Page Text to Page Tags</strong>:</p>
-<p>With every tagging operation the page content is scanned for hashtags embedded in the page text.
-Each hashtag is mapped to a corresponding page tag. Mapped page tags originating from
-hashtags have a special text marker appended so that they can be distinguished from genuine page
-tags:</p>
-<p><img src="https://github.com/WetHat/OnenoteTaggingKit/wiki/images/MappedHashtags.png" alt="Mapped Hashtags" /></p>
-<p>Mapped hashtags can be used in the [[Find Notes]] dialog for tag based refinement of the
-search result. However, they do <strong>not</strong> show in tag suggestions because they are not managed by the
-<em>OneNote Tagging Kit</em>.</p>
-</li>
-</ul>
-<p><strong>Note</strong>: Changes to these options do not take effect on existing _OneNote_pages until they are
-tagged again or re-synchronized. See [[Tagging a Page]] on tagging and re-synchronization.</p>
+<li><p>Configure the import of tags, which are embedded in
+page content. Imported tags can be utilized by the
+<a href="../Search/Finding%20Notes.html">Find Tagged Pages</a> dialog for faceted search.
+However, if the original tags are are changed in the page content, the tags
+require re-import by either executing the <a href="../Update.html">Update</a> command or using
+the <a href="../Tagging%20Pages/Tagging%20Pages.html#Dia-5">Update</a> action of the
+<a href="../Tagging%20Pages/Tagging%20Pages.html">Tag Pages</a> dialog.</p>
+<p>☝️ Changes to these options do not take effect on existing <em>OneNote</em>
+pages until they are tagged again or updated by either executing the
+<a href="../Update.html">Update</a> command or using the
+<a href="../Tagging%20Pages/Tagging%20Pages.html#Dia-5">Update</a> action of the
+<a href="../Tagging%20Pages/Tagging%20Pages.html">Tag Pages</a> dialog.</p>
+<dl>
+<dt><code>Map OneNote Tags to Page Tags</code></dt>
+<dd>
+<p>With every tagging operation the page content is scanned for <em>OneNote</em>
+paragraph tags. Each <em>OneNote</em> tag found mapped to a corresponding
+<em>Import Page Tag</em>. Imported <em>Page Tags</em>
+have a special marker prefix, so that they can be distinguished
+from genuine page tags:</p>
+<p><img src="images/MappedOneNoteTags.png" alt="Mapped _OneNote_Tags" /></p>
+</dd>
+</dl>
+<dl>
+<dt><code>Map Hashtags in Page Text to Page Tags</code></dt>
+<dd>With every tagging operation the page content is scanned for
+<a href="https://en.wikipedia.org/wiki/Hashtag">hashtags</a> embedded in the page text.
+Each hashtag is mapped to a corresponding <em>Import Page Tag</em>.
+<em>Page Tags</em> originating from hashtags have a special marker prefix,
+so that they can be distinguished from genuine <em>Page Tags</em>:</dd>
+</dl>
+<p><img src="images/MappedHashtags.png" alt="Mapped Hashtags" /></p>
 </li>
 </ol>
 
