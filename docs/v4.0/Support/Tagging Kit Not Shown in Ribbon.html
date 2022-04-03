@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Troubleshooting Tips </title>
+    <title>The Tagging Kit Command Group Does Not Show up in the _OneNote_ Ribbon Bar</title>
     <link rel="stylesheet" type="text/css" href="../../styles/md-styles.css" />
 
     <!-- Code syntax highlighting configuration -->
@@ -54,45 +54,37 @@
 <button class='navitem'><a href='../../index.html'>Home</a></button>
 <div class='navlabel'>OneNote Tagging Kit v4.0</div>
 <button class='navitem'><a href='../Home.html'>Overview</a></button>
-<button class='navitem'><a href='../Troubleshooting/Troubleshooting-Tips.html'>Troubleshooting</a></button>
+<button class='navitem'><a href='../Support/Troubleshooting-Tips.html'>Support</a></button>
 <div class='navlabel'>User Manual</div>
 <button class='navitem'><a href='../Usage/Ribbon.html'>The Ribbon Bar</a></button>
 <button class='navitem'><a href='../Usage/Tagging%20Pages/Tagging%20Pages.html'>Tagging Pages</a></button>
 <button class='navitem'><a href='../Usage/Update.html'>Updating Pages</a></button>
 <button class='navitem'><a href='../Usage/Search/Finding%20Notes.html'>Finding Pages</a></button>
-<button class='navitem'><a href='../Usage/Settings/Manage%20Settings.html'>Add-In Settings</a></button>
+<button class='navitem'><a href='../Usage/Settings/Manage%20Settings.html'>Options and Settings</a></button>
 <div class='navlabel'>Current Page Content</div>
-<button class='navitem'><a href='#troubleshooting-tips'><span class='navitem1'>Troubleshooting Tips</span></a></button>
-<button class='navitem'><a href='#known-issues'><span class='navitem1'>Known Issues</span></a></button>
-<button class='navitem'><a href='#submitting-a-bug-or-enhancement-request'><span class='navitem1'>Submitting a Bug or Enhancement Request</span></a></button>
+<button class='navitem'><a href='#the-tagging-kit-command-group-does-not-show-up-in-the-onenote-ribbon-bar'><span class='navitem1'>The Tagging Kit Command Group Does Not Show up in the <em>OneNote</em> Ribbon Bar</span></a></button>
 </nav>
     <main>
         <article>
-            <h1 id="troubleshooting-tips" class="title">Troubleshooting Tips</h1>
-<p>If the issue you are having is not already covered below, please also check the
-<a href="https://github.com/WetHat/OnenoteTaggingKit/issues">Issues</a> page on GitHub.
-Your issue may already heve been reported or fixed.</p>
-<h1 id="known-issues" class="unfloat">Known Issues</h1>
-<ul>
-<li><a href="Tagging%20Kit%20Not%20Shown%20in%20Ribbon.html">The Tagging Kit command group does not show up in the <em>OneNote</em> ribbon bar</a></li>
-<li><a href="Searching-pages-by-Tags-or-Full-Text-Queries-does-not-work.html">Searching pages by Tags or Full-Text Queries does not work</a></li>
-<li><a href="0x8004200C.html">Exception from HRESULT: 0x8004200C</a></li>
-<li><a href="0x80042019.html">Exception from HRESULT: 0x80042019</a></li>
-<li><a href="0x80042030.html">Exception from HRESULT: 0x80042030</a></li>
-</ul>
-<p><img src="images/TroubleshootingTips_log.png" class="rightfloat" alt="Screenshot" /></p>
-<h1 id="submitting-a-bug-or-enhancement-request">Submitting a Bug or Enhancement Request</h1>
-<p>You are very much welcome to report issues or submit enhancement requests.
-Before doing so, please check that nothing
-appropriate is recorded at
-<a href="https://github.com/WetHat/OnenoteTaggingKit/issues">Issues</a></p>
-<p>If you are reporting a bug, make sure you <strong>always</strong> attach the add-in's logfile.
-The easiest way to locate the logfile is to open  the <code>Settings</code> dialog and
-select the <code>About</code> tab.</p>
-<p>Alternatively you can open File Explorer, navigate to the
-<code>%TEMP%</code> directory and pick up the <strong>newest</strong> logfile named <code>taggingkit_*.log</code>.
-The <code>*</code> stands for a sequence of characters and numbers, e.g.
-<code>taggingkit_8DA0C2A5B55670C.log</code>.</p>
+            <h1 id="the-tagging-kit-command-group-does-not-show-up-in-the-onenote-ribbon-bar">The Tagging Kit Command Group Does Not Show up in the <em>OneNote</em> Ribbon Bar</h1>
+<p><img src="../images/TaggingKitRibbon.png" alt="Ribbon" /></p>
+<p>If the new commands do not show up, _OneNote_probably was still running while you where installing the tagging kit add-in. To fix this, follow the steps below and restart the tagging add-in:</p>
+<ol>
+<li><p>In _OneNote_click <code>File -&gt; Options -&gt; Add-Ins</code>.
+The tagging kit add-in should be listed like so:
+<img src="images/ONOptions.png" alt="Options" /></p>
+</li>
+<li><p>Click on the Go at the bottom of the page.</p>
+</li>
+<li><p>On the COM Add-Ins dialog turn off the tagging kit add-in and click OK:
+<img src="images/TaggingKitDisabled.png" alt="Disabled" /></p>
+</li>
+<li><p>Reactivate the add-in by opening the COM Add-Ins dialog again.
+Select the tagging add-in and click OK:
+<img src="images/TaggingKitEnabled.png" alt="Enabled" /></p>
+</li>
+</ol>
+<p>With any luck the add-in should be working now.</p>
 
         </article>
         <footer>

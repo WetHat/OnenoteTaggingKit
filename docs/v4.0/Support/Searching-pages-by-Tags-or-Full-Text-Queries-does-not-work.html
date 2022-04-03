@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Exception from HRESULT: 0x8004200C</title>
+    <title>Symptoms</title>
     <link rel="stylesheet" type="text/css" href="../../styles/md-styles.css" />
 
     <!-- Code syntax highlighting configuration -->
@@ -54,22 +54,36 @@
 <button class='navitem'><a href='../../index.html'>Home</a></button>
 <div class='navlabel'>OneNote Tagging Kit v4.0</div>
 <button class='navitem'><a href='../Home.html'>Overview</a></button>
-<button class='navitem'><a href='../Troubleshooting/Troubleshooting-Tips.html'>Troubleshooting</a></button>
+<button class='navitem'><a href='../Support/Troubleshooting-Tips.html'>Support</a></button>
 <div class='navlabel'>User Manual</div>
 <button class='navitem'><a href='../Usage/Ribbon.html'>The Ribbon Bar</a></button>
 <button class='navitem'><a href='../Usage/Tagging%20Pages/Tagging%20Pages.html'>Tagging Pages</a></button>
 <button class='navitem'><a href='../Usage/Update.html'>Updating Pages</a></button>
 <button class='navitem'><a href='../Usage/Search/Finding%20Notes.html'>Finding Pages</a></button>
-<button class='navitem'><a href='../Usage/Settings/Manage%20Settings.html'>Add-In Settings</a></button>
+<button class='navitem'><a href='../Usage/Settings/Manage%20Settings.html'>Options and Settings</a></button>
 <div class='navlabel'>Current Page Content</div>
-<button class='navitem'><a href='#exception-from-hresult-0x8004200c'><span class='navitem1'>Exception from HRESULT: 0x8004200C</span></a></button>
+<button class='navitem'><a href='#symptoms'><span class='navitem1'>Symptoms</span></a></button>
+<button class='navitem'><a href='#cause'><span class='navitem1'>Cause</span></a></button>
+<button class='navitem'><a href='#solution'><span class='navitem1'>Solution</span></a></button>
 </nav>
     <main>
         <article>
-            <h1 id="exception-from-hresult-0x8004200c" class="title">Exception from HRESULT: 0x8004200C</h1>
-<p>The page cannot be tagged because it is <strong>read-only</strong>.</p>
-<p>This error occurs if the page being tagged resides in the _OneNote_recycle
-bin or in a read-only notebook or section group.</p>
+            <h1 id="symptoms">Symptoms</h1>
+<p>Any combination of the behaviors below:</p>
+<ul>
+<li>No refinement tags shown on the <em>Find Pages</em> dialog.</li>
+<li>Full-text queries on the <em>Find Pages</em> dialog do not work</li>
+<li>No tags shown on the <em>Suggested Tags</em> tab on the <em>Manage Settings</em> dialog</li>
+</ul>
+<h1 id="cause">Cause</h1>
+<p>One of the Office 365 updates around April/May broke the integration of _OneNote_32-bit with the <em>Windows Search Service</em> (A defect report has been sent to Microsoft). The <em>Tagging Kit</em> uses the
+<em>Windows Search Service</em> to find pages by tags and full text queries. Any search for _OneNote_items using the <em>Windows Search Service</em> returns no results</p>
+<h1 id="solution">Solution</h1>
+<p>Since version <em>3.1</em> the <em>Tagging Kit</em> implements an alternative method for collecting tagged pages without querying the <em>Windows Search Service</em>. Make sure the <em>Use Windows Search Service to find tagged pages</em> (2) is <strong>unchecked</strong> on the <em>Manage Settings Dialog</em> to use that alternative method:</p>
+<blockquote>
+<p><img src="../images/PreferencesTab.png" alt="Preferences Tab" /></p>
+</blockquote>
+<p>The alternative method is considerably slower than a <em>Windows Search Service</em> query and does not work for full-text search with the <em>Find Pages</em> dialog at all. Until Microsoft fixes the <em>Windows Search Service</em> integration, full-text search is not available through the <em>Find pages</em> dialog. For full-text search to come back a fix from Microsoft is needed.</p>
 
         </article>
         <footer>

@@ -2,12 +2,12 @@
     "site_navigation": [
         { "OneNote Tagging Kit v4.0": "" },
         { "Overview": "Home.md" },
-        { "Troubleshooting": "Troubleshooting/Troubleshooting-Tips.md" },
+        { "Support": "Support/Troubleshooting-Tips.md" },
         { "User Manual": "" },
         { "The Ribbon Bar": "Usage/Ribbon.md" },
         { "Tagging Pages" : "Usage/Tagging%20Pages/Tagging%20Pages.md" },
         { "Updating Pages" : "Usage/Update.md" },
         { "Finding Pages" : "Usage/Search/Finding%20Notes.md" },
-        { "Add-In Settings" : "Usage/Settings/Manage%20Settings.md" }
+        { "Options and Settings" : "Usage/Settings/Manage%20Settings.md" }
     ]
 }

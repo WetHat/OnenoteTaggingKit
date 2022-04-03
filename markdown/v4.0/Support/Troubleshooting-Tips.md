@@ -1,8 +1,4 @@
-# Troubleshooting Tips {.title}
-
-If the issue you are having is not already covered below, please also check the
-[Issues](https://github.com/WetHat/OnenoteTaggingKit/issues) page on GitHub.
-Your issue may already heve been reported or fixed.
+# _OneNote Tagging Kit_ Support {.title}
 
 # Known Issues{.unfloat}
 
@@ -14,14 +10,14 @@ Your issue may already heve been reported or fixed.
 
 ![Screenshot](images/TroubleshootingTips_log.png){.rightfloat}
     
-# Submitting a Bug or Enhancement Request
+# Submitting Buga Enhancement Requests
 
 You are very much welcome to report issues or submit enhancement requests.
 Before doing so, please check that nothing
-appropriate is recorded at
-[Issues](https://github.com/WetHat/OnenoteTaggingKit/issues)
+appropriate is recorded  the GitHub
+[Issues](https://github.com/WetHat/OnenoteTaggingKit/issues) site.
 
-If you are reporting a bug, make sure you **always** attach the add-in's logfile.
+:point_up:If you are reporting a bug, make sure you **always** attach the add-in's logfile.
 The easiest way to locate the logfile is to open  the `Settings` dialog and
 select the `About` tab.
 

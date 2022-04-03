@@ -82,7 +82,7 @@ the _Page Tags_ command group (next to the built-in Tags command group)
 ![Home Tab](images/TaggingKitRibbon.png)
 
 If you do not see this ribbon extension please refer to
-[Tagging Kit Actions Not Shown in Ribbon](Troubleshooting/Tagging%20Kit%20Not%20Shown%20in%20Ribbon.md)
+[Tagging Kit Actions Not Shown in Ribbon](Support/Tagging%20Kit%20Not%20Shown%20in%20Ribbon.md)
 
 # _OneNote Tagging Kit_ User Manual
 
@@ -96,11 +96,6 @@ If you do not see this ribbon extension please refer to
   full-text queries.
 * [Add-In Settings](Usage/Settings/Manage%20Settings.md) - Customizing the
   _Tagging Kit_.
-
-# Bugs and Features
-
-If you think the _Tagging Kit_ is not working as it should, please check the [troubleshooting tips](Troubleshooting/Troubleshooting-Tips.md)
-first.
 
 # _Tagging Kit_ Development
 

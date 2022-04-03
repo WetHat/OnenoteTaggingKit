@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>The Tagging Kit Command Group Does Not Show up in the _OneNote_ Ribbon Bar</title>
+    <title>Exception from HRESULT: 0x80042019</title>
     <link rel="stylesheet" type="text/css" href="../../styles/md-styles.css" />
 
     <!-- Code syntax highlighting configuration -->
@@ -54,37 +54,45 @@
 <button class='navitem'><a href='../../index.html'>Home</a></button>
 <div class='navlabel'>OneNote Tagging Kit v4.0</div>
 <button class='navitem'><a href='../Home.html'>Overview</a></button>
-<button class='navitem'><a href='../Troubleshooting/Troubleshooting-Tips.html'>Troubleshooting</a></button>
+<button class='navitem'><a href='../Support/Troubleshooting-Tips.html'>Support</a></button>
 <div class='navlabel'>User Manual</div>
 <button class='navitem'><a href='../Usage/Ribbon.html'>The Ribbon Bar</a></button>
 <button class='navitem'><a href='../Usage/Tagging%20Pages/Tagging%20Pages.html'>Tagging Pages</a></button>
 <button class='navitem'><a href='../Usage/Update.html'>Updating Pages</a></button>
 <button class='navitem'><a href='../Usage/Search/Finding%20Notes.html'>Finding Pages</a></button>
-<button class='navitem'><a href='../Usage/Settings/Manage%20Settings.html'>Add-In Settings</a></button>
+<button class='navitem'><a href='../Usage/Settings/Manage%20Settings.html'>Options and Settings</a></button>
 <div class='navlabel'>Current Page Content</div>
-<button class='navitem'><a href='#the-tagging-kit-command-group-does-not-show-up-in-the-onenote-ribbon-bar'><span class='navitem1'>The Tagging Kit Command Group Does Not Show up in the <em>OneNote</em> Ribbon Bar</span></a></button>
+<button class='navitem'><a href='#exception-from-hresult-0x80042019'><span class='navitem1'>Exception from HRESULT: 0x80042019</span></a></button>
 </nav>
     <main>
         <article>
-            <h1 id="the-tagging-kit-command-group-does-not-show-up-in-the-onenote-ribbon-bar">The Tagging Kit Command Group Does Not Show up in the <em>OneNote</em> Ribbon Bar</h1>
-<p><img src="../images/TaggingKitRibbon.png" alt="Ribbon" /></p>
-<p>If the new commands do not show up, _OneNote_probably was still running while you where installing the tagging kit add-in. To fix this, follow the steps below and restart the tagging add-in:</p>
-<ol>
-<li><p>In _OneNote_click <code>File -&gt; Options -&gt; Add-Ins</code>.
-The tagging kit add-in should be listed like so:
-<img src="images/ONOptions.png" alt="Options" /></p>
+            <h1 id="exception-from-hresult-0x80042019" class="title">Exception from HRESULT: 0x80042019</h1>
+<p>An error message containing the error code <strong>0x80042019</strong> indicates
+an issue with searching _OneNote_pages for tags or text.
+The <em>OneNote Tagging Kit</em> uses the <em>Windows Search</em> service to quickly
+find _OneNote_pages. If regular search in <em>OneNote</em>(not in the Tagging Kit)
+does not work either, error  <strong>0x80042019</strong> most likely has one of the following
+causes:</p>
+<ul>
+<li><p><strong>The <em>Windows Search</em> service is not running</strong>: To make sure that this service
+is configured properly and available, perform following steps:</p>
+<ul>
+<li><p>Press <code>Start+R</code>, type <em>services.msc</em> into the <em>Run</em> box that opened, and click OK.
+Note: The <code>Start</code> key is also known as the <em>Windows</em> key. It is usually the
+second button to the left of the <code>SPACE</code> bar on the keyboard.</p>
 </li>
-<li><p>Click on the Go at the bottom of the page.</p>
+<li><p>In the services window which just opened, scroll down to  <em>Windows Search</em> and check that the service is running and configured for automatic start as shown in the screen shot below</p>
+<p><img src="images/0x80042019_windowsSearch.png" alt="Windows Search" /></p>
 </li>
-<li><p>On the COM Add-Ins dialog turn off the tagging kit add-in and click OK:
-<img src="images/TaggingKitDisabled.png" alt="Disabled" /></p>
+<li><p>If the <em>Windows Search</em> service is not running, or not configured for automatic start, right mouse click the service and select the <em>Properties action</em>. Make sure the service is configured as shown in the screenshot below and finally start the service by pressing the <em>Start</em> button:</p>
+<p><img src="images/0x80042019_startSearchService.png" alt="Windows Search Properties" /></p>
 </li>
-<li><p>Reactivate the add-in by opening the COM Add-Ins dialog again.
-Select the tagging add-in and click OK:
-<img src="images/TaggingKitEnabled.png" alt="Enabled" /></p>
+</ul>
 </li>
-</ol>
-<p>With any luck the add-in should be working now.</p>
+<li><p><strong>The _OneNote_search index is corrupted</strong>: To repair the index please, try
+the fixes discussed in <a href="http://answers.microsoft.com/en-us/office/forum/office_2007-onenote/onenote-search-broken/9e4ab850-681f-45a1-8312-80a25de8a19f">OneNote search broken</a></p>
+</li>
+</ul>
 
         </article>
         <footer>
