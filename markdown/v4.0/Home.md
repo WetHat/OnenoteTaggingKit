@@ -49,9 +49,9 @@ The add-in can be installed or upgraded in one of the following ways:
 ## Direct Installation / Upgrade
 >
 > 1. Verify that the system requirements are met.
-> 2. Download the installer (*.msi) from [Releases](https://github.com/WetHat/OnenoteTaggingKit/releases)
+> 2. Download the installer (`*.msi`) from [Releases](https://github.com/WetHat/OnenoteTaggingKit/releases).
 > 3. Make sure _OneNote_ is **not running**! Exit _OneNote_ if necessary.
-> 4. For first time installation and upgrade execute the downloaded installer (*.msi)
+> 4. For first time installation and upgrade execute the downloaded installer (`*.msi`)
 > 5. Start OneNote.
 
 ## Installation / Upgrade via the [Chocolatey Package Manager](https://community.chocolatey.org/packages/onenote-taggingkit-addin.install)

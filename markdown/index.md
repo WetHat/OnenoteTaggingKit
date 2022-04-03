@@ -36,34 +36,26 @@ for information management.
 Some thoughts about the use of _Page Tags_ to organize notes in _OneNote_ can
 be found in [Organizing Notes with Page Tags](Organizing%20Notes%20with%20Page%20Tags.md).
 
-# Getting Started with the _OneNote Tagging Kit_ Add-In
+# Getting Started
 
-Installation and use of the _Tagging Kit_ can be found in the [release
-specific](#releases) documentation.
+Before installing make sure to read to the release specific
+[installation instructions](#releases) of the version you are planning to install.
+This will help you to understand the system requrements and pick the best installation
+option for the the _Tagging Kit_.
 
-![Screenshot](images/TroubleshootingTips_log.png){.rightfloat}
+The _Tagging Kit_ dialogs show _tooltips_ for most user interface elements on hovering the
+mouse over them. So, you can _fly by the seat of your pants_ and explore the usage of the
+tagging kit as you go. Nevertheless, it might also be useful to take a look at the
+documentation ;-).
 
-# Bugs and Features
-
-You are very much welcome to submit new issues or enhancement requests at
-[Issues](https://github.com/WetHat/OnenoteTaggingKit/issues). Please avoid
-duplicates and check if the issue you are going to submit has already been
-reported or fixed. Also, take a look at the troubleshooting
-tips in the [release specific](#releases) documentation.
-
-Make sure you **always** attach the add-in's logfile when submitting bugs.
-The easiest way to locate the logfile is to open  the `Settings` dialog and
-select the `About` tab.
-
-Alternatively you can open File Explorer, navigate to the
-`%TEMP%` directory and pick up the **newest** logfile named `taggingkit_*.log`.
-The `*` stands for a sequence of characters and numbers, e.g.
-`taggingkit_8DA0C2A5B55670C.log`.
-
-# Releases{.unfloat}
+# Releases
 
 🌟 **v4.0** - [Documentation](v4.0/Home.md) -
 [Installation](v4.0/Home.md#installation-and-upgrade) -
-[Release Notes]
+[Release Notes](https://github.com/WetHat/OnenoteTaggingKit/releases)
+
+![Screenshot](images/TroubleshootingTips_log.png){.rightfloat}
+
+
 
 
