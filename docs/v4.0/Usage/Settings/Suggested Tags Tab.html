@@ -66,7 +66,6 @@
 <button class='navitem'><a href='../../Usage/settings/Suggested%20Tags%20Tab.html'>Suggested Tags</a></button>
 <div class='navlabel'>Current Page Content</div>
 <button class='navitem'><a href='#the-suggested-tags-tab'><span class='navitem1'>The <em>Suggested Tags</em> Tab</span></a></button>
-<button class='navitem'><a href='#tags-panel-actions'><span class='navitem2'><em>Tags</em> panel actions</span></a></button>
 </nav>
     <main>
         <article>
@@ -78,62 +77,53 @@ suggestions.</p>
 indices.</p>
 <p><img src="images/SuggestedTagsTab.png" class="rightfloat" alt="Suggested Tags Tab" /></p>
 <ol>
-<li><p id="Tab-1">Tag input box for entering one or more tags (comma ',' separated).
+<li>Tag input box for entering one or more tags (comma ',' separated).
 Tags in the <em>Suggested Tags</em> panel<a href="#Dia-13"><sup>13</sup></a> are filtered and highlighted as you
 type. Following keyboard shortcuts are supported while focus is on the
-input box:</p>
+input box:
 <dl>
 <dt><code>ESC</code></dt>
 <dd>Clear the input box. Same as pressing the <em>Clear</em> button<a href="#Tab-2"><sup>2</sup></a>.</dd>
 <dt><code>ENTER</code></dt>
-<dd>
-<p>Add the typed list of tag names to the collection of tags in
+<dd>Add the typed list of tag names to the collection of tags in
 the_Tags_ panel<a href="#Tab-9"><sup>9</sup></a>.
 subsequent tagging operations. The names of new tags are updated
 according to the <em>Tag Format</em> selected on the
-<a href="Preferences-Tab.html">Preferences</a> tab.</p>
-</dd>
+<a href="Preferences-Tab.html">Preferences</a> tab.</dd>
 </dl>
 </li>
-<li><p>Add a tag to the suggestion list</p>
-<ol>
-<li>Type a tag name into the input box (1). Similar tags are highlighted as you
-type so you can determine whether your tag already exists.</li>
-</ol>
+<li>Clear the tag input box.</li>
+<li>Add the comma separated list of tags typed into <a href="#Tab-1"><sup>1</sup></a> to the
+collection of suggested tags<a href="Tab-9"><sup>9</sup></a>. The names of new tags are
+updated  according to the <em>Tag Format</em> selected on the
+<a href="Preferences-Tab.html">Preferences</a> tab.</li>
+<li>A suggested tag. The number in parentheses indicates the number of times this
+tag is use on <em>OneNote</em> pages.</li>
+<li>A suggested tag with its action menu open. The action menus isopened by clicking
+on the tab.</li>
+<li>Action menu. Opens when clicked or tapped.
+<dl>
+<dt><code>Refresh</code></dt>
+<dd>Update the collection of suggested tags.</dd>
+<dt><code>Copy Tags</code></dt>
+<dd>Copies a list of suggested tags to the clipboard. This allows tags to be
+shared to other <em>OneNote</em>  users. For more details see
+<a href="Sharing%20Tag%20Suggestions.html">Sharing Tag Suggestions</a></dd>
+<dt><code>Sort By Name</code> </dt>
+<dd>Sort the tag collection alphabeticalls (default):</dd>
+<dt><code>Sort By Usage</code></dt>
+<dd>Sort the tag collection by usage in ascending order. Useful to detect
+and clean up unsised tags (use count 0).</dd>
+</dl>
 </li>
-<li><p>Press <em>Enter</em> or tap or click the '+' button (3) to add the typed tag
-to the suggestion list</p>
-</li>
+<li><code>Rename Tag</code> action for a selectedsuggested tag<a href="#Tab-5"><sup>5</sup></a>.
+Once the rename is confirmed,
+all pages using that tag are updated to reflet the new name. The update is a
+background operation.</li>
+<li><code>Delete Tag</code> action for a selectedsuggested tag<a href="#Tab-5"><sup>5</sup></a>.
+Once the deletion is confirmed the tag is removed from the
+collection of suggested tags and form all pages using that tag.</li>
 </ol>
-<ul>
-<li>Remove a tag from the suggestion list and from all _OneNote_pages
-<ol>
-<li>Locate the tag to remove on the <em>Tags</em> panel (5) either by scrolling or
-by typing the full or partial name into the tag input box (1)</li>
-<li>Click or tap on the tag to open its action menu (6)
-a. Click or tap one the <em>Delete Tag</em> action. This open a confirmation menu.
-b. Click on the <em>Confirm</em> or <em>Cancel</em> action. If the tag deletion is confirmed, the tag is removed from the suggestion list. If the tag is in use on _OneNote_pages (indicated by the number behind the tag), it is removed from the pages as well (unless a page is in the 'Recycle Bin').</li>
-<li>Click on the 'Reset' button (2) to clear the input box</li>
-</ol>
-</li>
-<li>Rename a tag in the suggestion list and on all _OneNote_pages
-<ol>
-<li>Locate the tag to remove on the <em>Tags</em> panel (5) either by scrolling or by typing the full or partial name into the tag input box (1)</li>
-<li>Click or tap on the tag to open its action menu (6)</li>
-<li>Click or tap one the <em>Rename Tag</em> action. This puts the tag into <em>edit mode</em>.</li>
-<li>Edit the tag name inline. You can enter a ',' (comma) separated tag list to replace one tag multiple names.</li>
-<li>Press <em>Enter</em>. This opens the confirmation dialog,</li>
-<li>Click on the <em>Confirm</em> or <em>Cancel</em> action. If the tag rename is confirmed, the tag is renames on the suggestion list. If the tag is in use on _OneNote_pages (indicated by the number behind the tag), it is renamed on all pages as well (unless a page is in the 'Recycle Bin').</li>
-<li>Click on the 'Reset' button (2) to clear the input box</li>
-</ol>
-</li>
-</ul>
-<h2 id="tags-panel-actions"><em>Tags</em> panel actions</h2>
-<p>Click on the action menu (4)  of the <em>Tags</em> panel (5) and select one of the following actions:</p>
-<ul>
-<li><strong>Refresh</strong>: This updates the page count of the suggested tags. <strong>Note</strong> tags may my seem to <em>re-appear</em> after deletion or rename, This happens when pages are <strong>read-only</strong> (e.g. pages in the <em>Recycle Bin</em> are read-only)</li>
-<li><strong>Copy Tags</strong>: This action puts a ',' separated list of all tags in the suggestion list into the clipboard. You can share this list to other users of the tagging kit (e.g. by email). The recipient can copy/paste the comma separated list into the tag input box (1) and press <em>Enter</em> or tap or click the '+' button (3) to add the tags to their suggestion list</li>
-</ul>
 
         </article>
         <footer>
