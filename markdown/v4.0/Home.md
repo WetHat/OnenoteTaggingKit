@@ -5,8 +5,6 @@ OneNote for the desktop.
 
 # Feature Summary
 
-![Screenshot](images/TaggingKitIntro.png){.rightfloat height="30%"}
-
 ## Page Tags
 >
 > * _Page Tags_ can be added/removed from one or more pages on-the-fly.
@@ -88,9 +86,16 @@ If you do not see this ribbon extension please refer to
 
 # _OneNote Tagging Kit_ User Manual
 
-* [The Ribbon Bar](Usage/Ribbon.md) - The directory for integrated _Tagging Kit_
+* [The Ribbon Bar](Usage/Ribbon.md) - Accessing the integrated _Tagging Kit_
   commands and dialogs.
-* []
+* [Tagging Pages](Usage/Tagging%20Pages/Tagging%20Pages.md) - Applying
+  _Page Tags_ to _OneNote_ pages.
+* [Updating Pages](Usage/Update.md) - Importing tags from _OneNote_ page content and
+  updating _Saved Searches_-
+* [Finding Pages](Usage/Search/Finding%20Notes.md) - Finding pages by tags and
+  full-text queries.
+* [Add-In Settings](Usage/Settings/Manage%20Settings.md) - Customizing the
+  _Tagging Kit_.
 
 # Bugs and Features
 

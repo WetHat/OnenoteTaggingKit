@@ -58,8 +58,8 @@
 <div class='navlabel'>User Manual</div>
 <button class='navitem'><a href='../../Usage/Ribbon.html'>The Ribbon Bar</a></button>
 <button class='navitem'><a href='../../Usage/Tagging%20Pages/Tagging%20Pages.html'>Tagging Pages</a></button>
-<button class='navitem'><a href='../../Usage/Update.html'>Page Update</a></button>
-<button class='navitem'><a href='../../Usage/Search/Finding%20Notes.html'>Faceted Search</a></button>
+<button class='navitem'><a href='../../Usage/Update.html'>Updating Pages</a></button>
+<button class='navitem'><a href='../../Usage/Search/Finding%20Notes.html'>Finding Pages</a></button>
 <button class='navitem'><a href='../../Usage/Settings/Manage%20Settings.html'>Add-In Settings</a></button>
 <div class='navlabel'>Current Page Content</div>
 <button class='navitem'><a href='#the-suggested-tags-tab'><span class='navitem1'>The <em>Suggested Tags</em> Tab</span></a></button>
@@ -67,18 +67,42 @@
 </nav>
     <main>
         <article>
-            <h1 id="the-suggested-tags-tab">The <em>Suggested Tags</em> Tab</h1>
-<p>On the <em>Suggested Tags</em> tab the collection of tags available as suggestions on the 'Tag Pages' dialog can be managed in following ways</p>
-<p><img src="https://github.com/WetHat/OnenoteTaggingKit/wiki/images/SuggestedTagsTab.png" alt="Suggeted Tags Tab" /></p>
-<ul>
-<li>Add a tag to the suggestion list
+            <h1 id="the-suggested-tags-tab" class="title">The <em>Suggested Tags</em> Tab</h1>
+<p>The <em>Suggested Tags</em> tab manages the collection of tags which the
+<a href="../Tagging%20Pages/Tagging%20Pages.html">Tag Pages</a> dialog uses as
+suggestions.</p>
+<p>☝️ Numbered dialog elements are referenced by superscripts and list item
+indices.</p>
+<p><img src="images/SuggestedTagsTab.png" class="rightfloat" alt="Suggested Tags Tab" /></p>
+<ol>
+<li><p id="Tab-1">Tag input box for entering one or more tags (comma ',' separated).
+Tags in the <em>Suggested Tags</em> panel<a href="#Dia-13"><sup>13</sup></a> are filtered and highlighted as you
+type. Following keyboard shortcuts are supported while focus is on the
+input box:</p>
+<dl>
+<dt><code>ESC</code></dt>
+<dd>Clear the input box. Same as pressing the <em>Clear</em> button<a href="#Tab-2"><sup>2</sup></a>.</dd>
+<dt><code>ENTER</code></dt>
+<dd>
+<p>Add the typed list of tag names to the collection of tags in
+the_Tags_ panel<a href="#Tab-9"><sup>9</sup></a>.
+subsequent tagging operations. The names of new tags are updated
+according to the <em>Tag Format</em> selected on the
+<a href="Preferences-Tab.html">Preferences</a> tab.</p>
+</dd>
+</dl>
+</li>
+<li><p>Add a tag to the suggestion list</p>
 <ol>
 <li>Type a tag name into the input box (1). Similar tags are highlighted as you
 type so you can determine whether your tag already exists.</li>
-<li>Press <em>Enter</em> or tap or click the '+' button (3) to add the typed tag
-to the suggestion list</li>
 </ol>
 </li>
+<li><p>Press <em>Enter</em> or tap or click the '+' button (3) to add the typed tag
+to the suggestion list</p>
+</li>
+</ol>
+<ul>
 <li>Remove a tag from the suggestion list and from all _OneNote_pages
 <ol>
 <li>Locate the tag to remove on the <em>Tags</em> panel (5) either by scrolling or

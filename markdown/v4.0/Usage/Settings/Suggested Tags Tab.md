@@ -1,12 +1,31 @@
-# The _Suggested Tags_ Tab
+# The _Suggested Tags_ Tab{.title}
 
-On the _Suggested Tags_ tab the collection of tags available as suggestions on the 'Tag Pages' dialog can be managed in following ways
+The _Suggested Tags_ tab manages the collection of tags which the
+[Tag Pages](../Tagging%20Pages/Tagging%20Pages.md) dialog uses as
+suggestions.
 
-![Suggeted Tags Tab](https://github.com/WetHat/OnenoteTaggingKit/wiki/images/SuggestedTagsTab.png)
+:point_up: Numbered dialog elements are referenced by superscripts and list item
+indices.
 
+![Suggested Tags Tab](images/SuggestedTagsTab.png){.rightfloat}
 
-* Add a tag to the suggestion list
-  1. Type a tag name into the input box (1). Similar tags are highlighted as you
+1. Tag input box for entering one or more tags (comma ',' separated).
+    Tags in the _Suggested Tags_ panel[^13^](#Dia-13) are filtered and highlighted as you
+    type. Following keyboard shortcuts are supported while focus is on the
+    input box:{id="Tab-1"}
+    
+    `ESC`
+    :   Clear the input box. Same as pressing the _Clear_ button[^2^](#Tab-2).
+    
+    `ENTER`
+    :   Add the typed list of tag names to the collection of tags in
+        the_Tags_ panel[^9^](#Tab-9).
+        subsequent tagging operations. The names of new tags are updated
+        according to the _Tag Format_ selected on the
+        [Preferences](Preferences-Tab.md) tab.
+
+2. Add a tag to the suggestion list
+   1. Type a tag name into the input box (1). Similar tags are highlighted as you
      type so you can determine whether your tag already exists.
   2. Press _Enter_ or tap or click the '+' button (3) to add the typed tag
      to the suggestion list

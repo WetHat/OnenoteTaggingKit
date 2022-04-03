@@ -1,8 +1,10 @@
 # _OneNote Tagging Kit_ Add-In{.title}
 
-A free to-use, add-in to add page tagging and advanced search to _OneNote_ 
+A free to-use, add-in to add page tagging and advanced search to _OneNote_
 for the desktop. The add-in is hosted on
 [GitHub](https://github.com/WetHat/OnenoteTaggingKit) as _Open Source_ project.
+
+![Screenshot](images/TaggingKitIntro.png){.rightfloat height="30%"}
 
 # Feature Overview
 
@@ -16,14 +18,14 @@ for the desktop. The add-in is hosted on
 * The add-in provides several integrated dialogs to apply, manage, and search
   with page tags.
 * Tagging operations are performed in the background. _OneNote_ can be used
-  normally while tagging is in progress. 
+  normally while tagging is in progress.
 * Page Tags are based on _OneNote_ paragraph tags and are automatically shared
   to all connected OneNote clients. If a _OneNote_ client does not have the
   _Tagging Kit_ installed, it still has access to the page tags via
   the built-in _OneNote_ tagging system. If a connected _OneNote_ client has the
   _Tagging Kit_ add-in, full tagging functionality is available.
 
-Version specific features are covered in the [release specific](#releases) 
+Version specific features are covered in the [release specific](#releases)
 documentation of the add-in.
 
 # About Tagging
@@ -40,7 +42,7 @@ Installation and use of the _Tagging Kit_ can be found in the [release
 specific](#releases) documentation.
 
 ![Screenshot](images/TroubleshootingTips_log.png){.rightfloat}
-    
+
 # Bugs and Features
 
 You are very much welcome to submit new issues or enhancement requests at
@@ -48,7 +50,7 @@ You are very much welcome to submit new issues or enhancement requests at
 duplicates and check if the issue you are going to submit has already been
 reported or fixed. Also, take a look at the troubleshooting
 tips in the [release specific](#releases) documentation.
-    
+
 Make sure you **always** attach the add-in's logfile when submitting bugs.
 The easiest way to locate the logfile is to open  the `Settings` dialog and
 select the `About` tab.
@@ -56,9 +58,12 @@ select the `About` tab.
 Alternatively you can open File Explorer, navigate to the
 `%TEMP%` directory and pick up the **newest** logfile named `taggingkit_*.log`.
 The `*` stands for a sequence of characters and numbers, e.g.
-`taggingkit_8DA0C2A5B55670C.log`. 
+`taggingkit_8DA0C2A5B55670C.log`.
 
 # Releases{.unfloat}
 
-🌟 **v4.0** - [Documentation](v4.0/Home.md) - [Release Notes &amp; Download] 
-  
+🌟 **v4.0** - [Documentation](v4.0/Home.md) -
+[Installation](v4.0/Home.md#installation-and-upgrade) -
+[Release Notes]
+
+
