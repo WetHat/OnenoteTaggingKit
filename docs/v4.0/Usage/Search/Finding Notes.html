@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Finding Notes</title>
+    <title>Finding _OneNote_ Pages</title>
     <link rel="stylesheet" type="text/css" href="../../../styles/md-styles.css" />
 
     <!-- Code syntax highlighting configuration -->
@@ -65,17 +65,157 @@
 <button class='navitem'><a href='../../Usage/Search/Find%20Related%20Notes.html'>Find Related Notes</a></button>
 <button class='navitem'><a href='../../Usage/Search/SavedSearch.html'>Saved Searches</a></button>
 <div class='navlabel'>Current Page Content</div>
-<button class='navitem'><a href='#finding-notes'><span class='navitem1'>Finding Notes</span></a></button>
+<button class='navitem'><a href='#finding-onenote-pages'><span class='navitem1'>Finding <em>OneNote</em> Pages</span></a></button>
+<button class='navitem'><a href='#the-find-pages-dialog'><span class='navitem1'>The <em>Find Pages</em> Dialog</span></a></button>
+<button class='navitem'><a href='#workflows'><span class='navitem1'>Workflows</span></a></button>
 <button class='navitem'><a href='#basic-strategies'><span class='navitem3'>Basic Strategies</span></a></button>
 <button class='navitem'><a href='#advanced-strategies'><span class='navitem3'>Advanced Strategies</span></a></button>
 </nav>
     <main>
         <article>
-            <h1 id="finding-notes">Finding Notes</h1>
+            <h1 id="finding-onenote-pages">Finding <em>OneNote</em> Pages</h1>
+<p>The <em>Find Pages</em> dialog is used to find <em>OneNote</em> pages by applying tag and
+full text filters.</p>
+<p><img src="images/RibbonFind.png" alt="Find Pges Button" /></p>
+<p>To acivate the <em>Fins Pages</em> dialog click or tap on the <em>Fins Pages</em>
+button of the <em>Page Tags</em> group in the <code>Home</code> tab of the <em>OneNote</em> ribbon.</p>
+<h1 id="the-find-pages-dialog">The <em>Find Pages</em> Dialog</h1>
+<p>☝️ Numbered dialog elements are referenced by superscripts and list item
+indices.</p>
+<p><img src="images/TagPagesDialog.png" class="rightfloat" alt="Tag Pages Dialog" /></p>
 <ol>
-<li><p>On the <em>OneNote__Home</em> tab click on the <em>Find Notes</em> button in the <em>Page Tags</em> command group:</p>
-<p><img src="https://github.com/WetHat/OnenoteTaggingKit/wiki/images/FindPagesButton.png" alt="Find Pges Button" /></p>
+<li><p id="Dia-1">The search scope. Only pages in the selected scope will be included in the
+search result. Available scopes are:</p>
+<dl>
+<dt><code>This Section</code></dt>
+<dd>Only pages from the current section are included in the search result.</dd>
+<dt><code>This Section Group</code></dt>
+<dd>Only pages from the current section group are included in the
+search result.</dd>
+<dt><code>This Notebook</code></dt>
+<dd>Only pages from the current notebook are included in the
+search result.</dd>
+<dt><code>All Notebooks</code></dt>
+<dd>Pages from all notebooks currently open in OneNote are included in the
+search result.</dd>
+</dl>
 </li>
+<li><p id="Dia-2">Search query input box for full text search quavailable while focus is on the
+query input box:</p>
+<dl>
+<dt><code>ESC</code></dt>
+<dd>Clear the query input box. To update the query tap or click the search
+button<a href="#Dia-3"><sup>3</sup></a>.</dd>
+<dt><code>ENTER</code></dt>
+<dd>Perform a full text search using the entered search terms.
+Same as clicking on the <em>search</em> button<a href="#Dia-3"><sup>3</sup></a></dd>
+</dl>
+</li>
+<li><p id="Dia-3">Perform a full text search using the terms in the query input
+box<a href="#Dia-2"><sup>2</sup></a>. The search result is displayed in the <em>Pages</em>
+panel<a href="Dia-14"><sup>14</sup></a>. Matches of search terms with page titles are highlighted
+<a href="#Dia-16"><sup>16</sup></a>. Only pages in the selected scope<a href="#Dia-1"><sup>1</sup></a> are
+shown.</p>
+</li>
+<li><p id="Dia-4">A tag selected for refinement. To remove the tag from the filter, click or
+tap on it.</p>
+</li>
+<li><p id="Dia-5">The  <em>Refinement Tags Panel</em>. The number in parentheses after the panel title
+indicates the number of tags selected for refinement.</p>
+</li>
+<li><p id="Dia-6">Clears all currently selected refinement tags.</p>
+</li>
+<li><p id="Dia-6">Tag Filter Presets. Filters the collection of tags currently available in the
+<em>Page Tags</em> panel<a href="#Dia-14"><sup>14</sup></a> using tags found in the selected range.
+The tag presets are entered into the
+tag input box<a href="#Dia-8"><sup>8</sup></a> as comma separated list and can be used to update
+the page search result by clicking the <em>Select all matching tags</em> button
+<a href="#Dia-11"><sup>11</sup></a> to refine the search result<a href="#Dia-14"><sup>14</sup></a>.</p>
+</li>
+<li><p id="Dia-8">Tag filter input box. Enter one or more tagnames (comma ',' separated) to
+to show only tags in the <em>Tags</em> panel<a href="#Dia-14"><sup>14</sup></a> which match any of the
+typed tag names.
+The collection of tags in the <em>Page Tags</em> panel<a href="#Dia-14"><sup>14</sup></a> is updated
+as you type.</p>
+<p>Following keyboard shortcuts are supported while focus is on the
+input box:</p>
+<dl>
+<dt><code>ESC</code></dt>
+<dd>Clear the input box. Same as pressing the <em>Clear</em> button<a href="#Dia-9"><sup>9</sup></a>.</dd>
+<dt><code>SHIFT</code>+<code>ESC</code></dt>
+<dd>Clear the tag input box and also clear all currently selected refinement
+tags<a href="#Dia-5"><sup>5</sup></a> (Same as pressing the <em>Clear</em> button<a href="#Dia-9"><sup>9</sup></a>) <strong>and</strong>
+also the <em>Clear</em> button<a href="#Dia-6"><sup>6</sup></a>.</dd>
+<dt><code>ENTER</code></dt>
+<dd>Select all tags from the collection of tags in the <em>Page Tags</em> panel<a href="#Dia-10"><sup>10</sup></a>
+which fully match one of the entered tag names to happen to fully match a tag.
+The collection of refinement tags in the <em>Refinement Tags</em> panel<a href="#Dia-5"><sup>5</sup></a>
+and the list of found pages<a href="#Dia-14"><sup>14</sup></a> are updated accordingly.</dd>
+</dl>
+</li>
+<li><p id="Dia-9">Clear the current tag filter entered in the tag filter input box<a href="#Dia-8"><sup>8</sup></a>.</p>
+</li>
+<li><p id="Dia-10"><em>Page Tags</em> panel. The collection of tags available for refinement. If this
+collection is inconveniently large large, enter a tag filter into the tag filter input box
+<a href="#Dia-8"><sup>8</sup></a> to show only matching tags.</p>
+</li>
+<li><p id="Dia-11">Select fully matching tags. Selects all tags from the <em>Page Tags</em><a href="#Dia-10"><sup>10</sup></a>
+panel which fully match one of the tags entered in the tag filter input
+box<a href="#Dia-8"><sup>8</sup></a>.</p>
+</li>
+<li><p id="Dia-12">A tag available for search result refinement. This tag is an imported hashtag
+and matches the partial tag name entered in the tag filter input box<a href="#Dia-8"><sup>8</sup></a>.
+A tap or click on it selects it for refinement<a href="#Dia-5"><sup>5</sup></a> and updates the search result
+<a href="#Dia-14"><sup>14</sup></a>.</p>
+</li>
+<li><p id="Dia-13">A genuine <em>Page Tag</em> (not imported) available for search result refinement.
+The tag matches the partial tag name entered in the tag filter input box<a href="#Dia-8"><sup>8</sup></a>.
+A tap or click on it selects it for refinement<a href="#Dia-5"><sup>5</sup></a> and updates the search result
+<a href="#Dia-14"><sup>14</sup></a>.</p>
+</li>
+<li><p id="Dia-14">The <em>Pages</em> search result panel. Displays all pages matching the refinement
+tag filter<a href="#Dia-5"><sup>5</sup></a> and the full text query specified in<a href="#Dia-2"><sup>2</sup></a>.
+The Panel header shows additional status information:</p>
+<ul>
+<li>The number in parenthesis after the panel title indicates the number of
+pages matching the search criteria,</li>
+<li>🔖 - The number of tags in the refinement filter<a href="#Dia-5"><sup>5</sup></a>.</li>
+<li>🔍 - The full text search query used</li>
+</ul>
+</li>
+<li><p id="Dia-15">The <em>Search Result Action Menu</em>. Click or tap to access actions for the
+search result<a href="#Dia-14"><sup>14</sup></a>.</p>
+<p>The available actions are.</p>
+<dl>
+<dt><code>Refresh</code></dt>
+<dd>Refresh the search result using the current collection if refinement
+tags<a href="#Dia-5"><sup>5</sup></a> and the current search query. This is sometimes
+needed when pages have been tagged while <em>Find Pages</em> dialog was open.</dd>
+</dl>
+<p><code>TODO</code></p>
+</li>
+<li><p id="Dia-16">A link to a page in the search result. Tap or click on the link to navigate
+to the page in <em>OneNote</em>. A link can be selected by clicking on the <code>❱</code> symbol.
+Several page links can be selected by holding the <code>CTRL</code>-key while clicking.
+Holding the <code>SHIFT</code>-key while clicking allows selection of ranges of links.
+Link  selections are required for some actions in the <em>Search Result Action Menu</em>
+<a href="#Dia-15"><sup>15</sup></a>.</p>
+</li>
+<li><p id="Dia-17">Activate Tracking Mode. Automatically tracks related pages based on the tags
+on the current page. When tag tracking is enabled:</p>
+<ul>
+<li>the current page's title is displayed next to the tag tracking checkbox.</li>
+<li>the tags on the current <em>OneNote</em> page are extracted and pre-set as
+filter tags<a href="#Dia-8"><sup>8</sup></a>.</li>
+<li>The <em>Select fully matching tags</em> action can <a href="#Dia-11"><sup>11</sup></a> be executed to
+quickly get all pages with these tags.</li>
+</ul>
+</li>
+</ol>
+<h1 id="workflows">Workflows</h1>
+<p>TODO</p>
+<hr />
+<ol start="2">
 <li><p>When the <em>Find Notes</em> dialog window opens, you can find pages by one of
 following strategies:</p>
 <h3 id="basic-strategies">Basic Strategies</h3>

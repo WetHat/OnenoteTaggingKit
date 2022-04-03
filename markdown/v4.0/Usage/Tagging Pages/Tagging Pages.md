@@ -52,16 +52,18 @@ indices.
    used to add all fully matching tags to the _Tags_ panel[^8^](#Dia-8) for a subsequent
    tagging operation.{id="Dia-9"}
 10. Tag input box for entering one or more tags (comma ',' separated).
-    Tags in the _Suggested Tags_ panel[^13^](#Dia-13) are filtered and highlighted as you
-    type. Following keyboard shortcuts are supported while focus is on the
-    input box:{id="Dia-10"}
+    Tags in the _Suggested Tags_ panel[^13^](#Dia-13) are only shown if they match
+    one of the typed tag names.{id="Dia-10"}
+    
+    Following keyboard shortcuts are supported while focus is on the
+    input box:
 
     `ESC`
     :   Clear the input box. Same as pressing the _Clear_ button[^11^](#Dia-11).
 
     `SHIFT`+`ESC`
     :   Clear the input box (Same as pressing the _Clear_ button[^11^](#Dia-11)) **and**
-        also deselect all tags in the _Tags_ panel[^8^](#Dia-8).
+        also the _Clear_ button[^6^](#Dia-6).
 
     `ENTER`
     :   Add the typed list of tag names to the _Tags_ panel[^8^](#Dia-8) for use in
