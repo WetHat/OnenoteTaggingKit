@@ -68,8 +68,9 @@
 <button class='navitem'><a href='#finding-onenote-pages'><span class='navitem1'>Finding <em>OneNote</em> Pages</span></a></button>
 <button class='navitem'><a href='#the-find-pages-dialog'><span class='navitem1'>The <em>Find Pages</em> Dialog</span></a></button>
 <button class='navitem'><a href='#workflows'><span class='navitem1'>Workflows</span></a></button>
-<button class='navitem'><a href='#basic-strategies'><span class='navitem3'>Basic Strategies</span></a></button>
-<button class='navitem'><a href='#advanced-strategies'><span class='navitem3'>Advanced Strategies</span></a></button>
+<button class='navitem'><a href='#finding-pages-by-applying-filter-conditions'><span class='navitem2'>Finding Pages by applying Filter Conditions</span></a></button>
+<button class='navitem'><a href='#handling-large-numbers-of-tags'><span class='navitem2'>Handling large Numbers of Tags</span></a></button>
+<button class='navitem'><a href='#refining-a-full-text-search-query-using-tags'><span class='navitem2'>Refining a full-text Search Query using tags</span></a></button>
 </nav>
     <main>
         <article>
@@ -178,9 +179,9 @@ tag filter<a href="#Dia-5"><sup>5</sup></a> and the full text query specified in
 The Panel header shows additional status information:</p>
 <ul>
 <li>The number in parenthesis after the panel title indicates the number of
-pages matching the search criteria,</li>
+pages matching the search criteria.</li>
 <li>🔖 - The number of tags in the refinement filter<a href="#Dia-5"><sup>5</sup></a>.</li>
-<li>🔍 - The full text search query used</li>
+<li>🔍 - The full text search query<a href="#Dia-2"><sup>2</sup></a> used.</li>
 </ul>
 </li>
 <li><p id="Dia-15">The <em>Search Result Action Menu</em>. Click or tap to access actions for the
@@ -191,8 +192,40 @@ search result<a href="#Dia-14"><sup>14</sup></a>.</p>
 <dd>Refresh the search result using the current collection if refinement
 tags<a href="#Dia-5"><sup>5</sup></a> and the current search query. This is sometimes
 needed when pages have been tagged while <em>Find Pages</em> dialog was open.</dd>
+<dt><code>Clear Selection</code></dt>
+<dd>Deselect all page links<a href="#Dia-16"><sup>16</sup></a> in the <em>Pages</em> search result
+panel<a href="#Dia-14"><sup>14</sup></a>.</dd>
+<dt><code>Select All</code></dt>
+<dd>Select all page links in the in the <em>Pages</em> search result
+panel<a href="#Dia-14"><sup>14</sup></a>.</dd>
+<dt><code>Copy Links to Pages</code></dt>
+<dd>
+<p>Copy hyperlinks to all selected pages in the <em>Pages</em> search result
+panel<a href="#Dia-14"><sup>14</sup></a> to the system clipboard. These links can be pasted
+into all HTML capable applications such as <em>Microsoft Office</em>.</p>
+<p>☝️ Links to pages in the <em>OneNote</em> recycle bin will be
+automatically removed.</p>
+</dd>
 </dl>
-<p><code>TODO</code></p>
+<dl>
+<dt><code>Save Search Result</code></dt>
+<dd>Saves all links from the <em>Pages</em> search result panel<a href="#Dia-14"><sup>14</sup></a>
+together with the search parameters
+(query<a href="#Dia-2"><sup>2</sup></a> and refinement tags<a href="#Dia-5"><sup>5</sup></a>) to a new
+<em>OneNote</em> page in the current section. See <a href="SavedSearch.html">Saved Search</a>
+for instruction on how to update the search result with the
+<a href="../Update.html">Update</a> action on the <em>OneNote</em> <code>Home</code> ribbon or the
+_Update_action on
+<a href="../Tagging%20Pages/Tagging%20Pages.html#Dia-5">Tag Pages</a> dialog.</dd>
+<dt><code>Tag Selected Pages</code></dt>
+<dd>Opens the <a href="../Tagging%20Pages/Tagging%20Pages.html">Tag Pages</a> dialog
+to apply tags to all pages selected in the <em>Pages</em> search result
+panel<a href="#Dia-14"><sup>14</sup></a>.</dd>
+<dt><code>Mark Selected Pages</code></dt>
+<dd>Adds a ⭐ marker tag to all selected pages. This marker tag can
+be managed like a regular <em>Page Tag</em> and also can participate
+in tag based searches.</dd>
+</dl>
 </li>
 <li><p id="Dia-16">A link to a page in the search result. Tap or click on the link to navigate
 to the page in <em>OneNote</em>. A link can be selected by clicking on the <code>❱</code> symbol.
@@ -202,35 +235,90 @@ Link  selections are required for some actions in the <em>Search Result Action M
 <a href="#Dia-15"><sup>15</sup></a>.</p>
 </li>
 <li><p id="Dia-17">Activate Tracking Mode. Automatically tracks related pages based on the tags
-on the current page. When tag tracking is enabled:</p>
+of the current page. When tag tracking is enabled:</p>
 <ul>
 <li>the current page's title is displayed next to the tag tracking checkbox.</li>
 <li>the tags on the current <em>OneNote</em> page are extracted and pre-set as
-filter tags<a href="#Dia-8"><sup>8</sup></a>.</li>
-<li>The <em>Select fully matching tags</em> action can <a href="#Dia-11"><sup>11</sup></a> be executed to
+filter for the <em>Page Tags</em> panel<a href="#Dia-10"><sup>10</sup></a>  Only tags which fully or
+partially match one of the tags in the tag input panel [<sup>8</sup>][#Dia-8] will
+now be shown.</li>
+<li>The <em>Select fully matching tags</em><a href="#Dia-11"><sup>11</sup></a> action  to
 quickly get all pages with these tags.</li>
 </ul>
 </li>
 </ol>
 <h1 id="workflows">Workflows</h1>
-<p>TODO</p>
-<hr />
-<ol start="2">
-<li><p>When the <em>Find Notes</em> dialog window opens, you can find pages by one of
-following strategies:</p>
-<h3 id="basic-strategies">Basic Strategies</h3>
+<p>In the following section the workflows of typical search related tasks are
+explained step-by-step.</p>
+<h2 id="finding-pages-by-applying-filter-conditions">Finding Pages by applying Filter Conditions</h2>
+<blockquote>
+<p>The steps below are all optional and can be performed in any order:</p>
 <ul>
-<li>[[Find Notes by Tags]] - just using tags to find pages</li>
-<li>[[Find notes by facetted search|Facetted Search]] - full text search <strong>including</strong> tags.</li>
-</ul>
-<h3 id="advanced-strategies">Advanced Strategies</h3>
+<li>Select a range where to define pages in<a href="#Dia-1"><sup>1</sup></a>.</li>
+<li>Type one or more search terms into the search input box<a href="#Dia-2"><sup>2</sup></a>
+and either press <code>ENTER</code>, or press the search button<a href="#Dia-3"><sup>3</sup></a>.</li>
+<li>Add tags from the <em>Page Tags</em> panel<a href="#Dia-10"><sup>10</sup></a> to the filter
+condition. This can be done in the following ways:
 <ul>
-<li>[[Finding Related Notes|Find Related Notes]]</li>
-<li>[[Working with Refinement Tags]]</li>
-<li>[[Working with the Search Result]]</li>
+<li>by tapping or clicking on the tags in the <em>Page Tags</em> panel<a href="#Dia-10"><sup>10</sup></a>.</li>
+<li>by entering one or more full or partial tag names (comma-separated)
+into the tag input panel<a href="#Dia-8"><sup>8</sup></a>. To select the desired tags
+press <code>ENTER</code> or hitting the <em>Add</em> button<a href="#Dia-11"><sup>11</sup></a>.
+This adds all tags from the <em>Page Tags</em>
+panel<a href="#Dia-10"><sup>10</sup></a> which fully match one of
+the entered tag names to the filter<a href="#Dia-5"><sup>5</sup></a>.
+Alternatively you can tap or click on individual tags in the
+<em>Page Tags</em> panel<a href="#Dia-10"><sup>10</sup></a>.</li>
+<li>by selecting a preset<a href="#Dia-7"><sup>7</sup></a> to enter the tags from a
+range of pages into the tag input box and then hitting the
+<em>Add</em> button<a href="#Dia-11"><sup>11</sup></a> to add all tags from the <em>Page Tags</em>
+panel<a href="#Dia-10"><sup>10</sup></a> which fully match one of
+the entered tag names to the filter<a href="#Dia-5"><sup>5</sup></a>.</li>
 </ul>
 </li>
+</ul>
+<p>:point-up: After any of the steps above the search result<a href="#Dia-14"><sup>14</sup></a> is updated.</p>
+</blockquote>
+<h2 id="handling-large-numbers-of-tags">Handling large Numbers of Tags</h2>
+<blockquote>
+<p>Eventually, as the used tags increases the <em>Page Tags</em> panel<a href="#Dia-10"><sup>10</sup></a>
+will become quite crowded. This makes tag selection to add them to the
+filter condition increasingly difficult because there will be a lot of
+scrolling to get to the desired tags. To reduce the number of tags shown in
+the Page Tags_ panel<a href="#Dia-10"><sup>10</sup></a> type a comma-separated list of tag names
+into the tag input box<a href="#Dia-8"><sup>8</sup></a>.
+This will the show only tags which match one of the typed tags.
+Instead of typing tags you may want us a preset<a href="#Dia-7">^^</a> to enter tags
+from a range of pages into the tag input box<a href="#Dia-8"><sup>8</sup></a></p>
+<p>At any time, you can start filtering by adding or removing tags to the filter
+condition.</p>
+</blockquote>
+<h2 id="refining-a-full-text-search-query-using-tags">Refining a full-text Search Query using tags</h2>
+<blockquote>
+<p>We start with a full-text search query which we refine by a adding tag filters.</p>
+<ol>
+<li>Pick a scope <a href="#Dia-1"><sup>1</sup></a> to define the range of pages to search in.</li>
+<li>Enter one or more search terms<a href="#Dia-2"><sup>2</sup></a>.</li>
+<li>Tap or click the search button <a href="#Dia-3"><sup>3</sup></a> or press <code>Enter</code> while focus is still
+in the search input box<a href="#Dia-2"><sup>2</sup></a>.to perform the search.
+When the search is completed, a list of pages matching the search term(s)
+is displayed in the <em>Pages</em> search result panel<a href="#Dia-14"><sup>14</sup></a>.
+Matches of search terms in page titles are highlighted<a href="#Dia-16"><sup>16</sup></a>.</li>
+<li>To narrow down (refine) the search result, select one ore more tags for
+filtering. This can be done in several ways:
+<ul>
+<li>Tap or click on the tags in the in the <em>Refinement Tags</em> panel<a href="#Dia-5"><sup>5</sup></a>.</li>
+<li>Type a comma-separated list of full or partial tag names into the tag
+input box.
+After that only pages which have
+<strong>all</strong> selected tags and also match the full-text search query are
+shown in the <em>Pages</em> search result panel<a href="#Dia-14"><sup>14</sup></a>.</li>
+</ul>
+</li>
+<li>Click the hyperlinks in the <em>Found Pages</em> panel <strong>(5)</strong> to navigate to the corresponding _OneNote_pages.
+for more ways to work with the search result see [[Working with the Search Result]]</li>
 </ol>
+</blockquote>
 
         </article>
         <footer>

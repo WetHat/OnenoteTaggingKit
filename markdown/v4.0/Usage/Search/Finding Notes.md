@@ -100,20 +100,54 @@ indices.
     The Panel header shows additional status information:{id="Dia-14"}
 
     * The number in parenthesis after the panel title indicates the number of
-      pages matching the search criteria,
+      pages matching the search criteria.
     * 🔖 - The number of tags in the refinement filter[^5^](#Dia-5).
-    * 🔍 - The full text search query used
+    * 🔍 - The full text search query[^2^](#Dia-2) used.
 15. The _Search Result Action Menu_. Click or tap to access actions for the
     search result[^14^](#Dia-14).{id="Dia-15"}
 
     The available actions are.
-    
+
     `Refresh`
     :   Refresh the search result using the current collection if refinement
         tags[^5^](#Dia-5) and the current search query. This is sometimes
         needed when pages have been tagged while _Find Pages_ dialog was open.
 
-    `TODO`
+    `Clear Selection`
+    :   Deselect all page links[^16^](#Dia-16) in the _Pages_ search result
+        panel[^14^](#Dia-14).
+
+    `Select All`
+    :   Select all page links in the in the _Pages_ search result
+        panel[^14^](#Dia-14).
+
+    `Copy Links to Pages`
+    :   Copy hyperlinks to all selected pages in the _Pages_ search result
+        panel[^14^](#Dia-14) to the system clipboard. These links can be pasted
+        into all HTML capable applications such as _Microsoft Office_.
+        
+        :point_up: Links to pages in the _OneNote_ recycle bin will be
+        automatically removed.
+
+    `Save Search Result`
+    :   Saves all links from the _Pages_ search result panel[^14^](#Dia-14)
+        together with the search parameters
+        (query[^2^](#Dia-2) and refinement tags[^5^](#Dia-5)) to a new
+        _OneNote_ page in the current section. See [Saved Search](SavedSearch.md)
+        for instruction on how to update the search result with the
+        [Update](../Update.md) action on the _OneNote_ `Home` ribbon or the
+        _Update_action on
+        [Tag Pages](../Tagging%20Pages/Tagging%20Pages.md#Dia-5) dialog.
+
+     `Tag Selected Pages`
+     :   Opens the [Tag Pages](../Tagging%20Pages/Tagging%20Pages.md) dialog
+         to apply tags to all pages selected in the _Pages_ search result
+         panel[^14^](#Dia-14).
+
+     `Mark Selected Pages`
+     :   Adds a :star: marker tag to all selected pages. This marker tag can
+        be managed like a regular _Page Tag_ and also can participate
+        in tag based searches.
 16. A link to a page in the search result. Tap or click on the link to navigate
     to the page in _OneNote_. A link can be selected by clicking on the `❱` symbol.
     Several page links can be selected by holding the `CTRL`-key while clicking.
@@ -121,31 +155,78 @@ indices.
     Link  selections are required for some actions in the _Search Result Action Menu_
     [^15^](#Dia-15).{id="Dia-16"}
 17. Activate Tracking Mode. Automatically tracks related pages based on the tags
-    on the current page. When tag tracking is enabled:{id="Dia-17"}
+    of the current page. When tag tracking is enabled:{id="Dia-17"}
 
     * the current page's title is displayed next to the tag tracking checkbox.
     * the tags on the current _OneNote_ page are extracted and pre-set as
-      filter tags[^8^](#Dia-8).
-    * The _Select fully matching tags_ action can [^11^](#Dia-11) be executed to
+      filter for the _Page Tags_ panel[^10^](#Dia-10)  Only tags which fully or
+      partially match one of the tags in the tag input panel [^8^][#Dia-8] will
+      now be shown.
+    * The _Select fully matching tags_[^11^](#Dia-11) action  to
       quickly get all pages with these tags.
 
 # Workflows
 
-TODO
+In the following section the workflows of typical search related tasks are
+explained step-by-step.
 
+## Finding Pages by applying Filter Conditions
+> The steps below are all optional and can be performed in any order:
+> * Select a range where to define pages in[^1^](#Dia-1).
+> * Type one or more search terms into the search input box[^2^](#Dia-2)
+>   and either press `ENTER`, or press the search button[^3^](#Dia-3).
+> * Add tags from the _Page Tags_ panel[^10^](#Dia-10) to the filter
+>   condition. This can be done in the following ways:
+>   * by tapping or clicking on the tags in the _Page Tags_ panel[^10^](#Dia-10).
+>   * by entering one or more full or partial tag names (comma-separated)
+>     into the tag input panel[^8^](#Dia-8). To select the desired tags
+>     press `ENTER` or hitting the _Add_ button[^11^](#Dia-11).
+>     This adds all tags from the _Page Tags_
+>     panel[^10^](#Dia-10) which fully match one of
+>     the entered tag names to the filter[^5^](#Dia-5).
+>     Alternatively you can tap or click on individual tags in the
+>     _Page Tags_ panel[^10^](#Dia-10).
+>   * by selecting a preset[^7^](#Dia-7) to enter the tags from a
+>     range of pages into the tag input box and then hitting the
+>     _Add_ button[^11^](#Dia-11) to add all tags from the _Page Tags_
+>     panel[^10^](#Dia-10) which fully match one of
+>     the entered tag names to the filter[^5^](#Dia-5).
+>
+> :point-up: After any of the steps above the search result[^14^](#Dia-14) is updated. 
 
+## Handling large Numbers of Tags
+>
+> Eventually, as the used tags increases the _Page Tags_ panel[^10^](#Dia-10)
+> will become quite crowded. This makes tag selection to add them to the
+> filter condition increasingly difficult because there will be a lot of
+> scrolling to get to the desired tags. To reduce the number of tags shown in
+> the Page Tags_ panel[^10^](#Dia-10) type a comma-separated list of tag names
+> into the tag input box[^8^](#Dia-8).
+> This will the show only tags which match one of the typed tags.
+> Instead of typing tags you may want us a preset[^^](#Dia-7) to enter tags
+> from a range of pages into the tag input box[^8^](#Dia-8)
+>
+> At any time, you can start filtering by adding or removing tags to the filter
+> condition.  
 
-
----
-
-2. When the _Find Notes_ dialog window opens, you can find pages by one of
-   following strategies:
-
-   ### Basic Strategies
-   * [[Find Notes by Tags]] - just using tags to find pages
-   * [[Find notes by facetted search|Facetted Search]] - full text search **including** tags.
-
-   ### Advanced Strategies
-   * [[Finding Related Notes|Find Related Notes]]
-   * [[Working with Refinement Tags]]
-   * [[Working with the Search Result]]
+## Refining a full-text Search Query using tags
+>
+> We start with a full-text search query which we refine by a adding tag filters.
+>
+> 1. Pick a scope [^1^](#Dia-1) to define the range of pages to search in.
+> 2. Enter one or more search terms[^2^](#Dia-2).
+> 3. Tap or click the search button [^3^](#Dia-3) or press `Enter` while focus is still
+>    in the search input box[^2^](#Dia-2).to perform the search.
+>    When the search is completed, a list of pages matching the search term(s)
+>    is displayed in the _Pages_ search result panel[^14^](#Dia-14).
+>    Matches of search terms in page titles are highlighted[^16^](#Dia-16).
+> 4. To narrow down (refine) the search result, select one ore more tags for
+>    filtering. This can be done in several ways:
+>    * Tap or click on the tags in the in the _Refinement Tags_ panel[^5^](#Dia-5).
+>    * Type a comma-separated list of full or partial tag names into the tag
+>      input box.
+>  After that only pages which have
+>    **all** selected tags and also match the full-text search query are
+>    shown in the _Pages_ search result panel[^14^](#Dia-14).
+> 5. Click the hyperlinks in the _Found Pages_ panel **(5)** to navigate to the corresponding _OneNote_pages.
+>   for more ways to work with the search result see [[Working with the Search Result]]
