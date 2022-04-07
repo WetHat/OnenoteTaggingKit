@@ -6,7 +6,7 @@ View model backing a <a href="ef583703-d11c-ba42-c90f-7c19350d1e2b">RemovableTag
 
 ## Inheritance Hierarchy
 System.Object<br />&nbsp;&nbsp;<a href="11d6cbca-a6ed-ac3c-8cdb-a81177e6f4fd">WetHatLab.OneNote.TaggingKit.common.ObservableObject</a><br />&nbsp;&nbsp;&nbsp;&nbsp;<a href="c74fe645-91b2-831c-6869-763addf746aa">WetHatLab.OneNote.TaggingKit.common.ui.TagModel</a><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="ff6915ee-46c5-1c9e-7b33-f1a306ce968d">WetHatLab.OneNote.TaggingKit.common.ui.FilterableTagModel</a><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WetHatLab.OneNote.TaggingKit.manage.RemovableTagModel<br />
-**Namespace:**&nbsp;<a href="6c09c3a7-2ecd-33d5-2ed0-acefd996500f">WetHatLab.OneNote.TaggingKit.manage</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.18004
+**Namespace:**&nbsp;<a href="6c09c3a7-2ecd-33d5-2ed0-acefd996500f">WetHatLab.OneNote.TaggingKit.manage</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.30441
 
 ## Syntax
 

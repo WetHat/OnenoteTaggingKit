@@ -3,7 +3,7 @@
 
 Get or set the index of the selected tagging scope. 
 
-**Namespace:**&nbsp;<a href="60ca3730-00cd-fce3-4009-523f3952fd9e">WetHatLab.OneNote.TaggingKit.edit</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.18004
+**Namespace:**&nbsp;<a href="60ca3730-00cd-fce3-4009-523f3952fd9e">WetHatLab.OneNote.TaggingKit.edit</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.30441
 
 ## Syntax
 
