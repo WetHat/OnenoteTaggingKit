@@ -60,6 +60,7 @@
                 Height="24"
                 Style="{StaticResource controlEffectStyle}"
                 Margin="0,3,2,0"
+                BorderBrush="{Binding ElementName=self,Path=SearchButtonBorderColor,Mode=OneWay}"
                 Click="SearchButton_Click">
                 <Image MaxWidth="32"  Source="/OneNoteTaggingKit;component/Resources/search-32x32 blue.jpg" />
             </Button>

@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.edit;
-using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {
@@ -24,6 +24,25 @@ namespace WetHatLab.OneNote.TaggingKit.find
     [ComVisible(false)]
     public partial class FindTaggedPages : System.Windows.Window, IOneNotePageWindow<FindTaggedPagesModel>
     {
+        /// <summary>
+        /// Backing store for observable property <see cref="SearchButtonBorderColor"/>
+        /// </summary>
+        #region SearchButtonBorderColor
+        public static readonly DependencyProperty SearchButtonBorderColorProperty = DependencyProperty.Register(
+            nameof(SearchButtonBorderColor),
+            typeof(Brush),
+            typeof(FindTaggedPages),
+            new FrameworkPropertyMetadata(Brushes.Transparent)
+            );
+
+        /// <summary>
+        /// Get or set the Search button border color.
+        /// </summary>
+        public Brush SearchButtonBorderColor {
+            get => GetValue(SearchButtonBorderColorProperty) as Brush;
+            set => SetValue(SearchButtonBorderColorProperty, value);
+        }
+        #endregion SearchButtonBorderColor
         #region TagPanelHeaderProperty
         /// <summary>
         /// Backing store for observable property <see cref="TagPanelHeader"/>
@@ -33,6 +52,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
             typeof(string),
             typeof(FindTaggedPages),
             new FrameworkPropertyMetadata("Refinement Tags"));
+
+        string _lastSearch = string.Empty;
 
         /// <summary>
         /// Get/set the tag panel header text.
@@ -71,9 +92,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
             PagePanelHeader = string.Format(Properties.Resources.TagSearch_Pages_GroupBox_Title,
                                                         _model.FilteredPages.Count,
                                                         _model.SelectedRefinementTags.Count,
-                                                        string.IsNullOrEmpty(searchComboBox.Text)
+                                                        string.IsNullOrWhiteSpace(_lastSearch)
                                                         ? "-"
-                                                        : searchComboBox.Text);
+                                                        : _lastSearch);
         }
         #endregion PagePanelHeaderProperty
         #region RefinementTagsPanelHeaderProperty
@@ -336,36 +357,36 @@ EndSelection:{5:D6}";
         }
 
         private async void SearchButton_Click(object sender, RoutedEventArgs e) {
-            string query = searchComboBox.Text;
-
             try {
                 pBar.Visibility = Visibility.Visible;
-                await _model.FindPagesAsync(query, scopeSelect.SelectedScope);
-                searchComboBox.SelectedValue = query;
+                _lastSearch = searchComboBox.Text;
+                searchComboBox.SelectedValue = _lastSearch;
+                if (string.IsNullOrWhiteSpace(_lastSearch)) {
+                    _lastSearch = string.Empty;
+                }
+                await _model.FindPagesAsync(_lastSearch, scopeSelect.SelectedScope);
+                SearchButtonBorderColor = Brushes.Transparent;
                 pBar.Visibility = Visibility.Hidden;
                 UpdatePagePanelHeader();
             } catch (Exception ex) {
-                TraceLogger.Log(TraceCategory.Error(), "search for '{0}' failed: {1}", query, ex);
+                TraceLogger.Log(TraceCategory.Error(), "search for '{0}' failed: {1}", searchComboBox.Text, ex);
                 TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_Find, ex);
             }
             e.Handled = true;
         }
 
-        private async void SearchComboBox_KeyUp(object sender, KeyEventArgs e) {
-            string query;
+        private void SearchComboBox_KeyUp(object sender, KeyEventArgs e) {
             switch (e.Key) {
                 case Key.Enter:
-                    query = searchComboBox.Text;
-                    pBar.Visibility = Visibility.Visible;
-                    await _model.FindPagesAsync(query, scopeSelect.SelectedScope);
-                    pBar.Visibility = Visibility.Hidden;
-                    searchComboBox.SelectedValue = query;
-                    UpdatePagePanelHeader();
+                    SearchButton_Click(sender, e);
                     break;
                 case Key.Escape:
                     searchComboBox.Text = string.Empty;
                     break;
             }
+            SearchButtonBorderColor = _lastSearch.Equals(searchComboBox.Text)
+                ? Brushes.Transparent
+                : Brushes.Red;
             e.Handled = true;
         }
 
