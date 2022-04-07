@@ -65,10 +65,72 @@
 <button class='navitem'><a href='../../Usage/Search/SavedSearch.html'>Saved Searches</a></button>
 <div class='navlabel'>Current Page Content</div>
 <button class='navitem'><a href='#saving-search-results-to-a-onenote-page'><span class='navitem1'>Saving Search Results to a <em>OneNote</em> Page</span></a></button>
+<button class='navitem'><a href='#the-layout-of-a-saves-search'><span class='navitem1'>The layout of a <em>Saves Search</em></span></a></button>
 </nav>
     <main>
         <article>
             <h1 id="saving-search-results-to-a-onenote-page" class="title">Saving Search Results to a <em>OneNote</em> Page</h1>
+<p>Search results obtained by the <a href="Finding%20Notes.html"><em>Find Pages</em></a> can be saved
+as active content to a new <em>OneNote</em> page in the current section using the
+<code>Save Search Result</code> action from the <a href="Finding%20Notes.html#Dia-15">drop-down menu</a>
+of the <a href="Finding%20Notes.html#Dia-14"><em>Pages</em></a> search result panel.</p>
+<p><img src="images/SavedSearch.png" class="rightfloat" alt="Saved Search" /></p>
+<h1 id="the-layout-of-a-saves-search">The layout of a <em>Saves Search</em></h1>
+<p>☝️ Numbered cells of the sample <em>Saved Search</em> are referenced by superscripts and list item
+indices.</p>
+<ol>
+<li><p>The default title of a <em>Saved Search</em>. Can be customized by the user.</p>
+</li>
+<li><p>By default pages containing <em>Saved Searches</em> are marked with the <em>Saved Search</em>
+tag. This makes it easy to locate pages containing <em>Saves Searches</em> so that they
+can be updated. This tag can be removed with the
+<a href="../Tagging%20Pages/Tagging%20Pages.html">Tag Pages</a> dialog.</p>
+</li>
+<li><p>The <a href="Finding%20Notes.html#Dia-1">search scope</a> that was in effect
+when the search result saved by the <code>Save Search Result</code> action in the
+<a href="Finding%20Notes.html"><em>Find pages</em></a> dialog.</p>
+<p>⚠️ This cell is meant to be <strong>read-only</strong>. Any edits may cause unpredictable side effects!</p>
+</li>
+<li><p>The <a href="Finding%20Notes.html#Dia-2">full-text query</a> that was in effect when the search
+result was saved by the <code>Save Search Result</code> action in the
+<a href="Finding%20Notes.html"><em>Find pages</em></a> dialog.</p>
+<p>☝️ This cell can be edited. The changed full text search terms will take effect
+on next page update by the <a href="../Update.html"><em>Update</em></a> command or the
+<a href="../Tagging%20Pages/Tagging%20Pages.html#Dia-5"><em>Update</em></a> action of the
+<a href="../Tagging%20Pages/Tagging%20Pages.html"><em>Tag Pages</em></a> dialog.</p>
+</li>
+<li><p>The comma-separated list of <a href="Finding%20Notes.html#Dia-5">refinement tags</a> that was in effect when the search
+result was saved by the <code>Save Search Result</code> action in the
+<a href="Finding%20Notes.html#Dia-2"><em>Find pages</em></a> dialog.</p>
+<p>☝️ This cell can be edited. Changes in the tag list will take effect
+on next page update by the <a href="../Update.html"><em>Update</em></a> command or the
+<a href="../Tagging%20Pages/Tagging%20Pages.html#Dia-5"><em>Update</em></a> action of the
+<a href="../Tagging%20Pages/Tagging%20Pages.html"><em>Tag Pages</em></a> dialog.</p>
+<p>☝️ The tag names in this cell are matched in a lenient way by
+ignoring the hash characters, casing, or spacing. E.g
+the tags <code>#softwaredevelopment</code>, <code>#SoftwareDevelopment</code>, <code>SoftwareDevelopment</code>,
+<code>Software Development</code> are all treated as equivalent.</p>
+</li>
+<li><p>The timestamp when the <em>Saved Search</em> waas created or last updated
+by the <a href="../Update.html"><em>Update</em></a> command or the
+<a href="../Tagging%20Pages/Tagging%20Pages.html#Dia-5"><em>Update</em></a> action of the
+<a href="../Tagging%20Pages/Tagging%20Pages.html"><em>Tag Pages</em></a> dialog.</p>
+</li>
+<li><p>A page link in the search result</p>
+</li>
+<li><p>The path in the <em>OneNote</em> page hierarchy leadinf to this page.</p>
+</li>
+<li><p>A <em>OneNote</em> tag marking the search configuration that was captured
+when the search result was saved by the<code>Save Search Result</code> action
+of  the <a href="Finding%20Notes.html#Dia-14"><em>Pages</em></a> search result panel.</p>
+<p>⚠️ If this onenote tag is removed or changed the saved search
+can no longer be updated.</p>
+</li>
+<li><p>List of pages constituting the search result.</p>
+<p>⚠️ This cell is is meant to be <strong>read-only</strong>. Any changes will
+be lost when on next update.</p>
+</li>
+</ol>
 
         </article>
         <footer>
