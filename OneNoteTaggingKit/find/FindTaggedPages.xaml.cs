@@ -360,13 +360,13 @@ EndSelection:{5:D6}";
             try {
                 pBar.Visibility = Visibility.Visible;
                 _lastSearch = searchComboBox.Text;
-                searchComboBox.SelectedValue = _lastSearch;
                 if (string.IsNullOrWhiteSpace(_lastSearch)) {
                     _lastSearch = string.Empty;
                 }
                 await _model.FindPagesAsync(_lastSearch, scopeSelect.SelectedScope);
                 SearchButtonBorderColor = Brushes.Transparent;
                 pBar.Visibility = Visibility.Hidden;
+                searchComboBox.SelectedValue = _lastSearch;
                 UpdatePagePanelHeader();
             } catch (Exception ex) {
                 TraceLogger.Log(TraceCategory.Error(), "search for '{0}' failed: {1}", searchComboBox.Text, ex);
