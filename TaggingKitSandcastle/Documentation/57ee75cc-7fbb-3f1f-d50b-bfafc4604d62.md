@@ -3,7 +3,7 @@
 
 Handle property changes in this instance.
 
-**Namespace:**&nbsp;<a href="043a9407-ac38-b3ac-7348-a6090af495ad">WetHatLab.OneNote.TaggingKit.common.ui</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.30441
+**Namespace:**&nbsp;<a href="043a9407-ac38-b3ac-7348-a6090af495ad.md">WetHatLab.OneNote.TaggingKit.common.ui</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.30441
 
 ## Syntax
 
@@ -23,4 +23,4 @@ protected override void TagModelPropertyChanged(
 
 
 #### Reference
-<a href="ff6915ee-46c5-1c9e-7b33-f1a306ce968d">FilterableTagModel Class</a><br /><a href="043a9407-ac38-b3ac-7348-a6090af495ad">WetHatLab.OneNote.TaggingKit.common.ui Namespace</a><br />
+<a href="ff6915ee-46c5-1c9e-7b33-f1a306ce968d.md">FilterableTagModel Class</a><br /><a href="043a9407-ac38-b3ac-7348-a6090af495ad.md">WetHatLab.OneNote.TaggingKit.common.ui Namespace</a><br />

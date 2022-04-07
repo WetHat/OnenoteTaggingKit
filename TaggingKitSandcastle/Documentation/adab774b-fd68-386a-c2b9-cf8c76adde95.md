@@ -3,7 +3,7 @@
 
 Tag a singe OneNote page
 
-**Namespace:**&nbsp;<a href="bf353949-2ab8-bf1a-9a78-ce64949f480c">WetHatLab.OneNote.TaggingKit.Tagger</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.30441
+**Namespace:**&nbsp;<a href="bf353949-2ab8-bf1a-9a78-ce64949f480c.md">WetHatLab.OneNote.TaggingKit.Tagger</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.30441
 
 ## Syntax
 
@@ -17,10 +17,10 @@ internal OneNotePage Execute(
 
 
 #### Parameters
-&nbsp;<dl><dt>onenote</dt><dd>Type: <a href="a46a793f-b110-250f-657a-ecb64aa3bbf7">WetHatLab.OneNote.TaggingKit.OneNoteProxy</a><br />OneNote application proxy object</dd><dt>page</dt><dd>Type: <a href="6754c7d7-0598-ae1f-ff8c-6808b714b0ab">WetHatLab.OneNote.TaggingKit.PageBuilder.OneNotePage</a><br />an unsaved OneNote page which has been tagged previously</dd></dl>
+&nbsp;<dl><dt>onenote</dt><dd>Type: <a href="a46a793f-b110-250f-657a-ecb64aa3bbf7.md">WetHatLab.OneNote.TaggingKit.OneNoteProxy</a><br />OneNote application proxy object</dd><dt>page</dt><dd>Type: <a href="6754c7d7-0598-ae1f-ff8c-6808b714b0ab.md">WetHatLab.OneNote.TaggingKit.PageBuilder.OneNotePage</a><br />an unsaved OneNote page which has been tagged previously</dd></dl>
 
 #### Return Value
-Type: <a href="6754c7d7-0598-ae1f-ff8c-6808b714b0ab">OneNotePage</a><br />Unsaved, tagged OneNote page.
+Type: <a href="6754c7d7-0598-ae1f-ff8c-6808b714b0ab.md">OneNotePage</a><br />Unsaved, tagged OneNote page.
 
 ## Remarks
 A tagged page is not saved immediately. The caller can hold on to a previously returned page and pass it into this method again. This avoids saving a page multiple times, if there are subsequent tagging jobs for the same page. If the ID of the page passed into this method does not match the ID of this job, the passed in page is saved.
@@ -29,4 +29,4 @@ A tagged page is not saved immediately. The caller can hold on to a previously r
 
 
 #### Reference
-<a href="447270ca-da51-967b-5344-b56c928c5068">TaggingJob Class</a><br /><a href="bf353949-2ab8-bf1a-9a78-ce64949f480c">WetHatLab.OneNote.TaggingKit.Tagger Namespace</a><br />
+<a href="447270ca-da51-967b-5344-b56c928c5068.md">TaggingJob Class</a><br /><a href="bf353949-2ab8-bf1a-9a78-ce64949f480c.md">WetHatLab.OneNote.TaggingKit.Tagger Namespace</a><br />

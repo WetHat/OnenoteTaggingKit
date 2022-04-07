@@ -3,7 +3,7 @@
 
 Regular expression to match some HTML tags
 
-**Namespace:**&nbsp;<a href="56352230-71f2-f4b7-63a8-983965663af5">WetHatLab.OneNote.TaggingKit.PageBuilder</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.30441
+**Namespace:**&nbsp;<a href="56352230-71f2-f4b7-63a8-983965663af5.md">WetHatLab.OneNote.TaggingKit.PageBuilder</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.30441
 
 ## Syntax
 
@@ -20,4 +20,4 @@ Type: Regex
 
 
 #### Reference
-<a href="66b42f80-13bf-4c95-6d57-7ca3e971cfeb">OET Class</a><br /><a href="56352230-71f2-f4b7-63a8-983965663af5">WetHatLab.OneNote.TaggingKit.PageBuilder Namespace</a><br />
+<a href="66b42f80-13bf-4c95-6d57-7ca3e971cfeb.md">OET Class</a><br /><a href="56352230-71f2-f4b7-63a8-983965663af5.md">WetHatLab.OneNote.TaggingKit.PageBuilder Namespace</a><br />

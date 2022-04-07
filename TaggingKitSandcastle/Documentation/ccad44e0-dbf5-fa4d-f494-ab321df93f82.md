@@ -8,7 +8,7 @@ Tag
 
 ## Inheritance Hierarchy
 System.Object<br />&nbsp;&nbsp;System.Windows.Threading.DispatcherObject<br />&nbsp;&nbsp;&nbsp;&nbsp;System.Windows.DependencyObject<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Windows.Media.Visual<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Windows.UIElement<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Windows.FrameworkElement<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Windows.Controls.Control<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Windows.Controls.ContentControl<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Windows.Controls.UserControl<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WetHatLab.OneNote.TaggingKit.common.ui.Tag<br />
-**Namespace:**&nbsp;<a href="043a9407-ac38-b3ac-7348-a6090af495ad">WetHatLab.OneNote.TaggingKit.common.ui</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.30441
+**Namespace:**&nbsp;<a href="043a9407-ac38-b3ac-7348-a6090af495ad.md">WetHatLab.OneNote.TaggingKit.common.ui</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.30441
 
 ## Syntax
 
@@ -21,7 +21,7 @@ The Tag type exposes the following members.
 
 
 ## Constructors
-&nbsp;<table><tr><th></th><th>Name</th><th>Description</th></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="53c931e9-50fa-ff98-87d6-e5e4d9447110">Tag</a></td><td>
+&nbsp;<table><tr><th></th><th>Name</th><th>Description</th></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="53c931e9-50fa-ff98-87d6-e5e4d9447110.md">Tag</a></td><td>
 Initialize a new instance of a tag control.</td></tr></table>&nbsp;
 <a href="#tag-class">Back to Top</a>
 
@@ -382,7 +382,7 @@ Overrides GetVisualChild(Int32), and returns a child at the specified index from
 Implements HitTestCore(PointHitTestParameters) to supply base element hit testing behavior (returning HitTestResult).
  (Inherited from UIElement.)</td></tr><tr><td>![Protected method](media/protmethod.gif "Protected method")</td><td>HitTestCore(GeometryHitTestParameters)</td><td>
 Implements HitTestCore(GeometryHitTestParameters) to supply base element hit testing behavior (returning GeometryHitTestResult).
- (Inherited from UIElement.)</td></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="449fab2f-e652-daf4-9066-1dcdc699a5c5">InitializeComponent</a></td><td>
+ (Inherited from UIElement.)</td></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="449fab2f-e652-daf4-9066-1dcdc699a5c5.md">InitializeComponent</a></td><td>
 InitializeComponent</td></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td>InputHitTest</td><td>
 Returns the input element within the current element that is at the specified coordinates, relative to the current element's origin.
  (Inherited from UIElement.)</td></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td>InvalidateArrange</td><td>
@@ -913,7 +913,7 @@ Occurs when the stylus is too far from the digitizer to be detected, while over 
 Occurs when a user performs one of several stylus gestures.
  (Inherited from UIElement.)</td></tr><tr><td>![Public event](media/pubevent.gif "Public event")</td><td>StylusUp</td><td>
 Occurs when the user raises the stylus off the digitizer while it is over this element.
- (Inherited from UIElement.)</td></tr><tr><td>![Public event](media/pubevent.gif "Public event")</td><td><a href="069b9caa-18ca-8060-f44e-73df7dabe9cd">TagClick</a></td><td>
+ (Inherited from UIElement.)</td></tr><tr><td>![Public event](media/pubevent.gif "Public event")</td><td><a href="069b9caa-18ca-8060-f44e-73df7dabe9cd.md">TagClick</a></td><td>
 Track changes to tag (de)selection.</td></tr><tr><td>![Public event](media/pubevent.gif "Public event")</td><td>TargetUpdated</td><td>
 Occurs when the target value changes for any property binding on this element.
  (Inherited from FrameworkElement.)</td></tr><tr><td>![Public event](media/pubevent.gif "Public event")</td><td>TextInput</td><td>
@@ -938,12 +938,12 @@ Occurs when the element is removed from within an element tree of loaded element
 <a href="#tag-class">Back to Top</a>
 
 ## Fields
-&nbsp;<table><tr><th></th><th>Name</th><th>Description</th></tr><tr><td>![Protected field](media/protfield.gif "Protected field")</td><td><a href="e7328aed-b2a9-39f9-44a4-7b2907dd36d9">tagBtn</a></td><td /></tr><tr><td>![Public field](media/pubfield.gif "Public field")![Static member](media/static.gif "Static member")</td><td><a href="0dbc87ba-0718-fb07-c35e-3a2944942edf">TagClickEvent</a></td><td>
-Definition of the click routed event.</td></tr><tr><td>![Protected field](media/protfield.gif "Protected field")</td><td><a href="fd53b7da-1f11-42a0-5a61-d9d0429956b2">tagIndicator</a></td><td /></tr><tr><td>![Protected field](media/protfield.gif "Protected field")</td><td><a href="49d6097e-a141-706d-c22a-1f6319078970">tagName</a></td><td /></tr></table>&nbsp;
+&nbsp;<table><tr><th></th><th>Name</th><th>Description</th></tr><tr><td>![Protected field](media/protfield.gif "Protected field")</td><td><a href="e7328aed-b2a9-39f9-44a4-7b2907dd36d9.md">tagBtn</a></td><td /></tr><tr><td>![Public field](media/pubfield.gif "Public field")![Static member](media/static.gif "Static member")</td><td><a href="0dbc87ba-0718-fb07-c35e-3a2944942edf.md">TagClickEvent</a></td><td>
+Definition of the click routed event.</td></tr><tr><td>![Protected field](media/protfield.gif "Protected field")</td><td><a href="fd53b7da-1f11-42a0-5a61-d9d0429956b2.md">tagIndicator</a></td><td /></tr><tr><td>![Protected field](media/protfield.gif "Protected field")</td><td><a href="49d6097e-a141-706d-c22a-1f6319078970.md">tagName</a></td><td /></tr></table>&nbsp;
 <a href="#tag-class">Back to Top</a>
 
 ## Explicit Interface Implementations
-&nbsp;<table><tr><th></th><th>Name</th><th>Description</th></tr><tr><td>![Explicit interface implementation](media/pubinterface.gif "Explicit interface implementation")![Private method](media/privmethod.gif "Private method")</td><td><a href="c8c1b662-0443-3803-23b5-7192f368cc3e">IComponentConnector.Connect</a></td><td /></tr><tr><td>![Explicit interface implementation](media/pubinterface.gif "Explicit interface implementation")![Private method](media/privmethod.gif "Private method")</td><td>IAddChild.AddChild</td><td>
+&nbsp;<table><tr><th></th><th>Name</th><th>Description</th></tr><tr><td>![Explicit interface implementation](media/pubinterface.gif "Explicit interface implementation")![Private method](media/privmethod.gif "Private method")</td><td><a href="c8c1b662-0443-3803-23b5-7192f368cc3e.md">IComponentConnector.Connect</a></td><td /></tr><tr><td>![Explicit interface implementation](media/pubinterface.gif "Explicit interface implementation")![Private method](media/privmethod.gif "Private method")</td><td>IAddChild.AddChild</td><td>
 This type or member supports the Windows Presentation Foundation (WPF) infrastructure and is not intended to be used directly from your code.
  (Inherited from ContentControl.)</td></tr><tr><td>![Explicit interface implementation](media/pubinterface.gif "Explicit interface implementation")![Private method](media/privmethod.gif "Private method")</td><td>System#Windows#Media#Composition#DUCE#IResource#AddRefOnChannel</td><td> (Inherited from Visual.)</td></tr><tr><td>![Explicit interface implementation](media/pubinterface.gif "Explicit interface implementation")![Private method](media/privmethod.gif "Private method")</td><td>IAddChild.AddText</td><td>
 This type or member supports the Windows Presentation Foundation (WPF) infrastructure and is not intended to be used directly from your code.
@@ -956,4 +956,4 @@ For a description of this member, see the IsAmbientPropertyAvailable(String) met
 
 
 #### Reference
-<a href="043a9407-ac38-b3ac-7348-a6090af495ad">WetHatLab.OneNote.TaggingKit.common.ui Namespace</a><br />
+<a href="043a9407-ac38-b3ac-7348-a6090af495ad.md">WetHatLab.OneNote.TaggingKit.common.ui Namespace</a><br />
