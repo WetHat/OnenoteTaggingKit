@@ -20,7 +20,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="source"></param>
         public OETaglist(OE source) : base(source) {
             // turn spellcheck off for tag lists.
-            Element.SetAttributeValue("lang", "yo");
+            Language = "yo";
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="style">The style to use for this taglist.</param>
         public OETaglist(XNamespace ns, string taglist, QuickStyleDef style = null) :
             base(ns, taglist, style) {
-            Element.SetAttributeValue("lang", "yo");
+            Language = "yo";
         }
     }
 }

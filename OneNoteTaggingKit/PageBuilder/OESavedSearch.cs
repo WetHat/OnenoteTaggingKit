@@ -94,7 +94,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     Bullet = 15
                 });
                 if (_scope != SearchScope.Section) {
-                    pagelinks.AddLast(new OET(ns, p.Breadcrumb, citationsStyle));
+                    var oet = new OET(ns, p.Breadcrumb, citationsStyle);
+                    oet.Language = "yo";
+                    pagelinks.AddLast(oet);
                 }
             }
 

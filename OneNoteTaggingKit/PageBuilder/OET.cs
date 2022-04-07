@@ -16,6 +16,13 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         public static readonly Regex HTMLtag_matcher = new Regex(@"</*(a|span)[^<>]*>", RegexOptions.Compiled);
 
         /// <summary>
+        /// Get or set the spellcheck language for this element.
+        /// </summary>
+        public string Language {
+            get => GetAttributeValue("lang");
+            set => SetAttributeValue("lang", value);
+        }
+        /// <summary>
         /// Get or set of a text content element.
         /// </summary>
         public string Text {
