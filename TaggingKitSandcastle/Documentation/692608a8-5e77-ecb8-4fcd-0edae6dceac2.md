@@ -3,7 +3,7 @@
 
 Tracing category for use with the <a href="a58bd163-de69-89db-8a1f-17c4613506ce">TraceLogger</a>
 
-**Namespace:**&nbsp;<a href="4e00c8ac-fc03-0e6d-d2fd-b2c7565a9aa0">WetHatLab.OneNote.TaggingKit</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8059.31599
+**Namespace:**&nbsp;<a href="4e00c8ac-fc03-0e6d-d2fd-b2c7565a9aa0">WetHatLab.OneNote.TaggingKit</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.18004
 
 ## Syntax
 

@@ -6,12 +6,13 @@ Event details describing to details of a changes to instances of <a href="b95e4b
 
 ## Inheritance Hierarchy
 System.Object<br />&nbsp;&nbsp;System.EventArgs<br />&nbsp;&nbsp;&nbsp;&nbsp;WetHatLab.OneNote.TaggingKit.common.NotifyDictionaryChangedEventArgs(TKey, TValue)<br />
-**Namespace:**&nbsp;<a href="bcdbab9c-63d1-48a4-6937-af53fb8d9a55">WetHatLab.OneNote.TaggingKit.common</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8059.31599
+**Namespace:**&nbsp;<a href="bcdbab9c-63d1-48a4-6937-af53fb8d9a55">WetHatLab.OneNote.TaggingKit.common</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.18004
 
 ## Syntax
 
 **C#**<br />
 ``` C#
+[ComVisibleAttribute(false)]
 public class NotifyDictionaryChangedEventArgs<TKey, TValue> : EventArgs
 where TKey : Object, IEquatable<TKey>
 where TValue : Object, IKeyedItem<TKey>

@@ -1,0 +1,23 @@
+# PageTag.IsRTL Property 
+ _**\[This is preliminary documentation and is subject to change.\]**_
+
+Predicate to determine if the page tags is right-to-left.
+
+**Namespace:**&nbsp;<a href="bcdbab9c-63d1-48a4-6937-af53fb8d9a55">WetHatLab.OneNote.TaggingKit.common</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.18004
+
+## Syntax
+
+**C#**<br />
+``` C#
+public bool IsRTL { get; }
+```
+
+
+#### Property Value
+Type: Boolean
+
+## See Also
+
+
+#### Reference
+<a href="81c6e496-d51e-9c76-3ed6-ab5e11c9381c">PageTag Class</a><br /><a href="bcdbab9c-63d1-48a4-6937-af53fb8d9a55">WetHatLab.OneNote.TaggingKit.common Namespace</a><br />
