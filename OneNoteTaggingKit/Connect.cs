@@ -46,7 +46,6 @@ namespace WetHatLab.OneNote.TaggingKit
 
                 string knownTags = Properties.Settings.Default.GetPreviousVersion("KnownTags") as string;
                 if (knownTags != null) {
-                    Properties.Settings.Default.KnownTagsCollection.Clear();
                     var tags = new PageTagSet(knownTags, TagFormat.AsEntered);
                     Properties.Settings.Default.KnownTagsCollection.AddRange((from t in tags select t.ToString()).ToArray());
                 }
@@ -76,6 +75,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// </param>
         public void OnBeginShutdown(ref Array custom) {
             TraceLogger.Log(TraceCategory.Info(), "Beginning {0} shutdown; Arguments '{1}'", Properties.Resources.TaggingKit_About_Appname, custom);
+            Properties.Settings.Default.Save();
             if (_dialogmanager != null) {
                 _dialogmanager.Dispose();
                 _dialogmanager = null;
