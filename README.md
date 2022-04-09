@@ -8,22 +8,7 @@
 A free to-use add-in to add page tagging to OneNote for the desktop. Page tags are based on the built-in OneNote
 tagging system and are shared to all connected OneNote clients.
 
-## Feature Summary:
-
-* Page Tags can be added/removed from pages on-the-fly
-* Search refinement using page tags (facetted search)
-* Page tags are available and fully operational for all users of shared OneNote notebooks (requires add-in to be installed on OneNote clients)
-* Full compatibility with built-in OneNote tagging system, even if add-in is not installed.
-* Locating notes related to the OneNote page currently being viewed
-
-Background information about tagging in general: [Why is Tagging Useful](https://github.com/WetHat/OnenoteTaggingKit/wiki/Use-of-Tags)
-
-For system requirements, installation instructions, and user guide,
-please see the [project wiki](https://github.com/WetHat/OnenoteTaggingKit/wiki).
-
-For current and historical releases, check the [Releases](https://github.com/WetHat/OnenoteTaggingKit/releases) page.
-
-If you think the tagging kit is not working as it should, please check the [troubleshooting tips](https://github.com/WetHat/OnenoteTaggingKit/wiki/Troubleshooting-Tips)
+## Getting Started
 
 <table><tr><td>
   
@@ -31,7 +16,9 @@ If you think the tagging kit is not working as it should, please check the [trou
 
 </td><td>
 
-Any ideas for improvements? Please create a [feature request](https://github.com/WetHat/OnenoteTaggingKit/issues)
+* Installation instructions, user manual, and support information for the published releases of the _OneNote Taggink Kit_ are available [here](https://wethat.github.io/OnenoteTaggingKit/index.html#releases).
+* On the _Tagging Kit_ documentation [home page](https://wethat.github.io/OnenoteTaggingKit/index.html) you'll find a feature list and some background information about tagging in general. 
+* Any ideas for improvements or found a bug? Please report an [issue](https://github.com/WetHat/OnenoteTaggingKit/issues).
 
 </td></tr></table>
   
