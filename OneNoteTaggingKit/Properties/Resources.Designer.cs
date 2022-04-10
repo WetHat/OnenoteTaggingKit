@@ -673,7 +673,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://wethat.github.io/OnenoteTaggingKit/v4.0/Troubleshooting/{0}.
+        ///   Looks up a localized string similar to https://wethat.github.io/OnenoteTaggingKit/v4.0/Support/{0}.
         /// </summary>
         public static string TaggingKit_Wiki_Page {
             get {

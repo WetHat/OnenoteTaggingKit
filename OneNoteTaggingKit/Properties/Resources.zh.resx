@@ -326,7 +326,7 @@
     <value>创建对话框窗口失败！</value>
   </data>
   <data name="TaggingKit_Wiki_Page" xml:space="preserve">
-    <value>https://wethat.github.io/OnenoteTaggingKit/v4.0/Troubleshooting/{0}</value>
+    <value>https://wethat.github.io/OnenoteTaggingKit/v4.0/Support/{0}</value>
   </data>
   <data name="TagSearch_Error_Find" xml:space="preserve">
     <value>查找失败！</value>
