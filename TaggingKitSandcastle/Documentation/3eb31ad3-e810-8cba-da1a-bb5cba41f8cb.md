@@ -3,7 +3,7 @@
 
 Initializes a new instance of the <a href="b95e4b9e-1bee-ddc0-1db7-61a35069e23a.md">ObservableDictionary(TKey, TValue)</a> class
 
-**Namespace:**&nbsp;<a href="bcdbab9c-63d1-48a4-6937-af53fb8d9a55.md">WetHatLab.OneNote.TaggingKit.common</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.30441
+**Namespace:**&nbsp;<a href="bcdbab9c-63d1-48a4-6937-af53fb8d9a55.md">WetHatLab.OneNote.TaggingKit.common</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8135.22136
 
 ## Syntax
 

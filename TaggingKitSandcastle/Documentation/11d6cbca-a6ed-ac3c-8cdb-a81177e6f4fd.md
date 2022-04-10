@@ -6,7 +6,7 @@ Base class for objects which expose observable properties.
 
 ## Inheritance Hierarchy
 System.Object<br />&nbsp;&nbsp;WetHatLab.OneNote.TaggingKit.common.ObservableObject<br />&nbsp;&nbsp;&nbsp;&nbsp;<a href="8abe04f4-0682-74c0-5557-fa48d6eff35f.md">WetHatLab.OneNote.TaggingKit.common.TagPageSet</a><br />&nbsp;&nbsp;&nbsp;&nbsp;<a href="c74fe645-91b2-831c-6869-763addf746aa.md">WetHatLab.OneNote.TaggingKit.common.ui.TagModel</a><br />
-**Namespace:**&nbsp;<a href="bcdbab9c-63d1-48a4-6937-af53fb8d9a55.md">WetHatLab.OneNote.TaggingKit.common</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.30441
+**Namespace:**&nbsp;<a href="bcdbab9c-63d1-48a4-6937-af53fb8d9a55.md">WetHatLab.OneNote.TaggingKit.common</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8135.22136
 
 ## Syntax
 

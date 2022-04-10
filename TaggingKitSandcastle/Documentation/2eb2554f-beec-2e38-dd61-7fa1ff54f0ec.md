@@ -3,7 +3,7 @@
 
 Compute the visibility based on changes to the <a href="e3c858bf-127a-e68a-8bb7-6abe110b1125.md">IsSelected</a> property.
 
-**Namespace:**&nbsp;<a href="0e3a8efd-07d2-1709-b1cd-709153222081.md">WetHatLab.OneNote.TaggingKit.find</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.30441
+**Namespace:**&nbsp;<a href="0e3a8efd-07d2-1709-b1cd-709153222081.md">WetHatLab.OneNote.TaggingKit.find</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8135.22136
 
 ## Syntax
 

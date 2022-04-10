@@ -3,7 +3,7 @@
 
 Backing store for observable property <a href="d777e1ba-cb47-659a-4716-c4aacef7c6c0.md">SearchButtonBorderColor</a>
 
-**Namespace:**&nbsp;<a href="0e3a8efd-07d2-1709-b1cd-709153222081.md">WetHatLab.OneNote.TaggingKit.find</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.30441
+**Namespace:**&nbsp;<a href="0e3a8efd-07d2-1709-b1cd-709153222081.md">WetHatLab.OneNote.TaggingKit.find</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8135.22136
 
 ## Syntax
 

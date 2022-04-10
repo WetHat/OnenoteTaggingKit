@@ -3,7 +3,7 @@
 
 Dependecy property definition for <a href="1204d75e-94be-9d23-958f-b0d97bb29ff5.md">Notification</a>
 
-**Namespace:**&nbsp;<a href="043a9407-ac38-b3ac-7348-a6090af495ad.md">WetHatLab.OneNote.TaggingKit.common.ui</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8132.30441
+**Namespace:**&nbsp;<a href="043a9407-ac38-b3ac-7348-a6090af495ad.md">WetHatLab.OneNote.TaggingKit.common.ui</a><br />**Assembly:**&nbsp;OneNoteTaggingKit (in OneNoteTaggingKit.dll) Version: 4.0.8135.22136
 
 ## Syntax
 
