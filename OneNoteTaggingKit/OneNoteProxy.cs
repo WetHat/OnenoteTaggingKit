@@ -404,8 +404,11 @@ namespace WetHatLab.OneNote.TaggingKit
             return ExecuteMethodProtected<XDocument>(o =>
             {
                 string outXml;
-                o.FindMeta(scopeID, metadataKey, out outXml, false, OneNoteSchema);
-
+                if (Properties.Settings.Default.UseWindowsSearch) {
+                    o.FindMeta(scopeID, metadataKey, out outXml,false, OneNoteSchema);
+                } else {
+                    o.GetHierarchy(scopeID, HierarchyScope.hsPages, out outXml, OneNoteSchema);
+                }
                 return XDocument.Parse(outXml);
             });
         }
