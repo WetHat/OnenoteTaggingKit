@@ -9,7 +9,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     /// </summary>
     public class TagManagerDesignerModel : ITagManagerModel
     {
-        private KnownTagsSource<RemovableTagModel> _tags = new KnownTagsSource<RemovableTagModel>();
+        private KnownTagsSource<RemovableTagModel> _tags = new KnownTagsSource<RemovableTagModel>(null);
 
         /// <summary>
         /// Create a new instance of the view model including some dummy data.

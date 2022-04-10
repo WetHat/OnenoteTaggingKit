@@ -152,7 +152,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
         void BuildTagSet(PageHierarchy hierarchy, bool selectedPagesOnly, bool omitUntaggedPages = false) {
             Dictionary<string, TagPageSet> tags  = new Dictionary<string, TagPageSet>();
             Dictionary<string, PageNode> taggedpages = new Dictionary<string, PageNode>();
-
             foreach (var tp in hierarchy.Pages) {
                 if (selectedPagesOnly && !tp.IsSelected) {
                     continue;
@@ -171,6 +170,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
                             t.Tag = PageTagSet.ChoosePageTag(t.Tag, tag);
                         } else {
                             t = new TagPageSet(tag);
+                            // update the set of suggested tags
+                            _onenote.KnownTags.Add(t.Tag);
                         }
                         tags.Add(t.Tag.Key, t);
                     } else  {
@@ -183,8 +184,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     taggedpages.Add(tp.Key, tp);
                 }
             }
-            // bulk update of pages
-            _pages.IntersectWith(taggedpages.Values); // remove obsolete tags
             _pages.UnionWith(taggedpages.Values); // add new tags
 
             // bulk update of tags

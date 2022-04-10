@@ -134,7 +134,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 new TaggingScopeDescriptor(TaggingScope.SelectedNotes,Properties.Resources.TagEditor_ComboBox_Scope_SelectedNotes),
                 new TaggingScopeDescriptor(TaggingScope.CurrentSection,Properties.Resources.TagEditor_ComboBox_Scope_CurrentSection),
             };
-            TagSuggestions = new KnownTagsSource<SelectableTagModel>();
+            TagSuggestions = new KnownTagsSource<SelectableTagModel>(onenote);
         }
 
         #region ITagEditorModel

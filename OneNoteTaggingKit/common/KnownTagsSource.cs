@@ -16,6 +16,17 @@ namespace WetHatLab.OneNote.TaggingKit.common
     [ComVisible(false)]
     public class KnownTagsSource<T> : FilterableTagsSource<T> where T : FilterableTagModel, new()
     {
+
+        OneNoteProxy _onenote;
+
+        /// <summary>
+        /// Initialize the source of known tags.
+        /// </summary>
+        /// <param name="onenote">The _OneNote_ application object.</param>
+        public KnownTagsSource(OneNoteProxy onenote) {
+            _onenote = onenote;
+        }
+
         /// <summary>
         /// Asynchronously load all known tags from the persisted settings.
         /// </summary>
@@ -27,16 +38,15 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         private IEnumerable<T> LoadPersistedTags() {
-            return from pt in new PageTagSet(from string n in Properties.Settings.Default.KnownTagsCollection select n, TagFormat.AsEntered)
-                   select new T() { Tag = pt };
+            return from pt in _onenote.KnownTags select new T() { Tag = pt };
         }
 
         /// <summary>
-        /// Save the suggested tags to the add-in settings store.
+        /// Save the current set of suggested tags to the add-in settings store.
         /// </summary>
         public void Save() {
-            Properties.Settings.Default.KnownTagsCollection.Clear();
-            Properties.Settings.Default.KnownTagsCollection.AddRange((from v in Values select v.Tag.ToString()).ToArray());
+            _onenote.KnownTags.UnionWith(from t in this.Values select t.Tag);
+            _onenote.SaveSettings();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace WetHatLab.OneNote.TaggingKit.edit
     public class TagEditorDesignerModel : ITagEditorModel
     {
         private ObservableTagList<SelectedTagModel> _pageTags = new ObservableTagList<SelectedTagModel>();
-        private KnownTagsSource<SelectableTagModel> _suggestedTags = new KnownTagsSource<SelectableTagModel>();
+        private KnownTagsSource<SelectableTagModel> _suggestedTags = new KnownTagsSource<SelectableTagModel>(null);
 
         /// <summary>
         /// Create a new instance of the view model

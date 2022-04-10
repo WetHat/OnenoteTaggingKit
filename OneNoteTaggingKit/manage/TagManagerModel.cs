@@ -58,7 +58,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             #endregion IComparer<KeyValuePair<string, RemovableTagModel>>
         };
         private static readonly UseCountComparer sUseCountComparer = new UseCountComparer();
-        private KnownTagsSource<RemovableTagModel> _suggestedTags = new KnownTagsSource<RemovableTagModel>();
+        private KnownTagsSource<RemovableTagModel> _suggestedTags;
         private TagsAndPages _tags;
 
         /// <summary>
@@ -66,7 +66,9 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// </summary>
         /// <param name="onenote">OneNote application object</param>
         internal TagManagerModel(OneNoteProxy onenote) : base(onenote) {
-            _tags = new TagsAndPages(OneNoteApp);
+            _suggestedTags = new KnownTagsSource<RemovableTagModel>(onenote);
+            _tags = new TagsAndPages(onenote);
+
         }
 
         internal void SortByTagName () {

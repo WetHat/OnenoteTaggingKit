@@ -1,10 +1,12 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using Microsoft.Office.Interop.OneNote;
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Interop;
 using System.Xml.Linq;
+using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.Tagger;
 
 namespace WetHatLab.OneNote.TaggingKit
@@ -84,16 +86,26 @@ namespace WetHatLab.OneNote.TaggingKit
         private const int MAX_RETRIES = 3; // number of retries if OneNote is busy
         private Application _on; // OneNote COM object
 
+        /// <summary>
+        /// Get the background tagging service.
+        /// </summary>
         public BackgroundTagger TaggingService { get; private set; }
+
+        /// <summary>
+        /// Get the set of page tags which are suggested for tagging.
+        /// </summary>
+        public PageTagSet KnownTags { get; }
 
         /// <summary>
         /// Create a new instance of a OneNote proxy.
         /// </summary>
-        /// <param name="onenote">OneNote application object</param>
+        /// <param name="onenote">OneNote application object.</param>
         internal OneNoteProxy(Application onenote)
         {
             _on = onenote;
-
+            // Populate the set of page tags suggested for tagging.
+            KnownTags = new PageTagSet(from string t in Properties.Settings.Default.KnownTagsCollection select t,
+                                       TagFormat.AsEntered);
             TaggingService = new BackgroundTagger(this);
             TaggingService.Run();
             TraceLogger.Log(TraceCategory.Info(), "OneNote application proxy constructed successfully");
@@ -521,10 +533,18 @@ namespace WetHatLab.OneNote.TaggingKit
             return default(Tresult);
         }
 
+        /// <summary>
+        /// Persist all settings,
+        /// </summary>
+        public void SaveSettings() {
+            Properties.Settings.Default.KnownTagsCollection.Clear();
+            Properties.Settings.Default.KnownTagsCollection.AddRange((from t in KnownTags select t.ToString()).ToArray());
+            Properties.Settings.Default.Save();
+        }
         #region IDisposable
-
         public void Dispose()
         {
+            SaveSettings();
             if (TaggingService != null)
             {
                 TaggingService.Dispose();
@@ -532,7 +552,6 @@ namespace WetHatLab.OneNote.TaggingKit
                 GC.SuppressFinalize(this);
             }
         }
-
         #endregion IDisposable
     }
 }
