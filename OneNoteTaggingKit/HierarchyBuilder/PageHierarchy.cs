@@ -57,13 +57,9 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
                 // search by tags only
                 // collect all page tags on pages which have page tags. Tag search appears to
                 // be broken using work around
-                if (Properties.Settings.Default.UseWindowsSearch) {
-                    searchResult = _onenote.FindPagesByMetadata(scopeID, MetaCollection.PageTagsMetaKey);
-                } else {
-                    searchResult = _onenote.GetHierarchy(scopeID, HierarchyScope.hsPages);
-                }
+                 searchResult = _onenote.FindPagesByMetadata(scopeID, MetaCollection.PageTagsMetaKey);
             } else {
-                searchResult = _onenote.FindPages(scopeID, query);
+                 searchResult = _onenote.FindPages(scopeID, query);
             }
             buildHierarchy(searchResult.Root, null);
         }

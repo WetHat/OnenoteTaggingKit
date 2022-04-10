@@ -3,6 +3,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using WetHatLab.OneNote.TaggingKit.common.ui;
+using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.common
 {
@@ -33,12 +34,19 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <returns>awaitable task object</returns>
         public async Task LoadKnownTagsAsync() {
             Clear();
-            IEnumerable<T> mdls = await Task<IEnumerable<T>>.Run(() => LoadPersistedTags());
+            IEnumerable<T> mdls = await Task<IEnumerable<T>>.Run(() => {
+                if (_onenote.KnownTags.IsEmpty) {
+                    // nothing known - search for tags on pages
+                    var ph = new PageHierarchy(_onenote);
+                    ph.AddPages(SearchScope.AllNotebooks);
+                    foreach (var pg in ph.Pages) {
+                        _onenote.KnownTags.UnionWith(pg.Tags);
+                    }
+                    _onenote.SaveSettings();
+                }
+                return from pt in _onenote.KnownTags select new T() { Tag = pt };
+            });
             AddAll(mdls);
-        }
-
-        private IEnumerable<T> LoadPersistedTags() {
-            return from pt in _onenote.KnownTags select new T() { Tag = pt };
         }
 
         /// <summary>
