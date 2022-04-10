@@ -311,13 +311,10 @@ EndSelection:{5:D6}";
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-            // save the scope Properties.Settings.Default.DefaultScope = (int)scopeSelect.SelectedScope;
-            Properties.Settings.Default.Save();
             if (_model != null) {
                 _model.Dispose();
+                _model = null;
             }
-
-            Trace.Flush();
         }
         private void Hyperlink_Click(object sender, RoutedEventArgs e) {
             try {

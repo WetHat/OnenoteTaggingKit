@@ -3,6 +3,7 @@
 // (C) Copyright 2015, 2016 WetHat Lab, all rights reserved
 ////////////////////////////////////////////////////////////
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -48,6 +49,8 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// </summary>
         public virtual void Dispose() {
             DependencyPropertyChanged = null;
+            OneNoteApp.SaveSettings();
+            Trace.Flush();
         }
 
         #endregion IDisposable

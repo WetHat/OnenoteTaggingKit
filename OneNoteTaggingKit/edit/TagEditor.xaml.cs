@@ -88,9 +88,10 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
 
         private void editTags_Closing(object sender, CancelEventArgs e) {
-            Properties.Settings.Default.Save();
-            _model.Dispose();
-            Trace.Flush();
+            if (_model != null) {
+                _model.Dispose();
+                _model = null;
+            }
         }
 
         private void ClearTagsButton_Click(object sender, RoutedEventArgs e) {
