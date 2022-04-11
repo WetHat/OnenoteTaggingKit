@@ -1,7 +1,7 @@
 {
     "site_navigation": [
         { "Tagging Kit Options": "" },
-        { "Preferences": "Usage/Settings/Preferences-Tab.md" },
-        { "Suggested Tags" : "Usage/Settings/Suggested%20Tags%20Tab.md"}
+        { "Preferences": "Preferences-Tab.md" },
+        { "Suggested Tags" : "Suggested%20Tags%20Tab.md"}
     ]
 }

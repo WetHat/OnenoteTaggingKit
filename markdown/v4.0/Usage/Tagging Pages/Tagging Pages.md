@@ -146,7 +146,7 @@ indices.
 > 3. Start page updates by clicking on the _Update_ button[^5^](#Dia-5). Page
 >    updates are performed in the background.
 >   
->    :warning: Pages containing [Saved Searches](../Search/SavedSearch.md)
+>    :warning: Pages containing [Saved Searches](../Search/Advanced/Saved%20Search.md)
 >    can take a long time to update.
 >
 > For more information about the purpose effect of page updates see

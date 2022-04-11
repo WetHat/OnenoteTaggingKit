@@ -1,6 +1,5 @@
 {
     "site_navigation": [
-        { "Advanced Search": "" },
-        { "Saved Searches" : "Usage/Search/SavedSearch.md"}
+        { "Advanced Search": "Advanced" }
     ]
 }

@@ -1,7 +1,7 @@
 # Saving Search Results to a _OneNote_ Page{.title}
 
-Search results obtained by the [_Find Pages_](Finding%20Notes.md) can be saved
-as active content to a new _OneNote_ page in the current section using the
+Search results obtained by the [_Find Pages_](Finding%20Notes.md) dialog can be saved
+as _active_ content to a new _OneNote_ page in the current section using the
 `Save Search Result` action from the [drop-down menu](Finding%20Notes.md#Dia-15)
 of the [_Pages_](Finding%20Notes.md#Dia-14) search result panel.
 
