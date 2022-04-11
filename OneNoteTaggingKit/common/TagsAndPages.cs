@@ -184,7 +184,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     taggedpages.Add(tp.Key, tp);
                 }
             }
-            _pages.UnionWith(taggedpages.Values); // add new tags
+            // bulk update of pages
+            _pages.IntersectWith(taggedpages.Values); // remove obsolete pages
+            _pages.UnionWith(taggedpages.Values); // add new pages
 
             // bulk update of tags
             _tags.IntersectWith(tags.Values); // remove obsolete tags
