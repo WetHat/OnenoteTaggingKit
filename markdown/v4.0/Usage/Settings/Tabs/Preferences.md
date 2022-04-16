@@ -6,8 +6,8 @@
 
 1. In the _Dialog Preferences_ section you can disable or enable
    the _always on top_ behavior of the
-   [Tag Pages](../Tagging%20Pages/Tagging%20Pages.png) or
-   [Find Tagged Pages](../Search/Finding%20Notes.md) dialog.
+   [Tag Pages](../../Tagging%20Pages/Tagging%20Pages.png) or
+   [Find Tagged Pages](../../Search/Finding%20Notes.md) dialog.
 2. The _Operating System Integration_ section allows select or deselect the
    _Windows Search Service_ for finding page tags. By default this option is
    **on**.
@@ -63,7 +63,7 @@
    `Icon in Page Title`
    :   A single _OneNote_ tag is added to the page title:
      
-       ![Title Tag](../Tagging%20Pages/images/TitleTag.png)
+       ![Title Tag](../../Tagging%20Pages/images/TitleTag.png)
 
        To see the page tags just hover the mouse over the tag icon.
 
@@ -74,17 +74,17 @@
        ![Bad Summary](images/OneNoteUWPSummary1.png)
 4. Configure the import of tags, which are embedded in
    page content. Imported tags can be utilized by the
-   [Find Tagged Pages](../Search/Finding%20Notes.md) dialog for faceted search.
+   [Find Tagged Pages](../../Search/Finding%20Notes.md) dialog for faceted search.
    However, if the original tags are are changed in the page content, the tags
    require re-import by either executing the [Update](../Update.md) command or using
-   the [Update](../Tagging%20Pages/Tagging%20Pages.md#Dia-5) action of the
-   [Tag Pages](../Tagging%20Pages/Tagging%20Pages.md) dialog.
+   the [Update](../../Tagging%20Pages/Tagging%20Pages.md#Dia-5) action of the
+   [Tag Pages](../../Tagging%20Pages/Tagging%20Pages.md) dialog.
 
    :point_up: Changes to these options do not take effect on existing _OneNote_
    pages until they are tagged again or updated by either executing the
-   [Update](../Update.md) command or using the
-   [Update](../Tagging%20Pages/Tagging%20Pages.md#Dia-5) action of the
-   [Tag Pages](../Tagging%20Pages/Tagging%20Pages.md) dialog.
+   [Update](../..//Update.md) command or using the
+   [Update](../../Tagging%20Pages/Tagging%20Pages.md#Dia-5) action of the
+   [Tag Pages](../../Tagging%20Pages/Tagging%20Pages.md) dialog.
 
    `Map OneNote Tags to Page Tags`
    :   With every tagging operation the page content is scanned for _OneNote_

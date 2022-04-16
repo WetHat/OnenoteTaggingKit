@@ -8,7 +8,7 @@ To acivate the _Manage Settings_ dialog click or tap on the _Settings_
 button of the _Page Tags_ group in the `Home` tab of the _OneNote_ ribbon.
 
 The dialog has following tabs to choose from:
-* [Preferences Tab](Preferences-Tab.md) - Change add-in preferences. 
-* [Suggested Tags Tab](Suggested%20Tags%20Tab.md) - Manage tag suggestions for 
+* [Preferences Tab](Tabs/Preferences.md) - Change add-in preferences. 
+* [Suggested Tags](Tabs/Suggested%20Tags.md) - Manage tag suggestions for 
   the [Tag Pages](../Tagging%20Pages/Tagging%20Pages.md) dialog.
-* [About Tab](About%20Tab.md) - Display version and support information.
+* [About Tab](Tabs/About%20Tab.md) - Display version and support information.
