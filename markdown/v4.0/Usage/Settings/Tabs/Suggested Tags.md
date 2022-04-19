@@ -23,12 +23,12 @@ indices.
        the_Tags_ panel[^9^](#Tab-9).
        subsequent tagging operations. The names of new tags are updated
        according to the _Tag Format_ selected on the
-       [Preferences](Preferences-Tab.md) tab.
+       [Preferences](Preferences.md) tab.
 2. Clear the tag input box.{id="Tab-2"}
 3. Add the comma separated list of tags typed into [^1^](#Tab-1) to the
-   collection of suggested tags[^9^](Tab-9). The names of new tags are
+   collection of suggested tags[^9^](#Tab-9). The names of new tags are
    updated  according to the _Tag Format_ selected on the
-   [Preferences](Preferences-Tab.md) tab.{id="Tab-3"}
+   [Preferences](Preferences.md) tab.{id="Tab-3"}
 4. A suggested tag. The number in parentheses indicates the number of times this
    tag is use on _OneNote_ pages.{id="Tab-4"}
 5. A suggested tag with its action menu open. The action menus isopened by clicking

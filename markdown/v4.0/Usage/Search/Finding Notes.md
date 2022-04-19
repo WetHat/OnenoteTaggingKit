@@ -44,7 +44,7 @@ indices.
        Same as clicking on the _search_ button[^3^](#Dia-3)
 3. Perform a full text search using the terms in the query input
    box[^2^](#Dia-2). The search result is displayed in the _Pages_
-   panel[^14^](Dia-14). Matches of search terms with page titles are highlighted
+   panel[^14^](#Dia-14). Matches of search terms with page titles are highlighted
    [^16^](#Dia-16). Only pages in the selected scope[^1^](#Dia-1) are
    shown.{id="Dia-3"}
 4. A tag selected for refinement. To remove the tag from the filter, click or
@@ -133,7 +133,7 @@ indices.
     :   Saves all links from the _Pages_ search result panel[^14^](#Dia-14)
         together with the search parameters
         (query[^2^](#Dia-2) and refinement tags[^5^](#Dia-5)) to a new
-        _OneNote_ page in the current section. See [Saved Search](SavedSearch.md)
+        _OneNote_ page in the current section. See [Saved Search](Advanced/Saved%20Search.md)
         for instruction on how to update the search result with the
         [Update](../Update.md) action on the _OneNote_ `Home` ribbon or the
         _Update_action on

@@ -6,7 +6,7 @@
 
 1. In the _Dialog Preferences_ section you can disable or enable
    the _always on top_ behavior of the
-   [Tag Pages](../../Tagging%20Pages/Tagging%20Pages.png) or
+   [Tag Pages](../../Tagging%20Pages/Tagging%20Pages.md) or
    [Find Tagged Pages](../../Search/Finding%20Notes.md) dialog.
 2. The _Operating System Integration_ section allows select or deselect the
    _Windows Search Service_ for finding page tags. By default this option is
@@ -49,16 +49,16 @@
    `Below Page Title`
    :   Tags are displayed below the title of a _OneNote_ page:
 
-       ![Page Tags](../Tagging%20Pages/images/TaggedPage.png)
+       ![Page Tags](../../Tagging%20Pages/images/TaggedPage.png)
 
        :warning: The tags are represented as editable text, but edits do **not**
         change the actual _Page Tags_. To change page tags the
-        [Tag Pages](../Tagging%20Pages/Tagging%20Pages.md) dialog must be used.
+        [Tag Pages](../../Tagging%20Pages/Tagging%20Pages.md) dialog must be used.
         If the tags were inadvertently edited, the displayed tags can be
         re-synchronized with the internal tag database by  executing the
-        [Update](../Update.md) command or using the
-        [Update](../Tagging%20Pages/Tagging%20Pages.md#Dia-5) action of the
-        [Tag Pages](../Tagging%20Pages/Tagging%20Pages.md) dialog.
+        [Update](../../Update.md) command or using the
+        [Update](../../Tagging%20Pages/Tagging%20Pages.md#Dia-5) action of the
+        [Tag Pages](../../Tagging%20Pages/Tagging%20Pages.md) dialog.
 
    `Icon in Page Title`
    :   A single _OneNote_ tag is added to the page title:
@@ -76,7 +76,7 @@
    page content. Imported tags can be utilized by the
    [Find Tagged Pages](../../Search/Finding%20Notes.md) dialog for faceted search.
    However, if the original tags are are changed in the page content, the tags
-   require re-import by either executing the [Update](../Update.md) command or using
+   require re-import by either executing the [Update](../../Update.md) command or using
    the [Update](../../Tagging%20Pages/Tagging%20Pages.md#Dia-5) action of the
    [Tag Pages](../../Tagging%20Pages/Tagging%20Pages.md) dialog.
 

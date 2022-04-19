@@ -32,9 +32,9 @@ indices.
    This tagging operations is performed in the background.{id="Dia-3"}
 4. Remove all tags shown in the _Tags_ panel[^8^](#Dia-8) from the selected range of
    pages[^1^](#Dia-1).This tagging operations is performed in the background.{id="Dia-4"}
-5. Updates [Saved Searches](../Search/SavedSearch.md) embedded in the selected
+5. Updates [Saved Searches](../Search/Advanced/Saved%20Search.md) embedded in the selected
    range of pages[^1^](#Dia-1) and also, if enabled on the
-   [Preferences](../Settings/Preferences-Tab.md) tab of the
+   [Preferences](../Settings/Tabs/Preferences.md) tab of the
    [Manage Settings](../Settings/Manage%20Settings.md) dialog, updates imported
    _OneNote_ and hashtags found in page content.{id="Dia-5"}
    
@@ -68,7 +68,7 @@ indices.
     `ENTER`
     :   Add the typed list of tag names to the _Tags_ panel[^8^](#Dia-8) for use in
         subsequent tagging operations. Tag names are updated according to
-        the _Tag Format_ selected on the [Preferences](../Settings/Preferences-Tab.md)
+        the _Tag Format_ selected on the [Preferences](../Settings/Tabs/Preferences.md)
         tab of the [Settings](../Settings/Manage%20Settings.md) dialog, if they
         are new.
 
@@ -114,7 +114,7 @@ indices.
 >    are performed in the background.
 > 5. When the requested tagging operation is complete, the result is shown on the
 >    affected range of pages according to the tag display options selected on the
->    [Preferences](../Settings/Preferences-Tab..md) tab of the
+>    [Preferences](../Settings/Tabs/Preferences.md) tab of the
 >    [Settings](../Settings/Manage%20Settings.md) dialog:
 >    
 >    **Below Page Title**
@@ -134,7 +134,7 @@ indices.
 >    ![Title Tag](images/TitleTag.png)
 >
 >    :point_up: If any of the tag import options is checked on the
->    [Preferences](../Settings/Preferences-Tab.md) of the
+>    [Preferences](../Settings/Tabs/Preferences.md) of the
 >    [Settings](../Settings/Manage%20Settings.md) dialog, imported
 >    _OneNote_ tags or hashtags from page content will show up as well.
 >
@@ -153,5 +153,5 @@ indices.
 > the [Update](../Update.md) command.
 >
 > :point_up: Updating pages is also useful to update tag display after changing
-> tag related options on the [Preferences](../Settings/Preferences-Tab.md) of the
+> tag related options on the [Preferences](../Settings/Tabs/Preferences.md) of the
 > [Settings](../Settings/Manage%20Settings.md) dialog.

@@ -54,8 +54,6 @@ documentation ;-).
 [Installation](v4.0/Home.md#installation-and-upgrade) -
 [Release Notes](https://github.com/WetHat/OnenoteTaggingKit/releases)
 
-![Screenshot](images/TroubleshootingTips_log.png){.rightfloat}
-
 
 
 
