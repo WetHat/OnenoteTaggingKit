@@ -62,7 +62,7 @@ indices.
     :   Clear the input box. Same as pressing the _Clear_ button[^11^](#Dia-11).
 
     `SHIFT`+`ESC`
-    :   Clear the input box (Same as pressing the _Clear_ button[^11^](#Dia-11)) **and**
+    :   Clear the input box (Same as pressing the _Clear_ button[^11^](#Dia-11) **and**
         also the _Clear_ button[^6^](#Dia-6).
 
     `ENTER`
