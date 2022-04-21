@@ -4506,7 +4506,7 @@ defineSymbol(math, main, bin, "\u2293", "\\sqcap", true);
 defineSymbol(math, main, bin, "\u2217", "\\ast");
 defineSymbol(math, main, bin, "\u2294", "\\sqcup", true);
 defineSymbol(math, main, bin, "\u25EF", "\\bigcirc", true);
-defineSymbol(math, main, bin, "\u2219", "\\bullet");
+defineSymbol(math, main, bin, "\u2219", "\\bullet", true);
 defineSymbol(math, main, bin, "\u2021", "\\ddagger");
 defineSymbol(math, main, bin, "\u2240", "\\wr", true);
 defineSymbol(math, main, bin, "\u2A3F", "\\amalg");
@@ -4865,13 +4865,13 @@ defineSymbol(math, main, bin, "\u2217", "*", true);
 defineSymbol(math, main, bin, "+", "+");
 defineSymbol(math, main, bin, "\u2212", "-", true);
 defineSymbol(math, main, bin, "\u22C5", "\\cdot", true);
-defineSymbol(math, main, bin, "\u2218", "\\circ");
+defineSymbol(math, main, bin, "\u2218", "\\circ", true);
 defineSymbol(math, main, bin, "\xF7", "\\div", true);
 defineSymbol(math, main, bin, "\xB1", "\\pm", true);
 defineSymbol(math, main, bin, "\xD7", "\\times", true);
 defineSymbol(math, main, bin, "\u2229", "\\cap", true);
 defineSymbol(math, main, bin, "\u222A", "\\cup", true);
-defineSymbol(math, main, bin, "\u2216", "\\setminus");
+defineSymbol(math, main, bin, "\u2216", "\\setminus", true);
 defineSymbol(math, main, bin, "\u2227", "\\land");
 defineSymbol(math, main, bin, "\u2228", "\\lor");
 defineSymbol(math, main, bin, "\u2227", "\\wedge", true);
@@ -18351,7 +18351,7 @@ var renderToHTMLTree = function renderToHTMLTree(expression, options) {
   /**
    * Current KaTeX version
    */
-  version: "0.15.2",
+  version: "0.15.3",
 
   /**
    * Renders the given LaTeX into an HTML+MathML combination, and adds
