@@ -3,7 +3,7 @@
 The _Find Pages_ dialog is used to find _OneNote_ pages by applying tag and
 full text filters.
 
-![Find Pges Button](images/RibbonFind.png)
+![Find Pages Button](images/RibbonFind.png)
 
 To acivate the _Fins Pages_ dialog click or tap on the _Fins Pages_
 button of the _Page Tags_ group in the `Home` tab of the _OneNote_ ribbon.
@@ -13,7 +13,7 @@ button of the _Page Tags_ group in the `Home` tab of the _OneNote_ ribbon.
 :point_up: Numbered dialog elements are referenced by superscripts and list item
 indices.
 
-![Tag Pages Dialog](images/FindPagesDialog.png){.rightfloat}
+![Find Pages Dialog](images/FindPagesDialog.png){.rightfloat}
 
 1. The search scope. Only pages in the selected scope will be included in the
    search result. Available scopes are:{id="Dia-1"}
