@@ -110,11 +110,13 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </remarks>
         /// <param name="pagetag">Page tag to add.</param>
         public void Add(PageTag pagetag) {
-            PageTag found;
-            if (_pagetags.TryGetValue(pagetag.Key, out found)) {
-                _pagetags[pagetag.Key] = ChoosePageTag(found, pagetag);
-            } else {
-                _pagetags[pagetag.Key] = pagetag;
+            lock (_pagetags) {
+                PageTag found;
+                if (_pagetags.TryGetValue(pagetag.Key, out found)) {
+                    _pagetags[pagetag.Key] = ChoosePageTag(found, pagetag);
+                } else {
+                    _pagetags[pagetag.Key] = pagetag;
+                }
             }
         }
 
@@ -174,11 +176,13 @@ namespace WetHatLab.OneNote.TaggingKit.common
         ///     the set.
         /// </returns>
         public PageTag Remove(string key) {
-            PageTag found;
-            if (_pagetags.TryGetValue(key,out found)) {
-                _pagetags.Remove(key);
+            lock (_pagetags) {
+                PageTag found;
+                if (_pagetags.TryGetValue(key, out found)) {
+                    _pagetags.Remove(key);
+                }
+                return found;
             }
-            return found;
         }
 
         /// <summary>
@@ -202,7 +206,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </remarks>
         /// <param name="pagetags">A collection of page tags.</param>
         public void UnionWith(IEnumerable<PageTag> pagetags) {
-            foreach (var t in pagetags) { Add(t); }
+            lock (_pagetags) {
+                foreach (var t in pagetags) { Add(t); }
+            }
         }
 
         /// <summary>
@@ -211,7 +217,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </summary>
         /// <param name="pagetags">Collection of page tags.</param>
         public void ExceptWith(IEnumerable<PageTag> pagetags) {
-            foreach (var t in pagetags) { _=  Remove(t.Key); }
+            lock (_pagetags) {
+                foreach (var t in pagetags) { _ = Remove(t.Key); }
+            }
         }
 
         /// <summary>
