@@ -128,7 +128,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             if (!string.IsNullOrEmpty(query)) {
                 query = query.Trim().Replace(',', ' ');
                 SearchHistory.Remove(query);
-                SearchHistory.Insert(0, query);
+                SearchHistory.Insert(0, query); // move query to the front
                 // update settings
                 StringBuilder history = new StringBuilder();
                 for (int i = 0; i < SearchHistory.Count() && i < Properties.Settings.Default.SearchHistory_Size; i++) {
