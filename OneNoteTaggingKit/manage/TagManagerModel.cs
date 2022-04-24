@@ -98,7 +98,6 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                 if (_tags.Tags.TryGetValue(t.Key, out tag)) {
                     // populate
                     t.PageTag = tag;
-
                 }
             }
 
@@ -189,5 +188,17 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         internal void SaveChanges() {
             _suggestedTags.Save();
         }
+
+        /// <summary>
+        /// Dispose this model.
+        /// </summary>
+        public override void Dispose() {
+            if (_suggestedTags != null) {
+                _suggestedTags.Dispose();
+                _suggestedTags = null;
+            }
+            base.Dispose();
+        }
+
     }
 }

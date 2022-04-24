@@ -98,7 +98,6 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                 }
             }
             TraceLogger.Flush();
-            _model.SaveChanges();
         }
 
         /// <summary>
@@ -111,7 +110,6 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             var tagset = new PageTagSet(tagInput.TagNames, (TagFormat)Properties.Settings.Default.TagFormatting);
             _model.SuggestedTags.AddAll(from t in tagset where!_model.SuggestedTags.ContainsKey(t.Key) select new RemovableTagModel() { PageTag = new TagPageSet(t) });
             tagInput.Clear();
-            _model.SaveChanges();
             e.Handled = true;
         }
 
