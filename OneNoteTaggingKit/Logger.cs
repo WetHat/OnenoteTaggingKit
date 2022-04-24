@@ -123,6 +123,9 @@ namespace WetHatLab.OneNote.TaggingKit
                         case 0x8004200C:
                             troubleshootingpage = "0x8004200C";
                             break;
+                        case 0x80042023:
+                            troubleshootingpage = "0x80042023";
+                            break;
                         case 0x80042030:
                             troubleshootingpage = "0x80042030";
                             break;
