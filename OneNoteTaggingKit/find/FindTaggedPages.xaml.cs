@@ -205,7 +205,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                             } else {
                                 pBarCopy.Visibility = Visibility.Visible;
                                 var newPageID = onenote.CreateNewPage(onenote.CurrentSectionID);
-                                var pg = new PageBuilder.OneNotePage(onenote, newPageID);
+                                var pg = new PageBuilder.OneNotePage(onenote, newPageID, Properties.Resources.NewSavedSearchPage_Title);
                                 SearchScope scope = scopeSelect.SelectedScope;
                                 string searchstring = searchComboBox.Text;
                                 var tagset = new PageTagSet(from rt in ViewModel.SelectedRefinementTags.Values

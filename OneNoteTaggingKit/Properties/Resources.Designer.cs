@@ -153,6 +153,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Untitled Search.
+        /// </summary>
+        public static string NewSavedSearchPage_Title {
+            get {
+                return ResourceManager.GetString("NewSavedSearchPage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap refresh_32 {

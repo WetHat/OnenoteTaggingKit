@@ -169,7 +169,11 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         /// <param name="onenoteApp">The OneNote application object.</param>
         /// <param name="pageID">The page ID.</param>
-        internal OneNotePage(OneNoteProxy onenoteApp, string pageID) : base(onenoteApp.GetPage(pageID).Root) {
+        /// <param name="defaultTitle">
+        ///     The default title to use if the page does not already have a title.
+        /// </param>
+        internal OneNotePage(OneNoteProxy onenoteApp, string pageID, string defaultTitle = "")
+            : base(onenoteApp.GetPage(pageID).Root) {
             OneNoteApp = onenoteApp;
             PageID = pageID;
             Document = Element.Document; // get the page's XML document
@@ -184,7 +188,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             XElement title = Element.Element(GetName(nameof(Title)));
             if (title == null) {
                 // a title is required for tagging
-                Title = new Title(this, "Untitled Page");
+                Title = new Title(this, defaultTitle);
             } else {
                 Title = new Title(this, title);
                 // inspect the title tags an mark collect the managed oage tags

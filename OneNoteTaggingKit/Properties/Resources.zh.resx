@@ -584,4 +584,7 @@
   <data name="TaggingKit_Docs_Link" xml:space="preserve">
     <value>https://wethat.github.io/OnenoteTaggingKit/v4.0/Home.html</value>
   </data>
+  <data name="NewSavedSearchPage_Title" xml:space="preserve">
+    <value>无标题搜索</value>
+  </data>
 </root>
