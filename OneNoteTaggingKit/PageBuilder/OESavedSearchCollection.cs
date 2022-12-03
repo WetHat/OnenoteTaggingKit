@@ -37,7 +37,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             foreach (var tag in outline.Descendants(tagName)) {
                 var indexAtt = tag.Attribute("index");
                 if (indexAtt != null && marker.Index == (int)indexAtt) {
-                    base.Add(new OESavedSearch(tag.Parent));
+                    base.Add(new OESavedSearch(Owner.OneNoteApp, tag.Parent));
                     added = true;
                 }
             }
@@ -73,7 +73,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="searchConfig">A content element with an embedded OneNote search configuration table.</param>
         /// <returns>New proxy instance for the saved search table</returns>
         protected override OESavedSearch CreateElementProxy(XElement searchConfig) {
-            return new OESavedSearch(searchConfig);
+            return new OESavedSearch(Owner.OneNoteApp,searchConfig);
         }
 
         /// <summary>
