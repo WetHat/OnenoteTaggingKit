@@ -98,6 +98,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e) {
+            var model = DataContext as HitHighlightedPageLinkModel;
+            model.LinkColor = Brushes.DarkSlateGray;
             RaiseEvent(new RoutedEventArgs(ClickEvent));
         }
     }

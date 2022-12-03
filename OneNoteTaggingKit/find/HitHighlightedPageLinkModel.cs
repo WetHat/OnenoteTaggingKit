@@ -131,6 +131,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         private static readonly PropertyChangedEventArgs MARKER_SYMBOL = new PropertyChangedEventArgs("MarkerSymbol");
         private static readonly PropertyChangedEventArgs MARKER_COLOR = new PropertyChangedEventArgs("MarkerColor");
+        private static readonly PropertyChangedEventArgs LINK_COLOR = new PropertyChangedEventArgs("LinkColor");
 
         #region INotifyPropertyChanged
 
@@ -161,6 +162,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
             _highlights = highlighter.SplitText(tp.Name);
 
             HitCount = _highlights.Count((f) => f.IsMatch);
+
+            LinkColor = IsInRecycleBin ? Brushes.Red : Brushes.Blue;
         }
 
         protected void fireNotifyPropertyChanged(PropertyChangedEventArgs propArgs) {
@@ -170,7 +173,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
-        /// Determine if a page has been recycled and os read-only.
+        /// Determine if a page has been recycled and is read-only.
         /// </summary>
         public bool IsInRecycleBin {
             get {
@@ -202,6 +205,17 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 if (!value.Equals(_markerSymbol)) {
                     _markerSymbol = value;
                     fireNotifyPropertyChanged(MARKER_SYMBOL);
+                }
+            }
+        }
+
+        private Brush _linkColor;
+        public Brush LinkColor {
+            get => _linkColor;
+            set {
+                if (!value.Equals(_linkColor)) {
+                    _linkColor = value;
+                    fireNotifyPropertyChanged(LINK_COLOR);
                 }
             }
         }

@@ -16,7 +16,7 @@
              FontSize="14"
              FontWeight="UltraBold"
              Foreground="{Binding MarkerColor,Mode=OneWay}" />
-        <Hyperlink Click="Hyperlink_Click">
+        <Hyperlink Click="Hyperlink_Click" Foreground="{Binding LinkColor, Mode=OneWay}">
             <TextBlock Name="hithighlightedTitle" TextTrimming="CharacterEllipsis" />
         </Hyperlink>
     </TextBlock>
