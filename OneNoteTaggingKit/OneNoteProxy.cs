@@ -435,12 +435,13 @@ namespace WetHatLab.OneNote.TaggingKit
         }
 
         /// <summary>
-        /// Get the hyper-link to a OneNote page or a paragraph on a OneNote page.
+        /// Gets a OneNote hyperlink to the specified notebook, section group,
+        /// section, page, or page object.
         /// </summary>
-        /// <param name="pageID">      ID of the page</param>
+        /// <param name="pageID">ID of the page</param>
         /// <param name="pageObjectID">
         /// ID of a paragraph on the OneNote page. If null or an empty string is given the
-        /// hyper-link to the page is returned
+        /// hyper-link to the page is returned.
         /// </param>
         /// <returns>hyper-link to page or paragraph on the page</returns>
         public string GetHyperlinkToObject(string pageID, string pageObjectID)

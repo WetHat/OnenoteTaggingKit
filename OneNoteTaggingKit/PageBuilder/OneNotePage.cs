@@ -46,7 +46,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// Position of tag definition elements on a OneNote page.
         /// </summary>
         TagDef = 0,
-        // <summary>
+        /// <summary>
         /// Position of style definition elements on a OneNote page.
         /// </summary>
         QuickStyleDef = 1,
