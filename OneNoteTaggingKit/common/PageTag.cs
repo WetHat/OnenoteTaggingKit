@@ -78,47 +78,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </summary>
         public bool IsRTL { get; private set;  }
 
-        /// <summary>
-        /// Parse a comma separated list of tags.
-        /// </summary>
-        /// <remarks>
-        /// This function does **not** handle HTML markup in the taglist.
-        /// </remarks>
-        /// <param name="tagnames">Collection of tag names.</param>
-        /// <param name="format">Tag fromatting to apply.</param>
-        /// <returns>
-        ///     Collection of parsed tags. The collection may contain tags with the
-        ///     same key but of different type.
-        /// </returns>
-        public static IEnumerable<PageTag> Parse(IEnumerable<string> tagnames, TagFormat format) {
-             switch (format) {
-                case TagFormat.AsEntered:
-                    foreach (var tagname in tagnames) {
-                        yield return new PageTag(tagname, PageTagType.Unknown);
-                    }
-                    break;
-                case TagFormat.Capitalized:
-                    foreach (var tagname in tagnames) {
-                        var pt = new PageTag(tagname, PageTagType.Unknown);
-                        if (pt.TagType == PageTagType.PlainTag) {
-                            pt.BaseName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(pt.BaseName);
-                        }
-                        yield return pt;
-                     }
-                    break;
-                case TagFormat.HashTag:
-                    foreach (var tagname in tagnames) {
-                        var pt = new PageTag(tagname, PageTagType.Unknown);
-                        if (pt.TagType == PageTagType.PlainTag) {
-                            // switch over to hashtag
-                            pt = new PageTag(pt.BaseName, PageTagType.HashTag);
-                        }
-                        // normalize name
-                        yield return pt;
-                    }
-                    break;
-            }
-        }
+
         /// <summary>
         /// The type markers to watch out for on tag names.
         /// </summary>
@@ -171,9 +131,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     if (BaseName.Contains(" ")) {
                         BaseName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(BaseName);
                         BaseName = BaseName.Replace(" ", string.Empty);
-
-                    } else {
-                        BaseName = BaseName.ToLower();
                     }
                 }
                 _tagType = value;
