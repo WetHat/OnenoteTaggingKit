@@ -1,6 +1,5 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -129,13 +128,13 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             switch (itm.Tag.ToString())
             {
                 case "DeleteTag":
-                    Tag = itm.Tag; // Remember the action for the confiramtion stage
+                    Tag = itm.Tag; // Remember the action for the confirmation stage
                     ShowConfirmation();
                     actionMenu.IsSubmenuOpen = true;
                     break;
 
                 case "RenameTag":
-                    Tag = itm.Tag; // Remember the action for the confiramtion stage
+                    Tag = itm.Tag; // Remember the action for the confirmation stage
                     EnableEditing();
                     ShowConfirmation();
                     actionMenu.IsSubmenuOpen = false;
@@ -144,7 +143,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                 case "CancelAction":
                     if ("RenameTag".Equals(Tag)) {
                         // revert any name edits.
-                        mdl.LocalName = mdl.TagName;
+                        mdl.LocalName = mdl.PageTag.Tag.DisplayName;
                     }
                     DisableEditing();
                     ShowActions();
@@ -158,9 +157,20 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                     switch (Tag) {
                         case "RenameTag":
                             mdl.LocalName = tagNameEditBox.Text.Trim();
-                            if (!mdl.LocalName.Equals(mdl.TagName, StringComparison.CurrentCultureIgnoreCase)) {
+                            var fmt = (TagFormat)Properties.Settings.Default.TagFormatting;
+                            if (!mdl.LocalName.StartsWith(mdl.PageTag.Tag.TagMarker)) {
+                                // Process type change
+                                RaiseEvent(new RoutedEventArgs(ActionEvent, this));
+                            } else if ((mdl.PageTag.Tag.TagType != PageTagType.PlainTag || fmt == TagFormat.AsEntered)
+                               && !mdl.LocalName.Equals(mdl.TagName, StringComparison.CurrentCulture)) {
                                 // Process rename
                                 RaiseEvent(new RoutedEventArgs(ActionEvent, this));
+                            } else if (!mdl.LocalName.Equals(mdl.TagName, StringComparison.CurrentCultureIgnoreCase)) {
+                                // Process rename
+                                RaiseEvent(new RoutedEventArgs(ActionEvent, this));
+                            } else {
+                                // revert any name edits.
+                                mdl.LocalName = mdl.PageTag.Tag.DisplayName;
                             }
                             break;
                         default:
