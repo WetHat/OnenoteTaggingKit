@@ -41,7 +41,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                     _tag = value;
                     LocalName = Tag.DisplayName;
                     UseCount = value.Pages.Count;
-                    IsModifiable = _tag.Tag.IsImported;
+                    IsModifiable = !_tag.Tag.IsImported;
                 }
             }
         }
