@@ -12,6 +12,7 @@
           Background="Transparent"
           ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.SuggestedTag_Menu_Tooltip}}">
         <MenuItem Name="actionMenu"
+                  IsEnabled="{Binding Path=IsModifiable, Mode=OneWay}"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
                   Background="Transparent"

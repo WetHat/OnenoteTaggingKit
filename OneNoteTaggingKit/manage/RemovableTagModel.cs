@@ -12,36 +12,51 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     /// Provides properties to allow adding/removing/renaming
     /// tags
     /// </remarks>
-    public class RemovableTagModel : FilterableTagModel
-    {
+    public class RemovableTagModel : FilterableTagModel {
         /// <summary>
         /// Create a new instance of the view model.
         /// </summary>
-        public RemovableTagModel()
-        {
+        public RemovableTagModel() {
             UseCount = 0;
         }
 
         private TagPageSet _tag;
 
         /// <summary>
-        /// Set the page tag which keeps track of the pages having this
+        /// Set the page set which keeps track of the pages having this
         /// tag.
         /// </summary>
         /// <remarks>
         /// The page tag is used to provide the page count
         /// (number of pages with this tag). If the page count is 0, the
         /// tag isn't used anywhere.
+        ///
+        /// This property can be set only once
         /// </remarks>
         internal TagPageSet PageTag {
             get => _tag;
             set {
-                _tag = value;
-                if (Tag == null) {
+                if (_tag == null) {
                     Tag = value.Tag;
+                    _tag = value;
+                    LocalName = Tag.DisplayName;
+                    UseCount = value.Pages.Count;
+                    IsModifiable = _tag.Tag.IsImported;
                 }
-                LocalName = Tag.DisplayName;
-                UseCount = value.Pages.Count;
+            }
+        }
+
+        bool _modifiable = false;
+        /// <summary>
+        /// Predicate to determine if the tag can be modified.
+        /// </summary>
+        public bool IsModifiable {
+            get => _modifiable;
+            set {
+                if (_modifiable != value) {
+                    _modifiable = value;
+                    RaisePropertyChanged();
+                }
             }
         }
 
