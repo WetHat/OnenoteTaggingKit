@@ -86,7 +86,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     ///     </list>
     /// </remarks>
     public class OneNotePage : PageObjectBase {
-        private static readonly Regex _hashtag_matcher = new Regex(@"(?<=(^|[^\w]))#[\w-_]{3,}|[\w-_]{3,}#(?=($|[^\w]))", RegexOptions.Compiled);
+        private static readonly Regex _hashtag_matcher = new Regex(@"(?<=(^|[^\w#]))#[\w-_]{2,}|[\w-_]{2,}#(?=($|[^\w#]))", RegexOptions.Compiled);
         private static readonly Regex _number_matcher = new Regex(@"^#\d*\w{0,1}\d*$|^#[xX]{0,1}[\dABCDEFabcdef]+$", RegexOptions.Compiled);
 
         /// <summary>
@@ -266,7 +266,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                             // remove some non-sensical tags from the text
                             string txt = OETaglist.HTMLtag_matcher.Replace(t.Value, string.Empty);
                             _importedTags.UnionWith(from Match m in _hashtag_matcher.Matches(txt)
-                                                    where !_number_matcher.Match(m.Value).Success
+                                                    where m.Value.Length > 2 && !_number_matcher.Match(m.Value).Success
                                                     select new PageTag(m.Value.Trim(), PageTagType.ImportedHashTag));
                         }
                     }
