@@ -1,20 +1,20 @@
-﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+﻿// Author: WetHat | (C) Copyright 2013 - 2023 WetHat Lab, all rights reserved
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using WetHatLab.OneNote.TaggingKit.common;
-using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {
     /// <summary>
-    /// Observable collections of tags and OneNote pages satisfying a
-    /// search criterion and having common tags.
+    ///     Observable collection of tags and OneNote pages satisfying
+    ///     one or more tag conditions and an optional full-text query.
     /// </summary>
     /// <remarks>
-    /// Provides a refineable unordered set of tags and pages. The page collection is built
-    /// by calling <see cref="FindTaggedPages" /> and can be progressively refined
-    /// (filtered) by adding filter tags ( <see cref="AddTagToFilter" />)
+    ///     Provides a refineable unordered set of tags and pages.
+    ///     The page collection is initialized by calling
+    ///     <see cref="FindTaggedPages" /> and can be progressively refined
+    ///     (filtered) by adding filter tags ( <see cref="AddTagToFilter" />)
     /// </remarks>
     [ComVisible(false)]
     public class FilteredPages : TagsAndPages {
@@ -23,18 +23,27 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         private string _query;
 
+        /// <summary>
+        ///     Initialize a new instance of an empty set of tagged OneNote pages.
+        /// </summary>
+        /// <remarks>
+        ///     Use the <see cref="Find"/> method to populate the set.
+        /// </remarks>
+        /// <param name="onenote">The OneNote proxy object to use</param>
         internal FilteredPages(OneNoteProxy onenote) : base(onenote) {
         }
 
         /// <summary>
-        /// Find pages in OneNote.
+        ///     Find tagged pages in OneNote satisfying a query or tag related
+        ///     condition.
         /// </summary>
         /// <remarks>
-        /// Calling this method may cause tags in the filter to become stale. It is the
-        /// responsibility of the caller to update tag objects it may have associated with
-        /// the filter.
+        ///     Calling this method may cause tags in the filter to become stale.
+        ///     It is the responsibility of the caller to update tag objects it
+        ///     may have associated with this filter.
         /// </remarks>
-        /// <param name="query">  query string. if null or empty just the tags are provided</param>
+        /// <param name="query">Query string. If null or empty just the tags are
+        /// used to filter pages.</param>
         /// <param name="scope">The scope to search for pages.</param>
         internal void Find(string query, SearchScope scope) {
             _query = query;
@@ -60,7 +69,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
-        /// Get the dictionary of pages.
+        ///     Get the dictionary of pages matching all criteria.
         /// </summary>
         public ObservableDictionary<string, PageNode> MatchingPages { get; } = new ObservableDictionary<string, PageNode>();
 
@@ -88,11 +97,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
-        /// Filter pages by tag.
+        ///     Filter pages by tag.
         /// </summary>
         /// <remarks>
-        /// Filters pages down to a collection where all pages have this tag and also all
-        /// tags from preceding calls to this method.
+        ///     Filters pages down to a collection where all pages have this tag and also all
+        ///     tags from preceding calls to this method.
         /// </remarks>
         /// <param name="tag">Page tag to add to refinement filter.</param>
         internal void AddTagToFilter(TagPageSet tag)
@@ -122,7 +131,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     MatchingPages.UnionWith(Pages.Values);
                 }
                 if (FilterTags.Count > 0) {
-                    // rebuild tha collection of matching pages
+                    // rebuild the collection of matching pages
                     int tagsApplied = 0;
                     foreach (TagPageSet tps in FilterTags) {
                         if (tagsApplied++ == 0 && string.IsNullOrEmpty(_query)) {

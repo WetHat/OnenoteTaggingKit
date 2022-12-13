@@ -10,7 +10,7 @@ using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 namespace WetHatLab.OneNote.TaggingKit.common
 {
     /// <summary>
-    /// Context from which a tags and pages collection has been build from.
+    ///     Range of notes to select tags from or apply tags to.
     /// </summary>
     internal enum TagContext
     {
@@ -31,11 +31,13 @@ namespace WetHatLab.OneNote.TaggingKit.common
     }
 
     /// <summary>
-    /// Observable collections of tags and OneNote pages satisfying a search criterion.
+    ///     Observable collections of OneNote pages and the tags on them.
     /// </summary>
     /// <remarks>
-    /// Provides an unordered set of tags and pages. The page collection is populated by
-    /// calling <see cref="FindPages" />or <see cref="LoadPageTags" />.
+    ///     The tag and page collections are unordered and can be populated
+    ///     by a full-text query <see cref="FindPages" /> or be the pages found
+    ///     in a sub-tree of the OneNote page hierarchy
+    ///     <see cref="LoadPageTags" />.
     /// </remarks>
     public class TagsAndPages
     {
@@ -66,27 +68,28 @@ namespace WetHatLab.OneNote.TaggingKit.common
         internal IEnumerable<string> SelectedPages { get; set; } = null;
 
         /// <summary>
-        /// Get a dictionary of pages.
+        /// Get the observable collection of pages.
         /// </summary>
         internal ObservableDictionary<string, PageNode> Pages {
             get { return _pages; }
         }
 
         /// <summary>
-        /// get a dictionary of tags.
+        /// Get the observable collection of tags.
         /// </summary>
         internal ObservableDictionary<string, TagPageSet> Tags {
             get { return _tags; }
         }
 
         /// <summary>
-        /// Find pages by full text search
+        ///     Find pages by full text search.
         /// </summary>
-        /// <param name="query">  query string</param>
+        /// <param name="query">Optional query string.</param>
         /// <param name="scope">
-        /// OneNote id of the scope to search for pages. This is the element ID of a
-        /// notebook, section group, or section. If given as null or empty string;
-        /// scope is the entire set of notebooks open in OneNote.
+        ///     The OneNote id of the scope to search for pages. This is the
+        ///     element ID of a notebook, section group, or section. If given as
+        ///     null or empty string,scope is the entire set of notebooks open
+        ///     in OneNote.
         /// </param>
         internal void FindPages(SearchScope scope, string query = null ) {
             BuildTagSet(new PageHierarchy(_onenote,scope,query),selectedPagesOnly:false);
@@ -110,9 +113,11 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         /// <summary>
-        /// Load tags from pages in subtree of the OneNote page hierarchy.
+        ///     Load tags the pages in a subtree of the OneNote page hierarchy.
         /// </summary>
-        /// <param name="context">The context from where to get pages.</param>
+        /// <param name="context">
+        ///     The context from where to get pages.
+        /// </param>
         internal void LoadPageTags(TagContext context) {
             // collect all tags and pages from a context
             switch (context) {
@@ -142,13 +147,21 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
         }
         /// <summary>
-        /// Extract tags from OneNote page descriptors.
+        ///     Extract tags from OneNote page descriptors.
         /// </summary>
+        /// <remarks>
+        ///     This function attempts to keep the change notifications to
+        ///     a minimum.
+        /// </remarks>
         /// <param name="hierarchy">
-        /// A hierarchy of OneNote pages.
+        /// A    hierarchy of OneNote pages.
         /// </param>
-        /// <param name="selectedPagesOnly">true to process only pages selected by user</param>
-        /// <param name="omitUntaggedPages">drop untagged pages</param>
+        /// <param name="selectedPagesOnly">
+        ///     true to process only pages selected by user
+        ///     </param>
+        /// <param name="omitUntaggedPages">
+        ///     drop untagged pages
+        /// </param>
         void BuildTagSet(PageHierarchy hierarchy, bool selectedPagesOnly, bool omitUntaggedPages = false) {
             Dictionary<string, TagPageSet> tags  = new Dictionary<string, TagPageSet>();
             Dictionary<string, PageNode> taggedpages = new Dictionary<string, PageNode>();

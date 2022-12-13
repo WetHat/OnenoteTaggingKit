@@ -19,22 +19,6 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         /// </summary>
         readonly static char[] sTagListSeparators = new char[] { ',' };
 
-        /// <summary>
-        /// Parse a comma separated list of tags.
-        /// </summary>
-        /// <remarks>
-        /// This function does **not** handle HTML markup in the taglist.
-        /// </remarks>
-        /// <param name="taglist">Array of tags.</param>
-        /// <returns>Array of parsed tags.</returns>
-        public static string[] ParseTaglist(string taglist) {
-            var tags =  taglist.Split(sTagListSeparators, StringSplitOptions.RemoveEmptyEntries);
-            // trim tags
-            for(int i = 0; i < tags.Length; i++) {
-                tags[i] = tags[i].Trim();
-            }
-            return tags;
-        }
         private readonly bool _isSelected = false;
 
         /// <summary>

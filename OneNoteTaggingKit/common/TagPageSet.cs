@@ -5,7 +5,7 @@ using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 namespace WetHatLab.OneNote.TaggingKit.common
 {
     /// <summary>
-    /// The set of pages which have a specified tag in their &lt;one:Meta
+    /// The set of pages which have a particular tag in their &lt;one:Meta
     /// name="TaggingKit.PageTags" ...&gt; meta element.
     /// </summary>
     /// <remarks>A filter can be applied to constrain the number of tagged pages <see cref="IntersectWith" /></remarks>
@@ -29,12 +29,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
         public string TagType {
             get => Tag.TagMarker;
         }
-
-        /// <summary>
-        /// Determine if a filter has been applied to the pages with this
-        /// tag.
-        /// </summary>
-        public bool IsFiltered => FilteredPageCount != Pages.Count;
 
         /// <summary>
         /// Initialize a new instance of a set of pages having the given page
