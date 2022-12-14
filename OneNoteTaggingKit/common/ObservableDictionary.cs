@@ -91,12 +91,21 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </summary>
         public event NotifyDictionaryChangedEventHandler<TKey,TValue> CollectionChanged;
 
-        private void fireChangedEvent(NotifyDictionaryChangedEventArgs<TKey,TValue> e)
+        private void fireChangedEvent( NotifyDictionaryChangedEventArgs<TKey,TValue> e)
         {
             if (CollectionChanged != null)
             {
                 CollectionChanged(this, e);
             }
+        }
+
+        /// <summary>
+        ///     Reset the dictionary with new content.
+        /// </summary>
+        /// <param name="dict">The dictionary containing the new data.</param>
+        public void Reset(Dictionary<TKey, TValue> dict) {
+            _dictionary = dict;
+            fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey, TValue>());
         }
 
         /// <summary>
