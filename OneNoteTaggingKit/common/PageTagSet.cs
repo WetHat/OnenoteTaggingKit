@@ -11,7 +11,8 @@ namespace WetHatLab.OneNote.TaggingKit.common
     /// </summary>
     /// <remarks>
     ///     The term _consolidated_ relates to a special property that allows
-    ///     <see cref="PageTag"/> objects of different type to have the same type.
+    ///     <see cref="PageTag"/> objects different types with the same key to
+    ///     be represented by their highest ranked type.
     /// </remarks>
     public class PageTagSet : IEnumerable<PageTag>
     {
