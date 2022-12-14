@@ -147,7 +147,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             }
         }
         /// <summary>
-        ///     Extract tags from OneNote page descriptors.
+        ///     Extract tags from OneNote pages found in a page hierarchy.
         /// </summary>
         /// <remarks>
         ///     This function attempts to keep the change notifications to
