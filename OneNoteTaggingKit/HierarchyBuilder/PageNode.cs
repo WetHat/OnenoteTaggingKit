@@ -14,17 +14,7 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
     /// </summary>
     public class PageNode : HierarchyNode
     {
-        /// <summary>
-        /// Supported taglist separators
-        /// </summary>
-        readonly static char[] sTagListSeparators = new char[] { ',' };
-
         private readonly bool _isSelected = false;
-
-        /// <summary>
-        /// Set of tags
-        /// </summary>
-        private readonly ISet<TagPageSet> _tags = new HashSet<TagPageSet>();
 
         /// <summary>
         /// Create an internal representation of a page returned from FindMeta
