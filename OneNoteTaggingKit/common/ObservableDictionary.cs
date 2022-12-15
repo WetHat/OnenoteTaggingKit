@@ -105,6 +105,20 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="dict">The dictionary containing the new data.</param>
         public void Reset(Dictionary<TKey, TValue> dict) {
             _dictionary = dict;
+            // fire Reset event
+            fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey, TValue>());
+        }
+
+        /// <summary>
+        ///     Reset the dictionary with new content.
+        /// </summary>
+        /// <param name="values">The new values.</param>
+        public void Reset(IEnumerable<TValue> values) {
+            _dictionary.Clear();
+            foreach (var v in values) {
+                _dictionary.Add(v.Key, v);
+            }
+            // fire Reset event
             fireChangedEvent(new NotifyDictionaryChangedEventArgs<TKey, TValue>());
         }
 
