@@ -89,6 +89,10 @@
     <Compile Include="common\ObservableDictionary.cs" />
     <Compile Include="common\ObservableSortedList.cs" />
     <Compile Include="common\PageTagSet.cs" />
+    <Compile Include="common\TagsAndPagesBase.cs" />
+    <Compile Include="find\FilteredPagesBase.cs" />
+    <Compile Include="find\PagesWithAllTags.cs" />
+    <Compile Include="find\RefinementTag.cs" />
     <Compile Include="HierarchyBuilder\HierarchyNode.cs" />
     <Compile Include="HierarchyBuilder\PageHierarchy.cs" />
     <Compile Include="PageBuilder\Cell.cs" />
@@ -143,7 +147,6 @@
     </Compile>
     <Compile Include="edit\TagEditorDesignerModel.cs" />
     <Compile Include="edit\TagEditorModel.cs" />
-    <Compile Include="find\FilteredPages.cs" />
     <Compile Include="find\FindTaggedPagesDesignerModel.cs" />
     <Compile Include="find\HitHighlightedPageLink.xaml.cs">
       <DependentUpon>HitHighlightedPageLink.xaml</DependentUpon>
