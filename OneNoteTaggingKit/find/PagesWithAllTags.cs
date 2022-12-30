@@ -40,8 +40,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
                         }
                         Pages.IntersectWith(filtered);
                         Pages.UnionWith(filtered);
+                    } else if (!string.IsNullOrEmpty(Source.Query)) {
+                        // display at least query result
+                        Pages.IntersectWith(Source.Pages.Values);
+                        Pages.UnionWith(Source.Pages.Values);
                     } else {
-                        // no refinement tag set -> do not display pages
+                        // no refinement tag or query set -> do not display pages
                         Pages.Clear();
                         // reset the filtered page counts of all tags
                         foreach (var tps in RefinementTags.Values) {

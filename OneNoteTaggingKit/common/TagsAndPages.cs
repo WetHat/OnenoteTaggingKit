@@ -38,14 +38,24 @@ namespace WetHatLab.OneNote.TaggingKit.common
     ///     in a sub-tree of the OneNote page hierarchy
     ///     <see cref="LoadPageTags" />.
     /// </remarks>
-    public class TagsAndPages : TagsAndPagesBase
-    {
+    public class TagsAndPages : TagsAndPagesBase {
+        /// <summary>
+        /// Get the scope from which tags and pages where collected
+        /// </summary>
+        public SearchScope Scope { get; private set; }
+
+        /// <summary>
+        /// Get the search query which was used to search for pages.
+        /// </summary>
+        public string Query {get; private set;}
 
         /// <summary>
         /// Create a new instance of the tag collection
         /// </summary>
         /// <param name="onenote">OneNote application object</param>
         internal TagsAndPages(OneNoteProxy onenote) :base(onenote) {
+            Scope = SearchScope.AllNotebooks;
+            Query = null;
         }
 
         /// <summary>
@@ -69,6 +79,9 @@ namespace WetHatLab.OneNote.TaggingKit.common
         ///     in OneNote.
         /// </param>
         internal void FindPages(SearchScope scope, string query = null ) {
+            Scope = scope;
+            Query = query;
+
             BuildTagSet(new PageHierarchy(OneNote,scope,query),selectedPagesOnly:false);
             if (!string.IsNullOrEmpty(query)) {
                 // attempt to automatically update the tag suggestions, if we have collected all used tags
