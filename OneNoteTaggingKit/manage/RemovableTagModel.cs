@@ -46,7 +46,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             }
         }
 
-        bool _modifiable = false;
+        bool _modifiable = true; // make sure tags are modifyable by default.
         /// <summary>
         /// Predicate to determine if the tag can be modified.
         /// </summary>
