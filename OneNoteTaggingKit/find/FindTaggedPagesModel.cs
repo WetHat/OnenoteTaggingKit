@@ -88,15 +88,17 @@ namespace WetHatLab.OneNote.TaggingKit.find
         #endregion CurrentPageTagsProperty
 
         // the collection of pages matching filter criteria.
-        private FilteredPages _filteredTagsAndPages;
+        private TagsAndPages _tagsAndPages;
+        private PagesWithAllTags _pagesWithAllTags;
         private CancellationTokenSource _cancelWorker = new CancellationTokenSource();
         private TextSplitter _highlighter;
 
         internal FindTaggedPagesModel(OneNoteProxy onenote) : base(onenote) {
-            _filteredTagsAndPages = new FilteredPages(onenote);
-            PageTagsSource = new RefinementTagsSource(_filteredTagsAndPages);
+            _tagsAndPages = new TagsAndPages(onenote);
+            _pagesWithAllTags = new PagesWithAllTags(_tagsAndPages);
+            PageTagsSource = new RefinementTagsSource(_pagesWithAllTags);
             // track changes in filter result
-            _filteredTagsAndPages.MatchingPages.CollectionChanged += HandlePageCollectionChanges;
+            _pagesWithAllTags.Pages.CollectionChanged += HandlePageCollectionChanges;
 
             CurrentPageTitle = Properties.Resources.TagSearch_CheckBox_Tracking_Text;
             // load the search history
@@ -147,11 +149,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 _highlighter = new TextSplitter();
             }
 
-            await Task.Run(() => _filteredTagsAndPages.Find(query, scope), _cancelWorker.Token);
+            await Task.Run(() => _tagsAndPages.FindPages(scope,query), _cancelWorker.Token);
         }
 
         internal Task ClearTagFilterAsync() {
-            return Task.Run(() => _filteredTagsAndPages.ClearTagFilter(), _cancelWorker.Token);
+            return Task.Run(() => _pagesWithAllTags.SelectedTags.Clear(), _cancelWorker.Token);
         }
 
         /// <summary>
@@ -170,7 +172,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         internal Task RemoveTagFromFilterAsync(TagPageSet tag) {
-            return Task.Run(() => _filteredTagsAndPages.RemoveTagFromFilter(tag), _cancelWorker.Token);
+            return Task.Run(() => _pagesWithAllTags.RefinementTags.Remove(tag.Key), _cancelWorker.Token);
         }
 
         // Collection of previous searches
@@ -258,7 +260,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     break;
 
                 case NotifyDictionaryChangedAction.Reset:
-                    a = () => FilteredPages.Clear();
+                    // we need to rebuild the entire model in case page properties
+                    // have changed
+                    var pages = sender as ObservableDictionary<string,PageNode>;
+                    a = () => {
+                        FilteredPages.Clear();
+                        FilteredPages.AddAll(from i in pages.Values select new HitHighlightedPageLinkModel(i, _highlighter));
+                    };
                     break;
             }
             Dispatcher.Invoke(a);
@@ -309,6 +317,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
         public override void Dispose() {
             base.Dispose();
             _cancelWorker.Cancel();
+            if (_pagesWithAllTags != null) {
+                _pagesWithAllTags.Dispose();
+                _pagesWithAllTags = null;
+            }
             EndTracking();
         }
     }
