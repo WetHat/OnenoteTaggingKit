@@ -36,7 +36,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             if (_trackingEnabled) {
                 switch (e.Action) {
                     case NotifyCollectionChangedAction.Add:
-                        _onenote.KnownTags.UnionWith(from T it in e.NewItems select ConvertToManagedTag(it.Tag));
+                        _onenote.KnownTags.UnionWith(from T it in e.NewItems select it.Tag.ManagedTag);
                         break;
                     case NotifyCollectionChangedAction.Remove:
                         foreach (T itm in e.OldItems) {
@@ -65,23 +65,12 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     }
                     _onenote.SaveSettings();
                 }
-                return from pt in _onenote.KnownTags select new T() { Tag = ConvertToManagedTag(pt) };
+                return from pt in _onenote.KnownTags select new T() { Tag = pt.ManagedTag };
             });
             AddAll(mdls);
             _trackingEnabled = true;
         }
 
-        PageTag ConvertToManagedTag(PageTag tag) {
-
-            switch (tag.TagType) {
-                case PageTagType.ImportedHashTag:
-                    return new PageTag(tag.BaseName, PageTagType.HashTag);
-                case PageTagType.ImportedOneNoteTag:
-                    return new PageTag(tag.BaseName, PageTagType.PlainTag);
-                default:
-                    return tag;
-            }
-        }
         /// <summary>
         ///     Update known tags.
         /// </summary>
@@ -91,7 +80,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         ///     merged.
         /// </remarks>
         public void Update() {
-            _onenote.KnownTags.Reset(from tm in Values select ConvertToManagedTag(tm.Tag));
+            _onenote.KnownTags.Reset(from tm in Values select tm.Tag.ManagedTag);
         }
         /// <summary>
         /// Save the current set of suggested tags to the add-in settings store.

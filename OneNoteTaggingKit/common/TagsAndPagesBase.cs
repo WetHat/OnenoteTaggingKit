@@ -84,7 +84,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                         } else {
                             t = new TagPageSet(tag);
                             // update the set of suggested tags
-                            OneNote.KnownTags.Add(t.Tag);
+                            OneNote.KnownTags.Add(t.Tag.ManagedTag);
                         }
                         tags.Add(t.Tag.Key, t);
                     } else {
