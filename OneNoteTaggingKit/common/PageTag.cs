@@ -78,6 +78,22 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// </summary>
         public bool IsRTL { get; private set;  }
 
+        /// <summary>
+        ///     Get equivalent managed version of this tag.
+        /// </summary>
+        /// <returns>The managed tag equivalent</returns>
+        public PageTag ManagedTag {
+            get {
+                switch (TagType) {
+                    case PageTagType.ImportedHashTag:
+                        return new PageTag(BaseName, PageTagType.HashTag);
+                    case PageTagType.ImportedOneNoteTag:
+                        return new PageTag(BaseName, PageTagType.PlainTag);
+                    default:
+                        return this;
+                }
+            }
+        }
 
         /// <summary>
         /// The type markers to watch out for on tag names.
