@@ -106,6 +106,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             var pagelinks = new LinkedList<OET>();
             var citationsStyle = page.QuickStyleDefinitions.CitationStyleDef;
             foreach (var p in pages) {
+                if (p.IsInRecycleBin) {
+                    continue;
+                }
                 pagelinks.AddLast(new OET(ns,
                                           string.Format("<a href=\"{0}\">{1}",
                                           onenote.GetHyperlinkToObject(p.ID, string.Empty),
