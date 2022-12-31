@@ -74,6 +74,17 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         /// <summary>
+        ///     Update known tags.
+        /// </summary>
+        /// <remarks>
+        ///     This function is used to update the display name
+        ///     of known tags which takes place when iported tags are
+        ///     merged.
+        /// </remarks>
+        public void Update() {
+            _onenote.KnownTags.Reset(from tm in Values select tm.Tag);
+        }
+        /// <summary>
         /// Save the current set of suggested tags to the add-in settings store.
         /// </summary>
         public void Save() {
