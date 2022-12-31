@@ -109,7 +109,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                                       PageTag = tps
                                   });
             if (before != _suggestedTags.Count) {
-                SaveChanges();
+                _suggestedTags.Save();
             }
         }
 
@@ -182,18 +182,16 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             }
         }
 
-        /// <summary>
-        /// Persist any changes
-        /// </summary>
-        internal void SaveChanges() {
-            _suggestedTags.Save();
-        }
 
         /// <summary>
         /// Dispose this model.
         /// </summary>
         public override void Dispose() {
             if (_suggestedTags != null) {
+                if (_suggestedTags.Count > 0) {
+                    _suggestedTags.Update();
+                    _suggestedTags.Save();
+                }
                 _suggestedTags.Dispose();
                 _suggestedTags = null;
             }

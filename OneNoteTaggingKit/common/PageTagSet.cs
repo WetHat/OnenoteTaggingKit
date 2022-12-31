@@ -7,7 +7,7 @@ using System.Linq;
 namespace WetHatLab.OneNote.TaggingKit.common
 {
     /// <summary>
-    /// A consolidated set of page tags
+    ///     A consolidated set of page tags.
     /// </summary>
     /// <remarks>
     ///     The term _consolidated_ relates to a special property that allows
@@ -17,7 +17,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
     public class PageTagSet : IEnumerable<PageTag>
     {
         /// <summary>
-        /// The supported tagöist separators
+        /// The supported taglist separators
         /// </summary>
         public readonly static char[] sTagListSeparators = new char[] { ',' };
 
@@ -220,6 +220,17 @@ namespace WetHatLab.OneNote.TaggingKit.common
         public void ExceptWith(IEnumerable<PageTag> pagetags) {
             lock (_pagetags) {
                 foreach (var t in pagetags) { _ = Remove(t.Key); }
+            }
+        }
+
+        /// <summary>
+        /// Reset to a given collection of page tags.
+        /// </summary>
+        /// <param name="pagetags">Collection of page tags.</param>
+        public void Reset(IEnumerable<PageTag> pagetags) {
+            lock (_pagetags) {
+                _pagetags.Clear();
+                foreach (var t in pagetags) { Add(t); }
             }
         }
 
