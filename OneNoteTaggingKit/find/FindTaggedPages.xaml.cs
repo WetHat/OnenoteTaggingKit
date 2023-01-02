@@ -211,6 +211,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                                 var tagset = new PageTagSet(from rt in ViewModel.SelectedRefinementTags.Values
                                                             select rt.Tag);
                                 var pages = (from p in ViewModel.FilteredPages.Values
+                                             where !p.IsInRecycleBin
                                              orderby p.Page.Name
                                              select p.Page).ToList();
                                 await Task.Run(() => {
