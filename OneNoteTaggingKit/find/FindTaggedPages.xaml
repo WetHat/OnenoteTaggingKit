@@ -40,7 +40,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="3*" MinHeight="150" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="6*" MinHeight="100" />
+            <RowDefinition Height="3*" MinHeight="100" />
             <RowDefinition Height="Auto" MaxHeight="23"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -95,7 +95,8 @@
                     </Setter>
                 </Style>
             </TabControl.Resources>
-            <TabItem Header="⋂ With All">
+            <TabItem Header="⋂ With All"
+                     Style="{StaticResource tabItemStyle}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" MinHeight="50"/>
@@ -187,6 +188,10 @@
                         </Button>
                     </Grid>
                 </Grid>
+            </TabItem>
+            <TabItem Header="∉ Except With"
+                     Style="{StaticResource tabItemStyle}">
+
             </TabItem>
         </TabControl>
         <ProgressBar Grid.Row="1"

@@ -20,7 +20,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         private ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel> _pageModels = new ObservableSortedList<HitHighlightedPageLinkKey, string, HitHighlightedPageLinkModel>();
 
         private TagsAndPages _tagsandpages = new TagsAndPages(null);
-        private PagesWithAllTags _filteredPages;
+        private WithAllTagsFilter _filteredPages;
 
         private RefinementTagsSource _tags;
 
@@ -30,7 +30,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// Create a new instance of a design time view model
         /// </summary>
         public FindTaggedPagesDesignerModel() {
-            _filteredPages = new PagesWithAllTags(_tagsandpages);
+            _filteredPages = new WithAllTagsFilter(_tagsandpages);
             _tags = new RefinementTagsSource(_filteredPages);
             _scopes = new List<SearchScopeFacade> {
                     new SearchScopeFacade()

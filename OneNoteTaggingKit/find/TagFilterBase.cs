@@ -9,13 +9,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
     ///     Abstract base class to define and apply rules to filter
     ///     down OneNote pages based on tags.
     /// </summary>
-    public abstract class FilteredPagesBase : IDisposable
+    public abstract class TagFilterBase : IDisposable, ITagsAndPages
     {
         /// <summary>
         ///     Fet the original, unfiltered source of the collections of tags and
         ///     pages.
         /// </summary>
-        protected TagsAndPages Source { get; private set; }
+        public ITagsAndPages Source { get; private set; }
 
         /// <summary>
         ///     Get the collection of tags currently selected for refinement.
@@ -27,6 +27,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         public ObservableDictionary<string, RefinementTag> RefinementTags { get; } = new ObservableDictionary<string, RefinementTag>();
 
+        #region ITagsAndPages
         /// <summary>
         ///     Get the collection of pages resulting from application of the
         ///     tag-based refinement constraint implemented by concrete subclasses.
@@ -34,11 +35,16 @@ namespace WetHatLab.OneNote.TaggingKit.find
         public ObservableDictionary<string, PageNode> Pages { get; } = new ObservableDictionary<string, PageNode>();
 
         /// <summary>
+        ///     Get the observable collection of tags this filter has access to.
+        /// </summary>
+        public ObservableDictionary<string, TagPageSet> Tags => Source.Tags;
+        #endregion ITagsAndPages
+        /// <summary>
         ///     Initialite a new instance of this base class with collections of
         ///     tags and OneNOte pages.
         /// </summary>
         /// <param name="source">Collection of tags and OneNte pages.</param>
-        public FilteredPagesBase(TagsAndPages source) {
+        public TagFilterBase(ITagsAndPages source) {
             Source = source;
             Source.Tags.CollectionChanged += Tags_CollectionChanged;
             Source.Pages.CollectionChanged += Pages_CollectionChanged;
@@ -73,10 +79,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     foreach (var tag in e.Items) {
                         RefinementTags.Remove(tag.Key);
                     }
-                    // remove obsolete tags from the tags selected refinement
+                    // remove obsolete tags from selected tags.
                     try {
-                        // disable the event on Selected pages expecting that the
-                        // Pages event handler does the job.
+                        // disable the event on selected tags expecting that the
+                        // Pages event handler does that job.
                         _selTagUpdateEnabled = false;
                         SelectedTags.ExceptWith(e.Items);
                     } finally {
@@ -107,7 +113,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         private void Pages_CollectionChanged(object sender, NotifyDictionaryChangedEventArgs<string, PageNode> e) {
-            // When thee collection of pages changes it is necessaryy to reapply
+            // When the collection of pages changes it is necessaryy to reapply
             // the filter rules from scratch
             RecomputeFilteredPages(new NotifyDictionaryChangedEventArgs<string, TagPageSet>());
         }

@@ -12,13 +12,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
     [ComVisible(false)]
     public class RefinementTagsSource : FilterableTagsSource<RefinementTagModel>
     {
-        PagesWithAllTags _filteredPages;
+        WithAllTagsFilter _filteredPages;
         /// <summary>
         /// Initialize a instance of an observable collection of
         /// refinement tag view models from a set of OneNote pages.
         /// </summary>
         /// <param name="pages">Observable collection of OneNote page tags.</param>
-        public RefinementTagsSource(PagesWithAllTags pages) {
+        public RefinementTagsSource(WithAllTagsFilter pages) {
             _filteredPages = pages;
             pages.RefinementTags.CollectionChanged += Tags_CollectionChanged;
             Tags_CollectionChanged(

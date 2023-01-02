@@ -4,16 +4,29 @@ using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {
-    public class PagesWithAllTags : FilteredPagesBase
+    /// <summary>
+    ///     A set-intersection based tag filter.
+    /// </summary>
+    /// <remarks>
+    ///     Computes the set of pages which have a given set tags.
+    /// </remarks>
+    public class WithAllTagsFilter : TagFilterBase
     {
+        bool HasQuery; // determine if the pages are obtained by a query.
+
         /// <summary>
         /// Initialize a page filter which requires pages to have all
         /// selected tags.
         /// </summary>
         /// <param name="source">Source collections of tag and pages</param>
-        public PagesWithAllTags(TagsAndPages source) :base(source) {
+        public WithAllTagsFilter(TagsAndPages source) :base(source) {
+            HasQuery = !string.IsNullOrWhiteSpace(source.Query);
         }
 
+        /// <summary>
+        /// Re-apply the tag filter and compute the set of pages
+        /// </summary>
+        /// <param name="e">Change details for the thagss in the filter.</param>
         protected override void RecomputeFilteredPages(NotifyDictionaryChangedEventArgs<string, TagPageSet> e) {
             switch (e.Action) {
                 case NotifyDictionaryChangedAction.Add:
@@ -40,7 +53,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                         }
                         Pages.IntersectWith(filtered);
                         Pages.UnionWith(filtered);
-                    } else if (!string.IsNullOrEmpty(Source.Query)) {
+                    } else if (HasQuery) {
                         // display at least query result
                         Pages.IntersectWith(Source.Pages.Values);
                         Pages.UnionWith(Source.Pages.Values);

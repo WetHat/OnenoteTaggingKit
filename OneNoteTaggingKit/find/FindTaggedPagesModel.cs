@@ -89,13 +89,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         // the collection of pages matching filter criteria.
         private TagsAndPages _tagsAndPages;
-        private PagesWithAllTags _pagesWithAllTags;
+        private WithAllTagsFilter _pagesWithAllTags;
         private CancellationTokenSource _cancelWorker = new CancellationTokenSource();
         private TextSplitter _highlighter;
 
         internal FindTaggedPagesModel(OneNoteProxy onenote) : base(onenote) {
             _tagsAndPages = new TagsAndPages(onenote);
-            _pagesWithAllTags = new PagesWithAllTags(_tagsAndPages);
+            _pagesWithAllTags = new WithAllTagsFilter(_tagsAndPages);
             PageTagsSource = new RefinementTagsSource(_pagesWithAllTags);
             // track changes in filter result
             _pagesWithAllTags.Pages.CollectionChanged += HandlePageCollectionChanges;
