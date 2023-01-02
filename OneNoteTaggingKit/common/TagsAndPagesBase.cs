@@ -5,15 +5,32 @@ using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 namespace WetHatLab.OneNote.TaggingKit.common
 {
     /// <summary>
-    ///     Base class for collections of pages and the tags found in them.
+    /// Contract for classes providing colelctions of pages and tags on them.
     /// </summary>
-    public class TagsAndPagesBase
+    public interface ITagsAndPages
+    {
+        /// <summary>
+        /// Get the observable collection of pages.
+        /// </summary>
+        ObservableDictionary<string, PageNode> Pages { get; }
+
+        /// <summary>
+        ///     Get the observable collection of tags.
+        /// </summary>
+        ObservableDictionary<string, TagPageSet> Tags { get; }
+    }
+
+    /// <summary>
+    ///     Base class for collections of pages and the tags found on them.
+    /// </summary>
+    public class TagsAndPagesBase : ITagsAndPages
     {
         /// <summary>
         /// OneNote application object proxy.
         /// </summary>
         public OneNoteProxy OneNote { get; private set; }
 
+        #region ITagsAndPages
         /// <summary>
         /// Get the observable collection of pages.
         /// </summary>
@@ -27,6 +44,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         ///     passed into <see cref="UpdateTagSet"/>
         /// </remarks>
         public ObservableDictionary<string, TagPageSet> Tags { get; } = new ObservableDictionary<string, TagPageSet>();
+        #endregion ITagsAndPages
 
         /// <summary>
         /// Create a new instance of the tag collection
