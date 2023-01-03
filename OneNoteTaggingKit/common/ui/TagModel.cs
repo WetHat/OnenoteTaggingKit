@@ -57,7 +57,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <remarks>
         ///     Setter should be called only once in construction context.
         /// </remarks>
-        public PageTag Tag {
+        public virtual PageTag Tag {
             get => _pagetag;
             set {
                 _pagetag = value;
