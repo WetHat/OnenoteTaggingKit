@@ -97,7 +97,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                 TagPageSet tag;
                 if (_tags.Tags.TryGetValue(t.Key, out tag)) {
                     // populate
-                    t.PageTag = tag;
+                    t.PagesOfTag = tag;
                 }
             }
 
@@ -106,7 +106,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             _suggestedTags.AddAll(from tps in _tags.Tags.Values
                                   where !_suggestedTags.ContainsKey(tps.Key)
                                   select new RemovableTagModel() {
-                                      PageTag = tps
+                                      PagesOfTag = tps
                                   });
             if (before != _suggestedTags.Count) {
                 _suggestedTags.Save();

@@ -39,63 +39,70 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         {
             var rt = sender as RemovableTag;
             var rt_mdl = rt.DataContext as RemovableTagModel;
-
             var toRemove = new PageTagSet(rt_mdl.Tag);
-            if ("DeleteTag".Equals(rt.Tag))
-            {
-                _model.SuggestedTags.RemoveAll(from tag in toRemove select tag.Key);
-                // schedule all pages with this tag for tag removal
-                if (rt_mdl.PageTag != null)
-                {
-                    foreach (var tp in rt_mdl.PageTag.Pages)
-                    {
-                        _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toRemove, TagOperation.SUBTRACT));
+            switch (rt.Tag.ToString()) {
+                case "DeleteTag":
+                    _model.SuggestedTags.RemoveAll(from tag in toRemove select tag.Key);
+                    // schedule all pages with this tag for tag removal
+                    if (rt_mdl.PagesOfTag != null) {
+                        foreach (var tp in rt_mdl.PagesOfTag.Pages) {
+                            _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toRemove, TagOperation.SUBTRACT));
+                        }
+                        suggestedTags.Notification = rt_mdl.PagesOfTag.Pages.Count == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_TaggingInProgress, rt_mdl.PagesOfTag.Pages.Count);
+                        TraceLogger.Log(TraceCategory.Info(), "{0} page(s) enqueued for background tagging; Operation SUBTRACT {1}", rt_mdl.PagesOfTag.Pages.Count, rt_mdl.PagesOfTag.Tag.BaseName);
                     }
-                    suggestedTags.Notification = rt_mdl.PageTag.Pages.Count == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_TaggingInProgress, rt_mdl.PageTag.Pages.Count);
-                    TraceLogger.Log(TraceCategory.Info(), "{0} page(s) enqueued for background tagging; Operation SUBTRACT {1}", rt_mdl.PageTag.Pages.Count, rt_mdl.PageTag.Tag.BaseName);
-                }
-            }
-            else if ("RenameTag".Equals(rt.Tag))
-            {
-                // the renamed tag will be replaced by new tags
-                _model.SuggestedTags.RemoveAll(from tag in toRemove select tag.Key);
+                    break;
+                case "RenameTag":
+                    // tag models created by the rename
+                    var newTagModels = new Stack<RemovableTagModel>();
+                    // obtain one or more page tags for the entered text
+                    var renamedTags = new PageTagSet(rt_mdl.LocalName, (TagFormat)Properties.Settings.Default.TagFormatting);
 
-                // create new tag models unless they already exist
-                var newTagModels = new Stack<RemovableTagModel>();
+                    foreach (var tag in renamedTags) {
+                        // inspect each renamed tag to determine what to do
+                        RemovableTagModel suggestedTagModel;
+                        if (!_model.SuggestedTags.TryGetValue(tag.Key, out suggestedTagModel)) {
+                            // renamed to non-existing tag
+                            suggestedTagModel = new RemovableTagModel() { PagesOfTag = new TagPageSet(tag) };
+                            newTagModels.Push(suggestedTagModel);
+                        } else if (suggestedTagModel.Tag.Key.Equals(tag.Key)) {
+                            // same key
+                            if (rt_mdl.Tag.DisplayName.Equals(tag.DisplayName)) {
+                                // same key and representation -> keep the original tag
+                                toRemove.Remove(rt_mdl.Tag.Key);
+                                continue;
+                            } else {
+                                // different representation -> make a new model
+                                suggestedTagModel = new RemovableTagModel() { PagesOfTag = new TagPageSet(tag) };
+                                newTagModels.Push(suggestedTagModel);
+                            }
+                        } else if (rt_mdl.PagesOfTag == null) {
+                            // renamed to another suggested tag with no pages
+                            // enable page transfer
+                            suggestedTagModel.PagesOfTag = new TagPageSet(tag);
+                        }
 
-                var toAdd = new PageTagSet(rt_mdl.LocalName, (TagFormat)Properties.Settings.Default.TagFormatting);
-
-                foreach (var tag in toAdd) {
-                    RemovableTagModel tagmodel;
-                    if (!_model.SuggestedTags.TryGetValue(tag.Key, out tagmodel)) {
-                        // renamed to non-existing tag
-                        tagmodel = new RemovableTagModel() { PageTag = new TagPageSet(tag) };
-                        newTagModels.Push(tagmodel);
+                        if (rt_mdl.PagesOfTag != null) {
+                            // copy the pages into the new tag and update the tag count
+                            suggestedTagModel.PagesOfTag.Pages.UnionWith(rt_mdl.PagesOfTag.Pages);
+                            suggestedTagModel.UseCount = suggestedTagModel.PagesOfTag.Pages.Count;
+                        }
                     }
-                    else if (rt_mdl.PageTag == null) {
-                        // renamed to suggested tag which is not used anywhere
-                        tagmodel.PageTag = new TagPageSet(tag);
-                    }
+                    // the renamed tag will be replaced by new tags
+                    _model.SuggestedTags.RemoveAll(from tr in toRemove select tr.Key);
+                    // add the new models
+                    _model.SuggestedTags.AddAll(newTagModels);
 
-                    if (rt_mdl.PageTag != null) {
-                        // copy the pages into the new tag and update the tag count
-                        tagmodel.PageTag.Pages.UnionWith(rt_mdl.PageTag.Pages);
-                        tagmodel.UseCount = tagmodel.PageTag.Pages.Count;
+                    if (rt_mdl.PagesOfTag != null) {
+                        // remove the old tag and add new tag to the pages
+                        foreach (var tp in rt_mdl.PagesOfTag.Pages) {
+                            _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toRemove, TagOperation.SUBTRACT));
+                            _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, renamedTags, TagOperation.UNITE));
+                        }
+                        suggestedTags.Notification = rt_mdl.PagesOfTag.Pages.Count == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_TaggingInProgress, rt_mdl.PagesOfTag.Pages.Count);
+                        TraceLogger.Log(TraceCategory.Info(), "{0} page(s) enqueued for background tagging; Operation UNITE {1} SUBTRACT {2}", rt_mdl.PagesOfTag.Pages.Count, rt_mdl.LocalName, rt_mdl.PagesOfTag.Tag.BaseName);
                     }
-                }
-                _model.SuggestedTags.AddAll(newTagModels);
-
-                if (rt_mdl.PageTag != null)
-                {
-                    // remove the old tag and add new tag to the pages
-                    foreach (var tp in rt_mdl.PageTag.Pages)
-                    {
-                        _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, new PageTagSet(rt_mdl.Tag), TagOperation.SUBTRACT));
-                        _model.OneNoteApp.TaggingService.Add(new TaggingJob(tp.ID, toAdd, TagOperation.UNITE));
-                    }
-                    suggestedTags.Notification = rt_mdl.PageTag.Pages.Count == 0 ? Properties.Resources.TagEditor_Popup_NothingTagged : string.Format(Properties.Resources.TagEditor_Popup_TaggingInProgress, rt_mdl.PageTag.Pages.Count);
-                    TraceLogger.Log(TraceCategory.Info(), "{0} page(s) enqueued for background tagging; Operation UNITE {1} SUBTRACT {2}", rt_mdl.PageTag.Pages.Count, rt_mdl.LocalName, rt_mdl.PageTag.Tag.BaseName);
-                }
+                    break;
             }
             TraceLogger.Flush();
         }
@@ -108,7 +115,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         private void NewTagButton_Click(object sender, RoutedEventArgs e)
         {
             var tagset = new PageTagSet(tagInput.TagNames, (TagFormat)Properties.Settings.Default.TagFormatting);
-            _model.SuggestedTags.AddAll(from t in tagset where!_model.SuggestedTags.ContainsKey(t.Key) select new RemovableTagModel() { PageTag = new TagPageSet(t) });
+            _model.SuggestedTags.AddAll(from t in tagset where!_model.SuggestedTags.ContainsKey(t.Key) select new RemovableTagModel() { PagesOfTag = new TagPageSet(t) });
             tagInput.Clear();
             e.Handled = true;
         }

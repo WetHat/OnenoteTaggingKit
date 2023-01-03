@@ -143,7 +143,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                 case "CancelAction":
                     if ("RenameTag".Equals(Tag)) {
                         // revert any name edits.
-                        mdl.LocalName = mdl.PageTag.Tag.DisplayName;
+                        mdl.LocalName = mdl.PagesOfTag.Tag.DisplayName;
                     }
                     DisableEditing();
                     ShowActions();
@@ -157,20 +157,9 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                     switch (Tag) {
                         case "RenameTag":
                             mdl.LocalName = tagNameEditBox.Text.Trim();
-                            var fmt = (TagFormat)Properties.Settings.Default.TagFormatting;
-                            if (!mdl.LocalName.StartsWith(mdl.PageTag.Tag.TagMarker)) {
-                                // Process type change
-                                RaiseEvent(new RoutedEventArgs(ActionEvent, this));
-                            } else if ((mdl.PageTag.Tag.TagType != PageTagType.PlainTag || fmt == TagFormat.AsEntered)
-                               && !mdl.LocalName.Equals(mdl.TagName, StringComparison.CurrentCulture)) {
+                            if (!mdl.LocalName.Equals(mdl.Tag.DisplayName, StringComparison.CurrentCulture)) {
                                 // Process rename
                                 RaiseEvent(new RoutedEventArgs(ActionEvent, this));
-                            } else if (!mdl.LocalName.Equals(mdl.TagName, StringComparison.CurrentCultureIgnoreCase)) {
-                                // Process rename
-                                RaiseEvent(new RoutedEventArgs(ActionEvent, this));
-                            } else {
-                                // revert any name edits.
-                                mdl.LocalName = mdl.PageTag.Tag.DisplayName;
                             }
                             break;
                         default:

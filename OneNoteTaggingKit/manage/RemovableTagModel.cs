@@ -20,28 +20,34 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             UseCount = 0;
         }
 
-        private TagPageSet _tag;
+        public override PageTag Tag {
+            set {
+                base.Tag = value;
+                LocalName = value.DisplayName;
+            }
+        }
+
+        private TagPageSet _pages;
 
         /// <summary>
-        /// Set the page set which keeps track of the pages having this
-        /// tag.
+        ///     Set the page collection which have a particular tag.
         /// </summary>
         /// <remarks>
-        /// The page tag is used to provide the page count
-        /// (number of pages with this tag). If the page count is 0, the
-        /// tag isn't used anywhere.
+        ///     The page collection is used to provide the page count
+        ///     (number of pages with a particular tag). If the page count is 0,
+        ///     the tag isn't used anywhere.
         ///
-        /// This property can be set only once
+        ///     This property can be set only once
         /// </remarks>
-        internal TagPageSet PageTag {
-            get => _tag;
+        internal TagPageSet PagesOfTag {
+            get => _pages;
             set {
-                if (_tag == null) {
+                if (_pages == null) {
                     Tag = value.Tag;
-                    _tag = value;
+                    _pages = value;
                     LocalName = Tag.DisplayName;
                     UseCount = value.Pages.Count;
-                    IsModifiable = !_tag.Tag.IsImported;
+                    IsModifiable = !_pages.Tag.IsImported;
                 }
             }
         }
