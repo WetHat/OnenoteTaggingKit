@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
@@ -76,9 +77,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     }
                 case NotifyDictionaryChangedAction.Remove:
                     // remove obsolete refinement tags
+                    var toRemove = new Stack<RefinementTag>();
                     foreach (var tag in e.Items) {
-                        RefinementTags.Remove(tag.Key);
+                        RefinementTag found;
+                        if (RefinementTags.TryGetValue(tag.Key, out found)) {
+                            toRemove.Push(found);
+                        }
                     }
+                    RefinementTags.ExceptWith(toRemove);
                     // remove obsolete tags from selected tags.
                     try {
                         // disable the event on selected tags expecting that the
