@@ -12,7 +12,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// </remarks>
     public class WithAllTagsFilter : TagFilterBase
     {
-        bool HasQuery; // determine if the pages are obtained by a query.
+        TagsAndPages _tpSource;
 
         /// <summary>
         /// Initialize a page filter which requires pages to have all
@@ -20,7 +20,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         /// <param name="source">Source collections of tag and pages</param>
         public WithAllTagsFilter(TagsAndPages source) :base(source) {
-            HasQuery = !string.IsNullOrWhiteSpace(source.Query);
+            _tpSource = source;
         }
 
         /// <summary>
@@ -53,13 +53,16 @@ namespace WetHatLab.OneNote.TaggingKit.find
                         }
                         Pages.IntersectWith(filtered);
                         Pages.UnionWith(filtered);
-                    } else if (HasQuery) {
-                        // display at least query result
-                        Pages.IntersectWith(Source.Pages.Values);
-                        Pages.UnionWith(Source.Pages.Values);
                     } else {
-                        // no refinement tag or query set -> do not display pages
-                        Pages.Clear();
+                        if (string.IsNullOrWhiteSpace(_tpSource.Query)) {
+                            // no refinement tag or query set -> do not display pages
+                            Pages.Clear();
+                        } else {
+                            // display at least query result
+                            Pages.IntersectWith(Source.Pages.Values);
+                            Pages.UnionWith(Source.Pages.Values);
+                        }
+
                         // reset the filtered page counts of all tags
                         foreach (var tps in RefinementTags.Values) {
                             tps.ClearFilter();
