@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -97,6 +98,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
             _tagsAndPages = new TagsAndPages(onenote);
             _pagesWithAllTags = new WithAllTagsFilter(_tagsAndPages);
             PageTagsSource = new RefinementTagsSource(_pagesWithAllTags);
+            // track changes to the tag source so that we can update the selected tags accordingly
+            PageTagsSource.CollectionChanged += PageTagsSource_CollectionChanged;
             // track changes in filter result
             _pagesWithAllTags.Pages.CollectionChanged += HandlePageCollectionChanges;
 
@@ -107,6 +110,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 for (int i = 0; i < searches.Length && i < Properties.Settings.Default.SearchHistory_Size; i++) {
                     SearchHistory.Add(searches[i].Trim());
                 }
+            }
+        }
+
+        private void PageTagsSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+            switch (e.Action) {
+                case NotifyCollectionChangedAction.Remove:
+                    SelectedRefinementTags.RemoveAll(from RefinementTagModel mdl in e.OldItems select mdl.Key);
+                    break;
             }
         }
 
