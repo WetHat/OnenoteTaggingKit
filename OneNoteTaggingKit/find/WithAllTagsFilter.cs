@@ -31,7 +31,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             switch (e.Action) {
                 case NotifyDictionaryChangedAction.Add:
                     foreach (TagPageSet tps in e.Items) {
-                        if (SelectedTags.Count > 1) {
+                        if (SelectedTags.Count > 1 || Pages.Count > 0) {
                             Pages.IntersectWith(tps.Pages);
                         } else { // start populating the pages with the first
                                  // refinement tag
