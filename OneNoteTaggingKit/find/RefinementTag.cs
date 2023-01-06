@@ -37,7 +37,29 @@ namespace WetHatLab.OneNote.TaggingKit.find
             Tag = tag;
         }
 
-        int _filteredPageCount = -1;
+        /// <summary>
+        /// Predicate to dermine if a filter is applied to this tag.
+        /// </summary>
+        public bool IsFiltered => _filteredPageCount >= 0;
+
+        int _filteredPageCountDelta = 0;
+        /// <summary>
+        ///     Get the number of pages removed by applying a filter.
+        /// </summary>
+        public int FilteredPageCountDelta {
+            get => _filteredPageCountDelta;
+            private set {
+                if (_filteredPageCountDelta != value) {
+                    _filteredPageCountDelta = value;
+                    // only fire events if filters are applied
+                    if (IsFiltered) {
+                        RaisePropertyChanged();
+                    }
+                }
+            }
+        }
+
+        int _filteredPageCount = int.MinValue;
         /// <summary>
         ///     Observable number of pages having this tag after filter application.
         /// </summary>
@@ -45,7 +67,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             get {
                 return _filteredPageCount < 0 ? Pages.Count : _filteredPageCount;
             }
-            set {
+            private set {
                 if (_filteredPageCount != value) {
                     _filteredPageCount = value;
                     RaisePropertyChanged();
@@ -56,18 +78,32 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         ///     Determine how many pages having this tag match the filter.
         /// </summary>
-        /// <param name="filter">A set of OneNote pages.</param>
+        /// <param name="filter">
+        ///     A set of OneNote pages. It is assumed that the set does
+        ///     not contain duplicates.
+        /// </param>
         internal void IntersectWith(IEnumerable<PageNode> filter) {
-            var filterset = new HashSet<PageNode>(filter);
-            filterset.IntersectWith(Pages);
-            FilteredPageCount = filterset.Count;
+            int filtersize = 0;
+            int matchcount = 0;
+            int delta = 0;
+            foreach (PageNode page in filter) {
+                filtersize++;
+                if (Pages.Contains(page)) {
+                    matchcount++;
+                } else {
+                    delta--;
+                }
+            }
+            FilteredPageCountDelta = delta;
+            FilteredPageCount = matchcount;
         }
 
         /// <summary>
         ///     Clear the tag filter.
         /// </summary>
         public void ClearFilter() {
-            FilteredPageCount = -1;
+            FilteredPageCount = -Pages.Count;
+            FilteredPageCountDelta = 0;
         }
 
         /// <summary>

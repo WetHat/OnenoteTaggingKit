@@ -49,6 +49,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     case nameof(RefinementTag.FilteredPageCount):
                         UpdateUI();
                         break;
+                    case nameof(RefinementTag.FilteredPageCountDelta):
+                        UpdateUI();
+                        break;
                 }
             });
         }
@@ -72,7 +75,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         ///     Handle base class property changes.
         /// </summary>
         /// <param name="sender">
-        ///     Instance of the model which reised the event.
+        ///     Instance of the model which raised the event.
         /// </param>
         /// <param name="e">
         ///     Change details.
@@ -83,7 +86,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 switch (e.PropertyName) {
                     case nameof(IsSelected):
                         UpdateTagIndicator();
-                        UpdateTagVisibility();
+                        if (IsSelected) {
+                            UpdateTagVisibility();
+                        } else {
+                            base.UpdateTagVisibility();
+                        }
+
                         break;
                 }
             });
@@ -93,7 +101,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// property.
         /// </summary>
         protected override void UpdateTagVisibility() {
-            if (_refinementTag.FilteredPageCount == 0) {
+            if (_refinementTag.FilteredPageCount == 0
+                || IsSelected // selected models are always hidden in the refinements panel
+                || (_refinementTag.IsFiltered && _refinementTag.FilteredPageCountDelta == 0)) {
                 TagVisibility = Visibility.Collapsed;
             } else {
                 base.UpdateTagVisibility();
