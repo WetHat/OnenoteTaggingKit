@@ -82,7 +82,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             Scope = scope;
             Query = query;
 
-            BuildTagSet(new PageHierarchy(OneNote,scope,query),selectedPagesOnly:false);
+            BuildTagSet(new PageHierarchy(OneNote,scope,query),selectedPagesOnly:false,omitUntaggedPages:!string.IsNullOrWhiteSpace(Query));
             if (!string.IsNullOrEmpty(query)) {
                 // attempt to automatically update the tag suggestions, if we have collected all used tags
                 HashSet<string> knownTags = new HashSet<String>(from string s in Properties.Settings.Default.KnownTagsCollection select s);
@@ -101,7 +101,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         /// <summary>
-        ///     Load tags the pages in a subtree of the OneNote page hierarchy.
+        ///     Load tags the pages from a subtree of the OneNote page hierarchy.
         /// </summary>
         /// <param name="context">
         ///     The context from where to get pages.
