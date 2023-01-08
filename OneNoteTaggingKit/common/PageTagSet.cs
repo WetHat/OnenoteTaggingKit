@@ -56,6 +56,28 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         /// <summary>
+        ///     Determines if a given set of tags is a subset of this tag set.
+        /// </summary>
+        /// <param name="tags">
+        ///     A set of tags to test the containment for.
+        /// </param>
+        /// <returns>`true` if all given tags are contained in this set.</returns>
+        public bool ContainsAll(IEnumerable<PageTag> tags) {
+            return tags.All((t) => _pagetags.ContainsKey(t.Key));
+        }
+
+        /// <summary>
+        ///     Determines if a given set of tags has tags in common with this tag set.
+        /// </summary>
+        /// <param name="tags">
+        ///     A set of tags to test.
+        /// </param>
+        /// <returns>`true` if the two tag sets have common tags.</returns>
+        public bool ContainsAny(IEnumerable<PageTag> tags) {
+            return tags.Any((t) => _pagetags.ContainsKey(t.Key));
+        }
+
+        /// <summary>
         /// Initialize a page tag set with a single page tag.
         /// </summary>
         /// <param name="tag">A page tags.</param>
@@ -187,15 +209,31 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         /// <summary>
-        /// Determine if this set contains a <see cref="PageTag"/> object
-        /// with the given key.
+        ///     Determine if this set contains a <see cref="PageTag"/> object
+        ///     with the given key.
         /// </summary>
-        /// <param name="key">A page tag key</param>
+        /// <param name="key">
+        ///     A page tag key
+        /// </param>
         /// <returns>
         ///     `true` if the set contains a page tag with the specified key;
         ///     `false` otherwise.
         /// </returns>
-        public bool Contains(string key) => _pagetags.ContainsKey(key);
+        public bool ContainsKey(string key) => _pagetags.ContainsKey(key);
+
+        /// <summary>
+        ///     Determine if this set contains a <see cref="PageTag"/> object
+        ///     with the same key.
+        /// </summary>
+        /// <param name="tag">
+        ///     A page tag.
+        /// </param>
+        /// <returns>
+        ///     `true` if the set contains a page tag with the same key as the
+        ///     given ta.;
+        ///     `false` otherwise.
+        /// </returns>
+        public bool Contains(PageTag tag) => ContainsKey(tag.Key);
 
         /// <summary>
         /// Compute the set union of the tags in this set with a specified

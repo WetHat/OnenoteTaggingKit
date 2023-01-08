@@ -222,7 +222,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 
                         foreach (var p in ph.Pages) {
                             var pagetags = p.Tags;
-                            if (refinementTags.All((t) => pagetags.Contains(t.Key))) {
+                            if (refinementTags.All((t) => pagetags.ContainsKey(t.Key))) {
                                 pages.Push(p);
                             }
                         }
