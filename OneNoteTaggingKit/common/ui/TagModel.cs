@@ -186,5 +186,26 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <param name="e">Event details</param>
         protected virtual void TagModelPropertyChanged(object sender, PropertyChangedEventArgs e) {
         }
+
+        /// <summary>
+        ///     Get the hash code for this model,.
+        /// </summary>
+        /// <returns>
+        ///     The hash code for this model.
+        /// </returns>
+        public override int GetHashCode() => Tag.Key.GetHashCode();
+
+        /// <summary>
+        /// Determine if this instance is equal to another object.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj) {
+            if (this == obj) {
+                return true;
+            }
+
+            return (obj is TagModel other && Key.Equals(other.Key));
+        }
     }
 }
