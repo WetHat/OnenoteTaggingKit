@@ -1,6 +1,7 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
 using Microsoft.Office.Interop.OneNote;
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
@@ -345,11 +346,9 @@ EndSelection:{5:D6}";
 
         private async void ClearSelectionButton_Click(object sender, RoutedEventArgs e) {
             pBar.Visibility = System.Windows.Visibility.Visible;
-            await _model.ClearTagFilterAsync();
-            foreach (var t in _model.SelectedRefinementTags.Values) {
-                t.SelectableTag.IsSelected = false;
-            }
             _model.SelectedRefinementTags.Clear();
+            await _model.PageTagsSource.ClearFilterAsync();
+
             pBar.Visibility = System.Windows.Visibility.Hidden;
             e.Handled = true;
         }
@@ -397,7 +396,7 @@ EndSelection:{5:D6}";
             _model.PageTagsSource.Highlighter = tagInput.IsEmpty ? new TextSplitter() : new TextSplitter(e.Tags);
             if (e.TagInputComplete && !tagInput.IsEmpty) {
                 // select all tags with exact full matches
-                await SelectAllMatchingTagsAsync();
+                await SelectAllMatchingTagsAsync(_model.PageTagsSource);
             } else if (e.Action == TagInputEventArgs.TaggingAction.Clear) {
                 ClearSelectionButton_Click(sender, e);
             }
@@ -482,42 +481,22 @@ EndSelection:{5:D6}";
             }
         }
 
-        async Task SelectAllMatchingTagsAsync() {
+        async Task SelectAllMatchingTagsAsync(RefinementTagsSource tagSource) {
             if (!tagInput.IsEmpty) {
+                IEnumerable<RefinementTagModel> fullyMathingTags = from mdl in tagSource.Values
+                                                                   where mdl.IsFullMatch
+                                                                   select mdl;
+                pBar.Visibility = Visibility.Visible;
                 if (tagInput.IsPreset) {
-                    await _model.ClearTagFilterAsync();
-                    var failedTags = await _model.AddAllFullyMatchingTagsAsync(tagInput.TagNames);
-                    if (failedTags.Count > 0) {
-                        string scopeName;
-                        switch (scopeSelect.SelectedScope) {
-                            case SearchScope.Section:
-                                scopeName = Properties.Resources.TagSearch_Scope_Section_Label;
-                                break;
-                            case SearchScope.SectionGroup:
-                                scopeName = Properties.Resources.TagSearch_Scope_SectionGroup_Label;
-                                break;
-                            case SearchScope.Notebook:
-                                scopeName = Properties.Resources.TagSearch_Scope_Notebook_Label;
-                                break;
-                            case SearchScope.AllNotebooks:
-                                scopeName = Properties.Resources.TagSearch_Scope_AllNotebooks_Label;
-                                break;
-                            default:
-                                scopeName = "Unknown Scope";
-                                break;
-
-                        }
-                        selectedTags.Notification = string.Format(Properties.Resources.TagSearch_TagsIgnored,
-                                                                  string.Join(",",from s in failedTags select s),
-                                                                  scopeName);
-                    }
+                    await tagSource.ResetFilterAsync(fullyMathingTags);
                 } else {
-                    await _model.AddAllFullyHighlightedTagsAsync();
+                    await tagSource.AddAllTagsToFilterAsync(fullyMathingTags);
                 }
+                pBar.Visibility = Visibility.Hidden;
             }
         }
         private async void SelectMatchingTagsButton_Click(object sender, RoutedEventArgs e) {
-           await SelectAllMatchingTagsAsync();
+           await SelectAllMatchingTagsAsync(_model.PageTagsSource);
         }
     }
 }
