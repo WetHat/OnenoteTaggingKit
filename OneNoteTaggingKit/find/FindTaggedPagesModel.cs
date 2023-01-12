@@ -25,7 +25,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// Get the collection of tags
         /// </summary>
-        RefinementTagsSource PageTagsSource { get; }
+        RefinementTagsSource WithAllRefimenetTagSource { get; }
 
         /// <summary>
         /// Get the collection of pages with particular tags
@@ -98,9 +98,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
             _tagsAndPages = new TagsAndPages(onenote);
             _pagesWithAllTags = new WithAllTagsFilter(_tagsAndPages);
             _pagesWithAllTags.AutoUodateEnabled = true;
-            PageTagsSource = new RefinementTagsSource(_pagesWithAllTags);
+            WithAllRefimenetTagSource = new RefinementTagsSource(_pagesWithAllTags);
             // track changes to the tag source so that we can update the selected tags accordingly
-            PageTagsSource.CollectionChanged += PageTagsSource_CollectionChanged;
+            WithAllRefimenetTagSource.CollectionChanged += PageTagsSource_CollectionChanged;
             // track changes in filter result
             _pagesWithAllTags.FilteredPages.CollectionChanged += HandlePageCollectionChanges;
 
@@ -196,7 +196,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         /// get the collection of all tags found on OneNote pages.
         /// </summary>
-        public RefinementTagsSource PageTagsSource { get; }
+        public RefinementTagsSource WithAllRefimenetTagSource { get; }
 
         /// <summary>
         /// Get the collection of filtered pages.
