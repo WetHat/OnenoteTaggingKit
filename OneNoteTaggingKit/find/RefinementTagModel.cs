@@ -5,7 +5,6 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
-using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 
 namespace WetHatLab.OneNote.TaggingKit.find
@@ -15,9 +14,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// </summary>
     [ComVisible(false)]
     public class RefinementTagModel : SelectableTagModel {
-        private RefinementTag _refinementTag;
-
         Dispatcher _dispatcher;
+
+        /// <summary>
+        /// Get  page refinement tag.
+        /// </summary>
+        public RefinementTagBase RefinementTag { get; set; }
 
         /// <summary>
         ///     Initialize a new view model instance from a tag.
@@ -30,10 +32,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <param name="dispatcher">
         ///     The displatcher use to raise property change events
         /// </param>
-        internal RefinementTagModel(RefinementTag tag, Dispatcher dispatcher) {
-            _refinementTag = tag;
+        internal RefinementTagModel(RefinementTagBase tag, Dispatcher dispatcher) {
+            RefinementTag = tag;
             _dispatcher = dispatcher;
-            Tag = tag.Tag.Tag; // initialize the base class
+            Tag = tag.Tag; // initialize the base class
             tag.PropertyChanged += OnTagPropertyChanged;
             UpdateUI();
         }
@@ -46,10 +48,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
         private void OnTagPropertyChanged(object sender, PropertyChangedEventArgs e) {
             _dispatcher.Invoke(() => {
                 switch (e.PropertyName) {
-                    case nameof(RefinementTag.FilteredPageCount):
+                    case nameof(RefinementTagBase.FilteredPageCount):
                         UpdateUI();
                         break;
-                    case nameof(RefinementTag.FilteredPageCountDelta):
+                    case nameof(RefinementTagBase.FilteredPageCountDelta):
                         UpdateUI();
                         break;
                 }
@@ -57,7 +59,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         void UpdateUI() {
-            Tooltip = String.Format(Properties.Resources.TagSearch_Tag_Tooltip, _refinementTag.FilteredPageCount, PageTag.Pages.Count);
+            Tooltip = String.Format(Properties.Resources.TagSearch_Tag_Tooltip, RefinementTag.FilteredPageCount, RefinementTag.Pages.Count);
             UpdateTagIndicator();
             UpdateTagVisibility();
         }
@@ -66,7 +68,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 TagIndicator = "";
                 TagIndicatorColor = Brushes.Red;
             } else {
-                TagIndicator = string.Format(" ↓{0}",_refinementTag.FilteredPageCount);
+                TagIndicator = string.Format(" ↓{0}",RefinementTag.FilteredPageCount);
                 TagIndicatorColor = Brushes.Black;
             }
         }
@@ -101,19 +103,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// property.
         /// </summary>
         protected override void UpdateTagVisibility() {
-            if (_refinementTag.FilteredPageCount == 0
+            if (RefinementTag.FilteredPageCount == 0
                 || IsSelected // selected models are always hidden in the refinements panel
-                || (_refinementTag.IsFiltered && _refinementTag.FilteredPageCountDelta == 0)) {
+                || (RefinementTag.IsFiltered && RefinementTag.FilteredPageCountDelta == 0)) {
                 TagVisibility = Visibility.Collapsed;
             } else {
                 base.UpdateTagVisibility();
             }
         }
-
-        /// <summary>
-        /// Get/set the page tag object.
-        /// </summary>
-        public TagPageSet PageTag => _refinementTag.Tag;
 
         string _tooltip = string.Empty;
         /// <summary>
