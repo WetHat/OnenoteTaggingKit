@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 
@@ -10,70 +11,60 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// <remarks>
     ///     Computes the set of pages which have a given set tags.
     /// </remarks>
-    public class WithAllTagsFilter : TagFilterBase
-    {
-        TagsAndPages _tpSource;
-
+    public class WithAllTagsFilter : TagFilterBase {
         /// <summary>
         /// Initialize a page filter which requires pages to have all
         /// selected tags.
         /// </summary>
         /// <param name="source">Source collections of tag and pages</param>
-        public WithAllTagsFilter(TagsAndPages source) :base(source) {
-            _tpSource = source;
-        }
+        public WithAllTagsFilter(TagsAndPages source) :base(source) {}
 
         /// <summary>
-        /// Re-apply the tag filter and compute the set of pages
+        ///     Make a refinement tag which is required to be on a page to satisfy
+        ///     the filter requirement
         /// </summary>
-        /// <param name="e">Change details for the thagss in the filter.</param>
-        protected override void RecomputeFilteredPages(NotifyDictionaryChangedEventArgs<string, TagPageSet> e) {
+        /// <param name="tag">
+        ///     The tag to base the refinement tag on.
+        /// </param>
+        /// <returns>
+        ///     A new instance of a refinement tag which is required to be on a OneNote page.
+        /// </returns>
+        public override RefinementTagBase MakeRefinementTag(TagPageSet tag) => new RequiredRefinementTag(tag);
+
+        /// <summary>
+        ///     Process changes to the collection of filter tags and update the
+        ///     collection of filtered pages accordingly.
+        /// </summary>
+        /// <param name="e">
+        ///     Change details for the collection of filter tags.
+        /// </param>
+        protected override void UpdateTagFilter(NotifyDictionaryChangedEventArgs<string, TagPageSet> e) {
             switch (e.Action) {
                 case NotifyDictionaryChangedAction.Add:
                     foreach (TagPageSet tps in e.Items) {
-                        if (SelectedTags.Count > 1 || Pages.Count > 0) {
-                            Pages.IntersectWith(tps.Pages);
-                        } else { // start populating the pages with the first
-                                 // refinement tag
-                            Pages.UnionWith(tps.Pages);
-                        }
+                        // narrow down the result.
+                        Pages.IntersectWith(tps.Pages);
+                    }
+                    break;
+                case NotifyDictionaryChangedAction.Remove:
+                    if (SelectedTags.Count > 0) {
+                        // we have more matching pages now
+                        Pages.UnionWith(FilterPages(Source.Pages.Values));
+                    } else {
+                        Pages.UnionWith(Source.Pages.Values);
                     }
                     break;
                 case NotifyDictionaryChangedAction.Reset:
-                case NotifyDictionaryChangedAction.Remove:
                     if (SelectedTags.Count > 0) {
-                        // update the
-                        var filtered = new HashSet<PageNode>();
-                        foreach (var tps in SelectedTags.Values) {
-                            if (filtered.Count == 0) {
-                                filtered.UnionWith(tps.Pages);
-                            } else {
-                                filtered.IntersectWith(tps.Pages);
-                            }
-                        }
-                        Pages.IntersectWith(filtered);
-                        Pages.UnionWith(filtered);
+                        // we have more matching pages now
+                        Pages.Reset(FilterPages(Source.Pages.Values));
                     } else {
-                        if (string.IsNullOrWhiteSpace(_tpSource.Query)) {
-                            // no refinement tag or query set -> do not display pages
-                            Pages.Clear();
-                        } else {
-                            // display at least query result
-                            Pages.IntersectWith(Source.Pages.Values);
-                            Pages.UnionWith(Source.Pages.Values);
-                        }
-
-                        // reset the filtered page counts of all tags
-                        foreach (var tps in RefinementTags.Values) {
-                            tps.ClearFilter();
-                        }
-                        return;
+                        Pages.UnionWith(Source.Pages.Values);
                     }
                     break;
             }
-            // update the filtered page counts of all tags
-            foreach (var tps in RefinementTags.Values) {
-                tps.IntersectWith(Pages.Values);
+            if (AutoUodateEnabled) {
+                RefreshRefinementTags();
             }
         }
     }
