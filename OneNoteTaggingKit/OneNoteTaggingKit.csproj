@@ -90,10 +90,12 @@
     <Compile Include="common\ObservableSortedList.cs" />
     <Compile Include="common\PageTagSet.cs" />
     <Compile Include="common\TagsAndPagesBase.cs" />
+    <Compile Include="find\BlockedRefinementTag.cs" />
+    <Compile Include="find\RequiredRefinementTag.cs" />
     <Compile Include="find\ExceptWithTagsFilter.cs" />
     <Compile Include="find\TagFilterBase.cs" />
     <Compile Include="find\WithAllTagsFilter.cs" />
-    <Compile Include="find\RefinementTag.cs" />
+    <Compile Include="find\RefinementTagBase.cs" />
     <Compile Include="HierarchyBuilder\HierarchyNode.cs" />
     <Compile Include="HierarchyBuilder\PageHierarchy.cs" />
     <Compile Include="PageBuilder\Cell.cs" />

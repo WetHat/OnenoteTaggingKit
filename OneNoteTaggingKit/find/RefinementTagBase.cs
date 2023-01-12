@@ -5,27 +5,26 @@ using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 namespace WetHatLab.OneNote.TaggingKit.find
 {
     /// <summary>
-    ///     A decorator for OneNote page tags used to filter sets of OneNote pages.
+    ///     Aa abstract decorator base class for OneNote page tags used to
+    ///     filter sets of OneNote pages base on the filter rules implemented
+    ///     by subclasses.
     /// </summary>
-    public class RefinementTag : ObservableObject, IKeyedItem<string>
+    public abstract class RefinementTagBase : ObservableObject, IKeyedItem<string>
     {
-        /// <summary>
-        ///     Get the tag appearing on a set of OneNote pages.
-        /// </summary>
-        public TagPageSet Tag { get; private set; }
-
         /// <summary>
         ///     Get the set of pages having the tag represented by this object.
         /// </summary>
-        public ISet<PageNode> Pages { get => Tag.Pages; }
+        public ISet<PageNode> Pages => TagWithPages.Pages;
 
         /// <summary>
-        ///     Get name of the page tag.
+        /// Get the tag with ists OneNote pages this refinement tag is based on.
         /// </summary>
-        /// <value>
-        ///     Basename of the tag without type annotation.
-        /// </value>
-        public string TagName { get => Tag.TagName; }
+        public TagPageSet TagWithPages { get; private set; }
+
+        /// <summary>
+        /// Get the page tag this refinement  tag is based on..
+        /// </summary>
+        public PageTag Tag => TagWithPages.Tag;
 
         /// <summary>
         ///     Initialize a refinement tag with a tag used on one or more OneNote pages.
@@ -33,8 +32,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <param name="tag">
         ///     A tag ued on OneNote pages.
         /// </param>
-        public RefinementTag (TagPageSet tag) {
-            Tag = tag;
+        public RefinementTagBase (TagPageSet tag) {
+            TagWithPages = tag;
         }
 
         /// <summary>
@@ -48,7 +47,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         public int FilteredPageCountDelta {
             get => _filteredPageCountDelta;
-            private set {
+            protected set {
                 if (_filteredPageCountDelta != value) {
                     _filteredPageCountDelta = value;
                     // only fire events if filters are applied
@@ -67,7 +66,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             get {
                 return _filteredPageCount < 0 ? Pages.Count : _filteredPageCount;
             }
-            private set {
+            protected set {
                 if (_filteredPageCount != value) {
                     _filteredPageCount = value;
                     RaisePropertyChanged();
@@ -76,35 +75,25 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
-        ///     Determine how many pages having this tag match the filter.
+        ///     Filter a collection of pages acording to the tag filter rule inplmenmeted
+        ///     by the subclass.
         /// </summary>
-        /// <param name="filter">
-        ///     A set of OneNote pages. It is assumed that the set does
-        ///     not contain duplicates.
-        /// </param>
-        internal void IntersectWith(IEnumerable<PageNode> filter) {
-            int filtersize = 0;
-            int matchcount = 0;
-            int delta = 0;
-            foreach (PageNode page in filter) {
-                filtersize++;
-                if (Pages.Contains(page)) {
-                    matchcount++;
-                } else {
-                    delta--;
-                }
-            }
-            FilteredPageCountDelta = delta;
-            FilteredPageCount = matchcount;
-        }
+        /// <param name="pages">Collection of pages to filter-</param>
+        /// <returns>
+        ///     Collection of pages satisfying the filter condition implemented by
+        ///     subclasses.
+        /// </returns>
+        public abstract IEnumerable<PageNode> FilterPages(IEnumerable<PageNode> pages);
 
         /// <summary>
-        ///     Clear the tag filter.
+        ///     Compute the effect this tag has on a collection of pages.
         /// </summary>
-        public void ClearFilter() {
-            FilteredPageCount = -Pages.Count;
-            FilteredPageCountDelta = 0;
-        }
+        /// <remarks>
+        ///     This method sets the properties
+        ///     <see cref="FilteredPageCount"/> and
+        ///     <see cref="FilteredPageCountDelta"/>.
+        /// </remarks>
+        public abstract void FilterEffect(IEnumerable<PageNode> pages);
 
         /// <summary>
         ///     Determine if two tags a are equal based on their tagname.
@@ -117,7 +106,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             TagPageSet other = obj as TagPageSet;
 
             if (other != null) {
-                return Tag.TagName.Equals(other.TagName);
+                return TagWithPages.TagName.Equals(other.TagName);
             }
             return false;
         }
