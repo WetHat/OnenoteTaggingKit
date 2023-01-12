@@ -97,11 +97,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
         internal FindTaggedPagesModel(OneNoteProxy onenote) : base(onenote) {
             _tagsAndPages = new TagsAndPages(onenote);
             _pagesWithAllTags = new WithAllTagsFilter(_tagsAndPages);
+            _pagesWithAllTags.AutoUodateEnabled = true;
             PageTagsSource = new RefinementTagsSource(_pagesWithAllTags);
             // track changes to the tag source so that we can update the selected tags accordingly
             PageTagsSource.CollectionChanged += PageTagsSource_CollectionChanged;
             // track changes in filter result
-            _pagesWithAllTags.Pages.CollectionChanged += HandlePageCollectionChanges;
+            _pagesWithAllTags.FilteredPages.CollectionChanged += HandlePageCollectionChanges;
 
             CurrentPageTitle = Properties.Resources.TagSearch_CheckBox_Tracking_Text;
             // load the search history
@@ -116,6 +117,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         private void PageTagsSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
             switch (e.Action) {
                 case NotifyCollectionChangedAction.Remove:
+                    // deselect dead refinement tags
                     SelectedRefinementTags.RemoveAll(from RefinementTagModel mdl in e.OldItems select mdl.Key);
                     break;
             }
@@ -163,10 +165,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
             await Task.Run(() => _tagsAndPages.FindPages(scope,query), _cancelWorker.Token);
         }
 
-        internal Task ClearTagFilterAsync() {
-            return Task.Run(() => _pagesWithAllTags.SelectedTags.Clear(), _cancelWorker.Token);
-        }
-
         /// <summary>
         /// Add a single tag to the refinement filter.
         /// </summary>
@@ -180,10 +178,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
                         TagIndicatorColor = Brushes.Red
                     } });
             }
-        }
-
-        internal Task RemoveTagFromFilterAsync(TagPageSet tag) {
-            return Task.Run(() => _pagesWithAllTags.RefinementTags.Remove(tag.Key), _cancelWorker.Token);
         }
 
         // Collection of previous searches
@@ -259,63 +253,55 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         #endregion tag tracking
 
+        /// <summary>
+        /// Reflect changes to the filteren pages on the UI
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void HandlePageCollectionChanges(object sender, NotifyDictionaryChangedEventArgs<string, PageNode> e) {
             Action a = null;
             switch (e.Action) {
                 case NotifyDictionaryChangedAction.Add:
-                    a = () => FilteredPages.AddAll(from i in e.Items select new HitHighlightedPageLinkModel(i, _highlighter));
+                    IEnumerable<PageNode> toAdd;
+                    if (FilteredPages.Count > 0) {
+                        toAdd = e.Items;
+                    } else {
+                        // nothing there yet display all filtered pages
+                        var origin = sender as ObservableDictionary<string, PageNode>;
+                        toAdd = origin.Values.ToArray();
+                    }
+                    a = () => FilteredPages.AddAll(from i in toAdd select new HitHighlightedPageLinkModel(i, _highlighter));
                     break;
 
                 case NotifyDictionaryChangedAction.Remove:
-                    a = () => FilteredPages.RemoveAll(from i in e.Items select i.Key);
+                    if (FilteredPages.Count > 0) {
+                        a = () => FilteredPages.RemoveAll(from i in e.Items select i.Key);
+                    } else {
+                        // nothing there yet display all filtered pages
+                        var origin = sender as ObservableDictionary<string, PageNode>;
+                        IEnumerable<PageNode> pages = origin.Values.ToArray();
+                        a = () => FilteredPages.AddAll(from i in pages select new HitHighlightedPageLinkModel(i, _highlighter));
+                    }
                     break;
 
                 case NotifyDictionaryChangedAction.Reset:
                     // we need to rebuild the entire model in case page properties
                     // have changed
-                    var pages = sender as ObservableDictionary<string,PageNode>;
-                    a = () => {
-                        FilteredPages.Clear();
-                        FilteredPages.AddAll(from i in pages.Values select new HitHighlightedPageLinkModel(i, _highlighter));
-                    };
+                    if (_pagesWithAllTags.FilteredPages.Count < _tagsAndPages.Pages.Count || !string.IsNullOrWhiteSpace(_tagsAndPages.Query)) {
+                        var origin = sender as ObservableDictionary<string, PageNode>;
+                        PageNode[] pages = origin.Values.ToArray();
+                        a = () => {
+                            FilteredPages.Clear();
+                            FilteredPages.AddAll(from i in pages select new HitHighlightedPageLinkModel(i, _highlighter));
+                        };
+
+                     } else {
+                        // avoid displaying excessive amount of pages
+                        a = () => FilteredPages.Clear();
+                    }
                     break;
             }
             Dispatcher.Invoke(a);
-        }
-
-        /// <summary>
-        /// Select all tags for refinement which exactly match the given names.
-        /// </summary>
-        /// <param name="tagnames">Collection of tag names.</param>
-        /// <remarks>Non-existing tags are ignored.</remarks>
-        /// <returns>List of non-existing tags.</returns>
-        public Task<IReadOnlyList<string>> AddAllFullyMatchingTagsAsync(IEnumerable<string> tagnames) {
-            return Task<IReadOnlyList<string>>.Run(() => {
-                var failed = new List<string>();
-                foreach (var tagname in tagnames) {
-                    RefinementTagModel rtm;
-                    if (PageTagsSource.TryGetValue(tagname, out rtm)) {
-                        AddTagToFilter(rtm);
-                    } else {
-                        failed.Add(tagname);
-                    }
-                }
-                return (IReadOnlyList<string>)failed;
-            },_cancelWorker.Token);
-        }
-
-        /// <summary>
-        /// Select all tags whith fully highlighted names for refinement.
-        /// </summary>
-        public Task AddAllFullyHighlightedTagsAsync() {
-            // determine the pattern
-            return Task.Run(() => {
-                foreach (var tag in from tm in PageTagsSource.Values
-                                    where tm.IsFullMatch && !tm.IsSelected
-                                    select tm) {
-                    AddTagToFilter(tag);
-                }
-            }, _cancelWorker.Token);
         }
 
         internal void NavigateTo(string pageID) {
