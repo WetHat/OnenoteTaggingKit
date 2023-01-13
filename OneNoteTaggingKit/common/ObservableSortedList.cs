@@ -124,6 +124,13 @@ namespace WetHatLab.OneNote.TaggingKit.common
             get { return from e in _sortedList select e.Value; }
         }
 
+        /// <summary>
+        /// Get the element with the specified key.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns>Element with the specified key.</returns>
+        public TValue this[TKey key] => _dictionary[key];
+
         #region IReadOnlyList<TValue>
         /// <summary>
         /// Gets the element at the specified index.
