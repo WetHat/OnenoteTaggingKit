@@ -30,7 +30,7 @@
     </Window.Resources>
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-            <GradientStop Color="Ivory" Offset="0.497" />
+            <GradientStop Color="AliceBlue" Offset="0.497" />
             <GradientStop Color="#FFE1ECF7" Offset="1" />
         </LinearGradientBrush>
     </Window.Background>
@@ -97,107 +97,15 @@
             </TabControl.Resources>
             <TabItem Header="⋂ With All"
                      Style="{StaticResource tabItemStyle}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" MinHeight="50"/>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="3*" MinHeight="100" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                <cui:TagList Grid.Row="0"
-                        x:Name="selectedTags"
-                        Margin="5,0,5,0"
-                        Background="Transparent"
-                        TagSource="{Binding Path=SelectedRefinementTags,Mode=OneWay}"
-                        ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_SelectedTags_GroupBox_Tooltip}}"
-                        Header="{Binding ElementName=self,Path=RefinementTagsPanelHeader, Mode=OneWay}" >
-                    <cui:TagList.TagTemplate>
-                        <DataTemplate>
-                            <cui:Tag Margin="0,5,5,0"
-                                TagClick="Tag_TagClick"
-                                ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_SelectedTag_Tooltip}}" />
-                        </DataTemplate>
-                    </cui:TagList.TagTemplate>
-                </cui:TagList>
-                <Button Name="clearSelectionButton" Grid.Row="0"
-                    VerticalAlignment="Top"  HorizontalAlignment="Right"
-                    Click="ClearSelectionButton_Click"
-                    BorderThickness="0" BorderBrush="LightBlue"
-                    ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_ClearSelection_Button_Tooltip}}"
-                    Background="Transparent"
-                    Margin="0,0,25,0">
-                    <Image  MaxWidth="32" Height="24" HorizontalAlignment="Center" VerticalAlignment="Bottom" Source="/OneNoteTaggingKit;component/Resources/clear selection.png" />
-                </Button>
-                <GridSplitter Grid.Row="1"
-                              VerticalAlignment="Top"
-                              ResizeBehavior="PreviousAndNext"
-                              ResizeDirection="Rows" Height="5" HorizontalAlignment="Stretch">
-                    <GridSplitter.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0.0">
-                            <GradientStop Color="Blue" Offset="1" />
-                            <GradientStop Color="PaleGoldenrod" Offset="0.67" />
-                        </LinearGradientBrush>
-                    </GridSplitter.Background>
-                </GridSplitter>
-                <Grid Grid.Row="2" HorizontalAlignment="Stretch">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <cui:TagInputBox Grid.Row="0"
-                             x:Name="tagInput"
-                             TagInput="TagInputBox_Input"
-                             ContextTagsSource="{Binding ContextTags, Mode=OneWay}"
-                             IncludeMappedTags="True"
-                             ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_TagInput_Tooltip}}"
-                             Margin="3,5,2,0" />
-                        <cui:TagList Grid.Row="1" x:Name="tagsPanel"
-                         Margin="0,0,2,0"
-                         TagSource="{Binding Path=PageTagsSource, Mode=OneWay}"
-                         ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Tags_GroupBox_Tooltip}}"
-                         Header="{Binding ElementName=self,Path=TagPanelHeader, Mode=OneWay}">
-                            <cui:TagList.TagTemplate>
-                                <DataTemplate>
-                                    <cui:SelectableTag Margin="0,5,5,0"
-                                           ToolTip="{Binding Path=Tooltip, Mode=OneWay}"
-                                           TagSelected="SelectableTag_TagSelected"/>
-                                </DataTemplate>
-
-                            </cui:TagList.TagTemplate>
-                        </cui:TagList>
-                        <Button Grid.Row="1"
-                Width="26"
-                Background="Transparent"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Right"
-                BorderThickness="0" BorderBrush="LightBlue"
-                Margin="0,0,25,0"
-                ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Select_Matching_Tags_Button_Tooltip}}"
-                Click="SelectMatchingTagsButton_Click">
-                            <TextBlock Text=""
-                       FontWeight="Heavy"
-                       FontFamily="Segoe UI Symbol"
-                       FontSize="20"
-                       HorizontalAlignment="Stretch"
-                       Margin="0,-2,0,0" />
-                        </Button>
-                    </Grid>
-                </Grid>
+                <local:TagFilterPanel x:Name="withAllFilter"
+                                      Background="Transparent"
+                                      DataContext="{Binding Path=WithAllTagsFilterModel, Mode=OneTime}"/>
             </TabItem>
             <TabItem Header="∉ Except With"
                      Style="{StaticResource tabItemStyle}">
-
             </TabItem>
         </TabControl>
-        <ProgressBar Grid.Row="1"
-                     x:Name="pBar"
-                     VerticalAlignment="Center"
-                     Margin="0,50,0,0"/>
+
         <GridSplitter Grid.Row="2"
                       VerticalAlignment="Top"
                       ResizeBehavior="PreviousAndNext"
@@ -322,18 +230,17 @@
             </MenuItem>
         </Menu>
         <ProgressBar Grid.Row="3"
-                     x:Name="pBarCopy"
+                     x:Name="pBar"
                      Visibility="Visible"
-                     Width="{Binding ElementName=pBarCopyText,Path=ActualWidth,Mode=OneWay}" />
-        <TextBlock Grid.Row="3"
-                   x:Name="pBarCopyText"
+                     MinWidth="{Binding ElementName=pBarText,Path=ActualWidth,Mode=OneWay}" />
+        <TextBlock x:Name="pBarText" Grid.Row="3"
                    Padding="10,0,10,0"
                    FontWeight="Bold"
-                   Visibility="{Binding ElementName=pBarCopy, Path=Visibility}"
+                   Visibility="{Binding ElementName=pBar, Path=Visibility}"
                    Background="Transparent"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
-                   Text="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Links_ProgressBar_Title}}" />
+                   Text="{Binding ElementName=self, Path=ProgressBarText, Mode=OneWay}" />
         <StatusBar Grid.Row="4"
                    ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_StatusBar_Tooltip}}">
             <StatusBarItem>
