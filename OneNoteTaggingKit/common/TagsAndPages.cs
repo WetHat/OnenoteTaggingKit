@@ -106,18 +106,22 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <param name="context">
         ///     The context from where to get pages.
         /// </param>
-        internal void LoadPageTags(TagContext context) {
+        /// <param name="omitUntaggedPages">
+        ///     Optional flag to exclude untagged pages when `true` or include
+        ///     empty pages when `false`. Default is `true`.
+        /// </param>
+        internal void LoadPageTags(TagContext context, bool omitUntaggedPages = true) {
             // collect all tags and pages from a context
             switch (context) {
                 default:
                 case TagContext.CurrentNote:
                     BuildTagSet(OneNote.GetHierarchy(OneNote.CurrentPageID, HierarchyScope.hsSelf),
-                                         selectedPagesOnly: false, omitUntaggedPages: true) ;
+                                         selectedPagesOnly: false, omitUntaggedPages) ;
                     break;
 
                 case TagContext.CurrentSection:
                     BuildTagSet(OneNote.GetHierarchy(OneNote.CurrentSectionID, HierarchyScope.hsPages),
-                                          selectedPagesOnly: false, omitUntaggedPages: true);
+                                          selectedPagesOnly: false, omitUntaggedPages);
                     break;
 
                 case TagContext.SelectedNotes:
@@ -126,10 +130,10 @@ namespace WetHatLab.OneNote.TaggingKit.common
                         foreach (var id in SelectedPages) {
                             ph.AddPages(OneNote.GetHierarchy(id, HierarchyScope.hsSelf));
                         }
-                        BuildTagSet(ph, selectedPagesOnly: true, omitUntaggedPages: true);
+                        BuildTagSet(ph, selectedPagesOnly: true, omitUntaggedPages);
                     } else {
                         BuildTagSet(OneNote.GetHierarchy(OneNote.CurrentSectionID, HierarchyScope.hsPages),
-                                              selectedPagesOnly: true, omitUntaggedPages: true);
+                                              selectedPagesOnly: true, omitUntaggedPages);
                     }
                     break;
             }
