@@ -27,8 +27,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// Routed event fired for changes to the <see cref="TagNames" /> property
         /// </summary>
-        public event TagInputEventHandler TagInput
-        {
+        public event TagInputEventHandler TagInput {
             add { AddHandler(TagInputEvent, value); }
             remove { RemoveHandler(TagInputEvent, value); }
         }
@@ -43,20 +42,44 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             new PropertyMetadata(OnContextTagSourceChanged));
 
         /// <summary>
-        /// Get or set a collection which provides page tags from
-        /// a OneNote context.
+        ///     Get or set the source for tag presets.
         /// </summary>
+        /// <remarks>
+        ///     The tag source can be updated by external components in order
+        ///     to preset tags.
+        /// </remarks>
         public TagsAndPages ContextTagsSource {
             get => GetValue(ContextTagsSourceProperty) as TagsAndPages;
             set => SetValue(ContextTagsSourceProperty, value);
         }
-
         private static void OnContextTagSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is TagInputBox ib) {
+            if (d is TagInputBox ib && e.NewValue != null) {
                 ib.presetsMenu.Visibility = e.NewValue != null ? Visibility.Visible : Visibility.Collapsed;
+                var oldSource = e.OldValue as TagsAndPages;
+                var newSource = e.NewValue as TagsAndPages;
+                if (oldSource != null) {
+                    oldSource.Pages.CollectionChanged -= ib.Pages_CollectionChanged;
+                }
+                if (newSource != null) {
+                    newSource.Pages.CollectionChanged += ib.Pages_CollectionChanged;
+                }
             }
         }
+
+        /// <summary>
+        ///     Inject presets if the context was updated.
+        /// </summary>
+        /// <param name="sender">The pages collection which raised the event.</param>
+        /// <param name="e">Change details.</param>
+        private void Pages_CollectionChanged(object sender, NotifyDictionaryChangedEventArgs<string, PageNode> e) {
+            // inject the tags from the context into the input box
+            Dispatcher.Invoke(() => {
+                TagNames = from tps in ContextTagsSource.Tags.Values select tps.TagName;
+                IsPreset = true;
+            });
+        }
+
         #endregion ContextTagsSourceProperty
         #region IncludeMappedTagsProperty
         /// <summary>
@@ -91,8 +114,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// Create a new instance of a input box for tag names.
         /// </summary>
-        public TagInputBox()
-        {
+        public TagInputBox() {
             InitializeComponent();
             _inputTimer = new System.Windows.Threading.DispatcherTimer();
             _inputTimer.Interval = new TimeSpan(0, 0, 0, 0, 400);
@@ -111,10 +133,9 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         ///     The tag names are displayed as comma separated list in the
         ///     input box.
         /// </remarks>
-        public IEnumerable<string> TagNames
-        {
+        public IEnumerable<string> TagNames {
             get => PageTagSet.SplitTaglist(tagInput.Text);
-            set
+            private set
             {
                 tagInput.Text = string.Join(",", value);
                 UpdateVisibility();
@@ -137,8 +158,7 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
         /// <summary>
         /// Clear any tag input and raise the TagInput event.
         /// </summary>
-        internal void Clear()
-        {
+        internal void Clear() {
             tagInput.Text = String.Empty;
             _inputTimer.Stop();
             var e = new TagInputEventArgs(TagInputEvent, this, TagNames, null);
@@ -148,15 +168,11 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             UpdateVisibility();
         }
 
-        private void UpdateVisibility()
-        {
-            if (string.IsNullOrEmpty(tagInput.Text))
-            {
+        private void UpdateVisibility() {
+            if (string.IsNullOrEmpty(tagInput.Text)) {
                 tagInput.Background = Brushes.Transparent;
                 clearTagInput.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
+            } else {
                 tagInput.Background = Brushes.White;
                 clearTagInput.Visibility = Visibility.Visible;
             }
@@ -206,42 +222,24 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             e.Handled = true;
         }
 
-        private Task<IEnumerable<TagPageSet>> GetContextTagsAsync(TagContext filter)
-        {
-            TagsAndPages tagSource = ContextTagsSource; // must be assigned here to avoid access from another thread
-            return Task<IEnumerable<TagPageSet>>.Run(() => { return GetContextTagsAction(filter, tagSource); });
-        }
-
-        private IEnumerable<TagPageSet> GetContextTagsAction(TagContext filter, TagsAndPages tagSource)
-        {
-            tagSource.LoadPageTags(filter);
-            return tagSource.Tags.Values;
-        }
-
-        private async void Filter_MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
+        private void Filter_MenuItem_Click(object sender, RoutedEventArgs e) {
+            try {
                 if (ContextTagsSource == null) {
                     return;
                 }
 
                 MenuItem itm = sender as MenuItem;
-
-                TagContext filter = (TagContext)Enum.Parse(typeof(TagContext), itm.Tag.ToString());
-                IsPreset =  filter == TagContext.CurrentNote;
-                IEnumerable<TagPageSet> tags = await GetContextTagsAsync(filter);
+                TagContext context = (TagContext)Enum.Parse(typeof(TagContext), itm.Tag.ToString());
+                ContextTagsSource.LoadPageTags(context);
                 if (IncludeMappedTags) {
-                    TagNames = from t in tags select t.TagName;
-                }
-                else {
-                    TagNames = from t in tags
-                           where !t.Tag.IsImported
-                           select t.TagName;
+                    TagNames = from t in ContextTagsSource.Tags.Values select t.TagName;
+                } else {
+                    TagNames = from t in ContextTagsSource.Tags.Values
+                               where !t.Tag.IsImported
+                               select t.TagName;
                 }
 
-                if (string.IsNullOrEmpty(tagInput.Text))
-                {
+                if (string.IsNullOrEmpty(tagInput.Text)) {
                     filterPopup.IsOpen = true;
                 }
             }
