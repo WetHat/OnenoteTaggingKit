@@ -17,7 +17,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
     ///     search refinment.
     /// </remarks>
     [ComVisible(false)]
-    public class RefinementTagsSource : FilterableTagsSource<RefinementTagModel>
+    public class RefinementTagModelSource : FilterableTagsSource<RefinementTagModel>
     {
         TagFilterBase _filter;
 
@@ -28,7 +28,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// refinement tag view models from a set of OneNote pages.
         /// </summary>
         /// <param name="filter">Observable collection of OneNote page tags.</param>
-        public RefinementTagsSource(TagFilterBase filter) {
+        public RefinementTagModelSource(TagFilterBase filter) {
             _filter = filter;
             _filter.RefinementTags.CollectionChanged += RefinementTags_CollectionChanged;
             // Synthesize an initial event to initialize the state of whatever is listening.
