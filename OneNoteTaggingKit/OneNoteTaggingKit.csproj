@@ -91,6 +91,11 @@
     <Compile Include="common\PageTagSet.cs" />
     <Compile Include="common\TagsAndPagesBase.cs" />
     <Compile Include="find\BlockedRefinementTag.cs" />
+    <Compile Include="find\TagFilterPanel.xaml.cs">
+      <DependentUpon>TagFilterPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="find\TagFilterPanelDesignerModel.cs" />
+    <Compile Include="find\TagFilterPanelModel.cs" />
     <Compile Include="find\RequiredRefinementTag.cs" />
     <Compile Include="find\ExceptWithTagsFilter.cs" />
     <Compile Include="find\TagFilterBase.cs" />
@@ -157,7 +162,7 @@
     <Compile Include="find\HitHighlightedPageLinkDesignerModel.cs" />
     <Compile Include="find\HitHighlightedPageLinkModel.cs" />
     <Compile Include="find\RefinementTagModel.cs" />
-    <Compile Include="find\RefinementTagsSource.cs" />
+    <Compile Include="find\RefinementTagModelSource.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="manage\RemovableTag.xaml.cs">
       <DependentUpon>RemovableTag.xaml</DependentUpon>
@@ -317,6 +322,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="find\HitHighlightedPageLink.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="find\TagFilterPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
