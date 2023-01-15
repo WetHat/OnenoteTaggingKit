@@ -65,18 +65,37 @@ namespace WetHatLab.OneNote.TaggingKit.find
         ///     Get the filter which requires all selected tags to be on pages.
         /// </summary>
         public TagFilterPanelModel WithAllTagsFilterModel { get; private set; }
+        /// <summary>
+        ///     Get the filter which requires all selected tags to be absent
+        ///     on pages.
+        /// </summary>
+        public TagFilterPanelModel ExceptWithTagsFilterModel { get; private set; }
 
         // the collection of pages matching filter criteria.
         private TagsAndPages _tagsAndPages;
         private WithAllTagsFilter _pagesWithAllTags;
+        private ExceptWithTagsFilter _pagesExceptWithTags;
         private CancellationTokenSource _cancelWorker = new CancellationTokenSource();
         private TextSplitter _highlighter;
 
+        /// <summary>
+        ///     Initialize a view model for the <see cref="FindTaggedPages"/>
+        ///     dialog.
+        /// </summary>
+        /// <param name="onenote">
+        ///     The OneNote application proxy.
+        /// </param>
         internal FindTaggedPagesModel(OneNoteProxy onenote) : base(onenote) {
             _tagsAndPages = new TagsAndPages(onenote);
+
+            // With all tags
             _pagesWithAllTags = new WithAllTagsFilter(_tagsAndPages);
             _pagesWithAllTags.AutoUodateEnabled = true;
             WithAllTagsFilterModel = new TagFilterPanelModel(onenote, _pagesWithAllTags);
+
+            // Except With tags
+            _pagesExceptWithTags = new ExceptWithTagsFilter(_pagesWithAllTags);
+            ExceptWithTagsFilterModel = new TagFilterPanelModel(onenote, _pagesExceptWithTags);
 
             // track changes in filter result
             _pagesWithAllTags.FilteredPages.CollectionChanged += HandlePageCollectionChanges;
@@ -187,6 +206,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 PageNode pg = WithAllTagsFilterModel.ContextTagSource.Pages.Values.FirstOrDefault();
                 if (pg != null) {
                     Dispatcher.Invoke(() => CurrentPageTitle = pg.Name);
+                    ExceptWithTagsFilterModel.Filter.SelectedTags.Clear();
                     WithAllTagsFilterModel.ResetFilter(mdls);
                 }
             }
@@ -258,7 +278,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         public override void Dispose() {
             base.Dispose();
-            _cancelWorker.Cancel();
+            if (_cancelWorker != null) {
+                _cancelWorker.Cancel();
+                _cancelWorker.Dispose();
+                _cancelWorker = null;
+            }
             if (_pagesWithAllTags != null) {
                 _pagesWithAllTags.Dispose();
                 _pagesWithAllTags = null;

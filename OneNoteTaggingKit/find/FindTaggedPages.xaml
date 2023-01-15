@@ -69,7 +69,7 @@
                   KeyUp="SearchComboBox_KeyUp"
                   ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Query_ComboBox_Tooltip}}" />
         </DockPanel>
-        <TabControl Grid.Row="1" Background="Transparent">
+        <TabControl x:Name="filterTabs" Grid.Row="1" Background="Transparent">
             <TabControl.Resources>
                 <Style TargetType="TabItem">
                     <Setter Property="Template">
@@ -95,14 +95,23 @@
                     </Setter>
                 </Style>
             </TabControl.Resources>
+            <!-- TODO localize-->
             <TabItem Header="⋂ With All"
-                     Style="{StaticResource tabItemStyle}">
+                     Style="{StaticResource tabItemStyle}"
+                     Tag="WithAll"
+                     Selector.Selected="TabItem_Selected">
                 <local:TagFilterPanel x:Name="withAllFilter"
                                       Background="Transparent"
                                       DataContext="{Binding Path=WithAllTagsFilterModel, Mode=OneTime}"/>
             </TabItem>
+            <!-- TODO localize-->
             <TabItem Header="∉ Except With"
-                     Style="{StaticResource tabItemStyle}">
+                     Style="{StaticResource tabItemStyle}"
+                     Tag="ExceptWith"
+                     Selector.Selected="TabItem_Selected">
+                <local:TagFilterPanel x:Name="exceptWithlFilter"
+                                      Background="Transparent"
+                                      DataContext="{Binding Path=ExceptWithTagsFilterModel, Mode=OneTime}"/>
             </TabItem>
         </TabControl>
 

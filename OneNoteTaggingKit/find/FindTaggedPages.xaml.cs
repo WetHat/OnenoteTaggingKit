@@ -115,9 +115,21 @@ namespace WetHatLab.OneNote.TaggingKit.find
         #endregion IOneNotePageWindow<FindTaggedPagesModel>
 
         private void FilteredPages_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
-        Dispatcher.Invoke(() => UpdatePagePanelHeader());
+            Dispatcher.Invoke(() => UpdatePagePanelHeader());
         }
-
+        private void TabItem_Selected(object sender, RoutedEventArgs e) {
+            var tab = sender as TabItem;
+            switch (tab.Tag.ToString()) {
+                case "WithAll":
+                    ViewModel.ExceptWithTagsFilterModel.Filter.AutoUodateEnabled = false;
+                    ViewModel.WithAllTagsFilterModel.Filter.AutoUodateEnabled = true;
+                    break;
+                case "ExceptWith":
+                    ViewModel.WithAllTagsFilterModel.Filter.AutoUodateEnabled = false;
+                    ViewModel.ExceptWithTagsFilterModel.Filter.AutoUodateEnabled = true;
+                    break;
+            }
+        }
         #region UI events
 
         private async void Page_MenuItem_Click(object sender, RoutedEventArgs e) {
@@ -380,6 +392,10 @@ EndSelection:{5:D6}";
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e) {
+            foreach (var it in filterTabs.Items) {
+                var tab = it as TabItem;
+                tab.IsSelected = "WithAll".Equals(tab.Tag);
+            }
             // start tracking current page
             ViewModel.BeginTracking();
         }
