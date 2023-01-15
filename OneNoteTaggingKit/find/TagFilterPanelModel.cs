@@ -58,13 +58,19 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 }
             }
         }
-        void UpdateRefinementTagsPanelHeader() {
-            RefinementTagsPanelHeader = SelectedTagModels.Count == 0
+        public void UpdateRefinementTagsPanelHeader() {
+            var reductionIndicator = SelectedTagModels.Count > 0 ? "" : string.Empty; // filter symbol
+            // ▼↓
+            var highlightIndicator = RefinementTagModels.Highlighter.SplitPattern != null ? "🔍" : string.Empty;
+
+            RefinementTagsPanelHeader = reductionIndicator == string.Empty && highlightIndicator == string.Empty
                 ? string.Format("{0} ({1})",
                                 Properties.Resources.TagSearch_Tags_GroupBox_Title,
                                 RefinementTagModels.Count)
-                : string.Format("{0} (Ո)",
-                                Properties.Resources.TagSearch_Tags_GroupBox_Title);
+                : string.Format("{0} {1}{2}",
+                                Properties.Resources.TagSearch_Tags_GroupBox_Title,
+                                reductionIndicator,
+                                highlightIndicator);
         }
 
         string _SelectedTagsPanelHeader = string.Empty;

@@ -50,6 +50,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
         void TagInputBox_Input(object sender, TagInputEventArgs e) {
             ViewModel.RefinementTagModels.Highlighter = tagInput.IsEmpty ? new TextSplitter() : new TextSplitter(e.Tags);
+            ViewModel.UpdateRefinementTagsPanelHeader();
             if (e.TagInputComplete && !tagInput.IsEmpty) {
                 // select all tags with exact full matches
                 SelectAllMatchingTags();
