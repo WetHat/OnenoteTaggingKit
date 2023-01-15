@@ -31,9 +31,11 @@
                                FontSize="16" Background="Transparent" />
             </Border>
         </Popup>
-        <GroupBox
-            Background="{Binding ElementName=self,Path=Background}"
-            Header="{Binding ElementName=self, Path=Header, Mode=OneWay}">
+        <GroupBox Background="{Binding ElementName=self,Path=Background}">
+            <GroupBox.Header>
+                <TextBlock Text="{Binding ElementName=self, Path=Header, Mode=OneWay}"
+                           FontFamily="Segoe UI Symbol"/>
+            </GroupBox.Header>
             <ScrollViewer VerticalScrollBarVisibility="Auto" CanContentScroll="True">
                 <WrapPanel Name="tagsPanel" />
             </ScrollViewer>
