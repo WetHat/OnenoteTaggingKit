@@ -56,7 +56,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     break;
                 case NotifyDictionaryChangedAction.Reset:
                     if (SelectedTags.Count > 0) {
-                        // we have more matching pages now
+                        // do not know what changed - reapply the filter
                         Pages.Reset(FilterPages(Source.Pages.Values));
                     } else {
                         Pages.UnionWith(Source.Pages.Values);
