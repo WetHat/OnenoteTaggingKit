@@ -121,15 +121,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
         public void AddAllTagsToFilter(IEnumerable<RefinementTagModel> tags) {
             RefinementTagModels.AddAllTagsToFilter(tags);
         }
-
-        /// <summary>
-        ///     Update the header of the panel displaying selected tags.
-        /// </summary>
-        void UpdateSelectedTagsPanelHeader() {
-            SelectedTagsPanelHeader = string.Format("{0} ({1})",
-                                                       Properties.Resources.TagSearch_SelectedTags_GroupBox_Title,
-                                                       SelectedTagModels.Count);
-        }
         /// <summary>
         ///     Handle chenges to the collection of refinement tags.
         /// </summary>
@@ -173,7 +164,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     break;
             }
             UpdateRefinementTagsPanelHeader();
-            UpdateSelectedTagsPanelHeader();
         }
 
         /// <summary>
@@ -194,7 +184,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
             RefinementTagModels.CollectionChanged += TagSource_CollectionChanged;
             filter.SelectedTags.CollectionChanged += SelectedTags_CollectionChanged;
             UpdateRefinementTagsPanelHeader();
-            UpdateSelectedTagsPanelHeader();
             OneNoteApp = onenote;
         }
     }

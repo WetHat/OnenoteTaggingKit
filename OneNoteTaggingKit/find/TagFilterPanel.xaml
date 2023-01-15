@@ -31,7 +31,7 @@
                      Background="Transparent"
                      TagSource="{Binding Path=SelectedTagModels,Mode=OneWay}"
                      ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_SelectedTags_GroupBox_Tooltip}}"
-                     Header="{Binding Path=SelectedTagsPanelHeader, Mode=OneWay}" >
+                     Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_SelectedTags_GroupBox_Title}}" >
             <cui:TagList.TagTemplate>
                 <DataTemplate>
                     <cui:Tag Margin="0,5,5,0"
