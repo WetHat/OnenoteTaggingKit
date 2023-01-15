@@ -129,8 +129,11 @@
                   Background="Transparent"
                   Margin="0,0,2,0"
                   MinHeight="100"
-                  Header="{Binding ElementName=self, Path=PagePanelHeader, Mode=OneWay}"
                   ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Pages_GroupBox_Tooltip}}">
+            <GroupBox.Header>
+                <TextBlock Text="{Binding ElementName=self, Path=PagePanelHeader, Mode=OneWay}"
+                           FontFamily="Segoe UI Symbol"/>
+            </GroupBox.Header>
             <ListBox Name="foundPagesList"
                      Background="Transparent"
                      SelectionMode="Extended"

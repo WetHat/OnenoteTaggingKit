@@ -130,13 +130,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
             _pagesWithAllTags.AutoUodateEnabled = true;
             WithAllTagsFilterModel = new TagFilterPanelModel(onenote, _pagesWithAllTags);
             _pagesWithAllTags.SelectedTags.CollectionChanged += WithAllSelectedTags_CollectionChanged;
-            WithAllSelectedTags_CollectionChanged(_pagesWithAllTags.SelectedTags, null);
+            Update_WithAllLabel(_pagesWithAllTags.SelectedTags);
 
             // Except With tags
             _pagesExceptWithTags = new ExceptWithTagsFilter(_pagesWithAllTags);
             ExceptWithTagsFilterModel = new TagFilterPanelModel(onenote, _pagesExceptWithTags);
             _pagesExceptWithTags.SelectedTags.CollectionChanged += ExceptWithSelectedTags_CollectionChanged;
-            ExceptWithSelectedTags_CollectionChanged(_pagesExceptWithTags.SelectedTags, null);
+            Update_ExceptWithLabel(_pagesExceptWithTags.SelectedTags);
 
             // track changes in filter result
             _pagesWithAllTags.FilteredPages.CollectionChanged += HandlePageCollectionChanges;
@@ -150,14 +150,17 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 }
             }
         }
-
-        private void WithAllSelectedTags_CollectionChanged(object sender, NotifyDictionaryChangedEventArgs<string, TagPageSet> e) {
-            var selected = sender as ObservableDictionary<string, TagPageSet>;
+        void Update_WithAllLabel(ObservableDictionary<string, TagPageSet> selected) {
             WithAllTabLabel = string.Format("⋂ With All {0}", selected.Count); // TODO localize
         }
+        private void WithAllSelectedTags_CollectionChanged(object sender, NotifyDictionaryChangedEventArgs<string, TagPageSet> e) {
+            Dispatcher.Invoke(() => Update_WithAllLabel(sender as ObservableDictionary<string, TagPageSet>));
+        }
+        void Update_ExceptWithLabel(ObservableDictionary<string, TagPageSet> selected) {
+            ExceptWithTabLabel = string.Format("∉ Except With {0}", selected.Count); // TODO localize
+        }
         private void ExceptWithSelectedTags_CollectionChanged(object sender, NotifyDictionaryChangedEventArgs<string, TagPageSet> e) {
-            var selected = sender as ObservableDictionary<string, TagPageSet>;
-           ExceptWithTabLabel = string.Format("∉ Except With {0}", selected.Count); // TODO localize
+            Dispatcher.Invoke(() => Update_ExceptWithLabel(sender as ObservableDictionary<string, TagPageSet>));
         }
 
         /// <summary>
