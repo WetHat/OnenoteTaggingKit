@@ -45,7 +45,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 case NotifyDictionaryChangedAction.Add:
                     foreach (TagPageSet tps in e.Items) {
                         // narrow down the result.
-                        Pages.IntersectWith(tps.Pages);
+                        Pages.ExceptWith(tps.Pages);
                     }
                     break;
                 case NotifyDictionaryChangedAction.Remove:
@@ -57,7 +57,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     }
                     break;
                 case NotifyDictionaryChangedAction.Reset:
-                    Pages.Reset(FilterPages(Source.Pages.Values));
+                    if (SelectedTags.Count > 0) {
+                        // do not know what changed - reapply the filter
+                        Pages.Reset(FilterPages(Source.Pages.Values));
+                    } else {
+                        Pages.UnionWith(Source.Pages.Values);
+                    }
                     break;
             }
             if (AutoUodateEnabled) {

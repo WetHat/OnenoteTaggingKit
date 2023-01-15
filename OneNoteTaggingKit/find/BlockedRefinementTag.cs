@@ -47,11 +47,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </remarks>
         /// <param name="pages"></param>
         public override void FilterEffect(IEnumerable<PageNode> pages) {
-            int filtersize = 0;
             int matchcount = 0;
             int delta = 0;
             foreach (PageNode page in pages) {
-                filtersize++;
                 if (page.Tags.Contains(Tag)) {
                     delta--;
                 } else {
