@@ -60,12 +60,18 @@ namespace WetHatLab.OneNote.TaggingKit.find
             set => SetValue(PagePanelHeaderProperty, value);
         }
         void UpdatePagePanelHeader() {
-            PagePanelHeader = string.Format(Properties.Resources.TagSearch_Pages_GroupBox_Title,
-                                                        ViewModel.FilteredPages.Count,
-                                                        0,
-                                                        string.IsNullOrWhiteSpace(_lastSearch)
-                                                        ? "-"
-                                                        : _lastSearch);
+            var withalltags = ViewModel.WithAllTagsFilterModel.Filter.SelectedTags.Count > 0 ? "⋂" : string.Empty;
+            var exceptwithtags = ViewModel.ExceptWithTagsFilterModel.Filter.SelectedTags.Count > 0 ? "∉" : string.Empty;
+            var query = string.IsNullOrWhiteSpace(_lastSearch) ? string.Empty : "🔍";
+            var filtered = withalltags == string.Empty && exceptwithtags == string.Empty && query == string.Empty ? string.Empty : "  "; // <-
+            PagePanelHeader = string.Format("{0} {1}{2}{3}{4}{5}",
+                ViewModel.FilteredPages.Count,
+                Properties.Resources.TagSearch_Pages_GroupBox_Title,
+                filtered,
+                withalltags,
+                exceptwithtags,
+                query);
+
         }
         #endregion PagePanelHeaderProperty
         #region ProgressBarTextProperty
