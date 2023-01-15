@@ -53,7 +53,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             typeof(FindTaggedPagesModel));
 
         /// <summary>
-        /// Get/set the title of the current OneNote page.
+        /// Get/set the title of the tab containing the `Wiath All` filter.
         /// </summary>
         public string CurrentPageTitle {
             get => GetValue(CurrentPageTitleProperty) as string;
@@ -61,6 +61,43 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
         #endregion CurrentPageTitleProperty
 
+        #region WithAllTabLabelProperty
+        /// <summary>
+        /// Backing store for observable property <see cref="WithAllTabLabel"/>
+        /// </summary>
+        public static readonly DependencyProperty WithAllTabLabelProperty = DependencyProperty.Register(
+            nameof(WithAllTabLabel),
+            typeof(string),
+            typeof(FindTaggedPagesModel),
+            new PropertyMetadata("0"));
+
+        /// <summary>
+        /// Get/set the title of the current OneNote page.
+        /// </summary>
+        public string WithAllTabLabel {
+            get => GetValue(WithAllTabLabelProperty) as string;
+            set => SetValue(WithAllTabLabelProperty, value);
+        }
+        #endregion WithAllTabLabelProperty
+
+        #region ExceptWithTabLabelProperty
+        /// <summary>
+        /// Backing store for observable property <see cref="ExceptWithTabLabel"/>
+        /// </summary>
+        public static readonly DependencyProperty ExceptWithTabLabelProperty = DependencyProperty.Register(
+            nameof(ExceptWithTabLabel),
+            typeof(string),
+            typeof(FindTaggedPagesModel),
+            new PropertyMetadata("0"));
+
+        /// <summary>
+        /// Get/set the title of the tab containing the `Except With` filter.
+        /// </summary>
+        public string ExceptWithTabLabel {
+            get => GetValue(ExceptWithTabLabelProperty) as string;
+            set => SetValue(ExceptWithTabLabelProperty, value);
+        }
+        #endregion ExceptWithTabLabelProperty
         /// <summary>
         ///     Get the filter which requires all selected tags to be on pages.
         /// </summary>
@@ -92,10 +129,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
             _pagesWithAllTags = new WithAllTagsFilter(_tagsAndPages);
             _pagesWithAllTags.AutoUodateEnabled = true;
             WithAllTagsFilterModel = new TagFilterPanelModel(onenote, _pagesWithAllTags);
+            _pagesWithAllTags.SelectedTags.CollectionChanged += WithAllSelectedTags_CollectionChanged;
+            WithAllSelectedTags_CollectionChanged(_pagesWithAllTags.SelectedTags, null);
 
             // Except With tags
             _pagesExceptWithTags = new ExceptWithTagsFilter(_pagesWithAllTags);
             ExceptWithTagsFilterModel = new TagFilterPanelModel(onenote, _pagesExceptWithTags);
+            _pagesExceptWithTags.SelectedTags.CollectionChanged += ExceptWithSelectedTags_CollectionChanged;
+            ExceptWithSelectedTags_CollectionChanged(_pagesExceptWithTags.SelectedTags, null);
 
             // track changes in filter result
             _pagesWithAllTags.FilteredPages.CollectionChanged += HandlePageCollectionChanges;
@@ -108,6 +149,15 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     SearchHistory.Add(searches[i].Trim());
                 }
             }
+        }
+
+        private void WithAllSelectedTags_CollectionChanged(object sender, NotifyDictionaryChangedEventArgs<string, TagPageSet> e) {
+            var selected = sender as ObservableDictionary<string, TagPageSet>;
+            WithAllTabLabel = string.Format("⋂ With All {0}", selected.Count); // TODO localize
+        }
+        private void ExceptWithSelectedTags_CollectionChanged(object sender, NotifyDictionaryChangedEventArgs<string, TagPageSet> e) {
+            var selected = sender as ObservableDictionary<string, TagPageSet>;
+           ExceptWithTabLabel = string.Format("∉ Except With {0}", selected.Count); // TODO localize
         }
 
         /// <summary>
@@ -205,9 +255,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
                             select mdl).ToList();
                 PageNode pg = WithAllTagsFilterModel.ContextTagSource.Pages.Values.FirstOrDefault();
                 if (pg != null) {
-                    Dispatcher.Invoke(() => CurrentPageTitle = pg.Name);
-                    ExceptWithTagsFilterModel.Filter.SelectedTags.Clear();
-                    WithAllTagsFilterModel.ResetFilter(mdls);
+                    Dispatcher.Invoke(() => {
+                        CurrentPageTitle = pg.Name;
+                        ExceptWithTagsFilterModel.Filter.SelectedTags.Clear();
+                        WithAllTagsFilterModel.ResetFilter(mdls);
+                    });
                 }
             }
         }
@@ -282,6 +334,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 _cancelWorker.Cancel();
                 _cancelWorker.Dispose();
                 _cancelWorker = null;
+            }
+            if (_pagesWithAllTags != null) {
+                _pagesWithAllTags.Dispose();
+                _pagesWithAllTags = null;
             }
             if (_pagesWithAllTags != null) {
                 _pagesWithAllTags.Dispose();
