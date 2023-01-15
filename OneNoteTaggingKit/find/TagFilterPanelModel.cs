@@ -59,7 +59,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
         public void UpdateRefinementTagsPanelHeader() {
-            var reductionIndicator = SelectedTagModels.Count > 0 ? "" : string.Empty; // filter symbol
+            var reductionIndicator = SelectedTagModels.Count > 0 ? "" : string.Empty; // filter symbol from Segoe UI Symbol.
             // ▼↓
             var highlightIndicator = RefinementTagModels.Highlighter.SplitPattern != null ? "🔍" : string.Empty;
 
