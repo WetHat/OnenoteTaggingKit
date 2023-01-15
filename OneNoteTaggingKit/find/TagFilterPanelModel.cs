@@ -98,7 +98,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         ///     Clear the tag filter.
         /// </summary>
-        /// <returns>Awaitable task object.</returns>
         public void ClearFilter() {
             SelectedTagModels.Clear();
             RefinementTagModels.ClearFilter();
@@ -108,7 +107,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
         ///     Reset the filter tags to a given collection of tags
         /// </summary>
         /// <param name="tags">Refinement tag collection.</param>
-        /// <returns>Awaitable task object.</returns>
         public void ResetFilter(IEnumerable<RefinementTagModel> tags) {
             RefinementTagModels.ResetFilter(tags);
         }
@@ -117,7 +115,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
         ///     Add given refinement tags to the filter,
         /// </summary>
         /// <param name="tags">tags to add to the filter</param>
-        /// <returns>Awaitable task object.</returns>
         public void AddAllTagsToFilter(IEnumerable<RefinementTagModel> tags) {
             RefinementTagModels.AddAllTagsToFilter(tags);
         }
