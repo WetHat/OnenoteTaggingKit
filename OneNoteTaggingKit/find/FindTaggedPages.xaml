@@ -95,8 +95,7 @@
                     </Setter>
                 </Style>
             </TabControl.Resources>
-            <!-- TODO localize-->
-            <TabItem Header="⋂ With All"
+            <TabItem Header="{Binding Path=WithAllTabLabel,Mode=OneWay}"
                      Style="{StaticResource tabItemStyle}"
                      Tag="WithAll"
                      Selector.Selected="TabItem_Selected">
@@ -104,8 +103,7 @@
                                       Background="Transparent"
                                       DataContext="{Binding Path=WithAllTagsFilterModel, Mode=OneTime}"/>
             </TabItem>
-            <!-- TODO localize-->
-            <TabItem Header="∉ Except With"
+            <TabItem Header="{Binding Path=ExceptWithTabLabel,Mode=OneWay}"
                      Style="{StaticResource tabItemStyle}"
                      Tag="ExceptWith"
                      Selector.Selected="TabItem_Selected">
