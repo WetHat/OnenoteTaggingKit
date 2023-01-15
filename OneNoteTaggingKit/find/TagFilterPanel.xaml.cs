@@ -48,46 +48,38 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 mdl.IsSelected = true;
             }
         }
-        async void TagInputBox_Input(object sender, TagInputEventArgs e) {
-            pBar.Visibility = Visibility.Visible;
+        void TagInputBox_Input(object sender, TagInputEventArgs e) {
             ViewModel.RefinementTagModels.Highlighter = tagInput.IsEmpty ? new TextSplitter() : new TextSplitter(e.Tags);
             if (e.TagInputComplete && !tagInput.IsEmpty) {
                 // select all tags with exact full matches
-                await SelectAllMatchingTagsAsync();
+                SelectAllMatchingTags();
             } else if (e.Action == TagInputEventArgs.TaggingAction.Clear) {
                 ClearSelectionButton_Click(sender, e);
             }
-            pBar.Visibility = Visibility.Hidden;
         }
-        private async void ClearSelectionButton_Click(object sender, RoutedEventArgs e) {
-            pBar.Visibility = Visibility.Visible;
-            await ViewModel.ClearFilterAsync();
-            pBar.Visibility = Visibility.Hidden;
+        private  void ClearSelectionButton_Click(object sender, RoutedEventArgs e) {
+            ViewModel.ClearFilter();
             e.Handled = true;
         }
         private async void SelectMatchingTagsButton_Click(object sender, RoutedEventArgs e) {
-            pBar.Visibility = Visibility.Visible;
-            await SelectAllMatchingTagsAsync();
-            pBar.Visibility = Visibility.Hidden;
+            SelectAllMatchingTags();
         }
         private void TagFilterPanel_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {
             ViewModel = DataContext as TagFilterPanelModel;
         }
         #endregion Event Handlers
 
-        async Task SelectAllMatchingTagsAsync() {
+        void SelectAllMatchingTags() {
             if (!tagInput.IsEmpty) {
-                pBar.Visibility = Visibility.Visible;
                 if (tagInput.IsPreset) {
-                    await ViewModel.ResetFilterAsync(from mdl in ViewModel.RefinementTagModels.Values
-                                                     where mdl.IsFullMatch
-                                                     select mdl);
+                    ViewModel.ResetFilter(from mdl in ViewModel.RefinementTagModels.Values
+                                          where mdl.IsFullMatch
+                                          select mdl);
                 } else {
-                    await ViewModel.AddAllTagsToFilterAsync(from mdl in ViewModel.RefinementTagModels.Values
-                                                            where mdl.IsFullMatch && !mdl.IsSelected
-                                                            select mdl);
+                    ViewModel.AddAllTagsToFilter(from mdl in ViewModel.RefinementTagModels.Values
+                                                    where mdl.IsFullMatch && !mdl.IsSelected
+                                                    select mdl);
                 }
-                pBar.Visibility = Visibility.Hidden;
             }
         }
 
@@ -108,7 +100,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         public TagFilterPanel() {
             InitializeComponent();
-            pBar.Visibility = Visibility.Hidden;
             DataContextChanged += TagFilterPanel_DataContextChanged;
         }
     }

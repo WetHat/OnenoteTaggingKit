@@ -101,7 +101,6 @@
                            HorizontalAlignment="Stretch"
                            Margin="0,-2,0,0" />
             </Button>
-            <ProgressBar x:Name="pBar" Grid.Row="1"/>
         </Grid>
     </Grid>
 </UserControl>

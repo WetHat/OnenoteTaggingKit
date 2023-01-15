@@ -2,8 +2,6 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
 using WetHatLab.OneNote.TaggingKit.common;
 
 namespace WetHatLab.OneNote.TaggingKit.find
@@ -20,8 +18,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
     public class RefinementTagModelSource : FilterableTagsSource<RefinementTagModel>
     {
         TagFilterBase _filter;
-
-        private CancellationTokenSource _cancelWorker = new CancellationTokenSource();
 
         /// <summary>
         /// Initialize a instance of an observable collection of
@@ -66,7 +62,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         /// <param name="tags"></param>
         /// <returns></returns>
-        public Task ResetFilterAsync(IEnumerable<RefinementTagModel> tags) {
+        public void ResetFilter(IEnumerable<RefinementTagModel> tags) {
             var tagModels = new HashSet<RefinementTagModel>(tags);
             try {
                 _handleRefinementTagPropertyChanges = false;
@@ -84,10 +80,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
             } finally {
                 _handleRefinementTagPropertyChanges = true;
             }
-            return Task.Run(() => _filter.SelectedTags.Reset(from tm in tagModels select tm.RefinementTag.TagWithPages), _cancelWorker.Token);
+            _filter.SelectedTags.Reset(from tm in tagModels select tm.RefinementTag.TagWithPages);
         }
 
-        public Task AddAllTagsToFilterAsync(IEnumerable<RefinementTagModel> tags) {
+        public void AddAllTagsToFilter(IEnumerable<RefinementTagModel> tags) {
             var tagModels = new HashSet<RefinementTagModel>(tags);
             try {
                 _handleRefinementTagPropertyChanges = false;
@@ -98,13 +94,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
             } finally {
                 _handleRefinementTagPropertyChanges = true;
             }
-            return Task.Run(() => _filter.SelectedTags.UnionWith(from tm in tagModels select tm.RefinementTag.TagWithPages), _cancelWorker.Token);
+            _filter.SelectedTags.UnionWith(from tm in tagModels select tm.RefinementTag.TagWithPages);
         }
 
         /// <summary>
         ///     Clear the tag filter.
         /// </summary>
-        public Task ClearFilterAsync() {
+        public void ClearFilter() {
             try {
                 _handleRefinementTagPropertyChanges = false;
                 foreach (var tps in _filter.SelectedTags) {
@@ -117,7 +113,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 _handleRefinementTagPropertyChanges = true;
             }
 
-            return Task.Run(() => _filter.SelectedTags.Clear(), _cancelWorker.Token);
+            _filter.SelectedTags.Clear();
         }
 
         bool _handleRefinementTagPropertyChanges = true;

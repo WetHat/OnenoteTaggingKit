@@ -180,12 +180,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
             if (_currentPageID != currentPage) {
                 _currentPageID = currentPage;
                 WithAllTagsFilterModel.ContextTagSource.LoadPageTags(TagContext.CurrentNote,false);
-                WithAllTagsFilterModel.ResetFilterAsync(from mdl in WithAllTagsFilterModel.RefinementTagModels.Values
-                                                        where mdl.IsFullMatch
-                                                        select mdl).Wait();
+
+                var mdls = (from mdl in WithAllTagsFilterModel.RefinementTagModels.Values
+                            where mdl.IsFullMatch
+                            select mdl).ToList();
                 PageNode pg = WithAllTagsFilterModel.ContextTagSource.Pages.Values.FirstOrDefault();
                 if (pg != null) {
                     Dispatcher.Invoke(() => CurrentPageTitle = pg.Name);
+                    WithAllTagsFilterModel.ResetFilter(mdls);
                 }
             }
         }
