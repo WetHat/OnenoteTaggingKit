@@ -88,12 +88,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 switch (e.PropertyName) {
                     case nameof(IsSelected):
                         UpdateTagIndicator();
-                        if (IsSelected) {
-                            UpdateTagVisibility();
-                        } else {
-                            base.UpdateTagVisibility();
-                        }
-
+                        UpdateTagVisibility();
                         break;
                 }
             });
