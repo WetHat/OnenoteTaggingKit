@@ -64,10 +64,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
             var exceptwithtags = ViewModel.ExceptWithTagsFilterModel.Filter.SelectedTags.Count > 0 ? "⊄" : string.Empty;
             var query = string.IsNullOrWhiteSpace(_lastSearch) ? string.Empty : "🔍";
             var filtered = withalltags == string.Empty && exceptwithtags == string.Empty && query == string.Empty ? string.Empty : " "; // <-
-            // Properties.Resources.TagSearch_Pages_GroupBox_Title,
-            PagePanelHeader = string.Format("{0}/{1} {2}{3}{4}{5}{6}",
+
+            PagePanelHeader = string.Format("{0} / {1} {2} {3}{4}{5}{6}{7}",
                 ViewModel.FilteredPages.Count,
                 ViewModel.TagsAndPages.Pages.Count,
+                Properties.Resources.TagSearch_Pages_GroupBox_Title,
                 "", // pages icon
                 filtered,
                 withalltags,
