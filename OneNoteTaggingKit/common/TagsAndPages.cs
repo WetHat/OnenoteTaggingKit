@@ -82,7 +82,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             Scope = scope;
             Query = query;
 
-            BuildTagSet(new PageHierarchy(OneNote,scope,query),selectedPagesOnly:false,omitUntaggedPages:!string.IsNullOrWhiteSpace(Query));
+            BuildTagSet(new PageHierarchy(OneNote,scope,query),selectedPagesOnly:false,omitUntaggedPages:string.IsNullOrWhiteSpace(Query));
             if (!string.IsNullOrEmpty(query)) {
                 // attempt to automatically update the tag suggestions, if we have collected all used tags
                 HashSet<string> knownTags = new HashSet<String>(from string s in Properties.Settings.Default.KnownTagsCollection select s);
