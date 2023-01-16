@@ -61,12 +61,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
         void UpdatePagePanelHeader() {
             var withalltags = ViewModel.WithAllTagsFilterModel.Filter.SelectedTags.Count > 0 ? "⋂" : string.Empty;
-            var exceptwithtags = ViewModel.ExceptWithTagsFilterModel.Filter.SelectedTags.Count > 0 ? "∉" : string.Empty;
+            var exceptwithtags = ViewModel.ExceptWithTagsFilterModel.Filter.SelectedTags.Count > 0 ? "⊄" : string.Empty;
             var query = string.IsNullOrWhiteSpace(_lastSearch) ? string.Empty : "🔍";
             var filtered = withalltags == string.Empty && exceptwithtags == string.Empty && query == string.Empty ? string.Empty : "  "; // <-
+            // Properties.Resources.TagSearch_Pages_GroupBox_Title,
             PagePanelHeader = string.Format("{0} {1}{2}{3}{4}{5}",
                 ViewModel.FilteredPages.Count,
-                Properties.Resources.TagSearch_Pages_GroupBox_Title,
+                "", // pags
                 filtered,
                 withalltags,
                 exceptwithtags,
@@ -101,6 +102,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             InitializeComponent();
             pBar.Visibility = System.Windows.Visibility.Hidden;
         }
+
         #region IOneNotePageWindow<FindTaggedPagesModel>
 
         private FindTaggedPagesModel _model;
@@ -116,25 +118,52 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 DataContext = _model;
                 _model.FilteredPages.CollectionChanged += FilteredPages_CollectionChanged;
                 UpdatePagePanelHeader();
+                ViewModel.DependencyPropertyChanged += ViewModel_DependencyPropertyChanged;
             }
         }
+
         #endregion IOneNotePageWindow<FindTaggedPagesModel>
+
+        void UpdateClearSelectionButton() {
+            double totalTabWidth = 0.0;
+            bool visible = false;
+            foreach (var itm in filterTabs.Items) {
+                if (itm is TabItem tab
+                    && tab.Content is TagFilterPanel filter
+                    && filter.DataContext is TagFilterPanelModel mdl) {
+                    totalTabWidth += tab.ActualWidth;
+                    visible |= !mdl.Filter.AutoUodateEnabled && mdl.Filter.SelectedTags.Count > 0;
+                }
+            }
+            if (visible) {
+                clearAllTagSelection.Margin = new Thickness(totalTabWidth + 5, 0, 0, 0);
+                clearAllTagSelection.Visibility = Visibility.Visible;
+            } else {
+                clearAllTagSelection.Visibility = Visibility.Collapsed;
+            }
+        }
+        private void ViewModel_DependencyPropertyChanged(object sender, DependencyPropertyChangedEventArgs e) {
+            switch (e.Property.Name) {
+                case nameof(FindTaggedPagesModel.WithAllTabLabel):
+                case nameof(FindTaggedPagesModel.ExceptWithTabLabel):
+                    UpdateClearSelectionButton();
+                    break;
+            }
+        }
 
         private void FilteredPages_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
             Dispatcher.Invoke(() => UpdatePagePanelHeader());
         }
         private void TabItem_Selected(object sender, RoutedEventArgs e) {
-            var tab = sender as TabItem;
-            switch (tab.Tag.ToString()) {
-                case "WithAll":
-                    ViewModel.ExceptWithTagsFilterModel.Filter.AutoUodateEnabled = false;
-                    ViewModel.WithAllTagsFilterModel.Filter.AutoUodateEnabled = true;
-                    break;
-                case "ExceptWith":
-                    ViewModel.WithAllTagsFilterModel.Filter.AutoUodateEnabled = false;
-                    ViewModel.ExceptWithTagsFilterModel.Filter.AutoUodateEnabled = true;
-                    break;
+            var activetab = sender as TabItem;
+            foreach (var itm in filterTabs.Items) {
+                if (itm is TabItem tab
+                    && tab.Content is TagFilterPanel filter
+                    && filter.DataContext is TagFilterPanelModel mdl) {
+                    mdl.Filter.AutoUodateEnabled = activetab == tab;
+                }
             }
+            UpdateClearSelectionButton();
         }
         #region UI events
 
@@ -411,6 +440,16 @@ EndSelection:{5:D6}";
             }
             foreach (HitHighlightedPageLinkModel pl in e.AddedItems) {
                 pl.IsSelected = true;
+            }
+        }
+
+        private void clearTagSelect_Click(object sender, RoutedEventArgs e) {
+            foreach (var itm in filterTabs.Items) {
+                if (itm is TabItem tab
+                    && tab.Content is TagFilterPanel filter
+                    && filter.DataContext is TagFilterPanelModel mdl) {
+                    mdl.ClearFilter();
+                }
             }
         }
         #endregion UI events

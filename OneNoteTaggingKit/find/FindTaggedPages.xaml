@@ -69,50 +69,49 @@
                   KeyUp="SearchComboBox_KeyUp"
                   ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Query_ComboBox_Tooltip}}" />
         </DockPanel>
-        <TabControl x:Name="filterTabs" Grid.Row="1" Background="Transparent">
-            <TabControl.Resources>
-                <Style TargetType="TabItem">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="TabItem">
-                                <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
-                                    <ContentPresenter x:Name="ContentSite"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Center"
-                                        ContentSource="Header"
-                                        Margin="10,2"/>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="False">
-                                        <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </TabControl.Resources>
-            <TabItem Header="{Binding Path=WithAllTabLabel,Mode=OneWay}"
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TabControl x:Name="filterTabs" Grid.Row="0" Background="Transparent"
+                        TabStripPlacement="Top">
+                <TabItem Header="{Binding Path=WithAllTabLabel,Mode=OneWay}"
                      Style="{StaticResource tabItemStyle}"
                      Tag="WithAll"
                      Selector.Selected="TabItem_Selected">
-                <local:TagFilterPanel x:Name="withAllFilter"
+                    <local:TagFilterPanel x:Name="withAllFilter"
                                       Background="Transparent"
                                       DataContext="{Binding Path=WithAllTagsFilterModel, Mode=OneTime}"/>
-            </TabItem>
-            <TabItem Header="{Binding Path=ExceptWithTabLabel,Mode=OneWay}"
+                </TabItem>
+                <TabItem Header="{Binding Path=ExceptWithTabLabel,Mode=OneWay}"
                      Style="{StaticResource tabItemStyle}"
                      Tag="ExceptWith"
                      Selector.Selected="TabItem_Selected">
-                <local:TagFilterPanel x:Name="exceptWithlFilter"
+                    <local:TagFilterPanel x:Name="exceptWithlFilter"
                                       Background="Transparent"
                                       DataContext="{Binding Path=ExceptWithTagsFilterModel, Mode=OneTime}"/>
-            </TabItem>
-        </TabControl>
-
+                </TabItem>
+            </TabControl>
+            <Button Name="clearAllTagSelection" Grid.Row="0"
+                    Width="26"
+                    Visibility="Collapsed"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    VerticalAlignment="Top"
+                    BorderThickness="0"
+                    ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_ClearSelection_Button_Tooltip}}"
+                    Click="clearTagSelect_Click" RenderTransformOrigin="0.5,0.5" >
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="90"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+                <Image Source="/OneNoteTaggingKit;component/Resources/clear selection.png"/>
+            </Button>
+        </Grid>
         <GridSplitter Grid.Row="2"
                       VerticalAlignment="Top"
                       ResizeBehavior="PreviousAndNext"

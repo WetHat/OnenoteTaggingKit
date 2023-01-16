@@ -69,7 +69,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             nameof(WithAllTabLabel),
             typeof(string),
             typeof(FindTaggedPagesModel),
-            new PropertyMetadata("0"));
+            new PropertyMetadata("..."));
 
         /// <summary>
         /// Get/set the title of the current OneNote page.
@@ -88,7 +88,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             nameof(ExceptWithTabLabel),
             typeof(string),
             typeof(FindTaggedPagesModel),
-            new PropertyMetadata("0"));
+            new PropertyMetadata("..."));
 
         /// <summary>
         /// Get/set the title of the tab containing the `Except With` filter.
@@ -98,6 +98,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             set => SetValue(ExceptWithTabLabelProperty, value);
         }
         #endregion ExceptWithTabLabelProperty
+
         /// <summary>
         ///     Get the filter which requires all selected tags to be on pages.
         /// </summary>
@@ -151,13 +152,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
         void Update_WithAllLabel(ObservableDictionary<string, TagPageSet> selected) {
-            WithAllTabLabel = string.Format("⋂ With All {0}", selected.Count); // TODO localize
+            WithAllTabLabel = string.Format("⋂ All {0}", selected.Count); // TODO localize
         }
         private void WithAllSelectedTags_CollectionChanged(object sender, NotifyDictionaryChangedEventArgs<string, TagPageSet> e) {
             Dispatcher.Invoke(() => Update_WithAllLabel(sender as ObservableDictionary<string, TagPageSet>));
         }
         void Update_ExceptWithLabel(ObservableDictionary<string, TagPageSet> selected) {
-            ExceptWithTabLabel = string.Format("∉ Except With {0}", selected.Count); // TODO localize
+            ExceptWithTabLabel = string.Format("⊄ Except {0}", selected.Count); // TODO localize
         }
         private void ExceptWithSelectedTags_CollectionChanged(object sender, NotifyDictionaryChangedEventArgs<string, TagPageSet> e) {
             Dispatcher.Invoke(() => Update_ExceptWithLabel(sender as ObservableDictionary<string, TagPageSet>));
