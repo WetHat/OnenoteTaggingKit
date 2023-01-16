@@ -59,6 +59,12 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock FontWeight="Bold" Text="{Binding}"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>
