@@ -176,7 +176,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                         string query = searchComboBox.Text;
 
                         try {
-                            ProgressBarText = "Refreshing"; // TODO localize
+                            ProgressBarText = string.Format("Searching {0}",SelectedScopeName); // TODO localize
                             pBar.Visibility = Visibility.Visible;
                             await ViewModel.FindPagesAsync(query, scopeSelect.SelectedScope);
                             searchComboBox.SelectedValue = query;
@@ -350,7 +350,7 @@ EndSelection:{5:D6}";
         private async void SearchButton_Click(object sender, RoutedEventArgs e) {
             try {
                 pBar.Visibility = Visibility.Visible;
-                ProgressBarText = "Searching"; // TODO localize
+                ProgressBarText = string.Format("Searching {0}", SelectedScopeName); // TODO localize
                 _lastSearch = searchComboBox.Text;
                 if (string.IsNullOrWhiteSpace(_lastSearch)) {
                     _lastSearch = string.Empty;
@@ -386,25 +386,27 @@ EndSelection:{5:D6}";
             searchComboBox.Focus();
             Keyboard.Focus(searchComboBox);
         }
+        string SelectedScopeName {
+            get {
+                switch (scopeSelect.SelectedScope) {
+                    case SearchScope.AllNotebooks:
+                        return Properties.Resources.TagSearch_Scope_AllNotebooks_Label;
+                    case SearchScope.Notebook:
+                        return Properties.Resources.TagSearch_Scope_Notebook_Label;
+                    case SearchScope.SectionGroup:
+                        return Properties.Resources.TagSearch_Scope_SectionGroup_Label;
+                    case SearchScope.Section:
+                        return Properties.Resources.TagSearch_Scope_Section_Label;
+                     default:
+                        return "...";
+                }
+            }
+        }
 
         private async void ScopeSelector_ScopeChanged(object sender, ScopeChangedEventArgs e) {
             try {
-                string scopename = "...";
-                switch (scopeSelect.SelectedScope) {
-                    case SearchScope.AllNotebooks:
-                        scopename = Properties.Resources.TagSearch_Scope_AllNotebooks_Label;
-                        break;
-                    case SearchScope.Notebook:
-                        scopename = Properties.Resources.TagSearch_Scope_Notebook_Label;
-                        break;
-                    case SearchScope.SectionGroup:
-                        scopename = Properties.Resources.TagSearch_Scope_SectionGroup_Label;
-                        break;
-                    case SearchScope.Section:
-                        scopename = Properties.Resources.TagSearch_Scope_Section_Label;
-                        break;
-                }
-                ProgressBarText = string.Format("Searching {0}", scopename); // TODO localize
+
+                ProgressBarText = string.Format("Searching {0}", SelectedScopeName); // TODO localize
                 pBar.Visibility = Visibility.Visible ;
                 string query = searchComboBox.Text;
                 // using ContinueWith until I've discovered how to do implement async
