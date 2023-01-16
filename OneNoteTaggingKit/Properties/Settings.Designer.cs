@@ -277,7 +277,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool MapOneNoteTags {
             get {
                 return ((bool)(this["MapOneNoteTags"]));
@@ -289,7 +289,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool MapHashTags {
             get {
                 return ((bool)(this["MapHashTags"]));
