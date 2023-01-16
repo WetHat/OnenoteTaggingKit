@@ -65,14 +65,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
             var query = string.IsNullOrWhiteSpace(_lastSearch) ? string.Empty : "🔍";
             var filtered = withalltags == string.Empty && exceptwithtags == string.Empty && query == string.Empty ? string.Empty : "  "; // <-
             // Properties.Resources.TagSearch_Pages_GroupBox_Title,
-            PagePanelHeader = string.Format("{0} {1}{2}{3}{4}{5}",
+            PagePanelHeader = string.Format("{0}/{1} {2}{3}{4}{5}{6}",
                 ViewModel.FilteredPages.Count,
-                "", // pags
+                ViewModel.TagsAndPages.Pages.Count,
+                "", // pages icon
                 filtered,
                 withalltags,
                 exceptwithtags,
                 query);
-
         }
         #endregion PagePanelHeaderProperty
         #region ProgressBarTextProperty

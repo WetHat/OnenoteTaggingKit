@@ -109,8 +109,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         public TagFilterPanelModel ExceptWithTagsFilterModel { get; private set; }
 
+        /// <summary>
+        ///     Get the collection of tags and the pages which have those tags.
+        /// </summary>
+        public TagsAndPages TagsAndPages { get; private set; }
         // the collection of pages matching filter criteria.
-        private TagsAndPages _tagsAndPages;
         private WithAllTagsFilter _pagesWithAllTags;
         private ExceptWithTagsFilter _pagesExceptWithTags;
         private CancellationTokenSource _cancelWorker = new CancellationTokenSource();
@@ -124,10 +127,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
         ///     The OneNote application proxy.
         /// </param>
         internal FindTaggedPagesModel(OneNoteProxy onenote) : base(onenote) {
-            _tagsAndPages = new TagsAndPages(onenote);
+            TagsAndPages = new TagsAndPages(onenote);
 
             // With all tags
-            _pagesWithAllTags = new WithAllTagsFilter(_tagsAndPages);
+            _pagesWithAllTags = new WithAllTagsFilter(TagsAndPages);
             _pagesWithAllTags.AutoUodateEnabled = true;
             WithAllTagsFilterModel = new TagFilterPanelModel(onenote, _pagesWithAllTags);
             _pagesWithAllTags.SelectedTags.CollectionChanged += WithAllSelectedTags_CollectionChanged;
@@ -198,7 +201,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 _highlighter = new TextSplitter();
             }
 
-            await Task.Run(() => _tagsAndPages.FindPages(scope,query), _cancelWorker.Token);
+            await Task.Run(() => TagsAndPages.FindPages(scope,query), _cancelWorker.Token);
         }
 
         // Collection of previous searches
@@ -280,7 +283,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             var origin = sender as ObservableDictionary<string, PageNode>;
             switch (e.Action) {
                 case NotifyDictionaryChangedAction.Add:
-                    if (origin.Count < _tagsAndPages.Pages.Count || !string.IsNullOrWhiteSpace(_tagsAndPages.Query)) {
+                    if (origin.Count < TagsAndPages.Pages.Count || !string.IsNullOrWhiteSpace(TagsAndPages.Query)) {
                         IEnumerable<PageNode> toAdd;
                         if (FilteredPages.Count > 0) {
                             toAdd = e.Items;
@@ -309,7 +312,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 case NotifyDictionaryChangedAction.Reset:
                     // we need to rebuild the entire model in case page properties
                     // have changed
-                    if (origin.Count < _tagsAndPages.Pages.Count || !string.IsNullOrWhiteSpace(_tagsAndPages.Query)) {
+                    if (origin.Count < TagsAndPages.Pages.Count || !string.IsNullOrWhiteSpace(TagsAndPages.Query)) {
                         PageNode[] pages = origin.Values.ToArray();
                         a = () => {
                             FilteredPages.Clear();
