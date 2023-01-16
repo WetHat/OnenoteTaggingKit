@@ -59,5 +59,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="FontWeight" Value="Bold" />
     </Style>
 </ResourceDictionary>
