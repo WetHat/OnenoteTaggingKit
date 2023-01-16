@@ -48,14 +48,14 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// and to the OneNote page.
         /// </summary>
         /// <param name="query">The search string.</param>
-        /// <param name="tags">Set of tags to search for.</param>
+        /// <param name="withall">Set of tags to search for.</param>
         /// <param name="scope">Search scope.</param>
         /// <param name="pages">Pages matching the search string and/or tags</param>
 
-        public void Add(string query, PageTagSet tags, SearchScope scope, IEnumerable<PageNode>pages) {
+        public void Add(string query, PageTagSet withall, SearchScope scope, IEnumerable<PageNode>pages) {
             OESavedSearch ss = new OESavedSearch(Owner,
                                                  query,
-                                                 string.Join(", ",from t in tags
+                                                 string.Join(", ",from t in withall
                                                                   orderby t.Key ascending
                                                                   select t.ToString()),
                                                  scope,

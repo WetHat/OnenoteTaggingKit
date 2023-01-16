@@ -169,11 +169,11 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="query">The full-text query.</param>
         /// <param name="marker">Marker tag definition.</param>
         /// <param name="scope">Search scope.</param>
-        /// <param name="taglist">Comma Separated list of tags names.</param>
+        /// <param name="withAllTags">Comma Separated list of tags names.</param>
         /// <param name="pages">Collection of pages matching the tags and/or the query.</param>
         public OESavedSearch(OneNotePage page,
                              string query,
-                             string taglist,
+                             string withAllTags,
                              SearchScope scope,
                              TagDef marker,
                              IEnumerable<PageNode>pages)
@@ -195,7 +195,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, Properties.Resources.SavedSearchQueryLabel,labelstyle)),
                                                  new Cell(ns, new OET(ns, query))));
             searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, Properties.Resources.SavedSearchTagsLabel, labelstyle)),
-                                                 new Cell(ns, _tags = new OETaglist(ns,taglist))));
+                                                 new Cell(ns, _tags = new OETaglist(ns,withAllTags))));
             searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, Properties.Resources.SavedSearchUpdatedLabel, labelstyle)),
                                                  new Cell(ns, _lastModified = new OET(ns, DateTime.Now.ToString(CultureInfo.CurrentCulture)))));
             _searchConfiguration = new OETable(searchConfig);

@@ -63,7 +63,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             var withalltags = ViewModel.WithAllTagsFilterModel.Filter.SelectedTags.Count > 0 ? "⋂" : string.Empty;
             var exceptwithtags = ViewModel.ExceptWithTagsFilterModel.Filter.SelectedTags.Count > 0 ? "⊄" : string.Empty;
             var query = string.IsNullOrWhiteSpace(_lastSearch) ? string.Empty : "🔍";
-            var filtered = withalltags == string.Empty && exceptwithtags == string.Empty && query == string.Empty ? string.Empty : "  "; // <-
+            var filtered = withalltags == string.Empty && exceptwithtags == string.Empty && query == string.Empty ? string.Empty : " "; // <-
             // Properties.Resources.TagSearch_Pages_GroupBox_Title,
             PagePanelHeader = string.Format("{0}/{1} {2}{3}{4}{5}{6}",
                 ViewModel.FilteredPages.Count,
