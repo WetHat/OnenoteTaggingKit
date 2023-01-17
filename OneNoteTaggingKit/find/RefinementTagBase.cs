@@ -36,11 +36,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
             TagWithPages = tag;
         }
 
-        /// <summary>
-        /// Predicate to dermine if a filter is applied to this tag.
-        /// </summary>
-        public bool IsFiltered => _filteredPageCount >= 0;
-
         int _filteredPageCountDelta = 0;
         /// <summary>
         ///     Get the number of pages removed by applying a filter.
@@ -51,7 +46,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 if (_filteredPageCountDelta != value) {
                     _filteredPageCountDelta = value;
                     // only fire events if filters are applied
-                    if (IsFiltered) {
+                    if (_filteredPageCount >= 0) {
                         RaisePropertyChanged();
                     }
                 }
