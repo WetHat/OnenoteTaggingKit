@@ -6,8 +6,11 @@ using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 namespace WetHatLab.OneNote.TaggingKit.find
 {
     /// <summary>
-    ///     A set of pages which do not have certain tags.
+    ///     A set-subtraction based tag filter.
     /// </summary>
+    /// <remarks>
+    ///     Computes the set of pages which do not have certain tags.
+    /// </remarks>
     public class ExceptWithTagsFilter : TagFilterBase
     {
         /// <summary>

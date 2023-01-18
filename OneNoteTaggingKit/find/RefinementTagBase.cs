@@ -6,18 +6,21 @@ namespace WetHatLab.OneNote.TaggingKit.find
 {
     /// <summary>
     ///     Aa abstract decorator base class for OneNote page tags used to
-    ///     filter sets of OneNote pages base on the filter rules implemented
+    ///     filter sets of OneNote pages base on specific rules implemented
     ///     by subclasses.
     /// </summary>
+    /// <remarks>
+    ///     Instances of this class support hashing.
+    /// </remarks>
     public abstract class RefinementTagBase : ObservableObject, IKeyedItem<string>
     {
         /// <summary>
-        ///     Get the set of pages having the tag represented by this object.
+        ///     Get the set of pages having the page tag of this instance.
         /// </summary>
         public ISet<PageNode> Pages => TagWithPages.Pages;
 
         /// <summary>
-        /// Get the tag with ists OneNote pages this refinement tag is based on.
+        ///     Get the tag and its OneNote pages this refinement tag is based on.
         /// </summary>
         public TagPageSet TagWithPages { get; private set; }
 
@@ -27,10 +30,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
         public PageTag Tag => TagWithPages.Tag;
 
         /// <summary>
-        ///     Initialize a refinement tag with a tag used on one or more OneNote pages.
+        ///     Initialize a refinement tag with a tag used on one or more
+        ///     OneNote pages.
         /// </summary>
         /// <param name="tag">
-        ///     A tag ued on OneNote pages.
+        ///     A tag with its OneNote pages.
         /// </param>
         public RefinementTagBase (TagPageSet tag) {
             TagWithPages = tag;
@@ -38,7 +42,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         int _filteredPageCountDelta = 0;
         /// <summary>
-        ///     Get the number of pages removed by applying a filter.
+        ///     Get the number of pages removed or added by applying the filter
+        ///     rule implemented by the concrete subclass.
         /// </summary>
         public int FilteredPageCountDelta {
             get => _filteredPageCountDelta;
@@ -55,8 +60,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         int _filteredPageCount = int.MinValue;
         /// <summary>
-        ///     Observable number of pages having this tag after filter application.
+        ///     Number of pages having this tag after filter application.
         /// </summary>
+        /// <remarks>
+        ///     This property raises change events.
+        /// </remarks>
         public int FilteredPageCount {
             get {
                 return _filteredPageCount < 0 ? Pages.Count : _filteredPageCount;
@@ -70,13 +78,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
-        ///     Filter a collection of pages acording to the tag filter rule inplmenmeted
-        ///     by the subclass.
+        ///     Filter a collection of pages according to the tag filter rule
+        ///     inplmenmeted by the concrete subclass.
         /// </summary>
         /// <param name="pages">Collection of pages to filter-</param>
         /// <returns>
         ///     Collection of pages satisfying the filter condition implemented by
-        ///     subclasses.
+        ///     the concrete subclass.
         /// </returns>
         public abstract IEnumerable<PageNode> FilterPages(IEnumerable<PageNode> pages);
 
@@ -84,37 +92,21 @@ namespace WetHatLab.OneNote.TaggingKit.find
         ///     Compute the effect this tag has on a collection of pages.
         /// </summary>
         /// <remarks>
-        ///     This method sets the properties
+        ///     This method sets the observable properties
         ///     <see cref="FilteredPageCount"/> and
         ///     <see cref="FilteredPageCountDelta"/>.
         /// </remarks>
         public abstract void FilterEffect(IEnumerable<PageNode> pages);
 
         /// <summary>
-        ///     Determine if two tags a are equal based on their tagname.
-        /// </summary>
-        /// <param name="obj">the other tag for equality test</param>
-        /// <returns>
-        ///     true if both tags are equal; false otherwise.
-        ///     </returns>
-        public override bool Equals(object obj) {
-            TagPageSet other = obj as TagPageSet;
-
-            if (other != null) {
-                return TagWithPages.TagName.Equals(other.TagName);
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Get the tag's hashcode.
+        ///     Get the tag's hashcode.
         /// </summary>
         /// <returns>hashcode</returns>
         public override int GetHashCode() => Tag.GetHashCode();
 
         #region IKeyedItem<string>
         /// <summary>
-        /// Get the unique key of the tag.
+        ///     Get the unique key of the tag.
         /// </summary>
         public string Key => Tag.Key;
         #endregion IKeyedItem<string>

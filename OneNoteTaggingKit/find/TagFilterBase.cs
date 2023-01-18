@@ -10,16 +10,34 @@ namespace WetHatLab.OneNote.TaggingKit.find
     ///     Abstract base class to define and apply rules to filter
     ///     down OneNote pages based on tags.
     /// </summary>
+    /// <remarks>
+    ///     Filter classes are designed to be connected to each other to form
+    ///     a filter chain
+    ///     ~~~bob
+    ///                          ┌─ filter ─┐
+    ///     ┌──────────────┐ ┌────────┐ ┌────────┐
+    ///     │ TagsAndPages │←--Source │←--Source │
+    ///     └──────────────┘ │ Next ---→│ Next   │
+    ///                      └────────┘ └────────┘
+    ///     ~~~
+    ///     Eeach node in the filter chain applies its specific rules to
+    ///     the page collection handed down via the `Source`s `Pages` and
+    ///     stores the result in its own `Pages` property.
+    ///
+    /// </remarks>
     public abstract class TagFilterBase : IDisposable, ITagsAndPages
     {
         /// <summary>
-        ///     Fet the original, unfiltered source of the collections of tags and
-        ///     pages.
+        ///     Get the source of tags and
+        ///     pages from the previous node in the filter chain.
         /// </summary>
+        /// <remarks>
+        ///     The set of pages
+        /// </remarks>
         public ITagsAndPages Source { get; private set; }
 
         /// <summary>
-        /// Get or set the next filter in the filter chain.
+        ///     Get or set the next filter in the filter chain.
         /// </summary>
         public TagFilterBase Next { get; set; }
         /// <summary>
@@ -105,14 +123,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
-        ///     Get the observable collection of tags this filter has access to.
+        ///     Initialize a new instance of this base class and connect it to
+        ///     a source of tags and pages.
         /// </summary>
-        ///
-        /// <summary>
-        ///     Initialize a new instance of this base class with a collections of
-        ///     tags and OneNote pages.
-        /// </summary>
-        /// <param name="source">Collection of tags and OneNte pages.</param>
+        /// <param name="source">SOurce of tags and OneNote pages.</param>
         public TagFilterBase(ITagsAndPages source) {
             Source = source;
             Source.Tags.CollectionChanged += Tags_CollectionChanged;
@@ -129,9 +143,9 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         /// <remarks>
         ///     Only basic synchronizationb is performed. It is expected that
-        ///     there will be a correlated event for tha pages collection and
+        ///     there will be a correlated event for the source page collection and
         ///     the <see cref="Pages_CollectionChanged"/> event handler performs
-        ///     the specific synchronization.
+        ///     the necessary synchronization.
         /// </remarks>
         /// <param name="sender">The changed tag collection.</param>
         /// <param name="e">Change event details.</param>
@@ -189,7 +203,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
         ///     Collection of pages.
         /// </param>
         /// <returns>
-        ///     Collection of pages which staisfy the filter condition.
+        ///     Collection of pages which staisfy the filter condition inplemented
+        ///     by the specific subclass.
         /// </returns>
         protected virtual IEnumerable<PageNode> FilterPages(IEnumerable<PageNode> pages) {
             IEnumerable<PageNode> filtered = pages;
@@ -203,7 +218,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
             return filtered;
         }
 
-        /// summary>
+        /// <summary>
         ///     Process changes to the collection of filter tags and update the
         ///     collection of filtered pages accordingly.
         /// </summary>

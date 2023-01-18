@@ -5,6 +5,10 @@ using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {
+    /// <summary>
+    ///     A refinement tag which is a member of set of tags any of which is
+    ///     required for a page in order to pass the filter.
+    /// </summary>
     public class AnyRefinementTag : RefinementTagBase
     {
         WithAnyTagsFilter _filterContext;

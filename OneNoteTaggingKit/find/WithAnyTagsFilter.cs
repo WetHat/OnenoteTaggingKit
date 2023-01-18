@@ -4,6 +4,12 @@ using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {
+    /// <summary>
+    ///     A set-union based tag filter.
+    /// </summary>
+    /// <remarks>
+    ///     Computes the set of pages which have a any tag from a set of tags.
+    /// </remarks>
     public class WithAnyTagsFilter : TagFilterBase
     {
         /// <summary>
@@ -81,7 +87,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         /// <summary>
-        ///     Apply the tag filter to a given set of pages.
+        ///     Apply the `With Sny` tag filter to a given set of pages.
         /// </summary>
         /// <param name="pages">
         ///     Collection of pages.
