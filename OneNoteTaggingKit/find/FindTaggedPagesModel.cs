@@ -306,6 +306,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     Dispatcher.Invoke(() => {
                         CurrentPageTitle = pg.Name;
                         ExceptWithTagsFilterModel.Filter.SelectedTags.Clear();
+                        WithAnyTagsFilterModel.Filter.SelectedTags.Clear();
                         WithAllTagsFilterModel.ResetFilter(mdls);
                     });
                 }
