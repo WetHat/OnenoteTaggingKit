@@ -13,13 +13,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
     /// <remarks>
     ///     Filter classes are designed to be connected to each other to form
     ///     a filter chain
-    ///     ~~~bob
+    ///     <code lang="bob">
     ///                          ┌─ filter ─┐
-    ///     ┌──────────────┐ ┌────────┐ ┌────────┐
-    ///     │ TagsAndPages │←--Source │←--Source │
-    ///     └──────────────┘ │ Next ---→│ Next   │
-    ///                      └────────┘ └────────┘
-    ///     ~~~
+    ///     ┌──────────────┐  ┌────────┐ ┌────────┐
+    ///     │ TagsAndPages │←---Source │←--Source │
+    ///     └──────────────┘  │ Next ---→│ Next ---→ ...
+    ///                       └────────┘ └────────┘
+    ///     </code>
     ///     Eeach node in the filter chain applies its specific rules to
     ///     the page collection handed down via the `Source`s `Pages` and
     ///     stores the result in its own `Pages` property.
