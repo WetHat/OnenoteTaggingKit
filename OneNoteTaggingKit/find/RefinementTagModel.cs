@@ -68,7 +68,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 TagIndicator = "";
                 TagIndicatorColor = Brushes.Red;
             } else {
-                TagIndicator = string.Format("{0}", RefinementTag.FilteredPageCount);
+                //                                                  down --.     .-- up
+                string arrow = RefinementTag.FilteredPageCountDelta < 0 ? "" : "";
+
+                TagIndicator = string.Format("{0}{1}", arrow, RefinementTag.FilteredPageCount);
                 TagIndicatorColor = Brushes.Black;
             }
         }
