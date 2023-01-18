@@ -91,6 +91,14 @@
                                       Background="Transparent"
                                       DataContext="{Binding Path=ExceptWithTagsFilterModel, Mode=OneTime}"/>
                 </TabItem>
+                <TabItem Header="{Binding Path=WithAnyTabLabel,Mode=OneWay}"
+                     Style="{StaticResource tabItemStyle}"
+                     Tag="WithAny"
+                     Selector.Selected="TabItem_Selected">
+                <local:TagFilterPanel x:Name="withAnyFilter"
+                                      Background="Transparent"
+                                      DataContext="{Binding Path=WithAnyTagsFilterModel, Mode=OneTime}"/>
+                </TabItem>
             </TabControl>
             <Button Name="clearAllTagSelection" Grid.Row="0"
                     Width="26"

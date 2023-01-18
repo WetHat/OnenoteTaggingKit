@@ -191,7 +191,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <returns>
         ///     Collection of pages which staisfy the filter condition.
         /// </returns>
-        protected IEnumerable<PageNode> FilterPages(IEnumerable<PageNode> pages) {
+        protected virtual IEnumerable<PageNode> FilterPages(IEnumerable<PageNode> pages) {
             IEnumerable<PageNode> filtered = pages;
 
             foreach (TagPageSet t in SelectedTags.Values) {

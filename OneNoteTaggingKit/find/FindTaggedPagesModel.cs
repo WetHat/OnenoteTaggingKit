@@ -35,6 +35,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// Get the title of the current page, if tacking is enabled
         /// </summary>
         string CurrentPageTitle { get; }
+
+        string WithAllTabLabel { get; }
+        string ExceptWithTabLabel { get; }
+        string WithAnyTabLabel { get; }
     }
 
     /// <summary>
@@ -99,6 +103,24 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
         #endregion ExceptWithTabLabelProperty
 
+        #region WithAnyTabLabelProperty
+        /// <summary>
+        /// Backing store for observable property <see cref="WithAllTabLabel"/>
+        /// </summary>
+        public static readonly DependencyProperty WithAnyTabLabelProperty = DependencyProperty.Register(
+            nameof(WithAnyTabLabel),
+            typeof(string),
+            typeof(FindTaggedPagesModel),
+            new PropertyMetadata("..."));
+
+        /// <summary>
+        /// Get/set the title of the current OneNote page.
+        /// </summary>
+        public string WithAnyTabLabel {
+            get => GetValue(WithAnyTabLabelProperty) as string;
+            set => SetValue(WithAnyTabLabelProperty, value);
+        }
+        #endregion WithAnyTabLabelProperty
         /// <summary>
         ///     Get the filter which requires all selected tags to be on pages.
         /// </summary>
@@ -110,12 +132,19 @@ namespace WetHatLab.OneNote.TaggingKit.find
         public TagFilterPanelModel ExceptWithTagsFilterModel { get; private set; }
 
         /// <summary>
+        ///     Get the filter which requires any selected tags to be  on pages.
+        /// </summary>
+        public TagFilterPanelModel WithAnyTagsFilterModel { get; private set; }
+
+
+        /// <summary>
         ///     Get the collection of tags and the pages which have those tags.
         /// </summary>
         public TagsAndPages TagsAndPages { get; private set; }
         // the collection of pages matching filter criteria.
         private WithAllTagsFilter _pagesWithAllTags;
         private ExceptWithTagsFilter _pagesExceptWithTags;
+        private WithAnyTagsFilter _pagesWithAnyTags;
         private CancellationTokenSource _cancelWorker = new CancellationTokenSource();
         private TextSplitter _highlighter;
 
@@ -142,8 +171,14 @@ namespace WetHatLab.OneNote.TaggingKit.find
             _pagesExceptWithTags.SelectedTags.CollectionChanged += ExceptWithSelectedTags_CollectionChanged;
             Update_ExceptWithLabel(_pagesExceptWithTags.SelectedTags);
 
+            // with any tags
+            _pagesWithAnyTags = new WithAnyTagsFilter(_pagesExceptWithTags);
+            WithAnyTagsFilterModel = new TagFilterPanelModel(onenote, _pagesWithAnyTags);
+            _pagesWithAnyTags.SelectedTags.CollectionChanged += WithAnySelectedTags_CollectionChanged;
+            Update_WithAnyLabel(_pagesWithAnyTags.SelectedTags);
+
             // track changes in filter result
-            _pagesWithAllTags.FilteredPages.CollectionChanged += HandlePageCollectionChanges;
+            _pagesWithAnyTags.FilteredPages.CollectionChanged += HandlePageCollectionChanges;
 
             CurrentPageTitle = Properties.Resources.TagSearch_CheckBox_Tracking_Text;
             // load the search history
@@ -155,18 +190,24 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
         void Update_WithAllLabel(ObservableDictionary<string, TagPageSet> selected) {
-            WithAllTabLabel = string.Format("⋂ All {0}", selected.Count); // TODO localize
+            WithAllTabLabel = string.Format("⋂ All of {0}", selected.Count); // TODO localize
         }
         private void WithAllSelectedTags_CollectionChanged(object sender, NotifyDictionaryChangedEventArgs<string, TagPageSet> e) {
             Dispatcher.Invoke(() => Update_WithAllLabel(sender as ObservableDictionary<string, TagPageSet>));
         }
         void Update_ExceptWithLabel(ObservableDictionary<string, TagPageSet> selected) {
-            ExceptWithTabLabel = string.Format("⊄ Except {0}", selected.Count); // TODO localize
+            ExceptWithTabLabel = string.Format("⊄ None of {0}", selected.Count); // TODO localize
         }
         private void ExceptWithSelectedTags_CollectionChanged(object sender, NotifyDictionaryChangedEventArgs<string, TagPageSet> e) {
             Dispatcher.Invoke(() => Update_ExceptWithLabel(sender as ObservableDictionary<string, TagPageSet>));
         }
 
+        void Update_WithAnyLabel(ObservableDictionary<string, TagPageSet> selected) {
+            WithAnyTabLabel = string.Format("⋃ Any of {0}", selected.Count); // TODO localize
+        }
+        private void WithAnySelectedTags_CollectionChanged(object sender, NotifyDictionaryChangedEventArgs<string, TagPageSet> e) {
+            Dispatcher.Invoke(() => Update_WithAnyLabel(sender as ObservableDictionary<string, TagPageSet>));
+        }
         /// <summary>
         ///     Get scope used to search for OneNOte pages.
         /// </summary>

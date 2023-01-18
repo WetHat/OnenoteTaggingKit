@@ -28,6 +28,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 
         public string WithAllTabLabel => "All";
         public string ExceptWithTabLabel => "Except";
+        public string WithAnyTabLabel => "Any";
 
         /// <summary>
         /// Create a new instance of a design time view model
