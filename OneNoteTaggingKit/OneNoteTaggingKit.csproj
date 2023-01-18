@@ -101,6 +101,8 @@
     <Compile Include="find\TagFilterBase.cs" />
     <Compile Include="find\WithAllTagsFilter.cs" />
     <Compile Include="find\RefinementTagBase.cs" />
+    <Compile Include="find\AnyRefinementTag.cs" />
+    <Compile Include="find\WithAnyTagsFilter.cs" />
     <Compile Include="HierarchyBuilder\HierarchyNode.cs" />
     <Compile Include="HierarchyBuilder\PageHierarchy.cs" />
     <Compile Include="PageBuilder\Cell.cs" />
