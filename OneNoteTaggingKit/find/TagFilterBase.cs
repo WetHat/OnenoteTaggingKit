@@ -15,10 +15,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
     ///     a filter chain
     ///     <code lang="bob">
     ///                          ┌─ filter ─┐
-    ///     ┌──────────────┐  ┌────────┐ ┌────────┐
-    ///     │ TagsAndPages │←---Source │←--Source │
-    ///     └──────────────┘  │ Next ---→│ Next ---→ ...
-    ///                       └────────┘ └────────┘
+    ///     ┌──────────────┐  ┌────────┐  ┌────────┐
+    ///     │ TagsAndPages │˂-- Source │˂-- Source │
+    ///     └──────────────┘  │ Next ----˃│ Next ----˃ ...
+    ///                       └────────┘  └────────┘
     ///     </code>
     ///     Eeach node in the filter chain applies its specific rules to
     ///     the page collection handed down via the `Source`s `Pages` and
