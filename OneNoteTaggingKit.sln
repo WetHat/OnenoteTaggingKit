@@ -14,8 +14,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneNoteTaggingKit", "OneNot
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SetupTaggingKitWiX", "SetupTaggingKitWiX\SetupTaggingKitWiX.wixproj", "{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}"
 EndProject
-Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "TaggingKitSandcastle", "TaggingKitSandcastle\TaggingKitSandcastle.shfbproj", "{6B0CEDF0-E405-41D5-A62F-4A3B04BE3C83}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "onenote-taggingkit-addin.install", "onenote-taggingkit-addin.install", "{53C0757D-FF7A-48A8-9470-D3400C3E607F}"
 	ProjectSection(SolutionItems) = preProject
 		onenote-taggingkit-addin.install\onenote-taggingkit-addin.install.nuspec = onenote-taggingkit-addin.install\onenote-taggingkit-addin.install.nuspec
@@ -60,17 +58,6 @@ Global
 		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.Release|Mixed Platforms.Build.0 = Release|x86
 		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.Release|x86.ActiveCfg = Release|x86
 		{FE85BBE4-BB34-4DFF-8FED-F8F052909D8C}.Release|x86.Build.0 = Release|x86
-		{6B0CEDF0-E405-41D5-A62F-4A3B04BE3C83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6B0CEDF0-E405-41D5-A62F-4A3B04BE3C83}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6B0CEDF0-E405-41D5-A62F-4A3B04BE3C83}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{6B0CEDF0-E405-41D5-A62F-4A3B04BE3C83}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{6B0CEDF0-E405-41D5-A62F-4A3B04BE3C83}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6B0CEDF0-E405-41D5-A62F-4A3B04BE3C83}.Debug|x86.Build.0 = Debug|Any CPU
-		{6B0CEDF0-E405-41D5-A62F-4A3B04BE3C83}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6B0CEDF0-E405-41D5-A62F-4A3B04BE3C83}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6B0CEDF0-E405-41D5-A62F-4A3B04BE3C83}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{6B0CEDF0-E405-41D5-A62F-4A3B04BE3C83}.Release|x86.ActiveCfg = Release|Any CPU
-		{6B0CEDF0-E405-41D5-A62F-4A3B04BE3C83}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
