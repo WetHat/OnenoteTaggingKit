@@ -8,7 +8,7 @@ public ITagsAndPages Source { get; }
 
 ## Remarks
 
-The set of pages
+The set of pages.
 
 ## See Also
 
