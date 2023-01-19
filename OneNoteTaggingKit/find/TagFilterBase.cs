@@ -32,7 +32,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         ///     pages from the previous node in the filter chain.
         /// </summary>
         /// <remarks>
-        ///     The set of pages
+        ///     The set of pages.
         /// </remarks>
         public ITagsAndPages Source { get; private set; }
 
