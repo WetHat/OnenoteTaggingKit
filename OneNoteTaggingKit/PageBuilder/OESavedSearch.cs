@@ -29,7 +29,9 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 
         string _query;
 
-        OETaglist _tags;
+        OETaglist _withAllTags;
+        OETaglist _withoutTags;
+        OETaglist _withAnyTags;
         OET _lastModified;
 
         Cell _searchResult; // contains a list of page links
@@ -79,17 +81,34 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     }
                 }
 
-                // parse taglist
-                var rowTags = configTbl.Rows[2];
-                if (rowTags.Cells.Count > 1) {
-                    var tagsCellContent = rowTags.Cells[1].Content.FirstOrDefault() as OET;
+                // parse 'with all' taglist
+                var withAllTagsRow = configTbl.Rows[2];
+                if (withAllTagsRow.Cells.Count > 1) {
+                    var tagsCellContent = withAllTagsRow.Cells[1].Content.FirstOrDefault() as OET;
                     if (tagsCellContent != null) {
-                        _tags = new OETaglist(tagsCellContent);
+                        _withAllTags = new OETaglist(tagsCellContent);
+                    }
+                }
+                // parse 'with any' taglist, if present
+                if (configTbl.Rows.Count > 5) {
+                    var exceptWithTagsRow = configTbl.Rows[3];
+                    if (exceptWithTagsRow.Cells.Count > 1) {
+                        var tagsCellContent = exceptWithTagsRow.Cells[1].Content.FirstOrDefault() as OET;
+                        if (tagsCellContent != null) {
+                            _withoutTags = new OETaglist(tagsCellContent);
+                        }
+                    }
+                    var withAnyTagsRow = configTbl.Rows[4];
+                    if (withAnyTagsRow.Cells.Count > 1) {
+                        var tagsCellContent = withAnyTagsRow.Cells[1].Content.FirstOrDefault() as OET;
+                        if (tagsCellContent != null) {
+                            _withAnyTags = new OETaglist(tagsCellContent);
+                        }
                     }
                 }
 
                 // last modified
-                var rowModified = configTbl.Rows[3];
+                var rowModified = configTbl.Rows[configTbl.Rows.Count - 1];
                 if (rowModified.Cells.Count > 1) {
                    _lastModified = rowModified.Cells[1].Content.FirstOrDefault() as OET;
                 }
@@ -169,12 +188,16 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="query">The full-text query.</param>
         /// <param name="marker">Marker tag definition.</param>
         /// <param name="scope">Search scope.</param>
-        /// <param name="withAllTags">Comma Separated list of tags names.</param>
+        /// <param name="withAllTags">Comma Separated list of tags names which must be on pages.</param>
+        /// <param name="withoutTags">Comma Separated list of tags names which must not be on pages.</param>
+        /// <param name="withAnyTags">Comma Separated list of tags names where any of them must be on pages.</param>
         /// <param name="pages">Collection of pages matching the tags and/or the query.</param>
         public OESavedSearch(OneNotePage page,
+                             SearchScope scope,
                              string query,
                              string withAllTags,
-                             SearchScope scope,
+                             string withoutTags,
+                             string withAnyTags,
                              TagDef marker,
                              IEnumerable<PageNode>pages)
             : base(new Table(page.Namespace, 1)) {
@@ -194,8 +217,12 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                                  new Cell(ns, new OET(ns, formatScopeLink(_onenote.GetCurrentSearchScopeID(_scope))))));
             searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, Properties.Resources.SavedSearchQueryLabel,labelstyle)),
                                                  new Cell(ns, new OET(ns, query))));
-            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, Properties.Resources.SavedSearchTagsLabel, labelstyle)),
-                                                 new Cell(ns, _tags = new OETaglist(ns,withAllTags))));
+            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, Properties.Resources.SavedSearchAllTagsLabel, labelstyle)), // TODO update message
+                                                 new Cell(ns, _withAllTags = new OETaglist(ns,withAllTags))));
+            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "None of these Tags", labelstyle)), // TODO localize
+                                                 new Cell(ns, _withoutTags = new OETaglist(ns, withoutTags))));
+            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "Any of these Tags", labelstyle)),
+                                                 new Cell(ns, _withAnyTags = new OETaglist(ns, withAnyTags))));
             searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, Properties.Resources.SavedSearchUpdatedLabel, labelstyle)),
                                                  new Cell(ns, _lastModified = new OET(ns, DateTime.Now.ToString(CultureInfo.CurrentCulture)))));
             _searchConfiguration = new OETable(searchConfig);
@@ -215,20 +242,51 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             if (_updateRequired) {
                 if (_lastModified != null) {
                     _lastModified.Text = DateTime.Now.ToString(CultureInfo.CurrentCulture);
-                    var refinementTags = new PageTagSet(_tags.Taglist, TagFormat.AsEntered);
-                    var pages = new Stack<PageNode>();
-                    if (!refinementTags.IsEmpty || !string.IsNullOrWhiteSpace(_query)) {
-                        var ph = new PageHierarchy(onenote, _scope, _query);
+                    var withAllTags = new PageTagSet(_withAllTags.Taglist, TagFormat.AsEntered);
+                    var withoutTags = new PageTagSet(_withoutTags == null ? string.Empty : _withoutTags.Taglist, TagFormat.AsEntered);
+                    var withAnyTags = new PageTagSet(_withAnyTags == null ? string.Empty : _withAnyTags.Taglist, TagFormat.AsEntered);
+                    var tagsWithPages = new TagsAndPages(onenote);
 
-                        foreach (var p in ph.Pages) {
-                            var pagetags = p.Tags;
-                            if (refinementTags.All((t) => pagetags.ContainsKey(t.Key))) {
-                                pages.Push(p);
+                    if (!withAllTags.IsEmpty
+                        || !withoutTags.IsEmpty
+                        || !withAnyTags.IsEmpty) {
+                        tagsWithPages.FindPages(_scope, _query);
+
+                        // process required tags
+                        if (!withAllTags.IsEmpty) {
+                            foreach (var tag in withAllTags) {
+                                TagPageSet tps;
+                                if (tagsWithPages.Tags.TryGetValue(tag.Key, out tps)) {
+                                    tagsWithPages.Pages.IntersectWith(tps.Pages);
+                                }
                             }
                         }
+
+                        // process excluded tags
+                        if (!withoutTags.IsEmpty) {
+                            foreach (var tag in withoutTags) {
+                                TagPageSet tps;
+                                if (tagsWithPages.Tags.TryGetValue(tag.Key, out tps)) {
+                                    tagsWithPages.Pages.ExceptWith(tps.Pages);
+                                }
+                            }
+                        }
+
+                        // process 'with any of these' filter
+                        if (!withAnyTags.IsEmpty) {
+                            var pagesWithAnyTags = new HashSet<PageNode>();
+                            foreach (var tag in withAnyTags) {
+                                TagPageSet tps;
+                                if (tagsWithPages.Tags.TryGetValue(tag.Key, out tps)) {
+                                    pagesWithAnyTags.UnionWith(tps.Pages);
+                                }
+                            }
+                            tagsWithPages.Pages.IntersectWith(pagesWithAnyTags);
+                        }
                     }
+
                     _searchResult.Content = GetPageLinks(page,
-                                                         from p in pages
+                                                         from p in tagsWithPages.Pages.Values
                                                          orderby p.Name ascending
                                                          select p);
                 }

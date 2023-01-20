@@ -48,17 +48,25 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// and to the OneNote page.
         /// </summary>
         /// <param name="query">The search string.</param>
-        /// <param name="withall">Set of tags to search for.</param>
         /// <param name="scope">Search scope.</param>
+        /// <param name="withall">Set of tags all of which must be on pages.</param>
+        /// <param name="without">Set of tags none of which are allowed on pages.</param>
+        /// <param name="withany">Set of tags at least one of which must be on pages.</param>
         /// <param name="pages">Pages matching the search string and/or tags</param>
 
-        public void Add(string query, PageTagSet withall, SearchScope scope, IEnumerable<PageNode>pages) {
+        public void Add(string query, SearchScope scope, PageTagSet withall, PageTagSet without, PageTagSet withany, IEnumerable<PageNode>pages) {
             OESavedSearch ss = new OESavedSearch(Owner,
+                                                 scope,
                                                  query,
-                                                 string.Join(", ",from t in withall
+                                                 string.Join(", ", from t in withall
+                                                                   orderby t.Key ascending
+                                                                   select t.ToString()),
+                                                 string.Join(", ", from t in without
                                                                   orderby t.Key ascending
                                                                   select t.ToString()),
-                                                 scope,
+                                                  string.Join(", ", from t in withany
+                                                                    orderby t.Key ascending
+                                                                    select t.ToString()),
                                                  Owner.DefineProcessTag(Properties.Resources.SavedSearchTagName, TagProcessClassification.SavedSearchMarker),
                                                  pages);
             base.Add(ss);
