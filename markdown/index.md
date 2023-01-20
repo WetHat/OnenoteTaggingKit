@@ -50,10 +50,12 @@ documentation ;-).
 
 # Releases
 
-🌟 **v4.0** - [Documentation](v4.0/Home.md) -
-[Installation](v4.0/Home.md#installation-and-upgrade) -
+🌟 **v5.0** - [Documentation](v5.0/Home.md) -
+[Installation](v5.0/Home.md#installation-and-upgrade) -
 [Release Notes](https://github.com/WetHat/OnenoteTaggingKit/releases)
 
-
+* **v4.0** - [Documentation](v4.0/Home.md) -
+[Installation](v4.0/Home.md#installation-and-upgrade) -
+[Release Notes](https://github.com/WetHat/OnenoteTaggingKit/releases)
 
 
