@@ -17,6 +17,10 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         private readonly bool _isSelected = false;
 
         /// <summary>
+        ///     Get date and time this page was last modified.
+        /// </summary>
+        public DateTime LastModified { get; private set; }
+        /// <summary>
         /// Create an internal representation of a page returned from FindMeta
         /// </summary>
         /// <param name="page">&lt;one:Page&gt; element</param>
@@ -29,6 +33,7 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
             if (selected != null && "all".Equals(selected.Value)) {
                 _isSelected = true;
             }
+            LastModified = DateTime.Parse(page.Attribute("lastModifiedTime").Value);
             XElement meta = page.Elements(one.GetName("Meta")).FirstOrDefault(m => MetaCollection.PageTagsMetaKey.Equals(m.Attribute("name").Value));
             if (meta != null) {
                 Tags = new PageTagSet(meta.Attribute("content").Value,TagFormat.AsEntered);

@@ -1,4 +1,5 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
+using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
+using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 using WetHatLab.OneNote.TaggingKit.Tagger;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
@@ -130,7 +132,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         MetaCollection _meta; // Page Meta information
         TagDefCollection _tagdef; // OneNote tag definitions.
 
-        private DateTime _lastModified;
+        /// <summary>
+        ///     Get or set date and time this page was last modified.
+        /// </summary>
+        DateTime LastModified { get; set; }
 
         /// <summary>
         /// Get the OneNote application object.
@@ -177,7 +182,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             OneNoteApp = onenoteApp;
             PageID = pageID;
             Document = Element.Document; // get the page's XML document
-            _lastModified = DateTime.Parse(Element.Attribute("lastModifiedTime").Value);
+            LastModified = DateTime.Parse(Element.Attribute("lastModifiedTime").Value);
 
             // recognize some page content
 
@@ -319,31 +324,33 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     if (sync) {
                         SavedSearches.Update(); // expensive!
                     }
-                    OneNoteApp.UpdatePage(Document, _lastModified);
+                    OneNoteApp.UpdatePage(Document, LastModified);
                     if (_belowTitleTags != null &&
                         ((TagDisplay)Properties.Settings.Default.TagDisplay == TagDisplay.InTitle
-                         || _tagdef.DefinedPageTags.FirstOrDefault() == null)) {
+                            || _tagdef.DefinedPageTags.FirstOrDefault() == null)) {
                         // delete obsolete outline with tag list
                         // the corresponding outline too
                         OneNoteApp.DeletePageContent(PageID, _belowTitleTags.Element.Parent.Parent.Attribute("objectID").Value);
                     }
+                    return;
                 } catch (COMException ce) {
                     unchecked {
                         switch ((uint)ce.ErrorCode) {
                             case 0x80042010: // concurrent page modification
                                 TraceLogger.Log(TraceCategory.Error(), "The last modified date does not match. Concurrent page modification: {0}\n Rescheduling tagging job.", ce.Message);
-                                OneNoteApp.TaggingService.Add(new TaggingJob(PageID, Tags, TagOperation.REPLACE));
                                 break;
 
                             case 0x80042030: // blocked by modal dialog
                                 TraceLogger.ShowGenericErrorBox(Properties.Resources.TaggingKit_Blocked, ce);
-                                OneNoteApp.TaggingService.Add(new TaggingJob(PageID, Tags, TagOperation.REPLACE));
                                 break;
 
                             default:
                                 throw;
                         }
                     }
+                    // attempt one retry with an updated modify-timestamp
+                    PageNode pg = new PageNode(OneNoteApp.GetPage(PageID).Root, null);
+                    OneNoteApp.UpdatePage(Document, pg.LastModified);
                 }
             }
         }
