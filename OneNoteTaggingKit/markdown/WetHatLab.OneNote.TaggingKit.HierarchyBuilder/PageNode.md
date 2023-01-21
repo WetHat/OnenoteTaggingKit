@@ -13,6 +13,7 @@ public class PageNode : HierarchyNode
 | [IsInRecycleBin](PageNode/IsInRecycleBin.md) { get; } | Determine if the tagged pages is recycled |
 | [IsSelected](PageNode/IsSelected.md) { get; } | Get the selection status of the page |
 | [Key](PageNode/Key.md) { get; } | Get pages unique key suitable for hashing |
+| [LastModified](PageNode/LastModified.md) { get; } | Get date and time this page was last modified. |
 | [Tags](PageNode/Tags.md) { get; } | Get the collection of tags on this page |
 | override [Equals](PageNode/Equals.md)(…) | Check two page objects for equality |
 | override [GetHashCode](PageNode/GetHashCode.md)() | Compute the hashcode |
@@ -21,7 +22,7 @@ public class PageNode : HierarchyNode
 
 | name | description |
 | --- | --- |
-| [PageNode](PageNode/PageNode.md)(…) | Create an internal representation of a page returned from FindMeta |
+| [PageNode](PageNode/PageNode.md)(…) | Initialize an internal representation of a page returned from FindMeta |
 
 ## See Also
 

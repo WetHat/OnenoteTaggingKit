@@ -1,6 +1,6 @@
 # PageNode constructor
 
-Create an internal representation of a page returned from FindMeta
+Initialize an internal representation of a page returned from FindMeta
 
 ```csharp
 internal PageNode(XElement page, HierarchyNode parent)
@@ -10,6 +10,20 @@ internal PageNode(XElement page, HierarchyNode parent)
 | --- | --- |
 | page | &lt;one:Page&gt; element |
 | parent | The parent node of the page. |
+
+## Remarks
+
+Page nodes can be initialized from XML documebts optained via calls to [`GetPage`](../../WetHatLab.OneNote.TaggingKit/OneNoteProxy/GetPage.md) or [`GetHierarchy`](../../WetHatLab.OneNote.TaggingKit/OneNoteProxy/GetHierarchy.md) like shown in the examples below.
+
+## Examples
+
+``` csharp
+// create a page node from a OneNote page XML document
+var nd1 = new PageNode(OneNoteApp.GetPage(PageID).Root, null);
+
+// Create a page node from a hierarchy query.
+ new PageNode(onenote.GetHierarchy(currentPageID, HierarchyScope.hsSelf).Root,null);
+```
 
 ## See Also
 

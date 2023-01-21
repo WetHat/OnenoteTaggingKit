@@ -1,7 +1,6 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2022 WetHat Lab, all rights reserved
 using Microsoft.Office.Interop.OneNote;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
@@ -21,8 +20,24 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
         /// </summary>
         public DateTime LastModified { get; private set; }
         /// <summary>
-        /// Create an internal representation of a page returned from FindMeta
+        ///     Initialize an internal representation of a page returned from FindMeta
         /// </summary>
+        /// <remarks>
+        ///     Page nodes can be initialized from XML documebts optained via
+        ///     calls to <see cref="OneNoteProxy.GetPage(string)"/> or
+        ///     <see cref="OneNoteProxy.GetHierarchy(string, HierarchyScope)"/>
+        ///     like shown in the examples below.
+        /// </remarks>
+        /// <example>
+        /// <code>
+        ///     // create a page node from a OneNote page XML document
+        ///     var nd1 = new PageNode(OneNoteApp.GetPage(PageID).Root, null);
+        ///
+        ///     // Create a page node from a hierarchy query.
+        ///      new PageNode(onenote.GetHierarchy(currentPageID, HierarchyScope.hsSelf).Root,null);
+        ///
+        /// </code>
+        /// </example>
         /// <param name="page">&lt;one:Page&gt; element</param>
         /// <param name="parent">The parent node of the page.</param>
         internal PageNode(XElement page,HierarchyNode parent) : base(page,parent,HierarchyElement.hePages)  {
