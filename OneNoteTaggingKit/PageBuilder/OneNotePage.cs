@@ -325,8 +325,8 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         SavedSearches.Update(); // expensive!
                     }
                     OneNoteApp.UpdatePage(Document, LastModified);
-                    if (_belowTitleTags != null &&
-                        ((TagDisplay)Properties.Settings.Default.TagDisplay == TagDisplay.InTitle
+                    if (_belowTitleTags != null
+                        && ((TagDisplay)Properties.Settings.Default.TagDisplay == TagDisplay.InTitle
                             || _tagdef.DefinedPageTags.FirstOrDefault() == null)) {
                         // delete obsolete outline with tag list
                         // the corresponding outline too
@@ -351,6 +351,13 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     // attempt one retry with an updated modify-timestamp
                     PageNode pg = new PageNode(OneNoteApp.GetPage(PageID).Root, null);
                     OneNoteApp.UpdatePage(Document, pg.LastModified);
+                    if (_belowTitleTags != null
+                        && ((TagDisplay)Properties.Settings.Default.TagDisplay == TagDisplay.InTitle
+                            || _tagdef.DefinedPageTags.FirstOrDefault() == null)) {
+                        // delete obsolete outline with tag list
+                        // the corresponding outline too
+                        OneNoteApp.DeletePageContent(PageID, _belowTitleTags.Element.Parent.Parent.Attribute("objectID").Value);
+                    }
                 }
             }
         }
