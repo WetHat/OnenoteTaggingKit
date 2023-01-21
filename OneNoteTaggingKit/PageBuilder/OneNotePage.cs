@@ -416,14 +416,17 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 
             // define all the tags
             _tagdef.DefinePageTags(pagetagset);
+            bool specChanged = _tagdef.IsModified;
 
             // ... and make sure these tags are on the title too
             titletagset.UnionWith(_tagdef.DefinedPageTags);
-
-            bool specChanged = _tagdef.IsModified;
+            if (specChanged) {
+                // Get rid of obsolete definitions
+                titletagset = new HashSet<TagDef>(from TagDef td in titletagset where !td.IsDisposed select td);
+            }
             // update the meta information of the page
             _meta.PageTags = pagetagset.ToString();
-            specChanged = specChanged || _meta.IsModified;
+            specChanged |= _meta.IsModified;
 
             switch ((TagDisplay)Properties.Settings.Default.TagDisplay) {
                 case TagDisplay.InTitle:

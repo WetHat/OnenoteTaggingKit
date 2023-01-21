@@ -70,10 +70,17 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         }
 
         /// <summary>
-        /// Define the tags which should be on the page.
+        ///     Define the tags which should be on the page.
         /// </summary>
-        /// <remarks>All definitions for tags not in the given list are removed</remarks>
-        /// <param name="tags">list of tags.</param>
+        /// <remarks>
+        ///     We recycle the tag definitions sequencially knowing that setting
+        ///     the tag also changes the definition name accordingly.
+        ///     
+        ///     If we have more definitions than tags, the extra definitions are deleted.
+        /// </remarks>
+        /// <param name="tags">
+        ///     List of page tags on a OneNote page.
+        /// </param>
         public void DefinePageTags(PageTagSet tags) {
             var toDefine = new Stack<PageTag>(tags);
 
@@ -91,7 +98,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             }
 
             // For the remaining page tags we need to make new definitions.
-            IsModified = toDefine.Count > 0;
+            IsModified |= toDefine.Count > 0;
             while (toDefine.Count > 0) {
                 Add(new TagDef(Page, toDefine.Pop(), Items.Count));
             }

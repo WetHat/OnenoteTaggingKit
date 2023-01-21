@@ -8,11 +8,11 @@ public void DefinePageTags(PageTagSet tags)
 
 | parameter | description |
 | --- | --- |
-| tags | list of tags. |
+| tags | List of page tags on a OneNote page. |
 
 ## Remarks
 
-All definitions for tags not in the given list are removed
+We recycle the tag definitions sequencially knowing that setting the tag also changes the definition name accordingly. If we have more definitions than tags, the extra definitions are deleted.
 
 ## See Also
 
