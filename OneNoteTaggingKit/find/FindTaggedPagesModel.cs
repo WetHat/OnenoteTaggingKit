@@ -190,20 +190,20 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
         void Update_WithAllLabel(ObservableDictionary<string, TagPageSet> selected) {
-            WithAllTabLabel = string.Format("⋂ All of {0}", selected.Count); // TODO localize
+            WithAllTabLabel = string.Format(Properties.Resources.TagSearch_Filter_Label_AllTags, selected.Count);
         }
         private void WithAllSelectedTags_CollectionChanged(object sender, NotifyDictionaryChangedEventArgs<string, TagPageSet> e) {
             Dispatcher.Invoke(() => Update_WithAllLabel(sender as ObservableDictionary<string, TagPageSet>));
         }
         void Update_ExceptWithLabel(ObservableDictionary<string, TagPageSet> selected) {
-            ExceptWithTabLabel = string.Format("⊄ None of {0}", selected.Count); // TODO localize
+            ExceptWithTabLabel = string.Format(Properties.Resources.TagSearch_Filter_Label_NoneTags, selected.Count);
         }
         private void ExceptWithSelectedTags_CollectionChanged(object sender, NotifyDictionaryChangedEventArgs<string, TagPageSet> e) {
             Dispatcher.Invoke(() => Update_ExceptWithLabel(sender as ObservableDictionary<string, TagPageSet>));
         }
 
         void Update_WithAnyLabel(ObservableDictionary<string, TagPageSet> selected) {
-            WithAnyTabLabel = string.Format("⋃ Any of {0}", selected.Count); // TODO localize
+            WithAnyTabLabel = string.Format(Properties.Resources.TagSearch_Filter_Label_AnyTags, selected.Count);
         }
         private void WithAnySelectedTags_CollectionChanged(object sender, NotifyDictionaryChangedEventArgs<string, TagPageSet> e) {
             Dispatcher.Invoke(() => Update_WithAnyLabel(sender as ObservableDictionary<string, TagPageSet>));

@@ -599,6 +599,15 @@ Tap or click link to navigate to page.</value>
   <data name="TagSearch_FilterTab_None_Tooltip" xml:space="preserve">
     <value>Pages must have none of the selected tags in order to pass this filter.</value>
   </data>
+  <data name="TagSearch_Filter_Label_AllTags" xml:space="preserve">
+    <value>⋂ All of {0}</value>
+  </data>
+  <data name="TagSearch_Filter_Label_AnyTags" xml:space="preserve">
+    <value>⋃ Any of {0}</value>
+  </data>
+  <data name="TagSearch_Filter_Label_NoneTags" xml:space="preserve">
+    <value>⊄ None of {0}</value>
+  </data>
   <data name="TagSearch_Progress_Saving" xml:space="preserve">
     <value>Saving Search Result ...</value>
   </data>
