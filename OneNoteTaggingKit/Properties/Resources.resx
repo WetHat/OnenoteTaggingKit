@@ -567,7 +567,7 @@ Tap or click link to navigate to page.</value>
     <value>Saved Search</value>
   </data>
   <data name="SavedSearchAllTagsLabel" xml:space="preserve">
-    <value>Tags</value>
+    <value>All of these Tags</value>
   </data>
   <data name="SavedSearchUpdatedLabel" xml:space="preserve">
     <value>Updated</value>
@@ -583,5 +583,11 @@ Tap or click link to navigate to page.</value>
   </data>
   <data name="NewSavedSearchPage_Title" xml:space="preserve">
     <value>Untitled Search</value>
+  </data>
+  <data name="SavedSearchAnyTagsLabel" xml:space="preserve">
+    <value>Any of these Tags</value>
+  </data>
+  <data name="SavedSearchExceptTagsLabel" xml:space="preserve">
+    <value>None of these Tags</value>
   </data>
 </root>

@@ -230,11 +230,29 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tags.
+        ///   Looks up a localized string similar to All of these Tags.
         /// </summary>
         public static string SavedSearchAllTagsLabel {
             get {
                 return ResourceManager.GetString("SavedSearchAllTagsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Any of these Tags.
+        /// </summary>
+        public static string SavedSearchAnyTagsLabel {
+            get {
+                return ResourceManager.GetString("SavedSearchAnyTagsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None of these Tags.
+        /// </summary>
+        public static string SavedSearchExceptTagsLabel {
+            get {
+                return ResourceManager.GetString("SavedSearchExceptTagsLabel", resourceCulture);
             }
         }
         

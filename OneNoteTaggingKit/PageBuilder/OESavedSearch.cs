@@ -217,11 +217,11 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                                  new Cell(ns, new OET(ns, formatScopeLink(_onenote.GetCurrentSearchScopeID(_scope))))));
             searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, Properties.Resources.SavedSearchQueryLabel,labelstyle)),
                                                  new Cell(ns, new OET(ns, query))));
-            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, Properties.Resources.SavedSearchAllTagsLabel, labelstyle)), // TODO update message
+            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, Properties.Resources.SavedSearchAllTagsLabel, labelstyle)),
                                                  new Cell(ns, _withAllTags = new OETaglist(ns,withAllTags))));
-            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "None of these Tags", labelstyle)), // TODO localize
+            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, Properties.Resources.SavedSearchExceptTagsLabel, labelstyle)),
                                                  new Cell(ns, _withoutTags = new OETaglist(ns, withoutTags))));
-            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, "Any of these Tags", labelstyle)),
+            searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, Properties.Resources.SavedSearchAnyTagsLabel, labelstyle)),
                                                  new Cell(ns, _withAnyTags = new OETaglist(ns, withAnyTags))));
             searchConfig.Rows.AddRow(new Row(ns, new Cell(ns, new OET(ns, Properties.Resources.SavedSearchUpdatedLabel, labelstyle)),
                                                  new Cell(ns, _lastModified = new OET(ns, DateTime.Now.ToString(CultureInfo.CurrentCulture)))));
