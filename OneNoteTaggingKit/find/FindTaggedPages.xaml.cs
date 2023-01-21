@@ -177,7 +177,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                         string query = searchComboBox.Text;
 
                         try {
-                            ProgressBarText = string.Format("Searching {0}",SelectedScopeName); // TODO localize
+                            ProgressBarText = string.Format(Properties.Resources.TagSearch_Progress_Searching, SelectedScopeName);
                             pBar.Visibility = Visibility.Visible;
                             await ViewModel.FindPagesAsync(query, scopeSelect.SelectedScope);
                             searchComboBox.SelectedValue = query;
@@ -205,7 +205,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
                                 MessageBox.Show(Properties.Resources.TagSearch_Recyclebin_Error, Properties.Resources.TagEditor_WarningMessageBox_Title, MessageBoxButton.OK);
                             } else {
                                 ProgressBarText = Properties.Resources.TagSearch_Links_ProgressBar_Title;
-                                ProgressBarText = "Saving Search"; // TODO localize
+                                ProgressBarText = Properties.Resources.TagSearch_Progress_Saving;
                                 pBar.Visibility = Visibility.Visible;
                                 var newPageID = onenote.CreateNewPage(onenote.CurrentSectionID);
                                 var pg = new PageBuilder.OneNotePage(onenote, newPageID, Properties.Resources.NewSavedSearchPage_Title);
@@ -354,7 +354,7 @@ EndSelection:{5:D6}";
         private async void SearchButton_Click(object sender, RoutedEventArgs e) {
             try {
                 pBar.Visibility = Visibility.Visible;
-                ProgressBarText = string.Format("Searching {0}", SelectedScopeName); // TODO localize
+                ProgressBarText = string.Format(Properties.Resources.TagSearch_Progress_Searching, SelectedScopeName);
                 _lastSearch = searchComboBox.Text;
                 if (string.IsNullOrWhiteSpace(_lastSearch)) {
                     _lastSearch = string.Empty;
@@ -410,7 +410,7 @@ EndSelection:{5:D6}";
         private async void ScopeSelector_ScopeChanged(object sender, ScopeChangedEventArgs e) {
             try {
 
-                ProgressBarText = string.Format("Searching {0}", SelectedScopeName); // TODO localize
+                ProgressBarText = string.Format(Properties.Resources.TagSearch_Progress_Searching, SelectedScopeName);
                 pBar.Visibility = Visibility.Visible ;
                 string query = searchComboBox.Text;
                 // using ContinueWith until I've discovered how to do implement async

@@ -1,11 +1,14 @@
-# TagInputBox.tagInput field
+# TagInputBox.TagInput event
+
+Routed event fired for changes to the [`TagNames`](./TagNames.md) property
 
 ```csharp
-internal TextBox tagInput;
+public event TagInputEventHandler TagInput;
 ```
 
 ## See Also
 
+* delegate [TagInputEventHandler](../../WetHatLab.OneNote.TaggingKit.common/TagInputEventHandler.md)
 * class [TagInputBox](../TagInputBox.md)
 * namespace [WetHatLab.OneNote.TaggingKit.common.ui](../../OneNoteTaggingKit.md)
 

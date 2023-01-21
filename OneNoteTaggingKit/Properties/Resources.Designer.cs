@@ -1350,6 +1350,24 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saving Search Result ....
+        /// </summary>
+        public static string TagSearch_Progress_Saving {
+            get {
+                return ResourceManager.GetString("TagSearch_Progress_Saving", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Searching {0}.
+        /// </summary>
+        public static string TagSearch_Progress_Searching {
+            get {
+                return ResourceManager.GetString("TagSearch_Progress_Searching", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter query and press enter to start search..
         /// </summary>
         public static string TagSearch_Query_ComboBox_Tooltip {
