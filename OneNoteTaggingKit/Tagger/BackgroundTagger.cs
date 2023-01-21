@@ -9,9 +9,9 @@ using WetHatLab.OneNote.TaggingKit.PageBuilder;
 namespace WetHatLab.OneNote.TaggingKit.Tagger
 {
     /// <summary>
-    /// Background OneNote page tagger.
+    ///     Background OneNote page tagger.
     /// </summary>
-    public class BackgroundTagger : IDisposable
+    public sealed class BackgroundTagger : IDisposable
     {
         private OneNoteProxy _onenote;
 
@@ -20,6 +20,10 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
         private CancellationTokenSource _cancel;
 
         /// <summary>
+        ///     Get the number of jobs executed by this the tagger.
+        /// </summary>
+        public uint JobCount { get; private set; }
+        /// <summary>
         /// Create a new instance of a background page tagger.
         /// </summary>
         /// <param name="onenote">OneNote application proxy object</param>
@@ -27,6 +31,7 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
         {
             _onenote = onenote;
             _cancel = new CancellationTokenSource();
+            JobCount = 0;
         }
 
         /// <summary>
@@ -49,26 +54,24 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
             return tf.StartNew(() =>
             {
                 TraceLogger.Log(TraceCategory.Info(), "Background tagging service started");
-                DateTime lastnotification = DateTime.MinValue;
-                int jobcount = 0;
-                int lastreportedCount = 0;
+                uint delta = 0;
                 try {
                     OneNotePage lastPage = null; // reuse pages among subsequent jobs
 
                     while (!_jobs.IsCompleted) {
                         DateTime now = DateTime.Now;
-                        int delta = jobcount - lastreportedCount;
 
-                        if (_jobs.Count == 0
-                            && delta > 10
-                            && (now - lastnotification).TotalMinutes > 2) { // do not spam notifications
-                            AddInDialogManager.ShowNotification(Properties.Resources.TaggingKit_About_Appname,
-                                                                string.Format(Properties.Resources.TaggingKit_Notification, delta));
-                            lastnotification = now;
-                            lastreportedCount = jobcount;
+                        if (_jobs.Count == 0) {
+                            if (delta > 1) {
+                                // only report a significant amount of changes
+                                AddInDialogManager.ShowNotification(Properties.Resources.TaggingKit_About_Appname,
+                                                                    string.Format(Properties.Resources.TaggingKit_Notification, delta));
+                            }
+                            delta = 0; // we ran dry
                         }
                         TaggingJob j = _jobs.Take();
-                        jobcount++;
+                        JobCount++;
+                        delta++;
                         cancel.ThrowIfCancellationRequested();
                         try {
                             lastPage = j.Execute(_onenote, lastPage);

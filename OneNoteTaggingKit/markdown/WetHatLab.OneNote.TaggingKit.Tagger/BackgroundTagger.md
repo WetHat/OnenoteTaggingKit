@@ -3,7 +3,7 @@
 Background OneNote page tagger.
 
 ```csharp
-public class BackgroundTagger : IDisposable
+public sealed class BackgroundTagger : IDisposable
 ```
 
 ## Public Members
@@ -11,6 +11,7 @@ public class BackgroundTagger : IDisposable
 | name | description |
 | --- | --- |
 | [BackgroundTagger](BackgroundTagger/BackgroundTagger.md)(…) | Create a new instance of a background page tagger. |
+| [JobCount](BackgroundTagger/JobCount.md) { get; } | Get the number of jobs executed by this the tagger. |
 | [Add](BackgroundTagger/Add.md)(…) | Schedule a tagging job for background operation. |
 | [Dispose](BackgroundTagger/Dispose.md)() | Dispose the background tagger. |
 | [Run](BackgroundTagger/Run.md)() | Run the background tagger. |
