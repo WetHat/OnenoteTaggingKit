@@ -14,6 +14,7 @@ using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.edit;
+using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 
 namespace WetHatLab.OneNote.TaggingKit.find
 {
@@ -199,9 +200,8 @@ namespace WetHatLab.OneNote.TaggingKit.find
                         var onenote = ViewModel.OneNoteApp;
                         string currentPageID = onenote.CurrentPageID;
                         if (!string.IsNullOrEmpty(currentPageID)) {
-                            var currentPage = onenote.GetHierarchy(currentPageID, HierarchyScope.hsSelf);
-                            XAttribute recycleBinAtt = currentPage.Root.Attribute("isInRecycleBin");
-                            if (recycleBinAtt != null && "true".Equals(recycleBinAtt.Value)) {
+                            var currentPage = new PageNode(onenote.GetHierarchy(currentPageID, HierarchyScope.hsSelf).Root,null);
+                            if (currentPage.IsInRecycleBin) {
                                 MessageBox.Show(Properties.Resources.TagSearch_Recyclebin_Error, Properties.Resources.TagEditor_WarningMessageBox_Title, MessageBoxButton.OK);
                             } else {
                                 ProgressBarText = Properties.Resources.TagSearch_Links_ProgressBar_Title;
@@ -211,15 +211,19 @@ namespace WetHatLab.OneNote.TaggingKit.find
                                 var pg = new PageBuilder.OneNotePage(onenote, newPageID, Properties.Resources.NewSavedSearchPage_Title);
                                 SearchScope scope = scopeSelect.SelectedScope;
                                 string searchstring = searchComboBox.Text;
-                                var tagset = new PageTagSet(from sel in ViewModel.WithAllTagsFilterModel.Filter.SelectedTags.Values
-                                                            select sel.Tag);
+                                var allTags = new PageTagSet(from sel in ViewModel.WithAllTagsFilterModel.Filter.SelectedTags.Values
+                                                             select sel.Tag);
+                                var withoutTags = new PageTagSet(from sel in ViewModel.ExceptWithTagsFilterModel.Filter.SelectedTags.Values
+                                                                 select sel.Tag);
+                                var withAnyTags = new PageTagSet(from sel in ViewModel.WithAnyTagsFilterModel.Filter.SelectedTags.Values
+                                                                 select sel.Tag);
                                 var pages = (from p in ViewModel.FilteredPages.Values
                                              where !p.IsInRecycleBin
                                              orderby p.Page.Name
                                              select p.Page).ToList();
                                 await Task.Run(() => {
                                     pg.Tags = new PageTagSet(Properties.Resources.SavedSearchTagName, TagFormat.AsEntered);
-                                    pg.SavedSearches.Add(searchstring, tagset, scope, pages);
+                                    pg.SavedSearches.Add(searchstring, scope, allTags, withoutTags, withAnyTags, pages);
                                     pg.Update();
                                 });
                                 pBar.Visibility = Visibility.Hidden;
