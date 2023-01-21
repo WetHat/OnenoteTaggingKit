@@ -590,4 +590,13 @@ Tap or click link to navigate to page.</value>
   <data name="SavedSearchExceptTagsLabel" xml:space="preserve">
     <value>None of these Tags</value>
   </data>
+  <data name="TagSearch_FilterTab_All_Tooltip" xml:space="preserve">
+    <value>Pages must have all selected tags in order to pass this filter.</value>
+  </data>
+  <data name="TagSearch_FilterTab_Any_Tooltip" xml:space="preserve">
+    <value>Pages must have any of the selected tags in order to pass this filter.</value>
+  </data>
+  <data name="TagSearch_FilterTab_None_Tooltip" xml:space="preserve">
+    <value>Pages must have none of the selected tags in order to pass this filter.</value>
+  </data>
 </root>

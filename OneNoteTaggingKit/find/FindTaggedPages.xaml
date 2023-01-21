@@ -75,30 +75,27 @@
             </Grid.RowDefinitions>
             <TabControl x:Name="filterTabs" Grid.Row="0" Background="Transparent"
                         TabStripPlacement="Top">
-                <!-- TODO localize -->
                 <TabItem Header="{Binding Path=WithAllTabLabel,Mode=OneWay}"
                          Style="{StaticResource tabItemStyle}"
-                         ToolTip="Pages must have all selected tags in order to pass this filter."
+                         ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_FilterTab_All_Tooltip}}"
                          Tag="WithAll"
                          Selector.Selected="TabItem_Selected">
                     <local:TagFilterPanel x:Name="withAllFilter"
                                       Background="Transparent"
                                       DataContext="{Binding Path=WithAllTagsFilterModel, Mode=OneTime}"/>
                 </TabItem>
-                <!-- TODO localize -->
                 <TabItem Header="{Binding Path=ExceptWithTabLabel,Mode=OneWay}"
                          Style="{StaticResource tabItemStyle}"
-                         ToolTip="Pages must not have any of the selected tags in order to pass this filter."
+                         ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_FilterTab_None_Tooltip}}"
                          Tag="ExceptWith"
                          Selector.Selected="TabItem_Selected">
                     <local:TagFilterPanel x:Name="exceptWithlFilter"
                                       Background="Transparent"
                                       DataContext="{Binding Path=ExceptWithTagsFilterModel, Mode=OneTime}"/>
                 </TabItem>
-                <!-- TODO localize -->
                 <TabItem Header="{Binding Path=WithAnyTabLabel,Mode=OneWay}"
                      Style="{StaticResource tabItemStyle}"
-                     ToolTip="Pages must have any of the selected tags in order to pass this filter."
+                     ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_FilterTab_Any_Tooltip}}"
                      Tag="WithAny"
                      Selector.Selected="TabItem_Selected">
                 <local:TagFilterPanel x:Name="withAnyFilter"

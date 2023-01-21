@@ -1268,6 +1268,33 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pages must have all selected tags in order to pass this filter..
+        /// </summary>
+        public static string TagSearch_FilterTab_All_Tooltip {
+            get {
+                return ResourceManager.GetString("TagSearch_FilterTab_All_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pages must have any of the selected tags in order to pass this filter..
+        /// </summary>
+        public static string TagSearch_FilterTab_Any_Tooltip {
+            get {
+                return ResourceManager.GetString("TagSearch_FilterTab_Any_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pages must have none of the selected tags in order to pass this filter..
+        /// </summary>
+        public static string TagSearch_FilterTab_None_Tooltip {
+            get {
+                return ResourceManager.GetString("TagSearch_FilterTab_None_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Generating links ....
         /// </summary>
         public static string TagSearch_Links_ProgressBar_Title {
