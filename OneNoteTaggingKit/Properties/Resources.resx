@@ -353,7 +353,7 @@ Sorry for the inconvenience!</value>
     <value>Tags</value>
   </data>
   <data name="TagSearch_Tag_Tooltip" xml:space="preserve">
-    <value>This tag has {0}/{1} pages in common with the current filter. Tap or click to add this tag.</value>
+    <value>Tap or click to add this tag to the filter.</value>
   </data>
   <data name="TagSearch_CheckBox_Tracking_Text" xml:space="preserve">
     <value>← Check to turn on tag tracking</value>
@@ -566,7 +566,7 @@ Tap or click link to navigate to page.</value>
   <data name="SavedSearchTagName" xml:space="preserve">
     <value>Saved Search</value>
   </data>
-  <data name="SavedSearchTagsLabel" xml:space="preserve">
+  <data name="SavedSearchAllTagsLabel" xml:space="preserve">
     <value>Tags</value>
   </data>
   <data name="SavedSearchUpdatedLabel" xml:space="preserve">

@@ -80,7 +80,7 @@
                 <cui:TagList.TagTemplate>
                     <DataTemplate>
                         <cui:SelectableTag Margin="0,5,5,0"
-                                       ToolTip="{Binding Path=Tooltip, Mode=OneWay}"
+                                       ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagSearch_Tag_Tooltip}}"
                                        TagSelected="SelectableTag_TagSelected"/>
                     </DataTemplate>
                 </cui:TagList.TagTemplate>

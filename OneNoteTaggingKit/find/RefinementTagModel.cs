@@ -59,7 +59,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         void UpdateUI() {
-            Tooltip = String.Format(Properties.Resources.TagSearch_Tag_Tooltip, RefinementTag.FilteredPageCount, RefinementTag.Pages.Count);
             UpdateTagIndicator();
             UpdateTagVisibility();
         }
@@ -107,20 +106,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 TagVisibility = Visibility.Collapsed;
             } else {
                 base.UpdateTagVisibility();
-            }
-        }
-
-        string _tooltip = string.Empty;
-        /// <summary>
-        /// Get the tooltip of the page count
-        /// </summary>
-        public string Tooltip {
-            get => _tooltip;
-            private set {
-                if (!_tooltip.Equals(value)) {
-                    _tooltip = value;
-                    RaisePropertyChanged();
-                }
             }
         }
     }

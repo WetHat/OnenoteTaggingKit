@@ -230,6 +230,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tags.
+        /// </summary>
+        public static string SavedSearchAllTagsLabel {
+            get {
+                return ResourceManager.GetString("SavedSearchAllTagsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No pages match the search criteria!.
         /// </summary>
         public static string SavedSearchNoMatchError {
@@ -262,15 +271,6 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string SavedSearchTagName {
             get {
                 return ResourceManager.GetString("SavedSearchTagName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tags.
-        /// </summary>
-        public static string SavedSearchTagsLabel {
-            get {
-                return ResourceManager.GetString("SavedSearchTagsLabel", resourceCulture);
             }
         }
         
@@ -1413,7 +1413,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This tag has {0}/{1} pages in common with the current filter. Tap or click to add this tag..
+        ///   Looks up a localized string similar to Tap or click to add this tag to the filter..
         /// </summary>
         public static string TagSearch_Tag_Tooltip {
             get {
