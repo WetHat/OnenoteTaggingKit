@@ -24,8 +24,8 @@ public OESavedSearch(OneNoteProxy onenote, XElement searchConfig)
 Initialize a _Saved Search_ proxy object with a new content structure.
 
 ```csharp
-public OESavedSearch(OneNotePage page, string query, string withAllTags, SearchScope scope, 
-    TagDef marker, IEnumerable<PageNode> pages)
+public OESavedSearch(OneNotePage page, SearchScope scope, string query, string withAllTags, 
+    string withoutTags, string withAnyTags, TagDef marker, IEnumerable<PageNode> pages)
 ```
 
 | parameter | description |
@@ -34,7 +34,9 @@ public OESavedSearch(OneNotePage page, string query, string withAllTags, SearchS
 | query | The full-text query. |
 | marker | Marker tag definition. |
 | scope | Search scope. |
-| withAllTags | Comma Separated list of tags names. |
+| withAllTags | Comma Separated list of tags names which must be on pages. |
+| withoutTags | Comma Separated list of tags names which must not be on pages. |
+| withAnyTags | Comma Separated list of tags names where any of them must be on pages. |
 | pages | Collection of pages matching the tags and/or the query. |
 
 ## See Also

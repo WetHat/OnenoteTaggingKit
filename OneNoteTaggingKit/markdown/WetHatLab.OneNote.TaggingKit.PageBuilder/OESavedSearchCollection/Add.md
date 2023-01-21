@@ -28,20 +28,23 @@ public bool Add(XElement outline, TagDef marker)
 Add a proxy for a new updatable tag search element structure to this collection and to the OneNote page.
 
 ```csharp
-public void Add(string query, PageTagSet withall, SearchScope scope, IEnumerable<PageNode> pages)
+public void Add(string query, SearchScope scope, PageTagSet withall, PageTagSet without, 
+    PageTagSet withany, IEnumerable<PageNode> pages)
 ```
 
 | parameter | description |
 | --- | --- |
 | query | The search string. |
-| withall | Set of tags to search for. |
 | scope | Search scope. |
+| withall | Set of tags all of which must be on pages. |
+| without | Set of tags none of which are allowed on pages. |
+| withany | Set of tags at least one of which must be on pages. |
 | pages | Pages matching the search string and/or tags |
 
 ## See Also
 
-* class [PageTagSet](../../WetHatLab.OneNote.TaggingKit.common/PageTagSet.md)
 * enum [SearchScope](../../WetHatLab.OneNote.TaggingKit/SearchScope.md)
+* class [PageTagSet](../../WetHatLab.OneNote.TaggingKit.common/PageTagSet.md)
 * class [PageNode](../../WetHatLab.OneNote.TaggingKit.HierarchyBuilder/PageNode.md)
 * class [OESavedSearchCollection](../OESavedSearchCollection.md)
 * namespace [WetHatLab.OneNote.TaggingKit.PageBuilder](../../OneNoteTaggingKit.md)

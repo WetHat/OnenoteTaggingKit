@@ -11,7 +11,6 @@ public class RefinementTagModel : SelectableTagModel
 | name | description |
 | --- | --- |
 | [RefinementTag](RefinementTagModel/RefinementTag.md) { get; set; } | Get page refinement tag. |
-| [Tooltip](RefinementTagModel/Tooltip.md) { get; } | Get the tooltip of the page count |
 
 ## Protected Members
 
