@@ -38,7 +38,7 @@ be found in [Organizing Notes with Page Tags](Organizing%20Notes%20with%20Page%2
 
 # Getting Started
 
-Before installing make sure to read to the release specific
+Before installing make sure to read the release specific
 [installation instructions](#releases) of the version you are planning to install.
 This will help you to understand the system requrements and pick the best installation
 option for the the _Tagging Kit_.

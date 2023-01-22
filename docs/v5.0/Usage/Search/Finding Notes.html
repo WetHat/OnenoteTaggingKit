@@ -52,7 +52,7 @@
 <body>
     <nav><button class='navitem'><a href='../../../index.html'><div style='text-align:center;'><img src='../../../images/TaggingKitRibbon.png' /></div></a></button>
 <button class='navitem'><a href='../../../index.html'>Home</a></button>
-<div class='navlabel'>OneNote Tagging Kit v4.0</div>
+<div class='navlabel'>OneNote Tagging Kit v5.0</div>
 <button class='navitem'><a href='../../Home.html'>Overview</a></button>
 <button class='navitem'><a href='../../Support/Troubleshooting-Tips.html'>Support</a></button>
 <div class='navlabel'>User Manual</div>
@@ -77,11 +77,11 @@
 <p>The <em>Find Pages</em> dialog is used to find <em>OneNote</em> pages by applying tag and
 full text filters.</p>
 <p><img src="images/RibbonFind.png" alt="Find Pages Button" /></p>
-<p>To acivate the <em>Fins Pages</em> dialog click or tap on the <em>Fins Pages</em>
-button of the <em>Page Tags</em> group in the <code>Home</code> tab of the <em>OneNote</em> ribbon.</p>
+<p>To activate the <em>Find Pages</em> dialog click or tap on the <em>Find Pages</em>
+button of the <em>Page Tags</em> button group in the <code>Home</code> tab of the <em>OneNote</em> ribbon.</p>
 <h1 id="the-find-pages-dialog">The <em>Find Pages</em> Dialog</h1>
 <p>☝️ Numbered dialog elements are referenced by superscripts and list item
-indices.</p>
+indices of the documentation below.</p>
 <p><img src="images/SearchDialog.png" class="rightfloat" alt="Find Pages Dialog" /></p>
 <ol>
 <li><p id="Dia-1">The search scope. Only pages in the selected scope will be included in the
@@ -100,8 +100,8 @@ search result.</dd>
 search result.</dd>
 </dl>
 </li>
-<li><p id="Dia-2">Search query input box for full text search quavailable while focus is on the
-query input box:</p>
+<li><p id="Dia-2">Search query input box for full text search. Following key bindings are
+available while focus is on the query input box:</p>
 <dl>
 <dt><code>ESC</code></dt>
 <dd>Clear the query input box. To update the query tap or click the search
@@ -114,25 +114,34 @@ Same as clicking on the <em>search</em> button<a href="#Dia-3"><sup>3</sup></a><
 <li><p id="Dia-3">Perform a full text search using the terms in the query input
 box<a href="#Dia-2"><sup>2</sup></a>. The search result is displayed in the <em>Pages</em>
 panel<a href="#Dia-14"><sup>14</sup></a>. Matches of search terms with page titles are highlighted
-<a href="#Dia-16"><sup>16</sup></a>. Only pages in the selected scope<a href="#Dia-1"><sup>1</sup></a> are
+in the result panel <a href="#Dia-13"><sup>13</sup></a>. Only pages in the selected scope<a href="#Dia-1"><sup>1</sup></a> are
 shown.</p>
 </li>
-<li><p id="Dia-4">A tag selected for refinement. To remove the tag from the filter, click or
-tap on it.</p>
+<li><p id="Dia-4">Filter Strategies. Three complementary filter strategies are available:</p>
+<ul>
+<li><strong>⋂ All of #</strong> - Pages must have all of the selected tags in order to pass the filer.</li>
+<li><strong>⊄ None of #</strong> -For pages to pass this filter none of the selected tags can be on them.</li>
+<li><strong>⋃ Any of #</strong> - Pages with any of the selected tags pass this filter.</li>
+</ul>
+<p>☝️ The number in tab labels indicated the number of tags selected for
+this filter.</p>
+<p>☝️</p>
 </li>
-<li><p id="Dia-5">The  <em>Refinement Tags Panel</em>. The number in parentheses after the panel title
-indicates the number of tags selected for refinement.</p>
+<li><p id="Dia-5">Clear all filter tags in all </p>
 </li>
-<li><p id="Dia-6">Clears all currently selected refinement tags.</p>
+<li><p id="Dia-6">A tag selected for filtering according to the currently selected filter
+strategy.</p>
 </li>
-<li><p id="Dia-6">Tag Filter Presets. Filters the collection of tags currently available in the
+<li><p id="Dia-7">Clears all currently selected refinement tags.</p>
+</li>
+<li><p id="Dia-8">Tag Filter Presets. Filters the collection of tags currently available in the
 <em>Page Tags</em> panel<a href="#Dia-14"><sup>14</sup></a> using tags found in the selected range.
 The tag presets are entered into the
 tag input box<a href="#Dia-8"><sup>8</sup></a> as comma separated list and can be used to update
 the page search result by clicking the <em>Select all matching tags</em> button
 <a href="#Dia-11"><sup>11</sup></a> to refine the search result<a href="#Dia-14"><sup>14</sup></a>.</p>
 </li>
-<li><p id="Dia-8">Tag filter input box. Enter one or more tagnames (comma ',' separated) to
+<li><p id="Dia-9">Tag filter input box. Enter one or more tagnames (comma ',' separated) to
 to show only tags in the <em>Tags</em> panel<a href="#Dia-14"><sup>14</sup></a> which match any of the
 typed tag names.
 The collection of tags in the <em>Page Tags</em> panel<a href="#Dia-14"><sup>14</sup></a> is updated
@@ -153,8 +162,6 @@ The collection of refinement tags in the <em>Refinement Tags</em> panel<a href="
 and the list of found pages<a href="#Dia-14"><sup>14</sup></a> are updated accordingly.</dd>
 </dl>
 </li>
-<li><p id="Dia-9">Clear the current tag filter entered in the tag filter input box<a href="#Dia-8"><sup>8</sup></a>.</p>
-</li>
 <li><p id="Dia-10"><em>Page Tags</em> panel. The collection of tags available for refinement. If this
 collection is inconveniently large large, enter a tag filter into the tag filter input box
 <a href="#Dia-8"><sup>8</sup></a> to show only matching tags.</p>
@@ -168,12 +175,12 @@ and matches the partial tag name entered in the tag filter input box<a href="#Di
 A tap or click on it selects it for refinement<a href="#Dia-5"><sup>5</sup></a> and updates the search result
 <a href="#Dia-14"><sup>14</sup></a>.</p>
 </li>
-<li><p id="Dia-13">A genuine <em>Page Tag</em> (not imported) available for search result refinement.
+<li><p id="Dia-12">A <em>Page Tag</em> available for search result refinement.
 The tag matches the partial tag name entered in the tag filter input box<a href="#Dia-8"><sup>8</sup></a>.
 A tap or click on it selects it for refinement<a href="#Dia-5"><sup>5</sup></a> and updates the search result
 <a href="#Dia-14"><sup>14</sup></a>.</p>
 </li>
-<li><p id="Dia-14">The <em>Pages</em> search result panel. Displays all pages matching the refinement
+<li><p id="Dia-13">The <em>Pages</em> search result panel. Displays all pages matching the refinement
 tag filter<a href="#Dia-5"><sup>5</sup></a> and the full text query specified in<a href="#Dia-2"><sup>2</sup></a>.
 The Panel header shows additional status information:</p>
 <ul>
@@ -183,7 +190,7 @@ pages matching the search criteria.</li>
 <li>🔍 - The full text search query<a href="#Dia-2"><sup>2</sup></a> used.</li>
 </ul>
 </li>
-<li><p id="Dia-15">The <em>Search Result Action Menu</em>. Click or tap to access actions for the
+<li><p id="Dia-14">The <em>Search Result Action Menu</em>. Click or tap to access actions for the
 search result<a href="#Dia-14"><sup>14</sup></a>.</p>
 <p>The available actions are.</p>
 <dl>
@@ -226,7 +233,7 @@ be managed like a regular <em>Page Tag</em> and also can participate
 in tag based searches.</dd>
 </dl>
 </li>
-<li><p id="Dia-16">A link to a page in the search result. Tap or click on the link to navigate
+<li><p id="Dia-15">A link to a page in the search result. Tap or click on the link to navigate
 to the page in <em>OneNote</em>. A link can be selected by clicking on the <code>❱</code> symbol.
 Several page links can be selected by holding the <code>CTRL</code>-key while clicking.
 Holding the <code>SHIFT</code>-key while clicking allows selection of ranges of links.
@@ -322,7 +329,7 @@ for more ways to work with the search result see [[Working with the Search Resul
         </article>
         <footer>
             <hr />
-            Created by PowerShell Module <a href='https://github.com/WetHat/MarkdownToHtml'>MarkdownToHTML</a>.
+            Created by PowerShell Module <a href='https://wethat.github.io/MarkdownToHtml/'>MarkdownToHTML</a>.
 
         </footer>
     </main>

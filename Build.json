@@ -22,7 +22,7 @@
 
     "github_pages": true,
 
-    "footer": "Created by PowerShell Module <a href='https://github.com/WetHat/MarkdownToHtml'>MarkdownToHTML</a>.",
+    "footer": "Created by PowerShell Module <a href='https://wethat.github.io/MarkdownToHtml/'>MarkdownToHTML</a>.",
 
     "navigation_bar": {
         "capture_page_headings": "123456",

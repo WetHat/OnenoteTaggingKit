@@ -28,7 +28,7 @@ Later you may need to find this trick again, but you only vaguely remember
 what it was about and where you heard about it.
 
 If you are lucky you find it through browsing various places in your notebook.
-If not you run a _OneNote_search.
+If not you run a _OneNote_ search.
 Often times you may have an overwhelming number of hits.
 Depending on the search terms many of these hits may not even be related
 to networking. What a pain in the neck to sift through all of these hits.
@@ -43,8 +43,8 @@ But this time we run a facetted search (full text search with tag filtering).
 We still get the mess of search results, but this time we also are presented
 the tags the notes in the search result have been marked with.
 When we now select the 'networking' tag, the search result is filtered
-to show only notes with that tag. This filtering is also called _progressive search refinement_
+to show only notes with that tag. This filtering approach is also called _progressive search refinement_
 as you can add more tags to the filter as needed. Adding tag filters typically reduces the
 search result quickly to a manageable size.
 
-That should make life a lot easier. 
+That should make life a lot easier.

@@ -5,13 +5,13 @@ full text filters.
 
 ![Find Pages Button](images/RibbonFind.png)
 
-To acivate the _Fins Pages_ dialog click or tap on the _Fins Pages_
-button of the _Page Tags_ group in the `Home` tab of the _OneNote_ ribbon.
+To activate the _Find Pages_ dialog click or tap on the _Find Pages_
+button of the _Page Tags_ button group in the `Home` tab of the _OneNote_ ribbon.
 
 # The _Find Pages_ Dialog
 
 :point_up: Numbered dialog elements are referenced by superscripts and list item
-indices.
+indices of the documentation below.
 
 ![Find Pages Dialog](images/SearchDialog.png){.rightfloat}
 
@@ -32,8 +32,8 @@ indices.
    `All Notebooks`
    :   Pages from all notebooks currently open in OneNote are included in the
        search result.
-2. Search query input box for full text search quavailable while focus is on the
-   query input box:{id="Dia-2"}
+2. Search query input box for full text search. Following key bindings are
+   available while focus is on the query input box:{id="Dia-2"}
 
     `ESC`
     :   Clear the query input box. To update the query tap or click the search
@@ -45,24 +45,31 @@ indices.
 3. Perform a full text search using the terms in the query input
    box[^2^](#Dia-2). The search result is displayed in the _Pages_
    panel[^14^](#Dia-14). Matches of search terms with page titles are highlighted
-   [^16^](#Dia-16). Only pages in the selected scope[^1^](#Dia-1) are
+   in the result panel [^13^](#Dia-13). Only pages in the selected scope[^1^](#Dia-1) are
    shown.{id="Dia-3"}
-4. A tag selected for refinement. To remove the tag from the filter, click or
-   tap on it.{id="Dia-4"}
-5. The  _Refinement Tags Panel_. The number in parentheses after the panel title
-   indicates the number of tags selected for refinement.{id="Dia-5"}
-6. Clears all currently selected refinement tags.{id="Dia-6"}
-7. Tag Filter Presets. Filters the collection of tags currently available in the
+4. Filter Strategies. Three complementary filter strategies are available:{id="Dia-4"}
+   - **⋂ All of #** - Pages must have all of the selected tags in order to pass the filer.
+   - **⊄ None of #** -For pages to pass this filter none of the selected tags can be on them.
+   - **⋃ Any of #** - Pages with any of the selected tags pass this filter.
+   
+   :point_up: The number in tab labels indicated the number of tags selected for
+   this filter.
+   
+5. Clear all selected tags in all filter strategies. This is c TODO {id="Dia-5"}
+6. A tag selected for filtering according to the currently selected filter
+   strategy.{id="Dia-6"}
+7. Clears all currently selected refinement tags.{id="Dia-7"}
+8. Tag Filter Presets. Filters the collection of tags currently available in the
    _Page Tags_ panel[^14^](#Dia-14) using tags found in the selected range.
    The tag presets are entered into the
    tag input box[^8^](#Dia-8) as comma separated list and can be used to update
    the page search result by clicking the _Select all matching tags_ button
-   [^11^](#Dia-11) to refine the search result[^14^](#Dia-14).{id="Dia-6"}
-8. Tag filter input box. Enter one or more tagnames (comma ',' separated) to
+   [^11^](#Dia-11) to refine the search result[^14^](#Dia-14).{id="Dia-8"}
+9. Tag filter input box. Enter one or more tagnames (comma ',' separated) to
    to show only tags in the _Tags_ panel[^14^](#Dia-14) which match any of the
    typed tag names.
    The collection of tags in the _Page Tags_ panel[^14^](#Dia-14) is updated
-   as you type.{id="Dia-8"}
+   as you type.{id="Dia-9"}
 
    Following keyboard shortcuts are supported while focus is on the
    input box:
@@ -80,7 +87,6 @@ indices.
        which fully match one of the entered tag names to happen to fully match a tag.
        The collection of refinement tags in the _Refinement Tags_ panel[^5^](#Dia-5)
        and the list of found pages[^14^](#Dia-14) are updated accordingly.
-9. Clear the current tag filter entered in the tag filter input box[^8^](#Dia-8).{id="Dia-9"}
 10. _Page Tags_ panel. The collection of tags available for refinement. If this
     collection is inconveniently large large, enter a tag filter into the tag filter input box
     [^8^](#Dia-8) to show only matching tags.{id="Dia-10"}
@@ -91,20 +97,20 @@ indices.
     and matches the partial tag name entered in the tag filter input box[^8^](#Dia-8).
     A tap or click on it selects it for refinement[^5^](#Dia-5) and updates the search result
     [^14^](#Dia-14).{id="Dia-12"}
-13. A genuine _Page Tag_ (not imported) available for search result refinement.
+12. A _Page Tag_ available for search result refinement.
     The tag matches the partial tag name entered in the tag filter input box[^8^](#Dia-8).
     A tap or click on it selects it for refinement[^5^](#Dia-5) and updates the search result
-    [^14^](#Dia-14).{id="Dia-13"}
-14. The _Pages_ search result panel. Displays all pages matching the refinement
+    [^14^](#Dia-14).{id="Dia-12"}
+13. The _Pages_ search result panel. Displays all pages matching the refinement
     tag filter[^5^](#Dia-5) and the full text query specified in[^2^](#Dia-2).
-    The Panel header shows additional status information:{id="Dia-14"}
+    The Panel header shows additional status information:{id="Dia-13"}
 
     * The number in parenthesis after the panel title indicates the number of
       pages matching the search criteria.
     * 🔖 - The number of tags in the refinement filter[^5^](#Dia-5).
     * 🔍 - The full text search query[^2^](#Dia-2) used.
-15. The _Search Result Action Menu_. Click or tap to access actions for the
-    search result[^14^](#Dia-14).{id="Dia-15"}
+14. The _Search Result Action Menu_. Click or tap to access actions for the
+    search result[^14^](#Dia-14).{id="Dia-14"}
 
     The available actions are.
 
@@ -148,13 +154,13 @@ indices.
      :   Adds a :star: marker tag to all selected pages. This marker tag can
         be managed like a regular _Page Tag_ and also can participate
         in tag based searches.
-16. A link to a page in the search result. Tap or click on the link to navigate
+15. A link to a page in the search result. Tap or click on the link to navigate
     to the page in _OneNote_. A link can be selected by clicking on the `❱` symbol.
     Several page links can be selected by holding the `CTRL`-key while clicking.
     Holding the `SHIFT`-key while clicking allows selection of ranges of links.
     Link  selections are required for some actions in the _Search Result Action Menu_
-    [^15^](#Dia-15).{id="Dia-16"}
-17. Activate Tracking Mode. Automatically tracks related pages based on the tags
+    [^15^](#Dia-15).{id="Dia-15"}
+16. Activate Tracking Mode. Automatically tracks related pages based on the tags
     of the current page. When tag tracking is enabled:{id="Dia-17"}
 
     * the current page's title is displayed next to the tag tracking checkbox.
