@@ -305,61 +305,61 @@ explained step-by-step.
 
 ## Finding Pages by applying Filter Conditions
 > The steps below are all optional and can be performed in any order:
-> * Select a range where to define pages in[^1^](#Dia-1).
+> * Select a range where to look for pages in[^1^](#Dia-1).
 > * Type one or more search terms into the search input box[^2^](#Dia-2)
 >   and either press `ENTER`, or press the search button[^3^](#Dia-3).
-> * Add tags from the _Page Tags_ panel[^10^](#Dia-10) to the filter
->   condition. This can be done in the following ways:
+> * Add tags from the _Page Tags_ panel[^10^](#Dia-10) to one the three filters.
+>   This can be done in the following ways:
 >   * by tapping or clicking on the tags in the _Page Tags_ panel[^10^](#Dia-10).
 >   * by entering one or more full or partial tag names (comma-separated)
 >     into the tag input panel[^8^](#Dia-8). To select the desired tags
->     press `ENTER` or hitting the _Add_ button[^11^](#Dia-11).
+>     press `ENTER` or hit the _Add_ button[^11^](#Dia-11).
 >     This adds all tags from the _Page Tags_
 >     panel[^10^](#Dia-10) which fully match one of
->     the entered tag names to the filter[^5^](#Dia-5).
+>     the entered tag names to the currently active filter[^4^](#Dia-4).
 >     Alternatively you can tap or click on individual tags in the
 >     _Page Tags_ panel[^10^](#Dia-10).
->   * by selecting a preset[^7^](#Dia-7) to enter the tags from a
->     range of pages into the tag input box and then hitting the
->     _Add_ button[^11^](#Dia-11) to add all tags from the _Page Tags_
+>   * by selecting a preset[^8^](#Dia-8) to enter the tags found on a
+>     range of pages into the tag input box[^9^](#Dia-9) and then
+>     hitting the _Add_ button[^11^](#Dia-11) to add all tags from the _Page Tags_
 >     panel[^10^](#Dia-10) which fully match one of
->     the entered tag names to the filter[^5^](#Dia-5).
+>     the entered tag names.
 >
-> :point-up: After any of the steps above the search result[^14^](#Dia-14) is updated. 
+> :point-up: After any of the steps above the search result[^13^](#Dia-13) is
+> updated. 
 
 ## Handling large Numbers of Tags
 >
 > Eventually, as the used tags increases the _Page Tags_ panel[^10^](#Dia-10)
-> will become quite crowded. This makes tag selection to add them to the
-> filter condition increasingly difficult because there will be a lot of
-> scrolling to get to the desired tags. To reduce the number of tags shown in
+> will become crowded. This makes tag selection increasingly difficult because
+> there will be a lot of scrolling required to get to the desired tags. 
+> To reduce the number of tags shown in
 > the Page Tags_ panel[^10^](#Dia-10) type a comma-separated list of tag names
-> into the tag input box[^8^](#Dia-8).
-> This will the show only tags which match one of the typed tags.
-> Instead of typing tags you may want us a preset[^^](#Dia-7) to enter tags
-> from a range of pages into the tag input box[^8^](#Dia-8)
+> into the tag input box[^9^](#Dia-9).
+> This will the show only tags which partiall or fully match one of the typed tags.
+> Instead of typing tags you may want use a preset[^8^](#Dia-8) to enter tags
+> from a range of pages into the tag input box[^9^](#Dia-9)
 >
-> At any time, you can start filtering by adding or removing tags to the filter
-> condition.  
+> At any time, you can start filtering by adding or removing tags to the
+> currently active filter.
 
 ## Refining a full-text Search Query using tags
 >
-> We start with a full-text search query which we refine by a adding tag filters.
+> We start with a full-text search query which we then refine by a adding
+> tag filters.
 >
-> 1. Pick a scope [^1^](#Dia-1) to define the range of pages to search in.
+> 1. Pick a scope [^1^](#Dia-1) to define the range of pages.
 > 2. Enter one or more search terms[^2^](#Dia-2).
-> 3. Tap or click the search button [^3^](#Dia-3) or press `Enter` while focus is still
->    in the search input box[^2^](#Dia-2).to perform the search.
->    When the search is completed, a list of pages matching the search term(s)
->    is displayed in the _Pages_ search result panel[^14^](#Dia-14).
->    Matches of search terms in page titles are highlighted[^16^](#Dia-16).
-> 4. To narrow down (refine) the search result, select one ore more tags for
->    filtering. This can be done in several ways:
->    * Tap or click on the tags in the in the _Refinement Tags_ panel[^5^](#Dia-5).
->    * Type a comma-separated list of full or partial tag names into the tag
->      input box.
->  After that only pages which have
->    **all** selected tags and also match the full-text search query are
->    shown in the _Pages_ search result panel[^14^](#Dia-14).
-> 5. Click the hyperlinks in the _Found Pages_ panel **(5)** to navigate to the corresponding _OneNote_pages.
->   for more ways to work with the search result see [[Working with the Search Result]]
+> 3. Tap or click the search button [^3^](#Dia-3) or press `ENTER`
+>    while focus is still in the search input box[^2^](#Dia-2)
+>    to execute the search.
+>    Once the search is completed, a list of pages matching the search term(s)
+>    is displayed in the _Pages_ search result panel[^13^](#Dia-13).
+>    Search terms which partially or fully match page titles are highlighted[^3^](#Dia-3).
+> 4. To narrow down (refine) the search result, select one ore more tags in the
+>    _Page Tags_ panel[^10^](#Dia-10) for filtering.
+> 5  Only pages which match **all** filter conditions
+     also match the full-text search query, if present, are
+>    shown in the _Pages_ search result panel[^13^](#Dia-13).
+> 6. Click the hyperlinks in the _Pages_ panel[^13^](#Dia-13) to navigate
+>    to the corresponding _OneNote_ pages.

@@ -35,8 +35,17 @@ OneNote for the desktop.
 # System Requirements
 
 * _OneNote_ 2010, 2013, 2016, 2019 or later, _OneNote_ 365 Desktop (from Office 365).
-  :warning: The Windows App Store version is **not** supported.
-* Windows 7, 8, 8.1, 10 (32-bit/64-bit); Windows Server 2008 R2 or later
+  :warning: The Windows App Store version is **not** supported. OneNote Desktop is no longer
+  part of the regular Office distribution but can be installed for free:
+  
+  1. Navigate to the [OneNote Download ]https://www.onenote.com/Download) website.
+  2. Download the installer by clicking the `Download` button.
+  3. Run the downloaded installer `OfficeSetup.exe`.
+  4. Once OneNote Desktop is installed you can proceed with the installation of
+     the TaggingKit.
+
+* Windows 7, 8, 8.1, 10 (32-bit/64-bit); Windows 11 (64-bit); Windows Server 2008 R2 or later
+
 * .net 4.5
 
 To instructions on how to check the _OneNote_ version refer
@@ -106,7 +115,5 @@ Following tools are required to develop your own version of the _TaggingKit_:
 * VisualStudio 2019 or later. See [Install Visual Studio](https://docs.microsoft.com/en-us/visualstudio/install/install-visual-studio)
 * Windows Installer Toolset [WiX](http://wixtoolset.org/).
   Get the [recommended build](http://wixtoolset.org/releases/)
-* Sandcastle Help File Builder (SHFB) for building help files with the Sandcastle tools.
-  Get the latest release for GitHub [EWSoftware/SHFB ](https://github.com/EWSoftware/SHFB/releases)
 * If you want to manage your clone of the _TaggingKit_ on GitHub it is also recommended to use the _Git_ distributed version control system: Get it from the
   the [Git - Downloads](https://git-scm.com/downloads) page.
