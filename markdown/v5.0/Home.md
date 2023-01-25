@@ -35,10 +35,11 @@ OneNote for the desktop.
 # System Requirements
 
 * _OneNote_ 2010, 2013, 2016, 2019 or later, _OneNote_ 365 Desktop (from Office 365).
+
   :warning: The Windows App Store version is **not** supported. OneNote Desktop is no longer
   part of the regular Office distribution but can be installed for free:
   
-  1. Navigate to the [OneNote Download ]https://www.onenote.com/Download) website.
+  1. Navigate to the [OneNote Download](https://www.onenote.com/Download) website.
   2. Download the installer by clicking the `Download` button.
   3. Run the downloaded installer `OfficeSetup.exe`.
   4. Once OneNote Desktop is installed you can proceed with the installation of
