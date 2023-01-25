@@ -70,7 +70,8 @@
 <button class='navitem'><a href='#system-requirements'><span class='navitem1'>System Requirements</span></a></button>
 <button class='navitem'><a href='#installation-and-upgrade'><span class='navitem1'>Installation and Upgrade</span></a></button>
 <button class='navitem'><a href='#direct-installation-upgrade'><span class='navitem2'>Direct Installation / Upgrade</span></a></button>
-<button class='navitem'><a href='#installation-upgrade-via-the-chocolatey-package-manager'><span class='navitem2'>Installation / Upgrade via the Chocolatey Package Manager</span></a></button>
+<button class='navitem'><a href='#installation-upgrade-via-the-chocolatey'><span class='navitem2'>Installation / Upgrade via the Chocolatey</span></a></button>
+<button class='navitem'><a href='#installation-upgrade-via-the-winget'><span class='navitem2'>Installation / Upgrade via the winget</span></a></button>
 <button class='navitem'><a href='#onenote-tagging-kit-user-manual'><span class='navitem1'><em>OneNote Tagging Kit</em> User Manual</span></a></button>
 <button class='navitem'><a href='#tagging-kit-development'><span class='navitem1'><em>Tagging Kit</em> Development</span></a></button>
 </nav>
@@ -145,10 +146,11 @@ to <a href="OneNote-Version-Check.html">OneNote Version Check</a></p>
 <li>Start OneNote.</li>
 </ol>
 </blockquote>
-<h2 id="installation-upgrade-via-the-chocolatey-package-manager">Installation / Upgrade via the <a href="https://community.chocolatey.org/packages/onenote-taggingkit-addin.install">Chocolatey Package Manager</a></h2>
+<h2 id="installation-upgrade-via-the-chocolatey">Installation / Upgrade via the <a href="https://community.chocolatey.org/packages/onenote-taggingkit-addin.install">Chocolatey</a></h2>
+<p>Package Manager</p>
 <blockquote>
-<p><a href="https://chocolatey.org/">Chocolatey</a> can be <a href="https://chocolatey.org/install">installed here</a>.
-If you are wondering why you would want to use Chocolatey,
+<p><a href="https://chocolatey.org/">Chocolatey</a> can be <a href="https://chocolatey.org/install">installed here</a>.</p>
+<p>If you are wondering why you would want to use <code>Chocolatey</code>,
 <a href="https://chocolatey.org/why-chocolatey">here is why</a></p>
 <ol>
 <li><p>Verify that you have a supported version of OneNote.
@@ -164,6 +166,33 @@ See <a href="OneNote-Version-Check.html">OneNote Version Check</a> on how to do 
 </code></pre>
 <p><strong>Upgrade</strong></p>
 <pre><code class="language-powershell">PS C:\&gt; choco upgrade onenote-taggingkit-addin.install
+</code></pre>
+</li>
+</ol>
+</blockquote>
+<h2 id="installation-upgrade-via-the-winget">Installation / Upgrade via the <a href="https://learn.microsoft.com/en-us/windows/package-manager/winget/">winget</a></h2>
+<p>Package Manager</p>
+<blockquote>
+<p>The <a href="https://learn.microsoft.com/en-us/windows/package-manager/winget/">winget</a>
+Package Manager is bundled with Windows 11. For Windows 10 you can install the
+<a href="https://www.microsoft.com/p/app-installer/9nblggh4nns1">App Installer</a>
+App Installer includes the production version of the winget tool.</p>
+<p>If you are wondering why you would want to use <code>winget</code>,
+<a href="https://www.slashgear.com/microsofts-winget-1-0-released-for-real-heres-why-you-want-it-01675425/">here is why</a>.</p>
+<ol>
+<li><p>Verify that you have a supported version of OneNote.
+See <a href="OneNote-Version-Check.html">OneNote Version Check</a> on how to do that.</p>
+</li>
+<li><p>Make sure <em>OneNote</em> is <strong>not running</strong>! Exit <em>OneNote</em> if necessary.</p>
+</li>
+<li><p>Open a new PowerShell command prompt.</p>
+</li>
+<li><p>Excecute one of the following commands</p>
+<p><strong>First Time Install</strong></p>
+<pre><code class="language-powershell">PS C:\&gt; winget install wethat.onenotetaggingkit
+</code></pre>
+<p><strong>Upgrade</strong></p>
+<pre><code class="language-powershell">PS C:\&gt; winget install wethat.onenotetaggingkit
 </code></pre>
 </li>
 </ol>

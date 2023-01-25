@@ -63,9 +63,12 @@ The add-in can be installed or upgraded in one of the following ways:
 > 4. For first time installation and upgrade execute the downloaded installer (`*.msi`)
 > 5. Start OneNote.
 
-## Installation / Upgrade via the [Chocolatey Package Manager](https://community.chocolatey.org/packages/onenote-taggingkit-addin.install)
+## Installation / Upgrade via the [Chocolatey](https://community.chocolatey.org/packages/onenote-taggingkit-addin.install)
+   Package Manager
+>
 > [Chocolatey](https://chocolatey.org/) can be [installed here](https://chocolatey.org/install).
-> If you are wondering why you would want to use Chocolatey,
+>
+> If you are wondering why you would want to use `Chocolatey`,
 > [here is why](https://chocolatey.org/why-chocolatey)
 >
 > 1. Verify that you have a supported version of OneNote.
@@ -82,6 +85,33 @@ The add-in can be installed or upgraded in one of the following ways:
 >    **Upgrade**
 >    ~~~ powershell
 >    PS C:\> choco upgrade onenote-taggingkit-addin.install
+>    ~~~
+
+## Installation / Upgrade via the [winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/)
+   Package Manager
+>
+> The [winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/) 
+> Package Manager is bundled with Windows 11. For Windows 10 you can install the
+> [App Installer](https://www.microsoft.com/p/app-installer/9nblggh4nns1)
+> App Installer includes the production version of the winget tool.
+>
+> If you are wondering why you would want to use `winget`,
+> [here is why](https://www.slashgear.com/microsofts-winget-1-0-released-for-real-heres-why-you-want-it-01675425/).
+>
+> 1. Verify that you have a supported version of OneNote.
+>   See [OneNote Version Check](OneNote-Version-Check.md) on how to do that.
+> 2. Make sure _OneNote_ is **not running**! Exit _OneNote_ if necessary.
+> 3. Open a new PowerShell command prompt.
+> 4. Excecute one of the following commands
+>
+>    **First Time Install**
+>    ~~~ powershell
+>    PS C:\> winget install wethat.onenotetaggingkit
+>    ~~~
+>
+>    **Upgrade**
+>    ~~~ powershell
+>    PS C:\> winget install wethat.onenotetaggingkit
 >    ~~~
 
 Upon successfull installation the _OneNote Tagging Kit_ actions should now be
