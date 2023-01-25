@@ -41,18 +41,19 @@ namespace WetHatLab.OneNote.TaggingKit.common
         /// <returns>Higher priority page tag.</returns>
         public static PageTag ChoosePageTag(PageTag x, PageTag y) {
             // choose based on current tag format setting
-            switch ((TagFormat)Properties.Settings.Default.TagFormatting) {
-                case TagFormat.Capitalized:
-                    // prefer plain tags
-                    return x.TagType < y.TagType ? x : y;
+            switch ((TagFormat)Properties.Settings.Default.TagFormatting) { 
                 case TagFormat.HashTag:
-                    if (x.TagType > y.TagType) {
-                        return x.TagType > PageTagType.HashTag ? y : x;
-                    } else {
-                        return y.TagType > PageTagType.HashTag ? x : y;
+                    if (x.TagType == PageTagType.HashTag) {
+                        return x;
                     }
+                    if (y.TagType == PageTagType.HashTag) {
+                        return y;
+                    }
+                    
+                    // prefer simpler tags
+                    return x.TagType < y.TagType ? x : y;
             }
-            return x;
+            return x.TagType < y.TagType ? x : y;
         }
 
         /// <summary>
