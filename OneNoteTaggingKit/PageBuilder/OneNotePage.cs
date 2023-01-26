@@ -530,7 +530,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                         //</one:Outline>
                         XElement outline = new XElement(GetName("Outline"),
                                                new XElement(GetName("Position"),
-                                                   new XAttribute("x", "236"),
+                                                   new XAttribute("x", Settings.IsRTL ? "-560" : "236"),
                                                    new XAttribute("y", "43"),
                                                    new XAttribute("z", "0")),
                                                new XElement(GetName("Size"),
