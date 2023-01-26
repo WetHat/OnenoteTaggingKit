@@ -1,14 +1,15 @@
 # OneNotePage.Add method
 
-Add a page structure element at the correct location on a OneNote page XML document.
+Add a new page structure element at the correct location to a OneNote page XML document.
 
 ```csharp
-public void Add(PageStructureObjectBase obj)
+public void Add(PageStructureObjectBase obj, PageSchemaPosition position)
 ```
 
 | parameter | description |
 | --- | --- |
 | obj | The proxy object containing the element to add to the page. |
+| position | The page position of elements of this type according to the page schema. |
 
 ## Remarks
 
@@ -17,6 +18,7 @@ Makes use of an internal lookup table containing anchor elements known to be at 
 ## See Also
 
 * class [PageStructureObjectBase](../PageStructureObjectBase.md)
+* enum [PageSchemaPosition](../PageSchemaPosition.md)
 * class [OneNotePage](../OneNotePage.md)
 * namespace [WetHatLab.OneNote.TaggingKit.PageBuilder](../../OneNoteTaggingKit.md)
 

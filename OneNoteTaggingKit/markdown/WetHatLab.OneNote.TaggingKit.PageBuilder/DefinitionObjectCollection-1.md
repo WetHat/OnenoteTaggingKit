@@ -1,6 +1,6 @@
 # DefinitionObjectCollection&lt;T&gt; class
 
-An abstract base class for definition object collections.
+An abstract base class for collections of definition elements on a OneNote page .
 
 ```csharp
 public abstract class DefinitionObjectCollection<T> : PageStructureObjectCollection<T>

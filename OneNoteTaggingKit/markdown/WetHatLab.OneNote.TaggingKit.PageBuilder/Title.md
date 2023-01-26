@@ -1,6 +1,6 @@
 # Title class
 
-Proxy object for 'one:Title' elements on a OneNote page document.
+Proxy object for `&lt;one:Title&gt;` elements on a OneNote page document.
 
 ```csharp
 public class Title : PageStructureObjectBase
@@ -10,7 +10,7 @@ public class Title : PageStructureObjectBase
 
 | name | description |
 | --- | --- |
-| [Title](Title/Title.md)(…) | Initialize a proxy object with a title XML element selected from a OneNote page XML document. (2 constructors) |
+| [Title](Title/Title.md)(…) | Initialize a proxy object with a `Title` XML element found on a OneNote page XML document. (2 constructors) |
 | [Tags](Title/Tags.md) { get; } | Get the title tags. |
 
 ## See Also

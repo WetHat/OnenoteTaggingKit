@@ -108,7 +108,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// OneNote page document.
         /// </summary>
         /// <param name="page">The OneNote page document proxy.</param>
-        public TagDefCollection(OneNotePage page) : base(page.GetName(nameof(TagDef)),page) {
+        public TagDefCollection(OneNotePage page) : base(page.GetName(nameof(TagDef)),page, PageSchemaPosition.TagDef) {
         }
         /// <summary>
         /// Create a new instance of a tag definition proxy object

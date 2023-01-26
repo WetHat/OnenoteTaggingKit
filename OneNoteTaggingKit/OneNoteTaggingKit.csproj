@@ -186,6 +186,7 @@
     <Compile Include="find\FindTaggedPagesModel.cs" />
     <Compile Include="PageBuilder\PageObjectBase.cs" />
     <Compile Include="PageBuilder\PageObjectCollectionBase.cs" />
+    <Compile Include="PageBuilder\PageSettings.cs" />
     <Compile Include="PageBuilder\PageStructureObjectBase.cs" />
     <Compile Include="PageBuilder\PageStructureObjectCollection.cs" />
     <Compile Include="PageBuilder\QuickStyleDef.cs" />

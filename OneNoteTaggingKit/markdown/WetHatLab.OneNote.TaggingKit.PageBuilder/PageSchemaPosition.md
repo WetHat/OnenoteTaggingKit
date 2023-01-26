@@ -8,15 +8,15 @@ public enum PageSchemaPosition
 
 | name | value | description |
 | --- | --- | --- |
-| TagDef | `0` | Position of tag definition elements on a OneNote page. |
-| QuickStyleDef | `1` | Position of style definition elements on a OneNote page. |
+| TagDef | `0` | Position of the first tag definition element of a OneNote page. |
+| QuickStyleDef | `1` | Position of the first style definition element of a OneNote page. |
 | XPSFile | `2` |  |
-| Meta | `3` | Position of _Meta_ elements on a OneNote page. |
+| Meta | `3` | Position of the first _Meta_ element of a OneNote page. |
 | MediaPlaylist | `4` |  |
 | MeetingInfo | `5` |  |
-| PageSettings | `6` |  |
+| PageSettings | `6` | Position of the page format settings. |
 | Title | `7` | Position of the _Title_ element on a OneNote page. |
-| Outline | `8` | Position of the _Outline_ elements on a OneNote page. |
+| Outline | `8` | Position of the firswwt _Outline_ element of a OneNote page. |
 
 ## See Also
 

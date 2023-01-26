@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 {
 
     /// <summary>
-    /// Proxy object for 'one:Title' elements on a OneNote page document.
+    /// Proxy object for `&lt;one:Title&gt;` elements on a OneNote page document.
     /// </summary>
     public class Title : PageStructureObjectBase {
 
@@ -24,7 +19,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         public TagCollection Tags => TitleContent.Tags;
 
         /// <summary>
-        /// Initialize a proxy object with a title XML element selected from
+        /// Initialize a proxy object with a `Title` XML element found on
         /// a OneNote page XML document.
         /// </summary>
         /// <param name="page">Proxy for a OneNote page</param>
@@ -45,7 +40,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             // Get the mandatory content element
             TitleContent = new OET(page.Namespace,title);
             Element.Add(TitleContent.Element);
-            page.Add(this);
+            page.Add(this,PageSchemaPosition.Title);
         }
     }
 }

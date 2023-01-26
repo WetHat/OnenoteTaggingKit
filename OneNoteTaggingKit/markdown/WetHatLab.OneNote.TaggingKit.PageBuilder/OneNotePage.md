@@ -1,6 +1,6 @@
 # OneNotePage class
 
-Local representation of a OneNote Page
+Local proxy of a OneNote page.
 
 ```csharp
 public class OneNotePage : PageObjectBase
@@ -11,12 +11,13 @@ public class OneNotePage : PageObjectBase
 | name | description |
 | --- | --- |
 | [IsDeleted](OneNotePage/IsDeleted.md) { get; } | Determine if this page is in the recycle bin. |
+| [Item](OneNotePage/Item.md) { get; } | The the first XML element at a schema position. |
 | [OneNoteApp](OneNotePage/OneNoteApp.md) { get; } | Get the OneNote application object. |
 | [QuickStyleDefinitions](OneNotePage/QuickStyleDefinitions.md) { get; } | Get the style definitions for this page. |
 | [Tags](OneNotePage/Tags.md) { get; set; } | Get/set the page tags. |
 | [Title](OneNotePage/Title.md) { get; } | Get the proxy object for the 'one:Title' element of the OneNote page document. |
 | [SavedSearches](OneNotePage/SavedSearches.md) | Get the saved seatches on this page. |
-| [Add](OneNotePage/Add.md)(…) | Add a page structure element at the correct location on a OneNote page XML document. |
+| [Add](OneNotePage/Add.md)(…) | Add a new page structure element at the correct location to a OneNote page XML document. |
 | [DefineProcessTag](OneNotePage/DefineProcessTag.md)(…) | Define a OneNote process tag. |
 
 ## Internal Members
@@ -32,7 +33,7 @@ public class OneNotePage : PageObjectBase
 Supports:
 
 * tag related operations
-* limited page editing
+* enbedding and updating saved searches.
 
 ## See Also
 

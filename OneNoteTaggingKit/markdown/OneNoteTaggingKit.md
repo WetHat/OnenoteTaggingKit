@@ -121,7 +121,7 @@
 | class [Cell](./WetHatLab.OneNote.TaggingKit.PageBuilder/Cell.md) | Proxy class for table cells |
 | class [CellCollection](./WetHatLab.OneNote.TaggingKit.PageBuilder/CellCollection.md) | Collection of table cell proxies defining a table row. |
 | class [DefinitionObjectBase](./WetHatLab.OneNote.TaggingKit.PageBuilder/DefinitionObjectBase.md) | Base class for indexed definition proxy objects. |
-| abstract class [DefinitionObjectCollection&lt;T&gt;](./WetHatLab.OneNote.TaggingKit.PageBuilder/DefinitionObjectCollection-1.md) | An abstract base class for definition object collections. |
+| abstract class [DefinitionObjectCollection&lt;T&gt;](./WetHatLab.OneNote.TaggingKit.PageBuilder/DefinitionObjectCollection-1.md) | An abstract base class for collections of definition elements on a OneNote page . |
 | class [Meta](./WetHatLab.OneNote.TaggingKit.PageBuilder/Meta.md) | Proxy for a `one:Meta`meta element on a OneNote page document. |
 | class [MetaCollection](./WetHatLab.OneNote.TaggingKit.PageBuilder/MetaCollection.md) | The collection of Meta objects for Meta XML elements on a OneNote page. Meta objects with special semantics are accessible via the properties: |
 | class [NamedObjectBase](./WetHatLab.OneNote.TaggingKit.PageBuilder/NamedObjectBase.md) | Base class for proxy objeccts containing a XML element with a `name` attribute. |
@@ -131,10 +131,11 @@
 | class [OET](./WetHatLab.OneNote.TaggingKit.PageBuilder/OET.md) | Proxy class for OneNote elements with embedded text content. |
 | class [OETable](./WetHatLab.OneNote.TaggingKit.PageBuilder/OETable.md) | Proxy class for a OneNote elements with and embedded table. |
 | class [OETaglist](./WetHatLab.OneNote.TaggingKit.PageBuilder/OETaglist.md) | A OneNote paragraph proxy containing a comma separated list of tags. |
-| class [OneNotePage](./WetHatLab.OneNote.TaggingKit.PageBuilder/OneNotePage.md) | Local representation of a OneNote Page |
+| class [OneNotePage](./WetHatLab.OneNote.TaggingKit.PageBuilder/OneNotePage.md) | Local proxy of a OneNote page. |
 | class [PageObjectBase](./WetHatLab.OneNote.TaggingKit.PageBuilder/PageObjectBase.md) | Base class for OneNote page element proxy objects. |
 | abstract class [PageObjectCollectionBase&lt;Towner,Titem&gt;](./WetHatLab.OneNote.TaggingKit.PageBuilder/PageObjectCollectionBase-2.md) | A collection of proxy objects for XML elements of the same type, |
 | enum [PageSchemaPosition](./WetHatLab.OneNote.TaggingKit.PageBuilder/PageSchemaPosition.md) |  |
+| class [PageSettings](./WetHatLab.OneNote.TaggingKit.PageBuilder/PageSettings.md) | Proxy object for `&lt;one:PageSettings&gt;` elements on a OneNote page document. |
 | class [PageStructureObjectBase](./WetHatLab.OneNote.TaggingKit.PageBuilder/PageStructureObjectBase.md) |  |
 | abstract class [PageStructureObjectCollection&lt;T&gt;](./WetHatLab.OneNote.TaggingKit.PageBuilder/PageStructureObjectCollection-1.md) | Abstract base class for collections of new or existing OneNote top-level structure object proxies which have to appear in a given sequence on the OneNote page. |
 | class [QuickStyleDef](./WetHatLab.OneNote.TaggingKit.PageBuilder/QuickStyleDef.md) | Proxy object class for `one:QuickStyleDef` style definition elements on a OneNote page document. |
@@ -148,7 +149,7 @@
 | class [TagDefCollection](./WetHatLab.OneNote.TaggingKit.PageBuilder/TagDefCollection.md) | A collection of tag definitions. |
 | enum [TagDisplay](./WetHatLab.OneNote.TaggingKit.PageBuilder/TagDisplay.md) | Enumeration of ways to display tags on a Onenote Page |
 | enum [TagProcessClassification](./WetHatLab.OneNote.TaggingKit.PageBuilder/TagProcessClassification.md) | The enumeration of process types a tag can participate in. |
-| class [Title](./WetHatLab.OneNote.TaggingKit.PageBuilder/Title.md) | Proxy object for 'one:Title' elements on a OneNote page document. |
+| class [Title](./WetHatLab.OneNote.TaggingKit.PageBuilder/Title.md) | Proxy object for `&lt;one:Title&gt;` elements on a OneNote page document. |
 
 ## WetHatLab.OneNote.TaggingKit.Tagger namespace
 

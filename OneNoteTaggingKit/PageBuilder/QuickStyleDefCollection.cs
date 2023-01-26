@@ -84,7 +84,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// specified XML name found on a OneNote page XML document .
         /// </summary>
         /// <param name="page">The OneNote page Xml document.</param>
-        public QuickStyleDefCollection(OneNotePage page) : base (page.GetName(nameof(QuickStyleDef)),page) {
+        public QuickStyleDefCollection(OneNotePage page) : base (page.GetName(nameof(QuickStyleDef)),page,PageSchemaPosition.QuickStyleDef) {
         }
 
         /// <summary>

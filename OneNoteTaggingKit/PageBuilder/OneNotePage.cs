@@ -1,5 +1,4 @@
 ﻿// Author: WetHat | (C) Copyright 2013 - 2017 WetHat Lab, all rights reserved
-using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,6 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
-using WetHatLab.OneNote.TaggingKit.Tagger;
 
 namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 {
@@ -45,18 +43,18 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     public enum PageSchemaPosition
     {
         /// <summary>
-        /// Position of tag definition elements on a OneNote page.
+        ///     Position of the first tag definition element of a OneNote page.
         /// </summary>
         TagDef = 0,
         /// <summary>
-        /// Position of style definition elements on a OneNote page.
+        ///     Position of the first style definition element of a OneNote page.
         /// </summary>
         QuickStyleDef = 1,
 
         XPSFile = 2,
 
         /// <summary>
-        /// Position of _Meta_ elements on a OneNote page.
+        ///     Position of the first _Meta_ element of a OneNote page.
         /// </summary>
         Meta = 3,
 
@@ -64,33 +62,36 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 
         MeetingInfo = 5,
 
+        /// <summary>
+        ///     Position of the page format settings.
+        /// </summary>
         PageSettings = 6,
 
         /// <summary>
-        /// Position of the _Title_ element on a OneNote page.
+        ///     Position of the _Title_ element on a OneNote page.
         /// </summary>
         Title = 7,
 
         /// <summary>
-        /// Position of the _Outline_ elements on a OneNote page.
+        ///     Position of the firswwt _Outline_ element of a OneNote page.
         /// </summary>
         Outline = 8
     }
 
     /// <summary>
-    /// Local representation of a OneNote Page
+    ///     Local proxy of a OneNote page.
     /// </summary>
     /// <remarks>
     ///     Supports:
     ///     <list type="bullet">
     ///     <item>tag related operations</item>
-    ///     <item>limited page editing</item>
+    ///     <item>enbedding and updating saved searches.</item>
     ///     </list>
     /// </remarks>
     public class OneNotePage : PageObjectBase {
-        private static readonly Regex _hashtag_matcher = new Regex(@"(?<=(^|[^\w#]))#[\w-_]{2,}|[\w-_]{2,}#(?=($|[^\w#]))", RegexOptions.Compiled);
-        private static readonly Regex _number_matcher = new Regex(@"^#\d*\w{0,1}\d*$|^#[xX]{0,1}[\dABCDEFabcdef]+$", RegexOptions.Compiled);
-
+        private static readonly Regex _hashtag_matcher = new Regex(@"(?<=^|[^\w#-_]|[({\['])(?>#[^\W\d_][\w-_]*)(?![#({\[/~])", RegexOptions.Compiled);
+        private static readonly Regex _hashtag_matcherRTL = new Regex(@"(?<=^|[^\w#)}\]])(?>[\w-_]*[^\W\d_]#)(?=$|[^\w#-_~]|[)}\]'])", RegexOptions.Compiled);
+        
         /// <summary>
         /// The sequence of structure elements in which elements have to
         /// appear on a OneNote page.
@@ -109,25 +110,21 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <xsd:element name="Title" type="Title" minOccurs="0"/>
         /// </code>
         /// </remarks>
-
         static readonly string[] PositionNames = new string[] { "TagDef", "QuickStyleDef", "XPSFile", "Meta", "MediaPlaylist", "MeetingInfo", "PageSettings", "Title", "Outline" };
 
         /// <summary>
-        /// Map available structure element proxies to page location indices.
+        ///     Anchor XML element marking locations of page structure elements which need to be at
+        ///     schema defined positions.
         /// </summary>
-        static readonly Dictionary<Type, int> _typeToIndex = new Dictionary<Type, int>() {
-            [typeof(TagDef)] = (int)PageSchemaPosition.TagDef,
-            [typeof(QuickStyleDef)] = (int)PageSchemaPosition.QuickStyleDef,
-            [typeof(Meta)] = (int)PageSchemaPosition.Meta,
-            [typeof(Title)] = (int)PageSchemaPosition.Title,
-        };
-
-        XElement[] PageAnchors = new XElement[] { null, null, null, null, null, null, null, null, null };
-
+        /// <remarks>
+        ///     The correct sequence of elements is described by the <see cref="PageSchemaPosition"/>
+        ///     enumeration.
+        /// </remarks>
+        static readonly XElement[] PageAnchors = new XElement[] { null, null, null, null, null, null, null, null, null };
         /// <summary>
         /// Get the style definitions for this page.
         /// </summary>
-        public QuickStyleDefCollection QuickStyleDefinitions { get;  }
+        public QuickStyleDefCollection QuickStyleDefinitions { get; }
 
         MetaCollection _meta; // Page Meta information
         TagDefCollection _tagdef; // OneNote tag definitions.
@@ -137,6 +134,10 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         DateTime LastModified { get; set; }
 
+        /// <summary>
+        ///     Get the page format settings.
+        /// </summary>
+        PageSettings Settings {get; set;}
         /// <summary>
         /// Get the OneNote application object.
         /// </summary>
@@ -160,13 +161,19 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         public Title Title { get; private set; }
 
         /// <summary>
-        /// Register all managed tags in a comma separated tag list.
+        ///     The the first XML element at a schema position.
         /// </summary>
-        /// <param name="taglist">Comma separated tag list.</param>
-        void RegisterManagedTags(string taglist) {
-            Tags.UnionWith(from t in PageTagSet.Parse(taglist, TagFormat.AsEntered)
-                           where t.TagType < PageTagType.HashTag
-                           select t);
+        /// <param name="p">
+        ///     The schema position.
+        /// </param>
+        /// <returns>
+        ///     THe XML element at the given position; `null` if element is
+        ///     at the given position.
+        /// </returns>
+        public XElement this[PageSchemaPosition p] {
+            get {
+                return PageAnchors[(int)p];
+            }
         }
 
         /// <summary>
@@ -184,18 +191,32 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             Document = Element.Document; // get the page's XML document
             LastModified = DateTime.Parse(Element.Attribute("lastModifiedTime").Value);
 
-            // recognize some page content
+            // Determine the overall page structure
+            for (PageSchemaPosition p = PageSchemaPosition.TagDef; p <= PageSchemaPosition.Outline; p++) {
+                var firstElement = Element.Element(GetName(p.ToString()));
+                if (firstElement != null) {
+                    PageAnchors[(int)p] = firstElement;
+                }
+            }
 
+            // process page format settings
+            if (PageAnchors[(int)PageSchemaPosition.PageSettings] == null) {
+                // make a settings object
+                Settings = new PageSettings(this);
+            } else {
+                Settings = new PageSettings(this, PageAnchors[(int)PageSchemaPosition.PageSettings]);
+            }
+
+            // process style definitions
             QuickStyleDefinitions = new QuickStyleDefCollection(this);
             _meta = new MetaCollection(this);
             _tagdef = new TagDefCollection(this);
 
-            XElement title = Element.Element(GetName(nameof(Title)));
-            if (title == null) {
+            if (PageAnchors[(int)PageSchemaPosition.Title] == null) {
                 // a title is required for tagging
                 Title = new Title(this, defaultTitle);
             } else {
-                Title = new Title(this, title);
+                Title = new Title(this, PageAnchors[(int)PageSchemaPosition.Title]);
                 // inspect the title tags an mark collect the managed oage tags
                 Tags.UnionWith(from tt in Title.Tags
                                let td = _tagdef[tt.Index]
@@ -267,12 +288,28 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     }
                     if (Properties.Settings.Default.MapHashTags) {
                         // make sure all hashtags in that outline are defined
-                        foreach (var t in outline.Descendants(GetName("T"))) {
-                            // remove some non-sensical tags from the text
-                            string txt = OETaglist.HTMLtag_matcher.Replace(t.Value, string.Empty);
-                            _importedTags.UnionWith(from Match m in _hashtag_matcher.Matches(txt)
-                                                    where m.Value.Length > 2 && !_number_matcher.Match(m.Value).Success
-                                                    select new PageTag(m.Value.Trim(), PageTagType.ImportedHashTag));
+                        foreach (var oe in outline.Descendants(GetName("OE"))) {
+                            bool rtl = false;
+                            XAttribute rtlAtt = oe.Attribute("RTL");
+                            if (rtlAtt != null) {
+                                rtl = bool.Parse(rtlAtt.Value);
+                            }
+                            else {
+                                rtl = Settings.IsRTL;
+                            }
+                            foreach (var t in oe.Descendants(GetName("T"))) {
+                                // remove some non-sensical tags from the text
+                                string txt = OETaglist.HTMLtag_matcher.Replace(t.Value, string.Empty);
+                                if (rtl) {
+                                    _importedTags.UnionWith(from Match m in _hashtag_matcherRTL.Matches(txt)
+                                                            where m.Value.Length > 1
+                                                            select new PageTag(m.Value.Trim(), PageTagType.ImportedHashTag));
+                                } else {
+                                    _importedTags.UnionWith(from Match m in _hashtag_matcher.Matches(txt)
+                                                            where m.Value.Length > 1
+                                                            select new PageTag(m.Value.Trim(), PageTagType.ImportedHashTag));
+                                }
+                            }
                         }
                     }
                 }
@@ -293,7 +330,6 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         public bool IsDeleted {
             get {
-
                 XAttribute recycleBinAtt = Element.Attribute("isInRecycleBin");
                 return recycleBinAtt != null && "true".Equals(recycleBinAtt.Value);
             }
@@ -355,34 +391,37 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         }
 
         /// <summary>
-        /// Add a page structure element at the correct location on a
-        /// OneNote page XML document.
+        ///     Add a new page structure element at the correct location to a
+        ///     OneNote page XML document.
         /// </summary>
         /// <remarks>
         ///     Makes use of an internal lookup table containing anchor elements
         ///     known to be at certain schema positions.
         /// </remarks>
-        /// <param name="obj">The proxy object containing the element to add to the page.</param>
-        public void Add(PageStructureObjectBase obj) {
-            int p = _typeToIndex[obj.GetType()];
-            XElement anchor = PageAnchors[p];
-            if (anchor == null || anchor.Parent == null) {
-                // need to go searching
-                for (int i = p; i < PositionNames.Length; i++) {
-                    var localname = PositionNames[i];
-                    anchor = Element.Element(obj.GetName(localname));
+        /// <param name="obj">
+        ///     The proxy object containing the element to add to the page.
+        /// </param>
+        /// <param name="position">
+        ///     The page position of elements of this type according to the page schema.
+        /// </param>
+        public void Add(PageStructureObjectBase obj,PageSchemaPosition position) {
+            XElement anchor = PageAnchors[(int)position];
+            if (anchor == null) {
+                // need to go searching for the next known element
+                for (int i = (int)position+1; i < PositionNames.Length; i++) {
+                    anchor = PageAnchors[i];
                     if (anchor != null) {
-                        PageAnchors[i] = anchor; // remember that
-                        break;
+                        break; // got one
                     }
                 }
             }
+
             if (anchor != null) {
                 anchor.AddBeforeSelf(obj.Element);
             } else {
                 Element.Add(obj.Element);
             }
-            PageAnchors[p] = obj.Element;
+            PageAnchors[(int)position] = obj.Element; // make sure this is the first element of its kind
         }
         /// <summary>
         /// Add tags to the page as specified by the <see cref="TagDisplay" /> enumeration.

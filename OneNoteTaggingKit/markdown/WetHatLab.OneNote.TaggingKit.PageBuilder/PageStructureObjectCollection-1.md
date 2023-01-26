@@ -12,6 +12,7 @@ public abstract class PageStructureObjectCollection<T> : PageObjectCollectionBas
 | name | description |
 | --- | --- |
 | [IsModified](PageStructureObjectCollection-1/IsModified.md) { get; protected set; } | Determine if the collection, which was originally loaded from the page, is now modified. |
+| [SchemaPosition](PageStructureObjectCollection-1/SchemaPosition.md) { get; } | Get the schema position of the objects managed by this collection. |
 
 ## Protected Members
 

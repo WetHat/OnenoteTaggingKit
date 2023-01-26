@@ -3,13 +3,14 @@
 Initialize an instance of this collection with elements found on a OneNote page XML document .
 
 ```csharp
-protected PageStructureObjectCollection(XName name, OneNotePage page)
+protected PageStructureObjectCollection(XName name, OneNotePage page, PageSchemaPosition position)
 ```
 
 | parameter | description |
 | --- | --- |
 | page | The OneNote page document proxy. |
 | name | The XML name of the items in this colelction. |
+| position | The page position of elements of this type according to the page schema. |
 
 ## Remarks
 
@@ -18,6 +19,7 @@ The type of element to collect is inferred from the given schema position.
 ## See Also
 
 * class [OneNotePage](../OneNotePage.md)
+* enum [PageSchemaPosition](../PageSchemaPosition.md)
 * class [PageStructureObjectCollection&lt;T&gt;](../PageStructureObjectCollection-1.md)
 * namespace [WetHatLab.OneNote.TaggingKit.PageBuilder](../../OneNoteTaggingKit.md)
 

@@ -3,17 +3,19 @@
 Initialize an instance of this collection for elements with a given name found on a OneNote page XML document .
 
 ```csharp
-public DefinitionObjectCollection(XName name, OneNotePage page)
+public DefinitionObjectCollection(XName name, OneNotePage page, PageSchemaPosition position)
 ```
 
 | parameter | description |
 | --- | --- |
 | name | XML name of the elements in this collection. |
 | page | The OneNote page Xml document. |
+| position | The page position of elements of this type according to the page schema. |
 
 ## See Also
 
 * class [OneNotePage](../OneNotePage.md)
+* enum [PageSchemaPosition](../PageSchemaPosition.md)
 * class [DefinitionObjectCollection&lt;T&gt;](../DefinitionObjectCollection-1.md)
 * namespace [WetHatLab.OneNote.TaggingKit.PageBuilder](../../OneNoteTaggingKit.md)
 
