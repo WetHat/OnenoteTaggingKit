@@ -90,7 +90,6 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
     /// </remarks>
     public class OneNotePage : PageObjectBase {
         private static readonly Regex _hashtag_matcher = new Regex(@"(?<=^|[^\w#-_]|[({\['])(?>#[^\W\d_][\w-_]*)(?![#({\[/~])", RegexOptions.Compiled);
-        private static readonly Regex _hashtag_matcherRTL = new Regex(@"(?<=^|[^\w#)}\]])(?>[\w-_]*[^\W\d_]#)(?=$|[^\w#-_~]|[)}\]'])", RegexOptions.Compiled);
         
         /// <summary>
         /// The sequence of structure elements in which elements have to
@@ -120,7 +119,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         ///     The correct sequence of elements is described by the <see cref="PageSchemaPosition"/>
         ///     enumeration.
         /// </remarks>
-        static readonly XElement[] PageAnchors = new XElement[] { null, null, null, null, null, null, null, null, null };
+        readonly XElement[] PageAnchors = new XElement[] { null, null, null, null, null, null, null, null, null };
         /// <summary>
         /// Get the style definitions for this page.
         /// </summary>
@@ -288,28 +287,12 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     }
                     if (Properties.Settings.Default.MapHashTags) {
                         // make sure all hashtags in that outline are defined
-                        foreach (var oe in outline.Descendants(GetName("OE"))) {
-                            bool rtl = false;
-                            XAttribute rtlAtt = oe.Attribute("RTL");
-                            if (rtlAtt != null) {
-                                rtl = bool.Parse(rtlAtt.Value);
-                            }
-                            else {
-                                rtl = Settings.IsRTL;
-                            }
-                            foreach (var t in oe.Descendants(GetName("T"))) {
-                                // remove some non-sensical tags from the text
-                                string txt = OETaglist.HTMLtag_matcher.Replace(t.Value, string.Empty);
-                                if (rtl) {
-                                    _importedTags.UnionWith(from Match m in _hashtag_matcherRTL.Matches(txt)
-                                                            where m.Value.Length > 1
-                                                            select new PageTag(m.Value.Trim(), PageTagType.ImportedHashTag));
-                                } else {
-                                    _importedTags.UnionWith(from Match m in _hashtag_matcher.Matches(txt)
-                                                            where m.Value.Length > 1
-                                                            select new PageTag(m.Value.Trim(), PageTagType.ImportedHashTag));
-                                }
-                            }
+                        foreach (var t in outline.Descendants(GetName("T"))) {
+                            // remove some non-sensical tags from the text
+                            string txt = OETaglist.HTMLtag_matcher.Replace(t.Value, string.Empty);
+                            _importedTags.UnionWith(from Match m in _hashtag_matcher.Matches(txt)
+                                                    where m.Value.Length > 1
+                                                    select new PageTag(m.Value.Trim(), PageTagType.ImportedHashTag));
                         }
                     }
                 }
@@ -534,7 +517,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                                    new XAttribute("y", "43"),
                                                    new XAttribute("z", "0")),
                                                new XElement(GetName("Size"),
-                                                   new XAttribute("width", "400"),
+                                                   new XAttribute("width", Settings.IsRTL ? "350" : "400"),
                                                    new XAttribute("height", "10"),
                                                    new XAttribute("isSetByUser", "true")),
                                                new XElement(GetName("OEChildren"),
