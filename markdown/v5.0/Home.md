@@ -64,8 +64,7 @@ The add-in can be installed or upgraded in one of the following ways:
 > 4. For first time installation and upgrade execute the downloaded installer (`*.msi`)
 > 5. Start OneNote.
 
-## Installation / Upgrade via the [Chocolatey](https://community.chocolatey.org/packages/onenote-taggingkit-addin.install)
-   Package Manager
+## Installation / Upgrade via the [Chocolatey](https://community.chocolatey.org/packages/onenote-taggingkit-addin.install) Package Manager
 >
 > [Chocolatey](https://chocolatey.org/) can be [installed here](https://chocolatey.org/install).
 >
@@ -88,8 +87,7 @@ The add-in can be installed or upgraded in one of the following ways:
 >    PS C:\> choco upgrade onenote-taggingkit-addin.install
 >    ~~~
 
-## Installation / Upgrade via the [winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/)
-   Package Manager
+## Installation / Upgrade via the [winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/) Package Manager
 >
 > The [winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/) 
 > Package Manager is bundled with Windows 11. For Windows 10 you can install the
