@@ -129,6 +129,9 @@ namespace WetHatLab.OneNote.TaggingKit
                         case 0x80042030:
                             troubleshootingpage = "0x80042030";
                             break;
+                        case 0x80042014:
+                            troubleshootingpage = "0x80042014";
+                            break;
                     }
                 }
                 try
