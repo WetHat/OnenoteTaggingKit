@@ -5,12 +5,13 @@
 * [The Tagging Kit command group does not show up in the _OneNote_ ribbon bar](Tagging%20Kit%20Not%20Shown%20in%20Ribbon.md)
 * [Searching pages by Tags or Full-Text Queries does not work](Searching-pages-by-Tags-or-Full-Text-Queries-does-not-work.md)
 * [Exception from HRESULT: 0x8004200C](0x8004200C.md)
+* [Exception from HRESULT: 0x80042014](0x80042014.md)
 * [Exception from HRESULT: 0x80042019](0x80042019.md)
 * [Exception from HRESULT: 0x80042030](0x80042030.md)
 
 ![Screenshot](images/TroubleshootingTips_log.png){.rightfloat}
     
-# Submitting Buga Enhancement Requests
+# Submitting Bug or Enhancement Requests
 
 You are very much welcome to report issues or submit enhancement requests.
 Before doing so, please check that nothing

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Exception from HRESULT: 0x8004200C</title>
+    <title>Exception from HRESULT: 0x80042014</title>
     <link rel="stylesheet" type="text/css" href="../../styles/md-styles.css" />
 
     <!-- Code syntax highlighting configuration -->
@@ -62,14 +62,27 @@
 <button class='navitem'><a href='../Usage/Search/Finding%20Notes.html'>Finding Pages</a></button>
 <button class='navitem'><a href='../Usage/Settings/Manage%20Settings.html'>Options and Settings</a></button>
 <div class='navlabel'>Current Page Content</div>
-<button class='navitem'><a href='#exception-from-hresult-0x8004200c'><span class='navitem1'>Exception from HRESULT: 0x8004200C</span></a></button>
+<button class='navitem'><a href='#exception-from-hresult-0x80042014'><span class='navitem1'>Exception from HRESULT: 0x80042014</span></a></button>
 </nav>
     <main>
         <article>
-            <h1 id="exception-from-hresult-0x8004200c" class="title">Exception from HRESULT: 0x8004200C</h1>
-<p>The page cannot be tagged because it is <strong>read-only</strong>.</p>
-<p>This error occurs if the page being tagged is in the _OneNote_recycle
-bin or in a read-only notebook or section group.</p>
+            <h1 id="exception-from-hresult-0x80042014" class="title">Exception from HRESULT: 0x80042014</h1>
+<p>A page no longer exists at that location.</p>
+<p>This can happen if you attempt to navigate to a page which is no longer at the
+location when the link was created. In the context of the <em>Tagging Kit</em> this can happen
+in these scenarios.</p>
+<ul>
+<li><p>In the <em>Pages</em> panel of the <a href="../Usage/Search/Finding%20Notes.html">Find Pages</a> dialog you clicked on a link to
+a OneNote page which has beed moved or deleted while the search result was displayed.</p>
+<p>☝️ To fix this <a href="../Usage/Search/AdvancedSaved%20Search.html#Dia-14">refresh</a> the search result.</p>
+</li>
+<li><p>On a <a href="../Usage/Search/Advanced/Saved%20Search.html">Saved Search</a> you clicked on a link to a page
+in the search result which was deleted or moved since the search was last updated.</p>
+<p>☝️ To fix this update by the serch result by executing the  <a href="../Usage/Update.html"><em>Update</em></a> command or the
+<a href="../Usage/Tagging%20Pages/Tagging%20Pages.html#Dia-5"><em>Update</em></a> action of the
+<a href="../Usage/Tagging%20Pages/Tagging%20Pages.html"><em>Tag Pages</em></a> dialog.</p>
+</li>
+</ul>
 
         </article>
         <footer>
