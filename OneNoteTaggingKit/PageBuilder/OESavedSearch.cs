@@ -20,8 +20,6 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         static readonly string sectionGroupEmoji = "&#128450;"; // 🗂
         static readonly string sectionEmoji = "&#128464;"; // 🗐
 
-
-        bool _updateRequired;
         OETable _searchConfiguration; // 2-column table with search parameters
 
         OneNoteProxy _onenote;
@@ -115,34 +113,54 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
 
                 _searchResult = Table.Rows[1].Cells[0];
             }
-            _updateRequired = true;
         }
 
-        IEnumerable<OET> GetPageLinks(OneNotePage page, IEnumerable<PageNode> pages) {
+        IEnumerable<OE> GetPageLinks(OneNotePage page, IEnumerable<PageNode> pages) {
             XNamespace ns = page.Namespace;
             OneNoteProxy onenote = page.OneNoteApp;
 
-            var pagelinks = new LinkedList<OET>();
-            var citationsStyle = page.QuickStyleDefinitions.CitationStyleDef;
+            var pagelinks = new LinkedList<OE>(); 
+            var breadcrumbStyle = page.QuickStyleDefinitions.BreadcrumbStyleDef;
+            var sectionTable = new SortedDictionary<string, LinkedList<OET>>();
+
             foreach (var p in pages) {
                 if (p.IsInRecycleBin) {
                     continue;
                 }
-                pagelinks.AddLast(new OET(ns,
+                // put into bucket
+                var breadcrumb = p.Breadcrumb;
+
+                LinkedList<OET> pagegroup;
+                if (!sectionTable.TryGetValue(breadcrumb,out pagegroup)) {
+                    // a section we have not seen so far.
+                    pagegroup = new LinkedList<OET>();
+                    sectionTable[breadcrumb] = pagegroup;
+                }
+                pagegroup.AddLast(new OET(ns,
                                           string.Format("<a href=\"{0}\">{1}",
                                           onenote.GetHyperlinkToObject(p.ID, string.Empty),
                                           p.Name)) {
                     Bullet = 15
                 });
-                if (_scope != SearchScope.Section) {
-                    var oet = new OET(ns, p.Breadcrumb, citationsStyle);
-                    oet.Language = "yo";
-                    pagelinks.AddLast(oet);
-                }
             }
 
-            if (pagelinks.Count == 0) {
+            // return the result ordered by sections
+            if (sectionTable.Count == 0) {
                 pagelinks.AddLast(new OET(ns, Properties.Resources.SavedSearchNoMatchError));
+            } else {
+                foreach(var entry in sectionTable) {
+                    if (_scope != SearchScope.Section) {
+                        pagelinks.AddLast(new OET(ns, entry.Key, breadcrumbStyle) {
+                                                Language = "yo",
+                                                Children = new OEChildren(ns, entry.Value)
+                                            });
+                    } else {
+                        // just add the links flat
+                        foreach (var lnk in entry.Value) {
+                            pagelinks.AddLast(lnk);
+                        }
+                    }
+                }
             }
             return pagelinks;
         }
@@ -206,7 +224,6 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             _query = query;
 
             var ns = page.Namespace;
-            _updateRequired = false;
             Table.BordersVisible = true;
 
             Table searchConfig = new Table(ns, 2);
@@ -239,57 +256,59 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// <param name="page">The OneNote page proxy.</param>
         public void Update(OneNotePage page) {
             OneNoteProxy onenote = page.OneNoteApp;
-            if (_updateRequired) {
-                if (_lastModified != null) {
-                    _lastModified.Text = DateTime.Now.ToString(CultureInfo.CurrentCulture);
-                    var withAllTags = new PageTagSet(_withAllTags.Taglist, TagFormat.AsEntered);
-                    var withoutTags = new PageTagSet(_withoutTags == null ? string.Empty : _withoutTags.Taglist, TagFormat.AsEntered);
-                    var withAnyTags = new PageTagSet(_withAnyTags == null ? string.Empty : _withAnyTags.Taglist, TagFormat.AsEntered);
-                    var tagsWithPages = new TagsAndPages(onenote);
+ 
+            if (_lastModified != null) {
+                _lastModified.Text = DateTime.Now.ToString(CultureInfo.CurrentCulture);
+                var withAllTags = new PageTagSet(_withAllTags.Taglist, TagFormat.AsEntered);
+                var withoutTags = new PageTagSet(_withoutTags == null ? string.Empty : _withoutTags.Taglist, TagFormat.AsEntered);
+                var withAnyTags = new PageTagSet(_withAnyTags == null ? string.Empty : _withAnyTags.Taglist, TagFormat.AsEntered);
+                var tagsWithPages = new TagsAndPages(onenote);
 
-                    if (!withAllTags.IsEmpty
-                        || !withoutTags.IsEmpty
-                        || !withAnyTags.IsEmpty) {
-                        tagsWithPages.FindPages(_scope, _query);
+                if (!withAllTags.IsEmpty
+                    || !withoutTags.IsEmpty
+                    || !withAnyTags.IsEmpty) {
+                    tagsWithPages.FindPages(_scope, _query);
 
-                        // process required tags
-                        if (!withAllTags.IsEmpty) {
-                            foreach (var tag in withAllTags) {
-                                TagPageSet tps;
-                                if (tagsWithPages.Tags.TryGetValue(tag.Key, out tps)) {
-                                    tagsWithPages.Pages.IntersectWith(tps.Pages);
-                                }
+                    // process required tags
+                    if (!withAllTags.IsEmpty) {
+                        foreach (var tag in withAllTags) {
+                            TagPageSet tps;
+                            if (tagsWithPages.Tags.TryGetValue(tag.Key, out tps)) {
+                                tagsWithPages.Pages.IntersectWith(tps.Pages);
+                            } else {
+                                // tag not in the search result -> no result
+                                tagsWithPages.Pages.Clear();
                             }
-                        }
-
-                        // process excluded tags
-                        if (!withoutTags.IsEmpty) {
-                            foreach (var tag in withoutTags) {
-                                TagPageSet tps;
-                                if (tagsWithPages.Tags.TryGetValue(tag.Key, out tps)) {
-                                    tagsWithPages.Pages.ExceptWith(tps.Pages);
-                                }
-                            }
-                        }
-
-                        // process 'with any of these' filter
-                        if (!withAnyTags.IsEmpty) {
-                            var pagesWithAnyTags = new HashSet<PageNode>();
-                            foreach (var tag in withAnyTags) {
-                                TagPageSet tps;
-                                if (tagsWithPages.Tags.TryGetValue(tag.Key, out tps)) {
-                                    pagesWithAnyTags.UnionWith(tps.Pages);
-                                }
-                            }
-                            tagsWithPages.Pages.IntersectWith(pagesWithAnyTags);
                         }
                     }
 
-                    _searchResult.Content = GetPageLinks(page,
-                                                         from p in tagsWithPages.Pages.Values
-                                                         orderby p.Name ascending
-                                                         select p);
+                    // process excluded tags
+                    if (!withoutTags.IsEmpty && tagsWithPages.Pages.Count > 0) {
+                        foreach (var tag in withoutTags) {
+                            TagPageSet tps;
+                            if (tagsWithPages.Tags.TryGetValue(tag.Key, out tps)) {
+                                tagsWithPages.Pages.ExceptWith(tps.Pages);
+                            }
+                        }
+                    }
+
+                    // process 'with any of these' filter
+                    if (!withAnyTags.IsEmpty && tagsWithPages.Pages.Count > 0) {
+                        var pagesWithAnyTags = new HashSet<PageNode>();
+                        foreach (var tag in withAnyTags) {
+                            TagPageSet tps;
+                            if (tagsWithPages.Tags.TryGetValue(tag.Key, out tps)) {
+                                pagesWithAnyTags.UnionWith(tps.Pages);
+                            }
+                        }
+                        tagsWithPages.Pages.IntersectWith(pagesWithAnyTags);
+                    }
                 }
+
+                _searchResult.Content = GetPageLinks(page,
+                                                        from p in tagsWithPages.Pages.Values
+                                                        orderby p.Name ascending
+                                                        select p);
             }
         }
     }
