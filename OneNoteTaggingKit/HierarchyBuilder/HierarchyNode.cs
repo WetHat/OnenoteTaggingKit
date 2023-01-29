@@ -70,7 +70,7 @@ namespace WetHatLab.OneNote.TaggingKit.HierarchyBuilder
                 for (var p = Parent; p != null; p = p.Parent) {
                     path.Push(p.Name);
                 }
-                return string.Join(">", path);
+                return "≡ " + string.Join(" > ", path);
             }
         }
 
