@@ -12,6 +12,7 @@ public class OE : PageObjectBase
 | --- | --- |
 | [OE](OE/OE.md)(…) | Initialize a content element proxy object from an 'one:OE' XML element which is part of a OneNote page XML document. |
 | [Bullet](OE/Bullet.md) { set; } | Set the List item bullet type. |
+| [Children](OE/Children.md) { set; } | Set indented content for this page object. |
 | [ElementId](OE/ElementId.md) { get; } | Get the unique OneNote id of that element. |
 | [QuickStyle](OE/QuickStyle.md) { set; } | Set the Style to use for this page content element. |
 | [QuickStyleIndex](OE/QuickStyleIndex.md) { get; set; } | Get/set the style index. |

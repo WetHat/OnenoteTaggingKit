@@ -1,7 +1,9 @@
-# QuickStyleDefCollection.CitationStyleDef property
+# QuickStyleDefCollection.BreadcrumbStyleDef property
+
+Get the breadcrumb (path) style definition.
 
 ```csharp
-public QuickStyleDef CitationStyleDef { get; }
+public QuickStyleDef BreadcrumbStyleDef { get; }
 ```
 
 ## See Also

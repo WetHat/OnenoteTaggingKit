@@ -116,6 +116,7 @@
     <Compile Include="PageBuilder\Meta.cs" />
     <Compile Include="PageBuilder\MetaCollection.cs" />
     <Compile Include="PageBuilder\OE.cs" />
+    <Compile Include="PageBuilder\OEChildren.cs" />
     <Compile Include="PageBuilder\OESavedSearch.cs" />
     <Compile Include="PageBuilder\OESavedSearchCollection.cs" />
     <Compile Include="PageBuilder\OET.cs" />

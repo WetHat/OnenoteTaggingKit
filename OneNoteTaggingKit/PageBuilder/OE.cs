@@ -11,6 +11,15 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
         /// </summary>
         public TagCollection Tags { get; protected set; }
 
+        /// <summary>
+        ///     Set indented content for this page object.
+        /// </summary>
+        public OEChildren Children { 
+            set {
+                Element.Add(value.Element);
+            }
+        }
+
         int _bullet = -1;
         /// <summary>
         /// Set the List item bullet type.

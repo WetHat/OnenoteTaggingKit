@@ -126,6 +126,7 @@
 | class [MetaCollection](./WetHatLab.OneNote.TaggingKit.PageBuilder/MetaCollection.md) | The collection of Meta objects for Meta XML elements on a OneNote page. Meta objects with special semantics are accessible via the properties: |
 | class [NamedObjectBase](./WetHatLab.OneNote.TaggingKit.PageBuilder/NamedObjectBase.md) | Base class for proxy objeccts containing a XML element with a `name` attribute. |
 | class [OE](./WetHatLab.OneNote.TaggingKit.PageBuilder/OE.md) | Proxy object for OneNote page content elements. |
+| class [OEChildren](./WetHatLab.OneNote.TaggingKit.PageBuilder/OEChildren.md) | Proxy object for a indented group of OneNote content elements. |
 | class [OESavedSearch](./WetHatLab.OneNote.TaggingKit.PageBuilder/OESavedSearch.md) | Proxy class for a OneNpte element structure representing a Saved Search. |
 | class [OESavedSearchCollection](./WetHatLab.OneNote.TaggingKit.PageBuilder/OESavedSearchCollection.md) | Collection of saved searches on a OneNote page. |
 | class [OET](./WetHatLab.OneNote.TaggingKit.PageBuilder/OET.md) | Proxy class for OneNote elements with embedded text content. |

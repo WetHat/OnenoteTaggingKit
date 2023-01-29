@@ -11,7 +11,7 @@ public class QuickStyleDefCollection : DefinitionObjectCollection<QuickStyleDef>
 | name | description |
 | --- | --- |
 | [QuickStyleDefCollection](QuickStyleDefCollection/QuickStyleDefCollection.md)(…) | Initialize an instance of this collection for elements with a specified XML name found on a OneNote page XML document . |
-| [CitationStyleDef](QuickStyleDefCollection/CitationStyleDef.md) { get; } | Get the citation style definition. |
+| [BreadcrumbStyleDef](QuickStyleDefCollection/BreadcrumbStyleDef.md) { get; } | Get the breadcrumb (path) style definition. |
 | [LabelStyleDef](QuickStyleDefCollection/LabelStyleDef.md) { get; } | Get the label style definition. |
 | [TagOutlineStyleDef](QuickStyleDefCollection/TagOutlineStyleDef.md) { get; } | Get the Style for below-title tag lists. |
 
