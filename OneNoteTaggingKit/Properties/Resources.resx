@@ -614,4 +614,28 @@ Tap or click link to navigate to page.</value>
   <data name="TagSearch_Progress_Searching" xml:space="preserve">
     <value>Searching {0}</value>
   </data>
+  <data name="TagManager_PreferencesTab_DisplayLanguage_Chinese" xml:space="preserve">
+    <value>Chinese (simpified)</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DisplayLanguage_Chinese_Tooltip" xml:space="preserve">
+    <value>Display the add-in user interface in Chinese.</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DisplayLanguage_English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DisplayLanguage_English_Tooltip" xml:space="preserve">
+    <value>Display the add-in user interface in English.</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DisplayLanguage_Label" xml:space="preserve">
+    <value>Display Language</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DisplayLanguage_System" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DisplayLanguage_System_Tooltip" xml:space="preserve">
+    <value>Display the add-in user interface in the Operating System language.</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DisplayLanguage_ToolTip" xml:space="preserve">
+    <value>Choose the preferred display language for the add-in. OneNote must be restarted for changes to take effect!</value>
+  </data>
 </root>

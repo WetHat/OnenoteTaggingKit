@@ -585,7 +585,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copyright (c) 2013-2022 WetHat Lab.
+        ///   Looks up a localized string similar to Copyright (c) 2013-2023 WetHat Lab.
         /// </summary>
         public static string TaggingKit_About_Copyright {
             get {
@@ -648,7 +648,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://wethat.github.io/OnenoteTaggingKit/v4.0/Home.html.
+        ///   Looks up a localized string similar to https://wethat.github.io/OnenoteTaggingKit/v5.0/Home.html.
         /// </summary>
         public static string TaggingKit_Docs_Link {
             get {
@@ -700,7 +700,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://wethat.github.io/OnenoteTaggingKit/v4.0/Support/{0}.
+        ///   Looks up a localized string similar to https://wethat.github.io/OnenoteTaggingKit/v5.0/Support/{0}.
         /// </summary>
         public static string TaggingKit_Wiki_Page {
             get {
@@ -894,6 +894,78 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         public static string TagManager_PreferencesTab_DialogPreferencesGroup_Header {
             get {
                 return ResourceManager.GetString("TagManager_PreferencesTab_DialogPreferencesGroup_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chinese (simpified).
+        /// </summary>
+        public static string TagManager_PreferencesTab_DisplayLanguage_Chinese {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_DisplayLanguage_Chinese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display the add-in user interface in Chinese..
+        /// </summary>
+        public static string TagManager_PreferencesTab_DisplayLanguage_Chinese_Tooltip {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_DisplayLanguage_Chinese_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to English.
+        /// </summary>
+        public static string TagManager_PreferencesTab_DisplayLanguage_English {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_DisplayLanguage_English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display the add-in user interface in English..
+        /// </summary>
+        public static string TagManager_PreferencesTab_DisplayLanguage_English_Tooltip {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_DisplayLanguage_English_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display Language.
+        /// </summary>
+        public static string TagManager_PreferencesTab_DisplayLanguage_Label {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_DisplayLanguage_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System.
+        /// </summary>
+        public static string TagManager_PreferencesTab_DisplayLanguage_System {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_DisplayLanguage_System", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display the add-in user interface in the Operating System language..
+        /// </summary>
+        public static string TagManager_PreferencesTab_DisplayLanguage_System_Tooltip {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_DisplayLanguage_System_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose the preferred display language for the add-in. OneNote must be restarted for changes to take effect!.
+        /// </summary>
+        public static string TagManager_PreferencesTab_DisplayLanguage_ToolTip {
+            get {
+                return ResourceManager.GetString("TagManager_PreferencesTab_DisplayLanguage_ToolTip", resourceCulture);
             }
         }
         

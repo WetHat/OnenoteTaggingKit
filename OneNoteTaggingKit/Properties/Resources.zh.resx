@@ -614,4 +614,28 @@
   <data name="TagSearch_Progress_Searching" xml:space="preserve">
     <value>搜索{0}</value>
   </data>
+  <data name="TagManager_PreferencesTab_DisplayLanguage_Chinese" xml:space="preserve">
+    <value>中文</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DisplayLanguage_Chinese_Tooltip" xml:space="preserve">
+    <value>以中文显示插件用户界面。</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DisplayLanguage_English" xml:space="preserve">
+    <value>英语</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DisplayLanguage_English_Tooltip" xml:space="preserve">
+    <value>以英文显示加载项用户界面。</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DisplayLanguage_Label" xml:space="preserve">
+    <value>显示语言</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DisplayLanguage_System" xml:space="preserve">
+    <value>操作系统</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DisplayLanguage_System_Tooltip" xml:space="preserve">
+    <value>以操作系统语言显示插件用户界面</value>
+  </data>
+  <data name="TagManager_PreferencesTab_DisplayLanguage_ToolTip" xml:space="preserve">
+    <value>选择加载项的首选显示语言。 必须重新启动 OneNote 才能使更改生效！</value>
+  </data>
 </root>

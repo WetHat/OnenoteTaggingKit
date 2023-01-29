@@ -311,5 +311,17 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
                 this["KnownTagsCollection"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DisplayLanguage {
+            get {
+                return ((int)(this["DisplayLanguage"]));
+            }
+            set {
+                this["DisplayLanguage"] = value;
+            }
+        }
     }
 }

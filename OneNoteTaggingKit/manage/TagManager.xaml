@@ -44,7 +44,7 @@
             <StackPanel Orientation="Vertical">
                 <GroupBox Header="{Binding Mode=OneTime,
                                   Source={x:Static prop:Resources.TagManager_PreferencesTab_DialogPreferencesGroup_Header}}">
-                    <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Vertical" Margin="0,5,0,0">
                         <CheckBox Content="{Binding Mode=OneTime,
                                        Source={x:Static prop:Resources.TagManager_PreferencesTab_DialogPreferences_TagEditorOnTop}}"
                               ToolTip="{Binding Mode=OneTime,
@@ -59,17 +59,53 @@
                 </GroupBox>
                 <GroupBox Header="{Binding Mode=OneTime,
                                   Source={x:Static prop:Resources.TagManager_PreferencesTab_OSGroup_Header}}">
-                    <StackPanel Orientation="Vertical">
-                        <CheckBox Content="{Binding Mode=OneTime,
-                                       Source={x:Static prop:Resources.TagManager_PreferencesTab_OS_UseWindowsSearch}}"
-                              ToolTip="{Binding Mode=OneTime,
-                                       Source={x:Static prop:Resources.TagManager_PreferencesTab_DialogPreferences_UseWindowsSearch_Tooltip}}"
-                              IsChecked="{Binding Source={x:Static prop:Settings.Default},Path=UseWindowsSearch,Mode=TwoWay}" />
-                    </StackPanel>
+                    <Grid Margin="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0"
+                               HorizontalAlignment="Right"
+                               Content="{Binding Mode=OneTime,
+                                         Source={x:Static prop:Resources.TagManager_PreferencesTab_DisplayLanguage_Label}}" />
+                        <ComboBox Grid.Row="0" Grid.Column="1"
+                                  HorizontalAlignment="Left"
+                                  Padding="5"
+                                  SelectedIndex="{Binding Source={x:Static prop:Settings.Default},Path=DisplayLanguage,Mode=TwoWay}"
+                                  ToolTip="{Binding Mode=OneTime,
+                                                    Source={x:Static prop:Resources.TagManager_PreferencesTab_DisplayLanguage_ToolTip}}">
+                            <ComboBoxItem Content="{Binding Mode=OneTime,
+                                                            Source={x:Static prop:Resources.TagManager_PreferencesTab_DisplayLanguage_System}}"
+                                          ToolTip="{Binding Mode=OneTime,
+                                                            Source={x:Static prop:Resources.TagManager_PreferencesTab_DisplayLanguage_System_Tooltip}}"
+                                          Tag="System" />
+                            <ComboBoxItem Content="{Binding Mode=OneTime,
+                                                            Source={x:Static prop:Resources.TagManager_PreferencesTab_DisplayLanguage_English}}"
+                                           ToolTip="{Binding Mode=OneTime,
+                                                            Source={x:Static prop:Resources.TagManager_PreferencesTab_DisplayLanguage_English_Tooltip}}"
+                                          Tag="English" />
+                            <ComboBoxItem Content="{Binding Mode=OneTime,
+                                                            Source={x:Static prop:Resources.TagManager_PreferencesTab_DisplayLanguage_Chinese}}"
+                                          ToolTip="{Binding Mode=OneTime,
+                                                            Source={x:Static prop:Resources.TagManager_PreferencesTab_DisplayLanguage_Chinese_Tooltip}}"
+                                          Tag="Chinese" />
+                        </ComboBox>
+                        <CheckBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                  Margin="0,5,0,0"
+                                 Content="{Binding Mode=OneTime,
+                                            Source={x:Static prop:Resources.TagManager_PreferencesTab_OS_UseWindowsSearch}}"
+                                  ToolTip="{Binding Mode=OneTime,
+                                           Source={x:Static prop:Resources.TagManager_PreferencesTab_DialogPreferences_UseWindowsSearch_Tooltip}}"
+                                  IsChecked="{Binding Source={x:Static prop:Settings.Default},Path=UseWindowsSearch,Mode=TwoWay}" />
+                    </Grid>
                 </GroupBox>
                 <GroupBox Header="{Binding Mode=OneTime,
                                        Source={x:Static prop:Resources.TagManager_PreferencesTab_TagOptionsGroup_Header}}">
-                    <Grid>
+                    <Grid Margin="0,5,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="auto" />
@@ -131,7 +167,7 @@
                 </GroupBox>
                 <GroupBox Header="{Binding Mode=OneTime,
                                        Source={x:Static prop:Resources.TagManager_PreferencesTab_TagMappingGroup_Header}}">
-                    <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Vertical" Margin="0,5,0,0">
                         <CheckBox Content="{Binding Mode=OneTime,
                                        Source={x:Static prop:Resources.TagManager_PreferencesTab_Map_OneNoteTags}}"
                               ToolTip="{Binding Mode=OneTime,

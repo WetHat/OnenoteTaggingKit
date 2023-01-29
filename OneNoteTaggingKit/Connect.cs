@@ -5,6 +5,7 @@ using Microsoft.Office.Interop.OneNote;
 using System;
 using System.Diagnostics;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -49,8 +50,14 @@ namespace WetHatLab.OneNote.TaggingKit
                     Properties.Settings.Default.KnownTagsCollection.AddRange((from t in tags select t.ToString()).ToArray());
                 }
             }
-            // Testing the Chinese localization
-            // WetHatLab.OneNote.TaggingKit.Properties.Resources.Culture = System.Globalization.CultureInfo.GetCultureInfo("zh");
+            switch (Properties.Settings.Default.DisplayLanguage) {
+                case 1:
+                    Properties.Resources.Culture = CultureInfo.GetCultureInfo("en"); // Englisch
+                    break;
+                case 2:
+                    Properties.Resources.Culture = CultureInfo.GetCultureInfo("zh"); // Chinese
+                    break;
+            }
             TraceLogger.Register();
         }
 
