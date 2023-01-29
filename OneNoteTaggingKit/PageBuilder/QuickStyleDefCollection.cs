@@ -56,26 +56,26 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
             }
         }
         #endregion Labelstyle
-        #region Citationstyle
-        const string CitationstyleName = "cite";
-        QuickStyleDef _citationStyleDef;
+        #region BreadcrumbStyle
+        const string BreadcrumbstyleName = "breadcrumb";
+        QuickStyleDef _breadcrumbStyleDef;
         /// <summary>
-        /// Get the citation style definition.
+        ///     Get the breadcrumb (path) style definition.
         /// </summary>
-        public QuickStyleDef CitationStyleDef {
+        public QuickStyleDef BreadcrumbStyleDef {
             get {
-                if (_citationStyleDef == null) {
-                    _citationStyleDef = new QuickStyleDef(Page,
-                                                          CitationstyleName,
-                                                          Items.Count,
-                                                          new Font("Calibri",
-                                                                   9,
-                                                                   FontStyle.Regular,
-                                                                   GraphicsUnit.Point),
-                                                          Color.FromArgb(0x595959));
-                    Add(_citationStyleDef);
+                if (_breadcrumbStyleDef == null) {
+                    _breadcrumbStyleDef = new QuickStyleDef(Page,
+                                                            BreadcrumbstyleName,
+                                                            Items.Count,
+                                                            new Font("Segoe UI Symbol",
+                                                                    10,
+                                                                    FontStyle.Bold,
+                                                                    GraphicsUnit.Point),
+                                                            Color.FromArgb(0x000000));
+                    Add(_breadcrumbStyleDef);
                 }
-                return _citationStyleDef;
+                return _breadcrumbStyleDef;
             }
         }
         #endregion Citationstyle
@@ -102,8 +102,8 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 case LabelstyleName:
                     _labelStyleDef = def;
                     break;
-                case CitationstyleName:
-                    _citationStyleDef = def;
+                case BreadcrumbstyleName:
+                    _breadcrumbStyleDef = def;
                     break;
             }
             return def;
