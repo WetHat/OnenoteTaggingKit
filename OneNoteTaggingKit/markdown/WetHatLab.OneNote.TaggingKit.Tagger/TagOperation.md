@@ -13,7 +13,8 @@ public enum TagOperation
 | UNITE | `0` | Union with existing page tags. |
 | SUBTRACT | `1` | Subtraction of tags from page tags. |
 | REPLACE | `2` | Replace page tags. |
-| RESYNC | `3` | Resynchronize tags with the internal tag data. |
+| RESYNC | `3` | Resynchronize tags with the internal tag data, re-import tags on page content, and update saved searches. |
+| NOOP | `4` | Do nothing. |
 
 ## See Also
 

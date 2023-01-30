@@ -12,6 +12,7 @@ public class TaggingJob
 | --- | --- |
 | [TaggingJob](TaggingJob/TaggingJob.md)(…) | Create a new instance of a tagging job. |
 | [OperationType](TaggingJob/OperationType.md) { get; } | Get the type of operation this job performs. |
+| override [ToString](TaggingJob/ToString.md)() | Human readable string representation of a job. |
 
 ## Internal Members
 

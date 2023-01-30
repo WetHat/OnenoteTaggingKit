@@ -12,6 +12,7 @@ public sealed class BackgroundTagger : IDisposable
 | --- | --- |
 | [BackgroundTagger](BackgroundTagger/BackgroundTagger.md)(…) | Create a new instance of a background page tagger. |
 | [JobCount](BackgroundTagger/JobCount.md) { get; } | Get the number of jobs executed by this the tagger. |
+| [LastJobType](BackgroundTagger/LastJobType.md) { get; } | Get the type of last executed job. |
 | [Add](BackgroundTagger/Add.md)(…) | Schedule a tagging job for background operation. |
 | [Dispose](BackgroundTagger/Dispose.md)() | Dispose the background tagger. |
 | [Run](BackgroundTagger/Run.md)() | Run the background tagger. |

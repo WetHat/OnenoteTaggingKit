@@ -1,17 +1,14 @@
-# BackgroundTagger.Run method
+# BackgroundTagger.LastJobType property
 
-Run the background tagger.
+Get the type of last executed job.
 
 ```csharp
-public Task Run()
+public TagOperation LastJobType { get; }
 ```
-
-## Return Value
-
-Awaitable task object.
 
 ## See Also
 
+* enum [TagOperation](../TagOperation.md)
 * class [BackgroundTagger](../BackgroundTagger.md)
 * namespace [WetHatLab.OneNote.TaggingKit.Tagger](../../OneNoteTaggingKit.md)
 

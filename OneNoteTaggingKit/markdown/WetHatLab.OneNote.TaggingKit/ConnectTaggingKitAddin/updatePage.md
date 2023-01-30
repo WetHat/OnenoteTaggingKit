@@ -8,7 +8,7 @@ public void updatePage(IRibbonControl ribbon)
 
 | parameter | description |
 | --- | --- |
-| ribbon |  |
+| ribbon | The ribbon control which called this command. |
 
 ## See Also
 
