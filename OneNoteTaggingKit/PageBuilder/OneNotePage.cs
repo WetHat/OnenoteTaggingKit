@@ -359,7 +359,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                                 throw;
                         }
                     }
-                    TraceLogger.Log(TraceCategory.Warning(),"Attemting to update page one more time with updated timestamp: {0}",PageID);
+                    TraceLogger.Log(TraceCategory.Warning(),"Attempting to update page one more time with updated timestamp: {0}",PageID);
                     PageNode pg = new PageNode(OneNoteApp.GetPage(PageID).Root, null);
                     OneNoteApp.UpdatePage(Document, pg.LastModified);
                 }
