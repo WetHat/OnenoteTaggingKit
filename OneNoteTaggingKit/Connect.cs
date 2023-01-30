@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using System.Windows;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.edit;
 using WetHatLab.OneNote.TaggingKit.find;
@@ -38,6 +39,7 @@ namespace WetHatLab.OneNote.TaggingKit
         /// Create a new instance of the OneNote connector object.
         /// </summary>
         public ConnectTaggingKitAddin() {
+            TraceLogger.Register();
             // Upgrade Settings if necessary. On new version the UpdateRequired flag is
             // reset to default (true)
             if (Properties.Settings.Default.UpdateRequired) {
@@ -52,13 +54,14 @@ namespace WetHatLab.OneNote.TaggingKit
             }
             switch (Properties.Settings.Default.DisplayLanguage) {
                 case 1:
+                    TraceLogger.Log(TraceCategory.Info(), "Setting Display Language to English");
                     Properties.Resources.Culture = CultureInfo.GetCultureInfo("en"); // Englisch
                     break;
                 case 2:
+                    TraceLogger.Log(TraceCategory.Info(), "Setting Display Language to English");
                     Properties.Resources.Culture = CultureInfo.GetCultureInfo("zh"); // Chinese
                     break;
             }
-            TraceLogger.Register();
         }
 
         #region IDTExtensibility2
@@ -212,17 +215,20 @@ namespace WetHatLab.OneNote.TaggingKit
             AddInDialogManager.ShowDialog<TagManager, TagManagerModel>(() => new TagManagerModel(_onProxy));
         }
         /// <summary>
-        /// Action to refresh the current page.
+        ///     Action to refresh the current page.
         /// </summary>
-        /// <param name="ribbon"></param>
+        /// <param name="ribbon">The ribbon control which called this command.</param>
         public void updatePage(IRibbonControl ribbon) {
             TraceLogger.Log(TraceCategory.Info(), "Refresh current page");
-            if (_onProxy != null && !string.IsNullOrEmpty(_onProxy.CurrentPageID)) {
-                _onProxy.TaggingService.Add(new TaggingJob(_onProxy.CurrentPageID,
-                                                           null,
-                                                           TagOperation.RESYNC));
-            }
 
+            if (_onProxy != null) {
+                var currentPage = _onProxy.CurrentPageID;
+                if (!string.IsNullOrEmpty(currentPage)) {
+                    _onProxy.TaggingService.Add(new TaggingJob(currentPage,
+                                                               null,
+                                                               TagOperation.RESYNC));
+                }
+            }
         }
         /// <summary>
         /// Get images for ribbon bar buttons
