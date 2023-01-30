@@ -10,23 +10,29 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
     public enum TagOperation
     {
         /// <summary>
-        /// Union with existing page tags.
+        ///     Union with existing page tags.
         /// </summary>
         UNITE,
 
         /// <summary>
-        /// Subtraction of tags from page tags.
+        ///     Subtraction of tags from page tags.
         /// </summary>
         SUBTRACT,
 
         /// <summary>
-        /// Replace page tags.
+        ///     Replace page tags.
         /// </summary>
         REPLACE,
         /// <summary>
-        /// Resynchronize tags with the internal tag data.
+        ///     Resynchronize tags with the internal tag data, re-import tags on page content, and
+        ///     update saved searches.
         /// </summary>
-        RESYNC
+        RESYNC,
+
+        /// <summary>
+        ///     Do nothing.
+        /// </summary>
+        NOOP
     }
 
     /// <summary>
@@ -93,10 +99,23 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                     break;
                 case TagOperation.RESYNC:
                     // Just resync the displayed tags with the recorded tags.
+                    page.Update(true);
+                    // do re-use this page after because there are may be
+                    // a lot of changes with conflict potential.
+                    page = null; 
                     break;
-
             }
+            TraceLogger.Log(TraceCategory.Info(), "Background job executed successfully: {0}", this);
+            TraceLogger.Flush();
             return page;
+        }
+
+        /// <summary>
+        ///     Human readable string representation of a job.
+        /// </summary>
+        /// <returns>String suitable for debugging or logging.</returns>
+        public override string ToString() {
+            return string.Format("{0} Page={1}", OperationType, _pageid);
         }
     }
 }
