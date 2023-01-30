@@ -23,6 +23,11 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
         ///     Get the number of jobs executed by this the tagger.
         /// </summary>
         public uint JobCount { get; private set; }
+
+        /// <summary>
+        ///     Get the type of last executed job.
+        /// </summary>
+        public TagOperation LastJobType { get; private set; } = TagOperation.NOOP;
         /// <summary>
         /// Create a new instance of a background page tagger.
         /// </summary>
@@ -40,13 +45,14 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
         /// <param name="job">Tagging job descriptor</param>
         public void Add(TaggingJob job)
         {
+            TraceLogger.Log(TraceCategory.Info(), "Background job scheduled for execution: {0}", job);
             _jobs.Add(job);
         }
 
         /// <summary>
         /// Run the background tagger.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Awaitable task object.</returns>
         public Task Run()
         {
             TaskFactory tf = new TaskFactory(TaskCreationOptions.LongRunning, TaskContinuationOptions.None);
@@ -74,7 +80,9 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                         delta++;
                         cancel.ThrowIfCancellationRequested();
                         try {
+                            LastJobType = j.OperationType;
                             lastPage = j.Execute(_onenote, lastPage);
+                            
                             if (lastPage != null && _jobs.Count == 0) { // no more pending pages - must update the last one and stop carrying forward
                                 lastPage.Update(j.OperationType == TagOperation.RESYNC);
                                 lastPage = null;
@@ -82,7 +90,7 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                         } catch (COMException ce) {
                             switch ((uint)ce.ErrorCode) {
                                 case 0x80042010: // concurrent page modification
-                                    TraceLogger.Log(TraceCategory.Error(), "The last modified date does not match. Concurrent page modification: {0}\n Rescheduling tagging job.", ce.Message);
+                                    TraceLogger.Log(TraceCategory.Error(), "Concurrent page modification: {0}\nRescheduling tagging job.", ce.Message);
                                     lastPage = null; //stop recycling this page
                                     _onenote.TaggingService.Add(j);
                                     break;
@@ -101,16 +109,15 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                             lastPage = null;
                             TraceLogger.ShowGenericErrorBox("Page tagging failed", e);
                         }
+                        TraceLogger.Flush();
                     }
                 } catch (InvalidOperationException) {
                     TraceLogger.Log(TraceCategory.Warning(), "Background tagging job queue depleted");
-                    TraceLogger.Flush();
                 }
-                catch (OperationCanceledException)
-                {
+                catch (OperationCanceledException) {
                     TraceLogger.Log(TraceCategory.Warning(), "Background tagging canceled");
-                    TraceLogger.Flush();
                 }
+                TraceLogger.Flush();
             }, cancel);
         }
 
