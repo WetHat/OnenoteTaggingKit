@@ -388,9 +388,13 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 _pagesWithAllTags.Dispose();
                 _pagesWithAllTags = null;
             }
-            if (_pagesWithAllTags != null) {
-                _pagesWithAllTags.Dispose();
-                _pagesWithAllTags = null;
+            if (_pagesExceptWithTags != null) {
+                _pagesExceptWithTags.Dispose();
+                _pagesExceptWithTags = null;
+            }
+            if (_pagesWithAnyTags != null) {
+                _pagesWithAnyTags.Dispose();
+                _pagesWithAnyTags = null;
             }
             EndTracking();
         }
