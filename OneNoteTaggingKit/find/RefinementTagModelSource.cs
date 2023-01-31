@@ -42,18 +42,23 @@ namespace WetHatLab.OneNote.TaggingKit.find
         }
 
         private void RefinementTags_CollectionChanged(object sender, NotifyDictionaryChangedEventArgs<string, RefinementTagBase> e) {
-            OriginalDispatcher.Invoke(() => {
-                switch (e.Action) {
-                    case NotifyDictionaryChangedAction.Add:
-                        AddAll(from t in e.Items select MakeRefinementTagModel(t));
-                        break;
-                    case NotifyDictionaryChangedAction.Remove:
-                        RemoveAll(from t in e.Items select t.Key);
-                        break;
-                    case NotifyDictionaryChangedAction.Reset:
+            List<RefinementTagModel> models;
+            switch (e.Action) {
+                case NotifyDictionaryChangedAction.Add:
+                    models = (from t in e.Items select MakeRefinementTagModel(t)).ToList();
+                    OriginalDispatcher.Invoke(() => AddAll(models));
+                    break;
+                case NotifyDictionaryChangedAction.Remove:
+                    OriginalDispatcher.Invoke(() => RemoveAll(from t in e.Items select t.Key));
+                    break;
+                case NotifyDictionaryChangedAction.Reset:
+                    models = (from t in _filter.RefinementTags.Values select MakeRefinementTagModel(t)).ToList();
+                    OriginalDispatcher.Invoke(() => {
                         Clear();
-                        break;
-                }});
+                        AddAll(models);
+                    });
+                    break;
+            }
         }
 
 
