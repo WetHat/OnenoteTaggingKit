@@ -113,8 +113,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                 }
             }
             // bulk update of tags
-            Tags.IntersectWith(tags.Values); // remove obsolete tags
-            Tags.UnionWith(tags.Values); // add new tags
+            Tags.Reset(tags.Values);
             TraceLogger.Log(TraceCategory.Info(), "Extracted {0} tags from {1} pages.", Tags.Count, taggedpages.Count);
             return taggedpages;
         }
