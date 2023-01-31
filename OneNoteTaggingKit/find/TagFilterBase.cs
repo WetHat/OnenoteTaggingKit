@@ -142,7 +142,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         ///     source collection changes.
         /// </summary>
         /// <remarks>
-        ///     Only basic synchronizationb is performed. It is expected that
+        ///     Only basic synchronization is performed. It is expected that
         ///     there will be a correlated event for the source page collection and
         ///     the <see cref="Pages_CollectionChanged"/> event handler performs
         ///     the necessary synchronization.
@@ -179,19 +179,38 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     }
                     break;
                 case NotifyDictionaryChangedAction.Reset:
-                    // rebuild the from scratch
-                    RefinementTags.Reset(from TagPageSet t in Source.Tags.Values select MakeRefinementTag(t));
                     // make sure the selection contains only tags which are still there.
                     try {
                         // disable the event on selected tags expecting that the
                         // pages change event handler does recompute the
                         // filtered pages in a subsequent RESET event.
-
                         _selTagUpdateEnabled = false;
                         SelectedTags.IntersectWith(Source.Tags.Values);
                     } finally {
                         _selTagUpdateEnabled = true;
                     }
+
+                    // get rid of obsolete refinement tags and recycle
+                    // existing models which still exist.
+                    var models = new Stack<RefinementTagBase>();
+                    foreach (var rtag in RefinementTags.Values) {
+                        TagPageSet found;
+                        if (Source.Tags.TryGetValue(rtag.Key, out found)) {
+                            rtag.TagWithPages = found;
+                        } else {
+                            models.Push(rtag);
+                        }
+                    }
+                    RefinementTags.ExceptWith(models);
+                    models.Clear();
+
+                    // Add new models
+                    foreach(var tps in Source.Tags.Values) {
+                        if (!RefinementTags.ContainsKey(tps.Key)) {
+                            models.Push(MakeRefinementTag(tps));
+                        }
+                    }
+                    RefinementTags.UnionWith(models);
                     break;
             }
         }
