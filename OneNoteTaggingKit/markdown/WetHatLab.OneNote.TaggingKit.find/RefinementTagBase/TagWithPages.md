@@ -3,7 +3,7 @@
 Get the tag and its OneNote pages this refinement tag is based on.
 
 ```csharp
-public TagPageSet TagWithPages { get; }
+public TagPageSet TagWithPages { get; set; }
 ```
 
 ## See Also

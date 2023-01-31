@@ -16,7 +16,7 @@ public abstract class RefinementTagBase : ObservableObject, IKeyedItem<string>
 | [Key](RefinementTagBase/Key.md) { get; } | Get the unique key of the tag. |
 | [Pages](RefinementTagBase/Pages.md) { get; } | Get the set of pages having the page tag of this instance. |
 | [Tag](RefinementTagBase/Tag.md) { get; } | Get the page tag this refinement tag is based on.. |
-| [TagWithPages](RefinementTagBase/TagWithPages.md) { get; } | Get the tag and its OneNote pages this refinement tag is based on. |
+| [TagWithPages](RefinementTagBase/TagWithPages.md) { get; set; } | Get the tag and its OneNote pages this refinement tag is based on. |
 | abstract [FilterEffect](RefinementTagBase/FilterEffect.md)(…) | Compute the effect this tag has on a collection of pages. |
 | abstract [FilterPages](RefinementTagBase/FilterPages.md)(…) | Filter a collection of pages according to the tag filter rule inplmenmeted by the concrete subclass. |
 | override [GetHashCode](RefinementTagBase/GetHashCode.md)() | Get the tag's hashcode. |

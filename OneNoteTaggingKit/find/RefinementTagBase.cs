@@ -22,7 +22,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// <summary>
         ///     Get the tag and its OneNote pages this refinement tag is based on.
         /// </summary>
-        public TagPageSet TagWithPages { get; private set; }
+        public TagPageSet TagWithPages { get; set; }
 
         /// <summary>
         /// Get the page tag this refinement  tag is based on..
