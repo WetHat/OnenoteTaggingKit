@@ -92,7 +92,6 @@ namespace WetHatLab.OneNote.TaggingKit.find
             get => _model;
             set {
                 _model = value;
-                DataContext = _model;
             }
         }
 
