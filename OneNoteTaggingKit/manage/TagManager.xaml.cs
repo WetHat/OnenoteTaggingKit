@@ -220,9 +220,11 @@ namespace WetHatLab.OneNote.TaggingKit.manage
 
         private async void TabItem_Selected(object sender, RoutedEventArgs e)
         {
-            pBar.Visibility = System.Windows.Visibility.Visible;
-            await _model.LoadSuggestedTagsAsync();
-            pBar.Visibility = System.Windows.Visibility.Hidden;
+            if (_model.SuggestedTags.Count == 0) {
+                pBar.Visibility = Visibility.Visible;
+                await _model.LoadSuggestedTagsAsync();
+                pBar.Visibility = Visibility.Hidden;
+            }
         }
     }
 }
