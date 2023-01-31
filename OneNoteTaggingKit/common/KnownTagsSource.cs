@@ -65,7 +65,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                     }
                     _onenote.SaveSettings();
                 }
-                return from pt in _onenote.KnownTags select new T() { Tag = pt.ManagedTag };
+                return (from pt in _onenote.KnownTags select new T() { Tag = pt.ManagedTag }).ToList();
             });
             AddAll(mdls);
             _trackingEnabled = true;
