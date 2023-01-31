@@ -93,6 +93,10 @@
     <Compile Include="common\ObservableSortedList.cs" />
     <Compile Include="common\PageTagSet.cs" />
     <Compile Include="common\TagsAndPagesBase.cs" />
+    <Compile Include="common\ui\VerboseCommand.xaml.cs">
+      <DependentUpon>VerboseCommand.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="common\ui\VerboseCommandModel.cs" />
     <Compile Include="find\BlockedRefinementTag.cs" />
     <Compile Include="find\TagFilterPanel.xaml.cs">
       <DependentUpon>TagFilterPanel.xaml</DependentUpon>
@@ -304,6 +308,10 @@
     <Resource Include="Resources\tagSearch 32x32.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="common\ui\VerboseCommand.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="common\ui\Tag.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

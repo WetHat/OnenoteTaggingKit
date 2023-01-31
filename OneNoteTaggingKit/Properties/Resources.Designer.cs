@@ -153,6 +153,28 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Updating current  page.
+        ///
+        ///This may take a few moments....
+        /// </summary>
+        public static string Message_UpdatePage_Immediate {
+            get {
+                return ResourceManager.GetString("Message_UpdatePage_Immediate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current page scheduled for update.
+        ///
+        ///There are {0} jobs in the queue. This may take a few moments.....
+        /// </summary>
+        public static string Message_UpdatePage_Scheduled {
+            get {
+                return ResourceManager.GetString("Message_UpdatePage_Scheduled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Untitled Search.
         /// </summary>
         public static string NewSavedSearchPage_Title {
@@ -691,7 +713,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} pages tagged!.
+        ///   Looks up a localized string similar to {0} Page(s) updated!.
         /// </summary>
         public static string TaggingKit_Notification {
             get {

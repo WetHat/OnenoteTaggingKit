@@ -58,6 +58,8 @@
 | class [TagModel](./WetHatLab.OneNote.TaggingKit.common.ui/TagModel.md) | A basic data context implementation for showing tags in list views. |
 | class [TagModelKey](./WetHatLab.OneNote.TaggingKit.common.ui/TagModelKey.md) | Sortable key for OneNote page tags for use in view models. |
 | class [TagSelectedEventArgs](./WetHatLab.OneNote.TaggingKit.common.ui/TagSelectedEventArgs.md) | Event details for tag selection events. |
+| class [VerboseCommand](./WetHatLab.OneNote.TaggingKit.common.ui/VerboseCommand.md) | Interaction logic the dialog which executes a headless command while displaying a message which looks like a popup over the OneNote application window. |
+| class [VerboseCommandModel](./WetHatLab.OneNote.TaggingKit.common.ui/VerboseCommandModel.md) | View Model to support self-closing command windows [`VerboseCommand`](./WetHatLab.OneNote.TaggingKit.common.ui/VerboseCommand.md) which display a message. |
 | abstract class [WindowViewModelBase](./WetHatLab.OneNote.TaggingKit.common.ui/WindowViewModelBase.md) | Base class for view models supporting the MVVM pattern for top level add-in windows. |
 
 ## WetHatLab.OneNote.TaggingKit.edit namespace

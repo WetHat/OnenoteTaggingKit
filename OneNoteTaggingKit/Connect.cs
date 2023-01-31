@@ -10,8 +10,10 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
-using System.Windows;
+using System.Threading;
+using System.Threading.Tasks;
 using WetHatLab.OneNote.TaggingKit.common;
+using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.edit;
 using WetHatLab.OneNote.TaggingKit.find;
 using WetHatLab.OneNote.TaggingKit.manage;
@@ -217,16 +219,25 @@ namespace WetHatLab.OneNote.TaggingKit
         /// <summary>
         ///     Action to refresh the current page.
         /// </summary>
-        /// <param name="ribbon">The ribbon control which called this command.</param>
+        /// <param name="ribbon">
+        ///     The ribbon control which called this command.
+        /// </param>
         public void updatePage(IRibbonControl ribbon) {
             TraceLogger.Log(TraceCategory.Info(), "Refresh current page");
 
             if (_onProxy != null) {
                 var currentPage = _onProxy.CurrentPageID;
                 if (!string.IsNullOrEmpty(currentPage)) {
-                    _onProxy.TaggingService.Add(new TaggingJob(currentPage,
-                                                               null,
-                                                               TagOperation.RESYNC));
+                    int jobs = _onProxy.TaggingService.PendingJobCount;
+                    _dialogmanager.Show<VerboseCommand, VerboseCommandModel>(() => new VerboseCommandModel(_onProxy) {
+                        Message = jobs > 0 
+                                  ? string.Format(Properties.Resources.Message_UpdatePage_Scheduled, jobs)
+                                  : Properties.Resources.Message_UpdatePage_Immediate,
+                        DisplayTimeMillies = 10000,
+                        Command = new Action(() => _onProxy.TaggingService.Add(new TaggingJob(currentPage,
+                                                                                              null,
+                                                                                              TagOperation.RESYNC)))
+                    });
                 }
             }
         }

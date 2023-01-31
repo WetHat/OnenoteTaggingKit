@@ -28,6 +28,12 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
         ///     Get the type of last executed job.
         /// </summary>
         public TagOperation LastJobType { get; private set; } = TagOperation.NOOP;
+
+        /// <summary>
+        ///     Get the number of pending background jobs.
+        /// </summary>
+        public int PendingJobCount => _jobs.Count;
+
         /// <summary>
         /// Create a new instance of a background page tagger.
         /// </summary>
@@ -68,7 +74,7 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                         DateTime now = DateTime.Now;
 
                         if (_jobs.Count == 0) {
-                            if (delta > 1) {
+                            if (delta > 1 || LastJobType == TagOperation.RESYNC) {
                                 // only report a significant amount of changes
                                 AddInDialogManager.ShowNotification(Properties.Resources.TaggingKit_About_Appname,
                                                                     string.Format(Properties.Resources.TaggingKit_Notification, delta));

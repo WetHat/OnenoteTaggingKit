@@ -522,7 +522,7 @@
     <value>..\Resources\kit.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TaggingKit_Notification" xml:space="preserve">
-    <value>{0} 页标记！</value>
+    <value>{0} 个页面已更新！</value>
   </data>
   <data name="TagManager_ContextMenu_SortByName" xml:space="preserve">
     <value>按名称排序</value>
@@ -621,7 +621,7 @@
     <value>以中文显示插件用户界面。</value>
   </data>
   <data name="TagManager_PreferencesTab_DisplayLanguage_English" xml:space="preserve">
-    <value>英语</value>
+    <value>English</value>
   </data>
   <data name="TagManager_PreferencesTab_DisplayLanguage_English_Tooltip" xml:space="preserve">
     <value>以英文显示加载项用户界面。</value>
@@ -637,5 +637,15 @@
   </data>
   <data name="TagManager_PreferencesTab_DisplayLanguage_ToolTip" xml:space="preserve">
     <value>选择加载项的首选显示语言。 必须重新启动 OneNote 才能使更改生效！</value>
+  </data>
+  <data name="Message_UpdatePage_Immediate" xml:space="preserve">
+    <value>更新当前页面。
+
+这可能需要一些时间...</value>
+  </data>
+  <data name="Message_UpdatePage_Scheduled" xml:space="preserve">
+    <value>计划更新的当前页面。
+
+队列中有 {0} 个作业。 这可能需要一些时间...</value>
   </data>
 </root>

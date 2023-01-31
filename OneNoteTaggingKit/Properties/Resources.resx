@@ -522,7 +522,7 @@ Tap or click link to navigate to page.</value>
     <value>..\Resources\kit.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TaggingKit_Notification" xml:space="preserve">
-    <value>{0} pages tagged!</value>
+    <value>{0} Page(s) updated!</value>
   </data>
   <data name="TagManager_ContextMenu_SortByName" xml:space="preserve">
     <value>Sort By Name</value>
@@ -637,5 +637,15 @@ Tap or click link to navigate to page.</value>
   </data>
   <data name="TagManager_PreferencesTab_DisplayLanguage_ToolTip" xml:space="preserve">
     <value>Choose the preferred display language for the add-in. OneNote must be restarted for changes to take effect!</value>
+  </data>
+  <data name="Message_UpdatePage_Immediate" xml:space="preserve">
+    <value>Updating current  page.
+
+This may take a few moments...</value>
+  </data>
+  <data name="Message_UpdatePage_Scheduled" xml:space="preserve">
+    <value>Current page scheduled for update.
+
+There are {0} jobs in the queue. This may take a few moments....</value>
   </data>
 </root>

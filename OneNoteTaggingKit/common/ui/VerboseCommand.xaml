@@ -1,0 +1,41 @@
+﻿<Window x:Class="WetHatLab.OneNote.TaggingKit.common.ui.VerboseCommand"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WetHatLab.OneNote.TaggingKit.common.ui"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight"
+        Loaded="Window_Loaded"
+        ContentRendered="Window_ContentRendered"
+        Closing="Window_Closing"
+        Topmost="True"
+        MouseDown="Window_MouseDown"
+        StylusDown="Window_StylusDown"
+        BorderBrush="Transparent"
+        BorderThickness="0"
+        TouchDown="Window_TouchDown"
+        MouseLeave="Window_MouseLeave"
+        StylusLeave="Window_StylusLeave"
+        Background="Transparent">
+    <Border BorderThickness="2"
+                        BorderBrush="DarkSlateBlue"
+                        Background="LightYellow"
+                        CornerRadius="10">
+        <Border.Effect>
+            <DropShadowEffect Color="LightGray" />
+        </Border.Effect>
+        <TextBlock Name="notificationText" DockPanel.Dock="Top"
+                                   MaxWidth="200"
+                                   Margin="5,5,5,5"
+                                   TextWrapping="Wrap"
+                                   TextTrimming="CharacterEllipsis"
+                                   Text="{Binding Path=Message,Mode=OneTime}"
+                                   FontSize="16" Background="AliceBlue">
+
+        </TextBlock>
+    </Border>
+</Window>

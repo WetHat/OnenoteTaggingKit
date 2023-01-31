@@ -24,8 +24,8 @@ public class TagManagerModel : WindowViewModelBase
 | --- | --- |
 | [TagManagerModel](TagManagerModel/TagManagerModel.md)(…) | Create a new instance of the view model backing the [`TagManager`](./TagManager.md) dialog. |
 | [LoadSuggestedTagsAsync](TagManagerModel/LoadSuggestedTagsAsync.md)() |  |
-| [SortByTagName](TagManagerModel/SortByTagName.md)() |  |
-| [SortByUsage](TagManagerModel/SortByUsage.md)() |  |
+| [SortByTagNameAsync](TagManagerModel/SortByTagNameAsync.md)() |  |
+| [SortByUsageAsync](TagManagerModel/SortByUsageAsync.md)() |  |
 
 ## See Also
 
