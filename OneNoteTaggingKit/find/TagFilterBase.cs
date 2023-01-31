@@ -180,11 +180,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     break;
                 case NotifyDictionaryChangedAction.Reset:
                     // rebuild the from scratch
-                    RefinementTags.Reset(from TagPageSet t in Source.Tags select MakeRefinementTag(t));
-                    // make sure the selection contains only valid tags
+                    RefinementTags.Reset(from TagPageSet t in Source.Tags.Values select MakeRefinementTag(t));
+                    // make sure the selection contains only tags which are still there.
                     try {
                         // disable the event on selected tags expecting that the
-                        // pages chenge event handler does recompute the
+                        // pages change event handler does recompute the
                         // filtered pages in a subsequent RESET event.
 
                         _selTagUpdateEnabled = false;
