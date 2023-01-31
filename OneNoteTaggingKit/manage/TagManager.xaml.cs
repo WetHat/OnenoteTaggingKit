@@ -165,37 +165,35 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         private async void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             var itm = sender as MenuItem;
-            if (pBar.Visibility == System.Windows.Visibility.Hidden) {
-                pBar.Visibility = System.Windows.Visibility.Visible;
-                switch (itm.Tag.ToString()) {
-                    case "Copy":
-                        Clipboard.SetData(DataFormats.UnicodeText, _model.TagList);
-                        tagInput.FocusInput();
-                        break;
-                    case "Refresh":
-                        await _model.LoadSuggestedTagsAsync();
-                        if (tagInput.TagNames != null) {
-                            _model.SuggestedTags.Highlighter = new TextSplitter(tagInput.TagNames);
-                        }
-                        pBar.Visibility = Visibility.Hidden;
+            pBar.Visibility = Visibility.Visible;
+            switch (itm.Tag.ToString()) {
+                case "Copy":
+                    Clipboard.SetData(DataFormats.UnicodeText, _model.TagList);
+                    tagInput.FocusInput();
+                    break;
+                case "Refresh":
+                    await _model.LoadSuggestedTagsAsync();
+                    if (tagInput.TagNames != null) {
+                        _model.SuggestedTags.Highlighter = new TextSplitter(tagInput.TagNames);
+                    }
+                    pBar.Visibility = Visibility.Hidden;
 
-                        Properties.Settings.Default.Save();
-                        break;
-                    case "SortByName":
-                       _model.SortByTagName();
-                        byName.IsChecked = true;
-                        byUsage.IsChecked = false;
+                    Properties.Settings.Default.Save();
+                    break;
+                case "SortByName":
+                    await _model.SortByTagNameAsync();
+                    byName.IsChecked = true;
+                    byUsage.IsChecked = false;
 
-                        break;
-                    case "SortByUsage":
-                        _model.SortByUsage();
-                        byName.IsChecked = false;
-                        byUsage.IsChecked = true;
-                        break;
-                }
-                TraceLogger.Flush();
-                pBar.Visibility = Visibility.Hidden;
+                    break;
+                case "SortByUsage":
+                    await _model.SortByUsageAsync();
+                    byName.IsChecked = false;
+                    byUsage.IsChecked = true;
+                    break;
             }
+            TraceLogger.Flush();
+            pBar.Visibility = Visibility.Hidden;
         }
 
         private void TagInputBox_Input(object sender, TagInputEventArgs e)
@@ -222,11 +220,9 @@ namespace WetHatLab.OneNote.TaggingKit.manage
 
         private async void TabItem_Selected(object sender, RoutedEventArgs e)
         {
-            if (pBar.Visibility == System.Windows.Visibility.Visible)
-            {
-                await _model.LoadSuggestedTagsAsync();
-                pBar.Visibility = System.Windows.Visibility.Hidden;
-            }
+            pBar.Visibility = System.Windows.Visibility.Visible;
+            await _model.LoadSuggestedTagsAsync();
+            pBar.Visibility = System.Windows.Visibility.Hidden;
         }
     }
 }

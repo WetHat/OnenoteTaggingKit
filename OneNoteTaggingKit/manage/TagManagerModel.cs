@@ -71,26 +71,21 @@ namespace WetHatLab.OneNote.TaggingKit.manage
 
         }
 
-        internal void SortByTagName () {
-            _suggestedTags.ItemComparer = KnownTagsSource<RemovableTagModel>.DefaultComparer;
+        internal Task SortByTagNameAsync () {
+            return Task.Run(() =>_suggestedTags.ItemComparer = KnownTagsSource<RemovableTagModel>.DefaultComparer);
         }
 
-
-        internal void SortByUsage() {
-            _suggestedTags.ItemComparer = sUseCountComparer;
+        internal Task SortByUsageAsync() {
+            return Task.Run(() => _suggestedTags.ItemComparer = sUseCountComparer);
         }
 
         internal async Task LoadSuggestedTagsAsync() {
-            // grab all tags
-            var t1 = Task.Run(() => {
-                Thread.Yield(); // make sure UI builds up
-                _tags.FindPages(SearchScope.AllNotebooks,String.Empty);
-            });
-            // get the known suggestions (this populates the UI)
-            var t2 = _suggestedTags.LoadKnownTagsAsync();
 
-            await t1;
-            await t2;
+            // get the known suggestions (this populates the UI)
+            await _suggestedTags.LoadKnownTagsAsync();
+            Thread.Yield();
+            // grab all tags
+            await Task.Run(() => _tags.FindPages(SearchScope.AllNotebooks,String.Empty));
 
             // populate the suggested tag model with the tags found on pages
             foreach (var t in _suggestedTags.Values) {
