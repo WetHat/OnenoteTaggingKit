@@ -83,7 +83,7 @@ namespace WetHatLab.OneNote.TaggingKit
     /// </summary>
     public class OneNoteProxy : IDisposable
     {
-        private const int MAX_RETRIES = 3; // number of retries if OneNote is busy
+        private const int MAX_RETRIES = 10; // number of retries if OneNote is busy
         private Application _on; // OneNote COM object
 
         /// <summary>
@@ -517,9 +517,12 @@ namespace WetHatLab.OneNote.TaggingKit
                 }
                 catch (COMException ce)
                 {
-                    if (retries >= 0  && (uint)ce.ErrorCode == 0x8001010A) {
+                    if (retries >= 0  && (uint)ce.ErrorCode == 0x8001010A) { // COM server busy.
                         TraceLogger.Log(TraceCategory.Info(), ce.Message);
                         Thread.Sleep(1000); // wait until COM Server becomes responsive
+                        if (retries == 0) {
+                            throw; // We need to give up.
+                        }
                     } else {
                         TraceLogger.Log(TraceCategory.Error(), "COM exception while executing OneNote method: {0}", ce.Message);
                         TraceLogger.Log(TraceCategory.Error(), ce.StackTrace);
