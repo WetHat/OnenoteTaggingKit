@@ -509,6 +509,7 @@ namespace WetHatLab.OneNote.TaggingKit
         private Tresult ExecuteMethodProtected<Tresult>(Func<Application, Tresult> cmd)
         {
             int retries = MAX_RETRIES;
+            int wait = 5000;
             while (retries-- > 0)
             {
                 try
@@ -519,7 +520,8 @@ namespace WetHatLab.OneNote.TaggingKit
                 {
                     if (retries >= 0  && (uint)ce.ErrorCode == 0x8001010A) { // COM server busy.
                         TraceLogger.Log(TraceCategory.Info(), ce.Message);
-                        Thread.Sleep(1000); // wait until COM Server becomes responsive
+                        Thread.Sleep(wait); // wait until COM Server becomes responsive
+                        wait += 5000; // wait longer next time
                         if (retries == 0) {
                             throw; // We need to give up.
                         }
