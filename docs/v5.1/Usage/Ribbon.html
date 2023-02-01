@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>The OneNote Ribbon Bar</title>
+    <link rel="stylesheet" type="text/css" href="../../styles/md-styles.css" />
+
+    <!-- Code syntax highlighting configuration -->
+    <!-- Comment this to deactivate syntax highlighting. -->
+    <link rel="stylesheet" type="text/css" href="../../styles/vs.min.css" />
+    <!-- Alternative highlighting styles -->
+    <!-- <link rel="stylesheet" type="text/css" href="../../styles/agate.min.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../../styles/far.min.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../../styles/tomorrow-night-blue.min.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="../../styles/vs2015.min.css" /> -->
+    <script src="../../js/highlight.min.js"></script>
+    <script>
+        hljs.configure({ languages: [] });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <!-- -->
+    <!-- mermaid diagram generator configuration -->
+    <!-- Comment this to deactivate the diagramming extension ('diagrams'). -->
+    <script src="../../js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+    <!-- -->
+    <!-- KaTeX LaTeX Math typesetting configuration -->
+    <!-- Comment this to deactivate the LaTeX math extension ('mathematics'). -->
+    <link rel="stylesheet" type="text/css" href="../../katex/katex.min.css" />
+    <script defer src="../../katex/katex.min.js"></script>
+    <script>
+        // <![CDATA[
+        window.onload = function () {
+            var tex = document.getElementsByClassName("math");
+            Array.prototype.forEach.call(tex, function (el) {
+                katex.render(el.textContent, el, {
+                    displayMode: (el.nodeName == "DIV"),
+                    macros: {
+                        "\\(": "",
+                        "\\)": "",
+                        "\\[": "",
+                        "\\]": ""
+                    }
+                })
+            });
+        };
+              // ]]>
+    </script>
+    <!-- add page icon link -->
+    <link rel="icon" href="../../PageIcon.png" type="image/x-icon" />
+</head>
+<body>
+    <nav><button class='navitem'><a href='../../index.html'><div style='text-align:center;'><img src='../../images/TaggingKitRibbon.png' /></div></a></button>
+<button class='navitem'><a href='../../index.html'>Home</a></button>
+<div class='navlabel'>OneNote Tagging Kit v5.1</div>
+<button class='navitem'><a href='../Home.html'>Overview</a></button>
+<button class='navitem'><a href='../Support/Troubleshooting-Tips.html'>Support</a></button>
+<div class='navlabel'>User Manual</div>
+<button class='navitem'><a href='../Usage/Ribbon.html'>The Ribbon Bar</a></button>
+<button class='navitem'><a href='../Usage/Tagging%20Pages/Tagging%20Pages.html'>Tagging Pages</a></button>
+<button class='navitem'><a href='../Usage/Update.html'>Updating Pages</a></button>
+<button class='navitem'><a href='../Usage/Search/Finding%20Notes.html'>Finding Pages</a></button>
+<button class='navitem'><a href='../Usage/Settings/Manage%20Settings.html'>Options and Settings</a></button>
+<div class='navlabel'>On this Page</div>
+<button class='navitem'><a href='#the-onenote-ribbon-bar'><span class='navitem1'>The OneNote Ribbon Bar</span></a></button>
+</nav>
+    <main>
+        <article>
+            <h1 id="the-onenote-ribbon-bar" class="title">The OneNote Ribbon Bar</h1>
+<p>All commands and dialogs of the <em>OneNote Tagging Kit</em> are available in the
+<code>Home</code> tab of OneNote ribbon bar.</p>
+<p><img src="images/Ribbon.png" alt="Ribbon Bar" /></p>
+<ol>
+<li>The <a href="Tagging%20Pages/Tagging%20Pages.html">Tag Pages</a> dialog. Manage <em>Page Tags</em> on
+<em>OneNote</em> pages (add / remove).</li>
+<li>The <a href="Update.html">Update Pages</a> command. Update imported tags and <a href="Search/Advanced/Saved%20Search.html">Saved Searches</a> on the current page.</li>
+<li>The <a href="Search/Finding%20Notes.html">Find Pages</a> dialog. Find Notes by tag and full-text filters.</li>
+<li>The <a href="Settings/Manage%20Settings.html">Settings</a> dialog. Manage add-in settings.</li>
+</ol>
+
+        </article>
+        <footer>
+            <hr />
+            Created by PowerShell Module <a href='https://wethat.github.io/MarkdownToHtml/'>MarkdownToHTML</a>.
+
+        </footer>
+    </main>
+</body>
+</html>

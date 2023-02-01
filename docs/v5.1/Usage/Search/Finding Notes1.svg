@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="488" height="112">
+    <style>
+        line, path, circle, rect, polygon{stroke:black;stroke-width:2;stroke-opacity:1;fill-opacity:1;stroke-linecap:round;stroke-linejoin:miter;}text{font-family:Monospace;font-size:14px;}rect.backdrop{stroke:none;fill:white;}.broken{stroke-dasharray:8;}.filled{fill:black;}.bg_filled{fill:white;}.nofill{fill:white;}.end_marked_arrow{marker-end:url(#arrow);}.start_marked_arrow{marker-start:url(#arrow);}.end_marked_diamond{marker-end:url(#diamond);}.start_marked_diamond{marker-start:url(#diamond);}.end_marked_circle{marker-end:url(#circle);}.start_marked_circle{marker-start:url(#circle);}.end_marked_open_circle{marker-end:url(#open_circle);}.start_marked_open_circle{marker-start:url(#open_circle);}.end_marked_big_open_circle{marker-end:url(#big_open_circle);}.start_marked_big_open_circle{marker-start:url(#big_open_circle);}
+        <!--separator-->
+        
+    </style>
+    <defs>
+        <marker id="arrow" viewBox="-2 -2 8 8" refX="4" refY="2" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <polygon points="0,0 0,4 4,2 0,0"></polygon>
+        </marker>
+        <marker id="diamond" viewBox="-2 -2 8 8" refX="4" refY="2" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <polygon points="0,2 2,0 4,2 2,4 0,2"></polygon>
+        </marker>
+        <marker id="circle" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <circle cx="4" cy="4" r="2" class="filled"></circle>
+        </marker>
+        <marker id="open_circle" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <circle cx="4" cy="4" r="2" class="bg_filled"></circle>
+        </marker>
+        <marker id="big_open_circle" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <circle cx="4" cy="4" r="3" class="bg_filled"></circle>
+        </marker>
+    </defs>
+    <rect class="backdrop" x="0" y="0" width="488" height="112"></rect>
+    <rect x="444" y="24" width="32" height="48" class="solid nofill" rx="0"></rect>
+    <line x1="456" y1="40" x2="464" y2="40" class="solid"></line>
+    <line x1="456" y1="56" x2="464" y2="56" class="solid"></line>
+    <rect x="100" y="40" width="64" height="32" class="solid nofill" rx="0"></rect>
+    <rect x="212" y="40" width="72" height="32" class="solid nofill" rx="0"></rect>
+    <rect x="332" y="40" width="64" height="32" class="solid nofill" rx="0"></rect>
+    <text x="10" y="12" >Pages</text>
+    <line x1="32" y1="40" x2="40" y2="40" class="solid"></line>
+    <line x1="32" y1="56" x2="40" y2="56" class="solid"></line>
+    <text x="434" y="12" >Result</text>
+    <g>
+        <line x1="20" y1="24" x2="52" y2="24" class="solid"></line>
+        <line x1="20" y1="24" x2="20" y2="72" class="solid"></line>
+        <line x1="52" y1="24" x2="52" y2="72" class="solid"></line>
+        <line x1="4" y1="40" x2="20" y2="40" class="solid"></line>
+        <line x1="4" y1="40" x2="4" y2="88" class="solid"></line>
+        <line x1="20" y1="72" x2="52" y2="72" class="solid"></line>
+        <line x1="36" y1="72" x2="36" y2="88" class="solid"></line>
+        <line x1="4" y1="88" x2="36" y2="88" class="solid"></line>
+    </g>
+    <g>
+        <text x="114" y="60">⋂</text>
+        <text x="130" y="60">All</text>
+    </g>
+    <g>
+        <text x="226" y="60">⊄</text>
+        <text x="242" y="60">None</text>
+    </g>
+    <g>
+        <text x="346" y="60">⋃</text>
+        <text x="362" y="60">Any</text>
+    </g>
+    <g>
+        <line x1="64" y1="56" x2="80" y2="56" class="solid"></line>
+        <polygon points="80,52 88,56 80,60" class="filled"></polygon>
+    </g>
+    <g>
+        <line x1="176" y1="56" x2="192" y2="56" class="solid"></line>
+        <polygon points="192,52 200,56 192,60" class="filled"></polygon>
+    </g>
+    <g>
+        <line x1="296" y1="56" x2="312" y2="56" class="solid"></line>
+        <polygon points="312,52 320,56 312,60" class="filled"></polygon>
+    </g>
+    <g>
+        <line x1="408" y1="56" x2="424" y2="56" class="solid"></line>
+        <polygon points="424,52 432,56 424,60" class="filled"></polygon>
+    </g>
+</svg>

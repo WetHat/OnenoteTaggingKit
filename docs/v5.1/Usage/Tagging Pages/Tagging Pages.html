@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Managing _Page Tags_ on _OneNote_ Pages</title>
+    <link rel="stylesheet" type="text/css" href="../../../styles/md-styles.css" />
+
+    <!-- Code syntax highlighting configuration -->
+    <!-- Comment this to deactivate syntax highlighting. -->
+    <link rel="stylesheet" type="text/css" href="../../../styles/vs.min.css" />
+    <!-- Alternative highlighting styles -->
+    <!-- <link rel="stylesheet" type="text/css" href="../../../styles/agate.min.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../../../styles/far.min.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../../../styles/tomorrow-night-blue.min.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="../../../styles/vs2015.min.css" /> -->
+    <script src="../../../js/highlight.min.js"></script>
+    <script>
+        hljs.configure({ languages: [] });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <!-- -->
+    <!-- mermaid diagram generator configuration -->
+    <!-- Comment this to deactivate the diagramming extension ('diagrams'). -->
+    <script src="../../../js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+    <!-- -->
+    <!-- KaTeX LaTeX Math typesetting configuration -->
+    <!-- Comment this to deactivate the LaTeX math extension ('mathematics'). -->
+    <link rel="stylesheet" type="text/css" href="../../../katex/katex.min.css" />
+    <script defer src="../../../katex/katex.min.js"></script>
+    <script>
+        // <![CDATA[
+        window.onload = function () {
+            var tex = document.getElementsByClassName("math");
+            Array.prototype.forEach.call(tex, function (el) {
+                katex.render(el.textContent, el, {
+                    displayMode: (el.nodeName == "DIV"),
+                    macros: {
+                        "\\(": "",
+                        "\\)": "",
+                        "\\[": "",
+                        "\\]": ""
+                    }
+                })
+            });
+        };
+              // ]]>
+    </script>
+    <!-- add page icon link -->
+    <link rel="icon" href="../../../PageIcon.png" type="image/x-icon" />
+</head>
+<body>
+    <nav><button class='navitem'><a href='../../../index.html'><div style='text-align:center;'><img src='../../../images/TaggingKitRibbon.png' /></div></a></button>
+<button class='navitem'><a href='../../../index.html'>Home</a></button>
+<div class='navlabel'>OneNote Tagging Kit v5.1</div>
+<button class='navitem'><a href='../../Home.html'>Overview</a></button>
+<button class='navitem'><a href='../../Support/Troubleshooting-Tips.html'>Support</a></button>
+<div class='navlabel'>User Manual</div>
+<button class='navitem'><a href='../../Usage/Ribbon.html'>The Ribbon Bar</a></button>
+<button class='navitem'><a href='../../Usage/Tagging%20Pages/Tagging%20Pages.html'>Tagging Pages</a></button>
+<button class='navitem'><a href='../../Usage/Update.html'>Updating Pages</a></button>
+<button class='navitem'><a href='../../Usage/Search/Finding%20Notes.html'>Finding Pages</a></button>
+<button class='navitem'><a href='../../Usage/Settings/Manage%20Settings.html'>Options and Settings</a></button>
+<div class='navlabel'>On this Page</div>
+<button class='navitem'><a href='#managing-page-tags-on-onenote-pages'><span class='navitem1'>Managing <em>Page Tags</em> on <em>OneNote</em> Pages</span></a></button>
+<button class='navitem'><a href='#the-tag-pages-dialog'><span class='navitem1'>The <em>Tag Pages</em> Dialog</span></a></button>
+<button class='navitem'><a href='#workflows'><span class='navitem1'>Workflows</span></a></button>
+<button class='navitem'><a href='#applying-tags-to-one-or-more-pages'><span class='navitem2'>Applying Tags to one or more Pages</span></a></button>
+<button class='navitem'><a href='#updating-imported-tags-and-saved-searches'><span class='navitem2'>Updating imported Tags and <em>Saved Searches</em></span></a></button>
+</nav>
+    <main>
+        <article>
+            <h1 id="managing-page-tags-on-onenote-pages" class="title">Managing <em>Page Tags</em> on <em>OneNote</em> Pages</h1>
+<p>The <em>Tag Pages</em> dialog is used to apply <em>Page Tags</em> to one ore more
+<em>OneNote</em> pages in various ways.</p>
+<p><img src="images/RibbonTagPages.png" alt="Tag Page Button" /></p>
+<p>To acivate the <em>Tag Pages</em> dialog click or tap on the <em>Tag Pages</em>
+button of the <em>Page Tags</em> group in the <code>Home</code> tab of the <em>OneNote</em> ribbon.</p>
+<h1 id="the-tag-pages-dialog">The <em>Tag Pages</em> Dialog</h1>
+<p>☝️ Numbered dialog elements are referenced by superscripts and list item
+indices.</p>
+<p><img src="images/TagPagesDialog.png" class="rightfloat" alt="Tag Pages Dialog" /></p>
+<ol>
+<li><p id="Dia-1">The tagging scope selector. Defines the range of pages to apply the tagging
+operation to. Available ranges are <em>Current Page</em> (default),
+<em>Selected Pages</em>, and <em>Current Section</em>.</p>
+<p>☝️ If you have chosen the <em>Selected Pages</em> option you may at
+this point select any number of pages in the current <em>OneNote</em> section.
+<strong>Do not</strong> close the <em>Tag Pages</em> dialog while selecting pages in OneNote.
+To select multiple pages remember to hold the <code>CTRL</code> key during selection.</p>
+</li>
+<li><p id="Dia-2">Add all tags shown in the <em>Tags</em> panel<a href="#Dia-8"><sup>8</sup></a> to the range of the selected
+range of pages<a href="#Dia-1"><sup>1</sup></a>. This tagging operations is performed in the
+background.</p>
+</li>
+<li><p id="Dia-3">Set the tags of the range of selected pages<a href="#Dia-1"><sup>1</sup></a> to exactly the tags
+shown in the <em>Tags</em> panel<a href="#Dia-8"><sup>8</sup></a>. With the exception of imported tags,
+This <strong>replaces</strong> all <em>Page Tags</em> in the rage of pages.
+This tagging operations is performed in the background.</p>
+</li>
+<li><p id="Dia-4">Remove all tags shown in the <em>Tags</em> panel<a href="#Dia-8"><sup>8</sup></a> from the selected range of
+pages<a href="#Dia-1"><sup>1</sup></a>.This tagging operations is performed in the background.</p>
+</li>
+<li><p id="Dia-5">Updates <a href="../Search/Advanced/Saved%20Search.html">Saved Searches</a> embedded in the selected
+range of pages<a href="#Dia-1"><sup>1</sup></a> and also, if enabled on the
+<a href="../Settings/Tabs/Preferences.html">Preferences</a> tab of the
+<a href="../Settings/Manage%20Settings.html">Manage Settings</a> dialog, updates imported
+<em>OneNote</em> and hashtags found in page content.</p>
+<p>☝️ This action is similar to the <a href="../Update.html">Update</a> command except that it
+can perform updates on more that one page.</p>
+</li>
+<li><p id="Dia-6">Clear the tags selected for tagging in the <em>Tags</em> pane<a href="#Dia-8"><sup>8</sup></a>.</p>
+</li>
+<li><p id="Dia-7">A tag selected for a tagging operation. A click or tap on this tag removes
+it from the <em>Tags</em> panel<a href="#Dia-8"><sup>8</sup></a>.</p>
+</li>
+<li><p id="Dia-8">The <em>Tags</em> panel. Contains all tags selected for a subsequent tagging
+operation<a href="#Dia-2"><sup>2,3,4</sup></a>.</p>
+</li>
+<li><p id="Dia-9">Tag presets. Filters the collection of tags currently available in the
+<em>Suggested Tags</em> panel<a href="#Dia-13"><sup>13</sup></a>. The tag presets are entered into the
+tag input box<a href="#Dia-10"><sup>10</sup></a>as comma separated list and applied as a filter to the
+<em>Suggested Tags</em> panel<a href="#Dia-13"><sup>13</sup></a>. The <em>Add Matching Tags</em> action<a href="#Dia-12"><sup>12</sup></a> can then be
+used to add all fully matching tags to the <em>Tags</em> panel<a href="#Dia-8"><sup>8</sup></a> for a subsequent
+tagging operation.</p>
+</li>
+<li><p id="Dia-10">Tag input box for entering one or more tags (comma ',' separated).
+Tags in the <em>Suggested Tags</em> panel<a href="#Dia-13"><sup>13</sup></a> are only shown if they match
+one of the typed tag names.</p>
+<p>Following keyboard shortcuts are supported while focus is on the
+input box:</p>
+<dl>
+<dt><code>ESC</code></dt>
+<dd>Clear the input box. Same as pressing the <em>Clear</em> button<a href="#Dia-11"><sup>11</sup></a>.</dd>
+<dt><code>SHIFT</code>+<code>ESC</code></dt>
+<dd>Clear the input box (Same as pressing the <em>Clear</em> button<a href="#Dia-11"><sup>11</sup></a> <strong>and</strong>
+also the <em>Clear</em> button<a href="#Dia-6"><sup>6</sup></a>.</dd>
+<dt><code>ENTER</code></dt>
+<dd>Add the typed list of tag names to the <em>Tags</em> panel<a href="#Dia-8"><sup>8</sup></a> for use in
+subsequent tagging operations. Tag names are updated according to
+the <em>Tag Format</em> selected on the <a href="../Settings/Tabs/Preferences.html">Preferences</a>
+tab of the <a href="../Settings/Manage%20Settings.html">Settings</a> dialog, if they
+are new.</dd>
+<dt><code>SHIFT</code>+<code>ENTER</code> or <code>CTRL</code>+<code>+</code></dt>
+<dd>Same action as pressing <code>ENTER</code> <strong>and</strong> clicking the <em>Add</em> button<a href="#Dia-2"><sup>2</sup></a>.</dd>
+<dt><code>CTRL</code>+<code>ENTER</code> or <code>CTRL</code>+<code>-</code></dt>
+<dd>Same action as pressing <code>ENTER</code> <strong>and</strong> clicking the <em>Remove</em> button<a href="#Dia-4"><sup>4</sup></a>.</dd>
+<dt><code>SHIFT</code>+<code>CTRL</code>-<code>ENTER</code></dt>
+<dd>Same action as pressing <code>ENTER</code> <strong>and</strong> clicking the <em>Set</em> button<a href="#Dia-3"><sup>3</sup></a>.</dd>
+</dl>
+</li>
+<li><p id="Dia-11">Clears the tag input box<a href="#Dia-10"><sup>10</sup></a> and removes all highlight from the
+<em>Suggested Tags</em> panel<a href="#Dia-13"><sup>13</sup></a>.</p>
+</li>
+<li><p id="Dia-12">Add all tags which fully match the tag names enterd in the tag input box<a href="#Dia-10"><sup>10</sup></a>
+to the <em>Tags</em> panel<a href="#Dia-8"><sup>8</sup></a> for tagging.</p>
+</li>
+<li><p id="Dia-13">The <em>Suggested Tags</em> panel containing the collection of tags available for
+tagging.</p>
+</li>
+<li><p id="Dia-14">An available tag with a match highlight of the partial tag name entered in the
+tag input box[<a href="#Dia-10"><sup>10</sup></a>(#Dia-10).</p>
+</li>
+</ol>
+<h1 id="workflows" class="unfloat">Workflows</h1>
+<h2 id="applying-tags-to-one-or-more-pages">Applying Tags to one or more Pages</h2>
+<blockquote>
+<ol>
+<li><p>Browse to a <em>OneNote</em> page you intend to tag.</p>
+</li>
+<li><p>Choose the range of pages to apply the tags to<a href="#Dia-1"><sup>1</sup></a></p>
+</li>
+<li><p>Specify the tags to apply. The tags to be used in a tagging operation can be
+selected by:</p>
+<ul>
+<li><p>clicking or tapping on one or more tags in the <em>Suggested Tags</em> panel<a href="#Dia-13"><sup>13</sup></a>.
+Selected tags are added to the <em>Tags</em> panel<a href="#Dia-8"><sup>8</sup></a>. To deselect a tag,
+click or tap on it in the <em>Tags</em> panel<a href="#Dia-8"><sup>8</sup></a>.</p>
+<p>☝️ If the <em>Suggested Tags</em> panel<a href="#Dia-13"><sup>13</sup></a> contains a large number of tags,
+enter a comma separated list of partial tag names into the tag input
+box<a href="#Dia-10"><sup>10</sup></a> to filter down the number of tags displayed. The tag suggestions<a href="#Dia-13"><sup>13</sup></a>
+are updated as you type to show matching tags.</p>
+</li>
+<li><p>typing one or more tag names separated by comma <strong>','</strong> into the tag input
+box<a href="#Dia-10"><sup>10</sup></a>. Press <code>ENTER</code> to add all tags to the <em>Tags</em>
+collection<a href="#Dia-8"><sup>8</sup></a> or use another keyboard shortcut supported by tag input
+box<a href="#Dia-10"><sup>10</sup></a>.</p>
+</li>
+</ul>
+</li>
+<li><p>Choose the one of the tagging operations<a href="#Dia-2">2,3,4</a>. All tagging operations
+are performed in the background.</p>
+</li>
+<li><p>When the requested tagging operation is complete, the result is shown on the
+affected range of pages according to the tag display options selected on the
+<a href="../Settings/Tabs/Preferences.html">Preferences</a> tab of the
+<a href="../Settings/Manage%20Settings.html">Settings</a> dialog:</p>
+<p><strong>Below Page Title</strong></p>
+<p><img src="images/TaggedPage.png" alt="Tagged Page" /></p>
+<p>⚠️ The tags displayed on the top of each tagged page are meant to be
+<strong>read-only</strong>. However, <em>OneNote</em> does not have any concept of <em>read-only</em>,
+so it is possible to manually edit the tags displayed on the page. If manual
+edits happened the internal tag database of the <em>OneNote Tagging Kit</em>
+is <em>out-of-sync</em> with the tags displayed on the page.
+Press the <em>Update</em> button<a href="#Dia-5"><sup>5</sup></a> to resynchronize the tags with the
+internal database.</p>
+<p><strong>In Page Title</strong></p>
+<p><img src="images/TitleTag.png" alt="Title Tag" /></p>
+<p>☝️ If any of the tag import options is checked on the
+<a href="../Settings/Tabs/Preferences.html">Preferences</a> of the
+<a href="../Settings/Manage%20Settings.html">Settings</a> dialog, imported
+<em>OneNote</em> tags or hashtags from page content will show up as well.</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="updating-imported-tags-and-saved-searches">Updating imported Tags and <em>Saved Searches</em></h2>
+<blockquote>
+<ol>
+<li><p>Browse to a <em>OneNote</em> page you intend to update.</p>
+</li>
+<li><p>Choose the range of pages to update<a href="#Dia-1"><sup>1</sup></a>.</p>
+</li>
+<li><p>Start page updates by clicking on the <em>Update</em> button<a href="#Dia-5"><sup>5</sup></a>. Page
+updates are performed in the background.</p>
+<p>⚠️ Pages containing <a href="../Search/Advanced/Saved%20Search.html">Saved Searches</a>
+can take a long time to update.</p>
+</li>
+</ol>
+<p>For more information about the purpose effect of page updates see
+the <a href="../Update.html">Update</a> command.</p>
+<p>☝️ Updating pages is also useful to update tag display after changing
+tag related options on the <a href="../Settings/Tabs/Preferences.html">Preferences</a> of the
+<a href="../Settings/Manage%20Settings.html">Settings</a> dialog.</p>
+</blockquote>
+
+        </article>
+        <footer>
+            <hr />
+            Created by PowerShell Module <a href='https://wethat.github.io/MarkdownToHtml/'>MarkdownToHTML</a>.
+
+        </footer>
+    </main>
+</body>
+</html>

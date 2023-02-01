@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Checking the _OneNote_Version </title>
+    <link rel="stylesheet" type="text/css" href="../styles/md-styles.css" />
+
+    <!-- Code syntax highlighting configuration -->
+    <!-- Comment this to deactivate syntax highlighting. -->
+    <link rel="stylesheet" type="text/css" href="../styles/vs.min.css" />
+    <!-- Alternative highlighting styles -->
+    <!-- <link rel="stylesheet" type="text/css" href="../styles/agate.min.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../styles/far.min.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../styles/tomorrow-night-blue.min.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="../styles/vs2015.min.css" /> -->
+    <script src="../js/highlight.min.js"></script>
+    <script>
+        hljs.configure({ languages: [] });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <!-- -->
+    <!-- mermaid diagram generator configuration -->
+    <!-- Comment this to deactivate the diagramming extension ('diagrams'). -->
+    <script src="../js/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+    <!-- -->
+    <!-- KaTeX LaTeX Math typesetting configuration -->
+    <!-- Comment this to deactivate the LaTeX math extension ('mathematics'). -->
+    <link rel="stylesheet" type="text/css" href="../katex/katex.min.css" />
+    <script defer src="../katex/katex.min.js"></script>
+    <script>
+        // <![CDATA[
+        window.onload = function () {
+            var tex = document.getElementsByClassName("math");
+            Array.prototype.forEach.call(tex, function (el) {
+                katex.render(el.textContent, el, {
+                    displayMode: (el.nodeName == "DIV"),
+                    macros: {
+                        "\\(": "",
+                        "\\)": "",
+                        "\\[": "",
+                        "\\]": ""
+                    }
+                })
+            });
+        };
+              // ]]>
+    </script>
+    <!-- add page icon link -->
+    <link rel="icon" href="../PageIcon.png" type="image/x-icon" />
+</head>
+<body>
+    <nav><button class='navitem'><a href='../index.html'><div style='text-align:center;'><img src='../images/TaggingKitRibbon.png' /></div></a></button>
+<button class='navitem'><a href='../index.html'>Home</a></button>
+<div class='navlabel'>OneNote Tagging Kit v5.1</div>
+<button class='navitem'><a href='Home.html'>Overview</a></button>
+<button class='navitem'><a href='Support/Troubleshooting-Tips.html'>Support</a></button>
+<div class='navlabel'>User Manual</div>
+<button class='navitem'><a href='Usage/Ribbon.html'>The Ribbon Bar</a></button>
+<button class='navitem'><a href='Usage/Tagging%20Pages/Tagging%20Pages.html'>Tagging Pages</a></button>
+<button class='navitem'><a href='Usage/Update.html'>Updating Pages</a></button>
+<button class='navitem'><a href='Usage/Search/Finding%20Notes.html'>Finding Pages</a></button>
+<button class='navitem'><a href='Usage/Settings/Manage%20Settings.html'>Options and Settings</a></button>
+<div class='navlabel'>On this Page</div>
+<button class='navitem'><a href='#checking-the_onenote_version'><span class='navitem1'>Checking the _OneNote_Version</span></a></button>
+<button class='navitem'><a href='#for_onenote_20132016-and-later-including-all_onenote_desktop-versions-from-office-365'><span class='navitem2'>For _OneNote_2013,2016 and later (including all _OneNote_desktop versions from Office 365)</span></a></button>
+<button class='navitem'><a href='#for_onenote_2010'><span class='navitem2'>For _OneNote_2010</span></a></button>
+</nav>
+    <main>
+        <article>
+            <h1 id="checking-the_onenote_version">Checking the _OneNote_Version</h1>
+<p>To check which version of _OneNote_you have (32-bit or 64-bit) perform these steps:</p>
+<h2 id="for_onenote_20132016-and-later-including-all_onenote_desktop-versions-from-office-365">For _OneNote_2013,2016 and later (including all _OneNote_desktop versions from Office 365)</h2>
+<p>Click on: <code>File -&gt; Account -&gt; About OneNote</code> .
+This opens a dialog with detailed version information at the top. You should see something like:</p>
+<blockquote>
+<p><img src="images/ONVersion.png" alt="OneNote Version Check" /></p>
+</blockquote>
+<h2 id="for_onenote_2010">For _OneNote_2010</h2>
+<p>Click on: <code>File -&gt; Help</code></p>
+<p>You find the detailed version information in the right hand side of the page.
+You should see something like:</p>
+<blockquote>
+<p><img src="images/ON2010Version.png" alt="OneNote 2010 Check" /></p>
+</blockquote>
+
+        </article>
+        <footer>
+            <hr />
+            Created by PowerShell Module <a href='https://wethat.github.io/MarkdownToHtml/'>MarkdownToHTML</a>.
+
+        </footer>
+    </main>
+</body>
+</html>

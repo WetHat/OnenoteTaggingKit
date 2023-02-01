@@ -1,8 +1,8 @@
 # _OneNote Tagging Kit_ Add-In{.title}
 
-A free to-use, add-in to add page tagging and advanced search to _OneNote_
-for the desktop. The add-in is hosted on
-[GitHub](https://github.com/WetHat/OnenoteTaggingKit) as _Open Source_ project.
+A free to-use, add-in to add page tagging and advanced search for _OneNote_ (Desktop).
+The add-in is Open Source and hosted hosted on
+[GitHub](https://github.com/WetHat/OnenoteTaggingKit).
 
 ![Screenshot](images/TaggingKitIntro.png){.rightfloat height="30%"}
 
@@ -50,7 +50,11 @@ documentation ;-).
 
 # Releases
 
-🌟 **v5.0** - [Documentation](v5.0/Home.md) -
+* **v5.1** - [Documentation](v5.1/Home.md) -
+[Installation](v5.1/Home.md#installation-and-upgrade) -
+[Release Notes](https://github.com/WetHat/OnenoteTaggingKit/releases) :sparkles:
+
+* **v5.0** - [Documentation](v5.0/Home.md) -
 [Installation](v5.0/Home.md#installation-and-upgrade) -
 [Release Notes](https://github.com/WetHat/OnenoteTaggingKit/releases)
 
