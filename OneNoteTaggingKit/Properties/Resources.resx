@@ -329,7 +329,7 @@ Sorry for the inconvenience!</value>
     <value>Creation of dialog window failed</value>
   </data>
   <data name="TaggingKit_Wiki_Page" xml:space="preserve">
-    <value>https://wethat.github.io/OnenoteTaggingKit/v5.0/Support/{0}</value>
+    <value>https://wethat.github.io/OnenoteTaggingKit/v5.1/Support/{0}</value>
   </data>
   <data name="TagSearch_Error_Find" xml:space="preserve">
     <value>Search failed</value>
@@ -579,7 +579,7 @@ Tap or click link to navigate to page.</value>
     <value>Documentation</value>
   </data>
   <data name="TaggingKit_Docs_Link" xml:space="preserve">
-    <value>https://wethat.github.io/OnenoteTaggingKit/v5.0/Home.html</value>
+    <value>https://wethat.github.io/OnenoteTaggingKit/v5.1/Home.html</value>
   </data>
   <data name="NewSavedSearchPage_Title" xml:space="preserve">
     <value>Untitled Search</value>
