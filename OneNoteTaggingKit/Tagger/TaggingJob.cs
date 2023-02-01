@@ -75,6 +75,7 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
         /// <returns>Unsaved, tagged OneNote page.</returns>
         internal OneNotePage Execute(OneNoteProxy onenote, OneNotePage page)
         {
+            TraceLogger.Log(TraceCategory.Info(), "Starting job: {0}", this);
             if (page == null)  {
                 page = new OneNotePage(onenote, _pageid);
                 if (page.IsDeleted) {
