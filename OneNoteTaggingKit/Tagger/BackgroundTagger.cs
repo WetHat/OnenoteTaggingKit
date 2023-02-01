@@ -97,24 +97,23 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                             switch ((uint)ce.ErrorCode) {
                                 case 0x80042010: // concurrent page modification
                                     TraceLogger.Log(TraceCategory.Error(), "Concurrent page modification: {0}\nRescheduling tagging job.", ce.Message);
-                                    lastPage = null; //stop recycling this page
                                     _onenote.TaggingService.Add(j);
                                     break;
 
                                 case 0x80042030: // blocked by modal dialog
                                     // let user close the dialog
                                     TraceLogger.ShowGenericErrorBox(Properties.Resources.TaggingKit_Blocked, ce);
-                                    lastPage = null; // stop recycling this page
                                     _onenote.TaggingService.Add(j);
                                     break;
+                                
                                 default:
-                                    TraceLogger.ShowGenericErrorBox("Page tagging failed", ce);
+                                    TraceLogger.ShowGenericErrorBox(string.Format("Job failed {0}",j), ce);
                                     break;
                             }
                         } catch (Exception e) {
-                            lastPage = null;
                             TraceLogger.ShowGenericErrorBox("Page tagging failed", e);
                         }
+                        lastPage = null; // no re-use of this page after exception
                         TraceLogger.Flush();
                     }
                 } catch (InvalidOperationException) {
