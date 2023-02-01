@@ -267,7 +267,21 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                 if (!withAllTags.IsEmpty
                     || !withoutTags.IsEmpty
                     || !withAnyTags.IsEmpty) {
-                    tagsWithPages.FindPages(_scope, _query);
+
+                    string query;
+                    if (string.IsNullOrWhiteSpace(_query) 
+                        && (_scope == SearchScope.AllNotebooks || _scope == SearchScope.Notebook)) {
+                        // restrict result by using tags as query string so
+                        // we do not have to sift through all tagged pages
+                        // in the universe.
+                        var tags = new HashSet<string>(from PageTag t in withAllTags select t.BaseName);
+                        tags.UnionWith(from PageTag t in withAnyTags select t.BaseName);
+                        query = string.Join(" ", from name in tags select name);
+                    } else {
+                        query = _query;
+                    }
+
+                    tagsWithPages.FindPages(_scope, query);
 
                     // process required tags
                     if (!withAllTags.IsEmpty) {
