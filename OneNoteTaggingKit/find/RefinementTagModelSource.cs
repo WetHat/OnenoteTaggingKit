@@ -61,12 +61,10 @@ namespace WetHatLab.OneNote.TaggingKit.find
             }
         }
 
-
         /// <summary>
         ///     Reset the filter to a given set of refinement tagss.
         /// </summary>
         /// <param name="tags"></param>
-        /// <returns></returns>
         public void ResetFilter(IEnumerable<RefinementTagModel> tags) {
             var tagModels = new HashSet<RefinementTagModel>(tags);
             try {

@@ -58,11 +58,11 @@ namespace WetHatLab.OneNote.TaggingKit.find
                 ClearSelectionButton_Click(sender, e);
             }
         }
-        private  void ClearSelectionButton_Click(object sender, RoutedEventArgs e) {
+        private void ClearSelectionButton_Click(object sender, RoutedEventArgs e) {
             ViewModel.ClearFilter();
             e.Handled = true;
         }
-        private async void SelectMatchingTagsButton_Click(object sender, RoutedEventArgs e) {
+        private void SelectMatchingTagsButton_Click(object sender, RoutedEventArgs e) {
             SelectAllMatchingTags();
         }
         private void TagFilterPanel_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {
