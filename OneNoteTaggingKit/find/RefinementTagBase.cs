@@ -6,7 +6,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
 {
     /// <summary>
     ///     Aa abstract decorator base class for OneNote page tags used to
-    ///     filter sets of OneNote pages base on specific rules implemented
+    ///     filter sets of OneNote pages based on specific rules implemented
     ///     by subclasses.
     /// </summary>
     /// <remarks>
@@ -19,10 +19,23 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         public ISet<PageNode> Pages => TagWithPages.Pages;
 
+        TagPageSet _tagWithPages;
         /// <summary>
         ///     Get the tag and its OneNote pages this refinement tag is based on.
         /// </summary>
-        public TagPageSet TagWithPages { get; set; }
+        /// <remarks>
+        ///      Can be updates as long as the key does not change.
+        ///      Mismatches are silently ignored.
+        /// </remarks>
+        public TagPageSet TagWithPages {
+            get => _tagWithPages;
+            set {
+                if (_tagWithPages == null || _tagWithPages.Key.Equals(value.Key)) {
+                    _tagWithPages = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
 
         /// <summary>
         /// Get the page tag this refinement  tag is based on..

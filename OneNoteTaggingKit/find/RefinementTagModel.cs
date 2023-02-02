@@ -54,6 +54,12 @@ namespace WetHatLab.OneNote.TaggingKit.find
                     case nameof(RefinementTagBase.FilteredPageCountDelta):
                         UpdateUI();
                         break;
+                    case nameof(RefinementTagBase.TagWithPages):
+                        if (sender is RefinementTagBase rtb) {
+                            Tag = rtb.Tag; // maybe name changesd
+                            UpdateUI();
+                        }
+                        break;
                 }
             });
         }
