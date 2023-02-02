@@ -6,6 +6,10 @@ Get the tag and its OneNote pages this refinement tag is based on.
 public TagPageSet TagWithPages { get; set; }
 ```
 
+## Remarks
+
+Can be updates as long as the key does not change. Mismatches are silently ignored.
+
 ## See Also
 
 * class [TagPageSet](../../WetHatLab.OneNote.TaggingKit.common/TagPageSet.md)

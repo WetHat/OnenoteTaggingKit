@@ -8,7 +8,7 @@ public string TagName { get; }
 
 ## Remarks
 
-Setter should be called only once in construction context.
+As lomg as the key dowes not change the the name can.
 
 ## See Also
 

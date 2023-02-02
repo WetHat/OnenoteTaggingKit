@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Threading;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
@@ -222,8 +223,10 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         {
             if (_model.SuggestedTags.Count == 0) {
                 pBar.Visibility = Visibility.Visible;
-                await _model.LoadSuggestedTagsAsync();
-                pBar.Visibility = Visibility.Hidden;
+                await Dispatcher.InvokeAsync(async () => {
+                    await _model.LoadSuggestedTagsAsync();
+                    pBar.Visibility = Visibility.Hidden;
+                },DispatcherPriority.ContextIdle);
             }
         }
     }

@@ -8,7 +8,7 @@ public virtual PageTag Tag { get; set; }
 
 ## Remarks
 
-Setter should be called only once in construction context.
+The tag can be updated as long as the key does not change. Tags with mismatching keys are silently ignored.
 
 ## See Also
 

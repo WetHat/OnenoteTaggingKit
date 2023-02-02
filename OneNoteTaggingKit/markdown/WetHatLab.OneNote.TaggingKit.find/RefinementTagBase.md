@@ -1,6 +1,6 @@
 # RefinementTagBase class
 
-Aa abstract decorator base class for OneNote page tags used to filter sets of OneNote pages base on specific rules implemented by subclasses.
+Aa abstract decorator base class for OneNote page tags used to filter sets of OneNote pages based on specific rules implemented by subclasses.
 
 ```csharp
 public abstract class RefinementTagBase : ObservableObject, IKeyedItem<string>
