@@ -22,11 +22,6 @@ cite {
     color: gray;
 }
 
-td, th {
-    border: 1px solid;
-    border-color: lightgray
-}
-
 th {
     background-color: lightblue
 }

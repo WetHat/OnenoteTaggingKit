@@ -49,17 +49,11 @@ tagging kit as you go. Nevertheless, it might also be useful to take a look at t
 documentation ;-).
 
 # Releases
-
-* **v5.1** - [Documentation](v5.1/Home.md) -
-[Installation](v5.1/Home.md#installation-and-upgrade) -
-[Release Notes](https://github.com/WetHat/OnenoteTaggingKit/releases) :sparkles:
-
-* **v5.0** - [Documentation](v5.0/Home.md) -
-[Installation](v5.0/Home.md#installation-and-upgrade) -
-[Release Notes](https://github.com/WetHat/OnenoteTaggingKit/releases)
-
-* **v4.0** - [Documentation](v4.0/Home.md) -
-[Installation](v4.0/Home.md#installation-and-upgrade) -
-[Release Notes](https://github.com/WetHat/OnenoteTaggingKit/releases)
+{style="border-collapse:collapse"}
+|            |        |
+| :--------: | -------| 
+| :sparkles: |**v5.1**| [Documentation](v5.1/Home.md) - [Installation](v5.1/Home.md#installation-and-upgrade) - [Release Notes](https://github.com/WetHat/OnenoteTaggingKit/releases) 
+|            |**v5.0**| [Documentation](v5.0/Home.md) - [Installation](v5.0/Home.md#installation-and-upgrade) - [Release Notes](https://github.com/WetHat/OnenoteTaggingKit/releases)
+|            |**v4.0**| [Documentation](v4.0/Home.md) - [Installation](v4.0/Home.md#installation-and-upgrade) - [Release Notes](https://github.com/WetHat/OnenoteTaggingKit/releases)
 
 
