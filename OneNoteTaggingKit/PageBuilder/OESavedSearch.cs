@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
@@ -268,15 +269,29 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     || !withoutTags.IsEmpty
                     || !withAnyTags.IsEmpty) {
 
-                    string query;
-                    if (string.IsNullOrWhiteSpace(_query) 
+                    string query = string.Empty;
+                    if (string.IsNullOrWhiteSpace(_query)
                         && (_scope == SearchScope.AllNotebooks || _scope == SearchScope.Notebook)) {
-                        // restrict result by using tags as query string so
+                        // Opportunistic optimization:
+                        // Restrict result by using tags as query string so
                         // we do not have to sift through all tagged pages
                         // in the universe.
-                        var tags = new HashSet<string>(from PageTag t in withAllTags select t.BaseName);
-                        tags.UnionWith(from PageTag t in withAnyTags select t.BaseName);
-                        query = string.Join(" ", from name in tags select name);
+                        var searchTags = new PageTagSet();
+                        if (!withAllTags.IsEmpty) {
+                            // always prefer AND conditions as they produce smaller result
+                            searchTags.UnionWith(withAllTags);
+                        }
+                        
+                        if (withAnyTags.Count == 1) {
+                            // a single OR condition acts like AND 
+                            searchTags.UnionWith(withAnyTags);
+                        }
+
+                        Regex nonWordCharMatcher = new Regex(@"\W", RegexOptions.Compiled);
+                        query = string.Join(" AND ", from t in searchTags
+                                                     let name = nonWordCharMatcher.Replace(t.BaseName, " ").Trim() // plain text names only
+                                                     where name.Length > 3
+                                                     select '"' + name + '"');;
                     } else {
                         query = _query;
                     }
