@@ -104,7 +104,7 @@ namespace WetHatLab.OneNote.TaggingKit.find
         /// </summary>
         public FindTaggedPages() {
             InitializeComponent();
-            pBar.Visibility = System.Windows.Visibility.Hidden;
+            pBar.Visibility = Visibility.Visible;
         }
 
         #region IOneNotePageWindow<FindTaggedPagesModel>
@@ -411,18 +411,18 @@ EndSelection:{5:D6}";
 
         private async void ScopeSelector_ScopeChanged(object sender, ScopeChangedEventArgs e) {
             try {
-
-                ProgressBarText = string.Format(Properties.Resources.TagSearch_Progress_Searching, SelectedScopeName);
-                pBar.Visibility = Visibility.Visible ;
-                string query = searchComboBox.Text;
-                // using ContinueWith until I've discovered how to do implement async
-                // events properly
-                await ViewModel.FindPagesAsync(query, scopeSelect.SelectedScope);
-                Dispatcher.Invoke(() => {
-                    pBar.Visibility = Visibility.Hidden;
-                    searchComboBox.SelectedValue = query;
-                });
-
+                if (ViewModel.TagsAndPages.Scope != scopeSelect.SelectedScope) {
+                    ProgressBarText = string.Format(Properties.Resources.TagSearch_Progress_Searching, SelectedScopeName);
+                    pBar.Visibility = Visibility.Visible ;
+                    string query = searchComboBox.Text;
+                    // using ContinueWith until I've discovered how to do implement async
+                    // events properly
+                    await ViewModel.FindPagesAsync(query, scopeSelect.SelectedScope);
+                    Dispatcher.Invoke(() => {
+                        pBar.Visibility = Visibility.Hidden;
+                        searchComboBox.SelectedValue = query;
+                    });
+                }
             } catch (System.Exception ex) {
                 TraceLogger.Log(TraceCategory.Error(), "Changing search scope failed: {0}", ex);
                 TraceLogger.ShowGenericErrorBox(Properties.Resources.TagSearch_Error_ScopeChange, ex);
@@ -461,6 +461,14 @@ EndSelection:{5:D6}";
                 }
             }
         }
+
+        private async void Window_ContentRendered(object sender, EventArgs e) {
+            ProgressBarText = string.Format(Properties.Resources.TagSearch_Progress_Searching, SelectedScopeName);
+            pBar.Visibility = Visibility.Visible;
+            await ViewModel.FindPagesAsync(string.Empty, scopeSelect.SelectedScope);
+            pBar.Visibility = Visibility.Hidden;
+        }
         #endregion UI events
+
     }
 }
