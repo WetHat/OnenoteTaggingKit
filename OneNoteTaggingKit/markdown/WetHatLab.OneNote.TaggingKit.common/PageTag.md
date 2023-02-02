@@ -11,6 +11,7 @@ public class PageTag : IEquatable<PageTag>, ISortableKeyedItem<string, string>
 | name | description |
 | --- | --- |
 | [PageTag](PageTag/PageTag.md)(…) | Initialize a new page tag instance. |
+| static [Choose](PageTag/Choose.md)(…) | From two page tags with equal keys choose the one with higher priority. |
 | [BaseName](PageTag/BaseName.md) { get; } | Get the basename of the tag. |
 | [DisplayName](PageTag/DisplayName.md) { get; } | Get the tag name as it is displayed on a OneNote page. |
 | [IsImported](PageTag/IsImported.md) { get; } | Predicate to dermine if the tag has been imported. |

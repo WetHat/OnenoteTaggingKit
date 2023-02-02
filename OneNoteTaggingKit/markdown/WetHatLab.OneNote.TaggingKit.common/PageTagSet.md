@@ -26,7 +26,6 @@ public class PageTagSet : IEnumerable<PageTag>
 | [ToString](PageTagSet/ToString.md)(…) | Get the tag set as comma separated list. |
 | [UnionWith](PageTagSet/UnionWith.md)(…) | Compute the set union of the tags in this set with a specified collection of page tags. |
 | static readonly [sTagListSeparators](PageTagSet/sTagListSeparators.md) | The supported taglist separators |
-| static [ChoosePageTag](PageTagSet/ChoosePageTag.md)(…) | From two page tags with equal keys choose the one with higher priority. |
 | static [Parse](PageTagSet/Parse.md)(…) | Parse a collection of tag names into [`PageTag`](./PageTag.md) instances. (2 methods) |
 | static [SplitTaglist](PageTagSet/SplitTaglist.md)(…) | Split a comma separated list of tags into a collection of individual tags. |
 

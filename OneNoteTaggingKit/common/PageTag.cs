@@ -75,6 +75,33 @@ namespace WetHatLab.OneNote.TaggingKit.common
             
         static readonly Regex _rtlMatcher = new Regex(@"[\u0591-\u07FF]", RegexOptions.Compiled);
         /// <summary>
+        /// From two page tags with equal keys choose the one with higher priority.
+        /// </summary>
+        /// <param name="x">First page tag.</param>
+        /// <param name="y">Second page tag.</param>
+        /// <returns>
+        ///     Higher priority page tag or `null` if tags
+        ///     are not compatible.
+        /// </returns>
+        public static PageTag Choose(PageTag x, PageTag y) {
+            if (!x.Key.Equals(x.Key)) {
+                return null;
+            }
+            // choose based on current tag format setting
+            switch ((TagFormat)Properties.Settings.Default.TagFormatting) {
+                case TagFormat.HashTag:
+                    if (x.TagType == PageTagType.HashTag) {
+                        return x;
+                    }
+                    if (y.TagType == PageTagType.HashTag) {
+                        return y;
+                    }
+                    break;
+            }
+            // prefer simpler tags
+            return x.TagType < y.TagType ? x : y;
+        }
+        /// <summary>
         /// Predicate to determine if the page tags is right-to-left.
         /// </summary>
         public bool IsRTL { get; private set;  }

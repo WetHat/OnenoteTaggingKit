@@ -34,29 +34,6 @@ namespace WetHatLab.OneNote.TaggingKit.common
         }
 
         /// <summary>
-        /// From two page tags with equal keys choose the one with higher priority.
-        /// </summary>
-        /// <param name="x">First page tag.</param>
-        /// <param name="y">Second page tag.</param>
-        /// <returns>Higher priority page tag.</returns>
-        public static PageTag ChoosePageTag(PageTag x, PageTag y) {
-            // choose based on current tag format setting
-            switch ((TagFormat)Properties.Settings.Default.TagFormatting) { 
-                case TagFormat.HashTag:
-                    if (x.TagType == PageTagType.HashTag) {
-                        return x;
-                    }
-                    if (y.TagType == PageTagType.HashTag) {
-                        return y;
-                    }
-                    
-                    // prefer simpler tags
-                    return x.TagType < y.TagType ? x : y;
-            }
-            return x.TagType < y.TagType ? x : y;
-        }
-
-        /// <summary>
         ///     Determines if a given set of tags is a subset of this tag set.
         /// </summary>
         /// <param name="tags">
@@ -137,7 +114,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
             lock (_pagetags) {
                 PageTag found;
                 if (_pagetags.TryGetValue(pagetag.Key, out found)) {
-                    _pagetags[pagetag.Key] = ChoosePageTag(found, pagetag);
+                    _pagetags[pagetag.Key] = PageTag.Choose(found, pagetag);
                 } else {
                     _pagetags[pagetag.Key] = pagetag;
                 }
