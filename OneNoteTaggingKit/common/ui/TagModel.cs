@@ -52,33 +52,45 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     public class TagModel : ObservableObject, ISortableKeyedItem<string, string>, ITagModel {
         PageTag _pagetag;
         /// <summary>
-        /// Get or set the page tag represented by this model.
+        ///     Get or set the page tag represented by this model.
         /// </summary>
         /// <remarks>
-        ///     Setter should be called only once in construction context.
+        ///     The tag can be updated as long as the key does not change.
+        ///     Tags with mismatching keys are silently ignored.
         /// </remarks>
         public virtual PageTag Tag {
             get => _pagetag;
             set {
-                _pagetag = value;
-                if (value.IsRTL) {
-                    TagTypePrefix = string.Empty;
-                    TagTypePostfix = value.TagMarker;
-                } else {
-                    TagTypePrefix = value.TagMarker;
-                    TagTypePostfix = string.Empty;
+                if (_pagetag == null || _pagetag.Key.Equals(value.Key)) {
+                    _pagetag = value;
+                    TagName = value.BaseName;
+                    if (value.IsRTL) {
+                        TagTypePrefix = string.Empty;
+                        TagTypePostfix = value.TagMarker;
+                    } else {
+                        TagTypePrefix = value.TagMarker;
+                        TagTypePostfix = string.Empty;
+                    }
                 }
             }
         }
 
+        string _tagName = string.Empty;
         /// <summary>
-        /// Get or set the name of a page tag represented by this model.
+        ///     Get or set the name of a page tag represented by this model.
         /// </summary>
         /// <remarks>
-        ///     Setter should be called only once in construction context.
+        ///     As lomg as the key dowes not change the the name can. 
         /// </remarks>
-        public string TagName => Tag.BaseName;
-
+        public string TagName {
+            get => _tagName;
+            private set {
+                if (!_tagName.Equals(value)) {
+                    _tagName = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
         Visibility _tagVisibility = Visibility.Visible;
         /// <summary>
         /// The visibility of the tag.
