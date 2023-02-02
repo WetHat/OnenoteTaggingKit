@@ -98,7 +98,7 @@ namespace WetHatLab.OneNote.TaggingKit.common
                         if (Tags.TryGetValue(tag.Key, out t)) {
                             // recycle that existing tag
                             t.Pages.Clear();
-                            t.Tag = PageTag.Choose(t.Tag, tag);
+                            t.Tag = tag;
                         } else {
                             t = new TagPageSet(tag);
                             // update the set of suggested tags
