@@ -518,23 +518,25 @@ namespace WetHatLab.OneNote.TaggingKit
                 }
                 catch (COMException ce)
                 {
-                    if (retries >= 0  && (uint)ce.ErrorCode == 0x8001010A) { // COM server busy.
-                        TraceLogger.Log(TraceCategory.Info(), ce.Message);
+                    uint errorcode = (uint)ce.ErrorCode;
+                    if (retries >= 0  
+                        && (errorcode == 0x8001010A // COM server busy.
+                            || errorcode == 0x80042023)) { // timeout
+                        TraceLogger.Log(TraceCategory.Warning(), "COM exception durin OneNote method call: 0x{0:X}. Retrying call after {1}ms", errorcode, wait);
                         Thread.Sleep(wait); // wait until COM Server becomes responsive
                         wait += 5000; // wait longer next time
                         if (retries == 0) {
                             throw; // We need to give up.
                         }
                     } else {
-                        TraceLogger.Log(TraceCategory.Error(), "COM exception while executing OneNote method: {0}", ce.Message);
+                        TraceLogger.Log(TraceCategory.Error(), "Rethrowing COM exception durin OneNote method call: {0}", ce.Message);
                         TraceLogger.Log(TraceCategory.Error(), ce.StackTrace);
-                        TraceLogger.Log(TraceCategory.Error(), "Re-throwing exception");
                         throw;
                     }
                 }
                 catch (Exception e)
                 {
-                    TraceLogger.Log(TraceCategory.Error(), "Exception while executing OneNote method: {0}", e.Message);
+                    TraceLogger.Log(TraceCategory.Error(), "Rethrowing Exception during OneNote method call: {0}", e.Message);
                     TraceLogger.Log(TraceCategory.Error(), e.StackTrace);
                     throw;
                 }
