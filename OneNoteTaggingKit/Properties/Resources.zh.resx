@@ -295,7 +295,7 @@
 添加标签的页面较多时，OneNote的响应速度可能会降低，请耐心等待。</value>
   </data>
   <data name="TaggingKit_ErrorBox_GenericSevereError" xml:space="preserve">
-    <value>{0}! »{1}«
+    <value>{0} »{1}«
 
 单击“确定”浏览疑难解答提示和已知问题。单击“取消”继续。
 
@@ -522,7 +522,8 @@
     <value>..\Resources\kit.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TaggingKit_Notification" xml:space="preserve">
-    <value>{0} 个页面已更新！</value>
+    <value>{0} 个页面更新成功！
+{1} 个页面失败！</value>
   </data>
   <data name="TagManager_ContextMenu_SortByName" xml:space="preserve">
     <value>按名称排序</value>
@@ -647,5 +648,8 @@
     <value>计划更新的当前页面。
 
 队列中有 {0} 个作业。 这可能需要一些时间...</value>
+  </data>
+  <data name="TaggingKit_Error_PageNotFound" xml:space="preserve">
+    <value>页面更新失败，因为它已被移动或删除！</value>
   </data>
 </root>

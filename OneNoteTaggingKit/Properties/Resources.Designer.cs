@@ -679,6 +679,15 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Page update failed because it has been moved or deleted!.
+        /// </summary>
+        public static string TaggingKit_Error_PageNotFound {
+            get {
+                return ResourceManager.GetString("TaggingKit_Error_PageNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OneNote version lookup failed.
         /// </summary>
         public static string TaggingKit_Error_VersionLookup {
@@ -688,7 +697,7 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}! »{1}«
+        ///   Looks up a localized string similar to {0} »{1}«
         ///
         ///Click OK to browse troubleshooting tips and known issues. Click CANCEL to continue.
         ///
@@ -713,7 +722,8 @@ namespace WetHatLab.OneNote.TaggingKit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} Page(s) updated!.
+        ///   Looks up a localized string similar to {0} Page(s) updated successfully!
+        ///{1} Page(s) failed!.
         /// </summary>
         public static string TaggingKit_Notification {
             get {
