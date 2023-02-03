@@ -269,34 +269,7 @@ namespace WetHatLab.OneNote.TaggingKit.PageBuilder
                     || !withoutTags.IsEmpty
                     || !withAnyTags.IsEmpty) {
 
-                    string query = string.Empty;
-                    if (string.IsNullOrWhiteSpace(_query)
-                        && (_scope == SearchScope.AllNotebooks || _scope == SearchScope.Notebook)) {
-                        // Opportunistic optimization:
-                        // Restrict result by using tags as query string so
-                        // we do not have to sift through all tagged pages
-                        // in the universe.
-                        var searchTags = new PageTagSet();
-                        if (!withAllTags.IsEmpty) {
-                            // always prefer AND conditions as they produce smaller result
-                            searchTags.UnionWith(withAllTags);
-                        }
-                        
-                        if (withAnyTags.Count == 1) {
-                            // a single OR condition acts like AND 
-                            searchTags.UnionWith(withAnyTags);
-                        }
-
-                        Regex nonWordCharMatcher = new Regex(@"\W", RegexOptions.Compiled);
-                        query = string.Join(" AND ", from t in searchTags
-                                                     let name = nonWordCharMatcher.Replace(t.BaseName, " ").Trim() // plain text names only
-                                                     where name.Length > 3
-                                                     select '"' + name + '"');;
-                    } else {
-                        query = _query;
-                    }
-
-                    tagsWithPages.FindPages(_scope, query);
+                    tagsWithPages.FindPages(_scope, _query);
 
                     // process required tags
                     if (!withAllTags.IsEmpty) {
