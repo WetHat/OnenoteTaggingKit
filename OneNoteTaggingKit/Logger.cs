@@ -110,10 +110,9 @@ namespace WetHatLab.OneNote.TaggingKit
                                                       MessageBoxImage.Error);
             if (result == MessageBoxResult.OK)
             { // browse to the troubleshooting tips
-                string troubleshootingpage = "Troubleshooting-Tips.html";
+                string troubleshootingpage = string.Empty;
 
-                COMException ce = ex as COMException;
-                if (ce != null)
+                if (ex is COMException ce)
                 {
                     switch ((uint)ce.ErrorCode)
                     {
@@ -132,11 +131,17 @@ namespace WetHatLab.OneNote.TaggingKit
                         case 0x80042014:
                             troubleshootingpage = "0x80042014";
                             break;
+                        default:
+                            troubleshootingpage = "Troubleshooting-Tips";
+                            break;
                     }
                 }
                 try
                 {
-                    Process.Start(new ProcessStartInfo(string.Format(Properties.Resources.TaggingKit_Wiki_Page, troubleshootingpage)));
+                    if (string.IsNullOrEmpty(troubleshootingpage)) {
+                        troubleshootingpage = "Troubleshooting-Tips";
+                    }
+                    Process.Start(new ProcessStartInfo(string.Format(Properties.Resources.TaggingKit_Wiki_Page, troubleshootingpage + ".html")));
                 }
                 catch (Exception ex1)
                 {
