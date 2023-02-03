@@ -13,7 +13,7 @@ button of the _Page Tags_ button group in the `Home` tab of the _OneNote_ ribbon
 :point_up: Numbered dialog elements in the screenshot are referenced by
 superscripts and list item indices of the documentation below.
 
-![Find Pages Dialog](images/SearchDialog.png){.rightfloat}
+![Find Pages Dialog](images/SearchDialog.png){.rightfloat width="40%"}
 
 1. The search scope. Only pages in the selected scope will be included in the
    search result. Available scopes are:{id="Dia-1"}

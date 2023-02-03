@@ -92,5 +92,21 @@ indices.
 
 12. A hyperlink of a page in the search result. Navigates to the page when clicked.
 
+# Workflows
 
+In the following section typical workflows related to saved searches are
+explained step-by-step.
 
+## Bulk Update of Saved Searches
+>
+> 1. Open the [Find pages](../Finding%20Notes.md) dialog and search for
+>    searches you saved on a page. Pages which contain _Saved Searches_ have
+>    the page tag `Saved Search`.
+> 2. Select the pages you want to update in the [_Pages_](../Finding%20Notes.md#Dia-15)
+>    panel of the [Find pages](../Finding%20Notes.md) dialog.
+> 3. Execute the [Tag Selected Pages](../Finding%20Notes.md#Dia-15) action to open the
+>    [_Tag Pages_](../../Tagging%20Pages/Tagging%20Pages.md) dialog for the selected pages.
+> 4. Press the [Update](../../Tagging%20Pages/Tagging%20Pages.md#Dia-5) button to update
+>    the _Saved Searches_ on all selected pags in the background.
+>
+>    :warning: Avoid modification of the selected pages while updates are in progress.
