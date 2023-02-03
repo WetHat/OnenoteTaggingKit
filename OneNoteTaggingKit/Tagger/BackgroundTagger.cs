@@ -117,7 +117,7 @@ namespace WetHatLab.OneNote.TaggingKit.Tagger
                                 case 0x80042014: // page not found
                                     failed++;
                                     if (muted.Contains(0x80042014)) {
-                                        TraceLogger.Log(TraceCategory.Error(), Properties.Resources.TaggingKit_Error_PageNotFound, ce);
+                                        TraceLogger.Log(TraceCategory.Error(), "{0} - {1}", Properties.Resources.TaggingKit_Error_PageNotFound, ce);
                                     } else {
                                         TraceLogger.ShowGenericErrorBox(Properties.Resources.TaggingKit_Error_PageNotFound, ce);
                                         muted.Add(0x80042014); // show dialog only once
