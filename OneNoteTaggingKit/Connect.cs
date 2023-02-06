@@ -42,27 +42,34 @@ namespace WetHatLab.OneNote.TaggingKit
         /// </summary>
         public ConnectTaggingKitAddin() {
             TraceLogger.Register();
-            // Upgrade Settings if necessary. On new version the UpdateRequired flag is
-            // reset to default (true)
-            if (Properties.Settings.Default.UpdateRequired) {
-                Properties.Settings.Default.Upgrade();
-                Properties.Settings.Default.UpdateRequired = false;
+            try {
+                // Upgrade Settings if necessary. On new version the UpdateRequired flag is
+                // reset to default (true)
+                if (Properties.Settings.Default.UpdateRequired) {
+                    Properties.Settings.Default.Upgrade();
+                    Properties.Settings.Default.UpdateRequired = false;
 
-                string knownTags = Properties.Settings.Default.GetPreviousVersion("KnownTags") as string;
-                if (knownTags != null) {
-                    var tags = new PageTagSet(knownTags, TagFormat.AsEntered);
-                    Properties.Settings.Default.KnownTagsCollection.AddRange((from t in tags select t.ToString()).ToArray());
+                    string knownTags = Properties.Settings.Default.GetPreviousVersion("KnownTags") as string;
+                    if (knownTags != null) {
+                        var tags = new PageTagSet(knownTags, TagFormat.AsEntered);
+                        Properties.Settings.Default.KnownTagsCollection.AddRange((from t in tags select t.ToString()).ToArray());
+                    }
                 }
-            }
-            switch (Properties.Settings.Default.DisplayLanguage) {
-                case 1:
-                    TraceLogger.Log(TraceCategory.Info(), "Setting Display Language to English");
-                    Properties.Resources.Culture = CultureInfo.GetCultureInfo("en"); // Englisch
-                    break;
-                case 2:
-                    TraceLogger.Log(TraceCategory.Info(), "Setting Display Language to English");
-                    Properties.Resources.Culture = CultureInfo.GetCultureInfo("zh"); // Chinese
-                    break;
+                switch (Properties.Settings.Default.DisplayLanguage) {
+                    case 1:
+                        TraceLogger.Log(TraceCategory.Info(), "Setting Display Language to English");
+                        Properties.Resources.Culture = CultureInfo.GetCultureInfo("en"); // Englisch
+                        break;
+                    case 2:
+                        TraceLogger.Log(TraceCategory.Info(), "Setting Display Language to English");
+                        Properties.Resources.Culture = CultureInfo.GetCultureInfo("zh"); // Chinese
+                        break;
+                        default:
+                        TraceLogger.Log(TraceCategory.Info(), "Setting Display Language to System");
+                        break;
+                }
+            } catch (Exception ex) {
+                TraceLogger.ShowGenericErrorBox("Tagging Kit Initialization faled!", ex);
             }
         }
 

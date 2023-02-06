@@ -176,14 +176,13 @@ namespace WetHatLab.OneNote.TaggingKit
             Trace.Listeners.Add(listener);
 
 #if DEBUG
-            string config = "Debug";
+            const string config = "Debug";
 #else
-            string config = "Release";
+            const string config = "Release";
 #endif
 
             Log(TraceCategory.Info(),
-                "{0} logging activated.\r\n\tAddin-Version: {1}\r\n\t.net Framework Version: {2}\r\n\tConfiguration: {3}",
-                Properties.Resources.TaggingKit_About_Appname,
+                "OneNote Tagging Kit logging activated.\r\n\tAddin-Version: {1}\r\n\t.net Framework Version: {2}\r\n\tConfiguration: {3}",
                 Assembly.GetExecutingAssembly().GetName().Version,
                 Environment.Version,
                 config
