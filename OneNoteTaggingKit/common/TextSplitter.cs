@@ -59,7 +59,12 @@ namespace WetHatLab.OneNote.TaggingKit.common
         {
             if (pattern != null)
             {
-                string rex = string.Join("|", from p in pattern select escaper.Replace(p,@"\$1"));
+                // create an ordered regular expression (longer terms first) to make sure
+                // search terms which are substrings of one another all match.
+                string rex = string.Join("|", from p in pattern
+                                              let cooked = escaper.Replace(p,@"\$1")
+                                              orderby cooked.Length descending
+                                              select cooked);
                 if (rex.Length > 0)
                 {
                     _pattern = new Regex(rex, splitOptions);
