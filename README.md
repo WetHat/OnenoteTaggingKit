@@ -16,7 +16,7 @@ tagging system and are shared to all connected OneNote clients.
 
 </td><td>
 
-* Installation instructions, user manual, and support information for the published releases of the _OneNote Taggink Kit_ are available [here](https://wethat.github.io/OnenoteTaggingKit/index.html#releases).
+* Installation instructions, user manual, and support information for the published releases of the _OneNote Tagging Kit_ are available [here](https://wethat.github.io/OnenoteTaggingKit/index.html#releases).
 * On the _Tagging Kit_ documentation [home page](https://wethat.github.io/OnenoteTaggingKit/index.html) you'll find a feature list and some background information about tagging in general. 
 * Any ideas for improvements or found a bug? Please report an [issue](https://github.com/WetHat/OnenoteTaggingKit/issues).
 
