@@ -3,6 +3,7 @@ using Extensibility;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.OneNote;
 using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -10,8 +11,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
-using System.Threading;
-using System.Threading.Tasks;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.edit;
@@ -49,11 +48,18 @@ namespace WetHatLab.OneNote.TaggingKit
                     Properties.Settings.Default.Upgrade();
                     Properties.Settings.Default.UpdateRequired = false;
 
-                    string knownTags = Properties.Settings.Default.GetPreviousVersion("KnownTags") as string;
-                    if (knownTags != null) {
-                        var tags = new PageTagSet(knownTags, TagFormat.AsEntered);
-                        Properties.Settings.Default.KnownTagsCollection.AddRange((from t in tags select t.ToString()).ToArray());
+                    try {
+                        string knownTags = Properties.Settings.Default.GetPreviousVersion("KnownTags") as string;
+                        if (knownTags != null) {
+                            var tags = new PageTagSet(knownTags, TagFormat.AsEntered);
+                            Properties.Settings.Default.KnownTagsCollection.AddRange((from t in tags select t.ToString()).ToArray());
+                        }
                     }
+                    catch (SettingsPropertyNotFoundException) {
+                        // no tags known so far
+                        TraceLogger.Log(TraceCategory.Info(), "No previously defined tags found! Starting with empty tag suggestion list");
+                    } 
+                    
                 }
                 switch (Properties.Settings.Default.DisplayLanguage) {
                     case 1:
@@ -69,7 +75,7 @@ namespace WetHatLab.OneNote.TaggingKit
                         break;
                 }
             } catch (Exception ex) {
-                TraceLogger.ShowGenericErrorBox("Tagging Kit Initialization faled!", ex);
+                TraceLogger.ShowGenericErrorBox("Tagging Kit Initialization failed!", ex);
             }
         }
 
