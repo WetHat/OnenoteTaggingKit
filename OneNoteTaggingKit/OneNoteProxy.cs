@@ -352,7 +352,7 @@ namespace WetHatLab.OneNote.TaggingKit
             return ExecuteMethodProtected<XDocument>(o =>
             {
                 string outXml;
-                o.FindPages(scopeID, query, out outXml, false, fDisplay: false, xsSchema: OneNoteSchema);
+                o.FindPages(scopeID, query, out outXml, true, fDisplay: false, xsSchema: OneNoteSchema);
                 return XDocument.Parse(outXml);
             });
         }
@@ -405,7 +405,7 @@ namespace WetHatLab.OneNote.TaggingKit
             {
                 string outXml;
                 if (Properties.Settings.Default.UseWindowsSearch) {
-                    o.FindMeta(scopeID, metadataKey, out outXml,false, OneNoteSchema);
+                    o.FindMeta(scopeID, metadataKey, out outXml,true, OneNoteSchema);
                 } else {
                     o.GetHierarchy(scopeID, HierarchyScope.hsPages, out outXml, OneNoteSchema);
                 }
